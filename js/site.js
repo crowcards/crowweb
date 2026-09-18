@@ -28,6 +28,12 @@ for (const el of document.querySelectorAll("[data-letters], main h1, main h2")) 
   }
 }
 
+// Hovered letters light up orange or lime, picked at random each time.
+document.addEventListener("pointerover", (e) => {
+  const letter = e.target.closest?.(".letter");
+  if (letter) letter.classList.toggle("hover-lime", Math.random() < 0.5);
+});
+
 // Letters in [data-flicker] titles now and then flash an accent colour,
 // mostly the capitals (C, R, O, W). Each flash blinks on, off, on again so
 // it reads as a flicker rather than a fade.
@@ -70,6 +76,20 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
 
     setTimeout(el.dataset.flicker === "gentle" ? gentle : fast, 800);
   }
+}
+
+// Light / dark toggle. The mode itself is set early by theme.js.
+const themeToggle = document.querySelector(".theme-toggle");
+
+if (themeToggle) {
+  const root = document.documentElement;
+  const sync = () => themeToggle.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+  sync();
+  themeToggle.addEventListener("click", () => {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch {}
+    sync();
+  });
 }
 
 // Three-dot menu on narrow screens.

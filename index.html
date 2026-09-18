@@ -7,6 +7,7 @@
   <link rel="icon" href="img/crow-sprite-a.png" />
   <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="js/theme.js"></script>
   <script src="js/site.js" defer></script>
   <script src="js/crow.js" defer></script>
 </head>
@@ -27,6 +28,10 @@
       <a href="library.html">Library</a>
       <a href="about.html">About</a>
     </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
   </header>
 
   <div class="info">
@@ -35,7 +40,7 @@
         <h1 class="stagger" data-letters>
           <span>Community</span>
           <span>Rules</span>
-          <span>for an</span>
+          <span><span class="smaller">for an</span></span>
           <span>Open</span>
           <span>Web</span>
         </h1>
@@ -52,7 +57,7 @@
     <main class="info-body">
       <h1 class="stagger home-title" data-letters data-flicker>
         <span>Community <span class="rules">Rules</span></span>
-        <span>for an</span>
+        <span><span class="smaller">for an</span></span>
         <span>Open Web</span>
       </h1>
       <p class="lede">Your rules for your spaces.</p>

@@ -5,10 +5,11 @@
   --ink:    #141414;   /* black */
   --gray:   #6B6660;   /* the one gray */
   --white:  #FFFFFF;
-  --accent: #DC8940;   /* highlight */
+  --accent: #FF8F00;   /* highlight */
   --lime:   #BFFF00;   /* second accent: neon lime. Low contrast on beige: fine for
                           brief flashes and highlights, not for text people read */
   --line:   #D8CFC4;   /* light gray: scrollbar, dividers */
+  --on-accent: #141414;   /* text on orange/lime: stays dark in both modes */
   --rule-w: 1px;
   --rule:   var(--rule-w) solid var(--line);
   --glass:  color-mix(in srgb, var(--bg) 85%, transparent);   /* see-through beige: header, menu */
@@ -21,7 +22,7 @@
   --fs-title: clamp(2rem, 3.3vw, 3.25rem);     /* site title          */
   --fs-h:     clamp(2.25rem, 3.4vw, 3rem);     /* page + section heads */
   --fs-lede:  clamp(1.75rem, 2.5vw, 2.25rem);  /* big Argent text     */
-  --fs-body:  1.25rem;                         /* 20px                */
+  --fs-body:  1.2rem;                         /* 20px                */
   --fs-nav:   1.125rem;                        /* 18px                */
   --fs-small: 1rem;
 
@@ -50,6 +51,24 @@
                            in em — keeps the title inside the panel */
 }
 
+/* ---- night mode: set by js/theme.js, switched by the header toggle.
+   Only the colours change; everything built on them follows. ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:   #0E0E0E;   /* near-black */
+  --ink:  #E6E2DC;   /* very light warm gray */
+  --gray: #9A948C;   /* lighter, to stay readable on black */
+  --line: #3D3934;   /* dark gray dividers and scrollbar */
+}
+
+/* black pixel art would vanish on black: flip it to light gray (0.85
+   rather than a full invert, so black becomes light gray, not white; the
+   hue-rotate brings orange back toward orange). The big crow's canvas is
+   recoloured by crow.js instead; this only covers its fallback image. */
+[data-theme="dark"] :is(.pixel-crow img, .sprite img, .logos a[href*="princeton"] img) {
+  filter: invert(0.85) hue-rotate(180deg);
+}
+
 /* ---- base ----------------------------------------------------------- */
 * { box-sizing: border-box; }
 
@@ -67,7 +86,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::selection { background: var(--accent); color: var(--ink); }
+::selection { background: var(--accent); color: var(--lime); }
 
 img { max-width: 100%; }
 
@@ -170,6 +189,7 @@ a:focus-visible {
 /* letters light up one at a time; site.js wraps each letter in span.letter */
 .letter { transition: color 0.1s ease-out; }
 .letter:hover { color: var(--accent); }
+.letter.hover-lime:hover { color: var(--lime); }   /* site.js picks orange or lime at random on each hover */
 
 /* orange page headers light up lime instead */
 :is(h1, h2):not(.stagger) .letter:hover { color: var(--lime); }
@@ -186,7 +206,7 @@ a:focus-visible {
   padding: 0.4em 1.2em 0.45em;
   border: 0;
   background: var(--accent);
-  color: var(--ink);
+  color: var(--on-accent);
   font-family: var(--display);
   font-style: italic;
   font-weight: 400;
@@ -252,12 +272,17 @@ a:focus-visible {
   text-decoration: none;
 }
 
+/* exception to the green link hover: the title stays put, and only the
+   letter under the pointer lights up */
 .site-title:hover,
-.site-title:focus-visible { background: none; }
+.site-title:focus-visible {
+  background: none;
+  color: inherit;
+}
 
 #nav {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   margin-left: auto;
 }
 
@@ -265,8 +290,33 @@ a:focus-visible {
 
 #nav a[aria-current="page"] {
   background: var(--accent);
+  color: var(--on-accent);
   text-decoration-color: transparent;
 }
+
+/* light / dark toggle: shows the moon in light mode, the sun in dark */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  align-self: baseline;   /* icon sits on the nav links' baseline */
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.theme-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+  shape-rendering: crispEdges;
+}
+
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle .sun,
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
 
 /* narrow-screen pieces */
 .header-crow,
@@ -446,6 +496,7 @@ a:focus-visible {
 }
 
 .stagger > span { display: block; white-space: nowrap; }
+.stagger .smaller { font-size: 0.75em; }   /* "for an": 75% of the title size */
 
 /* wide screens: five lines pinned to the top of the left panel. Taken out
    of the flow so the crow sits exactly where it does on ABOUT, and drawn on
@@ -472,8 +523,8 @@ a:focus-visible {
 }
 
 .side-art .stagger > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community */
-.side-art .stagger > span:nth-child(2) { padding-left: 1.2em; translate: 0 0.08em; }    /* Rules */
-.side-art .stagger > span:nth-child(3) { padding-left: 1em;   translate: 0 0.19em; }    /* for an */
+.side-art .stagger > span:nth-child(2) { padding-left: 1.5em; translate: 0 0.08em; }    /* Rules */
+.side-art .stagger > span:nth-child(3) { padding-left: 1.25em;   translate: 0 0.19em; }    /* for an */
 .side-art .stagger > span:nth-child(4) { padding-left: 0;     translate: 0 0.29em; }    /* Open */
 .side-art .stagger > span:nth-child(5) { padding-left: 1.8em; translate: 0 0.48em; }    /* Web */
 
@@ -481,7 +532,7 @@ a:focus-visible {
    the text */
 .home-title { display: none; }
 .home-title > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community Rules */
-.home-title .rules { display: inline-block; translate: 0 0.27em; }                /* Rules, relative to Community */
+.home-title .rules { display: inline-block; translate: 0 0.5em; }                /* Rules, relative to Community */
 .home-title > span:nth-child(2) { padding-left: 1em;   translate: 0 0.19em; }     /* for an */
 .home-title > span:nth-child(3) { padding-left: 2.2em; translate: 0 0.29em; }     /* Open Web */
 
@@ -529,8 +580,10 @@ a:focus-visible {
 /* ---- narrow screens ------------------------------------------------- */
 @media (width < 64rem) {
   :root {
+    --header-pad: 0.5rem;   /* half the wide-screen top padding, to make room for the crow */
     --header-pad-b: 0px;
-    --header-h: calc(3rem + var(--header-pad) + var(--rule-w));
+    --header-crow: 4rem;   /* size of the crow in the header */
+    --header-h: calc(var(--header-crow) + var(--header-pad) + var(--rule-w));
   }
 
   /* the crow stands on the header line, like a bird on a wire */
@@ -538,9 +591,20 @@ a:focus-visible {
 
   .site-title { display: none; }
 
-  .header-crow { display: block; translate: 0 5.5%; }   /* feet sit ~5.5% above the sprite's bottom edge */
+  .header-crow {
+    --sprite: var(--header-crow);
+    display: block;
+    translate: 0 5.5%;   /* feet sit ~5.5% above the sprite's bottom edge */
+  }
 
-  .menu-toggle { display: grid; align-self: center; }
+  .menu-toggle { display: grid; align-self: center; order: 2; margin-left: 0; }
+  .theme-toggle {   /* sits just left of the dots, with a bigger tap area */
+    order: 1;
+    align-self: center;
+    width: 2.75rem;
+    aspect-ratio: 1;
+    margin-left: auto;
+  }
 
   /* the menu drops down under the header when the dots are clicked */
   #nav {

@@ -2,6 +2,10 @@
 // it on a canvas, and pushes pixels away from the mouse. Pixels spring back
 // once the mouse leaves. The <img> stays as the fallback if anything fails.
 //
+// Colour: the eye (any non-gray pixel) is drawn in the site's --accent, so
+// it follows the palette. In dark mode the grays are flipped to light gray
+// here rather than with a CSS filter, so the eye stays exactly --accent.
+//
 // Markup: <div class="pixel-crow" data-grid="75"><img src="…png"></div>
 
 const RADIUS = 7;      // push radius, in crow pixels
@@ -37,9 +41,11 @@ async function initCrow(el) {
       const y = Math.floor((row + 0.5) * step);
       const i = (y * src.width + x) * 4;
       if (data[i + 3] < 128) continue;
+      const [r, g, b] = [data[i], data[i + 1], data[i + 2]];
+      const gray = Math.abs(r - g) < 12 && Math.abs(g - b) < 12;
       pixels.push({
         col, row,
-        color: `rgb(${data[i]} ${data[i + 1]} ${data[i + 2]})`,
+        shade: gray ? r : null,   // null = the eye, drawn in --accent
         k: 0.3 + Math.random() * 1.7,               // per-pixel scatter strength
         turn: (Math.random() - 0.5) * 2 * SPREAD,  // per-pixel angle offset
         x: 0, y: 0, vx: 0, vy: 0, hx: 0, hy: 0,
@@ -55,6 +61,25 @@ async function initCrow(el) {
   let cell = 0;      // crow-pixel size in device pixels
   let pointer = null;
   let running = false;
+
+  // Resolve each pixel's colour for the current theme.
+  function recolor() {
+    const root = document.documentElement;
+    const accent = getComputedStyle(root).getPropertyValue("--accent").trim();
+    const dark = root.dataset.theme === "dark";
+    for (const p of pixels) {
+      if (p.shade === null) {
+        p.color = accent;
+      } else {
+        // dark mode: same mapping as CSS invert(0.85) — black becomes light gray
+        const v = dark ? Math.round(p.shade * 0.15 + (255 - p.shade) * 0.85) : p.shade;
+        p.color = `rgb(${v} ${v} ${v})`;
+      }
+    }
+  }
+  recolor();
+  new MutationObserver(() => { recolor(); draw(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
   function layout() {
     const dpr = window.devicePixelRatio || 1;
