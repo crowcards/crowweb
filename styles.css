@@ -1,139 +1,557 @@
 /* ---- theme ---------------------------------------------------------- */
 :root {
+  /* colour */
   --bg:     #F3EADF;   /* flat beige */
   --ink:    #141414;   /* black */
   --gray:   #6B6660;   /* the one gray */
   --white:  #FFFFFF;
   --accent: #DC8940;   /* highlight */
+  --lime:   #BFFF00;   /* second accent: neon lime. Low contrast on beige: fine for
+                          brief flashes and highlights, not for text people read */
+  --line:   #D8CFC4;   /* light gray: scrollbar, dividers */
+  --rule-w: 1px;
+  --rule:   var(--rule-w) solid var(--line);
+  --glass:  color-mix(in srgb, var(--bg) 85%, transparent);   /* see-through beige: header, menu */
 
-  --sprite: 240px;      /* crow size */
-  --cycle:  0.7s;      /* full 4-frame loop */
-
-  --sans: "helvetica-lt-pro", Helvetica, Arial, sans-serif;
+  /* type */
+  --sans:    "helvetica-lt-pro", Helvetica, Arial, sans-serif;
   --display: "argent-pixel-cf", Georgia, serif;
-  --mono: "source-code-pro", ui-monospace, Menlo, monospace;
+  --mono:    "source-code-pro", ui-monospace, Menlo, monospace;
+
+  --fs-title: clamp(2rem, 3.3vw, 3.25rem);     /* site title          */
+  --fs-h:     clamp(2.25rem, 3.4vw, 3rem);     /* page + section heads */
+  --fs-lede:  clamp(1.75rem, 2.5vw, 2.25rem);  /* big Argent text     */
+  --fs-body:  1.25rem;                         /* 20px                */
+  --fs-nav:   1.125rem;                        /* 18px                */
+  --fs-small: 1rem;
+
+  /* header */
+  --gutter: clamp(1.25rem, 3vw, 2.5rem);
+  --header-pad:   1.25rem;   /* top */
+  --header-pad-b: 0.5rem;    /* bottom */
+  --header-h: calc(var(--fs-title) * 1.2 + var(--header-pad) + var(--header-pad-b) + var(--rule-w));
+  --sprite-cycle: 0.99s;   /* full 4-frame crow loop */
+
+  /* info layout */
+  --side-w:   40%;                        /* left panel width        */
+  --body-pad: clamp(2rem, 5vw, 5rem);     /* text inset from divider */
+  --measure:  46rem;                      /* max text line length    */
+
+  /* left-panel artwork: big pixel crow + HOME's staggered title.
+     Everything is measured in panel units (u): 1u = 1% of the panel's width,
+     so the crow and title scale together and keep the same composition at
+     every screen size. Plain numbers, no units. */
+  --crow-size:  100;    /* crow width                        */
+  --crow-top:   21;     /* crow's distance from panel top    */
+  --crow-left:  36;     /* crow's distance from panel left   */
+  --title-size: 12.5;   /* HOME title font size              */
+  --title-top:  0;      /* HOME title's distance from top    */
 }
 
 /* ---- base ----------------------------------------------------------- */
 * { box-sizing: border-box; }
 
+html { scrollbar-color: var(--line) transparent; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line); }
+
 body {
   margin: 0;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 44px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 32px;
-
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: var(--fs-body);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- title ---------------------------------------------------------- */
-header { padding-top: 50px; }
+::selection { background: var(--accent); color: var(--ink); }
 
-h1 {
-  margin: 0;
-  max-width: 16ch;
+img { max-width: 100%; }
+
+/* ---- text ----------------------------------------------------------- */
+h1, h2 {
+  margin: 1.5em 0 0.5em;
+  color: var(--accent);
   font-family: var(--display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(2rem, 7vw, 4rem);
+  font-size: var(--fs-h);
   line-height: 1.1;
 }
 
-/* each letter lights up on hover */
-h1 span {
-  transition: color 0.1s ease-out;
+h1:first-child { margin-top: 0; }
+
+h3 {
+  margin: 1.5em 0 0.5em;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--fs-lede);
+  line-height: 1.2;
 }
 
-h1 span:hover {
-  color: var(--accent);
+p, ul, ol { margin: 0 0 1em; }
+
+ul { padding-left: 1.25em; }
+ul li { list-style: square; }
+li::marker { color: var(--accent); }
+
+.lede {
+  font-family: var(--display);
+  font-size: var(--fs-lede);
+  line-height: 1.3;
 }
 
-/* ---- crow + coming soon --------------------------------------------- */
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-}
-
-.crow {
-  position: relative;
-  width: var(--sprite);
-  height: var(--sprite);
-}
-
-.crow img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  image-rendering: pixelated;   /* keep the pixel grid crisp */
-  opacity: 0;
-  animation: crow-cycle var(--cycle) infinite;
-}
-
-/* each frame owns one quarter of the loop */
-.crow img:nth-child(1) { animation-delay: 0s; }
-.crow img:nth-child(2) { animation-delay: calc(var(--cycle) * -0.75); }
-.crow img:nth-child(3) { animation-delay: calc(var(--cycle) * -0.5); }
-.crow img:nth-child(4) { animation-delay: calc(var(--cycle) * -0.25); }
-
-@keyframes crow-cycle {
-  0%,      25% { opacity: 1; }
-  25.01%, 100% { opacity: 0; }
-}
-
-.coming {
-  margin: 0;
-  padding: 5px 12px;
+/* small 3x3-pixel plus sign, used as a bullet */
+.pixel-plus {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-right: 0.5em;
   background: var(--accent);
-  color: var(--ink);
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;   /* balance the trailing letter-space */
+  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
+                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
 }
 
 /* ---- links ---------------------------------------------------------- */
 a {
-  color: var(--ink);
+  color: inherit;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.9em;   /* mono runs large next to Helvetica */
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
   text-decoration: underline;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-  }
+}
 
 a:hover,
 a:focus-visible {
   background: var(--accent);
-  color: var(--ink);              /* 6.75:1 — white on orange fails */
+  color: var(--ink);   /* 6.75:1 — white on orange fails */
   text-decoration-color: transparent;
 }
 
-/* ---- footer --------------------------------------------------------- */
-footer {
-  max-width: 86ch;
-  color: var(--gray);
-  font-size: 0.8125rem;
+/* opt out of caps: <a class="lower"> */
+.lower,
+.site-title {
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-footer a { color: var(--gray); }
+/* letters light up one at a time; site.js wraps each letter in span.letter */
+.letter { transition: color 0.1s ease-out; }
+.letter:hover { color: var(--accent); }
+
+/* orange page headers light up lime instead */
+:is(h1, h2):not(.stagger) .letter:hover { color: var(--lime); }
+
+/* ---- buttons -------------------------------------------------------- */
+/* orange block with stepped pixel corners; works on <a> and <button> */
+.button {
+  --px: 4px;   /* size of each corner step */
+  display: inline-block;
+  padding: 0.4em 1.2em 0.45em;
+  border: 0;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.1;
+  text-transform: none;
+  letter-spacing: normal;
+  text-decoration: none;
+  cursor: pointer;
+  clip-path: polygon(
+    0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
+    calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
+    calc(100% - var(--px) * 2) 0, calc(100% - var(--px) * 2) var(--px),
+    calc(100% - var(--px)) var(--px), calc(100% - var(--px)) calc(var(--px) * 2),
+    100% calc(var(--px) * 2),
+    100% calc(100% - var(--px) * 2), calc(100% - var(--px)) calc(100% - var(--px) * 2),
+    calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px) * 2) calc(100% - var(--px)),
+    calc(100% - var(--px) * 2) 100%,
+    calc(var(--px) * 2) 100%, calc(var(--px) * 2) calc(100% - var(--px)),
+    var(--px) calc(100% - var(--px)), var(--px) calc(100% - var(--px) * 2),
+    0 calc(100% - var(--px) * 2));
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+/* ---- header --------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-h);
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  padding: var(--header-pad) var(--gutter) var(--header-pad-b);
+  border-bottom: var(--rule);
+}
+
+/* see-through backing, drawn on a pseudo-element: blurring on the header
+   itself would stop the narrow-screen menu inside it from blurring the page */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--glass);
+  backdrop-filter: blur(4px);
+}
+
+.site-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-title);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.site-title:hover,
+.site-title:focus-visible { background: none; }
+
+#nav {
+  display: flex;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+#nav a { font-size: var(--fs-nav); }
+
+#nav a[aria-current="page"] {
+  background: var(--accent);
+  text-decoration-color: transparent;
+}
+
+/* narrow-screen pieces */
+.header-crow,
+.menu-toggle { display: none; }
+
+.header-crow:hover,
+.header-crow:focus-visible { background: none; }
+
+/* three pixel dots: the span is the middle dot, shadows are the outer two.
+   Three dots when closed, an X when open. */
+.menu-toggle {
+  place-items: center;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 6px;
+  height: 6px;
+  color: var(--ink);
+  background: currentColor;
+  box-shadow: -10px 0 currentColor, 10px 0 currentColor;
+}
+
+.menu-toggle:hover span { color: var(--accent); }
+
+/* open: a 5x5 pixel X — the centre dot plus two pixels out along each diagonal */
+.menu-toggle[aria-expanded="true"] span {
+  color: var(--accent);
+  box-shadow:
+    -12px -12px currentColor, -6px -6px currentColor,
+     12px -12px currentColor,  6px -6px currentColor,
+    -12px  12px currentColor, -6px  6px currentColor,
+     12px  12px currentColor,  6px  6px currentColor;
+}
+
+/* ---- footer --------------------------------------------------------- */
+/* a thin line with a tiny crow (sprite c) perched on it */
+.site-footer {
+  position: relative;
+  margin-top: 6rem;
+  padding: 1.25rem 0 2rem;
+  border-top: var(--rule);
+  color: var(--gray);
+  font-size: var(--fs-small);
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 2rem;
+  aspect-ratio: 1;
+  background: url("img/crow-sprite-c.png") center / contain no-repeat;
+  image-rendering: pixelated;
+  translate: 0 6%;   /* the sprite's feet sit 6% above its bottom edge */
+}
+
+.site-footer p { margin: 0; }
+
+/* ---- info layout: still left panel, scrolling right side ----------- */
+.info {
+  display: grid;
+  grid-template-columns: var(--side-w) 1fr;
+  grid-template-rows: 1fr auto;   /* footer sits at the bottom on short pages */
+  grid-template-areas:
+    "side body"
+    "side foot";
+  min-height: calc(100dvh - var(--header-h));
+}
+
+/* the right side is a sheet of see-through beige laid over the left panel,
+   so artwork that overhangs the divider (the crow's tail) shows faintly
+   through it */
+.info::before {
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / -1;
+  z-index: 1;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);   /* lower = more see-through */
+  backdrop-filter: blur(3px);
+}
+
+.info-body,
+.info .site-footer { z-index: 2; }
+
+/* the page scrolls; the left panel holds still under the header */
+.info-side {
+  grid-area: side;
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: var(--gutter);
+  border-right: var(--rule);
+}
+
+.side-art {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  container-type: size;   /* lets artwork measure the panel (cqi / cqh units) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  /* 1u = 1% of panel width — or smaller, if the screen is too short
+     for the crow to fit its full height */
+  --u: min(1cqi, 100cqh / (var(--crow-top) + var(--crow-size)));
+}
+
+.pixel-crow {
+  width: calc(var(--crow-size) * var(--u));
+  max-width: none;   /* may overhang the divider */
+  aspect-ratio: 1;
+  margin: calc(var(--crow-top) * var(--u)) 0 0 calc(var(--crow-left) * var(--u));
+  image-rendering: pixelated;
+}
+
+.info-body {
+  grid-area: body;
+  max-width: calc(var(--measure) + var(--body-pad) * 2);
+  padding: 4rem var(--body-pad) 0;
+}
+
+.info .site-footer {
+  grid-area: foot;
+  max-width: var(--measure);
+  margin-inline: var(--body-pad);
+}
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.logos a { text-decoration: none; }
+.logos a:hover,
+.logos a:focus-visible { background: none; opacity: 0.7; }
+.logos img { display: block; height: 2.5rem; width: auto; }
+
+/* ---- home ----------------------------------------------------------- */
+/* the title lives in the left panel here; hidden (not removed) so the nav
+   sits in exactly the same spot as on every other page */
+.home .site-title { visibility: hidden; }
+
+/* the site title, staggered over four lines */
+.stagger {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+.stagger > span { display: block; white-space: nowrap; }
+/* each line: indent (padding-left) and drop below its natural spot (translate) */
+/* (in em, so they scale with the title) */
+.stagger > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }
+.side-art .stagger > span:nth-child(1) { padding-left: 0; margin-left: -0.3em; }   /* pulled left so "Rules" stays inside the panel */
+.stagger .rules { display: inline-block; translate: 0 0.27em; }   /* "Rules", relative to "Community" */
+.stagger > span:nth-child(2) { padding-left: 1em;   translate: 0 0.19em; }
+.stagger > span:nth-child(3) { padding-left: 0;     translate: 0 0.29em; }
+.stagger > span:nth-child(4) { padding-left: 1.8em; translate: 0 0.48em; }
+
+/* wide screens: pinned to the top of the left panel. Taken out of the flow
+   so the crow sits exactly where it does on ABOUT; the title draws on top
+   where they overlap. Sized in panel units (see :root), so it scales
+   together with the crow. */
+.side-art .stagger {
+  position: absolute;
+  top: calc(var(--title-top) * var(--u));
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-size: calc(var(--title-size) * var(--u));
+}
+
+/* narrow screens: the left panel is hidden, so a copy sits atop the text,
+   with "Open Web" on one line, further right */
+.home-title { display: none; }
+.home-title > span:nth-child(3) { padding-left: 2.2em; }
+
+/* letters in [data-flicker] titles now and then flash an accent (site.js) */
+.letter.flash      { color: var(--accent); transition: none; }
+.letter.flash-lime { color: var(--lime); transition: none; }
+
+/* "+ See our workshop calls and our CHI'26 paper" */
+.see-also {
+  margin: 2rem 0 2.5rem;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.see-also a { font-size: 1em; }
+
+/* ---- animated crow sprite (4 stacked frames) ------------------------ */
+.sprite {
+  position: relative;
+  width: var(--sprite, 3rem);
+  aspect-ratio: 1;
+}
+
+.sprite img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  opacity: 0;
+  animation: sprite-cycle var(--sprite-cycle) infinite;
+}
+
+/* each frame owns one quarter of the loop */
+.sprite img:nth-child(1) { animation-delay: 0s; }
+.sprite img:nth-child(2) { animation-delay: calc(var(--sprite-cycle) * -0.75); }
+.sprite img:nth-child(3) { animation-delay: calc(var(--sprite-cycle) * -0.5); }
+.sprite img:nth-child(4) { animation-delay: calc(var(--sprite-cycle) * -0.25); }
+
+@keyframes sprite-cycle {
+  0%,      25% { opacity: 1; }
+  25.01%, 100% { opacity: 0; }
+}
+
+/* ---- narrow screens ------------------------------------------------- */
+@media (width < 64rem) {
+  :root {
+    --header-pad-b: 0px;
+    --header-h: calc(3rem + var(--header-pad) + var(--rule-w));
+  }
+
+  /* the crow stands on the header line, like a bird on a wire */
+  .site-header { align-items: flex-end; }
+
+  .site-title { display: none; }
+
+  .header-crow { display: block; translate: 0 5.5%; }   /* feet sit ~5.5% above the sprite's bottom edge */
+
+  .menu-toggle { display: grid; align-self: center; }
+
+  /* the menu drops down under the header when the dots are clicked */
+  #nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--rule-w));   /* just below the header line, so the crow keeps its wire */
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    padding: 1rem var(--gutter) 1.25rem;
+    background: var(--glass);
+    backdrop-filter: blur(4px);   /* keeps the links readable over page text */
+    border-bottom: var(--rule);
+  }
+
+  .site-header.is-open #nav { display: flex; }
+
+  /* the header crow is already showing */
+  .site-footer::before { display: none; }
+
+  /* one column: text, footer, then the logos */
+  :root { --body-pad: var(--gutter); }
+
+  .info::before { display: none; }
+
+  .info {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto;
+    grid-template-areas: "body" "foot" "side";
+  }
+
+  .info-side {
+    position: static;
+    height: auto;
+    padding: 0 var(--body-pad) 2rem;
+    border-right: 0;
+  }
+
+  .side-art { display: none; }
+  .home-title {
+    display: block;
+    margin-bottom: 1em;
+    font-size: clamp(2.25rem, 9vw, 4.5rem);   /* big and dramatic; "Community Rules" still fits one line */
+  }
+
+  .info-body { padding-top: 2.5rem; }
+
+  /* on tablet widths the screen is wider than a comfortable line of text:
+     centre the column instead of leaving a gap on the right */
+  .info-body,
+  .info-side {
+    justify-self: center;
+    width: 100%;
+    max-width: calc(var(--measure) + var(--body-pad) * 2);
+  }
+
+  .info .site-footer {
+    justify-self: center;
+    width: calc(100% - var(--body-pad) * 2);
+  }
+}
 
 /* ---- motion --------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .crow img { animation: none; }
-  .crow img:first-child { opacity: 1; }
+  .sprite img { animation: none; }
+  .sprite img:first-child { opacity: 1; }
 }
