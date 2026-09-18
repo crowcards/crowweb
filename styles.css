@@ -41,11 +41,13 @@
      Everything is measured in panel units (u): 1u = 1% of the panel's width,
      so the crow and title scale together and keep the same composition at
      every screen size. Plain numbers, no units. */
-  --crow-size:  100;    /* crow width                        */
+  --crow-size:  150;    /* crow width                        */
   --crow-top:   21;     /* crow's distance from panel top    */
-  --crow-left:  36;     /* crow's distance from panel left   */
-  --title-size: 12.5;   /* HOME title font size              */
+  --crow-left:  32;     /* crow's distance from panel left   */
+  --title-size: 20;   /* HOME title font size              */
   --title-top:  0;      /* HOME title's distance from top    */
+  --title-em:   6.6;    /* width of the longest title line ("Community"),
+                           in em — keeps the title inside the panel */
 }
 
 /* ---- base ----------------------------------------------------------- */
@@ -147,6 +149,10 @@ a:focus-visible {
 
 /* orange page headers light up lime instead */
 :is(h1, h2):not(.stagger) .letter:hover { color: var(--lime); }
+
+/* letters in [data-flicker] titles now and then flash an accent (site.js) */
+.letter.flash      { color: var(--accent); transition: none; }
+.letter.flash-lime { color: var(--lime); transition: none; }
 
 /* ---- buttons -------------------------------------------------------- */
 /* orange block with stepped pixel corners; works on <a> and <button> */
@@ -350,18 +356,43 @@ a:focus-visible {
   flex-direction: column;
   align-items: flex-start;
 
-  /* 1u = 1% of panel width — or smaller, if the screen is too short
-     for the crow to fit its full height */
-  --u: min(1cqi, 100cqh / (var(--crow-top) + var(--crow-size)));
+  /* 1u = 1% of panel width — or smaller, if the title's longest line
+     wouldn't fit across the panel, or the screen is too short for the
+     crow to fit its full height */
+  --u: min(
+    1cqi,
+    100cqi / (var(--title-size) * var(--title-em)),
+    100cqh / (var(--crow-top) + var(--crow-size))
+  );
 }
 
 .pixel-crow {
-  width: calc(var(--crow-size) * var(--u));
-  max-width: none;   /* may overhang the divider */
+  position: relative;
+  flex: none;
+  width: calc(var(--crow-size) * var(--u));   /* may overhang the divider */
   aspect-ratio: 1;
   margin: calc(var(--crow-top) * var(--u)) 0 0 calc(var(--crow-left) * var(--u));
+}
+
+.pixel-crow img {
+  display: block;
+  width: 100%;
+  height: 100%;
   image-rendering: pixelated;
 }
+
+/* crow.js redraws the crow pixel by pixel on a canvas for the scatter effect.
+   The canvas overhangs the crow so pixels can fly past its edges; the img
+   stays underneath as the fallback. */
+.pixel-crow canvas {
+  position: absolute;
+  inset: -25%;
+  width: 150%;
+  height: 150%;
+  pointer-events: none;
+}
+
+.pixel-crow.is-live img { visibility: hidden; }
 
 .info-body {
   grid-area: body;
@@ -392,7 +423,9 @@ a:focus-visible {
    sits in exactly the same spot as on every other page */
 .home .site-title { visibility: hidden; }
 
-/* the site title, staggered over four lines */
+/* the site title, staggered: each line is indented (padding-left) and
+   dropped a little below its natural spot (translate), in em so the
+   stagger scales with the title */
 .stagger {
   margin: 0;
   color: var(--ink);
@@ -400,19 +433,11 @@ a:focus-visible {
 }
 
 .stagger > span { display: block; white-space: nowrap; }
-/* each line: indent (padding-left) and drop below its natural spot (translate) */
-/* (in em, so they scale with the title) */
-.stagger > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }
-.side-art .stagger > span:nth-child(1) { padding-left: 0; margin-left: -0.3em; }   /* pulled left so "Rules" stays inside the panel */
-.stagger .rules { display: inline-block; translate: 0 0.27em; }   /* "Rules", relative to "Community" */
-.stagger > span:nth-child(2) { padding-left: 1em;   translate: 0 0.19em; }
-.stagger > span:nth-child(3) { padding-left: 0;     translate: 0 0.29em; }
-.stagger > span:nth-child(4) { padding-left: 1.8em; translate: 0 0.48em; }
 
-/* wide screens: pinned to the top of the left panel. Taken out of the flow
-   so the crow sits exactly where it does on ABOUT; the title draws on top
-   where they overlap. Sized in panel units (see :root), so it scales
-   together with the crow. */
+/* wide screens: five lines pinned to the top of the left panel. Taken out
+   of the flow so the crow sits exactly where it does on ABOUT, and drawn on
+   top of the crow. Sized in panel units (see :root), so it scales together
+   with the crow. */
 .side-art .stagger {
   position: absolute;
   top: calc(var(--title-top) * var(--u));
@@ -420,16 +445,33 @@ a:focus-visible {
   right: 0;
   z-index: 1;
   font-size: calc(var(--title-size) * var(--u));
+
+  /* subtle pixel glow: a hard-edged, stepped beige outline so the letters
+     stay readable where they cross the crow */
+  --g: 0.04em;
+  text-shadow:
+    var(--g) 0 var(--bg), calc(var(--g) * -1) 0 var(--bg),
+    0 var(--g) var(--bg), 0 calc(var(--g) * -1) var(--bg),
+    var(--g) var(--g) var(--bg), calc(var(--g) * -1) var(--g) var(--bg),
+    var(--g) calc(var(--g) * -1) var(--bg), calc(var(--g) * -1) calc(var(--g) * -1) var(--bg),
+    calc(var(--g) * 2) 0 var(--bg), calc(var(--g) * -2) 0 var(--bg),
+    0 calc(var(--g) * 2) var(--bg), 0 calc(var(--g) * -2) var(--bg);
 }
 
-/* narrow screens: the left panel is hidden, so a copy sits atop the text,
-   with "Open Web" on one line, further right */
-.home-title { display: none; }
-.home-title > span:nth-child(3) { padding-left: 2.2em; }
+.side-art .stagger > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community */
+.side-art .stagger > span:nth-child(2) { padding-left: 1.2em; translate: 0 0.08em; }    /* Rules */
+.side-art .stagger > span:nth-child(3) { padding-left: 1em;   translate: 0 0.19em; }    /* for an */
+.side-art .stagger > span:nth-child(4) { padding-left: 0;     translate: 0 0.29em; }    /* Open */
+.side-art .stagger > span:nth-child(5) { padding-left: 1.8em; translate: 0 0.48em; }    /* Web */
 
-/* letters in [data-flicker] titles now and then flash an accent (site.js) */
-.letter.flash      { color: var(--accent); transition: none; }
-.letter.flash-lime { color: var(--lime); transition: none; }
+/* narrow screens: the left panel is hidden, so a three-line copy sits atop
+   the text */
+.home-title { display: none; }
+.home-title > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community Rules */
+.home-title .rules { display: inline-block; translate: 0 0.27em; }                /* Rules, relative to Community */
+.home-title > span:nth-child(2) { padding-left: 1em;   translate: 0 0.19em; }     /* for an */
+.home-title > span:nth-child(3) { padding-left: 2.2em; translate: 0 0.29em; }     /* Open Web */
+
 
 /* "+ See our workshop calls and our CHI'26 paper" */
 .see-also {

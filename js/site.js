@@ -31,28 +31,44 @@ for (const el of document.querySelectorAll("[data-letters], main h1, main h2")) 
 // Letters in [data-flicker] titles now and then flash an accent colour,
 // mostly the capitals (C, R, O, W). Each flash blinks on, off, on again so
 // it reads as a flicker rather than a fade.
+//   data-flicker          one letter at a time, fast, often overlapping
+//   data-flicker="gentle" a small burst of 2–3 letters every 1–3 seconds,
+//                         staggered a little (used in the header)
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   for (const el of document.querySelectorAll("[data-flicker]")) {
     const letters = [...el.querySelectorAll(".letter")];
     const caps = letters.filter((l) => /[A-Z]/.test(l.textContent));
     const pick = (list) => list[Math.floor(Math.random() * list.length)];
+    // skip letters that are already lit, so overlapping flickers don't collide
+    const unlit = (list) => list.filter((l) => !l.matches(".flash, .flash-lime"));
 
-    const flicker = () => {
-      // skip letters that are already lit, so overlapping flickers don't collide
-      const unlit = (list) => list.filter((l) => !l.matches(".flash, .flash-lime"));
+    const flash = () => {
       const letter = pick(unlit(Math.random() < 0.75 ? caps : letters));
-      if (letter) {
-        const tone = Math.random() < 0.5 ? "flash" : "flash-lime";
-        const hold = 200 + Math.random() * 450;
-        letter.classList.add(tone);
-        setTimeout(() => letter.classList.remove(tone), 60);
-        setTimeout(() => letter.classList.add(tone), 110);
-        setTimeout(() => letter.classList.remove(tone), 110 + hold);
-      }
-      // the next flicker often starts before this one ends, so they overlap
-      setTimeout(flicker, 150 + Math.random() * 500);
+      if (!letter) return;
+      const tone = Math.random() < 0.5 ? "flash" : "flash-lime";
+      const hold = 200 + Math.random() * 450;
+      letter.classList.add(tone);
+      setTimeout(() => letter.classList.remove(tone), 60);
+      setTimeout(() => letter.classList.add(tone), 110);
+      setTimeout(() => letter.classList.remove(tone), 110 + hold);
     };
-    setTimeout(flicker, 800);
+
+    const fast = () => {
+      flash();
+      setTimeout(fast, 150 + Math.random() * 500);
+    };
+
+    const gentle = () => {
+      const count = 2 + Math.floor(Math.random() * 2);   // 2 or 3 letters
+      let delay = 0;
+      for (let i = 0; i < count; i++) {
+        setTimeout(flash, delay);
+        delay += 100 + Math.random() * 200;              // stagger within the burst
+      }
+      setTimeout(gentle, 1000 + Math.random() * 2000);   // next burst in 1–3 s
+    };
+
+    setTimeout(el.dataset.flicker === "gentle" ? gentle : fast, 800);
   }
 }
 
