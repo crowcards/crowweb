@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Test — CROW</title>
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="js/site.js" defer></script>
+  <script src="js/crow.js" defer></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-title" href="index.html" data-letters data-flicker="gentle">Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="index.html" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="make.html">Make</a>
+      <a href="library.html">Library</a>
+      <a href="about.html" aria-current="page">About</a>  <!-- test: pretend we're on ABOUT -->
+    </nav>
+  </header>
+
+  <div class="info">
+    <aside class="info-side">
+      <div class="side-art">
+        <div class="pixel-crow" data-grid="75">
+          <img src="img/crow-sprite-a.png" alt="Pixel-art crow" />
+        </div>
+      </div>
+      <div class="logos">
+        <a href="https://hci.princeton.edu/" target="_blank"><img src="img/logos/princetonhci.png" alt="Princeton HCI" /></a>
+        <a href="https://bonfirenetworks.org/" target="_blank"><img src="img/logos/bonfire.png" alt="Bonfire Networks" /></a>
+      </div>
+    </aside>
+
+    <main class="info-body">
+      <h1>Page Header</h1>
+      <p class="lede">Lede text. Your rules for your spaces — big Argent Pixel CF for short, important lines.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus, <a href="#">an inline link</a> posuere velit aliquet. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Cras mattis consectetur purus sit amet fermentum.</p>
+      <p>Maecenas faucibus mollis interdum. Aenean lacinia bibendum nulla sed consectetur. Nullam quis risus eget urna mollis ornare vel eu leo. Curabitur blandit tempus porttitor. Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod.</p>
+      <p>A list:</p>
+      <ul>
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+        <li>Vestibulum id ligula porta felis euismod semper</li>
+        <li>Nullam quis risus eget urna mollis ornare vel eu leo, cras mattis consectetur purus sit amet fermentum</li>
+      </ul>
+
+      <h2>Section Header</h2>
+      <p>Sed posuere consectetur est at lobortis. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.</p>
+      <p><a href="#">A link</a> (caps by default) and <a href="#" class="inline">an inline link</a> (class="inline")</p>
+      <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+
+      <h3>Subsection header</h3>
+      <p>Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec id elit non mi porta gravida at eget metus. Nulla vitae elit libero, a pharetra augue. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+      <p>Etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor fringilla. Curabitur blandit tempus porttitor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+
+      <h2>Another Section</h2>
+      <p>Nullam id dolor id nibh ultricies vehicula ut id elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed odio dui. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
+      <p>Cras mattis consectetur purus sit amet fermentum. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus mollis interdum. Vestibulum id ligula porta felis euismod semper. Aenean lacinia bibendum nulla sed consectetur.</p>
+      <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Sed posuere consectetur est at lobortis. Donec id elit non mi porta gravida at eget metus. Nullam quis risus eget urna mollis ornare vel eu leo. Duis mollis, est non commodo luctus.</p>
+      <p>Curabitur blandit tempus porttitor. Etiam porta sem malesuada magna mollis euismod. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Maecenas sed diam eget risus varius blandit sit amet non magna. Cras justo odio, dapibus ac facilisis in.</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>CROW is a research project by <a href="https://hci.princeton.edu/" target="_blank">Princeton HCI</a></p>
+    </footer>
+  </div>
+
+</body>
+</html>

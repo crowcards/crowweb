@@ -120,7 +120,7 @@ a {
   color: inherit;
   font-family: var(--mono);
   font-weight: 600;
-  font-size: 0.9em;   /* mono runs large next to Helvetica */
+  font-size: 0.8em;   /* mono runs large next to Helvetica */
   text-transform: uppercase;
   letter-spacing: 0.04em;
   text-decoration: underline;
@@ -132,15 +132,39 @@ a {
 a:hover,
 a:focus-visible {
   background: var(--accent);
-  color: var(--ink);   /* 6.75:1 — white on orange fails */
+  color: var(--lime);   /* 6.75:1 — white on orange fails */
   text-decoration-color: transparent;
 }
 
-/* opt out of caps: <a class="lower"> */
-.lower,
-.site-title {
+/* links that sit inside running text: <a class="inline"> keeps the
+   surrounding font, so it just flows with the sentence */
+.inline {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
   text-transform: none;
   letter-spacing: normal;
+}
+
+/* small pixel icon links after a name (website, Mastodon, Bluesky, …) */
+.icon-links {
+  display: inline-flex;
+  gap: 0.3em;
+  margin-left: 0.4em;
+  vertical-align: -0.1em;
+}
+
+.icon-links a {
+  display: inline-flex;
+  padding: 0.15em;
+  text-decoration: none;
+}
+
+.icon-links svg {
+  width: 0.9em;
+  height: 0.9em;
+  fill: currentColor;
+  shape-rendering: crispEdges;
 }
 
 /* letters light up one at a time; site.js wraps each letter in span.letter */
@@ -189,7 +213,7 @@ a:focus-visible {
 .button:hover,
 .button:focus-visible {
   background: var(--lime);
-  color: var(--ink);
+  color: var(--accent);
 }
 
 /* ---- header --------------------------------------------------------- */
@@ -223,6 +247,8 @@ a:focus-visible {
   font-size: var(--fs-title);
   line-height: 1.2;
   white-space: nowrap;
+  text-transform: none;
+  letter-spacing: normal;
   text-decoration: none;
 }
 
@@ -283,26 +309,13 @@ a:focus-visible {
 }
 
 /* ---- footer --------------------------------------------------------- */
-/* a thin line with a tiny crow (sprite c) perched on it */
+/* a thin line above small gray text */
 .site-footer {
-  position: relative;
   margin-top: 6rem;
   padding: 1.25rem 0 2rem;
   border-top: var(--rule);
   color: var(--gray);
   font-size: var(--fs-small);
-}
-
-.site-footer::before {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  width: 2rem;
-  aspect-ratio: 1;
-  background: url("img/crow-sprite-c.png") center / contain no-repeat;
-  image-rendering: pixelated;
-  translate: 0 6%;   /* the sprite's feet sit 6% above its bottom edge */
 }
 
 .site-footer p { margin: 0; }
@@ -546,9 +559,6 @@ a:focus-visible {
   }
 
   .site-header.is-open #nav { display: flex; }
-
-  /* the header crow is already showing */
-  .site-footer::before { display: none; }
 
   /* one column: text, footer, then the logos */
   :root { --body-pad: var(--gutter); }
