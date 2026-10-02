@@ -1,379 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Platform Dataset — CROW Docs</title>
-<link rel="preconnect" href="https://use.typekit.net" crossorigin/>
-<link rel="preconnect" href="https://p.typekit.net" crossorigin/>
-<link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css"/>
-<style>
-/* ── tokens (mirrors crowcards.org) ──────────────────────────────── */
-:root {
-  --bg:      #F3EADF;
-  --ink:     #141414;
-  --gray:    #6B6660;
-  --white:   #FFFFFF;
-  --accent:  #FF8F00;
-  --lime:    #BFFF00;
-  --line:    #D8CFC4;
-  --on-acc:  #141414;
-  --glass:   color-mix(in srgb,var(--bg) 85%,transparent);
-  --sans:    "helvetica-lt-pro",Helvetica,Arial,sans-serif;
-  --display: "argent-pixel-cf",Georgia,serif;
-  --mono:    "source-code-pro",ui-monospace,Menlo,monospace;
-  --fs-h1:   clamp(2rem,3.4vw,3rem);
-  --fs-h2:   clamp(1.4rem,2vw,1.8rem);
-  --fs-h3:   1.1rem;
-  --fs-body: 1.1rem;
-  --fs-small:0.9rem;
-  --fs-nav:  0.85rem;
-  --measure: 44rem;
-  --gutter:  clamp(1.25rem,3vw,2.5rem);
-  --nav-w:   220px;
-  --rule:    1px solid var(--line);
-}
-:root[data-theme="dark"] {
-  color-scheme:dark;
-  --bg:  #0E0E0E;
-  --ink: #E6E2DC;
-  --gray:#9A948C;
-  --line:#3D3934;
-}
-
-/* ── reset ───────────────────────────────────────────────────────── */
-*{box-sizing:border-box;margin:0;padding:0}
-html{scrollbar-color:var(--line) transparent;scrollbar-gutter:stable;scroll-behavior:smooth}
-::-webkit-scrollbar{width:8px}
-::-webkit-scrollbar-thumb{background:var(--line)}
-body{
-  background:var(--bg);color:var(--ink);
-  font-family:var(--sans);font-size:var(--fs-body);line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-}
-img{max-width:100%}
-::selection{background:var(--accent);color:var(--lime)}
-
-/* ── type ────────────────────────────────────────────────────────── */
-h1{
-  font-family:var(--display);font-style:italic;font-weight:400;
-  font-size:var(--fs-h1);line-height:1.1;color:var(--accent);
-  margin:0 0 0.6em;
-}
-h2{
-  font-family:var(--display);font-style:italic;font-weight:400;
-  font-size:var(--fs-h2);line-height:1.2;color:var(--accent);
-  margin:2.5em 0 0.5em;padding-top:0.5em;
-  border-top:var(--rule);
-}
-h2:first-of-type{margin-top:1.5em}
-h3{
-  font-family:var(--sans);font-weight:700;font-size:var(--fs-h3);
-  margin:1.8em 0 0.4em;color:var(--ink);
-}
-p{margin:0 0 1em}
-p:last-child{margin-bottom:0}
-ul{list-style:none;padding:0;margin:0 0 1em}
-ul li{position:relative;padding-left:1em;margin-bottom:0.3em}
-ul li::before{
-  content:"";position:absolute;left:0;
-  top:calc(0.5lh - 0.175em);
-  width:0.35em;height:0.35em;background:var(--accent);
-}
-code{
-  font-family:var(--mono);font-size:0.82em;
-  background:color-mix(in srgb,var(--accent) 12%,var(--bg));
-  padding:0.1em 0.35em;border-radius:2px;
-}
-
-/* ── links ───────────────────────────────────────────────────────── */
-a{
-  color:inherit;font-family:var(--mono);font-weight:600;font-size:0.8em;
-  text-transform:uppercase;letter-spacing:0.04em;
-  text-decoration:underline;text-decoration-color:var(--accent);
-  text-decoration-thickness:2px;text-underline-offset:4px;
-  text-decoration-skip-ink:none;
-}
-a:hover,a:focus-visible{
-  background:var(--accent);color:var(--lime);
-  text-decoration-color:transparent;
-}
-a.inline{
-  font-family:inherit;font-weight:inherit;font-size:inherit;
-  text-transform:none;letter-spacing:normal;
-}
-
-/* ── header ──────────────────────────────────────────────────────── */
-.site-header{
-  position:sticky;top:0;z-index:20;
-  display:flex;align-items:baseline;gap:2rem;
-  padding:1.25rem var(--gutter) 0.5rem;
-  border-bottom:var(--rule);
-  background:var(--glass);backdrop-filter:blur(4px);
-}
-.site-title{
-  font-family:var(--display);font-style:italic;font-weight:400;
-  font-size:clamp(1.25rem,2.2vw,1.6rem);line-height:1.2;white-space:nowrap;
-  text-decoration:none;text-transform:none;letter-spacing:normal;color:inherit;
-}
-.site-title:hover,.site-title:focus-visible{background:none;color:var(--accent)}
-.header-nav{display:flex;gap:1.5rem;margin-left:auto}
-.header-nav a{font-size:var(--fs-nav)}
-.header-nav a[aria-current="page"]{
-  background:var(--accent);color:var(--on-acc);text-decoration-color:transparent;
-}
-.theme-btn{
-  padding:0;border:0;background:none;color:var(--ink);cursor:pointer;
-  align-self:baseline;
-}
-.theme-btn:hover{color:var(--accent)}
-.theme-btn svg{width:1.1rem;height:1.1rem;fill:currentColor;shape-rendering:crispEdges}
-.theme-btn .sun,[data-theme="dark"] .theme-btn .moon{display:none}
-[data-theme="dark"] .theme-btn .sun{display:block}
-
-/* ── docs layout ─────────────────────────────────────────────────── */
-.docs-wrap{
-  display:grid;
-  grid-template-columns:var(--nav-w) 1fr;
-  min-height:calc(100dvh - 60px);
-}
-
-/* left sidebar */
-.docs-nav{
-  position:sticky;top:60px;align-self:start;
-  height:calc(100dvh - 60px);overflow-y:auto;
-  padding:2rem 0 2rem var(--gutter);
-  border-right:var(--rule);
-  font-size:var(--fs-nav);
-}
-.docs-nav-label{
-  font-family:var(--mono);font-size:0.75rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:0.08em;
-  color:var(--gray);margin:0 0 0.5rem;
-}
-.docs-nav ul{margin:0 0 1.5rem}
-.docs-nav li::before{display:none}
-.docs-nav li{padding:0}
-.docs-nav a{
-  display:block;padding:0.25rem 0.75rem 0.25rem 0;
-  font-family:var(--mono);font-size:0.72rem;
-  font-weight:400;text-transform:uppercase;letter-spacing:0.05em;
-  text-decoration:none;color:var(--gray);
-  border-left:2px solid transparent;
-  transition:color 0.1s,border-color 0.1s;
-}
-.docs-nav a:hover,.docs-nav a:focus-visible{
-  color:var(--ink);background:none;border-left-color:var(--line);
-}
-.docs-nav a.active,.docs-nav a[aria-current="true"]{
-  color:var(--accent);border-left-color:var(--accent);font-weight:600;
-}
-.docs-nav .sub{padding-left:0.75rem;margin-top:0.1rem}
-.docs-nav .sub a{font-size:0.66rem}
-
-/* main content */
-.docs-body{
-  max-width:calc(var(--measure) + var(--gutter)*2);
-  padding:3rem var(--gutter) 6rem;
-}
-
-/* ── intro lede ──────────────────────────────────────────────────── */
-.lede{
-  font-family:var(--display);font-style:italic;font-weight:400;
-  font-size:clamp(1.2rem,1.8vw,1.5rem);line-height:1.4;
-  margin-bottom:1.5em;color:var(--ink);
-}
-
-/* ── callout box ─────────────────────────────────────────────────── */
-.callout{
-  border-left:3px solid var(--accent);
-  background:color-mix(in srgb,var(--accent) 8%,var(--bg));
-  padding:0.9rem 1.1rem;margin:1.5em 0;
-  font-size:0.95rem;
-}
-.callout strong{font-weight:700}
-
-/* ── platform type pills ──────────────────────────────────────────── */
-.type-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:0.75rem;margin:1.2em 0 1.5em;
-}
-.type-card{
-  border:1px solid var(--line);padding:0.75rem 1rem;
-  background:var(--white);
-}
-[data-theme="dark"] .type-card{background:color-mix(in srgb,var(--ink) 8%,var(--bg))}
-.type-card .type-name{
-  font-family:var(--mono);font-size:0.78rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:0.06em;color:var(--accent);
-  margin-bottom:0.3rem;
-}
-.type-card p{font-size:0.88rem;color:var(--gray);margin:0}
-
-/* ── platform tables ──────────────────────────────────────────────── */
-.platform-section{margin-bottom:3rem}
-.section-label{
-  font-family:var(--mono);font-size:0.75rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:0.08em;
-  color:var(--gray);margin:2rem 0 0.6rem;
-  display:flex;align-items:center;gap:0.5rem;
-}
-.section-label::after{content:"";flex:1;height:1px;background:var(--line)}
-
-.ptable{width:100%;border-collapse:collapse;font-size:0.88rem;margin-bottom:1rem}
-.ptable th{
-  font-family:var(--mono);font-size:0.72rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:0.06em;
-  color:var(--gray);padding:0.4rem 0.6rem;
-  border-bottom:2px solid var(--line);text-align:left;white-space:nowrap;
-}
-.ptable td{
-  padding:0.45rem 0.6rem;border-bottom:1px solid var(--line);
-  vertical-align:top;
-}
-.ptable tr:last-child td{border-bottom:none}
-.ptable tr.generic td{
-  background:color-mix(in srgb,var(--accent) 6%,var(--bg));
-  font-style:italic;color:var(--gray);
-}
-.ptable tr.named td:first-child{padding-left:1.4rem}
-.ptable tr.named td:first-child::before{
-  content:"↳ ";color:var(--line);font-size:0.8em;
-}
-
-.pname{font-family:var(--mono);font-weight:600;font-size:0.82rem}
-.sw{color:var(--gray);font-size:0.82rem}
-.sw.oss{color:#2D6A4F}
-.sw.prop{color:#92400E}
-
-/* protocol badge */
-.proto{
-  display:inline-block;font-family:var(--mono);font-size:0.7rem;
-  font-weight:600;padding:0.1em 0.45em;
-  background:color-mix(in srgb,var(--accent) 14%,var(--bg));
-  color:var(--accent);white-space:nowrap;
-}
-
-/* oss / self-host badges */
-.badge{
-  display:inline-block;font-family:var(--mono);font-size:0.7rem;
-  font-weight:600;padding:0.1em 0.4em;white-space:nowrap;
-}
-.badge.yes{background:color-mix(in srgb,#2D6A4F 12%,var(--bg));color:#2D6A4F}
-.badge.no {background:color-mix(in srgb,var(--gray) 12%,var(--bg));color:var(--gray)}
-.badge.var{background:color-mix(in srgb,var(--accent) 12%,var(--bg));color:var(--accent)}
-
-/* model tag */
-.model{font-size:0.8rem;color:var(--gray)}
-
-/* ── cost matrix ─────────────────────────────────────────────────── */
-.cost-wrap{overflow-x:auto;margin:1em 0 1.5em}
-.ctable{
-  border-collapse:collapse;font-size:0.82rem;white-space:nowrap;
-  min-width:700px;
-}
-.ctable th{
-  font-family:var(--mono);font-size:0.68rem;font-weight:600;
-  text-transform:uppercase;letter-spacing:0.05em;color:var(--gray);
-  padding:0.4rem 0.5rem;border-bottom:2px solid var(--line);text-align:center;
-}
-.ctable th:first-child{text-align:left;min-width:160px}
-.ctable td{
-  padding:0.4rem 0.5rem;border-bottom:1px solid var(--line);
-  text-align:center;vertical-align:middle;
-}
-.ctable td:first-child{text-align:left;font-family:var(--mono);font-size:0.78rem}
-.ctable tr:last-child td{border-bottom:none}
-.ctable tr.type-row td{
-  background:color-mix(in srgb,var(--accent) 6%,var(--bg));
-  font-weight:600;font-family:var(--mono);font-size:0.78rem;
-}
-/* cost value pills */
-.cv{display:inline-block;font-family:var(--mono);font-size:0.68rem;font-weight:600;padding:0.15em 0.5em}
-.cv.yes    {background:color-mix(in srgb,#2D6A4F 14%,var(--bg));color:#2D6A4F}
-.cv.no     {background:color-mix(in srgb,var(--gray) 10%,var(--bg));color:var(--gray)}
-.cv.often  {background:color-mix(in srgb,#1F4E79 12%,var(--bg));color:#1F4E79}
-[data-theme="dark"] .cv.often{background:color-mix(in srgb,#6BA3D6 12%,var(--bg));color:#6BA3D6}
-.cv.some   {background:color-mix(in srgb,#92400E 10%,var(--bg));color:#92400E}
-[data-theme="dark"] .cv.some{background:color-mix(in srgb,#D4845A 10%,var(--bg));color:#D4845A}
-.cv.rare   {background:color-mix(in srgb,var(--gray) 8%,var(--bg));color:var(--gray)}
-
-/* ── footer ──────────────────────────────────────────────────────── */
-.site-footer{
-  padding:1.25rem var(--gutter) 2rem;
-  border-top:var(--rule);color:var(--gray);font-size:var(--fs-small);
-}
-.site-footer p{margin:0}
-
-/* ── narrow ──────────────────────────────────────────────────────── */
-@media(width < 52rem){
-  .docs-wrap{grid-template-columns:1fr}
-  .docs-nav{
-    position:static;height:auto;overflow:visible;
-    padding:1rem var(--gutter);border-right:none;border-bottom:var(--rule);
-  }
-  .docs-nav ul{display:flex;flex-wrap:wrap;gap:0.25rem 0.75rem;margin:0}
-  .docs-nav .sub{display:none}
-  .docs-nav .docs-nav-label{display:none}
-  .docs-body{padding-top:2rem}
-}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docs — CROW</title>
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <script src="js/theme.js"></script>
+  <script src="js/site.js" defer></script>
 </head>
-<body>
+<body class="docs">
 
-<!-- ── header ────────────────────────────────────────────────────── -->
-<header class="site-header">
-  <a class="site-title" href="https://crowcards.org">Community Rules for an Open Web</a>
-  <nav class="header-nav" aria-label="Main">
-    <a href="https://crowcards.org">Home</a>
-    <a href="https://crowcards.org/make.html">Make</a>
-    <a href="https://crowcards.org/library.html">Library</a>
-    <a href="https://crowcards.org/about.html">About</a>
-    <a href="#" aria-current="page">Docs</a>
-  </nav>
-  <button class="theme-btn" aria-label="Toggle dark mode">
-    <svg class="moon" viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 6.93 5.96A5 5 0 0 1 8 1z"/></svg>
-    <svg class="sun" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0-8V1m0 14v-2M1 8H3m10 0h2M3.22 3.22l1.42 1.42m6.72 6.72 1.42 1.42M3.22 12.78l1.42-1.42m6.72-6.72 1.42-1.42" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-  </button>
-</header>
+  <header class="site-header">
+    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="index.html" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="make.html">Make</a>
+      <a href="library.html">Library</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
+  </header>
 
 <div class="docs-wrap">
 
 <!-- ── sidebar nav ───────────────────────────────────────────────── -->
 <nav class="docs-nav" aria-label="Documentation">
-  <p class="docs-nav-label">On this page</p>
   <ul>
-    <li><a href="#overview">Overview</a></li>
-    <li><a href="#community">What is a community?</a></li>
-    <li><a href="#platform-types">Platform types</a></li>
+    <li><a href="#getting-started">Getting started</a></li>
+    <li><a href="#coming-soon">Coming soon</a></li>
     <li><a href="#platforms">Platforms</a>
       <ul class="sub">
-        <li><a href="#chat-group">Chat group</a></li>
-        <li><a href="#citizen-science">Citizen science</a></li>
-        <li><a href="#discussion-forum">Discussion forum</a></li>
-        <li><a href="#listserv-email">Listserv / email</a></li>
-        <li><a href="#social-network">Social network / media</a></li>
-        <li><a href="#peer-production">Peer production</a></li>
-        <li><a href="#workplace">Workplace</a></li>
-      </ul>
-    </li>
-    <li><a href="#cost-matrix">Expected costs</a>
-      <ul class="sub">
-        <li><a href="#cost-by-type">By platform type</a></li>
-        <li><a href="#cost-logic">How costs are derived</a></li>
+        <li><a href="#by-community-type">By community type</a>
+          <ul class="sub">
+            <li><a href="#chat-group">Chat group</a></li>
+            <li><a href="#citizen-science">Citizen science</a></li>
+            <li><a href="#discussion-forum">Discussion forum</a></li>
+            <li><a href="#listserv-email">Listserv / email</a></li>
+            <li><a href="#social-network">Social network / media</a></li>
+            <li><a href="#peer-production">Peer production</a></li>
+            <li><a href="#workplace">Workplace</a></li>
+          </ul>
+        </li>
+        <li><a href="#platform-types">Platform types</a></li>
+        <li><a href="#cost-logic">Expected costs</a></li>
       </ul>
     </li>
     <li><a href="#reference">Reference</a>
       <ul class="sub">
         <li><a href="#ref-columns">Column definitions</a></li>
+        <li><a href="#ref-community-types">Community types</a></li>
         <li><a href="#ref-models">Structural models</a></li>
         <li><a href="#ref-protocols">Protocol generics</a></li>
         <li><a href="#ref-osi">Open source (OSI)</a></li>
         <li><a href="#ref-cost-values">Cost values</a></li>
         <li><a href="#ref-overrides">Platform overrides</a></li>
-
-        <li><a href="#ref-community-types">Community types</a></li>
         <li><a href="#ref-values">Values</a></li>
         <li><a href="#ref-membership">Membership options</a></li>
         <li><a href="#ref-decision-approaches">Decision approaches</a></li>
@@ -394,71 +89,78 @@ a.inline{
 <!-- ── main content ──────────────────────────────────────────────── -->
 <main class="docs-body" id="main">
 
-  <h1>Platform dataset</h1>
-  <p class="lede">A structured reference for community organizers choosing where and how to build an online space.</p>
+  <h1>Documentation</h1>
+  <p class="lede">
+    Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. The information here may also be useful for community organizers choosing where and how to build an online space.
+  </p>
 
-  <!-- overview -->
-  <section id="overview">
-    <h2>Overview</h2>
-    <p>CROW Cards helps communities describe and share how they govern themselves. But before you can govern, you have to choose a platform — and that choice shapes what governance is even possible. This dataset catalogs the platforms a community might use, with consistent labels for the properties that matter most: whether the software is open source, whether you can run your own instance, what structural model it follows, and what costs you should expect.</p>
-    <p>The dataset is designed to pre-fill the platform section of a CROW Card. Every value can be edited; these are starting points, not verdicts.</p>
+  <section id="getting-started">
+    <h2>Getting Started</h2>
+    <p>The MAKE feature assumes you've already set up (or at least selected) a system for your community to sit within. If you haven't, you may consider perusing the <a href="#platforms">platforms</a> section, which provides an overview of some common systems communities have used, alongside information we think is useful (because it can shape how much autonomy or power your community has!): whether the software is open source, whether you can host an instance of it yourself, what structural model it follows, and what costs you should expect.</p>
+
+    <p>By <b>community</b>, we take a pretty broad view: a group that engages in and enforces some kind of collective decision-making, has a shared (digital) space, has boundaries for membership, and some kind of shared purpose. However, this also excludes some informal or cultural communities we often colloquially refer to, e.g., a distinct subset of users on Bluesky. This is not to say those groups can't use the CROW Card Maker! We presume that there just wouldn't be a clear place to post the Card itself, nor clear mechanisms to enforce the values and practices that are stated on it.</p>
+
     <div class="callout">
-      <strong>How to read this.</strong> Platforms are grouped by community type (chat group, discussion forum, etc.). Within each group, generic <em>protocol client</em> rows let you specify any software that speaks that protocol — useful if your platform isn't listed by name.
+      <p class="mono-u">Examples.</p> 
+      <p>A Reddit subreddit qualifies: moderators set rules, and the community experiences them. A Facebook Group qualifies too, but note that Facebook can override or dissolve it unilaterally, which limits sovereignty. Likewise, Bonfire instances and other groups on community-oriented platform software generally count as communities (and in the case of Bonfire, some features may even result in some nested communities).</p>
+      <p>A TikTok account or just a social media feed does not qualify: there is no community governance surface, only an audience and an algorithm.</p>
+      <p>Some emergent systems also create some interesting new cases of online community: labeling services like Blacksky (built on AT Protocol) govern a <em>normative filter</em>, deciding whose content is visible to people who opt in, which is a real form of collective decision-making (but not for a shared venue in the traditional sense).</p>
     </div>
-  </section>
 
-  <!-- community definition -->
-  <section id="community">
-    <h2>What is a community?</h2>
-    <p>For the purposes of this dataset, a <strong>community</strong> is a unit of collective decision-making — a group that can govern itself. That means it has some mechanism for making shared rules and enforcing them, even informally.</p>
-    <p>This definition does real work on the platform list. A Reddit subreddit qualifies: moderators set rules, and the community experiences them. A Facebook Group qualifies too, though with an important caveat — Facebook can override or dissolve it unilaterally, which limits sovereignty. A TikTok account does not qualify: there is no community governance surface, only an audience and an algorithm.</p>
-    <p>A few platforms sit in genuinely novel territory. Labeling services like Blacksky (built on AT Protocol) govern a <em>normative filter</em> rather than a place — they decide whose content is visible to people who opt in, which is a real form of collective decision-making, just not a venue in the traditional sense.</p>
-  </section>
 
-  <!-- platform types -->
-  <section id="platform-types">
-    <h2>Platform types</h2>
-    <p>Each platform is assigned one of seven types. The type determines the default cost profile and makes it easier to compare platforms that look different on the surface but share the same underlying structure.</p>
-    <div class="type-grid">
-      <div class="type-card">
-        <div class="type-name">Corporate / Proprietary</div>
-        <p>Operated by a company. Community runner is a tenant — no infrastructure to manage, but also no ultimate control.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Self-Hosted, Text-Primary</div>
-        <p>You run the software yourself. Primary content is text, links, or lightweight media. Full control; real infrastructure costs.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Self-Hosted, Media-Heavy</div>
-        <p>Self-hosted with significant video or image storage. Storage and delivery costs are a meaningful ongoing expense.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Hosted OSS / Institutional</div>
-        <p>Open source software, but hosted by an institution (a university, a nonprofit). You participate; you don't operate.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Protocol Client, Relay-Based</div>
-        <p>Connects to the Nostr relay network. Infrastructure costs only arise if you run your own relay.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Protocol Client, PDS-Based</div>
-        <p>Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.</p>
-      </div>
-      <div class="type-card">
-        <div class="type-name">Centralized Messaging</div>
-        <p>Open source software, centrally operated by the developer. Community = a group chat. No infrastructure costs.</p>
-      </div>
+    <p>Getting started is simple. You can simply create a new Card by going to <a href="make.html" target="_blank">MAKE</a>, entering some <b>basic</b> information about your community:</p>
+    <ul>
+      <li><span class="mono">link</span></li>
+      <li><span class="mono">name</span></li>
+      <li><span class="mono">size</span></li>
+      <li><span class="mono">platform</span> - this will infer what community <span class="mono">type</span> yours and accordingly, what <span class="mono">module</span>s you'll want to fill out in the CROW Card app. You can edit the <span class="mono">type</span> and <span class="mono">module</span> selection.</li>
+      <li><span class="mono">keywords</span> - we recommend giving at least three</li>
+      <li><span class="mono">values</span> - we recommend selecting at least five</li>
+    </ul>
+
+    <div class="callout">
+      <p class="mono-u">Important!</p> 
+      <p>When you create a new Card, the app will give you an <b>id</b> and <b>secret key</b>. Save it somewhere! You will only get this once and you can use it to edit/update your Card.</p>
     </div>
+
+    <p>You may want to think about <i>how</i> your CROW Card will be filled out or updated. For example, some communities may want to convene town halls to have a participatory discussion about their governance practices, using the CROW Card app as an occasion to reflect, iterate, and document. Others might be simply run by one person who fills it out unilaterally. It will depend on your community (however, we do encourage using it as an excuse to convene)!</p>
+
+    <p>We do run workshops to help communities fill out the CROW Card. Reach out!</p>
   </section>
 
-  <!-- platforms -->
+  <section id="coming-soon">
+    <h2>Coming Soon</h2>
+    <p>We are actively working on improving the experience of using the CROW Card Maker. This includes:</p>
+    <ul>
+      <li>Automating the filling in of fields so that folks don't need to type so much! For example, if you enter your link, ideally our app should check out the link and try to fill in as many later fields as possible (e.g., community name, size).</li>
+      <li>Providing recommendations for governance practices (e.g., conflict management, decision-making) based on earlier information shared (e.g., community values or even just description of what the community is about).</li>
+      <li>Integrating CROW Cards into existing platform software as extensions.</li>
+      <li>Forking from publicly shared CROW Cards in the Library.</li>
+    </ul>
+    
+
+  </section>
+
+  <!--Platforms-->
   <section id="platforms">
     <h2>Platforms</h2>
+    <p>If you're really just getting started and have yet to select a digital home for your community, we have tried to collate and annotate some of the most common platforms that communities seem to sit within these days. Let us know if you believe a platform should be included here.</p>
 
+    <p>We label the following for each platform:</p>
+    <ul>
+      <li>Software. What is the exact software being used?</li>
+      <li>Protocol. Is the platform based on an open protocol?</li>
+      <li>Open source. Is it considered OSS per <a href="https://opensource.org/" target="_blank">OSI</a> standards?</li>
+      <li>Self-hostable. Can one host their own instance of the software for their community (e.g., on their own server)?</li>
+      <li>Model. What kind of structural model describes how the infrastructure of the platform is organized?</li>
+    </ul>
+    <p>These all impact how much technical and organizational work you may be on the hook for, how much autonomy and power you're likely to have, and some costs you might incur. You can look through <a href="#reference">Reference</a> below to find definitions of these columns as well as community types, platform types, etc.</p>
+
+    <h3 id="by-community-type">By community type</h3>
     <!-- Chat Group -->
     <div class="platform-section" id="chat-group">
       <div class="section-label">Chat group</div>
-      <table class="ptable">
+      <table class="table">
         <thead>
           <tr>
             <th>Platform</th>
@@ -485,7 +187,7 @@ a.inline{
     <!-- Citizen Science -->
     <div class="platform-section" id="citizen-science">
       <div class="section-label">Citizen science</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Zooniverse</span></td><td><span class="sw oss">Panoptes</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
@@ -497,7 +199,7 @@ a.inline{
     <!-- Discussion Forum -->
     <div class="platform-section" id="discussion-forum">
       <div class="section-label">Discussion forum</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Reddit</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
@@ -511,7 +213,7 @@ a.inline{
     <!-- Listserv / Email -->
     <div class="platform-section" id="listserv-email">
       <div class="section-label">Listserv / email</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Front Porch Forum</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
@@ -524,7 +226,7 @@ a.inline{
     <!-- Social Network / Media -->
     <div class="platform-section" id="social-network">
       <div class="section-label">Social network / media</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Facebook</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
@@ -556,7 +258,7 @@ a.inline{
     <!-- Peer Production -->
     <div class="platform-section" id="peer-production">
       <div class="section-label">Peer production</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Wikipedia</span></td><td><span class="sw oss">MediaWiki</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
@@ -569,36 +271,42 @@ a.inline{
     <!-- Workplace -->
     <div class="platform-section" id="workplace">
       <div class="section-label">Workplace</div>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Slack</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
         </tbody>
       </table>
     </div>
+  
+  <h3 id="platform-types">Platform types</h3>
+  <p>We also think about the platform type, based on the labels (is it protocolized, is the software open source, is it self-hostable, what model does it follow). We use this to provides some reasonable estimates of potential costs of using that platform. It also makes it easier to compare platforms that look different on the surface but share the same underlying structure.</p>
 
-  </section>
+    <table class="table">
+      <thead><tr><th>Type</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td class="ref-name">Corporate / Proprietary</td><td>Operated by a company. Community runner is a tenant — no infrastructure to manage, but also no ultimate control.</td></tr>
+        <tr><td class="ref-name">Self-Hosted, Text-Primary</td><td>You run the software yourself. Primary content is text, links, or lightweight media. Full control; real infrastructure costs.</td></tr>
+        <tr><td class="ref-name">Self-Hosted, Media-Heavy</td><td>Self-hosted with significant video or image storage. Storage and delivery costs are a meaningful ongoing expense.</td></tr>
+        <tr><td class="ref-name">Hosted OSS / Institutional</td><td>Open source software, but hosted by an institution (a university, a nonprofit). You participate; you don't operate.</td></tr>
+        <tr><td class="ref-name">Protocol Client, Relay-Based</td><td>Connects to the Nostr relay network. Infrastructure costs only arise if you run your own relay.</td></tr>
+        <tr><td class="ref-name">Protocol Client, PDS-Based</td><td>Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.</td></tr>
+        <tr><td class="ref-name">Centralized Messaging</td><td>Open source software, centrally operated by the developer. Community = a group chat. No infrastructure costs.</td></tr>
+      </tbody>
+    </table>
 
-  <!-- cost matrix -->
-  <section id="cost-matrix">
-    <h2>Expected costs</h2>
-
-    <section id="cost-logic">
-      <h3>How costs are derived</h3>
-      <p>Rather than guessing costs platform by platform, costs are derived from each platform's <strong>type</strong>. The logic is simple: the main cost drivers are infrastructure ownership (do you host it?) and content type (does it generate heavy media?). Everything else — admin labor, third-party tools — applies broadly regardless of platform choice and depends more on your community's size and activity.</p>
+  <h3 id="cost-logic">Expected costs</h3>
+    <p>Rather than guessing costs platform by platform, costs are derived from each platform's <a href="#platform-types">type</a>. The logic is simple: the main cost drivers are infrastructure ownership (do you host it?) and content type (does it generate heavy media?). Everything else — admin labor, third-party tools — applies broadly regardless of platform choice and depends more on your community's size and activity.</p>
       <ul>
         <li><strong>Self-hosting</strong> means you bear hosting, domain, email delivery, backups, and potentially managed hosting costs. Proprietary or institutionally-hosted platforms mean you bear none of these.</li>
         <li><strong>Media-heavy platforms</strong> (PeerTube, Pixelfed) add significant storage and delivery costs on top of the standard self-hosting baseline.</li>
         <li><strong>Protocol-native clients</strong> (Nostr, AT Protocol) have costs that only arise if you choose to run your own relay or Personal Data Server — most community runners won't.</li>
         <li><strong>Admin and moderation labor</strong> is the one cost that cuts across all platform types, because it follows community size and culture rather than technical architecture.</li>
       </ul>
-      <p>Some platforms have overrides where the type default isn't accurate — for example, Discourse requires SMTP for notifications (email delivery = Yes, not Sometimes), and Mailman is itself an email delivery system.</p>
-    </section>
+    <p>Some platforms have overrides where the type default isn't accurate — for example, Discourse requires SMTP for notifications (email delivery = Yes, not Sometimes), and Mailman is itself an email delivery system.</p>
 
-    <section id="cost-by-type">
-      <h3>By platform type</h3>
       <div class="cost-wrap">
-        <table class="ctable">
+        <table class="table matrix">
           <thead>
             <tr>
               <th>Platform type</th>
@@ -627,19 +335,21 @@ a.inline{
         </table>
       </div>
       <p style="font-size:0.82rem;color:var(--gray)">Cost values reflect what a community organizer or operator typically pays — not the platform company. "Sometimes" means the cost applies at some scales or configurations. All values can be edited in the CROW Cards tool.</p>
-    </section>
-
   </section>
 
+  <section id="">
+
+  </section>
 
   <!-- reference -->
   <section id="reference">
     <h2>Reference</h2>
+    <p>Here we document definitions and values for different fields.</p>
 
     <section id="ref-columns">
       <h3>Column definitions</h3>
-      <p>These columns appear in the platform dataset spreadsheet and are used to pre-fill the platform section of a CROW Card.</p>
-      <table class="ptable">
+      <p>We built a platform dataset spreadsheet to pre-fill the platform section of a CROW Card; it has the following columns:</p>
+      <table class="table">
         <thead><tr><th>Column</th><th>Explanation</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Type</span></td><td>Community platform category. Only filled on the first row of each group in the spreadsheet.</td></tr>
@@ -655,10 +365,19 @@ a.inline{
       <p style="font-size:0.82rem;color:var(--gray);margin-top:0.5rem">The spreadsheet also contains internal columns (License, OSI Rationale, Notes) used for research documentation and not surfaced in the CROW Cards interface.</p>
     </section>
 
+    <section id="ref-community-types">
+      <h3>Community types</h3>
+      <p>Every card is assigned a community type. Types drive the UI's suggestions for which other sections to focus on and establish the default cost profile.</p>
+      <table class="table" data-source="/data/community_types.json" data-render="communityTypes">
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
     <section id="ref-models">
       <h3>Structural models</h3>
       <p>The structural model describes how a platform's infrastructure is organized — who controls data, and how communication flows between participants.</p>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Model</th><th>Description</th><th>Examples</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Centralized</span></td><td>A single operator controls all data and infrastructure. The platform is one server (or cluster) owned and operated by one entity.</td><td>Facebook, Reddit, Discord, Discourse (each instance)</td></tr>
@@ -672,8 +391,8 @@ a.inline{
 
     <section id="ref-protocols">
       <h3>Protocol generics</h3>
-      <p>Generic protocol client rows represent any software that implements a given protocol. When you select one in the CROW Cards interface, a dropdown lets you choose from the named examples below — or enter a custom name if your software isn't listed.</p>
-      <table class="ptable">
+      <p>You might have noticed in the <a href="#platforms">platforms</a> section that some platforms were grouped up a generic "client" for protocol-based systems. Generic protocol client rows represent any software that implements a given protocol. When you select one in the CROW Cards interface, a dropdown lets you choose from the named examples below — or enter a custom name if your software isn't listed.</p>
+      <table class="table">
         <thead><tr><th>Generic row</th><th>Protocol</th><th>Named examples in dataset</th><th>Other common software</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Matrix client</span></td><td><span class="proto">Matrix</span></td><td>Synapse, Dendrite, Element</td><td>Conduit, Cinny, FluffyChat</td></tr>
@@ -701,7 +420,7 @@ a.inline{
     <section id="ref-cost-values">
       <h3>Cost values</h3>
       <p>Cost columns use a five-point scale. All values reflect what a community organizer or operator typically pays — not the platform company.</p>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody>
           <tr><td><span class="cv yes">Yes</span></td><td>This cost reliably applies to community operators on this platform.</td></tr>
@@ -711,13 +430,10 @@ a.inline{
           <tr><td><span class="cv rare">Rare</span></td><td>Technically possible but uncommon in practice.</td></tr>
         </tbody>
       </table>
-      <p style="font-size:0.82rem;color:var(--gray);margin-top:0.5rem">For <strong>corporate / proprietary</strong> platforms, costs reflect what a group admin or community manager pays — not the company operating the platform. For <strong>self-hosted</strong> platforms, costs reflect what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), costs reflect running your own relay or PDS; most community runners on these platforms will not incur infrastructure costs.</p>
-    </section>
+      <p class="callout">For <strong>corporate / proprietary</strong> platforms, costs reflect what a group admin or community manager pays — not the company operating the platform. For <strong>self-hosted</strong> platforms, costs reflect what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), costs reflect running your own relay or PDS; most community runners on these platforms will not incur infrastructure costs.</p>
 
-    <section id="ref-overrides">
-      <h3>Platform-specific overrides</h3>
       <p>Most platforms inherit their cost values from their platform type. A handful have overrides where the type default isn't accurate for that specific platform.</p>
-      <table class="ptable">
+      <table class="table">
         <thead><tr><th>Platform</th><th>Column</th><th>Override value</th><th>Reason</th></tr></thead>
         <tbody>
           <tr><td><span class="pname">Discourse</span></td><td>Email delivery</td><td><span class="cv yes">Yes</span></td><td>Discourse requires SMTP configuration for notifications — it's not optional.</td></tr>
@@ -736,29 +452,11 @@ a.inline{
           <tr><td><span class="pname">Fandom</span></td><td>Trust, safety & tools</td><td><span class="cv some">Sometimes</span></td><td>Fandom provides platform-level tools; wiki communities often supplement with their own.</td></tr>
         </tbody>
       </table>
-    </section>
-
-<!-- ────────────────────────────────────────────────────────────
-     Reference sections for docs.html
-     Insert these inside the existing <section id="reference">,
-     AFTER the current <section id="ref-overrides"> sub-section.
-     Each section has a <table data-source> that docs-reference.js
-     will populate on page load.
-     ──────────────────────────────────────────────────────────── -->
-
-    <section id="ref-community-types">
-      <h3>Community types</h3>
-      <p>Every card is assigned a community type. Types drive the UI's suggestions for which other sections to focus on and establish the default cost profile.</p>
-      <table class="ptable" data-source="/data/community_types.json" data-render="communityTypes">
-        <thead><tr><th>Type</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
 
     <section id="ref-values">
       <h3>Values</h3>
       <p>Communities select at least three values that describe what they prioritize. These values pre-fill recommended options throughout the rest of the card. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="ptable" data-source="/data/values.json" data-render="values">
+      <table class="table" data-source="/data/values.json" data-render="values">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -766,8 +464,8 @@ a.inline{
 
     <section id="ref-membership">
       <h3>Membership options</h3>
-      <p>Approaches communities use for registration and joining. A community can select multiple; the UI will flag combinations that seem contradictory.</p>
-      <table class="ptable" data-source="/data/membership_options.json" data-render="simple">
+      <p>Approaches communities use for registration and joining. A community can select multiple; the UI will flag combinations that seem contradictory.Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <table class="table" data-source="/data/membership_options.json" data-render="simple">
         <thead><tr><th>Option</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -775,8 +473,8 @@ a.inline{
 
     <section id="ref-decision-approaches">
       <h3>Decision-making approaches</h3>
-      <p>Methods used in both <strong>moderation / maintenance</strong> and <strong>institutional change</strong>. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes).</p>
-      <table class="ptable" data-source="/data/decision_approaches.json" data-render="simple">
+      <p>Methods used in both <strong>moderation / maintenance</strong> and <strong>institutional change</strong>. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <table class="table" data-source="/data/decision_approaches.json" data-render="simple">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -784,8 +482,8 @@ a.inline{
 
     <section id="ref-conflict-management">
       <h3>Conflict management approaches</h3>
-      <p>Approaches for handling conflicts between members. For conflict management, communities can also specify the <em>step</em> at which each approach is used (primary, escalation, last resort, or parallel).</p>
-      <table class="ptable" data-source="/data/conflict_management.json" data-render="simple">
+      <p>Approaches for handling conflicts between members. For conflict management, communities can also specify the <em>step</em> at which each approach is used (primary, escalation, last resort, or parallel). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <table class="table" data-source="/data/conflict_management.json" data-render="simple">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -793,8 +491,8 @@ a.inline{
 
     <section id="ref-tools">
       <h3>Governance tools</h3>
-      <p>Known tools communities use to support deliberation, voting, trust &amp; safety, and other governance work. Communities can also add their own custom tools.</p>
-      <table class="ptable" data-source="/data/tools.json" data-render="tools">
+      <p>Known tools communities use to support deliberation, voting, trust &amp; safety, and other governance work. Communities can also add their own custom tools. Let us know if you think a tool should be added here!</p>
+      <table class="table" data-source="/data/tools.json" data-render="tools">
         <thead><tr><th>Tool</th><th>Type</th><th>Description</th><th>Access</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -803,7 +501,7 @@ a.inline{
     <section id="ref-covenants">
       <h3>Covenants &amp; guidelines</h3>
       <p>Known covenants and community guidelines a community might endorse or adhere to. This list is seed autocomplete; communities can enter custom values.</p>
-      <table class="ptable" data-source="/data/covenants.json" data-render="covenants">
+      <table class="table" data-source="/data/covenants.json" data-render="covenants">
         <thead><tr><th>Covenant</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -812,7 +510,7 @@ a.inline{
     <section id="ref-rule-schema">
       <h3>Rule schema</h3>
       <p>The structured rule categories communities can select from. Rules are grouped into two broad categories (behavior and content) and further organized by type. Some types support <strong>per-rule qualifiers</strong> (allowed / not allowed / allowed with disclosure / approval required) — these are marked below.</p>
-      <table class="ptable" data-source="/data/rule_schema.json" data-render="ruleSchema">
+      <table class="table" data-source="/data/rule_schema.json" data-render="ruleSchema">
         <thead><tr><th>Type</th><th>Rules</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
@@ -821,7 +519,7 @@ a.inline{
     <section id="ref-federation-lists">
       <h3>Federation subscription lists</h3>
       <p>Known shared federation lists a community might subscribe to. Primarily relevant for ActivityPub-based platforms. Custom entries are supported.</p>
-      <table class="ptable" data-source="/data/federation_subscription_lists.json" data-render="subscriptionLists">
+      <table class="table" data-source="/data/federation_subscription_lists.json" data-render="subscriptionLists">
         <thead><tr><th>List</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -830,7 +528,7 @@ a.inline{
     <section id="ref-enum-community-size">
       <h3>Community size scale</h3>
       <p>Rough size buckets used across the schema.</p>
-      <table class="ptable" data-source="/data/enums.json" data-render="enum" data-enum-key="communitySize">
+      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="communitySize">
         <thead><tr><th>Size</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -839,7 +537,7 @@ a.inline{
     <section id="ref-enum-federation-approach">
       <h3>Federation approach</h3>
       <p>The community's overall posture toward federating with other servers.</p>
-      <table class="ptable" data-source="/data/enums.json" data-render="enum" data-enum-key="federationApproach">
+      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="federationApproach">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -848,7 +546,7 @@ a.inline{
     <section id="ref-enum-federation-ladder">
       <h3>Federation response ladder</h3>
       <p>The sequence of actions moderators consider when a federation issue arises.</p>
-      <table class="ptable" data-source="/data/enums.json" data-render="enum" data-enum-key="federationResponseLadder">
+      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="federationResponseLadder">
         <thead><tr><th>Action</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -857,7 +555,7 @@ a.inline{
     <section id="ref-enum-conflict-step">
       <h3>Conflict management step</h3>
       <p>When a conflict management approach gets used within the community's overall process.</p>
-      <table class="ptable" data-source="/data/enums.json" data-render="enum" data-enum-key="conflictStep">
+      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="conflictStep">
         <thead><tr><th>Step</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -875,32 +573,58 @@ a.inline{
 </footer>
 
 <script>
-// theme toggle
-const root = document.documentElement;
-const btn = document.querySelector('.theme-btn');
-const saved = localStorage.getItem('crow-theme');
-if(saved) root.dataset.theme = saved;
-btn.setAttribute('aria-pressed', root.dataset.theme === 'dark');
-btn.addEventListener('click', () => {
-  const dark = root.dataset.theme !== 'dark';
-  root.dataset.theme = dark ? 'dark' : '';
-  localStorage.setItem('crow-theme', dark ? 'dark' : '');
-  btn.setAttribute('aria-pressed', dark);
+// Sidebar: third-level lists fold away behind a small pixel +/- toggle.
+// Closed to start; a list opens by itself when you scroll into one of its
+// sections. Without JS everything simply stays open.
+document.querySelectorAll('.docs-nav .sub .sub').forEach((list, i) => {
+  const item = list.parentElement;
+  const label = item.querySelector(':scope > a').textContent;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'nav-fold';
+  btn.setAttribute('aria-label', `Show or hide ${label}`);
+  btn.setAttribute('aria-expanded', 'false');
+  list.id ||= `docs-nav-fold-${i}`;
+  btn.setAttribute('aria-controls', list.id);
+  btn.addEventListener('click', () => setFold(item, !item.classList.contains('is-open')));
+  item.classList.add('foldable');
+  item.insertBefore(btn, list);
 });
 
-// sidebar active section highlight
-const navLinks = document.querySelectorAll('.docs-nav a');
-const sections = document.querySelectorAll('section[id]');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting) {
-      navLinks.forEach(a => a.classList.remove('active'));
-      const active = document.querySelector(`.docs-nav a[href="#${e.target.id}"]`);
-      if(active) active.classList.add('active');
-    }
-  });
-}, {rootMargin:'-20% 0px -70% 0px'});
-sections.forEach(s => obs.observe(s));
+function setFold(item, open) {
+  item.classList.toggle('is-open', open);
+  item.querySelector(':scope > .nav-fold').setAttribute('aria-expanded', String(open));
+}
+
+// Sidebar: highlight the link for the part of the page being read — the
+// last linked heading or section whose top has scrolled past the header.
+const navLinks = [...document.querySelectorAll('.docs-nav a[href^="#"]')];
+const targets = navLinks
+  .map(a => ({ a, el: document.getElementById(a.hash.slice(1)) }))
+  .filter(t => t.el);
+
+function highlightCurrent() {
+  const line = document.querySelector('.site-header').offsetHeight + 40;
+  let current = null;
+  for (const t of targets) {
+    const top = t.el.getBoundingClientRect().top;
+    if (top <= line && (!current || top > current.top)) current = { a: t.a, top };
+  }
+  navLinks.forEach(a => a.classList.toggle('active', a === current?.a));
+
+  // open a folded list when its section becomes the current one (only on
+  // the change, so it doesn't fight someone who just closed it)
+  if (current?.a !== lastActive) {
+    lastActive = current?.a;
+    const fold = lastActive?.closest('.foldable');
+    if (fold) setFold(fold, true);
+  }
+}
+let lastActive;
+
+addEventListener('scroll', highlightCurrent, { passive: true });
+addEventListener('resize', highlightCurrent);
+highlightCurrent();
 </script>
 <script src="js/docs-reference.js"></script>
 </body>

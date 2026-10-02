@@ -19,11 +19,11 @@
   --display: "argent-pixel-cf", Georgia, serif;
   --mono:    "source-code-pro", ui-monospace, Menlo, monospace;
 
-  --fs-title: clamp(2rem, 3.3vw, 3.25rem);     /* site title          */
+  --fs-title: clamp(1.25rem, 2.2vw, 1.6rem);   /* site title: a slim header bar */
   --fs-h:     clamp(2.25rem, 3.4vw, 3rem);     /* page + section heads */
   --fs-lede:  clamp(1.75rem, 2.5vw, 2.25rem);  /* big Argent text     */
   --fs-body:  1.2rem;                         /* 20px                */
-  --fs-nav:   1.125rem;                        /* 18px                */
+  --fs-nav:   0.85rem;                         /* header links, wide screens */
   --fs-small: 1rem;
 
   /* header */
@@ -134,6 +134,21 @@ ul li::before {
   font-family: var(--display);
   font-size: var(--fs-lede);
   line-height: 1.3;
+}
+
+/* mono text that isn't a link: IDs, keys, data values */
+.mono {
+  font-family: var(--mono);
+  font-size: 0.8em;   /* mono runs large next to Helvetica, same as links */
+}
+
+/* the same, in link-style caps but without the underline or hover */
+.mono-u {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 /* small 3x3-pixel plus sign, used as a bullet */
@@ -321,8 +336,8 @@ a:focus-visible {
 }
 
 .theme-toggle svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 1.1rem;
+  height: 1.1rem;
   fill: currentColor;
   shape-rendering: crispEdges;
 }
@@ -600,7 +615,10 @@ a:focus-visible {
     --header-pad-b: 0px;
     --header-crow: 4rem;   /* size of the crow in the header */
     --header-h: calc(var(--header-crow) + var(--header-pad) + var(--rule-w));
+    --fs-nav: 1.125rem;   /* the drop-down menu keeps its bigger links */
   }
+
+  .theme-toggle svg { width: 1.25rem; height: 1.25rem; }
 
   /* the crow stands on the header line, like a bird on a wire */
   .site-header { align-items: flex-end; }
