@@ -36,10 +36,8 @@ document.addEventListener("pointerover", (e) => {
 
 // Letters in [data-flicker] titles now and then flash an accent colour,
 // mostly the capitals (C, R, O, W). Each flash blinks on, off, on again so
-// it reads as a flicker rather than a fade.
-//   data-flicker          one letter at a time, fast, often overlapping
-//   data-flicker="gentle" a small burst of 2–3 letters every 1–3 seconds,
-//                         staggered a little (used in the header)
+// it reads as a flicker rather than a fade. One letter at a time, fast,
+// often overlapping (used on the home page title).
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   for (const el of document.querySelectorAll("[data-flicker]")) {
     const letters = [...el.querySelectorAll(".letter")];
@@ -64,17 +62,7 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setTimeout(fast, 150 + Math.random() * 500);
     };
 
-    const gentle = () => {
-      const count = 2 + Math.floor(Math.random() * 2);   // 2 or 3 letters
-      let delay = 0;
-      for (let i = 0; i < count; i++) {
-        setTimeout(flash, delay);
-        delay += 100 + Math.random() * 200;              // stagger within the burst
-      }
-      setTimeout(gentle, 1000 + Math.random() * 2000);   // next burst in 1–3 s
-    };
-
-    setTimeout(el.dataset.flicker === "gentle" ? gentle : fast, 800);
+    setTimeout(fast, 800);
   }
 }
 

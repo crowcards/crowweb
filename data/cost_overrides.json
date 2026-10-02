@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "note": "Per-platform cost overrides where the platform-type default is inaccurate for that specific platform.",
+  "items": [
+    {
+      "platform": "WeChat",
+      "software": "Proprietary",
+      "typeId": "corporate_proprietary",
+      "overrides": {
+        "paidSoftware": "Sometimes",
+        "legalCompliance": "Sometimes"
+      }
+    },
+    {
+      "platform": "iNaturalist",
+      "software": "iNaturalist",
+      "typeId": "hosted_oss_institutional",
+      "overrides": {
+        "adminModLabor": "Sometimes"
+      }
+    },
+    {
+      "platform": "Reddit",
+      "software": "Proprietary",
+      "typeId": "corporate_proprietary",
+      "overrides": {
+        "thirdPartyTrustSafetyTools": "Often"
+      }
+    },
+    {
+      "platform": "Discourse",
+      "software": "Discourse",
+      "typeId": "self_hosted_text_primary",
+      "overrides": {
+        "emailDelivery": "Yes"
+      }
+    },
+    {
+      "platform": "Mailman-based lists",
+      "software": "GNU Mailman",
+      "typeId": "self_hosted_text_primary",
+      "overrides": {
+        "emailDelivery": "Yes",
+        "adminModLabor": "Sometimes"
+      }
+    },
+    {
+      "platform": "ActivityPub client",
+      "software": "Mastodon",
+      "typeId": "self_hosted_text_primary",
+      "overrides": {
+        "mediaStorage": "Often"
+      }
+    },
+    {
+      "platform": "ActivityPub client",
+      "software": "Bonfire",
+      "typeId": "self_hosted_text_primary",
+      "overrides": {
+        "mediaStorage": "Often"
+      }
+    },
+    {
+      "platform": "ActivityPub client",
+      "software": "Misskey",
+      "typeId": "self_hosted_text_primary",
+      "overrides": {
+        "mediaStorage": "Often"
+      }
+    },
+    {
+      "platform": "Wikipedia",
+      "software": "MediaWiki",
+      "typeId": "hosted_oss_institutional",
+      "overrides": {
+        "thirdPartyTrustSafetyTools": "Often"
+      }
+    }
+  ]
+}

@@ -114,7 +114,8 @@ a {
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-  }
+  text-decoration-skip-ink: none;   /* solid line, no gaps around g, y, p */
+}
 
 a:hover,
 a:focus-visible {

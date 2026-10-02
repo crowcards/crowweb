@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "source": "CommunityRule (metagov.org)",
+  "items": [
+    {
+      "id": "peer_mediation",
+      "label": "Peer Mediation",
+      "description": "Trained members within the organization mediate disputes among peers."
+    },
+    {
+      "id": "conflict_resolution_council",
+      "label": "Conflict Resolution Council",
+      "description": "Senior members with institutional knowledge provide guidance or decisions."
+    },
+    {
+      "id": "facilitated_negotiation",
+      "label": "Facilitated Negotiation",
+      "description": "A neutral facilitator helps guide the negotiation process."
+    },
+    {
+      "id": "ad_hoc_arbitration",
+      "label": "Ad Hoc Arbitration",
+      "description": "Arbitrators are chosen specifically for a particular case."
+    },
+    {
+      "id": "conflict_workshops",
+      "label": "Conflict Workshops",
+      "description": "Structured sessions where parties collaboratively resolve disputes and improve future interactions."
+    },
+    {
+      "id": "supermajority_vote",
+      "label": "Supermajority Vote",
+      "description": "Members vote to resolve a dispute democratically."
+    },
+    {
+      "id": "interest_based_bargaining",
+      "label": "Interest-Based Bargaining",
+      "description": "Focuses on underlying interests rather than fixed positions to find win-win solutions."
+    },
+    {
+      "id": "restorative_practices",
+      "label": "Restorative Practices",
+      "description": "Dialogue-focused methods for understanding and repairing harm."
+    },
+    {
+      "id": "mediation",
+      "label": "Mediation",
+      "description": "A neutral third party assists parties in reaching a voluntary agreement."
+    },
+    {
+      "id": "circle_processes",
+      "label": "Circle Processes",
+      "description": "A structured format for open dialogue with equal input from all involved."
+    },
+    {
+      "id": "judicial_committees",
+      "label": "Judicial Committees",
+      "description": "A standing committee responsible for adjudicating disputes."
+    },
+    {
+      "id": "managerial_decision",
+      "label": "Managerial Decision",
+      "description": "A manager or leader makes a binding decision."
+    },
+    {
+      "id": "internal_tribunal",
+      "label": "Internal Tribunal",
+      "description": "A formal hearing body within the organization."
+    },
+    {
+      "id": "consensus_building",
+      "label": "Consensus Building",
+      "description": "Collaborative work to reach a resolution that all parties can agree upon."
+    },
+    {
+      "id": "binding_arbitration",
+      "label": "Binding Arbitration",
+      "description": "An external arbitrator makes a binding decision."
+    },
+    {
+      "id": "non_binding_arbitration",
+      "label": "Non-Binding Arbitration",
+      "description": "An arbitrator gives a recommendation that is not binding."
+    },
+    {
+      "id": "binding_contracts",
+      "label": "Binding Contracts",
+      "description": "Legal agreements that define resolution methods."
+    },
+    {
+      "id": "lottery_sortition",
+      "label": "Lottery/Sortition",
+      "description": "Random selection used to resolve low-stakes disputes or select juries."
+    },
+    {
+      "id": "rotational_judging",
+      "label": "Rotational Judging",
+      "description": "A rotating set of members is assigned to handle conflicts."
+    }
+  ]
+}

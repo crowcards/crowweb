@@ -1,0 +1,187 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "qualifierOptions": [
+    {
+      "id": "allowed",
+      "label": "Allowed"
+    },
+    {
+      "id": "not_allowed",
+      "label": "Not allowed"
+    },
+    {
+      "id": "allowed_with_disclosure",
+      "label": "Allowed with labeling / disclosure"
+    },
+    {
+      "id": "approval_required",
+      "label": "Approval required"
+    }
+  ],
+  "categories": [
+    {
+      "id": "behavior",
+      "label": "Behavior",
+      "description": "Rules about how members treat each other and conduct themselves."
+    },
+    {
+      "id": "content",
+      "label": "Content",
+      "description": "Rules about what members post, create, and share."
+    }
+  ],
+  "types": {
+    "behavior": [
+      {
+        "id": "civility",
+        "name": "Civility & good-faith participation",
+        "qualifier": false,
+        "rules": [
+          "Be respectful to other members",
+          "No personal attacks or insults",
+          "No trolling, flamebait, or deliberately disruptive behavior",
+          "Respect names, pronouns, and boundaries",
+          "Respect moderator instructions & Code of Conduct"
+        ]
+      },
+      {
+        "id": "harassment",
+        "name": "Harassment and personal safety",
+        "qualifier": false,
+        "rules": [
+          "No harassment",
+          "No bullying",
+          "No dogpiling",
+          "No stalking",
+          "No threats or intimidation",
+          "No doxxing",
+          "No block evasion",
+          "No unwanted sexual advances",
+          "No misinformation / fake news",
+          "No repeated unwanted contact",
+          "No posting private information without consent"
+        ]
+      },
+      {
+        "id": "discrimination",
+        "name": "Discrimination and hateful conduct",
+        "qualifier": false,
+        "rules": [
+          "No hate speech",
+          "No racism",
+          "No sexism or misogyny",
+          "No homophobia",
+          "No transphobia",
+          "No ableism",
+          "No xenophobia",
+          "No casteism",
+          "No antisemitism",
+          "No Islamophobia",
+          "No targeted misgendering or deadnaming",
+          "No dehumanizing language toward protected groups"
+        ]
+      },
+      {
+        "id": "authenticity",
+        "name": "Authenticity and account integrity",
+        "qualifier": true,
+        "rules": [
+          "Impersonation",
+          "Parody accounts",
+          "Bot accounts"
+        ]
+      },
+      {
+        "id": "spam",
+        "name": "Spam, advertising, and platform misuse",
+        "qualifier": true,
+        "rules": [
+          "Spam",
+          "Mass-following or mass-replying",
+          "Unsolicited advertising & unsolicited DMs for promotion",
+          "Personal project / non-commercial / non-profit promotion",
+          "Commercial advertising",
+          "Fundraising or donation requests",
+          "Affiliate links",
+          "SEO / link-farming accounts"
+        ]
+      },
+      {
+        "id": "onboarding",
+        "name": "Instance access & onboarding constraints",
+        "qualifier": false,
+        "rules": [
+          "Users must be 18+",
+          "Users must provide a reason for joining",
+          "This server is for a specific community or interest",
+          "Primary language expectation",
+          "Registrations are manually reviewed",
+          "Users must complete profile information"
+        ]
+      }
+    ],
+    "content": [
+      {
+        "id": "cw",
+        "name": "Content warnings & sensitive media labeling",
+        "qualifier": true,
+        "rules": [
+          "Content warning for sexual content",
+          "Content warning for graphic violence / gore",
+          "Content warning for disturbing or traumatic topics",
+          "Content warning for spoilers",
+          "Alt text for image posts"
+        ]
+      },
+      {
+        "id": "ai",
+        "name": "AI-generated media, attribution, and copyright",
+        "qualifier": true,
+        "rules": [
+          "AI-generated media",
+          "AI impersonation of real people",
+          "Credit original creators",
+          "Reposting without permission",
+          "Copyright infringement",
+          "Scraped or stolen creative work",
+          "Fanworks / derivatives must be credited where relevant"
+        ]
+      },
+      {
+        "id": "nsfw",
+        "name": "Adult / explicit content rules",
+        "qualifier": true,
+        "rules": [
+          "Explicit sexual content",
+          "Nudity",
+          "Adult content",
+          "Sexualized depictions of minors",
+          "Non-consensual sexual content",
+          "Revenge porn / intimate media",
+          "NSFW avatars / header images",
+          "Real-person explicit content"
+        ]
+      },
+      {
+        "id": "illegal",
+        "name": "Illegal / jurisdiction-specific prohibited content",
+        "qualifier": false,
+        "rules": [
+          "No illegal content under applicable local law"
+        ]
+      },
+      {
+        "id": "violence",
+        "name": "Violence, threats, extremism, and self-harm",
+        "qualifier": true,
+        "rules": [
+          "Violent content",
+          "Extremist propaganda",
+          "Terrorist content",
+          "Self-harm / suicidal content"
+        ]
+      }
+    ]
+  }
+}

@@ -72,7 +72,10 @@
 /* ---- base ----------------------------------------------------------- */
 * { box-sizing: border-box; }
 
-html { scrollbar-color: var(--line) transparent; }
+html {
+  scrollbar-color: var(--line) transparent;
+  scrollbar-gutter: stable;   /* keep the scrollbar's space even on short pages, so layouts line up across pages */
+}
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-thumb { background: var(--line); }
 
@@ -113,9 +116,19 @@ h3 {
 
 p, ul, ol { margin: 0 0 1em; }
 
-ul { padding-left: 1.25em; }
-ul li { list-style: square; }
-li::marker { color: var(--accent); }
+/* bullets are a small orange pixel square, flush with the text edge above;
+   the item text hangs indented after it */
+ul { padding-left: 0; list-style: none; }
+ul li { position: relative; padding-left: 1em; }
+ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(0.5lh - 0.175em);   /* centred on the first line */
+  width: 0.35em;
+  height: 0.35em;
+  background: var(--accent);
+}
 
 .lede {
   font-family: var(--display);
@@ -146,6 +159,7 @@ a {
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
+  text-decoration-skip-ink: none;   /* solid line, no gaps around g, y, p */
 }
 
 a:hover,
@@ -567,10 +581,12 @@ a:focus-visible {
 }
 
 /* each frame owns one quarter of the loop */
-.sprite img:nth-child(1) { animation-delay: 0s; }
-.sprite img:nth-child(2) { animation-delay: calc(var(--sprite-cycle) * -0.75); }
-.sprite img:nth-child(3) { animation-delay: calc(var(--sprite-cycle) * -0.5); }
-.sprite img:nth-child(4) { animation-delay: calc(var(--sprite-cycle) * -0.25); }
+/* --sprite-clock (set by theme.js) starts the loop where the wall clock says
+   it should be, so the crow doesn't jump back to frame 1 on each new page */
+.sprite img:nth-child(1) { animation-delay: var(--sprite-clock, 0s); }
+.sprite img:nth-child(2) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.75); }
+.sprite img:nth-child(3) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.5); }
+.sprite img:nth-child(4) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.25); }
 
 @keyframes sprite-cycle {
   0%,      25% { opacity: 1; }
@@ -671,3 +687,15 @@ a:focus-visible {
   .sprite img { animation: none; }
   .sprite img:first-child { opacity: 1; }
 }
+
+/* ---- page transitions ----------------------------------------------- */
+/* moving between pages cross-fades instead of flashing blank. Nothing is
+   given a view-transition-name on purpose: the header and left panel are
+   identical from page to page, so the fade leaves them still, whereas a
+   named element is lifted above the page (losing the glass blur and the
+   see-through sheet over the crow's tail) and pops back at the end */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+::view-transition-group(root) { animation-duration: 0.2s; }

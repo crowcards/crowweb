@@ -1,0 +1,120 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "note": "Enumerated values used across the schema.",
+  "communitySize": [
+    {
+      "id": "small",
+      "label": "Small",
+      "description": "Under ~50 members"
+    },
+    {
+      "id": "medium",
+      "label": "Medium",
+      "description": "~50 to a few hundred members"
+    },
+    {
+      "id": "large",
+      "label": "Large",
+      "description": "A few hundred to a few thousand members"
+    },
+    {
+      "id": "very_large",
+      "label": "Very large",
+      "description": "Thousands or more members"
+    }
+  ],
+  "costValues": [
+    {
+      "id": "yes",
+      "label": "Yes",
+      "description": "This cost reliably applies."
+    },
+    {
+      "id": "no",
+      "label": "No",
+      "description": "This cost does not apply."
+    },
+    {
+      "id": "often",
+      "label": "Often",
+      "description": "Applies frequently but not universally; depends on community size or activity."
+    },
+    {
+      "id": "sometimes",
+      "label": "Sometimes",
+      "description": "Applies in some configurations or at some scale."
+    },
+    {
+      "id": "rare",
+      "label": "Rare",
+      "description": "Technically possible but uncommon in practice."
+    }
+  ],
+  "federationApproach": [
+    {
+      "id": "open",
+      "label": "Open",
+      "description": "Default to federating with everyone; block specific bad actors as needed."
+    },
+    {
+      "id": "allowlist_only",
+      "label": "Allowlist only",
+      "description": "Default to not federating; explicitly allow a curated list of trusted servers."
+    },
+    {
+      "id": "blocklist_only",
+      "label": "Blocklist only",
+      "description": "Maintain only a blocklist; no formal allowlist."
+    }
+  ],
+  "federationResponseLadder": [
+    {
+      "id": "warn",
+      "label": "Warn",
+      "description": "Issue a warning to the other server's moderators."
+    },
+    {
+      "id": "mute",
+      "label": "Mute",
+      "description": "Hide the server's content from federated timelines without blocking."
+    },
+    {
+      "id": "deliberate",
+      "label": "Discuss",
+      "description": "Internal moderator discussion before deciding next action."
+    },
+    {
+      "id": "ghost",
+      "label": "Ghost",
+      "description": "Bonfire-specific: silently drop interactions without visible block."
+    },
+    {
+      "id": "block",
+      "label": "Block",
+      "description": "Fully defederate; no interaction permitted."
+    }
+  ],
+  "conflictStep": [
+    {
+      "id": "primary",
+      "label": "Primary",
+      "description": "The first approach we try."
+    },
+    {
+      "id": "escalation",
+      "label": "Escalation",
+      "description": "Used if the primary approach doesn't resolve the conflict."
+    },
+    {
+      "id": "last_resort",
+      "label": "Last resort",
+      "description": "Used only when other approaches have failed."
+    },
+    {
+      "id": "parallel",
+      "label": "Parallel",
+      "description": "Used alongside other approaches, not sequentially."
+    }
+  ]
+}

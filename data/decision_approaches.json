@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "source": "CommunityRule (metagov.org)",
+  "items": [
+    {
+      "id": "lazy_consensus",
+      "label": "Lazy Consensus",
+      "description": "A decision is assumed approved unless objections are raised within a specified timeframe."
+    },
+    {
+      "id": "do_ocracy",
+      "label": "Do-ocracy",
+      "description": "Decisions are made by those who take initiative and carry out the work."
+    },
+    {
+      "id": "consensus_decision_making",
+      "label": "Consensus Decision-Making",
+      "description": "All members must agree. Best for important decisions in small groups. Does not work well for low stakes decsions."
+    },
+    {
+      "id": "rotational_leadership",
+      "label": "Rotational Leadership",
+      "description": "Decision-making responsibilities rotate among members."
+    },
+    {
+      "id": "modified_consensus",
+      "label": "Modified Consensus",
+      "description": "Attempts to reach full agreement first, but falls back to voting if consensus isn’t possible."
+    },
+    {
+      "id": "consensus_seeking_with_delegates",
+      "label": "Consensus Seeking with Delegates",
+      "description": "Members provide input, and delegates refine decisions to seek broad agreement."
+    },
+    {
+      "id": "sociocracy",
+      "label": "Sociocracy",
+      "description": "Decisions are made in small, interconnected circles with feedback loops connecting the organization."
+    },
+    {
+      "id": "supermajority_rule",
+      "label": "Supermajority Rule",
+      "description": "A higher threshold (e.g., 2/3 or 3/4) must be met for a decision to pass. Can be a great fallback for when consensus fails."
+    },
+    {
+      "id": "ranked_choice_voting",
+      "label": "Ranked Choice Voting",
+      "description": "Members rank options by preference, and votes are redistributed until one option has a majority."
+    },
+    {
+      "id": "range_voting",
+      "label": "Range Voting",
+      "description": "Members score each option, and the option with the highest total or average score wins."
+    },
+    {
+      "id": "majority_rule",
+      "label": "Majority Rule",
+      "description": "A decision is approved if it receives more than 50% of the votes."
+    },
+    {
+      "id": "approval_voting",
+      "label": "Approval Voting",
+      "description": "Members vote for all options they find acceptable; the option with the most approvals wins."
+    },
+    {
+      "id": "weighted_voting",
+      "label": "Weighted Voting",
+      "description": "Votes carry different weights based on criteria like financial contribution or seniority."
+    },
+    {
+      "id": "cumulative_voting",
+      "label": "Cumulative Voting",
+      "description": "Members distribute a set number of votes across one or more options, often to express intensity of preference."
+    },
+    {
+      "id": "quadratic_voting",
+      "label": "Quadratic Voting",
+      "description": "Members use credits to vote, with the cost increasing quadratically for multiple votes on the same option."
+    },
+    {
+      "id": "continuous_voting",
+      "label": "Continuous Voting",
+      "description": "Members can change their votes over time, with decisions finalized when a threshold is reached."
+    },
+    {
+      "id": "holacracy",
+      "label": "Holacracy",
+      "description": "Decision-making authority is distributed across self-organizing teams."
+    },
+    {
+      "id": "collaborative_platforms",
+      "label": "Collaborative Platforms",
+      "description": "Structured discussions on tools like Loomio or Polis are used to make group decisions."
+    },
+    {
+      "id": "deliberative_polling",
+      "label": "Deliberative Polling",
+      "description": "Members discuss and reflect on an issue before voting, informed by deliberation."
+    },
+    {
+      "id": "investor_filled_board_seats",
+      "label": "Investor-Filled Board Seats",
+      "description": "Key decisions are made by a board with seats allocated to investors or stakeholders."
+    },
+    {
+      "id": "elected_board_of_directors",
+      "label": "Elected Board of Directors",
+      "description": "Members elect representatives to make decisions on their behalf."
+    },
+    {
+      "id": "advisory_committees",
+      "label": "Advisory Committees",
+      "description": "Smaller groups provide recommendations, which the broader organization typically follows."
+    },
+    {
+      "id": "delegated_decision_making",
+      "label": "Delegated Decision-Making",
+      "description": "Specific individuals or groups are entrusted with decision-making authority."
+    },
+    {
+      "id": "executive_committees",
+      "label": "Executive Committees",
+      "description": "A subset of leaders or senior members makes critical decisions."
+    },
+    {
+      "id": "first_past_the_post",
+      "label": "First Past the Post",
+      "description": "The option with the most votes wins, regardless of whether it achieves a majority."
+    },
+    {
+      "id": "lottery_sortition",
+      "label": "Lottery/Sortition",
+      "description": "Members or leaders are randomly selected to make decisions, promoting fairness."
+    },
+    {
+      "id": "proof_of_work",
+      "label": "Proof of Work",
+      "description": "Decision weight is tied to demonstrable effort or contributions, common in blockchain systems."
+    },
+    {
+      "id": "random_choice",
+      "label": "Random Choice",
+      "description": "Decisions are made by chance, such as a coin toss or drawing lots, to avoid bias."
+    },
+    {
+      "id": "algorithm_driven_decisions",
+      "label": "Algorithm-Driven Decisions",
+      "description": "Automated systems analyze data and propose or enforce decisions."
+    },
+    {
+      "id": "autocratic_decision_making",
+      "label": "Autocratic Decision-Making",
+      "description": "A single leader or authority makes all decisions without group input."
+    },
+    {
+      "id": "hierarchical_decision_making",
+      "label": "Hierarchical Decision-Making",
+      "description": "Decisions are made at different levels of an organizational structure, with authority increasing at higher levels."
+    },
+    {
+      "id": "negotiated_decisions",
+      "label": "Negotiated Decisions",
+      "description": "Stakeholders or parties discuss and negotiate until they reach an agreement."
+    }
+  ]
+}

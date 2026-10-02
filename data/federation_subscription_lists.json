@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "note": "Known shared federation subscription lists. Communities can also enter custom values.",
+  "items": [
+    {
+      "id": "anti_meta_fedipact",
+      "label": "Anti-Meta Fedipact",
+      "description": "Coordinated defederation list for ActivityPub instances blocking Meta's Threads.",
+      "url": "https://fedipact.online/"
+    }
+  ]
+}

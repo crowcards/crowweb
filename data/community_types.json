@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "note": "The seven community types used in the platform dataset.",
+  "items": [
+    {
+      "id": "chat_group",
+      "label": "Chat Group",
+      "description": "Real-time or near-real-time conversation among members, typically organized into channels or rooms."
+    },
+    {
+      "id": "citizen_science",
+      "label": "Citizen Science",
+      "description": "Community-based collection, classification, or analysis of scientific data; participation structured by projects."
+    },
+    {
+      "id": "discussion_forum",
+      "label": "Discussion Forum",
+      "description": "Asynchronous threaded discussion, often with voting or ranking of posts."
+    },
+    {
+      "id": "listserv_email",
+      "label": "Listserv / Email",
+      "description": "Email-based group communication; each list server independently hosted."
+    },
+    {
+      "id": "social_network_media",
+      "label": "Social Network / Media",
+      "description": "Profile-based social communication, often with public posts and follow relationships."
+    },
+    {
+      "id": "peer_production",
+      "label": "Peer Production",
+      "description": "Collaborative creation of shared artifacts (e.g., wikis, documentation, encyclopedias)."
+    },
+    {
+      "id": "workplace",
+      "label": "Workplace",
+      "description": "Communication platforms designed for coordination among coworkers or project teams."
+    }
+  ]
+}

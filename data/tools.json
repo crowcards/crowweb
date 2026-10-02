@@ -1,0 +1,62 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "items": [
+    {
+      "id": "loomio",
+      "label": "Loomio",
+      "description": "Structured discussion threads with voting (consent, polls, proposals). Popular with co-ops and nonprofits.",
+      "toolType": "Deliberation & Decision-Making",
+      "access": "Tiered (free tier available)",
+      "openSource": true
+    },
+    {
+      "id": "polis",
+      "label": "Polis",
+      "description": "AI-assisted opinion mapping that surfaces areas of cross-group agreement. Often used in civic/government contexts.",
+      "toolType": "Deliberation & Decision-Making",
+      "access": "Free",
+      "openSource": true
+    },
+    {
+      "id": "decidim",
+      "label": "Decidim",
+      "description": "Participatory democracy platform with proposals, debates, participatory budgeting, and assemblies.",
+      "toolType": "Deliberation & Decision-Making",
+      "access": "Free (self-hosted)",
+      "openSource": true
+    },
+    {
+      "id": "typeform",
+      "label": "Typeform",
+      "description": "Form and survey builder for async preference gathering and community input.",
+      "toolType": "Voting & Polling",
+      "access": "Tiered",
+      "openSource": false
+    },
+    {
+      "id": "google_forms",
+      "label": "Google Forms",
+      "description": "Simple, free survey and polling tool but requires Google Account",
+      "toolType": "Voting & Polling",
+      "access": "Free",
+      "openSource": false
+    },
+    {
+      "id": "osprey_roost",
+      "label": "Osprey (ROOST)",
+      "description": "Rules engine for real-time event processing and behavioral investigation.",
+      "toolType": "T&S Infrastructure — Investigation",
+      "access": "Free (self-hosted)",
+      "openSource": true
+    },
+    {
+      "id": "coop_roost",
+      "label": "Coop (ROOST)",
+      "description": "Human review console for content moderation with queue orchestration, reviewer wellness features, and CSAM/NCMEC reporting workflows.",
+      "toolType": "T&S Infrastructure — Review & Enforcement",
+      "access": "Free (self-hosted)",
+      "openSource": true
+    }
+  ]
+}

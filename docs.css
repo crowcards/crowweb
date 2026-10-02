@@ -1,0 +1,369 @@
+/* ============================================================
+   CROW Docs — additional stylesheet
+   Add this to styles.css (or link as a separate sheet on /docs)
+   Requires the base variables and resets already in styles.css
+   ============================================================ */
+
+/* ── docs layout tokens ──────────────────────────────────── */
+:root {
+  --nav-w:   220px;   /* sidebar width */
+  --fs-h1:   clamp(2rem, 3.4vw, 3rem);
+  --fs-h2:   clamp(1.4rem, 2vw, 1.8rem);
+  --fs-h3:   1.1rem;
+  --measure: 44rem;   /* max content line length */
+}
+
+/* ── docs two-column layout ──────────────────────────────── */
+.docs-wrap {
+  display: grid;
+  grid-template-columns: var(--nav-w) 1fr;
+  min-height: calc(100dvh - var(--header-h));
+}
+
+/* ── sidebar nav ─────────────────────────────────────────── */
+.docs-nav {
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
+  padding: 2rem 0 2rem var(--gutter);
+  border-right: var(--rule);
+}
+
+.docs-nav-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  margin: 0 0 0.5rem;
+}
+
+.docs-nav ul { margin: 0 0 1.5rem; }
+.docs-nav li::before { display: none; }   /* suppress orange square bullet */
+.docs-nav li { padding: 0; }
+
+.docs-nav a {
+  display: block;
+  padding: 0.25rem 0.75rem 0.25rem 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--gray);
+  border-left: 2px solid transparent;
+  transition: color 0.1s, border-color 0.1s;
+}
+
+.docs-nav a:hover,
+.docs-nav a:focus-visible {
+  color: var(--ink);
+  background: none;
+  border-left-color: var(--line);
+}
+
+.docs-nav a.active,
+.docs-nav a[aria-current="true"] {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.docs-nav .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
+.docs-nav .sub a { font-size: 0.66rem; }
+
+/* ── main content column ─────────────────────────────────── */
+.docs-body {
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  padding: 3rem var(--gutter) 6rem;
+}
+
+/* ── docs headings (override base h1/h2/h3 within docs) ──── */
+.docs-body h1 {
+  font-size: var(--fs-h1);
+  margin: 0 0 0.6em;
+}
+
+.docs-body h2 {
+  font-size: var(--fs-h2);
+  margin: 2.5em 0 0.5em;
+  padding-top: 0.5em;
+  border-top: var(--rule);
+}
+
+.docs-body h2:first-of-type { margin-top: 1.5em; }
+
+.docs-body h3 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  color: var(--ink);
+  margin: 1.8em 0 0.4em;
+}
+
+/* ── intro lede ──────────────────────────────────────────── */
+.lede {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  line-height: 1.4;
+  margin-bottom: 1.5em;
+  color: var(--ink);
+}
+
+/* ── callout box ─────────────────────────────────────────── */
+.callout {
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  padding: 0.9rem 1.1rem;
+  margin: 1.5em 0;
+  font-size: 0.95rem;
+}
+.callout strong { font-weight: 700; }
+
+/* ── platform type cards ─────────────────────────────────── */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+  margin: 1.2em 0 1.5em;
+}
+
+.type-card {
+  border: 1px solid var(--line);
+  padding: 0.75rem 1rem;
+  background: var(--white);
+}
+
+[data-theme="dark"] .type-card {
+  background: color-mix(in srgb, var(--ink) 8%, var(--bg));
+}
+
+.type-card .type-name {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.type-card p { font-size: 0.88rem; color: var(--gray); margin: 0; }
+
+/* ── platform tables ─────────────────────────────────────── */
+.platform-section { margin-bottom: 3rem; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+  margin: 2rem 0 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.ptable { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 1rem; }
+
+.ptable th {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray);
+  padding: 0.4rem 0.6rem;
+  border-bottom: 2px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ptable td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.ptable tr:last-child td { border-bottom: none; }
+
+.ptable tr.generic td {
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  font-style: italic;
+  color: var(--gray);
+}
+
+.ptable tr.named td:first-child { padding-left: 1.4rem; }
+.ptable tr.named td:first-child::before { content: "↳ "; color: var(--line); font-size: 0.8em; }
+
+/* inline text classes used in table cells */
+.pname { font-family: var(--mono); font-weight: 600; font-size: 0.82rem; }
+.sw    { color: var(--gray); font-size: 0.82rem; }
+.sw.oss  { color: #2D6A4F; }
+.sw.prop { color: #92400E; }
+.model   { font-size: 0.8rem; color: var(--gray); }
+
+/* protocol badge */
+.proto {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1em 0.45em;
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg));
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* open source / self-host badges */
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1em 0.4em;
+  white-space: nowrap;
+}
+.badge.yes { background: color-mix(in srgb, #2D6A4F 12%, var(--bg)); color: #2D6A4F; }
+.badge.no  { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
+.badge.var { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); color: var(--accent); }
+
+/* ── cost matrix ─────────────────────────────────────────── */
+.cost-wrap { overflow-x: auto; margin: 1em 0 1.5em; }
+
+.ctable {
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  min-width: 700px;
+}
+
+.ctable th {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray);
+  padding: 0.4rem 0.5rem;
+  border-bottom: 2px solid var(--line);
+  text-align: center;
+}
+
+.ctable th:first-child { text-align: left; min-width: 160px; }
+
+.ctable td {
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ctable td:first-child { text-align: left; font-family: var(--mono); font-size: 0.78rem; }
+.ctable tr:last-child td { border-bottom: none; }
+
+.ctable tr.type-row td {
+  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+}
+
+/* cost value pills */
+.cv { display: inline-block; font-family: var(--mono); font-size: 0.68rem; font-weight: 600; padding: 0.15em 0.5em; }
+.cv.yes  { background: color-mix(in srgb, #2D6A4F 14%, var(--bg)); color: #2D6A4F; }
+.cv.no   { background: color-mix(in srgb, var(--gray) 10%, var(--bg)); color: var(--gray); }
+.cv.often{ background: color-mix(in srgb, #1F4E79 12%, var(--bg)); color: #1F4E79; }
+.cv.some { background: color-mix(in srgb, #92400E 10%, var(--bg)); color: #92400E; }
+.cv.rare { background: color-mix(in srgb, var(--gray) 8%, var(--bg)); color: var(--gray); }
+
+[data-theme="dark"] .cv.often { background: color-mix(in srgb, #6BA3D6 12%, var(--bg)); color: #6BA3D6; }
+[data-theme="dark"] .cv.some  { background: color-mix(in srgb, #D4845A 10%, var(--bg)); color: #D4845A; }
+
+/* ── narrow screens ──────────────────────────────────────── */
+@media (width < 52rem) {
+  .docs-wrap { grid-template-columns: 1fr; }
+
+  .docs-nav {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 1rem var(--gutter);
+    border-right: none;
+    border-bottom: var(--rule);
+  }
+
+  .docs-nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin: 0; }
+  .docs-nav .sub { display: none; }
+  .docs-nav .docs-nav-label { display: none; }
+  .docs-body { padding-top: 2rem; }
+}
+
+/* ────────────────────────────────────────────────────────────
+   docs-reference.css
+   Small additions for data-sourced tables. Append to docs.css.
+   ──────────────────────────────────────────────────────────── */
+
+/* label-first cell styling, same font treatment as .pname elsewhere */
+.ptable td.ref-name {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.82rem;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+/* a secondary line under a cell's main text (URLs, signals, etc.) */
+.ptable .ref-sub {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--gray);
+}
+
+/* a nested list inside a table cell (used in rule schema) */
+.ptable ul.ref-rule-list {
+  margin: 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+.ptable ul.ref-rule-list li {
+  break-inside: avoid;
+  padding-left: 1em;
+  margin-bottom: 0.2rem;
+  font-size: 0.86rem;
+}
+
+/* group header row (e.g. "Behavior" and "Content" in rule schema) */
+.ptable tr.group-row td {
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  font-size: 0.85rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+/* placeholder states */
+.ptable .ref-loading {
+  color: var(--gray);
+  font-style: italic;
+  padding: 1rem 0.6rem;
+}
+.ptable .ref-error {
+  color: #92400E;
+  padding: 1rem 0.6rem;
+  font-size: 0.86rem;
+}
+
+/* narrow screens: rule-list columns collapse to one */
+@media (width < 52rem) {
+  .ptable ul.ref-rule-list { columns: 1; }
+}
