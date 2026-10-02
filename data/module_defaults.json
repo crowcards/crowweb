@@ -1,0 +1,28 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-02",
+  "note": "Which modules a new card starts with. 'modules' lists the built-in modules in sidebar order (Basics is always on and not listed). A card's starting set is picked by the most specific thing known: the platform's structural model (from platforms.json) first, then the community type, then 'default'. These are only suggestions: people can always add or remove modules.",
+  "modules": [
+    { "id": "infrastructure", "label": "Infrastructure", "description": "Platform, software, costs, other tools, and where servers, members and admins are." },
+    { "id": "membership",     "label": "Membership",     "description": "How people join and become members." },
+    { "id": "rules",          "label": "Rules",          "description": "Community rules, covenants, and which behaviors and content they cover." },
+    { "id": "processes",      "label": "Processes",      "description": "Moderation, conflict management, institutional change, and communication channels." },
+    { "id": "federation",     "label": "Federation",     "description": "How the community connects with other servers: allow and block lists, responses, bridging." }
+  ],
+  "default": ["infrastructure", "membership", "rules", "processes"],
+  "byCommunityType": {
+    "chat_group":           ["infrastructure", "membership", "rules", "processes"],
+    "citizen_science":      ["infrastructure", "membership", "rules", "processes"],
+    "discussion_forum":     ["infrastructure", "membership", "rules", "processes"],
+    "listserv_email":       ["infrastructure", "membership", "rules", "processes"],
+    "social_network_media": ["infrastructure", "membership", "rules", "processes", "federation"],
+    "peer_production":      ["infrastructure", "membership", "rules", "processes"],
+    "workplace":            ["infrastructure", "membership", "rules", "processes"]
+  },
+  "byStructuralModel": {
+    "note": "Applied when the platform is known. Mixed models like 'Federation / Relay' match each part; if parts disagree (e.g. 'Centralized / Federation'), adding wins.",
+    "Federation":  { "add": ["federation"] },
+    "Relay":       { "add": ["federation"] },
+    "Centralized": { "remove": ["federation"] }
+  }
+}

@@ -9,11 +9,13 @@
   <link rel="preconnect" href="https://p.typekit.net" crossorigin />
   <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="make.css" />
   <script src="js/theme.js"></script>
   <script src="js/site.js" defer></script>
   <script src="js/crow.js" defer></script>
+  <script type="module" src="js/make.js"></script>
 </head>
-<body>
+<body class="make">
 
   <header class="site-header">
     <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
@@ -36,7 +38,7 @@
     </button>
   </header>
 
-  <div class="info">
+  <div class="info" id="intro">
     <aside class="info-side">
       <div class="side-art">
         <div class="pixel-crow" data-grid="75">
@@ -50,16 +52,162 @@
     </aside>
 
     <main class="info-body">
-      <h1>Make a CROW Card</h1>
-      <!-- placeholder: the card-making app will live here -->
-      <p>The CROW Card maker is on its way!</p>
-      <p>In the meantime, reach us at <a href="mailto:crowcards@princeton.edu">crowcards@princeton.edu</a>.</p>
+
+      <!-- shown while a card loads (and if it can't) -->
+      <section data-screen="loading">
+        <p class="screen-loading" id="loading-text">Loading…</p>
+        <div id="loading-error" hidden>
+          <h1 tabindex="-1">Couldn’t open your card</h1>
+          <p class="form-error" role="alert"></p>
+          <p><button class="button" type="button" id="loading-retry">Try again</button></p>
+        </div>
+      </section>
+
+      <!-- ── start: new card or edit an existing one ─────────────── -->
+      <section data-screen="start" hidden>
+        <h1 tabindex="-1">Make a CROW Card</h1>
+        <p>A CROW Card describes how your community governs itself: its values, rules, and processes. Start a new card, or keep working on one you’ve already begun.</p>
+
+        <p><button class="button" type="button" id="start-new">Start a new card</button></p>
+        <p class="form-error" id="start-error" role="alert" hidden></p>
+
+        <h2>Edit an existing card</h2>
+        <p>Enter the card ID and secret you saved when you made the card.</p>
+        <form id="edit-form" class="key-form" novalidate>
+          <label for="edit-id" class="mono-u">Card ID</label>
+          <input id="edit-id" name="cardId" class="mono" type="text" placeholder="crd_…" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+
+          <label for="edit-secret" class="mono-u">Secret</label>
+          <input id="edit-secret" name="secret" class="mono" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+
+          <label class="check">
+            <input type="checkbox" name="remember" />
+            Remember this card on this device
+          </label>
+
+          <p class="form-error" id="edit-error" role="alert" hidden></p>
+          <p><button class="button" type="submit">Open card</button></p>
+        </form>
+      </section>
+
+      <!-- ── save your key: shown once, right after a card is made ── -->
+      <section data-screen="key" hidden>
+        <h1 tabindex="-1">Save your card key</h1>
+        <div class="callout">
+          <p><b class="mono-u">Only shown once.</b> These two lines are the only way to open and edit your card. We don’t keep a copy of the secret, so if you lose it, nobody (including us) can get the card back. Anyone who has both can edit the card, so keep them somewhere private, like a password manager.</p>
+        </div>
+
+        <dl class="key-list">
+          <div>
+            <dt class="mono-u">Card ID</dt>
+            <dd><code class="mono key-value" id="key-id"></code> <button class="link-button" type="button" data-copy="key-id">Copy</button></dd>
+          </div>
+          <div>
+            <dt class="mono-u">Secret</dt>
+            <dd><code class="mono key-value" id="key-secret"></code> <button class="link-button" type="button" data-copy="key-secret">Copy</button></dd>
+          </div>
+        </dl>
+
+        <p><button class="link-button" type="button" id="key-download">Download as a .txt file</button></p>
+
+        <label class="check">
+          <input type="checkbox" id="key-saved" />
+          I’ve saved my card ID and secret somewhere safe
+        </label>
+        <label class="check">
+          <input type="checkbox" id="key-remember" />
+          Also remember this card on this device
+        </label>
+
+        <p><button class="button" type="button" id="key-continue" disabled>Continue</button></p>
+      </section>
+
+      <!-- ── set up: Basics and modules, before the editor ─────── -->
+      <section data-screen="setup" hidden>
+        <h1 tabindex="-1">About your community</h1>
+        <p>Start with the basics. You can change all of this later in the editor.</p>
+        <div id="setup-basics"></div>
+
+        <h2>What your card will cover</h2>
+        <p>Each module is a part of the card. These are the ones most cards include; add or remove any, now or later.</p>
+        <div id="setup-modules-hint" aria-live="polite"></div>
+        <div id="setup-modules"></div>
+
+        <p class="save-status" id="setup-status" role="status"></p>
+        <p class="form-error" id="setup-error" role="alert" hidden></p>
+        <p><button class="button" type="button" id="setup-continue">Continue to the editor</button></p>
+      </section>
+
     </main>
 
     <footer class="site-footer">
       <p>CROW is a research project from <a href="https://hci.princeton.edu/" target="_blank">Princeton HCI</a></p>
     </footer>
   </div>
+
+  <!-- ── editor: modules on the left, the current module on the right ── -->
+  <div class="sidebar-layout" id="editor" data-screen="editor" hidden>
+    <nav class="sidebar editor-nav" id="editor-nav" aria-label="Card modules">
+      <!-- narrow screens only: a slim bar that opens the panel below -->
+      <div class="editor-bar">
+        <button class="pixel-toggle with-label" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
+          <span class="mono-u">Modules:</span> <span id="editor-bar-module">Basics</span>
+        </button>
+        <div class="editor-bar-actions">
+          <span class="save-status" id="save-status-bar" aria-hidden="true"></span>
+          <button class="button button-small" type="button" data-save-now>Save</button>
+          <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
+          <a href="docs.html" target="_blank" rel="noopener">Docs</a>
+        </div>
+      </div>
+
+      <div class="editor-nav-panel" id="editor-nav-panel">
+        <div class="sprite editor-crow" aria-hidden="true">
+          <img src="img/crow-sprite-a.png" alt="" />
+          <img src="img/crow-sprite-e.png" alt="" />
+          <img src="img/crow-sprite-d.png" alt="" />
+          <img src="img/crow-sprite-c.png" alt="" />
+        </div>
+
+        <p class="editor-card">
+          <span class="mono-u">Your card</span>
+          <span class="editor-name" id="editor-name"></span>
+          <span class="mono" id="editor-id"></span>
+        </p>
+
+        <ul id="module-list"></ul>
+
+        <div class="editor-actions">
+          <button class="button button-small" type="button" data-save-now>Save</button>
+          <p class="save-status" id="save-status" role="status"></p>
+        </div>
+
+        <div class="editor-forget">
+          <button class="button button-small" type="button" data-forget aria-describedby="forget-note">Forget</button>
+          <p class="editor-forget-note" id="forget-note">on this device</p>
+        </div>
+
+        <p class="editor-docs"><a href="docs.html" target="_blank" rel="noopener">Docs</a></p>
+      </div>
+    </nav>
+
+    <main class="editor-body">
+      <section id="module-panel">
+        <h1 id="module-title" tabindex="-1"></h1>
+        <p class="lede" id="module-description"></p>
+        <div id="module-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ── pop-up: one shared box, filled in by js/popup.js ─────── -->
+  <dialog class="popup" id="popup" aria-labelledby="popup-title">
+    <div class="popup-inner">
+      <button class="popup-close" type="button" aria-label="Close"><span></span></button>
+      <h2 class="popup-title" id="popup-title"></h2>
+      <div class="popup-body"></div>
+    </div>
+  </dialog>
 
 </body>
 </html>

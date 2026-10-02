@@ -1,12 +1,11 @@
 /* ============================================================
    CROW Docs — loaded after styles.css on docs.html only.
-   The header, colours, fonts and links all come from styles.css;
-   this file only adds the docs layout and docs-specific pieces.
+   The header, colours, fonts, links and the sidebar layout all come
+   from styles.css; this file only adds docs-specific pieces.
    ============================================================ */
 
 /* ── docs layout tokens ──────────────────────────────────── */
 :root {
-  --nav-w:   260px;   /* sidebar width */
   --measure: 44rem;   /* max content line length */
 }
 
@@ -44,92 +43,6 @@ html {
   padding-inline: var(--gutter);
 }
 
-/* ── docs two-column layout ──────────────────────────────── */
-.docs-wrap {
-  display: grid;
-  grid-template-columns: var(--nav-w) 1fr;
-  min-height: calc(100dvh - var(--header-h));
-}
-
-/* ── sidebar nav ─────────────────────────────────────────── */
-.docs-nav {
-  position: sticky;
-  top: var(--header-h);
-  align-self: start;
-  height: calc(100dvh - var(--header-h));
-  overflow-y: auto;
-  padding: 2rem 2rem 2rem var(--gutter);
-  border-right: var(--rule);
-}
-
-.docs-nav ul { margin: 0 0 1.5rem; }
-.docs-nav li::before { display: none; }   /* suppress orange square bullet */
-.docs-nav li { padding: 0; }
-
-.docs-nav a {
-  display: block;
-  padding: 0.25rem 0.75rem 0.25rem 0;
-  font-size: 0.72rem;
-  font-weight: 400;
-  letter-spacing: 0.05em;
-  text-decoration: none;
-  color: var(--gray);
-  border-left: 2px solid transparent;
-  transition: color 0.1s, border-color 0.1s;
-}
-
-.docs-nav a:hover,
-.docs-nav a:focus-visible {
-  color: var(--ink);
-  background: none;
-  border-left-color: var(--line);
-}
-
-.docs-nav a.active {   /* set by the scroll script in docs.html */
-  color: var(--accent);
-  border-left-color: var(--accent);
-  font-weight: 600;
-}
-
-.docs-nav .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
-.docs-nav .sub .sub { margin-bottom: 0; }   /* third level: no gap before the next item */
-.docs-nav .sub a { font-size: 0.66rem; }
-
-/* foldable third-level lists (docs.html script adds .foldable and the button) */
-.docs-nav .foldable { position: relative; }
-.docs-nav .foldable:not(.is-open) > .sub { display: none; }
-
-.nav-fold {
-  position: absolute;
-  top: 0.25rem;
-  right: 0;
-  width: 1.1rem;
-  height: 1.1rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--gray);
-  cursor: pointer;
-}
-
-.nav-fold:hover,
-.nav-fold:focus-visible { color: var(--accent); }
-
-/* a 3x3-pixel plus when closed (same shape as .pixel-plus); just the
-   middle bar, a minus, when open */
-.nav-fold::before {
-  content: "";
-  display: block;
-  width: 9px;
-  height: 9px;
-  margin: auto;
-  background: currentColor;
-  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
-                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
-}
-
-.is-open > .nav-fold::before { clip-path: inset(33.3% 0); }
-
 /* ── docs headings (override base h1/h2/h3 within docs) ──── */
 .docs-body h1 {
   font-size: clamp(2rem, 3.4vw, 3rem);
@@ -159,33 +72,6 @@ html {
   font-size: clamp(1.2rem, 1.8vw, 1.5rem);
   line-height: 1.4;
   margin-bottom: 1.5em;
-}
-
-/* ── callout box ─────────────────────────────────────────── */
-/* a tinted block with the same stepped pixel corners as .button, and a
-   left edge drawn as a dotted column of orange pixels */
-.callout {
-  --px: 4px;   /* size of one pixel: corner steps and edge dots */
-  padding: 0.9rem 1.1rem 0.9rem calc(1.1rem + var(--px) * 2);
-  margin: 1.5em 0;
-  font-size: 0.95rem;
-  background:
-    repeating-linear-gradient(to bottom,
-      var(--accent) 0 var(--px), transparent var(--px) calc(var(--px) * 2))
-      left / var(--px) 100% no-repeat,
-    color-mix(in srgb, var(--accent) 8%, var(--bg));
-  clip-path: polygon(
-    0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
-    calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
-    calc(100% - var(--px) * 2) 0, calc(100% - var(--px) * 2) var(--px),
-    calc(100% - var(--px)) var(--px), calc(100% - var(--px)) calc(var(--px) * 2),
-    100% calc(var(--px) * 2),
-    100% calc(100% - var(--px) * 2), calc(100% - var(--px)) calc(100% - var(--px) * 2),
-    calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px) * 2) calc(100% - var(--px)),
-    calc(100% - var(--px) * 2) 100%,
-    calc(var(--px) * 2) 100%, calc(var(--px) * 2) calc(100% - var(--px)),
-    var(--px) calc(100% - var(--px)), var(--px) calc(100% - var(--px) * 2),
-    0 calc(100% - var(--px) * 2));
 }
 
 /* ── tables ─────────────────────────────────────────────── */
@@ -355,19 +241,6 @@ html {
 
 /* ── narrow screens ──────────────────────────────────────── */
 @media (width < 52rem) {
-  .docs-wrap { grid-template-columns: 1fr; }
-
-  .docs-nav {
-    position: static;
-    height: auto;
-    overflow: visible;
-    padding: 1rem var(--gutter);
-    border-right: none;
-    border-bottom: var(--rule);
-  }
-
-  .docs-nav ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin: 0; }
-  .docs-nav .sub { display: none; }
   .docs-body { padding-top: 2rem; }
   .table ul.ref-rule-list { columns: 1; }
 }

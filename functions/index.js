@@ -16,22 +16,39 @@ function randomId(bytes = 9) {
   return crypto.randomBytes(bytes).toString("base64url");
 }
 
+/**
+ * Generate a letters-and-digits-only ID (no "-" or "_"), so double-clicking
+ * selects the whole thing. Each character is picked uniformly at random.
+ */
+const ID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+function randomAlnum(length = 12) {
+  let out = "";
+  for (let i = 0; i < length; i++) out += ID_CHARS[crypto.randomInt(ID_CHARS.length)];
+  return out;
+}
+
 /** Hash a secret with SHA-256. Returned as hex. */
 function hashSecret(secret) {
   return crypto.createHash("sha256").update(secret).digest("hex");
 }
 
-/** The empty card shape — schema v0.1. */
+/** The empty card shape — schema v0.1.1. */
 function makeEmptyCard(cardId) {
   const now = new Date().toISOString();
   return {
     id: cardId,
-    schemaVersion: "0.1",
+    schemaVersion: "0.1.1",
     createdAt: now,
     updatedAt: now,
     status: "draft",
     visibility: "private",
     forkedFrom: null,
+
+    // Modules this card uses, in sidebar order: built-in ids from
+    // data/module_defaults.json plus customModules ids. Basics is always on
+    // and not listed. null until the person picks them while setting up the
+    // card (null = not set up yet; [] = chose none).
+    modules: null,
 
     basics: {
       communityName: null,
@@ -127,7 +144,6 @@ function makeEmptyCard(cardId) {
     },
 
     federation: {
-      applicable: false,
       approach: null,
       responseLadder: [],
       subscriptions: {
@@ -159,7 +175,7 @@ function makeEmptyCard(cardId) {
  * Returns { cardId, secret } — the secret is shown ONCE to the user.
  */
 exports.createCard = onCall({ cors: true }, async (request) => {
-  const cardId = "crd_" + randomId(9);           // e.g. "crd_aB7xK9mPq"
+  const cardId = "crd_" + randomAlnum(12);       // e.g. "crd_aB7xK9mPq2Zt"
   const secret = randomId(32);                    // ~43 chars
   const secretHash = hashSecret(secret);
 
@@ -193,23 +209,25 @@ async function verifyAndGetCard(cardId, secret) {
     throw new HttpsError("invalid-argument", "secret is required");
   }
 
-  const secretHash = hashSecret(secret);
-  const keyDoc = await db.collection("cardKeys").doc(secretHash).get();
-
-  if (!keyDoc.exists || keyDoc.data().cardId !== cardId) {
-    // Same error for "wrong secret" and "wrong card ID" to avoid leaking info.
-    throw new HttpsError("permission-denied", "Invalid card ID or secret");
-  }
-
-  // Touch lastUsedAt (fire-and-forget; don't block the main response).
-  keyDoc.ref.update({ lastUsedAt: FieldValue.serverTimestamp() }).catch(() => {});
-
+  // Card first, so a typo in the ID gets its own message. Card IDs aren't
+  // secret (published cards show them), and knowing one exists doesn't help
+  // anyone guess its 256-bit secret.
   const cardRef = db.collection("cards").doc(cardId);
   const cardSnap = await cardRef.get();
 
   if (!cardSnap.exists) {
-    throw new HttpsError("not-found", "Card not found");
+    throw new HttpsError("not-found", "No card has this ID");
   }
+
+  const secretHash = hashSecret(secret);
+  const keyDoc = await db.collection("cardKeys").doc(secretHash).get();
+
+  if (!keyDoc.exists || keyDoc.data().cardId !== cardId) {
+    throw new HttpsError("permission-denied", "This secret doesn't match this card");
+  }
+
+  // Touch lastUsedAt (fire-and-forget; don't block the main response).
+  keyDoc.ref.update({ lastUsedAt: FieldValue.serverTimestamp() }).catch(() => {});
 
   return { cardRef, cardData: cardSnap.data() };
 }
@@ -231,16 +249,22 @@ exports.getCard = onCall({ cors: true }, async (request) => {
  * Merge updates into an existing card. Requires the secret.
  * Updates are applied field-by-field (shallow merge of the top-level sections,
  * then deep-merged within each section via Firestore's set-with-merge).
+ *
+ * Optional `ifUpdatedAt`: the card's `updatedAt` as the editor last saw it.
+ * If the card has changed since (another tab, device or person saved), the
+ * update is refused with "failed-precondition" instead of overwriting their
+ * work. The check and the write happen in one transaction, so two saves
+ * can't both pass the check.
  */
 exports.updateCard = onCall({ cors: true }, async (request) => {
-  const { cardId, secret, updates } = request.data || {};
+  const { cardId, secret, updates, ifUpdatedAt } = request.data || {};
 
   if (!updates || typeof updates !== "object") {
     throw new HttpsError("invalid-argument", "updates object is required");
   }
 
   // Protect fields the client should never touch.
-  const PROTECTED = ["id", "schemaVersion", "createdAt", "forkedFrom"];
+  const PROTECTED = ["id", "schemaVersion", "createdAt", "updatedAt", "forkedFrom"];
   for (const key of PROTECTED) {
     if (key in updates) {
       throw new HttpsError(
@@ -252,14 +276,26 @@ exports.updateCard = onCall({ cors: true }, async (request) => {
 
   const { cardRef } = await verifyAndGetCard(cardId, secret);
 
-  const updatesWithTimestamp = {
-    ...updates,
-    updatedAt: new Date().toISOString(),
-  };
+  const updatedAt = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(cardRef);
+    const current = snap.data();
 
-  await cardRef.set(updatesWithTimestamp, { merge: true });
+    if (ifUpdatedAt && current.updatedAt !== ifUpdatedAt) {
+      throw new HttpsError(
+        "failed-precondition",
+        "This card was changed somewhere else since you loaded it",
+        { updatedAt: current.updatedAt }
+      );
+    }
 
-  // Return the fresh card so the frontend sees the result.
+    const now = new Date().toISOString();
+    tx.set(cardRef, { ...updates, updatedAt: now }, { merge: true });
+    return now;
+  });
+
+  // Return the fresh card so the frontend sees the result, plus this save's
+  // own timestamp: the version the editor should send with its next save
+  // (the re-read could already include someone else's later save).
   const updatedSnap = await cardRef.get();
-  return { card: updatedSnap.data() };
+  return { card: updatedSnap.data(), updatedAt };
 });

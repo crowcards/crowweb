@@ -1,102 +1,102 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "source": "CommunityRule (metagov.org)",
   "items": [
     {
       "id": "accessibility",
       "label": "Accessibility",
-      "description": "We design spaces and tools that everyone can use regardless of ability or background. To us, this means we provide alt-text for images, wheelchair ramps for events, and use plain language in documents. We acknowledge a tension with Aesthetics/Security (Simple design vs flashy easy access vs strict gates).",
+      "description": "We design spaces and tools that everyone can use regardless of ability or background. To us, this means we provide alt-text for images, wheelchair ramps for events, and use plain language in documents. We acknowledge a tension with goals like aesthetics and security (Simple design vs flashy easy access vs strict gates).",
       "signals": "Hosting events in venues that are physically inaccessible to wheelchair users or publishing video content without captions which excludes the deaf community."
     },
     {
       "id": "accountability",
       "label": "Accountability",
-      "description": "Members accept responsibility for their actions and their impact on the community. To us, this means we publish error logs and hold retrospective meetings to own our mistakes without shifting blame. We acknowledge a tension with Psychological Safety (Blame-free culture vs owning mistakes).",
+      "description": "Members accept responsibility for their actions and their impact on the community. To us, this means we publish error logs and hold retrospective meetings to own our mistakes without shifting blame. We acknowledge a tension with goals like psychological safety (Blame-free culture vs owning mistakes).",
       "signals": "Leaders refusing to accept responsibility for failures and instead blaming external factors or junior team members for the lack of success."
     },
     {
       "id": "adaptability",
       "label": "Adaptability",
-      "description": "The group remains flexible and willing to change strategies when circumstances shift. To us, this means we pivot strategies quarterly based on feedback rather than sticking to a rigid 5-year plan. We acknowledge a tension with Consistency (Changing course vs staying the path).",
+      "description": "The group remains flexible and willing to change strategies when circumstances shift. To us, this means we pivot strategies quarterly based on feedback rather than sticking to a rigid 5-year plan. We acknowledge a tension with goals like consistency (Changing course vs staying the path).",
       "signals": "Persisting with a strategy that evidence shows is failing or penalizing members who suggest necessary changes based on new data."
     },
     {
       "id": "agency",
       "label": "Agency",
-      "description": "Every individual possesses the power and capacity to act on their own behalf. To us, this means Members choose their own tasks and define their own working hours. We acknowledge a tension with Alignment (Doing what you want vs pulling together).",
+      "description": "Every individual possesses the power and capacity to act on their own behalf. To us, this means Members choose their own tasks and define their own working hours. We acknowledge a tension with goals like alignment (Doing what you want vs pulling together).",
       "signals": "Managers micromanaging details that should be up to the individual or requiring approval for minor decisions that slows down work unnecessarily."
     },
     {
       "id": "altruism",
       "label": "Altruism",
-      "description": "We act out of a genuine concern for the well-being of others without expecting reward. To us, this means we offer services for free or pay-what-you-can, prioritizing need over ability to pay. We acknowledge a tension with Sustainability (Giving it all away vs keeping the lights on).",
+      "description": "We act out of a genuine concern for the well-being of others without expecting reward. To us, this means we offer services for free or pay-what-you-can, prioritizing need over ability to pay. We acknowledge a tension with goals like sustainability (Giving it all away vs keeping the lights on).",
       "signals": "Only offering assistance when it provides a public relations benefit or expecting recipients of aid to perform public gratitude."
     },
     {
       "id": "anti_oppression",
       "label": "Anti-oppression",
-      "description": "We actively oppose all forms of systemic discrimination and hierarchy. To us, this means we have a dedicated diversity officer and mandatory bias training. We acknowledge a tension with Comfort (Challenging norms is uncomfortable).",
+      "description": "We actively oppose all forms of systemic discrimination and hierarchy. To us, this means we have a dedicated diversity officer and mandatory bias training. We acknowledge a tension with goals like comfort (Challenging norms is uncomfortable).",
       "signals": "Dismissing concerns about bias as irrelevant politics or refusing to examine how organizational structures replicate systemic inequalities."
     },
     {
       "id": "autonomy",
       "label": "Autonomy",
-      "description": "The group maintains independence from external control by governments or corporations. To us, this means we refuse funding that comes with strings attached or veto power. We acknowledge a tension with Coordination (Independence vs standardization).",
+      "description": "The group maintains independence from external control by governments or corporations. To us, this means we refuse funding that comes with strings attached or veto power. We acknowledge a tension with goals like coordination (Independence vs standardization).",
       "signals": "Accepting funding that comes with strings attached such as donor veto power or allowing external partners to dictate internal strategy."
     },
     {
       "id": "capacity_building",
       "label": "Capacity Building",
-      "description": "We focus on teaching skills so that members become stronger and more capable over time. To us, this means we dedicate 20% of the budget to training and mentorship programs. We acknowledge a tension with Efficiency (Training takes time away from doing).",
+      "description": "We focus on teaching skills so that members become stronger and more capable over time. To us, this means we dedicate 20% of the budget to training and mentorship programs. We acknowledge a tension with goals like efficiency (Training takes time away from doing).",
       "signals": "Cutting the training budget immediately when funds are tight or expecting junior members to perform without providing any mentorship."
     },
     {
       "id": "collaboration",
       "label": "Collaboration",
-      "description": "We work together to solve problems rather than competing against one another. To us, this means we default to 'Multi-player mode' on documents and credit all contributors. We acknowledge a tension with Speed (Group work is slower than solo work).",
+      "description": "We work together to solve problems rather than competing against one another. To us, this means we default to 'Multi-player mode' on documents and credit all contributors. We acknowledge a tension with goals like speed (Group work is slower than solo work).",
       "signals": "Individuals hoarding information to make themselves indispensable or taking sole credit for work that was the result of a team effort."
     },
     {
       "id": "common_ownership",
       "label": "Common Ownership",
-      "description": "Resources and assets are owned collectively by the members rather than by private investors. To us, this means Assets are held in a trust or cooperative structure where every member has a share. We acknowledge a tension with Investment Speed (Harder to raise VC capital).",
+      "description": "Resources and assets are owned collectively by the members rather than by private investors. To us, this means Assets are held in a trust or cooperative structure where every member has a share. We acknowledge a tension with goals like investment speed (Harder to raise VC capital).",
       "signals": "Structuring the organization so that a small group of founders retains all voting power and profits despite claims of being a collective."
     },
     {
       "id": "community_care",
       "label": "Community Care",
-      "description": "We prioritize the physical and mental health of our members above productivity. To us, this means we start meetings with check-ins and fund mental health stipends. We acknowledge a tension with Productivity (Rest takes time away from output).",
+      "description": "We prioritize the physical and mental health of our members above productivity. To us, this means we start meetings with check-ins and fund mental health stipends. We acknowledge a tension with goals like productivity (Rest takes time away from output).",
       "signals": "Praising individuals for working while sick or scheduling mandatory meetings during times that are ostensibly reserved for rest and recovery."
     },
     {
       "id": "conflict_resolution",
       "label": "Conflict Resolution",
-      "description": "We address disagreements openly and constructively to find a path forward. To us, this means we have a standing mediation committee and clear grievance forms. We acknowledge a tension with Harmony (Addressing conflict feels disruptive).",
+      "description": "We address disagreements openly and constructively to find a path forward. To us, this means we have a standing mediation committee and clear grievance forms. We acknowledge a tension with goals like harmony (Addressing conflict feels disruptive).",
       "signals": "Ignoring interpersonal disputes in the hope they will disappear or labeling members who raise valid concerns as troublemakers to silence them."
     },
     {
       "id": "consent",
       "label": "Consent",
-      "description": "Participation and interactions are always voluntary and based on clear permission. To us, this means we use 'opt-in' by default for all communications and initiatives. We acknowledge a tension with Speed (Asking everyone takes time).",
+      "description": "Participation and interactions are always voluntary and based on clear permission. To us, this means we use 'opt-in' by default for all communications and initiatives. We acknowledge a tension with goals like speed (Asking everyone takes time).",
       "signals": "Automatically subscribing members to lists without asking or pressuring individuals to take on tasks they have already explicitly declined."
     },
     {
       "id": "consensus",
       "label": "Consensus",
-      "description": "We strive to make decisions that everyone can agree to or at least live with. To us, this means we do not move forward with a proposal until all blocking concerns are resolved. We acknowledge a tension with Action/Speed (Everyone agreeing takes forever).",
+      "description": "We strive to make decisions that everyone can agree to or at least live with. To us, this means we do not move forward with a proposal until all blocking concerns are resolved. We acknowledge a tension with goals like action and speed (Everyone agreeing takes forever).",
       "signals": "Pushing a decision forward despite unresolved blocking concerns or using social pressure to force dissenters to conform to the majority."
     },
     {
       "id": "constructive_feedback",
       "label": "Constructive Feedback",
-      "description": "Criticism is offered kindly to help improve the work rather than to tear people down. To us, this means we use the 'Praise-Improve-Praise' sandwich and focus on the work, not the person. We acknowledge a tension with Politeness (Honesty can hurt feelings).",
+      "description": "Criticism is offered kindly to help improve the work rather than to tear people down. To us, this means we use the 'Praise-Improve-Praise' sandwich and focus on the work, not the person. We acknowledge a tension with goals like politeness (Honesty can hurt feelings).",
       "signals": "Delivering harsh criticism without offering actionable advice for improvement or attacking a person's character rather than their work."
     },
     {
       "id": "cooperation",
       "label": "Cooperation",
-      "description": "We believe working together produces better results than working in isolation. To us, this means we actively partner with similar organizations instead of competing for market share. We acknowledge a tension with Competition (Sharing the pie vs taking the pie).",
+      "description": "We believe working together produces better results than working in isolation. To us, this means we actively partner with similar organizations instead of competing for market share. We acknowledge a tension with goals like competition (Sharing the pie vs taking the pie).",
       "signals": "Viewing similar organizations as threats to be destroyed rather than partners or refusing to share resources that could help the broader ecosystem."
     },
     {
@@ -108,7 +108,7 @@
     {
       "id": "decentralization",
       "label": "Decentralization",
-      "description": "Power is distributed across a network rather than concentrated in a central authority. To us, this means Decision-making authority is pushed to the edges no central HQ exists. We acknowledge a tension with Efficiency/Cohesion (Herding cats).",
+      "description": "Power is distributed across a network rather than concentrated in a central authority. To us, this means Decision-making authority is pushed to the edges no central HQ exists. We acknowledge a tension with goals like efficiency and cohesion (Herding cats).",
       "signals": "Concentrating all critical decision-making power in a single founder or small inner circle while claiming to be a flat organization."
     },
     {
@@ -120,7 +120,7 @@
     {
       "id": "diversity",
       "label": "Diversity",
-      "description": "We value a wide range of perspectives and backgrounds within our membership. To us, this means we strictly enforce quotas or targets for representation in leadership. We acknowledge a tension with Homophily/Ease (It's easier to work with people like you).",
+      "description": "We value a wide range of perspectives and backgrounds within our membership. To us, this means we strictly enforce quotas or targets for representation in leadership. We acknowledge a tension with goals like homophily and ease (It's easier to work with people like you).",
       "signals": "Hiring primarily for culture fit which results in a homogenous team or having a leadership team that lacks representation from marginalized groups."
     },
     {
@@ -132,25 +132,25 @@
     {
       "id": "education",
       "label": "Education",
-      "description": "We are committed to the continuous learning and growth of all members. To us, this means we publish open curriculums and host free workshops for the public. We acknowledge a tension with Action (Learning vs Doing).",
+      "description": "We are committed to the continuous learning and growth of all members. To us, this means we publish open curriculums and host free workshops for the public. We acknowledge a tension with goals like action (Learning vs Doing).",
       "signals": "Treating questions from newcomers as annoyances or creating an environment where members are afraid to admit they do not know something."
     },
     {
       "id": "empathy",
       "label": "Empathy",
-      "description": "We strive to understand and share the feelings of others in our community. To us, this means we prioritize user research and listening tours before building solutions. We acknowledge a tension with Objectivity (Feeling with users vs analyzing data).",
+      "description": "We strive to understand and share the feelings of others in our community. To us, this means we prioritize user research and listening tours before building solutions. We acknowledge a tension with goals like objectivity (Feeling with users vs analyzing data).",
       "signals": "Dismissing user feedback that conflicts with internal assumptions or prioritizing data metrics over the actual lived experience of people."
     },
     {
       "id": "empowerment",
       "label": "Empowerment",
-      "description": "We give members the authority and resources to take charge of their own work. To us, this means we provide resources and authority to those closest to the problem. We acknowledge a tension with Control (Letting go means risking mistakes).",
+      "description": "We give members the authority and resources to take charge of their own work. To us, this means we provide resources and authority to those closest to the problem. We acknowledge a tension with goals like control (Letting go means risking mistakes).",
       "signals": "Delegating responsibility without giving the corresponding authority to make decisions or second-guessing every choice made by the team."
     },
     {
       "id": "equity",
       "label": "Equity",
-      "description": "We distribute resources based on need to ensure fair outcomes for everyone. To us, this means we use sliding scale pricing and offer scholarships to level the playing field. We acknowledge a tension with Equality (Different treatment vs same treatment).",
+      "description": "We distribute resources based on need to ensure fair outcomes for everyone. To us, this means we use sliding scale pricing and offer scholarships to level the playing field. We acknowledge a tension with goals like equality (Different treatment vs same treatment).",
       "signals": "Treating everyone exactly the same despite different starting points or refusing to accommodate specific needs under the guise of fairness."
     },
     {
@@ -162,7 +162,7 @@
     {
       "id": "fairness",
       "label": "Fairness",
-      "description": "We apply rules and distribute resources in a just and impartial manner. To us, this means we use transparent salary bands and objective criteria for promotions. We acknowledge a tension with Favoritism (Treating everyone same vs helping friends).",
+      "description": "We apply rules and distribute resources in a just and impartial manner. To us, this means we use transparent salary bands and objective criteria for promotions. We acknowledge a tension with goals like favoritism (Treating everyone same vs helping friends).",
       "signals": "Creating special rules for friends of the leadership or applying policies inconsistently depending on who is involved."
     },
     {
@@ -174,7 +174,7 @@
     {
       "id": "flexibility",
       "label": "Flexibility",
-      "description": "We accommodate the different needs and schedules of our members. To us, this means we allow remote work and asynchronous schedules. We acknowledge a tension with Predictability (Asynch work makes scheduling hard).",
+      "description": "We accommodate the different needs and schedules of our members. To us, this means we allow remote work and asynchronous schedules. We acknowledge a tension with goals like predictability (Asynch work makes scheduling hard).",
       "signals": "Penalizing members for using flexible work arrangements or judging commitment based on the number of hours physically present in the office."
     },
     {
@@ -186,7 +186,7 @@
     {
       "id": "freedom",
       "label": "Freedom",
-      "description": "We protect the liberty of individuals to express themselves and act as they choose. To us, this means we release our work under copyleft licenses. We acknowledge a tension with Security (Total freedom includes freedom to harm).",
+      "description": "We protect the liberty of individuals to express themselves and act as they choose. To us, this means we release our work under copyleft licenses. We acknowledge a tension with goals like security (Total freedom includes freedom to harm).",
       "signals": "Censoring speech that is critical of the leadership or implementing surveillance tools to monitor member activity."
     },
     {
@@ -198,7 +198,7 @@
     {
       "id": "generosity",
       "label": "Generosity",
-      "description": "We give freely of our time and resources to support the collective goal. To us, this means we share our surplus resources with aligned groups in need. We acknowledge a tension with Self-Preservation (Giving until it hurts).",
+      "description": "We give freely of our time and resources to support the collective goal. To us, this means we share our surplus resources with aligned groups in need. We acknowledge a tension with goals like self-preservation (Giving until it hurts).",
       "signals": "Hoarding a surplus of resources while allied groups are struggling to survive or viewing every interaction as a transaction to be maximized."
     },
     {
@@ -216,13 +216,13 @@
     {
       "id": "holocracy",
       "label": "Holocracy",
-      "description": "We organize around roles and circles rather than top-down managers. To us, this means we use circles and roles instead of managers and job titles. We acknowledge a tension with Clarity (Roles can be confusing compared to titles).",
+      "description": "We organize around roles and circles rather than top-down managers. To us, this means we use circles and roles instead of managers and job titles. We acknowledge a tension with goals like clarity (Roles can be confusing compared to titles).",
       "signals": "Reintroducing hidden hierarchies where influence is based on social capital rather than clear roles or ignoring governance processes."
     },
     {
       "id": "honesty",
       "label": "Honesty",
-      "description": "We tell the truth even when it is difficult or uncomfortable. To us, this means we refuse to spin bad news and admit when we don't know the answer. We acknowledge a tension with Diplomacy (Blunt truth vs tact).",
+      "description": "We tell the truth even when it is difficult or uncomfortable. To us, this means we refuse to spin bad news and admit when we don't know the answer. We acknowledge a tension with goals like diplomacy (Blunt truth vs tact).",
       "signals": "Hiding bad news from the membership to protect morale or giving vague non-answers when asked direct questions about challenges."
     },
     {
@@ -234,13 +234,13 @@
     {
       "id": "humility",
       "label": "Humility",
-      "description": "We recognize that we do not have all the answers and are open to learning from others. To us, this means Leaders eat last and credit the team for successes. We acknowledge a tension with Marketing (Selling yourself vs being modest).",
+      "description": "We recognize that we do not have all the answers and are open to learning from others. To us, this means Leaders eat last and credit the team for successes. We acknowledge a tension with goals like marketing (Selling yourself vs being modest).",
       "signals": "Leaders taking credit for the team's success while blaming the team for failures or refusing to admit when they are wrong."
     },
     {
       "id": "inclusion",
       "label": "Inclusion",
-      "description": "We proactively welcome people who are often marginalized or excluded. To us, this means we proactively invite marginalized voices to the planning table. We acknowledge a tension with Exclusivity/Focus (Big tent vs niche group).",
+      "description": "We proactively welcome people who are often marginalized or excluded. To us, this means we proactively invite marginalized voices to the planning table. We acknowledge a tension with goals like exclusivity and focus (Big tent vs niche group).",
       "signals": "Holding meetings in spaces or at times that are inaccessible to working parents or people with different schedules."
     },
     {
@@ -252,25 +252,25 @@
     {
       "id": "independence",
       "label": "Independence",
-      "description": "We avoid reliance on any single funding source or authority figure. To us, this means we maintain a diversified funding base to avoid dependency on one donor. We acknowledge a tension with Resources (Going it alone means less help).",
+      "description": "We avoid reliance on any single funding source or authority figure. To us, this means we maintain a diversified funding base to avoid dependency on one donor. We acknowledge a tension with goals like resources (Going it alone means less help).",
       "signals": "Relying on a single large donor who threatens to pull funding if the organization takes a political stance they dislike."
     },
     {
       "id": "innovation",
       "label": "Innovation",
-      "description": "We value new ideas and creative solutions over tradition and established methods. To us, this means we reward novel approaches even if they disrupt current workflows. We acknowledge a tension with Tradition (New vs Old).",
+      "description": "We value new ideas and creative solutions over tradition and established methods. To us, this means we reward novel approaches even if they disrupt current workflows. We acknowledge a tension with goals like tradition (New vs Old).",
       "signals": "Shutting down new ideas with the excuse that things have always been done a certain way or refusing to allocate resources to test new concepts."
     },
     {
       "id": "integrity",
       "label": "Integrity",
-      "description": "We align our actions with our stated values even when no one is watching. To us, this means we refuse contracts that violate our ethical standards, regardless of profit. We acknowledge a tension with Profit/Opportunity (Saying no to easy money).",
+      "description": "We align our actions with our stated values even when no one is watching. To us, this means we refuse contracts that violate our ethical standards, regardless of profit. We acknowledge a tension with goals like profit and opportunity (Saying no to easy money).",
       "signals": "Accepting a partnership that violates the group's core values because the financial offer is too good to refuse."
     },
     {
       "id": "interdependence",
       "label": "Interdependence",
-      "description": "We recognize that our survival and success are tied to the well-being of others. To us, this means we map our supply chain to ensure we support local ecosystems. We acknowledge a tension with Self-Sufficiency (Relying on others vs prepping).",
+      "description": "We recognize that our survival and success are tied to the well-being of others. To us, this means we map our supply chain to ensure we support local ecosystems. We acknowledge a tension with goals like self-sufficiency (Relying on others vs prepping).",
       "signals": "Acting as if the organization exists in a vacuum and ignoring the impact of its actions on the surrounding community or ecosystem."
     },
     {
@@ -288,13 +288,13 @@
     {
       "id": "justice",
       "label": "Justice",
-      "description": "We seek to repair past wrongs and create a fair system for the future. To us, this means we prioritize restorative processes over punitive ones. We acknowledge a tension with Mercy (Strict rules vs forgiveness).",
+      "description": "We seek to repair past wrongs and create a fair system for the future. To us, this means we prioritize restorative processes over punitive ones. We acknowledge a tension with goals like mercy (Strict rules vs forgiveness).",
       "signals": "Focusing on punishment and exclusion rather than healing and restoration or applying rules more strictly to marginalized members."
     },
     {
       "id": "knowledge_sharing",
       "label": "Knowledge Sharing",
-      "description": "We freely distribute information so that everyone can benefit from it. To us, this means we document everything in a public wiki. We acknowledge a tension with Intellectual Property (Open source vs patent).",
+      "description": "We freely distribute information so that everyone can benefit from it. To us, this means we document everything in a public wiki. We acknowledge a tension with goals like intellectual property (Open source vs patent).",
       "signals": "Creating silos where information is hoarded to maintain power or refusing to document work so that others become dependent on a single expert."
     },
     {
@@ -312,19 +312,19 @@
     {
       "id": "learning",
       "label": "Learning",
-      "description": "We embrace mistakes as opportunities to grow rather than failures to be punished. To us, this means we fund conference tickets and book clubs for members. We acknowledge a tension with Performance (Study time vs work time).",
+      "description": "We embrace mistakes as opportunities to grow rather than failures to be punished. To us, this means we fund conference tickets and book clubs for members. We acknowledge a tension with goals like performance (Study time vs work time).",
       "signals": "Viewing mistakes as a sign of incompetence rather than a learning opportunity or cutting the budget for personal development."
     },
     {
       "id": "liberty",
       "label": "Liberty",
-      "description": "We oppose authoritarian control and support the freedom of the individual. To us, this means we defend the right of members to fork the project if they disagree. We acknowledge a tension with Order (Chaos vs rules).",
+      "description": "We oppose authoritarian control and support the freedom of the individual. To us, this means we defend the right of members to fork the project if they disagree. We acknowledge a tension with goals like order (Chaos vs rules).",
       "signals": "Imposing strict rules on personal behavior that has no impact on the work or demanding ideological purity tests for membership."
     },
     {
       "id": "localism",
       "label": "Localism",
-      "description": "We prioritize local needs and resources over global or distant ones. To us, this means we source supplies from within a 50-mile radius. We acknowledge a tension with Globalism/Scale (Sourcing near vs sourcing cheap).",
+      "description": "We prioritize local needs and resources over global or distant ones. To us, this means we source supplies from within a 50-mile radius. We acknowledge a tension with goals like globalism and scale (Sourcing near vs sourcing cheap).",
       "signals": "Importing goods that could be sourced locally to save a small amount of money or ignoring the needs of the immediate neighborhood."
     },
     {
@@ -348,13 +348,13 @@
     {
       "id": "mutual_aid",
       "label": "Mutual Aid",
-      "description": "We engage in a reciprocal exchange of resources where everyone is both a giver and a receiver. To us, this means we practice 'solidarity, not charity' by exchanging resources directly. We acknowledge a tension with Charity (Solidarity vs Tax Write-offs).",
+      "description": "We engage in a reciprocal exchange of resources where everyone is both a giver and a receiver. To us, this means we practice 'solidarity, not charity' by exchanging resources directly. We acknowledge a tension with goals like charity (Solidarity vs Tax Write-offs).",
       "signals": "Creating a transactional system where help is only given with the expectation of an immediate equivalent return."
     },
     {
       "id": "non_violence",
       "label": "Non-violence",
-      "description": "We reject physical and emotional violence as a means to achieve our goals. To us, this means we de-escalate conflicts and refuse to engage with law enforcement where possible. We acknowledge a tension with Self-Defense (Turning cheek vs fighting back).",
+      "description": "We reject physical and emotional violence as a means to achieve our goals. To us, this means we de-escalate conflicts and refuse to engage with law enforcement where possible. We acknowledge a tension with goals like self-defense (Turning cheek vs fighting back).",
       "signals": "Using aggressive language or intimidation tactics to silence opposition or justifying harm as necessary for the greater good."
     },
     {
@@ -366,13 +366,13 @@
     {
       "id": "openness",
       "label": "Openness",
-      "description": "We operate transparently and invite participation from the outside world. To us, this means All meetings are open to the public unless safety is at risk. We acknowledge a tension with Privacy/Security (Open doors let bugs in).",
+      "description": "We operate transparently and invite participation from the outside world. To us, this means All meetings are open to the public unless safety is at risk. We acknowledge a tension with goals like privacy and security (Open doors let bugs in).",
       "signals": "Conducting all real business in private messages and only using public meetings to rubber-stamp decisions that have already been made."
     },
     {
       "id": "participation",
       "label": "Participation",
-      "description": "Democracy requires the active engagement of all members in the decision-making process. To us, this means we require active contribution to maintain voting rights. We acknowledge a tension with Efficiency (Too many cooks).",
+      "description": "Democracy requires the active engagement of all members in the decision-making process. To us, this means we require active contribution to maintain voting rights. We acknowledge a tension with goals like efficiency (Too many cooks).",
       "signals": "Creating barriers to entry that make it difficult for new members to have a voice or ignoring the input of the broader membership."
     },
     {
@@ -384,25 +384,25 @@
     {
       "id": "resilience",
       "label": "Resilience",
-      "description": "The group can absorb shocks and keep functioning when conditions get hard. To us, this means we build redundancy into critical roles and document institutional knowledge so no single departure sinks the work. We acknowledge a tension with Efficiency (Backup capacity vs lean operations).",
+      "description": "The group can absorb shocks and keep functioning when conditions get hard. To us, this means we build redundancy into critical roles and document institutional knowledge so no single departure sinks the work. We acknowledge a tension with goals like efficiency (Backup capacity vs lean operations).",
       "signals": "Concentrating all critical knowledge in one person or ignoring warning signs of burnout until key members quit."
     },
     {
       "id": "solidarity",
       "label": "Solidarity",
-      "description": "We stand with one another, especially when members face pressure from outside forces. To us, this means we defend members against unjust treatment and share risk collectively rather than leaving anyone exposed. We acknowledge a tension with Individualism (Collective defense vs personal autonomy).",
+      "description": "We stand with one another, especially when members face pressure from outside forces. To us, this means we defend members against unjust treatment and share risk collectively rather than leaving anyone exposed. We acknowledge a tension with goals like individualism (Collective defense vs personal autonomy).",
       "signals": "Staying silent when a member faces mistreatment or leaving vulnerable members to handle external pressure alone."
     },
     {
       "id": "stewardship",
       "label": "Stewardship",
-      "description": "We take responsibility for tending the shared resources and relationships entrusted to us. To us, this means we make decisions with future members in mind and reinvest in the infrastructure we depend on. We acknowledge a tension with Efficiency (Long-term care vs short-term output).",
+      "description": "We take responsibility for tending the shared resources and relationships entrusted to us. To us, this means we make decisions with future members in mind and reinvest in the infrastructure we depend on. We acknowledge a tension with goals like efficiency (Long-term care vs short-term output).",
       "signals": "Extracting short-term value from shared resources without replenishing them or deferring maintenance until systems fail."
     },
     {
       "id": "transparency",
       "label": "Transparency",
-      "description": "Decisions, finances, and processes are visible to the membership by default. To us, this means we publish meeting notes, budgets, and decision logs where all members can read them. We acknowledge a tension with Privacy (Open books vs personal disclosure).",
+      "description": "Decisions, finances, and processes are visible to the membership by default. To us, this means we publish meeting notes, budgets, and decision logs where all members can read them. We acknowledge a tension with goals like privacy (Open books vs personal disclosure).",
       "signals": "Making major decisions in private channels and only announcing outcomes, or hiding finances behind vague summaries."
     },
     {

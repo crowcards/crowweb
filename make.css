@@ -1,0 +1,444 @@
+/* ============================================================
+   CROW Make — loaded after styles.css on make.html only.
+   Form controls, the card-key screens, the editor, and pop-ups.
+   ============================================================ */
+
+/* ── form controls ───────────────────────────────────────── */
+.make :is(input[type="text"], input[type="url"], input[type="search"], select) {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  border: 2px solid var(--line);
+  border-radius: 0;
+  background: var(--white);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+[data-theme="dark"] .make :is(input[type="text"], input[type="url"], input[type="search"], select) {
+  background: color-mix(in srgb, var(--ink) 6%, var(--bg));
+}
+
+.make select { cursor: pointer; }
+
+.make :is(input, select):focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.make :is(input[type="checkbox"], input[type="radio"]) {
+  width: 0.9em;
+  height: 0.9em;
+  margin: 0;
+  accent-color: var(--accent);
+  flex: none;
+}
+
+/* a checkbox with its label text beside it */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.75rem 0;
+  cursor: pointer;
+}
+
+.make .button:disabled {
+  background: var(--line);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+/* a smaller version of the orange pixel button */
+.button-small {
+  --px: 3px;
+  font-size: 1.15rem;
+  padding: 0.3em 1em 0.35em;
+}
+
+/* a <button> that looks like a link: mono caps with the orange underline */
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
+  cursor: pointer;
+}
+
+.link-button:hover,
+.link-button:focus-visible {
+  background: var(--accent);
+  color: var(--lime);
+  text-decoration-color: transparent;
+}
+
+/* a 3x3-pixel plus that turns into an orange minus when open
+   (same shape as .pixel-plus and the docs sidebar fold) */
+.pixel-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray);
+  cursor: pointer;
+}
+.pixel-toggle:hover,
+.pixel-toggle:focus-visible,
+.pixel-toggle[aria-expanded="true"] { color: var(--accent); }
+.pixel-toggle::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: currentColor;
+  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
+                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+}
+.pixel-toggle[aria-expanded="true"]::before { clip-path: inset(33.3% 0); }
+
+/* with text beside its plus */
+.pixel-toggle.with-label {
+  display: inline-flex;
+  gap: 0.5rem;
+  width: auto;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+.form-error {
+  color: #B3261E;
+  font-size: var(--fs-small);
+}
+[data-theme="dark"] .form-error { color: #FF8A80; }
+
+/* for screen readers only */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.screen-loading { color: var(--gray); }
+
+/* ── form fields (Basics and later modules) ──────────────── */
+.fields { margin: 1.5rem 0 2rem; }
+.field { margin-bottom: 1.5rem; }
+.field > :is(label, legend).mono-u { display: block; margin-bottom: 0.4rem; padding: 0; }
+.field-hint { margin: 0 0 0.5rem; color: var(--gray); font-size: var(--fs-small); }
+
+fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
+.module-picker { margin-block: 1rem 1.5rem; }
+
+/* radio and checkbox rows: the box, then a name over a short description */
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+}
+.choice > input { margin-top: 0.35em; }
+.choice label { cursor: pointer; }
+.choice-name { display: block; font-size: 1rem; font-weight: 700; }
+.choice-desc { display: block; color: var(--gray); font-size: 0.9rem; }
+
+.module-picker .choice { padding-block: 0.6rem; border-bottom: var(--rule); }
+.module-picker .choice:last-child { border-bottom: 0; }
+
+/* keyword and value tags: small mono chips, each with an × */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.6rem;
+}
+.tags:empty { display: none; }
+.tags li { padding: 0; }
+.tags li::before { display: none; }   /* no pixel bullet */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+.tags-quiet .tag { background: color-mix(in srgb, var(--accent) 14%, var(--bg)); color: var(--ink); }
+
+.tag-remove {
+  padding: 0 0.15rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.tag-remove:hover,
+.tag-remove:focus-visible { background: var(--ink); color: var(--lime); }
+
+/* values: a filter box over a compact scrolling list */
+.value-list {
+  max-height: 22rem;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  padding: 0 0.75rem;
+  border: 2px solid var(--line);
+  font-size: 0.9rem;
+}
+.value-row { flex-wrap: wrap; align-items: center; padding-block: 0.2rem; border-bottom: var(--rule); }
+.value-row:last-child { border-bottom: 0; }
+.value-row > input { margin-top: 0; }
+.value-row .choice-name { flex: 1; font-size: inherit; font-weight: 400; }
+.value-about { flex-basis: 100%; padding-left: calc(0.9em + 0.6rem); color: var(--gray); }
+.value-about p { margin: 0 0 0.4rem; }
+
+.conflict-notes .callout { margin: 0.75rem 0; }
+
+/* ── start: edit-an-existing-card form ───────────────────── */
+.key-form label.mono-u {
+  display: block;
+  margin: 1.25rem 0 0.4rem;
+}
+.key-form .button { margin-top: 0.5rem; }
+
+/* ── save-your-key screen ────────────────────────────────── */
+.key-list { margin: 2rem 0 1rem; }
+.key-list > div { margin-bottom: 1.25rem; }
+.key-list dt { margin-bottom: 0.4rem; }
+.key-list dd { margin: 0; }
+
+/* the ID and secret: big enough to read, and wrapping anywhere so the
+   43-character secret never pushes the page sideways */
+.key-value {
+  display: inline-block;
+  max-width: 100%;
+  margin-right: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  font-size: 1rem;
+  word-break: break-all;
+  user-select: all;   /* one click selects the whole value */
+}
+
+/* ── editor sidebar (wide screens) ───────────────────────── */
+/* the crow, the card's name, the buttons and Docs sit centred; the module
+   list stays left-aligned */
+.editor-crow {   /* the flapping header crow, perched at the top */
+  --sprite: 4rem;
+  margin: -0.5rem auto 1rem;
+}
+
+:is(.editor-card, .editor-actions, .editor-forget, .editor-docs) { text-align: center; }
+
+.editor-card { margin: 0 0 1.25rem; }
+.editor-card .mono-u { display: block; color: var(--gray); font-size: 0.7rem; }
+.editor-card .editor-name { display: block; font-weight: 700; font-size: 1rem; line-height: 1.3; overflow-wrap: anywhere; }
+.editor-card .mono { display: block; color: var(--gray); font-size: 0.72rem; word-break: break-all; }
+
+/* module names are the main thing here: a step bigger than docs links */
+.editor-nav #module-list a { font-size: 0.8rem; }
+
+.editor-actions,
+.editor-forget { margin: 0 0 1.5rem; }
+.editor-docs { margin: 0; }
+
+/* the status under Save, and "on this device" under Forget */
+.save-status,
+.editor-forget-note {
+  min-height: 1.5em;   /* holds its space so what's below doesn't jump */
+  margin: 0.5rem 0 0;
+  color: var(--gray);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+/* Docs keeps the normal link look (the sidebar turns underlines off for
+   its module links, so the underline is restated in full) */
+:is(.editor-docs, .editor-bar-actions) a {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-decoration-line: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-decoration-skip-ink: none;
+}
+:is(.editor-docs, .editor-bar-actions) a:hover,
+:is(.editor-docs, .editor-bar-actions) a:focus-visible {
+  background: var(--accent);
+  color: var(--lime);
+  text-decoration-color: transparent;
+}
+
+/* ── editor: the current module ──────────────────────────── */
+.editor-body {
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  padding: 3rem var(--gutter) 6rem;
+}
+.editor-body .lede { font-size: clamp(1.2rem, 1.8vw, 1.5rem); }
+
+/* ── editor sidebar (narrow screens): a slim bar that opens ── */
+.editor-bar { display: none; }
+
+@media (width < 64rem) {
+  .editor-crow { display: none; }   /* the header has the crow here */
+}
+
+@media (width < 52rem) {
+  .editor-body { padding-top: 2rem; }
+
+  /* stays just under the site header while scrolling */
+  .editor-nav {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 5;
+    padding: 0.4rem var(--gutter);
+    background: var(--glass);
+    backdrop-filter: blur(4px);
+  }
+
+  /* one row: the panel toggle on the left; status, Save, Forget and Docs on
+     the right (wrapping to a second row on very small screens) */
+  .editor-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem 1rem;
+  }
+  .editor-bar .pixel-toggle { font-size: 0.9rem; }
+
+  .editor-bar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+  }
+  .editor-bar .save-status { min-height: 0; margin: 0; font-size: 0.65rem; }
+  .editor-bar .button-small { font-size: 1rem; padding: 0.2em 0.8em 0.25em; }
+  .editor-bar [data-forget] { margin-right: 0.5rem; }   /* a little more room before Docs */
+
+  /* the panel: compact, and without what the bar already shows */
+  .editor-nav:not(.is-open) .editor-nav-panel { display: none; }
+  .editor-nav-panel {
+    max-height: calc(100dvh - var(--header-h) - 4rem);
+    overflow-y: auto;
+    margin-top: 0.4rem;
+    padding: 0.5rem 0 0.25rem;
+    border-top: var(--rule);
+  }
+  .editor-nav-panel :is(.editor-actions, .editor-forget, .editor-docs) { display: none; }
+
+  /* card name and ID on one line */
+  .editor-nav-panel .editor-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.6rem;
+    margin: 0 0 0.5rem;
+    text-align: left;
+  }
+  .editor-nav-panel .editor-card .mono-u { display: none; }
+  .editor-nav-panel .editor-card :is(.editor-name, .mono) { display: inline; }
+  .editor-nav-panel .editor-card .editor-name { font-size: 0.95rem; }
+
+  .editor-nav-panel #module-list { gap: 0.1rem 1rem; margin: 0 0 0.5rem; }
+  .editor-nav-panel #module-list a { font-size: 0.8rem; padding-block: 0.25rem; }
+}
+
+/* ── pop-up ──────────────────────────────────────────────── */
+/* a box over the page for anything that needs attention: an orange pixel
+   frame (the border, cut into stepped corners by the shared rule in
+   styles.css) around a beige panel */
+.popup {
+  --px: 4px;
+  width: min(32rem, calc(100% - var(--gutter) * 2));
+  max-width: none;
+  padding: 0;
+  border: var(--px) solid transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    var(--accent) border-box;
+  color: var(--ink);
+}
+
+.popup::backdrop {
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  backdrop-filter: blur(3px);
+}
+
+.popup-inner {
+  position: relative;
+  padding: 1.5rem 3.25rem 1.5rem 1.5rem;   /* room on the right for the X */
+}
+
+.popup-title {
+  margin: 0 0 0.5rem;
+  font-size: var(--fs-lede);
+}
+
+.popup-body > :last-child { margin-bottom: 0; }
+
+/* a row of buttons at the bottom of a pop-up */
+.popup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+/* close: a 5x5 pixel X, the same one the narrow-screen menu uses */
+.popup-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.popup-close span {
+  width: 4px;
+  height: 4px;
+  color: var(--ink);
+  background: currentColor;
+  box-shadow:
+    -8px -8px currentColor, -4px -4px currentColor,
+     8px -8px currentColor,  4px -4px currentColor,
+    -8px  8px currentColor, -4px  4px currentColor,
+     8px  8px currentColor,  4px  4px currentColor;
+}
+
+.popup-close:hover span,
+.popup-close:focus-visible span { color: var(--accent); }

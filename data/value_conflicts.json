@@ -1,0 +1,194 @@
+{
+  "version": "0.4.0",
+  "updatedAt": "2026-10-02",
+  "note": "Pairs of values (IDs from values.json) that pull against each other. The editor shows a gentle note when a user selects both values in a pair; it never blocks a choice. Pairs are unordered, and each id is the two value IDs joined by double underscore in alphabetical order. 'source' records where a pair came from; 'status' is 'accepted' for confirmed pairs. 'conflict_level' is one of: 'opposite' (holding both is near-contradictory), 'strong' (real operational tension requiring active management), or 'soft' (worth noting but manageable with good practice).",
+  "items": [
+    {
+      "id": "accountability__trust",
+      "values": [
+        "accountability",
+        "trust"
+      ],
+      "note": "Trust asks members to extend good faith and interpret others charitably — assuming positive intent even when behavior is ambiguous. Accountability asks members to name harm and accept responsibility for impact. When something goes wrong, the move to hold someone accountable can feel like a withdrawal of the good faith trust requires.",
+      "source": "values.json description (trust)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "autonomy__interdependence",
+      "values": [
+        "autonomy",
+        "interdependence"
+      ],
+      "note": "Autonomy asks the group to maintain independence from external control, refusing arrangements that give outside parties influence over internal strategy. Interdependence asks the group to recognize that its survival and success are tied to the well-being of others — mapping supply chains and supporting local ecosystems. Deep interdependence requires accepting some degree of mutual influence that autonomy resists.",
+      "source": "values.json description (autonomy)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "consensus__leadership",
+      "values": [
+        "consensus",
+        "leadership"
+      ],
+      "note": "Consensus asks the group not to move forward with a proposal until all blocking concerns are resolved. Leadership asks members to step up, take initiative, and make calls when needed. A commitment to full consensus before action limits the ability of leaders to move decisively, and the presence of strong individual leadership can pressure dissenters into dropping legitimate blocks.",
+      "source": "values.json description (consensus)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "cooperation__meritocracy",
+      "values": [
+        "cooperation",
+        "meritocracy"
+      ],
+      "note": "Cooperation asks the group to actively partner with similar organizations rather than competing for market share — sharing the pie rather than taking it. Meritocracy asks that influence be earned through active contribution and skill. When groups cooperate and share resources and credit, it becomes harder to attribute outcomes to individual contributors, which is precisely what meritocracy requires.",
+      "source": "values.json description (cooperation)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "accountability__decentralization",
+      "values": [
+        "accountability",
+        "decentralization"
+      ],
+      "note": "Decentralization pushes decision-making authority to the edges — no central HQ, power distributed across the network. Accountability asks members to accept responsibility for their actions and impact. When authority is diffuse, it becomes genuinely difficult to identify who made a decision and therefore who is responsible when something goes wrong. Decentralized structures can obscure the accountability trail.",
+      "source": "values.json description (decentralization)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "accountability__empowerment",
+      "values": [
+        "accountability",
+        "empowerment"
+      ],
+      "note": "Empowerment gives members the authority and resources to take charge of their own work — providing authority to those closest to the problem and avoiding second-guessing their decisions. Accountability asks members to accept responsibility for actions and impact, which requires oversight of outcomes. Letting go enough to genuinely empower people means accepting the risk of mistakes you can no longer catch in advance.",
+      "source": "values.json description (empowerment)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "equity__fairness",
+      "values": [
+        "equity",
+        "fairness"
+      ],
+      "note": "Equity distributes resources based on need — sliding scale pricing, scholarships, different treatment to level the playing field. Fairness applies rules and distributes resources in a just and impartial manner, using transparent criteria applied the same way to everyone. These two values define 'just' differently: equity says equal outcomes require unequal inputs; fairness says equal treatment is the standard.",
+      "source": "values.json description (equity)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "experimentation__reliability",
+      "values": [
+        "experimentation",
+        "reliability"
+      ],
+      "note": "Experimentation encourages trying new things and learning from failure — the description is explicit that new things break. Reliability asks members to follow through on commitments and notify others early when plans change. An experimental culture normalizes the kind of breakage and course-correction that reliability depends on not happening.",
+      "source": "values.json description (experimentation)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "flexibility__reliability",
+      "values": [
+        "flexibility",
+        "reliability"
+      ],
+      "note": "Flexibility accommodates different needs and schedules, adapting plans to individual circumstances. Reliability asks members to do what they say they will do and notify others early when plans must change. A culture that normalizes flexible arrangements makes it harder to hold firm commitments, and members who depend on others' reliability may find flexibility used to justify missed expectations.",
+      "source": "values.json description (reliability)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "horizontalism__leadership",
+      "values": [
+        "horizontalism",
+        "leadership"
+      ],
+      "note": "Horizontalism organizes the group as equals without bosses or top-down management — the description flags informal power structures as a failure mode. Leadership asks members to step up, take initiative, and make calls. In practice, leadership requires some members to have more directional influence than others, which sits uneasily with a flat structure. Communities holding both need a clear account of what leadership looks like without hierarchy.",
+      "source": "values.json description (horizontalism)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "humility__leadership",
+      "values": [
+        "humility",
+        "leadership"
+      ],
+      "note": "Humility asks leaders to eat last, credit the team for successes, and remain open to learning from others. The description names the tension: selling yourself vs. being modest. Leadership asks members to step up, project confidence, and take initiative. Effective leadership often requires visible confidence and self-advocacy that a genuine humility practice tends to suppress.",
+      "source": "values.json description (humility)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "collaboration__independence",
+      "values": [
+        "collaboration",
+        "independence"
+      ],
+      "note": "Independence asks the group to avoid reliance on any single funding source or authority — maintaining a diversified base to prevent dependency. Collaboration asks the group to work together and actively partner with similar organizations. Deep partnership creates interdependencies: shared resources, aligned timelines, mutual obligations. The more tightly a group collaborates, the harder it is to maintain full independence from those partners.",
+      "source": "values.json description (independence)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "independence__interdependence",
+      "values": [
+        "independence",
+        "interdependence"
+      ],
+      "note": "Independence asks the group to avoid reliance on any single funding source or authority — going it alone to prevent capture. Interdependence asks the group to recognize that its survival and success are tied to the well-being of others, actively mapping how it fits into larger ecosystems. These two values hold fundamentally different orientations toward reliance: independence treats it as a risk; interdependence treats it as a strength.",
+      "source": "values.json description (independence)",
+      "status": "accepted",
+      "conflict_level": "opposite"
+    },
+    {
+      "id": "innovation__maintenance",
+      "values": [
+        "innovation",
+        "maintenance"
+      ],
+      "note": "Innovation rewards novel approaches and new features even at the cost of disrupting current workflows. Maintenance values the unglamorous work of sustaining and fixing what has already been built — the description notes that celebrating only new launches while neglecting infrastructure is a key failure signal. Attention, resources, and recognition flow toward new things in an innovation culture, leaving maintenance chronically underfunded.",
+      "source": "values.json description (innovation)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "direct_action__non_violence",
+      "values": [
+        "direct_action",
+        "non_violence"
+      ],
+      "note": "Non-violence rejects physical and emotional violence as a means to achieve goals — de-escalating conflicts and, per the description, refusing to engage with law enforcement where possible. Direct action asks the group to take immediate, forceful steps to solve problems itself rather than waiting. When urgent harm is occurring, the fastest and most forceful direct responses may cross lines that non-violence holds firm.",
+      "source": "values.json description (non_violence)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "reliability__voluntarism",
+      "values": [
+        "reliability",
+        "voluntarism"
+      ],
+      "note": "Reliability asks members to follow through on commitments and notify others early when plans change. Voluntarism asks that participation be freely chosen and never coerced — honoring members' right to step back from tasks they haven't consented to. When a volunteer steps back from a commitment, reliability suffers. Groups that honor both must design roles and coverage so that no critical function depends on any one person's continued willingness.",
+      "source": "values.json description (voluntarism)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    },
+    {
+      "id": "agency__solidarity",
+      "values": [
+        "agency",
+        "solidarity"
+      ],
+      "note": "Solidarity asks the group to stand with one another — defending members against unjust treatment and sharing risk collectively rather than leaving anyone exposed. The description names the tension: collective defense vs. personal autonomy. Agency asks that every individual has the power to act on their own behalf and define their own path. Collective solidarity sometimes requires members to subordinate their individual choices to what the group needs to hold together.",
+      "source": "values.json description (solidarity)",
+      "status": "accepted",
+      "conflict_level": "strong"
+    }
+  ]
+}

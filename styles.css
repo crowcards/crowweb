@@ -38,6 +38,9 @@
   --body-pad: clamp(2rem, 5vw, 5rem);     /* text inset from divider */
   --measure:  46rem;                      /* max text line length    */
 
+  /* sidebar layout (docs, make) */
+  --sidebar-w: 260px;
+
   /* left-panel artwork: big pixel crow + HOME's staggered title.
      Everything is measured in panel units (u): 1u = 1% of the panel's width,
      so the crow and title scale together and keep the same composition at
@@ -90,6 +93,9 @@ body {
 }
 
 ::selection { background: var(--accent); color: var(--lime); }
+
+/* the hidden attribute always wins, even over layouts that set display */
+[hidden] { display: none !important; }
 
 img { max-width: 100%; }
 
@@ -245,6 +251,34 @@ a:focus-visible {
   letter-spacing: normal;
   text-decoration: none;
   cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--lime);
+  color: var(--accent);
+}
+
+/* ---- callout -------------------------------------------------------- */
+/* a tinted block for notes and warnings, with a left edge drawn as a
+   dotted column of orange pixels */
+.callout {
+  --px: 4px;   /* size of one pixel: corner steps and edge dots */
+  padding: 0.9rem 1.1rem 0.9rem calc(1.1rem + var(--px) * 2);
+  margin: 1.5em 0;
+  font-size: 0.95rem;
+  background:
+    repeating-linear-gradient(to bottom,
+      var(--accent) 0 var(--px), transparent var(--px) calc(var(--px) * 2))
+      left / var(--px) 100% no-repeat,
+    color-mix(in srgb, var(--accent) 8%, var(--bg));
+}
+
+.callout > :last-child { margin-bottom: 0; }
+
+/* stepped pixel corners, shared by buttons, callouts and pop-ups; --px
+   (set on each) is the size of one step */
+:is(.button, .callout, .popup) {
   clip-path: polygon(
     0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
     calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
@@ -257,12 +291,6 @@ a:focus-visible {
     calc(var(--px) * 2) 100%, calc(var(--px) * 2) calc(100% - var(--px)),
     var(--px) calc(100% - var(--px)), var(--px) calc(100% - var(--px) * 2),
     0 calc(100% - var(--px) * 2));
-}
-
-.button:hover,
-.button:focus-visible {
-  background: var(--lime);
-  color: var(--accent);
 }
 
 /* ---- header --------------------------------------------------------- */
@@ -509,6 +537,114 @@ a:focus-visible {
 .logos a:hover,
 .logos a:focus-visible { background: none; opacity: 0.7; }
 .logos img { display: block; height: 2.5rem; width: auto; }
+
+/* ---- sidebar layout: a sticky list of links on the left, content on the
+   right (docs: sections of the page; make: the card's modules) -------- */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height: calc(100dvh - var(--header-h));
+}
+
+.sidebar {
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
+  padding: 2rem 2rem 2rem var(--gutter);
+  border-right: var(--rule);
+}
+
+.sidebar ul { margin: 0 0 1.5rem; }
+.sidebar li::before { display: none; }   /* suppress orange square bullet */
+.sidebar li { padding: 0; }
+
+/* each link hugs its text, so the current one gets a snug orange highlight
+   (like the header's current page); the negative margin keeps the text
+   lined up with everything else in the sidebar */
+.sidebar a {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.1rem 0 0.1rem -0.35rem;
+  padding: 0.15rem 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  color: var(--gray);
+  transition: color 0.1s, background-color 0.1s;
+}
+
+.sidebar a:hover,
+.sidebar a:focus-visible {
+  color: var(--ink);
+  background: none;
+}
+
+.sidebar a.active {   /* the current section or module, set by the page script */
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.sidebar .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
+.sidebar .sub .sub { margin-bottom: 0; }   /* third level: no gap before the next item */
+.sidebar .sub a { font-size: 0.66rem; }
+
+/* foldable third-level lists (the page script adds .foldable and the button) */
+.sidebar .foldable { position: relative; }
+.sidebar .foldable:not(.is-open) > .sub { display: none; }
+
+.nav-fold {
+  position: absolute;
+  top: 0.25rem;
+  right: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray);
+  cursor: pointer;
+}
+
+.nav-fold:hover,
+.nav-fold:focus-visible { color: var(--accent); }
+
+/* a 3x3-pixel plus when closed (same shape as .pixel-plus); just the
+   middle bar, a minus, when open */
+.nav-fold::before {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin: auto;
+  background: currentColor;
+  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
+                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+}
+
+.is-open > .nav-fold::before { clip-path: inset(33.3% 0); }
+
+/* narrow screens: the sidebar sits above the content as a wrapped row of
+   top-level links */
+@media (width < 52rem) {
+  .sidebar-layout { grid-template-columns: 1fr; }
+
+  .sidebar {
+    position: static;
+    height: auto;
+    overflow: visible;
+    padding: 1rem var(--gutter);
+    border-right: none;
+    border-bottom: var(--rule);
+  }
+
+  .sidebar ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin: 0; }
+  .sidebar .sub { display: none; }
+}
 
 /* ---- home ----------------------------------------------------------- */
 /* the title lives in the left panel here; hidden (not removed) so the nav

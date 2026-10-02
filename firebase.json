@@ -10,7 +10,8 @@
       "firestore.indexes.json",
       "README.md",
       "**/*.log",
-      "**/*:Zone.Identifier"
+      "**/*:Zone.Identifier",
+      "emulator-data/**"
     ]
   },
   "firestore": {
