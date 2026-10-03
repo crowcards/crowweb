@@ -13,6 +13,14 @@
   --rule-w: 1px;
   --rule:   var(--rule-w) solid var(--line);
   --glass:  color-mix(in srgb, var(--bg) 85%, transparent);   /* see-through beige: header, menu */
+  --tint:        color-mix(in srgb, var(--accent) 8%, var(--bg));    /* faint orange wash: callouts, highlighted rows */
+  --tint-strong: color-mix(in srgb, var(--accent) 14%, var(--bg));   /* stronger: code, chips, the card key */
+
+  /* status colours, for pills and messages (dark-mode versions below) */
+  --ok:    #2D6A4F;   /* green: yes, open source */
+  --warn:  #92400E;   /* brown: proprietary, sometimes */
+  --info:  #1F4E79;   /* blue: often */
+  --error: #B3261E;   /* red: something went wrong */
 
   /* type */
   --sans:    "helvetica-lt-pro", Helvetica, Arial, sans-serif;
@@ -24,7 +32,18 @@
   --fs-lede:  clamp(1.75rem, 2.5vw, 2.25rem);  /* big Argent text     */
   --fs-body:  1.2rem;                         /* 20px                */
   --fs-nav:   0.85rem;                         /* header links, wide screens */
-  --fs-small: 1rem;
+  --fs-small: 1rem;                            /* footers, hints      */
+  --fs-md:    0.9rem;                          /* tables, form inputs, secondary text */
+  --fs-sm:    0.8rem;                          /* table names, tags, module links */
+  --fs-xs:    0.72rem;                         /* sidebar links, column heads, save status */
+  --fs-2xs:   0.68rem;                         /* pills, tiny labels  */
+  --caps-spacing: 0.04em;                      /* letter-spacing for mono capitals */
+
+  /* the one breakpoint: below this width the header, sidebars and panels
+     switch to their narrow-screen layout. CSS can't use a variable inside
+     a media query, so every "@media (width < 64rem)" must use this same
+     number; the scripts read it from here (see js/site.js, js/make.js). */
+  --narrow: 64rem;
 
   /* header */
   --gutter: clamp(1.25rem, 3vw, 2.5rem);
@@ -62,6 +81,10 @@
   --ink:  #E6E2DC;   /* very light warm gray */
   --gray: #9A948C;   /* lighter, to stay readable on black */
   --line: #3D3934;   /* dark gray dividers and scrollbar */
+  --ok:    #6CC08B;  /* status colours, lightened to read on black */
+  --warn:  #D4845A;
+  --info:  #6BA3D6;
+  --error: #FF8A80;
 }
 
 /* black pixel art would vanish on black: flip it to light gray (0.85
@@ -142,40 +165,113 @@ ul li::before {
   line-height: 1.3;
 }
 
-/* mono text that isn't a link: IDs, keys, data values */
-.mono {
-  font-family: var(--mono);
-  font-size: 0.8em;   /* mono runs large next to Helvetica, same as links */
+/* a smaller, italic lede: the intro line under a docs or editor heading */
+.lede-small {
+  font-style: italic;
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  line-height: 1.4;
+  margin-bottom: 1.5em;
 }
 
-/* the same, in link-style caps but without the underline or hover */
+/* mono text. Mono runs large next to Helvetica, so it's set at 0.8em of the
+   surrounding text: links, buttons that look like links, and the two
+   classes below all share this */
+a,
+.link-button,
+.mono,
 .mono-u {
   font-family: var(--mono);
-  font-weight: 600;
   font-size: 0.8em;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
-/* small 3x3-pixel plus sign, used as a bullet */
+/* mono capitals: links, link-style buttons, and labels that aren't links
+   (.mono-u, the "see also" line, table column heads) */
+a,
+.link-button,
+.mono-u,
+.see-also,
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--caps-spacing);
+}
+
+/* the 3x3-pixel plus sign: a bullet (.pixel-plus) and the open/close toggle
+   (.pixel-toggle, below) */
+.pixel-plus,
+.pixel-toggle::before {
+  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
+                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+}
+
 .pixel-plus {
   display: inline-block;
   width: 0.75em;
   height: 0.75em;
   margin-right: 0.5em;
   background: var(--accent);
-  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
-                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+}
+
+/* a toggle that shows more: a grey plus that turns into an orange minus
+   when open (aria-expanded="true"). Docs sidebar folds, value details. */
+.pixel-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray);
+  cursor: pointer;
+}
+.pixel-toggle:hover,
+.pixel-toggle:focus-visible,
+.pixel-toggle[aria-expanded="true"] { color: var(--accent); }
+.pixel-toggle::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: currentColor;
+}
+.pixel-toggle[aria-expanded="true"]::before { clip-path: inset(33.3% 0); }   /* just the middle bar: a minus */
+
+/* with text beside its plus */
+.pixel-toggle.with-label {
+  display: inline-flex;
+  gap: 0.5rem;
+  width: auto;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+/* the 5x5-pixel X (close, or an open menu): a centre dot (the span) plus
+   two dots out along each diagonal; --dot is the size of one dot */
+:is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove) span {
+  box-shadow:
+    calc(var(--dot) * -2) calc(var(--dot) * -2) currentColor, calc(var(--dot) * -1) calc(var(--dot) * -1) currentColor,
+    calc(var(--dot) *  2) calc(var(--dot) * -2) currentColor, calc(var(--dot) *  1) calc(var(--dot) * -1) currentColor,
+    calc(var(--dot) * -2) calc(var(--dot) *  2) currentColor, calc(var(--dot) * -1) calc(var(--dot) *  1) currentColor,
+    calc(var(--dot) *  2) calc(var(--dot) *  2) currentColor, calc(var(--dot) *  1) calc(var(--dot) *  1) currentColor;
+}
+
+/* for screen readers only */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---- links ---------------------------------------------------------- */
-a {
+/* links, and <button class="link-button"> for actions that should look
+   like one: mono capitals (above) with a thick orange underline */
+a,
+.link-button {
   color: inherit;
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 0.8em;   /* mono runs large next to Helvetica */
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   text-decoration: underline;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
@@ -183,8 +279,17 @@ a {
   text-decoration-skip-ink: none;   /* solid line, no gaps around g, y, p */
 }
 
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
 a:hover,
-a:focus-visible {
+a:focus-visible,
+.link-button:hover,
+.link-button:focus-visible {
   background: var(--accent);
   color: var(--lime);   /* 6.75:1 — white on orange fails */
   text-decoration-color: transparent;
@@ -259,6 +364,19 @@ a:focus-visible {
   color: var(--accent);
 }
 
+.button:disabled {
+  background: var(--line);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+/* a smaller version, e.g. for sidebars and pop-ups */
+.button-small {
+  --px: 3px;
+  font-size: 1.15rem;
+  padding: 0.3em 1em 0.35em;
+}
+
 /* ---- callout -------------------------------------------------------- */
 /* a tinted block for notes and warnings, with a left edge drawn as a
    dotted column of orange pixels */
@@ -266,12 +384,12 @@ a:focus-visible {
   --px: 4px;   /* size of one pixel: corner steps and edge dots */
   padding: 0.9rem 1.1rem 0.9rem calc(1.1rem + var(--px) * 2);
   margin: 1.5em 0;
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
   background:
     repeating-linear-gradient(to bottom,
       var(--accent) 0 var(--px), transparent var(--px) calc(var(--px) * 2))
       left / var(--px) 100% no-repeat,
-    color-mix(in srgb, var(--accent) 8%, var(--bg));
+    var(--tint);
 }
 
 .callout > :last-child { margin-bottom: 0; }
@@ -337,15 +455,15 @@ a:focus-visible {
   color: inherit;
 }
 
-#nav {
+.site-nav {
   display: flex;
   gap: 1.5rem;
   margin-left: auto;
 }
 
-#nav a { font-size: var(--fs-nav); }
+.site-nav a { font-size: var(--fs-nav); }
 
-#nav a[aria-current="page"] {
+.site-nav a[aria-current="page"] {
   background: var(--accent);
   color: var(--on-accent);
   text-decoration-color: transparent;
@@ -396,8 +514,9 @@ a:focus-visible {
 }
 
 .menu-toggle span {
-  width: 6px;
-  height: 6px;
+  --dot: 6px;
+  width: var(--dot);
+  height: var(--dot);
   color: var(--ink);
   background: currentColor;
   box-shadow: -10px 0 currentColor, 10px 0 currentColor;
@@ -405,15 +524,8 @@ a:focus-visible {
 
 .menu-toggle:hover span { color: var(--accent); }
 
-/* open: a 5x5 pixel X — the centre dot plus two pixels out along each diagonal */
-.menu-toggle[aria-expanded="true"] span {
-  color: var(--accent);
-  box-shadow:
-    -12px -12px currentColor, -6px -6px currentColor,
-     12px -12px currentColor,  6px -6px currentColor,
-    -12px  12px currentColor, -6px  6px currentColor,
-     12px  12px currentColor,  6px  6px currentColor;
-}
+/* open: the pixel X (shape shared with the pop-up's close button, above) */
+.menu-toggle[aria-expanded="true"] span { color: var(--accent); }
 
 /* ---- footer --------------------------------------------------------- */
 /* a thin line above small gray text */
@@ -560,30 +672,30 @@ a:focus-visible {
 .sidebar li::before { display: none; }   /* suppress orange square bullet */
 .sidebar li { padding: 0; }
 
-/* each link hugs its text, so the current one gets a snug orange highlight
-   (like the header's current page); the negative margin keeps the text
-   lined up with everything else in the sidebar */
-.sidebar a {
+/* the sidebar's list links (not other links in it, like Docs) hug their
+   text, so the current one gets a snug orange highlight like the header's
+   current page; the negative margin keeps the text lined up with everything
+   else in the sidebar */
+.sidebar li > a {
   display: block;
   width: fit-content;
   max-width: 100%;
   margin: 0.1rem 0 0.1rem -0.35rem;
   padding: 0.15rem 0.35rem;
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
   font-weight: 400;
-  letter-spacing: 0.05em;
   text-decoration: none;
   color: var(--gray);
   transition: color 0.1s, background-color 0.1s;
 }
 
-.sidebar a:hover,
-.sidebar a:focus-visible {
+.sidebar li > a:hover,
+.sidebar li > a:focus-visible {
   color: var(--ink);
   background: none;
 }
 
-.sidebar a.active {   /* the current section or module, set by the page script */
+.sidebar li > a.active {   /* the current section or module, set by the page script */
   background: var(--accent);
   color: var(--on-accent);
   font-weight: 600;
@@ -591,47 +703,32 @@ a:focus-visible {
 
 .sidebar .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
 .sidebar .sub .sub { margin-bottom: 0; }   /* third level: no gap before the next item */
-.sidebar .sub a { font-size: 0.66rem; }
+.sidebar .sub a { font-size: var(--fs-2xs); }
 
 /* foldable third-level lists (the page script adds .foldable and the button) */
 .sidebar .foldable { position: relative; }
 .sidebar .foldable:not(.is-open) > .sub { display: none; }
 
+/* the fold toggle: a .pixel-toggle, a little smaller, at the item's right */
 .nav-fold {
   position: absolute;
   top: 0.25rem;
   right: 0;
   width: 1.1rem;
   height: 1.1rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--gray);
-  cursor: pointer;
 }
 
-.nav-fold:hover,
-.nav-fold:focus-visible { color: var(--accent); }
-
-/* a 3x3-pixel plus when closed (same shape as .pixel-plus); just the
-   middle bar, a minus, when open */
-.nav-fold::before {
-  content: "";
-  display: block;
-  width: 9px;
-  height: 9px;
-  margin: auto;
-  background: currentColor;
-  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
-                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+/* the column beside the sidebar */
+.sidebar-main {
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  padding: 3rem var(--gutter) 6rem;
 }
-
-.is-open > .nav-fold::before { clip-path: inset(33.3% 0); }
 
 /* narrow screens: the sidebar sits above the content as a wrapped row of
    top-level links */
-@media (width < 52rem) {
+@media (width < 64rem) {   /* = --narrow */
   .sidebar-layout { grid-template-columns: 1fr; }
+  .sidebar-main { padding-top: 2rem; }
 
   .sidebar {
     position: static;
@@ -645,6 +742,29 @@ a:focus-visible {
   .sidebar ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin: 0; }
   .sidebar .sub { display: none; }
 }
+
+/* ---- tables ----------------------------------------------------------- */
+/* full-width data tables: mono capital column heads (shared rule near the
+   top) over thin row lines */
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-md); margin-bottom: 1rem; }
+
+.table th {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--gray);
+  padding: 0.4rem 0.6rem;
+  border-bottom: 2px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: var(--rule);
+  vertical-align: top;
+}
+
+.table tr:last-child td { border-bottom: none; }
 
 /* ---- home ----------------------------------------------------------- */
 /* the title lives in the left panel here; hidden (not removed) so the nav
@@ -703,13 +823,10 @@ a:focus-visible {
 
 
 /* "+ See our workshop calls and our CHI'26 paper" */
-.see-also {
+.see-also {   /* mono capitals: see the shared rule near the top */
   margin: 2rem 0 2.5rem;
   font-family: var(--mono);
-  font-weight: 600;
   font-size: var(--fs-small);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 .see-also a { font-size: 1em; }
@@ -745,7 +862,7 @@ a:focus-visible {
 }
 
 /* ---- narrow screens ------------------------------------------------- */
-@media (width < 64rem) {
+@media (width < 64rem) {   /* = --narrow */
   :root {
     --header-pad: 0.5rem;   /* half the wide-screen top padding, to make room for the crow */
     --header-pad-b: 0px;
@@ -777,7 +894,7 @@ a:focus-visible {
   }
 
   /* the menu drops down under the header when the dots are clicked */
-  #nav {
+  .site-nav {
     display: none;
     position: absolute;
     top: calc(100% + var(--rule-w));   /* just below the header line, so the crow keeps its wire */
@@ -792,7 +909,7 @@ a:focus-visible {
     border-bottom: var(--rule);
   }
 
-  .site-header.is-open #nav { display: flex; }
+  .site-header.is-open .site-nav { display: flex; }
 
   /* one column: text, footer, then the logos */
   :root { --body-pad: var(--gutter); }

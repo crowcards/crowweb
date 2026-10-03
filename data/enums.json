@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "note": "Enumerated values used across the schema.",
   "communitySize": [
     {
@@ -115,6 +115,38 @@
       "id": "parallel",
       "label": "Parallel",
       "description": "Used alongside other approaches, not sequentially."
+    }
+  ],
+  "communicationChannels": [
+    {
+      "id": "announcementFeed",
+      "label": "Announcement feed",
+      "description": "A channel or account where moderators post updates for everyone, e.g. an announcements channel or pinned posts."
+    },
+    {
+      "id": "feedbackForm",
+      "label": "Feedback form",
+      "description": "A form or survey where members can raise concerns or suggestions, anonymously or not."
+    },
+    {
+      "id": "publicContactInfo",
+      "label": "Public contact info",
+      "description": "An email address or contact page anyone can use to reach the people running the community."
+    },
+    {
+      "id": "listserv",
+      "label": "Mailing list",
+      "description": "An email list for announcements or discussion among members."
+    },
+    {
+      "id": "groupChat",
+      "label": "Group chat",
+      "description": "A chat room or channel where members and moderators talk in real time."
+    },
+    {
+      "id": "dedicatedAdminAccount",
+      "label": "Dedicated admin account",
+      "description": "A shared account for the moderation team, so members can reach the team rather than one person."
     }
   ]
 }

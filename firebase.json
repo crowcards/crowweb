@@ -12,6 +12,17 @@
       "**/*.log",
       "**/*:Zone.Identifier",
       "emulator-data/**"
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(html|js|css|json)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
     ]
   },
   "firestore": {

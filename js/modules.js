@@ -3,6 +3,8 @@
 // card's starting set.
 
 import { loadData } from "./data.js";
+import { renderChoices } from "./controls/choices.js";
+import { el } from "./dom.js";
 
 /** data/module_defaults.json. */
 export const loadModuleDefaults = () => loadData("module_defaults");
@@ -42,50 +44,53 @@ export function moduleEntries(defaults, card) {
   return entries;
 }
 
+/**
+ * Does a part of the card hold anything the person entered? Empty cards are
+ * all nulls, empty lists, falses and empty objects, so anything else counts.
+ */
+export function hasSavedContent(value) {
+  if (value == null || value === false || value === "") return false;
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "object") return Object.values(value).some(hasSavedContent);
+  return true;
+}
+
 /** Same modules, same order? */
 export const sameModules = (a = [], b = []) => a.length === b.length && a.every((id, i) => id === b[i]);
 
-let pickerUid = 0;
-
 /**
- * Checkboxes for the built-in modules. `selected` is the card's modules list;
- * custom module ids in it are kept, after the built-in ones. onChange(list)
- * fires with the new list whenever a box is ticked or unticked.
+ * Checkboxes for the card's modules: the built-in ones, then any custom ones
+ * (`custom`, the card's customModules). `selected` is the card's modules list.
+ * onChange(list) fires with the new list whenever a box is ticked or unticked.
+ *
+ * hasContent(id), if given, says whether a module holds saved answers; an
+ * unticked module that does gets a "has saved content" note, so nobody
+ * forgets that unticking hides a module's answers rather than deleting them.
+ * onAdd, if given, adds a "+ Add your own module" link under the list.
  */
-export function renderModulePicker(container, defaults, selected = [], { onChange = () => {} } = {}) {
-  const n = pickerUid++;
-  const builtInIds = new Set(defaults.modules.map((m) => m.id));
-  const custom = selected.filter((id) => !builtInIds.has(id));
+export function renderModulePicker(container, defaults, selected = [], { custom = [], onChange = () => {}, hasContent = () => false, onAdd } = {}) {
+  const options = [
+    ...defaults.modules,
+    ...custom.map((m) => ({ id: m.id, label: m.name, description: m.description || "Your own module." })),
+  ];
+  const add = onAdd ? el("button", { type: "button", className: "link-button", textContent: "+ Add your own module" }) : null;
+  add?.addEventListener("click", () => onAdd());
 
-  const fieldset = document.createElement("fieldset");
-  fieldset.className = "module-picker";
-  // the heading above already says "Modules"; the legend is for screen readers
-  fieldset.innerHTML = `<legend class="visually-hidden">Modules</legend>`;
-  for (const m of defaults.modules) {
-    const id = `module-pick-${m.id}-${n}`;
-    const row = document.createElement("div");
-    row.className = "choice";
-    row.innerHTML = `
-      <input type="checkbox" id="${id}" value="${m.id}" />
-      <label for="${id}"><span class="choice-name"></span><span class="choice-desc"></span></label>
-    `;
-    row.querySelector(".choice-name").textContent = m.label;
-    row.querySelector(".choice-desc").textContent = m.description;
-    row.querySelector("input").checked = selected.includes(m.id);
-    fieldset.append(row);
-  }
+  const choices = renderChoices({
+    legend: "Modules",
+    legendHidden: true,   // the heading above already says it
+    options,
+    selected,
+    listClass: "module-picker",
+    flag: { text: "Has saved content", show: (id, checked) => !checked && hasContent(id) },
+    onChange: (list) => onChange(list),
+  });
 
-  const boxes = [...fieldset.querySelectorAll('input[type="checkbox"]')];
-  const value = () => [...boxes.filter((b) => b.checked).map((b) => b.value), ...custom];
-  for (const b of boxes) b.addEventListener("change", () => onChange(value()));
-
-  container.replaceChildren(fieldset);
+  container.replaceChildren(choices.element, add ? el("p", {}, add) : "");
   return {
-    value,
+    value: () => choices.value(),
     /** Tick exactly these (used when new defaults apply). */
-    set(list) {
-      for (const b of boxes) b.checked = list.includes(b.value);
-    },
+    set: (list) => choices.set(list),
   };
 }
 

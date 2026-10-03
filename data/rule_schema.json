@@ -1,6 +1,7 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "version": "1.1.0",
+  "updatedAt": "2026-10-02",
+  "note": "Rules are identified by a stable id (stored on cards in rules.ruleData) and shown by label. Labels can be reworded freely; ids must never change once cards use them.",
   "qualifierOptions": [
     {
       "id": "allowed",
@@ -38,11 +39,26 @@
         "name": "Civility & good-faith participation",
         "qualifier": false,
         "rules": [
-          "Be respectful to other members",
-          "No personal attacks or insults",
-          "No trolling, flamebait, or deliberately disruptive behavior",
-          "Respect names, pronouns, and boundaries",
-          "Respect moderator instructions & Code of Conduct"
+          {
+            "id": "civility_be_respectful",
+            "label": "Be respectful to other members"
+          },
+          {
+            "id": "civility_no_personal_attacks_insults",
+            "label": "No personal attacks or insults"
+          },
+          {
+            "id": "civility_no_trolling_flamebait",
+            "label": "No trolling, flamebait, or deliberately disruptive behavior"
+          },
+          {
+            "id": "civility_respect_names_pronouns_boundaries",
+            "label": "Respect names, pronouns, and boundaries"
+          },
+          {
+            "id": "civility_respect_moderators_code_of_conduct",
+            "label": "Respect moderator instructions & Code of Conduct"
+          }
         ]
       },
       {
@@ -50,17 +66,50 @@
         "name": "Harassment and personal safety",
         "qualifier": false,
         "rules": [
-          "No harassment",
-          "No bullying",
-          "No dogpiling",
-          "No stalking",
-          "No threats or intimidation",
-          "No doxxing",
-          "No block evasion",
-          "No unwanted sexual advances",
-          "No misinformation / fake news",
-          "No repeated unwanted contact",
-          "No posting private information without consent"
+          {
+            "id": "harassment_no_harassment",
+            "label": "No harassment"
+          },
+          {
+            "id": "harassment_no_bullying",
+            "label": "No bullying"
+          },
+          {
+            "id": "harassment_no_dogpiling",
+            "label": "No dogpiling"
+          },
+          {
+            "id": "harassment_no_stalking",
+            "label": "No stalking"
+          },
+          {
+            "id": "harassment_no_threats_intimidation",
+            "label": "No threats or intimidation"
+          },
+          {
+            "id": "harassment_no_doxxing",
+            "label": "No doxxing"
+          },
+          {
+            "id": "harassment_no_block_evasion",
+            "label": "No block evasion"
+          },
+          {
+            "id": "harassment_no_unwanted_sexual_advances",
+            "label": "No unwanted sexual advances"
+          },
+          {
+            "id": "harassment_no_misinformation_fake_news",
+            "label": "No misinformation / fake news"
+          },
+          {
+            "id": "harassment_no_repeated_unwanted_contact",
+            "label": "No repeated unwanted contact"
+          },
+          {
+            "id": "harassment_no_posting_private_info",
+            "label": "No posting private information without consent"
+          }
         ]
       },
       {
@@ -68,18 +117,54 @@
         "name": "Discrimination and hateful conduct",
         "qualifier": false,
         "rules": [
-          "No hate speech",
-          "No racism",
-          "No sexism or misogyny",
-          "No homophobia",
-          "No transphobia",
-          "No ableism",
-          "No xenophobia",
-          "No casteism",
-          "No antisemitism",
-          "No Islamophobia",
-          "No targeted misgendering or deadnaming",
-          "No dehumanizing language toward protected groups"
+          {
+            "id": "discrimination_no_hate_speech",
+            "label": "No hate speech"
+          },
+          {
+            "id": "discrimination_no_racism",
+            "label": "No racism"
+          },
+          {
+            "id": "discrimination_no_sexism_misogyny",
+            "label": "No sexism or misogyny"
+          },
+          {
+            "id": "discrimination_no_homophobia",
+            "label": "No homophobia"
+          },
+          {
+            "id": "discrimination_no_transphobia",
+            "label": "No transphobia"
+          },
+          {
+            "id": "discrimination_no_ableism",
+            "label": "No ableism"
+          },
+          {
+            "id": "discrimination_no_xenophobia",
+            "label": "No xenophobia"
+          },
+          {
+            "id": "discrimination_no_casteism",
+            "label": "No casteism"
+          },
+          {
+            "id": "discrimination_no_antisemitism",
+            "label": "No antisemitism"
+          },
+          {
+            "id": "discrimination_no_islamophobia",
+            "label": "No Islamophobia"
+          },
+          {
+            "id": "discrimination_no_targeted_misgendering_deadnaming",
+            "label": "No targeted misgendering or deadnaming"
+          },
+          {
+            "id": "discrimination_no_dehumanizing_language",
+            "label": "No dehumanizing language toward protected groups"
+          }
         ]
       },
       {
@@ -87,9 +172,18 @@
         "name": "Authenticity and account integrity",
         "qualifier": true,
         "rules": [
-          "Impersonation",
-          "Parody accounts",
-          "Bot accounts"
+          {
+            "id": "authenticity_impersonation",
+            "label": "Impersonation"
+          },
+          {
+            "id": "authenticity_parody_accounts",
+            "label": "Parody accounts"
+          },
+          {
+            "id": "authenticity_bot_accounts",
+            "label": "Bot accounts"
+          }
         ]
       },
       {
@@ -97,14 +191,38 @@
         "name": "Spam, advertising, and platform misuse",
         "qualifier": true,
         "rules": [
-          "Spam",
-          "Mass-following or mass-replying",
-          "Unsolicited advertising & unsolicited DMs for promotion",
-          "Personal project / non-commercial / non-profit promotion",
-          "Commercial advertising",
-          "Fundraising or donation requests",
-          "Affiliate links",
-          "SEO / link-farming accounts"
+          {
+            "id": "spam_spam",
+            "label": "Spam"
+          },
+          {
+            "id": "spam_mass_following_mass_replying",
+            "label": "Mass-following or mass-replying"
+          },
+          {
+            "id": "spam_unsolicited_ads_dms",
+            "label": "Unsolicited advertising & unsolicited DMs for promotion"
+          },
+          {
+            "id": "spam_personal_noncommercial_promotion",
+            "label": "Personal project / non-commercial / non-profit promotion"
+          },
+          {
+            "id": "spam_commercial_advertising",
+            "label": "Commercial advertising"
+          },
+          {
+            "id": "spam_fundraising_donation_requests",
+            "label": "Fundraising or donation requests"
+          },
+          {
+            "id": "spam_affiliate_links",
+            "label": "Affiliate links"
+          },
+          {
+            "id": "spam_seo_link_farming_accounts",
+            "label": "SEO / link-farming accounts"
+          }
         ]
       },
       {
@@ -112,12 +230,30 @@
         "name": "Instance access & onboarding constraints",
         "qualifier": false,
         "rules": [
-          "Users must be 18+",
-          "Users must provide a reason for joining",
-          "This server is for a specific community or interest",
-          "Primary language expectation",
-          "Registrations are manually reviewed",
-          "Users must complete profile information"
+          {
+            "id": "onboarding_age_18plus",
+            "label": "Users must be 18+"
+          },
+          {
+            "id": "onboarding_reason_for_joining",
+            "label": "Users must provide a reason for joining"
+          },
+          {
+            "id": "onboarding_specific_community_interest",
+            "label": "This server is for a specific community or interest"
+          },
+          {
+            "id": "onboarding_primary_language_expectation",
+            "label": "Primary language expectation"
+          },
+          {
+            "id": "onboarding_registrations_manually_reviewed",
+            "label": "Registrations are manually reviewed"
+          },
+          {
+            "id": "onboarding_complete_profile",
+            "label": "Users must complete profile information"
+          }
         ]
       }
     ],
@@ -127,11 +263,26 @@
         "name": "Content warnings & sensitive media labeling",
         "qualifier": true,
         "rules": [
-          "Content warning for sexual content",
-          "Content warning for graphic violence / gore",
-          "Content warning for disturbing or traumatic topics",
-          "Content warning for spoilers",
-          "Alt text for image posts"
+          {
+            "id": "cw_sexual_content",
+            "label": "Content warning for sexual content"
+          },
+          {
+            "id": "cw_graphic_violence",
+            "label": "Content warning for graphic violence / gore"
+          },
+          {
+            "id": "cw_disturbing_traumatic_topics",
+            "label": "Content warning for disturbing or traumatic topics"
+          },
+          {
+            "id": "cw_spoilers",
+            "label": "Content warning for spoilers"
+          },
+          {
+            "id": "cw_alt_text_image_posts",
+            "label": "Alt text for image posts"
+          }
         ]
       },
       {
@@ -139,13 +290,34 @@
         "name": "AI-generated media, attribution, and copyright",
         "qualifier": true,
         "rules": [
-          "AI-generated media",
-          "AI impersonation of real people",
-          "Credit original creators",
-          "Reposting without permission",
-          "Copyright infringement",
-          "Scraped or stolen creative work",
-          "Fanworks / derivatives must be credited where relevant"
+          {
+            "id": "ai_generated_media",
+            "label": "AI-generated media"
+          },
+          {
+            "id": "ai_impersonation_real_people",
+            "label": "AI impersonation of real people"
+          },
+          {
+            "id": "ai_credit_original_creators",
+            "label": "Credit original creators"
+          },
+          {
+            "id": "ai_reposting_without_permission",
+            "label": "Reposting without permission"
+          },
+          {
+            "id": "ai_copyright_infringement",
+            "label": "Copyright infringement"
+          },
+          {
+            "id": "ai_scraped_stolen_creative_work",
+            "label": "Scraped or stolen creative work"
+          },
+          {
+            "id": "ai_credit_fanworks_derivatives",
+            "label": "Fanworks / derivatives must be credited where relevant"
+          }
         ]
       },
       {
@@ -153,14 +325,38 @@
         "name": "Adult / explicit content rules",
         "qualifier": true,
         "rules": [
-          "Explicit sexual content",
-          "Nudity",
-          "Adult content",
-          "Sexualized depictions of minors",
-          "Non-consensual sexual content",
-          "Revenge porn / intimate media",
-          "NSFW avatars / header images",
-          "Real-person explicit content"
+          {
+            "id": "nsfw_explicit_sexual_content",
+            "label": "Explicit sexual content"
+          },
+          {
+            "id": "nsfw_nudity",
+            "label": "Nudity"
+          },
+          {
+            "id": "nsfw_adult_content",
+            "label": "Adult content"
+          },
+          {
+            "id": "nsfw_sexualized_depictions_minors",
+            "label": "Sexualized depictions of minors"
+          },
+          {
+            "id": "nsfw_non_consensual_sexual_content",
+            "label": "Non-consensual sexual content"
+          },
+          {
+            "id": "nsfw_revenge_porn_intimate_media",
+            "label": "Revenge porn / intimate media"
+          },
+          {
+            "id": "nsfw_avatars_header_images",
+            "label": "NSFW avatars / header images"
+          },
+          {
+            "id": "nsfw_real_person_explicit_content",
+            "label": "Real-person explicit content"
+          }
         ]
       },
       {
@@ -168,7 +364,10 @@
         "name": "Illegal / jurisdiction-specific prohibited content",
         "qualifier": false,
         "rules": [
-          "No illegal content under applicable local law"
+          {
+            "id": "illegal_no_illegal_content",
+            "label": "No illegal content under applicable local law"
+          }
         ]
       },
       {
@@ -176,10 +375,22 @@
         "name": "Violence, threats, extremism, and self-harm",
         "qualifier": true,
         "rules": [
-          "Violent content",
-          "Extremist propaganda",
-          "Terrorist content",
-          "Self-harm / suicidal content"
+          {
+            "id": "violence_violent_content",
+            "label": "Violent content"
+          },
+          {
+            "id": "violence_extremist_propaganda",
+            "label": "Extremist propaganda"
+          },
+          {
+            "id": "violence_terrorist_content",
+            "label": "Terrorist content"
+          },
+          {
+            "id": "violence_self_harm_suicidal_content",
+            "label": "Self-harm / suicidal content"
+          }
         ]
       }
     ]

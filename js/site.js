@@ -80,6 +80,12 @@ if (themeToggle) {
   });
 }
 
+// The one narrow-screen breakpoint, read from --narrow in styles.css so it's
+// defined in a single place. Also used by js/make.js.
+function narrowWidth() {
+  return getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";
+}
+
 // Three-dot menu on narrow screens.
 const header = document.querySelector(".site-header");
 const toggle = header?.querySelector(".menu-toggle");
@@ -99,5 +105,5 @@ if (toggle) {
   document.addEventListener("click", (e) => {
     if (!header.contains(e.target)) setMenu(false);
   });
-  matchMedia("(width >= 64rem)").addEventListener("change", () => setMenu(false));
+  matchMedia(`(width >= ${narrowWidth()})`).addEventListener("change", () => setMenu(false));
 }

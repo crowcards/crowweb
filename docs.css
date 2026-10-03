@@ -1,13 +1,8 @@
 /* ============================================================
    CROW Docs — loaded after styles.css on docs.html only.
-   The header, colours, fonts, links and the sidebar layout all come
-   from styles.css; this file only adds docs-specific pieces.
+   The header, colours, fonts, links, sidebar layout and base tables all
+   come from styles.css; this file only adds docs-specific pieces.
    ============================================================ */
-
-/* ── docs layout tokens ──────────────────────────────────── */
-:root {
-  --measure: 44rem;   /* max content line length */
-}
 
 /* sidebar links glide to their section, and stop with the section's top
    just clear of the sticky header */
@@ -17,10 +12,8 @@ html {
 }
 
 /* docs read as reference text: a little smaller and airier than the
-   rest of the site */
+   rest of the site (the column itself is .sidebar-main) */
 .docs-body {
-  max-width: calc(var(--measure) + var(--gutter) * 2);
-  padding: 3rem var(--gutter) 6rem;
   font-size: 1.1rem;
   line-height: 1.6;
 }
@@ -31,8 +24,8 @@ html {
 
 .docs-body code {
   font-family: var(--mono);
-  font-size: 0.82em;
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  font-size: 0.8em;
+  background: var(--tint-strong);
   padding: 0.1em 0.35em;
   border-radius: 2px;
 }
@@ -43,12 +36,7 @@ html {
   padding-inline: var(--gutter);
 }
 
-/* ── docs headings (override base h1/h2/h3 within docs) ──── */
-.docs-body h1 {
-  font-size: clamp(2rem, 3.4vw, 3rem);
-  margin: 0 0 0.6em;
-}
-
+/* ── docs headings: smaller h2s with a rule above; sans h3s ── */
 .docs-body h2 {
   font-size: clamp(1.4rem, 2vw, 1.8rem);
   margin: 2.5em 0 0.5em;
@@ -66,56 +54,23 @@ html {
   padding-top: 0.5em;   /* like h2: a little room above it when a sidebar link jumps here */
 }
 
-/* ── intro lede ──────────────────────────────────────────── */
-.lede {
-  font-style: italic;
-  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
-  line-height: 1.4;
-  margin-bottom: 1.5em;
-}
-
-/* ── tables ─────────────────────────────────────────────── */
+/* ── platform tables ─────────────────────────────────────── */
 .platform-section { margin-bottom: 3rem; }
 
+/* "Chat group" etc.: a small grey label with a line running off to the
+   right (the capitals come from .mono-u on the element) */
 .section-label {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--gray);
-  margin: 2rem 0 0.6rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin: 2rem 0 0.6rem;
+  font-size: var(--fs-xs);
+  color: var(--gray);
 }
 .section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 
-.table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 1rem; }
-
-.table th {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--gray);
-  padding: 0.4rem 0.6rem;
-  border-bottom: 2px solid var(--line);
-  text-align: left;
-  white-space: nowrap;
-}
-
-.table td {
-  padding: 0.45rem 0.6rem;
-  border-bottom: 1px solid var(--line);
-  vertical-align: top;
-}
-
-.table tr:last-child td { border-bottom: none; }
-
 .table tr.generic td {
-  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
+  background: var(--tint);
   font-style: italic;
   color: var(--gray);
 }
@@ -123,37 +78,45 @@ html {
 .table tr.named td:first-child { padding-left: 1.4rem; }
 .table tr.named td:first-child::before { content: "↳ "; color: var(--line); font-size: 0.8em; }
 
-/* inline text classes used in table cells */
-.pname { font-family: var(--mono); font-weight: 600; font-size: 0.82rem; }
-.sw    { color: var(--gray); font-size: 0.82rem; }
-.sw.oss  { color: #2D6A4F; }
-.sw.prop { color: #92400E; }
-.model   { font-size: 0.8rem; color: var(--gray); }
-
-/* protocol badge */
-.proto {
-  display: inline-block;
+/* small mono text and pills in table cells */
+.pname,
+.table td.ref-name,
+.proto,
+.badge,
+.cv {
   font-family: var(--mono);
-  font-size: 0.7rem;
   font-weight: 600;
+}
+
+/* a platform or item name at the start of a row */
+.pname,
+.table td.ref-name { font-size: var(--fs-sm); }
+.table td.ref-name { white-space: nowrap; }
+
+.sw    { color: var(--gray); font-size: var(--fs-sm); }
+.sw.oss  { color: var(--ok); }
+.sw.prop { color: var(--warn); }
+.model   { color: var(--gray); font-size: var(--fs-sm); }
+
+/* pills: protocol, yes/no/varies, cost values */
+.proto,
+.badge,
+.cv {
+  display: inline-block;
   padding: 0.1em 0.45em;
-  background: color-mix(in srgb, var(--accent) 14%, var(--bg));
-  color: var(--accent);
+  font-size: var(--fs-2xs);
   white-space: nowrap;
 }
 
-/* open source / self-host badges */
-.badge {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.1em 0.4em;
-  white-space: nowrap;
-}
-.badge.yes { background: color-mix(in srgb, #2D6A4F 12%, var(--bg)); color: #2D6A4F; }
-.badge.no  { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
-.badge.var { background: color-mix(in srgb, var(--accent) 12%, var(--bg)); color: var(--accent); }
+.proto     { background: var(--tint-strong); color: var(--accent); }
+.badge.yes,
+.cv.yes    { background: color-mix(in srgb, var(--ok) 12%, var(--bg)); color: var(--ok); }
+.badge.no,
+.cv.no,
+.cv.rare   { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
+.badge.var { background: var(--tint-strong); color: var(--accent); }
+.cv.often  { background: color-mix(in srgb, var(--info) 12%, var(--bg)); color: var(--info); }
+.cv.some   { background: color-mix(in srgb, var(--warn) 12%, var(--bg)); color: var(--warn); }
 
 /* ── cost matrix: .table.matrix (centred cells, scrolls sideways) */
 .cost-wrap { overflow-x: auto; margin: 1em 0 1.5em; }
@@ -161,7 +124,7 @@ html {
 .table.matrix {
   width: auto;
   min-width: 700px;
-  font-size: 0.82rem;
+  font-size: var(--fs-sm);
   white-space: nowrap;
   margin-bottom: 0;   /* .cost-wrap spaces it */
 }
@@ -169,40 +132,20 @@ html {
 .table.matrix :is(th, td) { text-align: center; vertical-align: middle; }
 .table.matrix :is(th, td):first-child { text-align: left; }
 .table.matrix th:first-child { min-width: 160px; }
-.table.matrix td:first-child { font-family: var(--mono); font-size: 0.78rem; }
+.table.matrix td:first-child { font-family: var(--mono); }
 
 .table.matrix tr.type-row td {
-  background: color-mix(in srgb, var(--accent) 6%, var(--bg));
-  font-weight: 600;
+  background: var(--tint);
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-weight: 600;
 }
-
-/* cost value pills */
-.cv { display: inline-block; font-family: var(--mono); font-size: 0.68rem; font-weight: 600; padding: 0.15em 0.5em; }
-.cv.yes  { background: color-mix(in srgb, #2D6A4F 14%, var(--bg)); color: #2D6A4F; }
-.cv.no   { background: color-mix(in srgb, var(--gray) 10%, var(--bg)); color: var(--gray); }
-.cv.often{ background: color-mix(in srgb, #1F4E79 12%, var(--bg)); color: #1F4E79; }
-.cv.some { background: color-mix(in srgb, #92400E 10%, var(--bg)); color: #92400E; }
-.cv.rare { background: color-mix(in srgb, var(--gray) 8%, var(--bg)); color: var(--gray); }
-
-[data-theme="dark"] .cv.often { background: color-mix(in srgb, #6BA3D6 12%, var(--bg)); color: #6BA3D6; }
-[data-theme="dark"] .cv.some  { background: color-mix(in srgb, #D4845A 10%, var(--bg)); color: #D4845A; }
 
 /* ── reference tables (filled in by js/docs-reference.js) ── */
-
-/* label-first cell styling, same font treatment as .pname elsewhere */
-.table td.ref-name {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 0.82rem;
-  white-space: nowrap;
-}
 
 /* a secondary line under a cell's main text (URLs, signals, etc.) */
 .table .ref-sub {
   margin-top: 0.3rem;
-  font-size: 0.82rem;
+  font-size: var(--fs-sm);
   color: var(--gray);
 }
 
@@ -214,34 +157,22 @@ html {
 }
 .table ul.ref-rule-list li {
   break-inside: avoid;
-  padding-left: 1em;
   margin-bottom: 0.2rem;
-  font-size: 0.86rem;
 }
 
 /* group header row (e.g. "Behavior" and "Content" in rule schema) */
 .table tr.group-row td {
-  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
-  font-size: 0.85rem;
-  padding-top: 0.7rem;
-  padding-bottom: 0.7rem;
+  background: var(--tint);
+  padding-block: 0.7rem;
 }
 
 /* placeholder states */
-.table .ref-loading {
-  color: var(--gray);
-  font-style: italic;
-  padding: 1rem 0.6rem;
-}
-.table .ref-error {
-  color: #92400E;
-  padding: 1rem 0.6rem;
-  font-size: 0.86rem;
-}
+.table :is(.ref-loading, .ref-error) { padding: 1rem 0.6rem; }
+.table .ref-loading { color: var(--gray); font-style: italic; }
+.table .ref-error   { color: var(--error); }
 
 /* ── narrow screens ──────────────────────────────────────── */
-@media (width < 52rem) {
-  .docs-body { padding-top: 2rem; }
+@media (width < 64rem) {   /* = --narrow */
   .table ul.ref-rule-list { columns: 1; }
 }
 

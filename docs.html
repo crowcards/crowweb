@@ -24,7 +24,7 @@
       <img src="img/crow-sprite-c.png" alt="" />
     </a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
-    <nav id="nav" aria-label="Main">
+    <nav id="nav" class="site-nav" aria-label="Main">
       <a href="index.html">Home</a>
       <a href="make.html">Make</a>
       <a href="library.html">Library</a>
@@ -81,16 +81,17 @@
         <li><a href="#ref-enum-federation-approach">Federation approach</a></li>
         <li><a href="#ref-enum-federation-ladder">Response ladder</a></li>
         <li><a href="#ref-enum-conflict-step">Conflict step</a></li>
+        <li><a href="#ref-enum-channels">Communication channels</a></li>
       </ul>
     </li>
   </ul>
 </nav>
 
 <!-- ── main content ──────────────────────────────────────────────── -->
-<main class="docs-body" id="main">
+<main class="docs-body sidebar-main" id="main">
 
   <h1>Documentation</h1>
-  <p class="lede">
+  <p class="lede lede-small">
     Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. The information here may also be useful for community organizers choosing where and how to build an online space.
   </p>
 
@@ -159,7 +160,7 @@
     <h3 id="by-community-type">By community type</h3>
     <!-- Chat Group -->
     <div class="platform-section" id="chat-group">
-      <div class="section-label">Chat group</div>
+      <div class="section-label mono-u">Chat group</div>
       <table class="table">
         <thead>
           <tr>
@@ -186,7 +187,7 @@
 
     <!-- Citizen Science -->
     <div class="platform-section" id="citizen-science">
-      <div class="section-label">Citizen science</div>
+      <div class="section-label mono-u">Citizen science</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -198,7 +199,7 @@
 
     <!-- Discussion Forum -->
     <div class="platform-section" id="discussion-forum">
-      <div class="section-label">Discussion forum</div>
+      <div class="section-label mono-u">Discussion forum</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -212,7 +213,7 @@
 
     <!-- Listserv / Email -->
     <div class="platform-section" id="listserv-email">
-      <div class="section-label">Listserv / email</div>
+      <div class="section-label mono-u">Listserv / email</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -225,7 +226,7 @@
 
     <!-- Social Network / Media -->
     <div class="platform-section" id="social-network">
-      <div class="section-label">Social network / media</div>
+      <div class="section-label mono-u">Social network / media</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -257,7 +258,7 @@
 
     <!-- Peer Production -->
     <div class="platform-section" id="peer-production">
-      <div class="section-label">Peer production</div>
+      <div class="section-label mono-u">Peer production</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -270,7 +271,7 @@
 
     <!-- Workplace -->
     <div class="platform-section" id="workplace">
-      <div class="section-label">Workplace</div>
+      <div class="section-label mono-u">Workplace</div>
       <table class="table">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
@@ -561,6 +562,15 @@
       </table>
     </section>
 
+    <section id="ref-enum-channels">
+      <h3>Communication channels</h3>
+      <p>Ways a community’s members and moderators can reach each other.</p>
+      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="communicationChannels">
+        <thead><tr><th>Channel</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
 
 
   </section>
@@ -581,7 +591,7 @@ document.querySelectorAll('.sidebar .sub .sub').forEach((list, i) => {
   const label = item.querySelector(':scope > a').textContent;
   const btn = document.createElement('button');
   btn.type = 'button';
-  btn.className = 'nav-fold';
+  btn.className = 'pixel-toggle nav-fold';
   btn.setAttribute('aria-label', `Show or hide ${label}`);
   btn.setAttribute('aria-expanded', 'false');
   list.id ||= `sidebar-fold-${i}`;

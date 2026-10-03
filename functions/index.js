@@ -246,9 +246,28 @@ exports.getCard = onCall({ cors: true }, async (request) => {
 // ─── updateCard ──────────────────────────────────────────
 
 /**
- * Merge updates into an existing card. Requires the secret.
- * Updates are applied field-by-field (shallow merge of the top-level sections,
- * then deep-merged within each section via Firestore's set-with-merge).
+ * The parts of a card the editor may write. Each update sends whole parts,
+ * and each part sent replaces what was stored (so unticking a rule, or
+ * removing a key from any nested object, really removes it). Everything else
+ * (id, schemaVersion, createdAt, updatedAt, forkedFrom, and for now status
+ * and visibility, which publishing will handle) can't be written this way.
+ */
+const EDITABLE_PARTS = [
+  "modules",
+  "basics",
+  "infrastructure",
+  "membership",
+  "rules",
+  "processes",
+  "federation",
+  "customModules",
+  "attribution",
+];
+
+/**
+ * Update parts of an existing card, e.g. { basics: {...} }. Requires the
+ * secret. Each part given replaces that part entirely; parts not given are
+ * left alone.
  *
  * Optional `ifUpdatedAt`: the card's `updatedAt` as the editor last saw it.
  * If the card has changed since (another tab, device or person saved), the
@@ -263,14 +282,9 @@ exports.updateCard = onCall({ cors: true }, async (request) => {
     throw new HttpsError("invalid-argument", "updates object is required");
   }
 
-  // Protect fields the client should never touch.
-  const PROTECTED = ["id", "schemaVersion", "createdAt", "updatedAt", "forkedFrom"];
-  for (const key of PROTECTED) {
-    if (key in updates) {
-      throw new HttpsError(
-        "invalid-argument",
-        `Cannot modify protected field: ${key}`
-      );
+  for (const key of Object.keys(updates)) {
+    if (!EDITABLE_PARTS.includes(key)) {
+      throw new HttpsError("invalid-argument", `Not an editable part of a card: ${key}`);
     }
   }
 
@@ -289,7 +303,8 @@ exports.updateCard = onCall({ cors: true }, async (request) => {
     }
 
     const now = new Date().toISOString();
-    tx.set(cardRef, { ...updates, updatedAt: now }, { merge: true });
+    // mergeFields: replace exactly these top-level fields, leave the rest
+    tx.set(cardRef, { ...updates, updatedAt: now }, { mergeFields: [...Object.keys(updates), "updatedAt"] });
     return now;
   });
 

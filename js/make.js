@@ -3,9 +3,17 @@
 
 import { createCard, getCard, updateCard, errorKind } from "./api.js";
 import { loadSession, saveSession, confirmKey, forgetSession } from "./session.js";
-import { loadModuleDefaults, startingModules, moduleEntries, renderModulePicker, moduleSuggestion } from "./modules.js";
+import { loadModuleDefaults, startingModules, moduleEntries, renderModulePicker, moduleSuggestion, hasSavedContent } from "./modules.js";
 import { createAutosaver, onSaveStatus, saveStatus, flushAll, resetSavers, stoppedParts, resumeAll } from "./autosave.js";
+import { el } from "./dom.js";
 import { renderBasics, loadBasicsData } from "./sections/basics.js";
+import { renderMembership, loadMembershipData } from "./sections/membership.js";
+import { renderProcesses, loadProcessesData } from "./sections/processes.js";
+import { renderFederation, loadFederationData } from "./sections/federation.js";
+import { renderInfrastructure, loadInfrastructureData } from "./sections/infrastructure.js";
+import { renderRules, loadRulesData } from "./sections/rules.js";
+import { renderCustomModule, newCustomModule } from "./sections/custom.js";
+import { textField } from "./controls/fields.js";
 import { showPopup, closePopup } from "./popup.js";
 
 const $ = (id) => document.getElementById(id);
@@ -136,7 +144,7 @@ $("key-download").addEventListener("click", () => {
     "",
   ].join("\n");
   const url = URL.createObjectURL(new Blob([text], { type: "text/plain" }));
-  const a = Object.assign(document.createElement("a"), { href: url, download: `crow-card-${cardId}.txt` });
+  const a = el("a", { href: url, download: `crow-card-${cardId}.txt` });
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);   // give the download a moment to start
 });
@@ -152,7 +160,7 @@ $("key-continue").addEventListener("click", () => {
 // `version` is the card's updatedAt as this page last saw it: every save
 // sends it, so the server can refuse a save that would overwrite changes
 // made somewhere else in the meantime.
-const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, basicsForm: null };
+const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, forms: {} };
 let stopShown = false;   // the "changes can't be saved" pop-up shows once per card
 
 /**
@@ -214,9 +222,21 @@ async function savePart(part, data) {
   return result;
 }
 
+// Each module's form: where its reference data comes from, and how it's drawn.
+// Adding a module = a file in js/sections/ plus a line here. (Basics' data
+// is loaded with the card, since set-up and module suggestions need it.)
+const SECTIONS = {
+  basics: { load: async () => editor.basicsData, render: renderBasics },
+  membership: { load: loadMembershipData, render: renderMembership },
+  processes: { load: loadProcessesData, render: renderProcesses },
+  federation: { load: loadFederationData, render: renderFederation },
+  infrastructure: { load: loadInfrastructureData, render: renderInfrastructure },
+  rules: { load: loadRulesData, render: renderRules },
+};
+
 // One auto-saver per part of the card. Each sends only its own part.
-// (Each new module in Phase 2 adds its part name here.)
-const PARTS = ["basics", "modules"];
+// (customModules is one part holding every custom module.)
+const PARTS = ["modules", "customModules", ...Object.keys(SECTIONS)];
 
 function startSavers() {
   resetSavers();
@@ -229,28 +249,35 @@ function startSavers() {
 }
 
 /**
- * The Basics form, wired to its auto-saver, rendered into `container`.
- * onTypeChange(from, to) lets the module picker next to it re-suggest.
+ * A module's form, drawn into `container` from editor.card[part] and wired
+ * to that part's auto-saver. `data` is the module's reference data.
+ * Extra hooks: onTypeChange (Basics), afterInput (runs after each keystroke).
+ * Forms also get `stateKey` ("<card id>:<module>"), a name for remembering
+ * view preferences such as which sections are open.
  */
-function mountBasics(container, { onTypeChange } = {}) {
-  const saver = editor.savers.basics;
-  const form = renderBasics(container, editor.card.basics, editor.basicsData, {
+function mountSection(part, container, data, { onTypeChange, afterInput } = {}) {
+  const saver = editor.savers[part];
+  const form = SECTIONS[part].render(container, editor.card[part], data, {
     onInput: () => {
-      editor.card.basics = form.collect();
-      renderCardName();
+      editor.card[part] = form.collect();
+      afterInput?.();
       saver.schedule();
     },
     onCommit: () => {
       // a finished choice (or leaving a field): mark it changed, save now
-      editor.card.basics = form.collect();
+      editor.card[part] = form.collect();
       saver.schedule();
       saver.flush();
     },
     onTypeChange,
+    stateKey: `${editor.card.id}:${part}`,
   });
-  editor.basicsForm = form;
+  editor.forms[part] = form;
   return form;
 }
+
+const mountBasics = (container, hooks = {}) =>
+  mountSection("basics", container, editor.basicsData, { ...hooks, afterInput: renderCardName });
 
 // ── save status (shared by set-up and the editor) ───────────
 const timeNow = (d) => d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -283,6 +310,89 @@ onSaveStatus((s) => {
   }
 });
 
+// ── custom modules ──────────────────────────────────────────
+const customModule = (id) => (editor.card.customModules || []).find((m) => m.id === id);
+const isCustom = (id) => id.startsWith("cm_");
+
+/** Does a module hold answers? (Drives the picker's "has saved content".) */
+function moduleHasContent(id) {
+  if (!isCustom(id)) return hasSavedContent(editor.card[id]);
+  return (customModule(id)?.fields || []).some((f) => f.label || f.value);
+}
+
+/** Change the custom modules and save them. */
+function setCustomModules(list) {
+  editor.card.customModules = list;
+  editor.savers.customModules.schedule();
+  editor.savers.customModules.flush();
+}
+
+/**
+ * Ask for a name and description in a pop-up, then add the module to the
+ * card's custom modules. Resolves with the new module, or null if cancelled.
+ */
+function addCustomModule() {
+  return new Promise((resolve) => {
+    let added = null;
+    const name = textField({ label: "Module name" });
+    const description = textField({ label: "What it covers", hint: "Optional. A sentence is plenty.", multiline: true });
+    const error = el("p", { className: "form-error", hidden: true });
+    const add = el("button", { type: "submit", className: "button button-small", textContent: "Add module" });
+    const cancel = el("button", { type: "button", className: "link-button", textContent: "Cancel" });
+    const form = el("form", {},
+      el("p", { textContent: "For anything about how your community works that the other modules don’t cover." }),
+      name.element, description.element, error,
+      el("p", { className: "popup-actions" }, add, cancel),
+    );
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!name.value()) {
+        showError(error, "Give the module a name.");
+        name.focus();
+        return;
+      }
+      added = newCustomModule({ name: name.value(), description: description.value() });
+      setCustomModules([...(editor.card.customModules || []), added]);
+      closePopup();
+    });
+    cancel.addEventListener("click", () => closePopup());
+    showPopup({ title: "Add your own module", body: form }).then(() => resolve(added));
+    name.focus();
+  });
+}
+
+/** A custom module's page, wired to the customModules auto-saver. */
+function mountCustom(id, container) {
+  const saver = editor.savers.customModules;
+  const update = () => {
+    const next = form.collect();
+    editor.card.customModules = editor.card.customModules.map((m) => (m.id === id ? next : m));
+    $("module-title").textContent = next.name;   // the name shows as the page title and in the sidebar
+    renderModuleList();
+  };
+  const form = renderCustomModule(container, customModule(id), {
+    onInput: () => { update(); saver.schedule(); },
+    onCommit: () => { update(); saver.schedule(); saver.flush(); },
+    onDelete: () => {
+      const m = customModule(id);
+      if (!confirm(`Delete “${m.name}” and everything in it? This can’t be undone.\n\nTo hide it instead, untick it under Basics → Modules.`)) return;
+      setCustomModules(editor.card.customModules.filter((x) => x.id !== id));
+      setModules(editor.card.modules.filter((x) => x !== id));
+      location.hash = "#basics";
+    },
+  });
+  editor.forms[id] = form;
+}
+
+/** Change which modules are on, update the sidebar, and save. */
+function setModules(modules) {
+  editor.card.modules = modules;
+  renderModuleList();
+  // a tick is a finished choice: save now rather than after the delay
+  editor.savers.modules.schedule();
+  editor.savers.modules.flush();
+}
+
 // ── module suggestions when the community type changes ──────
 /**
  * On the set-up page: if the modules still match the old type's defaults,
@@ -301,11 +411,6 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
     ...s.add.map((id) => `add ${label(id)}`),
     ...s.remove.map((id) => `remove ${label(id)}`),
   ].join(", ");
-  const el = (tag, props = {}, ...children) => {
-    const e = Object.assign(document.createElement(tag), props);
-    e.append(...children);
-    return e;
-  };
   const showPicker = () => hintEl.scrollIntoView({ behavior: "smooth", block: "center" });
 
   if (s.untouched && autoApply) {
@@ -360,11 +465,6 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
 function showConflict() {
   const parts = stoppedParts();
   const names = parts.map((p) => (p === "modules" ? "the module list" : moduleLabel(p)));
-  const el = (tag, props = {}, ...children) => {
-    const e = Object.assign(document.createElement(tag), props);
-    e.append(...children);
-    return e;
-  };
   const latest = el("button", { type: "button", className: "button button-small", textContent: "Load the latest version" });
   const mine = el("button", { type: "button", className: "link-button", textContent: "Keep mine" });
   const error = el("p", { className: "form-error", hidden: true });
@@ -430,9 +530,7 @@ function showSetup(opts) {
   // modules are only written on Continue: until then the card counts as
   // not set up, so a refresh comes back here
   const suggested = startingModules(editor.defaults, { communityType: editor.card.basics?.communityType });
-  setupPicker = renderModulePicker($("setup-modules"), editor.defaults, suggested, {
-    onChange: () => $("setup-modules-hint").replaceChildren(),
-  });
+  drawSetupPicker([...suggested, ...(editor.card.customModules || []).map((m) => m.id)]);
   $("setup-modules-hint").replaceChildren();
   const form = mountBasics($("setup-basics"), {
     onTypeChange: (from, to) => suggestModules($("setup-modules-hint"), setupPicker, from, to, {
@@ -444,11 +542,20 @@ function showSetup(opts) {
   if (opts?.focus !== false) form.focusFirst();
 }
 
+function drawSetupPicker(selected) {
+  setupPicker = renderModulePicker($("setup-modules"), editor.defaults, selected, {
+    custom: editor.card.customModules || [],
+    onChange: () => $("setup-modules-hint").replaceChildren(),
+    // a new custom module starts ticked
+    onAdd: () => addCustomModule().then((m) => m && drawSetupPicker([...setupPicker.value(), m.id])),
+  });
+}
+
 $("setup-continue").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
   if (!editor.card.basics?.communityName) {
     showError($("setup-error"), "Give your community a name to continue.");
-    editor.basicsForm.focusFirst();
+    editor.forms.basics.focusFirst();
     return;
   }
   showError($("setup-error"), "");
@@ -493,11 +600,9 @@ function currentModuleId() {
 function renderModuleList() {
   $("module-list").replaceChildren(
     ...moduleEntries(editor.defaults, editor.card).map((m) => {
-      const li = document.createElement("li");
-      const a = Object.assign(document.createElement("a"), { href: `#${m.id}`, textContent: m.label });
+      const a = el("a", { href: `#${m.id}`, textContent: m.label });
       a.dataset.module = m.id;
-      li.append(a);
-      return li;
+      return el("li", {}, a);
     }),
   );
   markCurrentModule();
@@ -524,29 +629,33 @@ function renderModule({ focus = true } = {}) {
   $("module-description").textContent = m.description || "";
   const content = $("module-content");
 
+  editor.forms = {};
   if (id === "basics") {
-    const basicsHost = document.createElement("div");
-    const heading = Object.assign(document.createElement("h2"), { textContent: "Modules" });
-    const hint = Object.assign(document.createElement("p"), {
-      textContent: "The parts this card covers. Unticking one hides it from the sidebar; anything already filled in is kept.",
-    });
-    const pickerHint = document.createElement("div");
+    const basicsHost = el("div");
+    const pickerHint = el("div");
     pickerHint.setAttribute("aria-live", "polite");
-    const pickerHost = document.createElement("div");
-    content.replaceChildren(basicsHost, heading, hint, pickerHint, pickerHost);
+    const pickerHost = el("div");
+    content.replaceChildren(
+      basicsHost,
+      el("h2", { textContent: "Modules" }),
+      el("p", { textContent: "The parts this card covers. Unticking one hides it from the sidebar; anything already filled in is kept." }),
+      pickerHint,
+      pickerHost,
+    );
 
-    const setModules = (modules) => {
-      editor.card.modules = modules;
-      renderModuleList();
-      // a tick is a finished choice: save now rather than after the delay
-      editor.savers.modules.schedule();
-      editor.savers.modules.flush();
-    };
     const picker = renderModulePicker(pickerHost, editor.defaults, editor.card.modules, {
+      custom: editor.card.customModules || [],
       onChange: (modules) => {
         pickerHint.replaceChildren();
         setModules(modules);
       },
+      hasContent: moduleHasContent,
+      // a new custom module starts ticked, and opens so it can be filled in
+      onAdd: () => addCustomModule().then((m) => {
+        if (!m) return;
+        setModules([...editor.card.modules, m.id]);
+        location.hash = `#${m.id}`;
+      }),
     });
     // in the editor the person has already chosen modules, so a type change
     // only ever suggests (with a button); it never changes them by itself
@@ -556,11 +665,20 @@ function renderModule({ focus = true } = {}) {
         autoApply: false,
       }),
     });
+  } else if (isCustom(id)) {
+    mountCustom(id, content);
+  } else if (SECTIONS[id]) {
+    // its reference data first (fetched once, then cached), then the form
+    content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
+    SECTIONS[id].load().then((data) => {
+      if (currentModuleId() !== id) return;   // moved on while it loaded
+      mountSection(id, content, data);
+    }, (err) => {
+      console.error(err);
+      content.replaceChildren(el("p", { className: "form-error", textContent: MESSAGES.other }));
+    });
   } else {
-    editor.basicsForm = null;
-    content.replaceChildren(
-      Object.assign(document.createElement("p"), { textContent: "This module’s form is coming soon." }),
-    );
+    content.replaceChildren(el("p", { textContent: "This module’s form is coming soon." }));
   }
 
   if (focus) $("module-title").focus();
@@ -586,7 +704,9 @@ $("editor-nav-toggle").addEventListener("click", () => {
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && $("editor-nav").classList.contains("is-open")) setEditorNav(false);
 });
-matchMedia("(width >= 52rem)").addEventListener("change", () => setEditorNav(false));
+// widening past the breakpoint (--narrow in styles.css) closes the panel
+const narrow = getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";
+matchMedia(`(width >= ${narrow})`).addEventListener("change", () => setEditorNav(false));
 
 // ── editor: Save ────────────────────────────────────────────
 // two Save buttons: the sidebar's, and the narrow-screen bar's

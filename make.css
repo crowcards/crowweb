@@ -1,10 +1,12 @@
 /* ============================================================
    CROW Make — loaded after styles.css on make.html only.
    Form controls, the card-key screens, the editor, and pop-ups.
+   Buttons, link-style buttons, pixel toggles, tokens and the sidebar
+   layout come from styles.css.
    ============================================================ */
 
 /* ── form controls ───────────────────────────────────────── */
-.make :is(input[type="text"], input[type="url"], input[type="search"], select) {
+.make :is(input[type="text"], input[type="url"], input[type="search"], select, textarea) {
   display: block;
   width: 100%;
   padding: 0.5rem 0.65rem;
@@ -12,16 +14,17 @@
   border-radius: 0;
   background: var(--white);
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: var(--fs-md);
 }
 
-[data-theme="dark"] .make :is(input[type="text"], input[type="url"], input[type="search"], select) {
+[data-theme="dark"] .make :is(input[type="text"], input[type="url"], input[type="search"], select, textarea) {
   background: color-mix(in srgb, var(--ink) 6%, var(--bg));
 }
 
 .make select { cursor: pointer; }
+.make textarea { resize: vertical; font-family: inherit; line-height: 1.5; }
 
-.make :is(input, select):focus-visible {
+.make :is(input, select, textarea):focus-visible {
   outline: none;
   border-color: var(--accent);
 }
@@ -43,95 +46,9 @@
   cursor: pointer;
 }
 
-.make .button:disabled {
-  background: var(--line);
-  color: var(--gray);
-  cursor: not-allowed;
-}
-
-/* a smaller version of the orange pixel button */
-.button-small {
-  --px: 3px;
-  font-size: 1.15rem;
-  padding: 0.3em 1em 0.35em;
-}
-
-/* a <button> that looks like a link: mono caps with the orange underline */
-.link-button {
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 0.8em;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-  text-decoration-skip-ink: none;
-  cursor: pointer;
-}
-
-.link-button:hover,
-.link-button:focus-visible {
-  background: var(--accent);
-  color: var(--lime);
-  text-decoration-color: transparent;
-}
-
-/* a 3x3-pixel plus that turns into an orange minus when open
-   (same shape as .pixel-plus and the docs sidebar fold) */
-.pixel-toggle {
-  display: inline-grid;
-  place-items: center;
-  width: 1.5rem;
-  height: 1.5rem;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--gray);
-  cursor: pointer;
-}
-.pixel-toggle:hover,
-.pixel-toggle:focus-visible,
-.pixel-toggle[aria-expanded="true"] { color: var(--accent); }
-.pixel-toggle::before {
-  content: "";
-  width: 9px;
-  height: 9px;
-  background: currentColor;
-  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
-                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
-}
-.pixel-toggle[aria-expanded="true"]::before { clip-path: inset(33.3% 0); }
-
-/* with text beside its plus */
-.pixel-toggle.with-label {
-  display: inline-flex;
-  gap: 0.5rem;
-  width: auto;
-  color: var(--ink);
-  font: inherit;
-  text-align: left;
-}
-
 .form-error {
-  color: #B3261E;
+  color: var(--error);
   font-size: var(--fs-small);
-}
-[data-theme="dark"] .form-error { color: #FF8A80; }
-
-/* for screen readers only */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 .screen-loading { color: var(--gray); }
@@ -140,10 +57,9 @@
 .fields { margin: 1.5rem 0 2rem; }
 .field { margin-bottom: 1.5rem; }
 .field > :is(label, legend).mono-u { display: block; margin-bottom: 0.4rem; padding: 0; }
-.field-hint { margin: 0 0 0.5rem; color: var(--gray); font-size: var(--fs-small); }
+.field-hint { margin: 0 0 0.5rem; color: var(--gray); font-size: var(--fs-md); }   /* same size as option descriptions */
 
-fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
-.module-picker { margin-block: 1rem 1.5rem; }
+fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 /* radio and checkbox rows: the box, then a name over a short description */
 .choice {
@@ -154,9 +70,28 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
 }
 .choice > input { margin-top: 0.35em; }
 .choice label { cursor: pointer; }
-.choice-name { display: block; font-size: 1rem; font-weight: 700; }
-.choice-desc { display: block; color: var(--gray); font-size: 0.9rem; }
+.choice-name { display: block; font-size: var(--fs-small); font-weight: 700; }
+.choice-name:only-child { font-size: var(--fs-md); font-weight: 400; }   /* a name with no description under it, e.g. a rule */
+.choice-desc { display: block; color: var(--gray); font-size: var(--fs-md); }
+/* a small note under an option, e.g. "Has saved content": a neon lime
+   highlight, with dark text so it stays readable in both modes */
+.choice-flag {
+  display: block;
+  width: fit-content;
+  margin-top: 0.3rem;
+  padding: 0.1em 0.4em;
+  background: var(--lime);
+  color: var(--on-accent);
+  font-size: var(--fs-2xs);
+}
 
+/* a follow-up choice under a ticked option (choices "sub"), e.g. a rule's
+   "Allowed / Not allowed": a row of small radios, indented under the name */
+.choice-sub { margin: 0.3rem 0 0.2rem; padding: 0; border: 0; }
+.choice-sub .choice { padding-block: 0; }
+.choice-sub .choice-name { font-size: var(--fs-sm); font-weight: 400; }
+
+.module-picker { margin-block: 1rem 1.5rem; }
 .module-picker .choice { padding-block: 0.6rem; border-bottom: var(--rule); }
 .module-picker .choice:last-child { border-bottom: 0; }
 
@@ -179,9 +114,9 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
   background: var(--accent);
   color: var(--on-accent);
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: var(--fs-sm);
 }
-.tags-quiet .tag { background: color-mix(in srgb, var(--accent) 14%, var(--bg)); color: var(--ink); }
+.tags-quiet .tag { background: var(--tint-strong); color: var(--ink); }
 
 .tag-remove {
   padding: 0 0.15rem;
@@ -196,23 +131,127 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
 .tag-remove:hover,
 .tag-remove:focus-visible { background: var(--ink); color: var(--lime); }
 
-/* values: a filter box over a compact scrolling list */
-.value-list {
+/* compact rows (js/controls/choices.js layout "compact"): the name, with a
+   pixel plus that opens its description underneath */
+.choice-compact { flex-wrap: wrap; align-items: center; padding-block: 0.2rem; border-bottom: var(--rule); font-size: var(--fs-md); }
+.choice-compact:last-child { border-bottom: 0; }
+.choice-compact > input { margin-top: 0; }
+.choice-compact .choice-name { flex: 1; font-size: inherit; font-weight: 400; }
+.choice-about { flex-basis: 100%; padding-left: calc(0.9em + 0.6rem); color: var(--gray); }
+.choice-about p { margin: 0 0 0.4rem; }
+
+/* a long list (values, approaches): a filter box over a compact scrolling list */
+.scroll-list {
   max-height: 22rem;
   overflow-y: auto;
   margin-top: 0.5rem;
   padding: 0 0.75rem;
   border: 2px solid var(--line);
-  font-size: 0.9rem;
 }
-.value-row { flex-wrap: wrap; align-items: center; padding-block: 0.2rem; border-bottom: var(--rule); }
-.value-row:last-child { border-bottom: 0; }
-.value-row > input { margin-top: 0; }
-.value-row .choice-name { flex: 1; font-size: inherit; font-weight: 400; }
-.value-about { flex-basis: 100%; padding-left: calc(0.9em + 0.6rem); color: var(--gray); }
-.value-about p { margin: 0 0 0.4rem; }
 
 .conflict-notes .callout { margin: 0.75rem 0; }
+.choices + .field { margin-top: 1.25rem; }   /* a pick list's chosen rows, under the list */
+
+/* suggestion field (js/controls/suggest.js): matches drop down under the box */
+.suggest { position: relative; }
+.suggest-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  max-height: 16rem;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-top: 0;
+  background: var(--bg);
+  font-size: var(--fs-md);
+}
+.suggest-list li { padding: 0.4rem 0.65rem; cursor: pointer; }
+.suggest-list li::before { display: none; }   /* no pixel bullet */
+.suggest-list li[aria-selected="true"] { background: var(--tint-strong); }
+.suggest-note { color: var(--gray); font-size: var(--fs-sm); }
+/* a list you can browse: a small arrow in the box */
+.suggest-browse::after {
+  content: "▾";
+  position: absolute;
+  top: 0.55rem;
+  right: 0.75rem;
+  color: var(--gray);
+  pointer-events: none;
+}
+.suggest-browse input { padding-right: 2rem; }
+
+/* choices in a row: 1–5 scales, yes / no, costs (what 1 and 5 mean go below) */
+.scale { display: flex; flex-wrap: wrap; gap: 0.25rem clamp(0.75rem, 2vw, 1.25rem); }
+.scale .choice { padding-block: 0.2rem; }
+.scale-ends { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.25rem; }
+
+/* repeatable rows (js/controls/rows.js): each entry in a thin box, with a
+   pixel × in its corner to remove it */
+.rows { display: grid; gap: 0.75rem; margin-bottom: 0.5rem; }
+.row {
+  position: relative;
+  padding: 0.9rem 2.75rem 0.1rem 0.9rem;   /* room on the right for the × */
+  border: var(--rule);
+}
+.row .field { margin-bottom: 0.9rem; }
+.row-remove {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.row-remove span { --dot: 3px; width: var(--dot); height: var(--dot); background: currentColor; color: var(--gray); }
+.row-remove:hover span,
+.row-remove:focus-visible span { color: var(--error); }
+.rows-add { margin: 0.5rem 0 0; }
+/* ↑ / ↓ beside the ×, for rows that can be put in order */
+.row:has(.row-moves) { padding-right: 6.5rem; }
+.row-moves {
+  position: absolute;
+  top: 0.5rem;
+  right: 2.4rem;
+  display: flex;
+}
+.row-move {
+  width: 1.75rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gray);
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.row-move:hover,
+.row-move:focus-visible { color: var(--accent); }
+.row-title { margin: 0 0 0.6rem; font-weight: 700; }   /* what a row is about, e.g. an approach's name */
+
+/* for actions that remove things (e.g. "Delete this module") */
+.link-button-danger { color: var(--error); text-decoration-color: var(--error); }
+
+/* collapsible sections (js/controls/fold.js): the heading is the toggle,
+   keeping the heading's own font and orange, with the pixel plus before it */
+.fold > :is(h2, h3) { margin: 0.9em 0 0.25em; }
+.fold > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
+.fold > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }   /* the plus grows with the heading */
+/* groups inside a section (level 3): smaller, sans, closer together */
+.fold-3 > h3 { margin: 0.4em 0 0; font-family: var(--sans); font-size: var(--fs-small); font-weight: 700; }
+.fold-3 > h3 .pixel-toggle::before { width: 9px; height: 9px; }
+.fold-3 > .fold-body { padding: 0.25rem 0 0.75rem calc(9px + 0.35em); }
+.fold-body { padding-top: 0.25rem; }
 
 /* ── start: edit-an-existing-card form ───────────────────── */
 .key-form label.mono-u {
@@ -234,7 +273,7 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
   max-width: 100%;
   margin-right: 0.75rem;
   padding: 0.35rem 0.6rem;
-  background: color-mix(in srgb, var(--accent) 12%, var(--bg));
+  background: var(--tint-strong);
   font-size: 1rem;
   word-break: break-all;
   user-select: all;   /* one click selects the whole value */
@@ -251,12 +290,12 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
 :is(.editor-card, .editor-actions, .editor-forget, .editor-docs) { text-align: center; }
 
 .editor-card { margin: 0 0 1.25rem; }
-.editor-card .mono-u { display: block; color: var(--gray); font-size: 0.7rem; }
+.editor-card .mono-u { display: block; color: var(--gray); font-size: var(--fs-2xs); }
 .editor-card .editor-name { display: block; font-weight: 700; font-size: 1rem; line-height: 1.3; overflow-wrap: anywhere; }
-.editor-card .mono { display: block; color: var(--gray); font-size: 0.72rem; word-break: break-all; }
+.editor-card .mono { display: block; color: var(--gray); font-size: var(--fs-xs); word-break: break-all; }
 
 /* module names are the main thing here: a step bigger than docs links */
-.editor-nav #module-list a { font-size: 0.8rem; }
+.editor-nav .module-list a { font-size: var(--fs-sm); }
 
 .editor-actions,
 .editor-forget { margin: 0 0 1.5rem; }
@@ -269,48 +308,17 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
   margin: 0.5rem 0 0;
   color: var(--gray);
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: var(--fs-xs);
 }
 
-/* Docs keeps the normal link look (the sidebar turns underlines off for
-   its module links, so the underline is restated in full) */
-:is(.editor-docs, .editor-bar-actions) a {
-  display: inline;
-  margin: 0;
-  padding: 0;
-  color: inherit;
-  font-weight: 600;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  text-decoration-line: underline;
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-  text-decoration-skip-ink: none;
-}
-:is(.editor-docs, .editor-bar-actions) a:hover,
-:is(.editor-docs, .editor-bar-actions) a:focus-visible {
-  background: var(--accent);
-  color: var(--lime);
-  text-decoration-color: transparent;
-}
-
-/* ── editor: the current module ──────────────────────────── */
-.editor-body {
-  max-width: calc(var(--measure) + var(--gutter) * 2);
-  padding: 3rem var(--gutter) 6rem;
-}
-.editor-body .lede { font-size: clamp(1.2rem, 1.8vw, 1.5rem); }
+/* Docs: a normal link, just sized for the sidebar */
+:is(.editor-docs, .editor-bar-actions) a { font-size: var(--fs-xs); }
 
 /* ── editor sidebar (narrow screens): a slim bar that opens ── */
 .editor-bar { display: none; }
 
-@media (width < 64rem) {
+@media (width < 64rem) {   /* = --narrow */
   .editor-crow { display: none; }   /* the header has the crow here */
-}
-
-@media (width < 52rem) {
-  .editor-body { padding-top: 2rem; }
 
   /* stays just under the site header while scrolling */
   .editor-nav {
@@ -331,7 +339,7 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
     justify-content: space-between;
     gap: 0.4rem 1rem;
   }
-  .editor-bar .pixel-toggle { font-size: 0.9rem; }
+  .editor-bar .pixel-toggle { font-size: var(--fs-md); }
 
   .editor-bar-actions {
     display: flex;
@@ -339,7 +347,7 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
     gap: 0.75rem;
     margin-left: auto;
   }
-  .editor-bar .save-status { min-height: 0; margin: 0; font-size: 0.65rem; }
+  .editor-bar .save-status { min-height: 0; margin: 0; font-size: var(--fs-2xs); }
   .editor-bar .button-small { font-size: 1rem; padding: 0.2em 0.8em 0.25em; }
   .editor-bar [data-forget] { margin-right: 0.5rem; }   /* a little more room before Docs */
 
@@ -365,10 +373,10 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
   }
   .editor-nav-panel .editor-card .mono-u { display: none; }
   .editor-nav-panel .editor-card :is(.editor-name, .mono) { display: inline; }
-  .editor-nav-panel .editor-card .editor-name { font-size: 0.95rem; }
+  .editor-nav-panel .editor-card .editor-name { font-size: var(--fs-md); }
 
-  .editor-nav-panel #module-list { gap: 0.1rem 1rem; margin: 0 0 0.5rem; }
-  .editor-nav-panel #module-list a { font-size: 0.8rem; padding-block: 0.25rem; }
+  .editor-nav-panel .module-list { gap: 0.1rem 1rem; margin: 0 0 0.5rem; }
+  .editor-nav-panel .module-list a { padding-block: 0.25rem; }
 }
 
 /* ── pop-up ──────────────────────────────────────────────── */
@@ -413,7 +421,7 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
   margin-top: 1.25rem;
 }
 
-/* close: a 5x5 pixel X, the same one the narrow-screen menu uses */
+/* close: the pixel X (its shape is the shared rule in styles.css) */
 .popup-close {
   position: absolute;
   top: 0.75rem;
@@ -429,15 +437,11 @@ fieldset:is(.field, .module-picker) { margin-inline: 0; padding: 0; border: 0; }
 }
 
 .popup-close span {
-  width: 4px;
-  height: 4px;
+  --dot: 4px;
+  width: var(--dot);
+  height: var(--dot);
   color: var(--ink);
   background: currentColor;
-  box-shadow:
-    -8px -8px currentColor, -4px -4px currentColor,
-     8px -8px currentColor,  4px -4px currentColor,
-    -8px  8px currentColor, -4px  4px currentColor,
-     8px  8px currentColor,  4px  4px currentColor;
 }
 
 .popup-close:hover span,

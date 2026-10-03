@@ -89,7 +89,7 @@
               <td class="ref-name">${esc(type.name)} ${qualifierNote}</td>
               <td colspan="2">
                 <ul class="ref-rule-list">
-                  ${type.rules.map(r => `<li>${esc(r)}</li>`).join("")}
+                  ${type.rules.map(r => `<li>${esc(r.label)}</li>`).join("")}
                 </ul>
               </td>
             </tr>

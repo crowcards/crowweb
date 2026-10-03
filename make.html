@@ -26,7 +26,7 @@
       <img src="img/crow-sprite-c.png" alt="" />
     </a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
-    <nav id="nav" aria-label="Main">
+    <nav id="nav" class="site-nav" aria-label="Main">
       <a href="index.html">Home</a>
       <a href="make.html" aria-current="page">Make</a>
       <a href="library.html">Library</a>
@@ -175,7 +175,7 @@
           <span class="mono" id="editor-id"></span>
         </p>
 
-        <ul id="module-list"></ul>
+        <ul id="module-list" class="module-list"></ul>
 
         <div class="editor-actions">
           <button class="button button-small" type="button" data-save-now>Save</button>
@@ -191,10 +191,10 @@
       </div>
     </nav>
 
-    <main class="editor-body">
+    <main class="sidebar-main">
       <section id="module-panel">
         <h1 id="module-title" tabindex="-1"></h1>
-        <p class="lede" id="module-description"></p>
+        <p class="lede lede-small" id="module-description"></p>
         <div id="module-content"></div>
       </section>
     </main>
