@@ -4,9 +4,9 @@
   "note": "Which modules a new card starts with. 'modules' lists the built-in modules in sidebar order (Basics is always on and not listed). A card's starting set is picked by the most specific thing known: the platform's structural model (from platforms.json) first, then the community type, then 'default'. These are only suggestions: people can always add or remove modules.",
   "modules": [
     { "id": "infrastructure", "label": "Infrastructure", "description": "Platform, software, costs, other tools, and where servers, members and admins are." },
-    { "id": "membership",     "label": "Membership",     "description": "How people join and become members." },
+    { "id": "membership",     "label": "Membership",     "description": "How people join, and how membership is organised." },
     { "id": "rules",          "label": "Rules",          "description": "Community rules, covenants, and which behaviors and content they cover." },
-    { "id": "processes",      "label": "Processes",      "description": "Moderation, conflict management, institutional change, and communication channels." },
+    { "id": "processes",      "label": "Processes",      "description": "Moderation, maintenance, conflict management, institutional change, and communication channels." },
     { "id": "federation",     "label": "Federation",     "description": "How the community connects with other servers: allow and block lists, responses, bridging." }
   ],
   "default": ["infrastructure", "membership", "rules", "processes"],

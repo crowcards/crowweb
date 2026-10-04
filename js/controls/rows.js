@@ -15,8 +15,8 @@
 //
 // Adding or removing a row counts as a finished change (onCommit). Without
 // newItem there's no "+ Add" link; rows can still be added and removed from
-// outside with rows.add(item) and rows.remove(match), and onRemove(item)
-// hears about rows removed with their ×. (js/controls/picklist.js works this
+// outside with rows.add(item) and rows.remove(match), and onRemove(item, current)
+// hears about rows removed with their × (current = what the row held). (js/controls/picklist.js works this
 // way.) With reorderable, each row also gets ↑ / ↓ buttons, and value()
 // follows the order on screen.
 
@@ -47,8 +47,9 @@ export function renderRows({
     const entry = { ...row, item, wrap: el("div", { className: "row" }, row.element, remove) };
     if (reorderable) entry.wrap.append(moveButtons(entry, itemName(item)));
     remove.addEventListener("click", () => {
+      const current = entry.collect();
       drop(entry);
-      onRemove(item);
+      onRemove(item, current);
       onCommit();
     });
     remove.setAttribute("aria-label", `Remove ${itemName(item)}`);

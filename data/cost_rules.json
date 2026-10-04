@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "categories": [
     {
       "id": "hostingServers",
@@ -54,17 +54,17 @@
       "description": "Platform operated by a company / org; community runner is a tenant with no infrastructure responsibility.",
       "examples": "Facebook, LinkedIn, Reddit, Discord, Telegram, WeChat, Nextdoor, Slack, Fandom, Roundabout, Front Porch Forum, Google Groups",
       "costs": {
-        "hostingServers": "No",
-        "mediaStorage": "No",
-        "domain": "No",
-        "emailDelivery": "No",
-        "paidSoftware": "Rare",
-        "managedHostingServices": "No",
-        "backupsDisasterRecovery": "No",
-        "adminModLabor": "Often",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Rare",
-        "inPersonEvents": "Sometimes"
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "rare",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "sometimes"
       }
     },
     {
@@ -73,17 +73,17 @@
       "description": "Operator runs their own OSS instance. Primary content is text, links, or lightweight media.",
       "examples": "Mastodon, Pleroma, Akkoma, Misskey, Bonfire, Friendica, Lemmy, Discourse, Mailman, Matrix clients, Diaspora*, Custom wiki, generic ActivityPub / Matrix / Diaspora Protocol clients",
       "costs": {
-        "hostingServers": "Yes",
-        "mediaStorage": "Sometimes",
-        "domain": "Yes",
-        "emailDelivery": "Sometimes",
-        "paidSoftware": "No",
-        "managedHostingServices": "Sometimes",
-        "backupsDisasterRecovery": "Sometimes",
-        "adminModLabor": "Often",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Sometimes",
-        "inPersonEvents": "Sometimes"
+        "hostingServers": "yes",
+        "mediaStorage": "sometimes",
+        "domain": "yes",
+        "emailDelivery": "sometimes",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "sometimes",
+        "inPersonEvents": "sometimes"
       }
     },
     {
@@ -92,17 +92,17 @@
       "description": "Operator runs their own OSS instance; primary content is video or images, creating significant storage and delivery costs.",
       "examples": "PeerTube, Pixelfed",
       "costs": {
-        "hostingServers": "Yes",
-        "mediaStorage": "Yes",
-        "domain": "Yes",
-        "emailDelivery": "Sometimes",
-        "paidSoftware": "No",
-        "managedHostingServices": "Sometimes",
-        "backupsDisasterRecovery": "Yes",
-        "adminModLabor": "Often",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Sometimes",
-        "inPersonEvents": "Sometimes"
+        "hostingServers": "yes",
+        "mediaStorage": "yes",
+        "domain": "yes",
+        "emailDelivery": "sometimes",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "yes",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "sometimes",
+        "inPersonEvents": "sometimes"
       }
     },
     {
@@ -111,17 +111,17 @@
       "description": "Software is open source but hosted by an institution; community runner bears no infrastructure costs.",
       "examples": "Zooniverse, iNaturalist, Wikipedia",
       "costs": {
-        "hostingServers": "No",
-        "mediaStorage": "No",
-        "domain": "No",
-        "emailDelivery": "No",
-        "paidSoftware": "No",
-        "managedHostingServices": "No",
-        "backupsDisasterRecovery": "No",
-        "adminModLabor": "Often",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Rare",
-        "inPersonEvents": "Sometimes"
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "sometimes"
       }
     },
     {
@@ -130,17 +130,17 @@
       "description": "Client connects to a relay network (Nostr). Infrastructure costs arise if the operator runs their own relay.",
       "examples": "Damus, Amethyst, Primal, generic Nostr client",
       "costs": {
-        "hostingServers": "Sometimes",
-        "mediaStorage": "Sometimes",
-        "domain": "Sometimes",
-        "emailDelivery": "No",
-        "paidSoftware": "No",
-        "managedHostingServices": "Sometimes",
-        "backupsDisasterRecovery": "Sometimes",
-        "adminModLabor": "Sometimes",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Rare",
-        "inPersonEvents": "Rare"
+        "hostingServers": "sometimes",
+        "mediaStorage": "sometimes",
+        "domain": "sometimes",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
       }
     },
     {
@@ -149,17 +149,17 @@
       "description": "Client connects to the AT Protocol network. Infrastructure costs arise if the operator runs their own Personal Data Server (PDS).",
       "examples": "Bluesky, Rsky (Blacksky), generic AT Protocol client",
       "costs": {
-        "hostingServers": "Sometimes",
-        "mediaStorage": "Sometimes",
-        "domain": "Sometimes",
-        "emailDelivery": "No",
-        "paidSoftware": "No",
-        "managedHostingServices": "Sometimes",
-        "backupsDisasterRecovery": "Sometimes",
-        "adminModLabor": "Sometimes",
-        "thirdPartyTrustSafetyTools": "Sometimes",
-        "legalCompliance": "Rare",
-        "inPersonEvents": "Rare"
+        "hostingServers": "sometimes",
+        "mediaStorage": "sometimes",
+        "domain": "sometimes",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
       }
     },
     {
@@ -168,17 +168,17 @@
       "description": "Open source software operated centrally by the developer; community = a group chat. No infrastructure costs for community runner.",
       "examples": "Signal Chat",
       "costs": {
-        "hostingServers": "No",
-        "mediaStorage": "No",
-        "domain": "No",
-        "emailDelivery": "No",
-        "paidSoftware": "No",
-        "managedHostingServices": "No",
-        "backupsDisasterRecovery": "No",
-        "adminModLabor": "Sometimes",
-        "thirdPartyTrustSafetyTools": "No",
-        "legalCompliance": "Rare",
-        "inPersonEvents": "Rare"
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "no",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
       }
     }
   ]

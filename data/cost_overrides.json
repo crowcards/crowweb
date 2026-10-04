@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
   "note": "Per-platform cost overrides where the platform-type default is inaccurate for that specific platform.",
   "items": [
     {
@@ -8,8 +8,8 @@
       "software": "Proprietary",
       "typeId": "corporate_proprietary",
       "overrides": {
-        "paidSoftware": "Sometimes",
-        "legalCompliance": "Sometimes"
+        "paidSoftware": "sometimes",
+        "legalCompliance": "sometimes"
       }
     },
     {
@@ -17,7 +17,7 @@
       "software": "iNaturalist",
       "typeId": "hosted_oss_institutional",
       "overrides": {
-        "adminModLabor": "Sometimes"
+        "adminModLabor": "sometimes"
       }
     },
     {
@@ -25,7 +25,7 @@
       "software": "Proprietary",
       "typeId": "corporate_proprietary",
       "overrides": {
-        "thirdPartyTrustSafetyTools": "Often"
+        "thirdPartyTrustSafetyTools": "often"
       }
     },
     {
@@ -33,7 +33,7 @@
       "software": "Discourse",
       "typeId": "self_hosted_text_primary",
       "overrides": {
-        "emailDelivery": "Yes"
+        "emailDelivery": "yes"
       }
     },
     {
@@ -41,8 +41,8 @@
       "software": "GNU Mailman",
       "typeId": "self_hosted_text_primary",
       "overrides": {
-        "emailDelivery": "Yes",
-        "adminModLabor": "Sometimes"
+        "emailDelivery": "yes",
+        "adminModLabor": "sometimes"
       }
     },
     {
@@ -50,7 +50,7 @@
       "software": "Mastodon",
       "typeId": "self_hosted_text_primary",
       "overrides": {
-        "mediaStorage": "Often"
+        "mediaStorage": "often"
       }
     },
     {
@@ -58,7 +58,7 @@
       "software": "Bonfire",
       "typeId": "self_hosted_text_primary",
       "overrides": {
-        "mediaStorage": "Often"
+        "mediaStorage": "often"
       }
     },
     {
@@ -66,7 +66,7 @@
       "software": "Misskey",
       "typeId": "self_hosted_text_primary",
       "overrides": {
-        "mediaStorage": "Often"
+        "mediaStorage": "often"
       }
     },
     {
@@ -74,7 +74,7 @@
       "software": "MediaWiki",
       "typeId": "hosted_oss_institutional",
       "overrides": {
-        "thirdPartyTrustSafetyTools": "Often"
+        "thirdPartyTrustSafetyTools": "often"
       }
     }
   ]

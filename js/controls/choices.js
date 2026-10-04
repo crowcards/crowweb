@@ -17,7 +17,7 @@
 //                           description (or `details(option)`) underneath
 // Other options: legendHidden (screen-reader-only legend), clearable (a
 // radio "Clear" link), filterable (a "Filter…" box above the list, for long
-// lists), before / after (nodes placed above / below the list), listClass
+// lists; filterLabel names what's filtered, default: the legend), before / after (nodes placed above / below the list), listClass
 // (an extra class on the list), flag ({ text, show(id, checked) }: a small
 // note under an option, e.g. "Has saved content").
 //
@@ -25,8 +25,12 @@
 // (checkbox lists, "described" layout), e.g. a rule's "Allowed / Not allowed":
 //   sub: { options: [{ id, label }], applies: (opt) => true, values: { optId: subId }, legend: "…" }
 // choices.subValue(optId) → the follow-up answer for a ticked option, or null.
+//
+// badge: (opt) => ({ label, notes: [text] }) | null — a small lime chip next
+// to an option's name (e.g. "Suggested"), with its notes under the
+// description ("described") or in the pixel-plus details ("compact").
 
-import { el, uid } from "../dom.js";
+import { el, uid, chip as makeChip, richText } from "../dom.js";
 
 export function renderChoices({
   type = "checkbox",
@@ -39,11 +43,13 @@ export function renderChoices({
   details,
   clearable = false,
   filterable = false,
+  filterLabel = legend.toLowerCase(),
   before = [],
   after = [],
   listClass = "",
   flag,
   sub,
+  badge = () => null,
   onChange = () => {},
 } = {}) {
   const group = uid("choice");
@@ -65,10 +71,15 @@ export function renderChoices({
       onChange(value());
     });
 
+    const b = badge(opt);
+    const chip = b ? makeChip(b.label) : null;
+    const badgeNotes = (b?.notes || []).map((n) => el("p", { className: "choice-badge-note" }, ...richText(n)));
+
     let row;
     if (layout === "compact") {
       const about = el("div", { className: "choice-about", id: uid("about"), hidden: true },
-        ...(details ? details(opt) : [el("p", { textContent: opt.description })]));
+        ...(details ? details(opt) : [el("p", { textContent: opt.description })]),
+        ...badgeNotes);
       const toggle = el("button", { type: "button", className: "pixel-toggle", title: `About ${opt.label}` });
       toggle.setAttribute("aria-label", `About ${opt.label}`);
       toggle.setAttribute("aria-expanded", "false");
@@ -79,16 +90,18 @@ export function renderChoices({
       });
       row = el("div", { className: "choice choice-compact" },
         input,
-        el("label", { htmlFor: id, className: "choice-name", textContent: opt.label }),
+        el("label", { htmlFor: id, className: "choice-name" }, opt.label, chip),
         toggle,
         about,
       );
     } else {
-      const flagLine = flag ? el("span", { className: "choice-flag mono-u", textContent: flag.text, hidden: true }) : null;
+      const flagLine = flag ? Object.assign(makeChip(flag.text), { hidden: true }) : null;
+      flagLine?.classList.add("choice-flag");
       if (flagLine) flags.set(opt.id, flagLine);
       const label = el("label", { htmlFor: id },
-        el("span", { className: "choice-name", textContent: opt.label }),
+        el("span", { className: "choice-name" }, opt.label, chip),
         opt.description ? el("span", { className: "choice-desc", textContent: opt.description }) : null,
+        ...badgeNotes,
         flagLine,
       );
       const follow = sub && (sub.applies ? sub.applies(opt) : true) ? followUp(opt) : null;
@@ -108,7 +121,7 @@ export function renderChoices({
 
   let search = null;
   if (filterable) {
-    search = el("input", { type: "search", id: uid("filter"), placeholder: `Filter ${legend.toLowerCase()}…`, autocomplete: "off" });
+    search = el("input", { type: "search", id: uid("filter"), placeholder: `Filter ${filterLabel}…`, autocomplete: "off" });
     search.addEventListener("input", () => filter(search.value));
   }
 
@@ -116,7 +129,7 @@ export function renderChoices({
     el("legend", { className: legendHidden ? "visually-hidden" : "mono-u", textContent: legend }),
     hint ? el("p", { className: "field-hint", textContent: hint }) : null,
     ...before,
-    search ? el("label", { className: "visually-hidden", htmlFor: search.id, textContent: `Filter ${legend.toLowerCase()}` }) : null,
+    search ? el("label", { className: "visually-hidden", htmlFor: search.id, textContent: `Filter ${filterLabel}` }) : null,
     search,
     list,
     ...after,

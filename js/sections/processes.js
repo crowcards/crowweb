@@ -1,9 +1,14 @@
-// The Processes module: how the community moderates, handles conflict,
-// changes its own rules, and communicates.
+// The Processes module: how the community moderates, maintains its space,
+// handles conflict, changes its own rules, and communicates.
 //
 //   const data = await loadProcessesData();
-//   const form = renderProcesses(container, card.processes, data, { onInput, onCommit });
+//   const form = renderProcesses(container, card.processes, data, { onInput, onCommit, stateKey, getPart, setPart });
 //   form.collect()   → the processes object to save
+//
+// Moderation, maintenance and institutional change all show the community's
+// structure — one shared list kept in membership.structure — and let people
+// adjust it while thinking about that kind of work. Each section keeps its
+// own notes on how each approach is used there (approachNotes).
 
 import { loadData } from "../data.js";
 import { el } from "../dom.js";
@@ -12,14 +17,18 @@ import { renderChoices } from "../controls/choices.js";
 import { renderRows } from "../controls/rows.js";
 import { pickList } from "../controls/picklist.js";
 import { foldSection } from "../controls/fold.js";
+import { logChanges } from "../structure.js";
+import { loadRecommendations, reasonsFor, suggestedBadge } from "../recommend.js";
 
 export async function loadProcessesData() {
-  const [decisions, conflict, enums] = await Promise.all([
+  const [decisions, conflict, enums, recs] = await Promise.all([
     loadData("decision_approaches"),
     loadData("conflict_management"),
     loadData("enums"),
+    loadRecommendations(),
   ]);
   return {
+    recs,
     decisionApproaches: decisions.items,
     conflictApproaches: conflict.items,
     conflictSteps: enums.conflictStep,
@@ -45,36 +54,70 @@ function scale({ legend, low, high, value, onCommit }) {
   return { element: choices.element, value: () => (choices.value() == null ? null : Number(choices.value())) };
 }
 
-export function renderProcesses(container, processes = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "processes" } = {}) {
+/** { "<approach id>": "note" } → only the notes that say something */
+const notesOf = (picks) => Object.fromEntries(picks.filter((p) => p.note).map((p) => [p.id, p.note]));
+
+export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
+  const { onInput = () => {}, onCommit = () => {}, stateKey = "processes", getPart = () => ({}), setPart = () => {} } = hooksIn;
   const hooks = { onInput, onCommit };
-  const mod = processes.moderationMaintenance || {};
   const con = processes.conflictManagement || {};
-  const inst = processes.institutionalChange || {};
   const comms = processes.communications || {};
   const note = (label, value) => textField({ label, multiline: true, value, ...hooks });
+  // options the card's values recommend get a "Suggested" chip
+  const values = getPart("basics").values || [];
+  const suggested = (list) => suggestedBadge(reasonsFor(list, values, data.recs.valueLabel));
 
-  // ── moderation & maintenance ──────────────────────────────
-  const transparency = scale({
-    legend: "Transparency",
-    low: "decisions and reasons stay with the moderators",
-    high: "decisions, reasons and logs are public",
-    value: mod.transparency,
-    onCommit,
+  // ── the shared structure list ─────────────────────────────
+  // each structure section edits the one list; a change made in one is
+  // shown in the others straight away, and saved to membership
+  const structurePickers = [];
+  const setStructure = (ids, from, section) => {
+    const m = getPart("membership");
+    setPart("membership", { ...m, structure: ids, structureLog: logChanges(m, ids, section) });
+    for (const p of structurePickers) if (p !== from) p.select(ids);
+  };
+  function structureSection(saved = {}, { usedFor, section }) {
+    const structure = getPart("membership").structure || [];
+    const notes = saved.approachNotes || {};
+    const picker = pickList({
+      legend: "Add or change approaches",
+      filterLabel: "approaches",
+      hint: "Your structure is one list, shared with Membership: what you tick or untick here changes it everywhere.",
+      options: data.decisionApproaches,
+      items: structure.map((id) => ({ id, note: notes[id] || null })),
+      chosenLegend: "Your community structure",
+      emptyText: "No structure chosen yet. Pick approaches below, or under Membership → Structure.",
+      noteHint: `How it’s used for ${usedFor} (optional).`,
+      badge: suggested(data.recs.decision),
+      detachChosen: true,
+      onSelect: (ids) => setStructure(ids, picker, section),
+      ...hooks,
+    });
+    structurePickers.push(picker);
+    return picker;
+  }
+
+  // ── moderation and maintenance: structure, scales, notes ──
+  const workSection = (saved = {}, { usedFor, section, transparency, participation }) => ({
+    saved,
+    structure: structureSection(saved, { usedFor, section }),
+    transparency: scale({ legend: "Transparency", ...transparency, value: saved.transparency, onCommit }),
+    participatory: scale({ legend: "Participation", ...participation, value: saved.participatory, onCommit }),
   });
-  const participatory = scale({
-    legend: "Participation",
-    low: "a few people decide",
-    high: "everyone can take part",
-    value: mod.participatory,
-    onCommit,
+  const mod = workSection(processes.moderation, {
+    usedFor: "moderation",
+    section: "moderation",
+    transparency: { low: "decisions and reasons stay with the moderators", high: "decisions, reasons and logs are public" },
+    participation: { low: "a few people decide", high: "everyone can take part" },
   });
-  const modApproaches = pickList({
-    legend: "How moderation decisions are made",
-    options: data.decisionApproaches,
-    items: mod.approaches,
-    ...hooks,
+  mod.note = note("Anything else about moderation", mod.saved.generalNote);
+  const main = workSection(processes.maintenance, {
+    usedFor: "maintenance",
+    section: "maintenance",
+    transparency: { low: "upkeep decisions and costs stay with whoever runs things", high: "upkeep decisions, costs and changes are shared openly" },
+    participation: { low: "one person or a small team does it", high: "anyone can help" },
   });
-  const modNote = note("Anything else about moderation", mod.generalNote);
+  main.note = note("Anything else about maintenance", main.saved.generalNote);
 
   // ── conflict management ───────────────────────────────────
   const conApproaches = pickList({
@@ -83,18 +126,15 @@ export function renderProcesses(container, processes = {}, data, { onInput = () 
     options: data.conflictApproaches,
     items: con.approaches,
     steps: data.conflictSteps,
+    badge: suggested(data.recs.conflict),
     ...hooks,
   });
   const conNote = note("Anything else about conflict", con.generalNote);
 
   // ── institutional change ──────────────────────────────────
-  const instApproaches = pickList({
-    legend: "How the community changes its rules and structure",
-    options: data.decisionApproaches,
-    items: inst.approaches,
-    ...hooks,
-  });
-  const instNote = note("Anything else about changing the rules", inst.generalNote);
+  const inst = { saved: processes.institutionalChange || {} };
+  inst.structure = structureSection(inst.saved, { usedFor: "changing the rules and structure", section: "institutionalChange" });
+  inst.note = note("Anything else about changing the rules", inst.saved.generalNote);
 
   // ── communications ────────────────────────────────────────
   const savedChannels = comms.channels || {};
@@ -123,30 +163,39 @@ export function renderProcesses(container, processes = {}, data, { onInput = () 
   });
 
   // each section folds away; closed the first time, then as the person left it
-  const section = (name, title, ...fields) => foldSection({
+  const section = (name, title, ...elements) => foldSection({
     title,
     key: `${stateKey}:${name}`,
-    children: [el("div", { className: "fields" }, ...fields.map((f) => f.element))],
+    children: [el("div", { className: "fields" }, ...elements)],
   });
+  // a structure section: what's chosen (with notes) first, then the scales,
+  // then the list to add or change approaches, then the general note
+  const structureParts = (s) => [s.structure.chosenElement, s.transparency?.element, s.participatory?.element, s.structure.element, s.note.element].filter(Boolean);
   container.replaceChildren(
-    section("moderation", "Moderation & maintenance", transparency, participatory, modApproaches, modNote),
-    section("conflict", "Conflict management", conApproaches, conNote),
-    section("change", "Institutional change", instApproaches, instNote),
-    section("communications", "Communications", channels, customChannels),
+    section("moderation", "Moderation", ...structureParts(mod)),
+    section("maintenance", "Maintenance", ...structureParts(main)),
+    section("conflict", "Conflict management", conApproaches.element, conNote.element),
+    section("change", "Institutional change", ...structureParts(inst)),
+    section("communications", "Communications", channels.element, customChannels.element),
   );
 
+  const work = (s) => ({
+    ...s.saved,
+    transparency: s.transparency.value(),
+    participatory: s.participatory.value(),
+    approachNotes: notesOf(s.structure.value()),
+    generalNote: s.note.value(),
+  });
+  // cards from before moderation / maintenance were split had one combined
+  // moderationMaintenance; it isn't carried forward
+  const { moderationMaintenance, ...kept } = processes;
   return {
     collect: () => ({
-      ...processes,
-      moderationMaintenance: {
-        ...mod,
-        transparency: transparency.value(),
-        participatory: participatory.value(),
-        approaches: modApproaches.value(),
-        generalNote: modNote.value(),
-      },
+      ...kept,
+      moderation: work(mod),
+      maintenance: work(main),
       conflictManagement: { ...con, approaches: conApproaches.value(), generalNote: conNote.value() },
-      institutionalChange: { ...inst, approaches: instApproaches.value(), generalNote: instNote.value() },
+      institutionalChange: { ...inst.saved, approachNotes: notesOf(inst.structure.value()), generalNote: inst.note.value() },
       communications: {
         ...comms,
         // every channel is stored, true or false, as the schema has them

@@ -14,3 +14,19 @@ let n = 0;
 
 /** A page-unique id for linking labels and hints to their inputs. */
 export const uid = (prefix = "f") => `${prefix}-${++n}`;
+
+/** A small lime chip, e.g. "Suggested" (styled by .chip in make.css). */
+export const chip = (label) => el("span", { className: "chip mono-u", textContent: label });
+
+/**
+ * Text with a little formatting, for sentences built in code:
+ *   [[Suggested]]  → the lime chip it mentions (so text matches the chips)
+ *   *Trust*        → italics (e.g. a value's name)
+ * richText("Because you value *Trust*: …") → nodes to append.
+ */
+export function richText(text) {
+  return text.split(/(\[\[.+?\]\]|\*[^*]+\*)/).filter((p) => p !== "").map((part) =>
+    part.startsWith("[[") ? chip(part.slice(2, -2))
+      : part.startsWith("*") && part.endsWith("*") && part.length > 2 ? el("em", { textContent: part.slice(1, -1) })
+        : part);
+}

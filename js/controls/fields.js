@@ -41,6 +41,8 @@ export function textField({
     element,
     input,
     value: () => input.value.trim() || null,
+    /** Fill in from code (e.g. pre-filling); doesn't fire onInput / onCommit. */
+    set: (v) => { input.value = v || ""; },
     focus: () => input.focus(),
   };
 }
@@ -73,6 +75,8 @@ export function selectField({ label, hint = "", options, value = null, placehold
   return {
     element,
     value: () => select.value || null,
+    /** Choose from code (e.g. pre-filling); doesn't fire onChange. */
+    set: (v) => { select.value = v || ""; },
     setHint: (text) => { hintEl.textContent = text; hintEl.hidden = !text; },
   };
 }

@@ -64,6 +64,7 @@ function makeEmptyCard(cardId) {
         type: null,
         platform: null,
         software: null,
+        usesProtocol: null,   // true / false / null (not answered); protocol names it when true
         protocol: null,
         openSource: null,
         selfHosted: null,
@@ -91,7 +92,17 @@ function makeEmptyCard(cardId) {
     },
 
     membership: {
-      registrationJoining: [],
+      registrationJoining: [],   // how people join: ids from membership_options.json
+      // how membership is organised: ids from decision_approaches.json. One
+      // shared list — Processes (moderation, maintenance, institutional
+      // change) shows and edits it too.
+      structure: [],
+      // structure as last seen in Membership, so the editor can flag changes
+      // made from Processes ("Keep these changes" / "Undo")
+      structureReviewed: [],
+      // every change to structure, oldest first: { id, change: "added" | "removed",
+      // from: "membership" | "moderation" | "maintenance" | "institutionalChange", at }
+      structureLog: [],
       generalNote: null,
     },
 
@@ -116,10 +127,18 @@ function makeEmptyCard(cardId) {
     },
 
     processes: {
-      moderationMaintenance: {
+      // moderation and maintenance each: 1–5 scales, plus a note per
+      // structure approach on how it's used for this work ({ "<approach id>": "…" })
+      moderation: {
         transparency: null,
         participatory: null,
-        approaches: [],
+        approachNotes: {},
+        generalNote: null,
+      },
+      maintenance: {
+        transparency: null,
+        participatory: null,
+        approachNotes: {},
         generalNote: null,
       },
       conflictManagement: {
@@ -127,7 +146,7 @@ function makeEmptyCard(cardId) {
         generalNote: null,
       },
       institutionalChange: {
-        approaches: [],
+        approachNotes: {},   // notes on how structure approaches are used to change the rules
         generalNote: null,
       },
       communications: {
@@ -159,6 +178,10 @@ function makeEmptyCard(cardId) {
     },
 
     customModules: [],
+
+    // Ids of editor suggestions ("add the Federation module?") the people
+    // editing this card have dismissed. Editor-only: not for public views.
+    dismissedSuggestions: [],
 
     attribution: {
       contributorName: null,
@@ -262,6 +285,7 @@ const EDITABLE_PARTS = [
   "federation",
   "customModules",
   "attribution",
+  "dismissedSuggestions",
 ];
 
 /**

@@ -1,0 +1,700 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-03",
+  "note": "What a community's values suggest for its decision-making processes. Recommendations are context-neutral — they do not presuppose whether a decision is routine or structural; that is for the community to determine. Up to 5 recommendations per value. All items need_review before use.",
+  "items": [
+    {
+      "id": "accountability__advisory_committees",
+      "value": "accountability",
+      "recommends": "advisory_committees",
+      "why": "A standing advisory body can surface accountability gaps before they compound.",
+      "status": "accepted"
+    },
+    {
+      "id": "accountability__elected_board_of_directors",
+      "value": "accountability",
+      "recommends": "elected_board_of_directors",
+      "why": "An elected board creates identifiable, removable decision-makers who can be held responsible.",
+      "status": "accepted"
+    },
+    {
+      "id": "accountability__rotational_leadership",
+      "value": "accountability",
+      "recommends": "rotational_leadership",
+      "why": "Rotating who decides means more members experience the weight of accountability firsthand.",
+      "status": "accepted"
+    },
+    {
+      "id": "accountability__sociocracy",
+      "value": "accountability",
+      "recommends": "sociocracy",
+      "why": "Interconnected circles with feedback loops create mutual accountability rather than concentrating answerability at the top.",
+      "status": "accepted"
+    },
+    {
+      "id": "adaptability__continuous_voting",
+      "value": "adaptability",
+      "recommends": "continuous_voting",
+      "why": "Members can change their votes over time, letting decisions evolve as circumstances shift rather than locking in a single moment's judgment.",
+      "status": "accepted"
+    },
+    {
+      "id": "adaptability__do_ocracy",
+      "value": "adaptability",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative means the group can act on new information immediately.",
+      "status": "accepted"
+    },
+    {
+      "id": "adaptability__lazy_consensus",
+      "value": "adaptability",
+      "recommends": "lazy_consensus",
+      "why": "Assumed approval unless objections are raised lets the group move quickly while preserving space to push back.",
+      "status": "accepted"
+    },
+    {
+      "id": "adaptability__modified_consensus",
+      "value": "adaptability",
+      "recommends": "modified_consensus",
+      "why": "Tries for full agreement first but allows the group to move forward rather than staying stuck when change is needed.",
+      "status": "accepted"
+    },
+    {
+      "id": "agency__consensus_decision_making",
+      "value": "agency",
+      "recommends": "consensus_decision_making",
+      "why": "No member is governed by a decision they had no power to block.",
+      "status": "accepted"
+    },
+    {
+      "id": "agency__delegated_decision_making",
+      "value": "agency",
+      "recommends": "delegated_decision_making",
+      "why": "Entrusting authority to individuals closest to the work respects their capacity to act for themselves.",
+      "status": "accepted"
+    },
+    {
+      "id": "agency__do_ocracy",
+      "value": "agency",
+      "recommends": "do_ocracy",
+      "why": "Decisions made by those who take initiative means the power to act belongs to whoever chooses to use it.",
+      "status": "accepted"
+    },
+    {
+      "id": "agency__lazy_consensus",
+      "value": "agency",
+      "recommends": "lazy_consensus",
+      "why": "Members can act without seeking permission; the window to object preserves others' agency too.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__consensus_decision_making",
+      "value": "anti_oppression",
+      "recommends": "consensus_decision_making",
+      "why": "Every member, including those with least power, has a genuine block on decisions that could harm them.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__lottery_sortition",
+      "value": "anti_oppression",
+      "recommends": "lottery_sortition",
+      "why": "Random selection removes the social networks and confidence gaps that concentrate power in dominant groups.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__rotational_leadership",
+      "value": "anti_oppression",
+      "recommends": "rotational_leadership",
+      "why": "Rotating who decides prevents the same dominant voices from always setting the tone.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__sociocracy",
+      "value": "anti_oppression",
+      "recommends": "sociocracy",
+      "why": "Consent-based circles with feedback loops distribute power and resist its accumulation in dominant individuals.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__collaborative_platforms",
+      "value": "collaboration",
+      "recommends": "collaborative_platforms",
+      "why": "Structured group discussions make the collaborative process visible and accessible to all members.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__consensus_decision_making",
+      "value": "collaboration",
+      "recommends": "consensus_decision_making",
+      "why": "All members must agree — inherently requires working with rather than past one another.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__consensus_seeking_with_delegates",
+      "value": "collaboration",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates must work across the membership to refine decisions rather than impose a solution.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__negotiated_decisions",
+      "value": "collaboration",
+      "recommends": "negotiated_decisions",
+      "why": "Stakeholders discuss and negotiate until reaching agreement — collaboration is the mechanism, not just the goal.",
+      "status": "accepted"
+    },
+    {
+      "id": "common_ownership__consensus_decision_making",
+      "value": "common_ownership",
+      "recommends": "consensus_decision_making",
+      "why": "All who own collectively must agree before decisions affecting shared assets are made.",
+      "status": "accepted"
+    },
+    {
+      "id": "common_ownership__sociocracy",
+      "value": "common_ownership",
+      "recommends": "sociocracy",
+      "why": "Circles distribute stewardship of shared resources across the membership rather than concentrating it.",
+      "status": "accepted"
+    },
+    {
+      "id": "common_ownership__supermajority_rule",
+      "value": "common_ownership",
+      "recommends": "supermajority_rule",
+      "why": "A high threshold protects shared assets from being redirected by a bare majority acting against the broader membership's interests.",
+      "status": "accepted"
+    },
+    {
+      "id": "conflict_resolution__negotiated_decisions",
+      "value": "conflict_resolution",
+      "recommends": "negotiated_decisions",
+      "why": "Stakeholders discuss and negotiate until reaching agreement — the same orientation conflict resolution requires.",
+      "status": "accepted"
+    },
+    {
+      "id": "consensus__consensus_decision_making",
+      "value": "consensus",
+      "recommends": "consensus_decision_making",
+      "why": "All members must agree — the direct procedural expression of holding consensus as a value.",
+      "status": "accepted"
+    },
+    {
+      "id": "consensus__modified_consensus",
+      "value": "consensus",
+      "recommends": "modified_consensus",
+      "why": "Tries for full agreement first, keeping faith with the value even when unanimity proves impossible.",
+      "status": "accepted"
+    },
+    {
+      "id": "consensus__supermajority_rule",
+      "value": "consensus",
+      "recommends": "supermajority_rule",
+      "why": "Described in its own definition as a great fallback when consensus fails — the most faithful high-threshold alternative.",
+      "status": "accepted"
+    },
+    {
+      "id": "consent__consensus_decision_making",
+      "value": "consent",
+      "recommends": "consensus_decision_making",
+      "why": "No member is bound by a decision they could not block — participation remains genuinely voluntary.",
+      "status": "accepted"
+    },
+    {
+      "id": "consent__lazy_consensus",
+      "value": "consent",
+      "recommends": "lazy_consensus",
+      "why": "Every member has a window to object before a decision proceeds — silence is consent, not coercion.",
+      "status": "accepted"
+    },
+    {
+      "id": "consent__modified_consensus",
+      "value": "consent",
+      "recommends": "modified_consensus",
+      "why": "Tries for full agreement first, preserving the spirit of consent even when it falls back to a vote.",
+      "status": "accepted"
+    },
+    {
+      "id": "cooperation__consensus_seeking_with_delegates",
+      "value": "cooperation",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates must actively work across perspectives to seek broad agreement rather than win an argument.",
+      "status": "accepted"
+    },
+    {
+      "id": "cooperation__negotiated_decisions",
+      "value": "cooperation",
+      "recommends": "negotiated_decisions",
+      "why": "Stakeholders discuss and negotiate until reaching agreement — finding shared ground rather than competing for a majority.",
+      "status": "accepted"
+    },
+    {
+      "id": "decentralization__delegated_decision_making",
+      "value": "decentralization",
+      "recommends": "delegated_decision_making",
+      "why": "Specific individuals or groups entrusted with authority pushes decisions to the edges rather than routing through a center.",
+      "status": "accepted"
+    },
+    {
+      "id": "decentralization__holacracy",
+      "value": "decentralization",
+      "recommends": "holacracy",
+      "why": "Decision-making authority distributed across self-organizing teams with no central body required.",
+      "status": "accepted"
+    },
+    {
+      "id": "decentralization__sociocracy",
+      "value": "decentralization",
+      "recommends": "sociocracy",
+      "why": "Decisions made in interconnected circles rather than concentrated in a central authority.",
+      "status": "accepted"
+    },
+    {
+      "id": "direct_action__do_ocracy",
+      "value": "direct_action",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative and carry out the work — acting immediately rather than waiting for permission.",
+      "status": "accepted"
+    },
+    {
+      "id": "direct_action__lazy_consensus",
+      "value": "direct_action",
+      "recommends": "lazy_consensus",
+      "why": "Assumed approved unless objections are raised — the group can act immediately unless someone stops it.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__cumulative_voting",
+      "value": "diversity",
+      "recommends": "cumulative_voting",
+      "why": "Members distribute votes across options, letting minority perspectives concentrate on what matters most rather than being outvoted on everything.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__lottery_sortition",
+      "value": "diversity",
+      "recommends": "lottery_sortition",
+      "why": "Random selection promotes fairness and prevents the same voices from repeatedly shaping decisions.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__ranked_choice_voting",
+      "value": "diversity",
+      "recommends": "ranked_choice_voting",
+      "why": "Votes redistributed until a majority is reached — reduces plurality dominance and gives minority preferences a path to influence.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__rotational_leadership",
+      "value": "diversity",
+      "recommends": "rotational_leadership",
+      "why": "Rotating decision-making responsibilities creates regular openings for a wider range of members.",
+      "status": "accepted"
+    },
+    {
+      "id": "empowerment__delegated_decision_making",
+      "value": "empowerment",
+      "recommends": "delegated_decision_making",
+      "why": "Entrusting specific individuals or groups with authority puts real power in members' hands, not just nominal responsibility.",
+      "status": "accepted"
+    },
+    {
+      "id": "empowerment__do_ocracy",
+      "value": "empowerment",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative gives authority to whoever steps up rather than requiring permission from above.",
+      "status": "accepted"
+    },
+    {
+      "id": "empowerment__sociocracy",
+      "value": "empowerment",
+      "recommends": "sociocracy",
+      "why": "Each circle has genuine decision-making authority within its own domain.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__deliberative_polling",
+      "value": "equity",
+      "recommends": "deliberative_polling",
+      "why": "Discussing and reflecting before voting surfaces whose needs are most affected, so decisions reflect actual need rather than assumption.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__quadratic_voting",
+      "value": "equity",
+      "recommends": "quadratic_voting",
+      "why": "Members use credits to vote, with costs increasing quadratically — those most affected can express greater intensity without dominating every decision.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__supermajority_rule",
+      "value": "equity",
+      "recommends": "supermajority_rule",
+      "why": "A high threshold protects members with less power from having decisions made against them by a bare majority.",
+      "status": "accepted"
+    },
+    {
+      "id": "experimentation__do_ocracy",
+      "value": "experimentation",
+      "recommends": "do_ocracy",
+      "why": "Those who take initiative and carry out the work decide — try new approaches without needing approval first.",
+      "status": "accepted"
+    },
+    {
+      "id": "experimentation__lazy_consensus",
+      "value": "experimentation",
+      "recommends": "lazy_consensus",
+      "why": "Assumed approved unless objections are raised — low friction to try something new while keeping a check on bad ideas.",
+      "status": "accepted"
+    },
+    {
+      "id": "experimentation__rotational_leadership",
+      "value": "experimentation",
+      "recommends": "rotational_leadership",
+      "why": "Rotating who leads treats governance itself as an experiment — different members try leading rather than defaulting to the same person.",
+      "status": "accepted"
+    },
+    {
+      "id": "fairness__approval_voting",
+      "value": "fairness",
+      "recommends": "approval_voting",
+      "why": "Members vote for all options they find acceptable — reduces winner-takes-all outcomes.",
+      "status": "accepted"
+    },
+    {
+      "id": "fairness__deliberative_polling",
+      "value": "fairness",
+      "recommends": "deliberative_polling",
+      "why": "Members discuss and reflect before voting — reduces the chance outcomes reflect ignorance or manipulation rather than genuine preference.",
+      "status": "accepted"
+    },
+    {
+      "id": "fairness__ranked_choice_voting",
+      "value": "fairness",
+      "recommends": "ranked_choice_voting",
+      "why": "Votes redistributed until one option has a majority — outcomes reflect broader preference rather than plurality advantage.",
+      "status": "accepted"
+    },
+    {
+      "id": "fairness__supermajority_rule",
+      "value": "fairness",
+      "recommends": "supermajority_rule",
+      "why": "A high threshold ensures decisions reflect broad agreement rather than narrow advantage.",
+      "status": "accepted"
+    },
+    {
+      "id": "flexibility__collaborative_platforms",
+      "value": "flexibility",
+      "recommends": "collaborative_platforms",
+      "why": "Structured discussions on tools like Loomio or Polis work asynchronously, accommodating different schedules.",
+      "status": "accepted"
+    },
+    {
+      "id": "flexibility__do_ocracy",
+      "value": "flexibility",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative — members contribute when they're available rather than on a fixed schedule.",
+      "status": "accepted"
+    },
+    {
+      "id": "flexibility__lazy_consensus",
+      "value": "flexibility",
+      "recommends": "lazy_consensus",
+      "why": "Assumed approved within a timeframe — inherently async, no need for synchronous presence.",
+      "status": "accepted"
+    },
+    {
+      "id": "holocracy__holacracy",
+      "value": "holocracy",
+      "recommends": "holacracy",
+      "why": "Decision-making authority distributed across self-organizing teams — roles and circles replace managers, directly enacting the value.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__consensus_decision_making",
+      "value": "horizontalism",
+      "recommends": "consensus_decision_making",
+      "why": "All members must agree — decisions cannot be imposed from above.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__lottery_sortition",
+      "value": "horizontalism",
+      "recommends": "lottery_sortition",
+      "why": "Random selection prevents a permanent governing class from forming within a flat structure.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__rotational_leadership",
+      "value": "horizontalism",
+      "recommends": "rotational_leadership",
+      "why": "Rotating responsibilities prevents any one person from accumulating persistent authority.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__sociocracy",
+      "value": "horizontalism",
+      "recommends": "sociocracy",
+      "why": "Interconnected circles of equals with feedback loops — governance without top-down management.",
+      "status": "accepted"
+    },
+    {
+      "id": "humility__consensus_seeking_with_delegates",
+      "value": "humility",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates must seek broad agreement rather than act on their own judgment — structurally requires setting aside certainty.",
+      "status": "accepted"
+    },
+    {
+      "id": "humility__deliberative_polling",
+      "value": "humility",
+      "recommends": "deliberative_polling",
+      "why": "Members discuss and reflect before voting, informed by deliberation — no single view goes unchallenged.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__consensus_seeking_with_delegates",
+      "value": "inclusion",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates mandated to seek broad agreement must actively bring marginal voices into decisions.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__deliberative_polling",
+      "value": "inclusion",
+      "recommends": "deliberative_polling",
+      "why": "Structured discussion before voting gives quieter members equal time to shape outcomes.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__lottery_sortition",
+      "value": "inclusion",
+      "recommends": "lottery_sortition",
+      "why": "Random selection gives all members an equal chance to shape decisions, not just the most connected.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__rotational_leadership",
+      "value": "inclusion",
+      "recommends": "rotational_leadership",
+      "why": "Rotating who decides creates regular openings for members who are typically sidelined.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__lottery_sortition",
+      "value": "inclusivity",
+      "recommends": "lottery_sortition",
+      "why": "Random selection gives historically marginalized members an equal chance to shape decisions.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__rotational_leadership",
+      "value": "inclusivity",
+      "recommends": "rotational_leadership",
+      "why": "Rotating responsibilities creates regular openings for members who have been historically excluded.",
+      "status": "accepted"
+    },
+    {
+      "id": "innovation__do_ocracy",
+      "value": "innovation",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative rewards novel action over waiting for approval.",
+      "status": "accepted"
+    },
+    {
+      "id": "innovation__lottery_sortition",
+      "value": "innovation",
+      "recommends": "lottery_sortition",
+      "why": "Random selection disrupts entrenched patterns and surfaces unconventional voices.",
+      "status": "accepted"
+    },
+    {
+      "id": "innovation__modified_consensus",
+      "value": "innovation",
+      "recommends": "modified_consensus",
+      "why": "Tries for full agreement first but doesn't let a blocking minority permanently prevent change.",
+      "status": "accepted"
+    },
+    {
+      "id": "leadership__delegated_decision_making",
+      "value": "leadership",
+      "recommends": "delegated_decision_making",
+      "why": "Entrusting specific individuals with authority creates clear domains where members are expected to lead.",
+      "status": "accepted"
+    },
+    {
+      "id": "leadership__do_ocracy",
+      "value": "leadership",
+      "recommends": "do_ocracy",
+      "why": "Decisions by those who take initiative formalizes the expectation that anyone who sees a problem should step up.",
+      "status": "accepted"
+    },
+    {
+      "id": "leadership__rotational_leadership",
+      "value": "leadership",
+      "recommends": "rotational_leadership",
+      "why": "Rotating responsibilities builds the expectation that everyone leads, not just a designated few.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__proof_of_work",
+      "value": "meritocracy",
+      "recommends": "proof_of_work",
+      "why": "Decision weight tied to demonstrable effort or contributions — influence earned through work rather than status.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__weighted_voting",
+      "value": "meritocracy",
+      "recommends": "weighted_voting",
+      "why": "Votes carry different weights based on contribution — influence reflects investment in the community.",
+      "status": "accepted"
+    },
+    {
+      "id": "openness__collaborative_platforms",
+      "value": "openness",
+      "recommends": "collaborative_platforms",
+      "why": "Structured discussions on tools like Loomio or Polis make deliberation visible and accessible to outside participants.",
+      "status": "accepted"
+    },
+    {
+      "id": "participation__consensus_decision_making",
+      "value": "participation",
+      "recommends": "consensus_decision_making",
+      "why": "All members must agree — demands active engagement from the full membership, not just a voting majority.",
+      "status": "accepted"
+    },
+    {
+      "id": "participation__consensus_seeking_with_delegates",
+      "value": "participation",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates mandated to seek broad agreement must draw participation out of the membership, not just poll it.",
+      "status": "accepted"
+    },
+    {
+      "id": "participation__deliberative_polling",
+      "value": "participation",
+      "recommends": "deliberative_polling",
+      "why": "Members discuss and reflect before voting — active engagement, not just casting a ballot.",
+      "status": "accepted"
+    },
+    {
+      "id": "resilience__advisory_committees",
+      "value": "resilience",
+      "recommends": "advisory_committees",
+      "why": "Smaller groups holding institutional knowledge distribute understanding so no single departure takes it with them.",
+      "status": "accepted"
+    },
+    {
+      "id": "resilience__delegated_decision_making",
+      "value": "resilience",
+      "recommends": "delegated_decision_making",
+      "why": "Distributing decision authority means no single point of failure can stall the group.",
+      "status": "accepted"
+    },
+    {
+      "id": "resilience__rotational_leadership",
+      "value": "resilience",
+      "recommends": "rotational_leadership",
+      "why": "Rotating responsibilities ensures no critical function depends entirely on one person staying.",
+      "status": "accepted"
+    },
+    {
+      "id": "resilience__sociocracy",
+      "value": "resilience",
+      "recommends": "sociocracy",
+      "why": "Interconnected circles mean no single circle's failure collapses the whole organization.",
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity__consensus_decision_making",
+      "value": "solidarity",
+      "recommends": "consensus_decision_making",
+      "why": "All must agree — no member is bound by a decision made over their objection.",
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity__modified_consensus",
+      "value": "solidarity",
+      "recommends": "modified_consensus",
+      "why": "Tries to hold the group together before resorting to a vote that leaves some members behind.",
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity__supermajority_rule",
+      "value": "solidarity",
+      "recommends": "supermajority_rule",
+      "why": "A high threshold protects members with less power from having decisions made against them by a bare majority.",
+      "status": "accepted"
+    },
+    {
+      "id": "stewardship__advisory_committees",
+      "value": "stewardship",
+      "recommends": "advisory_committees",
+      "why": "Smaller groups provide recommendations informed by deep knowledge of shared resources and long-term relationships.",
+      "status": "accepted"
+    },
+    {
+      "id": "stewardship__consensus_seeking_with_delegates",
+      "value": "stewardship",
+      "recommends": "consensus_seeking_with_delegates",
+      "why": "Delegates accountable to the whole membership are structurally required to consider future members, not just present ones.",
+      "status": "accepted"
+    },
+    {
+      "id": "stewardship__delegated_decision_making",
+      "value": "stewardship",
+      "recommends": "delegated_decision_making",
+      "why": "Named delegation creates clear, ongoing accountability for tending specific shared domains.",
+      "status": "accepted"
+    },
+    {
+      "id": "stewardship__supermajority_rule",
+      "value": "stewardship",
+      "recommends": "supermajority_rule",
+      "why": "A high threshold protects long-term community interests from being overridden by short-term majorities.",
+      "status": "accepted"
+    },
+    {
+      "id": "transparency__collaborative_platforms",
+      "value": "transparency",
+      "recommends": "collaborative_platforms",
+      "why": "Structured discussions on tools like Loomio make the full deliberation trail — not just the outcome — visible to members.",
+      "status": "accepted"
+    },
+    {
+      "id": "transparency__deliberative_polling",
+      "value": "transparency",
+      "recommends": "deliberative_polling",
+      "why": "Members discuss and reflect before voting — how and why views shifted is surfaced, not just what was decided.",
+      "status": "accepted"
+    },
+    {
+      "id": "transparency__elected_board_of_directors",
+      "value": "transparency",
+      "recommends": "elected_board_of_directors",
+      "why": "Named, elected representatives whose reasoning can be scrutinized and challenged by the membership.",
+      "status": "accepted"
+    },
+    {
+      "id": "trust__delegated_decision_making",
+      "value": "trust",
+      "recommends": "delegated_decision_making",
+      "why": "Entrusting specific individuals with authority assumes competence and good intent — trust made structural.",
+      "status": "accepted"
+    },
+    {
+      "id": "trust__lazy_consensus",
+      "value": "trust",
+      "recommends": "lazy_consensus",
+      "why": "Assumed approved unless objections are raised — operates on the assumption that members act in good faith.",
+      "status": "accepted"
+    },
+    {
+      "id": "trust__modified_consensus",
+      "value": "trust",
+      "recommends": "modified_consensus",
+      "why": "Trying for full agreement first before falling back signals genuine intent to honor everyone's position.",
+      "status": "accepted"
+    }
+  ]
+}

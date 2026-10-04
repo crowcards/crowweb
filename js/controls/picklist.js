@@ -17,6 +17,15 @@
 //     onInput, onCommit,
 //   });
 //   pick.value()   → [{ id, note?, step? }], in the order shown
+//
+// A list whose ticks live somewhere else (e.g. the shared structure list,
+// shown in several Processes sections): onSelect(ids) hears every tick
+// change, and pick.select(ids) re-syncs the ticks without firing anything.
+// An item unticked and ticked again gets its note back.
+//
+// detachChosen: the picks aren't placed under the list; pick.chosenElement
+// is put wherever the page wants it (e.g. above other fields). noteHint
+// changes the hint on each note.
 
 import { el } from "../dom.js";
 import { renderChoices } from "./choices.js";
@@ -31,16 +40,23 @@ export function pickList({
   notes = true,
   steps,
   filterable = true,
+  filterLabel,
   reorderable = false,
   chosenLegend = "What you use",
   emptyText = "Nothing chosen yet. Tick items in the list above.",
+  noteHint = "How it works in your community (optional).",
+  badge,
+  detachChosen = false,
+  onSelect = () => {},
   onInput = () => {},
   onCommit = () => {},
 } = {}) {
   const byId = new Map(options.map((o) => [o.id, o]));
   const known = items.filter((i) => byId.has(i.id));
-  // a fresh pick: just its id, plus empty note / step if this list has them
-  const blank = (id) => ({ id, ...(steps ? { step: null } : {}), ...(notes ? { note: null } : {}) });
+  // a fresh pick: just its id, plus empty note / step if this list has them —
+  // or what it had before, if it was unticked earlier
+  const removed = new Map();
+  const blank = (id) => removed.get(id) || { id, ...(steps ? { step: null } : {}), ...(notes ? { note: null } : {}) };
 
   const chosen = renderRows({
     legend: chosenLegend,
@@ -53,7 +69,7 @@ export function pickList({
         ? selectField({ label: "Step", options: steps, value: item.step, placeholder: "Choose a step…", onChange: hooks.onCommit })
         : null;
       const note = notes
-        ? textField({ label: "Note", hint: "How it works in your community (optional).", multiline: true, value: item.note, ...hooks })
+        ? textField({ label: "Note", hint: noteHint, multiline: true, value: item.note, ...hooks })
         : null;
       return {
         element: el("div", {},
@@ -69,7 +85,11 @@ export function pickList({
         focus: () => note?.focus(),
       };
     },
-    onRemove: (item) => list.setOne(item.id, false),   // the × unticks it in the list
+    onRemove: (item, current) => {   // the × unticks it in the list (keeping its note for later)
+      removed.set(item.id, current);
+      list.setOne(item.id, false);
+      onSelect(list.value());
+    },
     onInput,
     onCommit,
   });
@@ -81,16 +101,34 @@ export function pickList({
     selected: known.map((i) => i.id),
     layout: "compact",
     filterable,
+    filterLabel,
+    badge,
     listClass: filterable ? "scroll-list" : "",
-    after: [chosen.element],
+    after: detachChosen ? [] : [chosen.element],
     onChange: (ids) => {
-      // a newly ticked item gets a row (at the end); an unticked one loses its row
-      const have = new Set(chosen.value().map((i) => i.id));
-      for (const id of ids) if (!have.has(id)) chosen.add(blank(id));
-      chosen.remove((i) => !ids.includes(i.id));
+      syncRows(ids);
+      onSelect(ids);
       onCommit();
     },
   });
 
-  return { element: list.element, value: () => chosen.value() };
+  /** A newly ticked item gets a row (at the end); an unticked one loses its row. */
+  function syncRows(ids) {
+    const now = chosen.value();
+    for (const item of now) if (!ids.includes(item.id)) removed.set(item.id, item);
+    const have = new Set(now.map((i) => i.id));
+    for (const id of ids) if (!have.has(id)) chosen.add(blank(id));
+    chosen.remove((i) => !ids.includes(i.id));
+  }
+
+  return {
+    element: list.element,
+    chosenElement: chosen.element,
+    value: () => chosen.value(),
+    /** Tick exactly these, from outside (fires nothing). */
+    select: (ids) => {
+      list.set(ids.filter((id) => byId.has(id)));
+      syncRows(ids.filter((id) => byId.has(id)));
+    },
+  };
 }

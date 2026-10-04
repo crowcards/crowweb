@@ -5,7 +5,8 @@ import { createCard, getCard, updateCard, errorKind } from "./api.js";
 import { loadSession, saveSession, confirmKey, forgetSession } from "./session.js";
 import { loadModuleDefaults, startingModules, moduleEntries, renderModulePicker, moduleSuggestion, hasSavedContent } from "./modules.js";
 import { createAutosaver, onSaveStatus, saveStatus, flushAll, resetSavers, stoppedParts, resumeAll } from "./autosave.js";
-import { el } from "./dom.js";
+import { el, richText } from "./dom.js";
+import { loadData } from "./data.js";
 import { renderBasics, loadBasicsData } from "./sections/basics.js";
 import { renderMembership, loadMembershipData } from "./sections/membership.js";
 import { renderProcesses, loadProcessesData } from "./sections/processes.js";
@@ -15,6 +16,7 @@ import { renderRules, loadRulesData } from "./sections/rules.js";
 import { renderCustomModule, newCustomModule } from "./sections/custom.js";
 import { textField } from "./controls/fields.js";
 import { showPopup, closePopup } from "./popup.js";
+import { suggestionsFor } from "./suggestions.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -160,7 +162,7 @@ $("key-continue").addEventListener("click", () => {
 // `version` is the card's updatedAt as this page last saw it: every save
 // sends it, so the server can refuse a save that would overwrite changes
 // made somewhere else in the meantime.
-const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, forms: {} };
+const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, forms: {}, suggestions: [] };
 let stopShown = false;   // the "changes can't be saved" pop-up shows once per card
 
 /**
@@ -179,11 +181,15 @@ async function openCard({ card, ...opts } = {}) {
   show("loading", { focus: false });
 
   try {
-    [card, editor.defaults, editor.basicsData] = await Promise.all([
+    // the card, plus the approach names the "structure changed" note uses
+    let approaches;
+    [card, editor.defaults, editor.basicsData, approaches] = await Promise.all([
       card || getCard(session.cardId, session.secret),
       loadModuleDefaults(),
       loadBasicsData(),
+      loadData("decision_approaches"),
     ]);
+    editor.approachLabels = Object.fromEntries(approaches.items.map((a) => [a.id, a.label]));
   } catch (err) {
     console.error(err);
     const kind = errorKind(err);
@@ -236,7 +242,7 @@ const SECTIONS = {
 
 // One auto-saver per part of the card. Each sends only its own part.
 // (customModules is one part holding every custom module.)
-const PARTS = ["modules", "customModules", ...Object.keys(SECTIONS)];
+const PARTS = ["modules", "customModules", "dismissedSuggestions", ...Object.keys(SECTIONS)];
 
 function startSavers() {
   resetSavers();
@@ -253,7 +259,9 @@ function startSavers() {
  * to that part's auto-saver. `data` is the module's reference data.
  * Extra hooks: onTypeChange (Basics), afterInput (runs after each keystroke).
  * Forms also get `stateKey` ("<card id>:<module>"), a name for remembering
- * view preferences such as which sections are open.
+ * view preferences such as which sections are open, and getPart / setPart to
+ * read and change other parts of the card (e.g. Processes editing the shared
+ * structure list in membership).
  */
 function mountSection(part, container, data, { onTypeChange, afterInput } = {}) {
   const saver = editor.savers[part];
@@ -268,9 +276,16 @@ function mountSection(part, container, data, { onTypeChange, afterInput } = {}) 
       editor.card[part] = form.collect();
       saver.schedule();
       saver.flush();
+      refreshSuggestions();
     },
     onTypeChange,
     stateKey: `${editor.card.id}:${part}`,
+    getPart: (other) => editor.card[other] || {},
+    setPart: (other, value) => {
+      editor.card[other] = value;
+      saveParts([other]);
+      refreshSuggestions();
+    },
   });
   editor.forms[part] = form;
   return form;
@@ -342,7 +357,7 @@ function addCustomModule() {
     const form = el("form", {},
       el("p", { textContent: "For anything about how your community works that the other modules don’t cover." }),
       name.element, description.element, error,
-      el("p", { className: "popup-actions" }, add, cancel),
+      el("p", { className: "button-row" }, add, cancel),
     );
     form.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -387,10 +402,69 @@ function mountCustom(id, container) {
 /** Change which modules are on, update the sidebar, and save. */
 function setModules(modules) {
   editor.card.modules = modules;
-  renderModuleList();
   // a tick is a finished choice: save now rather than after the delay
-  editor.savers.modules.schedule();
-  editor.savers.modules.flush();
+  saveParts(["modules"]);
+  refreshSuggestions();
+}
+
+/** Save these parts of the card now (each through its auto-saver). */
+function saveParts(parts) {
+  for (const part of parts) {
+    editor.savers[part].schedule();
+    editor.savers[part].flush();
+  }
+}
+
+// ── suggestions ("update other modules" flags) ──────────────
+// Worked out again whenever something is saved (see js/suggestions.js).
+function refreshSuggestions() {
+  if (!editor.card || !editor.defaults) return;
+  editor.suggestions = suggestionsFor(editor.card, {
+    defaults: editor.defaults,
+    approachLabel: (id) => editor.approachLabels?.[id] || id,
+  });
+  renderModuleList();
+  renderSuggestionBox();
+  $("editor-nav-toggle").classList.toggle("has-flags", editor.suggestions.some((s) => !s.quiet));
+}
+
+/** The current module's suggestions, at the top of its page. */
+function renderSuggestionBox() {
+  const id = currentModuleId();
+  $("module-suggestions").replaceChildren(...editor.suggestions.filter((s) => s.module === id).map((s) => {
+    const button = (label, cls, onClick) => {
+      const b = el("button", { type: "button", className: cls, textContent: label });
+      b.addEventListener("click", onClick);
+      return b;
+    };
+    return el("div", { className: "callout" },
+      el("p", {}, el("b", { className: "mono-u", textContent: s.quiet ? "Note: " : "Suggestion: " }), s.title),
+      el("p", {}, ...richText(s.message)),
+      // changes, one per line, each with a pixel plus or minus
+      ...(s.lists || []).flatMap((list) => [
+        list.heading ? el("p", { className: "field-hint", textContent: list.heading }) : null,
+        el("ul", { className: "change-list" }, ...list.lines.map((l) =>
+          el("li", {}, el("span", { className: l.sign === "+" ? "pixel-plus" : "pixel-minus" }, el("span", { className: "visually-hidden", textContent: l.sign === "+" ? "Added: " : "Removed: " })), l.text))),
+      ]),
+      el("p", { className: "button-row" },
+        s.apply ? button(s.applyLabel, "button button-small", () => applySuggestion(s, s.apply)) : null,
+        s.alt ? button(s.alt.label, "link-button", () => applySuggestion(s, s.alt.apply)) : null,
+        s.dismissible === false ? null : button("Dismiss", "link-button", () => dismissSuggestion(s)),
+      ),
+    );
+  }));
+}
+
+function applySuggestion(s, action) {
+  saveParts(action(editor.card));
+  refreshSuggestions();
+  renderModule({ focus: false });   // show what changed (or move on, if this module was hidden)
+}
+
+function dismissSuggestion(s) {
+  editor.card.dismissedSuggestions = [...(editor.card.dismissedSuggestions || []), s.id];
+  saveParts(["dismissedSuggestions"]);
+  refreshSuggestions();
 }
 
 // ── module suggestions when the community type changes ──────
@@ -423,7 +497,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
       body: el("div", {},
         el("p", { textContent: `Because you chose ${typeLabel}, we updated what your card covers: ${changes}.` }),
         el("p", { textContent: "You can change this any time." }),
-        el("p", { className: "popup-actions" }, showMe),
+        el("p", { className: "button-row" }, showMe),
       ),
     });
     showMe.addEventListener("click", () => { closePopup(); showPicker(); });
@@ -449,7 +523,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
     body: el("div", {},
       el("p", { textContent: `Changing your community type to ${typeLabel} suggests changes to your card’s modules: ${changes}.` }),
       el("p", { textContent: "Your current modules stay as they are unless you choose to use the suggestion." }),
-      el("p", { className: "popup-actions" }, popUse, popShow, popLater),
+      el("p", { className: "button-row" }, popUse, popShow, popLater),
     ),
   });
   popUse.addEventListener("click", () => { use(); closePopup(); });
@@ -478,7 +552,7 @@ function showConflict() {
       el("p", {},
         el("b", { textContent: "Keep mine" }), ` to save your version of ${names.join(" and ")} over theirs. Everything else takes the latest version.`),
       error,
-      el("p", { className: "popup-actions" }, latest, mine),
+      el("p", { className: "button-row" }, latest, mine),
     ),
   }).then(() => {
     // closed without choosing: ask again next time a save is refused
@@ -581,7 +655,7 @@ $("setup-continue").addEventListener("click", async (e) => {
 function showEditor(opts) {
   $("editor-id").textContent = editor.card.id;
   renderCardName();
-  renderModuleList();
+  refreshSuggestions();
   show("editor", { focus: false });
   renderModule(opts);
 }
@@ -600,7 +674,9 @@ function currentModuleId() {
 function renderModuleList() {
   $("module-list").replaceChildren(
     ...moduleEntries(editor.defaults, editor.card).map((m) => {
-      const a = el("a", { href: `#${m.id}`, textContent: m.label });
+      // a module with suggestions waiting gets a small orange dot
+      const flagged = editor.suggestions.some((s) => s.module === m.id && !s.quiet);
+      const a = el("a", { href: `#${m.id}` }, m.label, flagged ? el("span", { className: "flag-dot" }, el("span", { className: "visually-hidden", textContent: " (has a suggestion)" })) : null);
       a.dataset.module = m.id;
       return el("li", {}, a);
     }),
@@ -627,6 +703,7 @@ function renderModule({ focus = true } = {}) {
 
   $("module-title").textContent = m.label;
   $("module-description").textContent = m.description || "";
+  renderSuggestionBox();
   const content = $("module-content");
 
   editor.forms = {};

@@ -1,10 +1,14 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-01",
+  "updatedAt": "2026-10-02",
+  "note": "communityType is an id from community_types.json. platformTypes lists cost types from cost_rules.json: one entry is pre-filled; several are recommended, and the person picks one.",
   "items": [
     {
       "id": "discord",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Discord",
       "software": "Proprietary",
       "protocol": null,
@@ -18,7 +22,10 @@
     },
     {
       "id": "telegram",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Telegram",
       "software": "Proprietary",
       "protocol": "Custom (MTProto)",
@@ -32,7 +39,10 @@
     },
     {
       "id": "wechat",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "WeChat",
       "software": "Proprietary",
       "protocol": null,
@@ -46,7 +56,10 @@
     },
     {
       "id": "signal_chat_signal",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "centralized_messaging"
+      ],
       "platform": "Signal Chat",
       "software": "Signal",
       "protocol": "Signal Protocol",
@@ -60,7 +73,10 @@
     },
     {
       "id": "chat_group__matrix_client_generic",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Matrix client",
       "software": null,
       "protocol": "Matrix",
@@ -74,7 +90,10 @@
     },
     {
       "id": "matrix_client_synapse",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Matrix client",
       "software": "Synapse",
       "protocol": "Matrix",
@@ -88,7 +107,10 @@
     },
     {
       "id": "matrix_client_dendrite",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Matrix client",
       "software": "Dendrite",
       "protocol": "Matrix",
@@ -102,7 +124,10 @@
     },
     {
       "id": "matrix_client_element",
-      "type": "Chat Group",
+      "communityType": "chat_group",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Matrix client",
       "software": "Element",
       "protocol": "Matrix",
@@ -116,7 +141,10 @@
     },
     {
       "id": "zooniverse_panoptes",
-      "type": "Citizen Science",
+      "communityType": "citizen_science",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
       "platform": "Zooniverse",
       "software": "Panoptes",
       "protocol": null,
@@ -130,7 +158,10 @@
     },
     {
       "id": "inaturalist",
-      "type": "Citizen Science",
+      "communityType": "citizen_science",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
       "platform": "iNaturalist",
       "software": "iNaturalist",
       "protocol": null,
@@ -144,7 +175,10 @@
     },
     {
       "id": "reddit",
-      "type": "Discussion Forum",
+      "communityType": "discussion_forum",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Reddit",
       "software": "Proprietary",
       "protocol": null,
@@ -158,7 +192,10 @@
     },
     {
       "id": "discussion_forum__activitypub_client_generic",
-      "type": "Discussion Forum",
+      "communityType": "discussion_forum",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": null,
       "protocol": "ActivityPub",
@@ -172,7 +209,10 @@
     },
     {
       "id": "activitypub_client_lemmy",
-      "type": "Discussion Forum",
+      "communityType": "discussion_forum",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Lemmy",
       "protocol": "ActivityPub",
@@ -186,7 +226,10 @@
     },
     {
       "id": "discourse",
-      "type": "Discussion Forum",
+      "communityType": "discussion_forum",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Discourse",
       "software": "Discourse",
       "protocol": null,
@@ -200,7 +243,10 @@
     },
     {
       "id": "front_porch_forum",
-      "type": "Listserv / Email",
+      "communityType": "listserv_email",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Front Porch Forum",
       "software": "Proprietary",
       "protocol": null,
@@ -214,7 +260,10 @@
     },
     {
       "id": "google_groups",
-      "type": "Listserv / Email",
+      "communityType": "listserv_email",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Google Groups",
       "software": "Proprietary",
       "protocol": null,
@@ -228,7 +277,10 @@
     },
     {
       "id": "mailman_based_lists_gnu_mailman",
-      "type": "Listserv / Email",
+      "communityType": "listserv_email",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Mailman-based lists",
       "software": "GNU Mailman",
       "protocol": "SMTP / Email",
@@ -242,7 +294,10 @@
     },
     {
       "id": "facebook",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Facebook",
       "software": "Proprietary",
       "protocol": null,
@@ -256,7 +311,10 @@
     },
     {
       "id": "linkedin",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "LinkedIn",
       "software": "Proprietary",
       "protocol": null,
@@ -270,7 +328,10 @@
     },
     {
       "id": "nextdoor",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Nextdoor",
       "software": "Proprietary",
       "protocol": null,
@@ -284,7 +345,10 @@
     },
     {
       "id": "social_network_media__activitypub_client_generic",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": null,
       "protocol": "ActivityPub",
@@ -298,7 +362,10 @@
     },
     {
       "id": "activitypub_client_mastodon",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Mastodon",
       "protocol": "ActivityPub",
@@ -312,7 +379,10 @@
     },
     {
       "id": "activitypub_client_bonfire",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Bonfire",
       "protocol": "ActivityPub",
@@ -326,7 +396,10 @@
     },
     {
       "id": "activitypub_client_pleroma",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Pleroma",
       "protocol": "ActivityPub",
@@ -340,7 +413,10 @@
     },
     {
       "id": "activitypub_client_akkoma",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Akkoma",
       "protocol": "ActivityPub",
@@ -354,7 +430,10 @@
     },
     {
       "id": "activitypub_client_misskey",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Misskey",
       "protocol": "ActivityPub",
@@ -368,7 +447,10 @@
     },
     {
       "id": "activitypub_client_peertube",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_media_heavy"
+      ],
       "platform": "ActivityPub client",
       "software": "PeerTube",
       "protocol": "ActivityPub",
@@ -382,7 +464,10 @@
     },
     {
       "id": "activitypub_client_pixelfed",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_media_heavy"
+      ],
       "platform": "ActivityPub client",
       "software": "Pixelfed",
       "protocol": "ActivityPub",
@@ -396,7 +481,10 @@
     },
     {
       "id": "activitypub_client_friendica",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "ActivityPub client",
       "software": "Friendica",
       "protocol": "ActivityPub",
@@ -410,7 +498,10 @@
     },
     {
       "id": "social_network_media__diaspora_protocol_client_generic",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Diaspora Protocol client",
       "software": null,
       "protocol": "Diaspora Protocol",
@@ -424,7 +515,10 @@
     },
     {
       "id": "diaspora_protocol_client_diaspora",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
       "platform": "Diaspora Protocol client",
       "software": "Diaspora*",
       "protocol": "Diaspora Protocol",
@@ -438,7 +532,10 @@
     },
     {
       "id": "social_network_media__at_protocol_client_generic",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
       "platform": "AT Protocol client",
       "software": null,
       "protocol": "AT Protocol",
@@ -452,7 +549,10 @@
     },
     {
       "id": "at_protocol_client_bluesky",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
       "platform": "AT Protocol client",
       "software": "Bluesky",
       "protocol": "AT Protocol",
@@ -466,7 +566,10 @@
     },
     {
       "id": "at_protocol_client_rsky_blacksky",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
       "platform": "AT Protocol client",
       "software": "Rsky (Blacksky)",
       "protocol": "AT Protocol",
@@ -480,7 +583,10 @@
     },
     {
       "id": "roundabout",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Roundabout",
       "software": "Roundabout",
       "protocol": "AT Protocol",
@@ -494,7 +600,10 @@
     },
     {
       "id": "social_network_media__nostr_client_generic",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
       "platform": "Nostr client",
       "software": null,
       "protocol": "Nostr",
@@ -508,7 +617,10 @@
     },
     {
       "id": "nostr_client_damus",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
       "platform": "Nostr client",
       "software": "Damus",
       "protocol": "Nostr",
@@ -522,7 +634,10 @@
     },
     {
       "id": "nostr_client_amethyst",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
       "platform": "Nostr client",
       "software": "Amethyst",
       "protocol": "Nostr",
@@ -536,7 +651,10 @@
     },
     {
       "id": "nostr_client_primal",
-      "type": "Social Network / Media",
+      "communityType": "social_network_media",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
       "platform": "Nostr client",
       "software": "Primal",
       "protocol": "Nostr",
@@ -550,7 +668,10 @@
     },
     {
       "id": "wikipedia_mediawiki",
-      "type": "peer production",
+      "communityType": "peer_production",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
       "platform": "Wikipedia",
       "software": "MediaWiki",
       "protocol": null,
@@ -564,7 +685,10 @@
     },
     {
       "id": "fandom_mediawiki_proprietary_fork",
-      "type": "peer production",
+      "communityType": "peer_production",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Fandom",
       "software": "MediaWiki (proprietary fork)",
       "protocol": null,
@@ -578,7 +702,11 @@
     },
     {
       "id": "custom_wiki_mediawiki",
-      "type": "peer production",
+      "communityType": "peer_production",
+      "platformTypes": [
+        "self_hosted_text_primary",
+        "self_hosted_media_heavy"
+      ],
       "platform": "Custom wiki",
       "software": "MediaWiki",
       "protocol": null,
@@ -592,7 +720,10 @@
     },
     {
       "id": "slack",
-      "type": "workplace",
+      "communityType": "workplace",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
       "platform": "Slack",
       "software": "Proprietary",
       "protocol": null,

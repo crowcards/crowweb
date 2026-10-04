@@ -204,13 +204,16 @@ a,
                      66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
 }
 
-.pixel-plus {
+/* the plus as a bullet or marker, and its minus (just the middle bar) */
+.pixel-plus,
+.pixel-minus {
   display: inline-block;
   width: 0.75em;
   height: 0.75em;
   margin-right: 0.5em;
   background: var(--accent);
 }
+.pixel-minus { clip-path: inset(33.3% 0); }
 
 /* a toggle that shows more: a grey plus that turns into an orange minus
    when open (aria-expanded="true"). Docs sidebar folds, value details. */
