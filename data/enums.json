@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-04",
   "note": "Enumerated values used across the schema.",
   "communitySize": [
     {
@@ -58,14 +58,14 @@
       "description": "Default to federating with everyone; block specific bad actors as needed."
     },
     {
-      "id": "allowlist_only",
-      "label": "Allowlist only",
+      "id": "allowlist_first",
+      "label": "Allowlist first",
       "description": "Default to not federating; explicitly allow a curated list of trusted servers."
     },
     {
-      "id": "blocklist_only",
-      "label": "Blocklist only",
-      "description": "Maintain only a blocklist; no formal allowlist."
+      "id": "denylist_first",
+      "label": "Denylist first",
+      "description": "Default to federating and blocking/denying access as needed."
     }
   ],
   "federationResponseLadder": [
@@ -93,28 +93,6 @@
       "id": "block",
       "label": "Block",
       "description": "Fully defederate; no interaction permitted."
-    }
-  ],
-  "conflictStep": [
-    {
-      "id": "primary",
-      "label": "Primary",
-      "description": "The first approach we try."
-    },
-    {
-      "id": "escalation",
-      "label": "Escalation",
-      "description": "Used if the primary approach doesn't resolve the conflict."
-    },
-    {
-      "id": "last_resort",
-      "label": "Last resort",
-      "description": "Used only when other approaches have failed."
-    },
-    {
-      "id": "parallel",
-      "label": "Parallel",
-      "description": "Used alongside other approaches, not sequentially."
     }
   ],
   "communicationChannels": [

@@ -1,32 +1,11 @@
 // Shared behaviour for every page: letter-by-letter title hover and the
 // narrow-screen menu.
 
+import { wrapLetters } from "./letters.js";
+
 // Wrap each letter of [data-letters] elements (and page headers) in a span
-// so CSS can light them up one at a time. Screen readers get the plain text
-// via aria-label.
-for (const el of document.querySelectorAll("[data-letters], main h1, main h2")) {
-  el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
-
-  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-  const textNodes = [];
-  while (walker.nextNode()) textNodes.push(walker.currentNode);
-
-  for (const node of textNodes) {
-    const frag = document.createDocumentFragment();
-    for (const ch of node.textContent) {
-      if (/\s/.test(ch)) {
-        frag.append(ch);
-      } else {
-        const span = document.createElement("span");
-        span.className = "letter";
-        span.textContent = ch;
-        span.setAttribute("aria-hidden", "true");
-        frag.append(span);
-      }
-    }
-    node.replaceWith(frag);
-  }
-}
+// so CSS can light them up one at a time (js/letters.js).
+for (const el of document.querySelectorAll("[data-letters], main h1, main h2")) wrapLetters(el);
 
 // Hovered letters light up orange or lime, picked at random each time.
 document.addEventListener("pointerover", (e) => {
@@ -106,4 +85,50 @@ if (toggle) {
     if (!header.contains(e.target)) setMenu(false);
   });
   matchMedia(`(width >= ${narrowWidth()})`).addEventListener("change", () => setMenu(false));
+}
+
+// Back to the top: a pixel arrow in the bottom-right corner, shown once the
+// page has been scrolled down a way. Now and then one of its pixels flashes
+// lime or pink.
+const ARROW = [   // 7x7, x marks a pixel
+  "...x...",
+  "..xxx..",
+  ".x.x.x.",
+  "x..x..x",
+  "...x...",
+  "...x...",
+  "...x...",
+];
+const toTop = document.createElement("button");
+toTop.type = "button";
+toTop.className = "to-top";
+toTop.hidden = true;
+toTop.setAttribute("aria-label", "Back to the top");
+const pixels = [];
+ARROW.forEach((row, y) => [...row].forEach((ch, x) => {
+  if (ch !== "x") return;
+  const px = document.createElement("span");
+  px.style.gridArea = `${y + 1} / ${x + 1}`;
+  toTop.append(px);
+  pixels.push(px);
+}));
+document.body.append(toTop);
+toTop.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  document.querySelector("main h1, h1")?.focus?.({ preventScroll: true });
+});
+const syncToTop = () => { toTop.hidden = window.scrollY < 300; };
+addEventListener("scroll", syncToTop, { passive: true });
+syncToTop();
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const flicker = () => {
+    if (!toTop.hidden) {
+      const px = pixels[Math.floor(Math.random() * pixels.length)];
+      const tone = Math.random() < 0.5 ? "flash-lime" : "flash-pink";
+      px.classList.add(tone);
+      setTimeout(() => px.classList.remove(tone), 450);
+    }
+    setTimeout(flicker, 1200 + Math.random() * 2600);
+  };
+  setTimeout(flicker, 1500);
 }

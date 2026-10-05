@@ -11,7 +11,7 @@
 // the community type changes (so the module picker can re-suggest).
 
 import { loadData } from "../data.js";
-import { el } from "../dom.js";
+import { el, chip } from "../dom.js";
 import { textField, selectField } from "../controls/fields.js";
 import { renderChoices } from "../controls/choices.js";
 import { tagList, tagInput } from "../controls/tags.js";
@@ -87,6 +87,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   const size = renderChoices({
     type: "radio",
     legend: "Community size",
+    layout: "buttons",   // a row of buttons; each size's description shows on hover
     options: data.sizes,
     selected: basics.communitySize || null,
     clearable: true,
@@ -107,7 +108,6 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   // unticked without scrolling the list to find it
   const chosen = tagList({
     ariaLabel: "Chosen values",
-    quiet: true,
     onRemove: (id) => {
       values.setOne(id, false);
       changed();
@@ -176,4 +176,41 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     }),
     focusFirst: () => name.focus(),
   };
+}
+
+/**
+ * Basics as a summary: what was filled in, at a glance, plus what to do
+ * next — the card's other modules in order, each marked once started.
+ * entries: [{ id, label }] (the card's modules, in order); started(id) → bool.
+ */
+export function renderBasicsSummary(container, basics = {}, data, { entries = [], started = () => false } = {}) {
+  const label = (list, id) => list.find((x) => x.id === id)?.label;
+  const chips = (items, ariaLabel) => {
+    const list = tagList({ ariaLabel });
+    list.render(items);
+    return list.element;
+  };
+  const none = () => el("span", { className: "field-hint", textContent: "Not answered yet" });
+  const size = data.sizes.find((s) => s.id === basics.communitySize);
+  const values = data.values.filter((v) => (basics.values || []).includes(v.id));
+
+  const rows = [
+    ["Community", basics.communityName ? el("b", { textContent: basics.communityName }) : none()],
+    ["Link", basics.communityLink ? el("a", { className: "inline", href: basics.communityLink, target: "_blank", rel: "noopener", textContent: basics.communityLink }) : none()],
+    ["Type", label(data.types, basics.communityType) || none()],
+    ["Size", size ? `${size.label} (${size.description.charAt(0).toLowerCase()}${size.description.slice(1)})` : none()],
+    ["Keywords", basics.communityKeywords?.length ? chips(basics.communityKeywords.map((k) => ({ id: k, label: k })), "Keywords") : none()],
+    ["Values", values.length ? chips(values, "Values") : none()],
+  ];
+
+  container.replaceChildren(
+    el("dl", { className: "summary summary-list" }, ...rows.flatMap(([term, value]) => [el("dt", { className: "mono-u summary-label", textContent: term }), el("dd", {}, value)])),
+    el("div", { className: "callout" },
+      el("p", {}, el("b", { className: "mono-u", textContent: "What’s next: " }), "work through your modules, one at a time, in this order."),
+      el("ol", { className: "next-steps" }, ...entries.map((m) => el("li", {},
+        el("a", { className: "inline", href: `#${m.id}`, textContent: m.label }),
+        started(m.id) ? chip("Started") : null,
+      ))),
+    ),
+  );
 }

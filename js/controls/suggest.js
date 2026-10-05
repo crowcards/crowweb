@@ -15,7 +15,10 @@
 // kept when allowCustom). onChange({ id, text }) hears about every change,
 // picked or typed. browse: true also shows the whole list (to scroll through)
 // when the box is clicked or ↓ is pressed, before anything is typed — for
-// short lists people won't know ahead of time, like kinds of tool.
+// short lists people won't know ahead of time, like the tools in a category.
+// setItems(list) swaps what's suggested (e.g. once a category is chosen);
+// setHint(text) changes the hint. selectField (fields.js) is built on this:
+// a dropdown is a browsable list without typed values.
 //
 // Matching ignores capitals, accents and punctuation ("cote divoire" finds
 // Côte d'Ivoire) and checks each item's label and aliases. Exact matches come
@@ -66,19 +69,19 @@ export function suggestField({
   onChange = () => {},
   onCommit = () => {},
 } = {}) {
-  const byId = new Map(items.map((i) => [i.id, i]));
+  let byId = new Map(items.map((i) => [i.id, i]));
   const labelOf = (v) => byId.get(v)?.label ?? v;
   const id = uid("suggest");
   const listId = `${id}-list`;
-  const hintEl = hint ? el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint }) : null;
+  const hintEl = el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint || "", hidden: !hint });
 
   const input = el("input", { type: "text", id, autocomplete: "off", placeholder });
   input.setAttribute("role", "combobox");
   input.setAttribute("aria-autocomplete", "list");
   input.setAttribute("aria-expanded", "false");
   input.setAttribute("aria-controls", listId);
-  if (hintEl) input.setAttribute("aria-describedby", hintEl.id);
-  const list = el("ul", { className: "suggest-list", id: listId, hidden: true });
+  input.setAttribute("aria-describedby", hintEl.id);
+  const list = el("ul", { className: "suggest-list plain-list", id: listId, hidden: true });
   list.setAttribute("role", "listbox");
 
   // what's chosen: multiple → array of ids / typed strings; single → { id, text }
@@ -105,9 +108,13 @@ export function suggestField({
 
   function open() {
     // nothing typed: the whole list if browsing, otherwise nothing
-    const matches = input.value.trim() ? matchItems(items, input.value) : browse ? items.map((item) => ({ item })) : [];
+    // browsing: the whole list when nothing's typed, or when the box just
+    // shows what's already picked (so clicking a filled box still shows everything)
+    const typed = input.value.trim() && !(single?.id && input.value === single.text);
+    const matches = typed ? matchItems(items, input.value) : browse ? items.map((item) => ({ item })) : [];
     shown = matches.filter(({ item }) => !(multiple && picks.includes(item.id)));
-    active = shown.length ? 0 : -1;
+    const current = single?.id ? shown.findIndex(({ item }) => item.id === single.id) : -1;
+    active = current >= 0 ? current : shown.length ? 0 : -1;   // start on what's picked
     list.replaceChildren(...shown.map(({ item, via }, i) => {
       const li = el("li", { id: `${id}-opt-${i}` },
         el("span", { textContent: item.label }),
@@ -226,6 +233,12 @@ export function suggestField({
       single = v == null ? { id: null, text: "" } : { id: byId.has(v) ? v : null, text: labelOf(v) };
       input.value = committed = single.text;
     },
+    /** Suggest from a different list from now on; what's chosen stays as it is. */
+    setItems: (list) => {
+      items = list;
+      byId = new Map([...byId, ...list.map((i) => [i.id, i])]);   // keep earlier items' labels
+    },
+    setHint: (text) => { hintEl.textContent = text || ""; hintEl.hidden = !text; },
     focus: () => input.focus(),
   };
 }

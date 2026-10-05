@@ -1,13 +1,139 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-10-01",
-  "note": "Known shared federation subscription lists. Communities can also enter custom values.",
+  "version": "1.1.0",
+  "updatedAt": "2026-10-04",
+  "note": "Shared federation lists and tools/services communities use for federation decisions. Covers ActivityPub (Mastodon, Pleroma, etc.) and AT Protocol (Bluesky). All items marked accepted — URLs and maintenance status should be verified before use.",
   "items": [
     {
       "id": "anti_meta_fedipact",
       "label": "Anti-Meta Fedipact",
-      "description": "Coordinated defederation list for ActivityPub instances blocking Meta's Threads.",
-      "url": "https://fedipact.online/"
+      "description": "List of ActivityPub instances that publicly committed to defederating from Meta's Threads platform.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Fedipact community",
+      "url": "https://fedipact.online/",
+      "status": "accepted",
+      "category": "blocklist"
+    },
+    {
+      "id": "blacksky",
+      "label": "Blacksky",
+      "description": "AT Protocol moderation labeling service focused on protecting Black users from harassment and coordinated targeting.",
+      "protocols": [
+        "AT Protocol"
+      ],
+      "maintainer": "Rudy Fraser",
+      "url": "https://blacksky.app/",
+      "status": "accepted",
+      "category": "service"
+    },
+    {
+      "id": "fediblock",
+      "label": "FediBlock",
+      "description": "Community convention and aggregation effort for sharing instance block recommendations, organized around the #FediBlock hashtag.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Community convention",
+      "url": "https://codeberg.org/fediblock",
+      "status": "accepted",
+      "category": "service"
+    },
+    {
+      "id": "fedicheck",
+      "label": "Fedicheck",
+      "description": "Web tool that compares an instance's blocklist against multiple community blocklist sources to surface gaps in coverage.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Community project",
+      "url": "https://fedicheck.online/",
+      "status": "accepted",
+      "category": "tool"
+    },
+    {
+      "id": "fediseer",
+      "label": "Fediseer",
+      "description": "Reputation and endorsement service where instance admins can vouch for or censure other instances across the Fediverse.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Community project",
+      "url": "https://fediseer.com/",
+      "status": "accepted",
+      "category": "service"
+    },
+    {
+      "id": "garden_fence",
+      "label": "Garden Fence",
+      "category": "blocklist",
+      "description": "Blocklist of ActivityPub instances maintained to protect communities from harassment and bad-faith actors.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "jmdugan",
+      "url": "https://github.com/jmdugan/blocklists",
+      "status": "accepted"
+    },
+    {
+      "id": "iftas_dnif",
+      "label": "IFTAS DNIF",
+      "description": "Do Not Interact Federation blocklist maintained by IFTAS for instances with verified severe content policy violations.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "IFTAS (Internet Foundational Trust and Safety)",
+      "url": "https://about.iftas.org/activities/moderation-as-a-service/dnif/",
+      "status": "accepted",
+      "category": "blocklist"
+    },
+    {
+      "id": "mastodon_spam_stopper",
+      "label": "Mastodon Spam Stopper",
+      "description": "Blocklist and automation rules targeting spam accounts and instances on Mastodon.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Community project",
+      "url": "https://codeberg.org/jomo/mastodon-spam-stopper",
+      "status": "accepted",
+      "category": "blocklist"
+    },
+    {
+      "id": "oliphant_blocklist",
+      "label": "Oliphant Unified Blocklist",
+      "description": "Tiered blocklist compiled from multiple Mastodon instance admin sources, graded 0–3 by severity of harm.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Oliphant (@oliphant@mastodon.online)",
+      "url": "https://codeberg.org/oliphant/blocklists",
+      "status": "accepted",
+      "category": "blocklist"
+    },
+    {
+      "id": "seirdy_blocklist",
+      "label": "Seirdy Instance Blocklist",
+      "description": "Granular instance blocklist maintained by a Fediverse admin with per-entry rationale and severity tiers.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Seirdy (@seirdy@pleroma.envs.net)",
+      "url": "https://seirdy.one/pb/bsl.csv",
+      "status": "accepted",
+      "category": "blocklist"
+    },
+    {
+      "id": "the_bad_space",
+      "label": "The Bad Space",
+      "description": "Index of ActivityPub instances flagged for hosting harassment, hate speech, or insufficient moderation, maintained by a Black-led team.",
+      "protocols": [
+        "ActivityPub"
+      ],
+      "maintainer": "Ro (@Are0h@mastodon.roho.us)",
+      "url": "https://thebadspace.work/",
+      "status": "accepted",
+      "category": "service"
     }
   ]
 }

@@ -4,39 +4,35 @@
   --bg:     #F3EADF;   /* flat beige */
   --ink:    #141414;   /* black */
   --gray:   #6B6660;   /* the one gray */
-  --white:  #FFFFFF;
   --accent: #FF8F00;   /* highlight */
   --lime:   #BFFF00;   /* second accent: neon lime. Low contrast on beige: fine for
                           brief flashes and highlights, not for text people read */
   --line:   #D8CFC4;   /* light gray: scrollbar, dividers */
-  --on-accent: #141414;   /* text on orange/lime: stays dark in both modes */
+  --ink-on-color: #141414;   /* text on orange / lime: stays dark in both modes */
   --rule-w: 1px;
   --rule:   var(--rule-w) solid var(--line);
   --glass:  color-mix(in srgb, var(--bg) 85%, transparent);   /* see-through beige: header, menu */
+  --veil:   color-mix(in srgb, var(--bg) 60%, transparent);   /* more see-through: the About-layout sheet, behind pop-ups */
   --tint:        color-mix(in srgb, var(--accent) 8%, var(--bg));    /* faint orange wash: callouts, highlighted rows */
   --tint-strong: color-mix(in srgb, var(--accent) 14%, var(--bg));   /* stronger: code, chips, the card key */
 
-  /* status colours, for pills and messages (dark-mode versions below) */
-  --ok:    #2D6A4F;   /* green: yes, open source */
-  --warn:  #92400E;   /* brown: proprietary, sometimes */
-  --info:  #1F4E79;   /* blue: often */
-  --error: #B3261E;   /* red: something went wrong */
+  --error: #D10068;   /* something went wrong; remove / danger (dark pink: 4.5:1 on beige; brighter in dark mode) */
 
   /* type */
   --sans:    "helvetica-lt-pro", Helvetica, Arial, sans-serif;
   --display: "argent-pixel-cf", Georgia, serif;
   --mono:    "source-code-pro", ui-monospace, Menlo, monospace;
 
-  --fs-title: clamp(1.25rem, 2.2vw, 1.6rem);   /* site title: a slim header bar */
-  --fs-h:     clamp(2.25rem, 3.4vw, 3rem);     /* page + section heads */
-  --fs-lede:  clamp(1.75rem, 2.5vw, 2.25rem);  /* big Argent text     */
-  --fs-body:  1.2rem;                         /* 20px                */
-  --fs-nav:   0.85rem;                         /* header links, wide screens */
-  --fs-small: 1rem;                            /* footers, hints      */
-  --fs-md:    0.9rem;                          /* tables, form inputs, secondary text */
-  --fs-sm:    0.8rem;                          /* table names, tags, module links */
-  --fs-xs:    0.72rem;                         /* sidebar links, column heads, save status */
-  --fs-2xs:   0.68rem;                         /* pills, tiny labels  */
+  /* sizes: four steps for running text, then display sizes (clamp: grows
+     with the window between a smallest and largest size) */
+  --fs-xs:   0.72rem;                          /* chips, pills, labels, sidebar links, table heads, status */
+  --fs-s:    0.9rem;                           /* hints, descriptions, tables, inputs, header links */
+  --fs-m:    1rem;                             /* choice names, footers, docs text, card name */
+  --fs-body: 1.2rem;                           /* body text (20px) */
+  --fs-l:    clamp(1.25rem, 1.9vw, 1.5rem);    /* site title, small lede, docs h3, small buttons */
+  --fs-lede: clamp(1.75rem, 2.5vw, 2.25rem);   /* big Argent text, h3 */
+  --fs-h:    clamp(2.25rem, 3.4vw, 3rem);      /* page + section heads */
+  --fs-art:  clamp(2.25rem, 9vw, 4.5rem);      /* the big title art (home on phones, coming soon) */
   --caps-spacing: 0.04em;                      /* letter-spacing for mono capitals */
 
   /* the one breakpoint: below this width the header, sidebars and panels
@@ -49,7 +45,7 @@
   --gutter: clamp(1.25rem, 3vw, 2.5rem);
   --header-pad:   1.25rem;   /* top */
   --header-pad-b: 0.5rem;    /* bottom */
-  --header-h: calc(var(--fs-title) * 1.2 + var(--header-pad) + var(--header-pad-b) + var(--rule-w));
+  --header-h: calc(var(--fs-l) * 1.2 + var(--header-pad) + var(--header-pad-b) + var(--rule-w));
   --sprite-cycle: 0.99s;   /* full 4-frame crow loop */
 
   /* info layout */
@@ -81,10 +77,7 @@
   --ink:  #E6E2DC;   /* very light warm gray */
   --gray: #9A948C;   /* lighter, to stay readable on black */
   --line: #3D3934;   /* dark gray dividers and scrollbar */
-  --ok:    #6CC08B;  /* status colours, lightened to read on black */
-  --warn:  #D4845A;
-  --info:  #6BA3D6;
-  --error: #FF8A80;
+  --error: #FF46A2; /* bright pink, readable on black */
 }
 
 /* black pixel art would vanish on black: flip it to light gray (0.85
@@ -159,6 +152,21 @@ ul li::before {
   background: var(--accent);
 }
 
+/* a dividing line of pixels (hr.pixel-divider), e.g. before a module's
+   closing note */
+.pixel-divider {
+  height: 2px;
+  margin: 2.5rem 0 2rem;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px);
+}
+
+/* a list without the pixel bullets: tags, suggestions, change lists,
+   summaries (class .plain-list), and the sidebar */
+.plain-list > li { padding-left: 0; }
+.plain-list > li::before,
+.sidebar li::before { display: none; }
+
 .lede {
   font-family: var(--display);
   font-size: var(--fs-lede);
@@ -168,7 +176,7 @@ ul li::before {
 /* a smaller, italic lede: the intro line under a docs or editor heading */
 .lede-small {
   font-style: italic;
-  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  font-size: var(--fs-l);
   line-height: 1.4;
   margin-bottom: 1.5em;
 }
@@ -184,13 +192,25 @@ a,
   font-size: 0.8em;
 }
 
+/* buttons that look like a link or an icon, not a button: no padding,
+   border or background of their own (each adds its own look) */
+:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .editor-bar-module) {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
 /* mono capitals: links, link-style buttons, and labels that aren't links
    (.mono-u, the "see also" line, table column heads) */
 a,
 .link-button,
 .mono-u,
 .see-also,
-.table th {
+.tab,
+.table th,
+.editor-bar-module,
+.place-pill {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--caps-spacing);
@@ -222,11 +242,7 @@ a,
   place-items: center;
   width: 1.5rem;
   height: 1.5rem;
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--gray);
-  cursor: pointer;
 }
 .pixel-toggle:hover,
 .pixel-toggle:focus-visible,
@@ -249,9 +265,30 @@ a,
   text-align: left;
 }
 
+/* pills: small mono capitals on a colour, all one shape. The colour says
+   what kind: .chip lime (Suggested, Started), .tag orange (chosen items,
+   qualifiers; may hold a remove ×), and the docs table pills .proto,
+   .badge, .cv on tints (docs.css) */
+.chip,
+.tag,
+.proto,
+.badge,
+.cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15em 0.45em;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: var(--caps-spacing);
+}
+
 /* the 5x5-pixel X (close, or an open menu): a centre dot (the span) plus
    two dots out along each diagonal; --dot is the size of one dot */
-:is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove) span {
+:is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove, .tag-remove) span {
   box-shadow:
     calc(var(--dot) * -2) calc(var(--dot) * -2) currentColor, calc(var(--dot) * -1) calc(var(--dot) * -1) currentColor,
     calc(var(--dot) *  2) calc(var(--dot) * -2) currentColor, calc(var(--dot) *  1) calc(var(--dot) * -1) currentColor,
@@ -282,12 +319,31 @@ a,
   text-decoration-skip-ink: none;   /* solid line, no gaps around g, y, p */
 }
 
-.link-button {
-  padding: 0;
+.link-button:is(:hover, :focus-visible) .pixel-plus { background: currentColor; }
+/* tabs (js/controls/tabs.js): a row of tinted pixel-cornered tabs on an
+   orange line, the panel open underneath. The open tab is orange, like
+   the current page in the header. */
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 2px solid var(--accent);
+}
+.tab {
+  --px: 2px;          /* corner steps on top (shared rule below)… */
+  --px-bottom: 0px;   /* …and square at the bottom, where the tab meets its line */
+  padding: 0.6rem 1rem;
   border: 0;
-  background: none;
+  background: var(--tint);
+  color: var(--gray);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
   cursor: pointer;
 }
+.tab:hover,
+.tab:focus-visible { background: var(--lime); color: var(--ink-on-color); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--lime); }
+.tab-panel { padding-top: 1.25rem; }
 
 a:hover,
 a:focus-visible,
@@ -349,11 +405,11 @@ a:focus-visible,
   padding: 0.4em 1.2em 0.45em;
   border: 0;
   background: var(--accent);
-  color: var(--on-accent);
+  color: var(--ink-on-color);
   font-family: var(--display);
   font-style: italic;
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: var(--fs-lede);
   line-height: 1.1;
   text-transform: none;
   letter-spacing: normal;
@@ -367,6 +423,10 @@ a:focus-visible,
   color: var(--accent);
 }
 
+/* keyboard focus: a dark ring just inside the edge (outside, the pixel
+   corners' clip-path would cut it off) */
+.button:focus-visible { box-shadow: inset 0 0 0 2px var(--ink-on-color); }
+
 .button:disabled {
   background: var(--line);
   color: var(--gray);
@@ -376,7 +436,7 @@ a:focus-visible,
 /* a smaller version, e.g. for sidebars and pop-ups */
 .button-small {
   --px: 3px;
-  font-size: 1.15rem;
+  font-size: var(--fs-l);
   padding: 0.3em 1em 0.35em;
 }
 
@@ -387,7 +447,7 @@ a:focus-visible,
   --px: 4px;   /* size of one pixel: corner steps and edge dots */
   padding: 0.9rem 1.1rem 0.9rem calc(1.1rem + var(--px) * 2);
   margin: 1.5em 0;
-  font-size: var(--fs-md);
+  font-size: var(--fs-s);
   background:
     repeating-linear-gradient(to bottom,
       var(--accent) 0 var(--px), transparent var(--px) calc(var(--px) * 2))
@@ -397,21 +457,22 @@ a:focus-visible,
 
 .callout > :last-child { margin-bottom: 0; }
 
-/* stepped pixel corners, shared by buttons, callouts and pop-ups; --px
-   (set on each) is the size of one step */
-:is(.button, .callout, .popup) {
+/* stepped pixel corners, shared by buttons, callouts, pop-ups, tabs, rows (on
+   their background layer) and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
+:is(.button, .callout, .popup, .tab, .row::before, .note-mark, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)) {
+  --pxb: var(--px-bottom, var(--px));   /* bottom steps: the same, unless set (tabs: square bottom) */
   clip-path: polygon(
     0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
     calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
     calc(100% - var(--px) * 2) 0, calc(100% - var(--px) * 2) var(--px),
     calc(100% - var(--px)) var(--px), calc(100% - var(--px)) calc(var(--px) * 2),
     100% calc(var(--px) * 2),
-    100% calc(100% - var(--px) * 2), calc(100% - var(--px)) calc(100% - var(--px) * 2),
-    calc(100% - var(--px)) calc(100% - var(--px)), calc(100% - var(--px) * 2) calc(100% - var(--px)),
-    calc(100% - var(--px) * 2) 100%,
-    calc(var(--px) * 2) 100%, calc(var(--px) * 2) calc(100% - var(--px)),
-    var(--px) calc(100% - var(--px)), var(--px) calc(100% - var(--px) * 2),
-    0 calc(100% - var(--px) * 2));
+    100% calc(100% - var(--pxb) * 2), calc(100% - var(--pxb)) calc(100% - var(--pxb) * 2),
+    calc(100% - var(--pxb)) calc(100% - var(--pxb)), calc(100% - var(--pxb) * 2) calc(100% - var(--pxb)),
+    calc(100% - var(--pxb) * 2) 100%,
+    calc(var(--pxb) * 2) 100%, calc(var(--pxb) * 2) calc(100% - var(--pxb)),
+    var(--pxb) calc(100% - var(--pxb)), var(--pxb) calc(100% - var(--pxb) * 2),
+    0 calc(100% - var(--pxb) * 2));
 }
 
 /* ---- header --------------------------------------------------------- */
@@ -442,7 +503,7 @@ a:focus-visible,
   font-family: var(--display);
   font-style: italic;
   font-weight: 400;
-  font-size: var(--fs-title);
+  font-size: var(--fs-l);
   line-height: 1.2;
   white-space: nowrap;
   text-transform: none;
@@ -464,11 +525,12 @@ a:focus-visible,
   margin-left: auto;
 }
 
-.site-nav a { font-size: var(--fs-nav); }
+.site-nav a { font-size: var(--fs-s); }
+.site-header-bare .theme-toggle { margin-left: auto; }   /* a header without the menu (coming-soon.html): the toggle still sits right */
 
 .site-nav a[aria-current="page"] {
   background: var(--accent);
-  color: var(--on-accent);
+  color: var(--ink-on-color);
   text-decoration-color: transparent;
 }
 
@@ -477,11 +539,7 @@ a:focus-visible,
   display: grid;
   place-items: center;
   align-self: baseline;   /* icon sits on the nav links' baseline */
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--ink);
-  cursor: pointer;
 }
 
 .theme-toggle svg {
@@ -510,10 +568,6 @@ a:focus-visible,
   width: 2.75rem;
   aspect-ratio: 1;
   margin-left: auto;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
 }
 
 .menu-toggle span {
@@ -537,7 +591,7 @@ a:focus-visible,
   padding: 1.25rem 0 2rem;
   border-top: var(--rule);
   color: var(--gray);
-  font-size: var(--fs-small);
+  font-size: var(--fs-m);
 }
 
 .site-footer p { margin: 0; }
@@ -561,7 +615,7 @@ a:focus-visible,
   grid-column: 2;
   grid-row: 1 / -1;
   z-index: 1;
-  background: color-mix(in srgb, var(--bg) 60%, transparent);   /* lower = more see-through */
+  background: var(--veil);
   backdrop-filter: blur(3px);
 }
 
@@ -672,7 +726,6 @@ a:focus-visible,
 }
 
 .sidebar ul { margin: 0 0 1.5rem; }
-.sidebar li::before { display: none; }   /* suppress orange square bullet */
 .sidebar li { padding: 0; }
 
 /* the sidebar's list links (not other links in it, like Docs) hug their
@@ -700,13 +753,13 @@ a:focus-visible,
 
 .sidebar li > a.active {   /* the current section or module, set by the page script */
   background: var(--accent);
-  color: var(--on-accent);
+  color: var(--ink-on-color);
   font-weight: 600;
 }
 
 .sidebar .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
 .sidebar .sub .sub { margin-bottom: 0; }   /* third level: no gap before the next item */
-.sidebar .sub a { font-size: var(--fs-2xs); }
+.sidebar .sub a { font-size: var(--fs-xs); }
 
 /* foldable third-level lists (the page script adds .foldable and the button) */
 .sidebar .foldable { position: relative; }
@@ -749,7 +802,7 @@ a:focus-visible,
 /* ---- tables ----------------------------------------------------------- */
 /* full-width data tables: mono capital column heads (shared rule near the
    top) over thin row lines */
-.table { width: 100%; border-collapse: collapse; font-size: var(--fs-md); margin-bottom: 1rem; }
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-s); margin-bottom: 1rem; }
 
 .table th {
   font-family: var(--mono);
@@ -829,7 +882,7 @@ a:focus-visible,
 .see-also {   /* mono capitals: see the shared rule near the top */
   margin: 2rem 0 2.5rem;
   font-family: var(--mono);
-  font-size: var(--fs-small);
+  font-size: var(--fs-m);
 }
 
 .see-also a { font-size: 1em; }
@@ -864,6 +917,48 @@ a:focus-visible,
   25.01%, 100% { opacity: 0; }
 }
 
+/* back to the top (site.js): a 7x7 pixel arrow in the bottom-right
+   corner, orange (lime on hover); now and then a pixel flashes lime or pink */
+.to-top {
+  --px: 4px;
+  position: fixed;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 15;
+  display: grid;
+  grid-template: repeat(7, var(--px)) / repeat(7, var(--px));
+  padding: 0.6rem;
+  border: 0;
+  background: var(--glass);
+  color: var(--accent);
+  cursor: pointer;
+}
+.to-top span { background: currentColor; }
+.to-top:is(:hover, :focus-visible) { color: var(--lime); background: var(--accent); }
+.to-top .flash-lime { background: var(--lime); }
+.to-top .flash-pink { background: var(--error); }   /* the site's pink */
+
+/* the loading cover (make.html): the page's colour, the crow flapping in the
+   middle, and "Loading" in Argent under it; the header stays visible */
+.page-loading {
+  --sprite: 7rem;
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: 20;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  background: var(--bg);
+}
+.page-loading p {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--fs-lede);
+}
+
 /* ---- narrow screens ------------------------------------------------- */
 @media (width < 64rem) {   /* = --narrow */
   :root {
@@ -871,8 +966,9 @@ a:focus-visible,
     --header-pad-b: 0px;
     --header-crow: 4rem;   /* size of the crow in the header */
     --header-h: calc(var(--header-crow) + var(--header-pad) + var(--rule-w));
-    --fs-nav: 1.125rem;   /* the drop-down menu keeps its bigger links */
   }
+
+  .site-nav a { font-size: var(--fs-body); }   /* the drop-down menu keeps its bigger links */
 
   .theme-toggle svg { width: 1.25rem; height: 1.25rem; }
 
@@ -936,7 +1032,7 @@ a:focus-visible,
   .home-title {
     display: block;
     margin-bottom: 1em;
-    font-size: clamp(2.25rem, 9vw, 4.5rem);   /* big and dramatic; "Community Rules" still fits one line */
+    font-size: var(--fs-art);   /* big and dramatic; "Community Rules" still fits one line */
   }
 
   .info-body { padding-top: 2.5rem; }
@@ -973,3 +1069,45 @@ a:focus-visible,
 }
 
 ::view-transition-group(root) { animation-duration: 0.2s; }
+
+/* ---- print / save as PDF ---------------------------------------------
+   Pages that can be saved as a PDF (the laws page) print as plain text on
+   white: no header, side art or buttons, always the light colours. Mark
+   anything screen-only with .no-print, print-only with .print-only. */
+.print-only { display: none; }
+
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --bg: #FFFFFF;
+    --ink: #141414;
+    --gray: #6B6660;
+    --line: #D8CFC4;
+  }
+  body { font-size: 11pt; }
+  .site-header,
+  .info-side,
+  .info::before,
+  .no-print { display: none !important; }
+  .print-only { display: block; }
+  .info { display: block; min-height: 0; }
+  .info-body { max-width: none; padding: 0; }
+  .info .site-footer { justify-self: stretch; width: auto; max-width: none; margin: 2rem 0 0; padding-inline: 0; }
+  .info-body { width: auto; }
+  h1, h2, h3 { break-after: avoid; }
+  tr, .callout { break-inside: avoid; }
+  /* links' addresses, written out, so they still work on paper */
+  .print-urls td a[href^="http"]::after {
+    content: attr(href);
+    display: inline-block;   /* on its own line, and not underlined with the link */
+    width: 100%;
+    margin-top: 0.2em;
+    color: var(--gray);
+    font-family: var(--mono);
+    font-size: 0.7em;
+    font-weight: 400;
+    text-transform: none;
+    word-break: break-all;
+  }
+}

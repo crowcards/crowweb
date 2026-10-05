@@ -1,62 +1,786 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-10-01",
-  "items": [
+  "version": "1.1.0",
+  "updatedAt": "2026-10-04",
+  "note": "Tools communities use alongside their main platform, grouped by kind. A tool can belong to several categories.",
+  "categories": [
     {
-      "id": "loomio",
-      "label": "Loomio",
-      "description": "Structured discussion threads with voting (consent, polls, proposals). Popular with co-ops and nonprofits.",
-      "toolType": "Deliberation & Decision-Making",
-      "access": "Tiered (free tier available)",
-      "openSource": true
+      "id": "deliberation_decision_making",
+      "label": "Deliberation & decision-making",
+      "description": "Tools that structure group discussion, proposal-making, and collective decisions."
     },
     {
-      "id": "polis",
-      "label": "Polis",
-      "description": "AI-assisted opinion mapping that surfaces areas of cross-group agreement. Often used in civic/government contexts.",
-      "toolType": "Deliberation & Decision-Making",
+      "id": "voting_polling",
+      "label": "Voting & polling",
+      "description": "Tools for gathering member preferences through votes, polls, or ranked choices."
+    },
+    {
+      "id": "surveys_feedback",
+      "label": "Surveys & feedback",
+      "description": "Tools for collecting structured input, feedback, or research from members."
+    },
+    {
+      "id": "trust_safety",
+      "label": "Trust & safety",
+      "description": "Tools that help communities detect, investigate, review, and act on harmful content or behavior."
+    },
+    {
+      "id": "moderation_bots_filters",
+      "label": "Moderation bots & filters",
+      "description": "Automated tools that enforce community rules, filter content, or assist human moderators."
+    },
+    {
+      "id": "announcements_newsletters",
+      "label": "Announcements & newsletters",
+      "description": "Tools for broadcasting updates, newsletters, or one-way communications to members."
+    },
+    {
+      "id": "documentation_wikis",
+      "label": "Documentation & wikis",
+      "description": "Tools for collaboratively writing, organizing, and sharing community knowledge and processes."
+    },
+    {
+      "id": "events_calendars",
+      "label": "Events & calendars",
+      "description": "Tools for scheduling, organizing, and managing community events and shared calendars."
+    },
+    {
+      "id": "funding_finance",
+      "label": "Funding & finance",
+      "description": "Tools for collecting dues, managing community finances, or running fundraising campaigns."
+    },
+    {
+      "id": "identity_access",
+      "label": "Identity & access",
+      "description": "Tools for verifying identity, managing membership credentials, or gating access to community spaces."
+    }
+  ],
+  "items": [
+    {
+      "id": "airtable",
+      "label": "Airtable",
+      "description": "Spreadsheet-database hybrid often used to track member applications, feedback, and community data.",
+      "categories": [
+        "surveys_feedback",
+        "documentation_wikis"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.airtable.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "enterprise_leaning"
+      ]
+    },
+    {
+      "id": "all_our_ideas",
+      "label": "All Our Ideas",
+      "description": "Pairwise voting tool that surfaces collective priorities from open-ended member input.",
+      "categories": [
+        "voting_polling",
+        "surveys_feedback"
+      ],
       "access": "Free",
-      "openSource": true
+      "openSource": true,
+      "url": "https://www.allourideas.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "bookstack",
+      "label": "BookStack",
+      "description": "Self-hosted, open-source wiki and documentation platform organized as books, chapters, and pages.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://www.bookstackapp.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "buttondown",
+      "label": "Buttondown",
+      "description": "Simple, privacy-focused newsletter tool popular with independent writers and community organizers.",
+      "categories": [
+        "announcements_newsletters"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://buttondown.email",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "cal_com",
+      "label": "Cal.com",
+      "description": "Open-source scheduling tool for booking meetings and coordinating availability across a community.",
+      "categories": [
+        "events_calendars"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://cal.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "co_budget",
+      "label": "Cobudget",
+      "description": "Collaborative budgeting tool that lets community members propose and fund initiatives together.",
+      "categories": [
+        "funding_finance",
+        "deliberation_decision_making"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://cobudget.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "collab_land",
+      "label": "Collab.Land",
+      "description": "Token-gated access management for Discord and Telegram communities in Web3 ecosystems.",
+      "categories": [
+        "identity_access"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.collab.land",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "web3_only"
+      ]
+    },
+    {
+      "id": "confluence",
+      "label": "Confluence",
+      "description": "Team wiki and documentation platform from Atlassian, widely used in organizations.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.atlassian.com/software/confluence",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "enterprise_leaning"
+      ]
+    },
+    {
+      "id": "consider_it",
+      "label": "Consider.it",
+      "description": "Visual deliberation tool that shows where people stand on proposals and what arguments they find compelling.",
+      "categories": [
+        "deliberation_decision_making"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://consider.it",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "consul",
+      "label": "Consul",
+      "description": "Open-source participatory democracy platform for proposals, debates, and voting, used by municipalities.",
+      "categories": [
+        "deliberation_decision_making",
+        "voting_polling"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://consulproject.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "coop_roost",
+      "label": "Coop (ROOST)",
+      "description": "Open-source human review console for content moderation with queue orchestration and CSAM/NCMEC reporting workflows.",
+      "categories": [
+        "trust_safety"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://roost.tools",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "specialized"
+      ]
+    },
+    {
+      "id": "cryptpad",
+      "label": "CryptPad",
+      "description": "Open-source, end-to-end encrypted collaborative document and wiki suite with no account required.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://cryptpad.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
     },
     {
       "id": "decidim",
       "label": "Decidim",
       "description": "Participatory democracy platform with proposals, debates, participatory budgeting, and assemblies.",
-      "toolType": "Deliberation & Decision-Making",
+      "categories": [
+        "deliberation_decision_making",
+        "voting_polling"
+      ],
       "access": "Free (self-hosted)",
-      "openSource": true
+      "openSource": true,
+      "url": "https://decidim.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "donorbox",
+      "label": "Donorbox",
+      "description": "Donation and fundraising tool for nonprofits and community organizations with recurring giving support.",
+      "categories": [
+        "funding_finance"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://donorbox.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "eventbrite",
+      "label": "Eventbrite",
+      "description": "Event ticketing and registration platform for both free and paid community events.",
+      "categories": [
+        "events_calendars"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.eventbrite.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "ghost",
+      "label": "Ghost",
+      "description": "Open-source publishing platform with newsletter, membership, and paid subscription features.",
+      "categories": [
+        "announcements_newsletters"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://ghost.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "gitbook",
+      "label": "GitBook",
+      "description": "Documentation platform for publishing structured knowledge bases, guides, and internal wikis.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.gitbook.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "google_forms",
+      "label": "Google Forms",
+      "description": "Simple survey and polling tool, requires a Google account.",
+      "categories": [
+        "surveys_feedback",
+        "voting_polling"
+      ],
+      "access": "Free",
+      "openSource": false,
+      "url": "https://forms.google.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "guild_xyz",
+      "label": "Guild",
+      "description": "Access gating for community spaces based on token ownership, role, or credential, popular in Web3.",
+      "categories": [
+        "identity_access"
+      ],
+      "access": "Free",
+      "openSource": false,
+      "url": "https://guild.xyz",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "web3_only"
+      ]
+    },
+    {
+      "id": "hma",
+      "label": "Hasher-Matcher-Actioner (HMA)",
+      "description": "Open-source hash matching system from Meta for detecting known harmful content such as CSAM and TVEC.",
+      "categories": [
+        "trust_safety"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://github.com/facebook/ThreatExchange/tree/main/hasher-matcher-actioner",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "specialized",
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "hedgedoc",
+      "label": "HedgeDoc",
+      "description": "Self-hosted, open-source collaborative markdown editor for real-time document co-authoring.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://hedgedoc.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "hive_moderation",
+      "label": "Hive Moderation",
+      "description": "AI-driven image, text, and video moderation API for platform safety teams.",
+      "categories": [
+        "trust_safety",
+        "moderation_bots_filters"
+      ],
+      "access": "Paid",
+      "openSource": false,
+      "url": "https://hivemoderation.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "enterprise_leaning"
+      ]
+    },
+    {
+      "id": "kialo",
+      "label": "Kialo",
+      "description": "Structured pro/con debate mapping tool that helps groups reason through complex decisions together.",
+      "categories": [
+        "deliberation_decision_making"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.kialo.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "listmonk",
+      "label": "Listmonk",
+      "description": "Self-hosted, open-source newsletter and mailing list manager with no per-subscriber fees.",
+      "categories": [
+        "announcements_newsletters"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://listmonk.app",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "llamaguard",
+      "label": "Llama Guard",
+      "description": "Open-source safety classifier from Meta for detecting unsafe content in LLM inputs and outputs, adaptable to custom policies.",
+      "categories": [
+        "trust_safety",
+        "moderation_bots_filters"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://github.com/meta-llama/PurpleLlama",
+      "status": "accepted",
+      "notes": "Requires technical setup; bring-your-own-policy classifier",
+      "tags": [
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "loomio",
+      "label": "Loomio",
+      "description": "Structured discussion threads with voting (consent, polls, proposals), popular with co-ops and nonprofits.",
+      "categories": [
+        "deliberation_decision_making",
+        "voting_polling"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://www.loomio.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "lu_ma",
+      "label": "Luma",
+      "description": "Event management and community calendar tool with RSVP, ticketing, and email reminders.",
+      "categories": [
+        "events_calendars"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://lu.ma",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "mailchimp",
+      "label": "Mailchimp",
+      "description": "Email marketing and newsletter platform with list management, automation, and campaign analytics.",
+      "categories": [
+        "announcements_newsletters"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://mailchimp.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "mediawiki",
+      "label": "MediaWiki",
+      "description": "Open-source wiki software that powers Wikipedia, suitable for large community knowledge bases.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://www.mediawiki.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "specialized"
+      ]
+    },
+    {
+      "id": "mentimeter",
+      "label": "Mentimeter",
+      "description": "Live polling and Q&A tool for community calls and town halls.",
+      "categories": [
+        "voting_polling",
+        "surveys_feedback"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.mentimeter.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "mobilizon",
+      "label": "Mobilizon",
+      "description": "Open-source, federated event organizing platform designed as a privacy-respecting alternative to Facebook Events.",
+      "categories": [
+        "events_calendars"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://mobilizon.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "notion",
+      "label": "Notion",
+      "description": "All-in-one workspace for notes, wikis, databases, and project management.",
+      "categories": [
+        "documentation_wikis"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.notion.so",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "open_collective",
+      "label": "Open Collective",
+      "description": "Transparent fundraising and financial management platform for communities, collectives, and open-source projects.",
+      "categories": [
+        "funding_finance"
+      ],
+      "access": "Free tier available",
+      "openSource": true,
+      "url": "https://opencollective.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "openai_moderation",
+      "label": "OpenAI Moderation API",
+      "description": "Free API from OpenAI that classifies text across harmful content categories including hate speech, self-harm, and violence.",
+      "categories": [
+        "trust_safety",
+        "moderation_bots_filters"
+      ],
+      "access": "Free",
+      "openSource": false,
+      "url": "https://platform.openai.com/docs/guides/moderation",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "osprey_roost",
+      "label": "Osprey (ROOST)",
+      "description": "Open-source rules engine for real-time event processing and behavioral investigation, donated by Discord.",
+      "categories": [
+        "trust_safety"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://roost.tools",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "specialized",
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "ozone",
+      "label": "Ozone",
+      "description": "Open-source moderation tool from Bluesky Social for running independent labeling services on the AT Protocol.",
+      "categories": [
+        "trust_safety",
+        "moderation_bots_filters"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://github.com/bluesky-social/ozone",
+      "status": "accepted",
+      "notes": "AT Protocol only",
+      "tags": [
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "patreon",
+      "label": "Patreon",
+      "description": "Membership and subscription platform for communities to offer tiered supporter access and benefits.",
+      "categories": [
+        "funding_finance"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.patreon.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "perspective_api",
+      "label": "Perspective API",
+      "description": "Machine learning API from Google/Jigsaw that scores text for toxicity and other harmful attributes.",
+      "categories": [
+        "trust_safety",
+        "moderation_bots_filters"
+      ],
+      "access": "Free",
+      "openSource": false,
+      "url": "https://perspectiveapi.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "developer_tool"
+      ]
+    },
+    {
+      "id": "polis",
+      "label": "Polis",
+      "description": "AI-assisted opinion mapping that surfaces areas of cross-group agreement, often used in civic contexts.",
+      "categories": [
+        "deliberation_decision_making",
+        "voting_polling"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://pol.is",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "pretix",
+      "label": "pretix",
+      "description": "Open-source ticketing and registration platform with access control and membership check-in features.",
+      "categories": [
+        "identity_access",
+        "events_calendars"
+      ],
+      "access": "Free (self-hosted)",
+      "openSource": true,
+      "url": "https://pretix.eu",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
+    },
+    {
+      "id": "remesh",
+      "label": "Remesh",
+      "description": "AI-assisted large-group deliberation platform that surfaces themes and consensus in real time.",
+      "categories": [
+        "deliberation_decision_making",
+        "surveys_feedback"
+      ],
+      "access": "Paid",
+      "openSource": false,
+      "url": "https://www.remesh.ai",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "enterprise_leaning"
+      ]
+    },
+    {
+      "id": "slido",
+      "label": "Slido",
+      "description": "Live Q&A and polling tool for meetings and events, with audience interaction features.",
+      "categories": [
+        "voting_polling",
+        "surveys_feedback",
+        "events_calendars"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.slido.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "snapshot",
+      "label": "Snapshot",
+      "description": "Off-chain, token-weighted governance voting used by DAOs and Web3 communities.",
+      "categories": [
+        "voting_polling"
+      ],
+      "access": "Free",
+      "openSource": true,
+      "url": "https://snapshot.org",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "web3_only"
+      ]
+    },
+    {
+      "id": "substack",
+      "label": "Substack",
+      "description": "Newsletter and publication platform with paid subscription support and community comment sections.",
+      "categories": [
+        "announcements_newsletters"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://substack.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
+    },
+    {
+      "id": "tally",
+      "label": "Tally",
+      "description": "Free form builder with a clean interface, no account required for respondents.",
+      "categories": [
+        "surveys_feedback"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://tally.so",
+      "status": "accepted",
+      "notes": null,
+      "tags": [
+        "grassroots_favorite"
+      ]
     },
     {
       "id": "typeform",
       "label": "Typeform",
       "description": "Form and survey builder for async preference gathering and community input.",
-      "toolType": "Voting & Polling",
-      "access": "Tiered",
-      "openSource": false
-    },
-    {
-      "id": "google_forms",
-      "label": "Google Forms",
-      "description": "Simple, free survey and polling tool but requires Google Account",
-      "toolType": "Voting & Polling",
-      "access": "Free",
-      "openSource": false
-    },
-    {
-      "id": "osprey_roost",
-      "label": "Osprey (ROOST)",
-      "description": "Rules engine for real-time event processing and behavioral investigation.",
-      "toolType": "T&S Infrastructure — Investigation",
-      "access": "Free (self-hosted)",
-      "openSource": true
-    },
-    {
-      "id": "coop_roost",
-      "label": "Coop (ROOST)",
-      "description": "Human review console for content moderation with queue orchestration, reviewer wellness features, and CSAM/NCMEC reporting workflows.",
-      "toolType": "T&S Infrastructure — Review & Enforcement",
-      "access": "Free (self-hosted)",
-      "openSource": true
+      "categories": [
+        "surveys_feedback",
+        "voting_polling"
+      ],
+      "access": "Free tier available",
+      "openSource": false,
+      "url": "https://www.typeform.com",
+      "status": "accepted",
+      "notes": null,
+      "tags": []
     }
   ]
 }

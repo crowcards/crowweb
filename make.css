@@ -6,36 +6,95 @@
    ============================================================ */
 
 /* ── form controls ───────────────────────────────────────── */
-.make :is(input[type="text"], input[type="url"], input[type="search"], select, textarea) {
+/* every field is a pixel box: a 2px orange outline with stepped corners
+   (the shared corner shape in styles.css, plus one pixel inside each
+   corner to join the steps). Lime on hover. The type-ahead suggestion
+   list is one too, floating just under its box, and so is a long list to
+   tick from (.scroll-list). */
+.make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill, .popup) {
+  --px: var(--box-px, 2px);                       /* a box can set bigger steps (the pop-up: 4px) */
+  --field-line: var(--box-line, var(--accent));   /* …and its own outline colour (the pop-up's) */
+  --field-corners:
+    linear-gradient(var(--field-line) 0 0) left var(--px) top var(--px) / var(--px) var(--px) no-repeat,
+    linear-gradient(var(--field-line) 0 0) right var(--px) top var(--px) / var(--px) var(--px) no-repeat,
+    linear-gradient(var(--field-line) 0 0) left var(--px) bottom var(--px) / var(--px) var(--px) no-repeat,
+    linear-gradient(var(--field-line) 0 0) right var(--px) bottom var(--px) / var(--px) var(--px) no-repeat;
+  border: var(--px) solid var(--field-line);
+  border-radius: 0;
+  background: var(--field-corners), var(--field-fill, transparent);
+  background-origin: border-box;
+}
+.make :is(input, textarea):hover { --field-line: var(--lime); }
+
+/* text boxes, links, filters, dropdowns and notes: the strong orange tint
+   inside while typing */
+.make :is(input[type="text"], input[type="url"], input[type="search"], textarea) {
   display: block;
   width: 100%;
-  padding: 0.5rem 0.65rem;
-  border: 2px solid var(--line);
-  border-radius: 0;
-  background: var(--white);
+  padding: 0.5rem 0.75rem;
   color: var(--ink);
-  font-size: var(--fs-md);
+  font-size: var(--fs-s);
 }
-
-[data-theme="dark"] .make :is(input[type="text"], input[type="url"], input[type="search"], select, textarea) {
-  background: color-mix(in srgb, var(--ink) 6%, var(--bg));
-}
-
-.make select { cursor: pointer; }
 .make textarea { resize: vertical; font-family: inherit; line-height: 1.5; }
-
-.make :is(input, select, textarea):focus-visible {
+.make :is(input[type="text"], input[type="url"], input[type="search"], textarea):focus-visible {
   outline: none;
-  border-color: var(--accent);
+  --field-line: var(--accent);
+  --field-fill: var(--tint-strong);
 }
 
-.make :is(input[type="checkbox"], input[type="radio"]) {
-  width: 0.9em;
-  height: 0.9em;
-  margin: 0;
-  accent-color: var(--accent);
-  flex: none;
+/* lists to pick from (dropdowns, and type-ahead boxes you can browse): a
+   small pixel arrow at the right, drawn as three rows of pixels */
+.make .suggest-browse input[type="text"] {
+  --field-arrow:
+    linear-gradient(var(--field-line) 0 0) right 0.75rem top calc(50% - 3px) / 10px 2px no-repeat,
+    linear-gradient(var(--field-line) 0 0) right calc(0.75rem + 2px) top calc(50% - 1px) / 6px 2px no-repeat,
+    linear-gradient(var(--field-line) 0 0) right calc(0.75rem + 4px) top calc(50% + 1px) / 2px 2px no-repeat;
+  padding-right: 2.25rem;
+  background: var(--field-arrow), var(--field-corners), var(--field-fill, transparent);
+  background-origin: border-box;
 }
+
+/* tick boxes and radio buttons: small pixel boxes (--tick, 8 pixels of
+   2px). A ticked checkbox fills orange with a dark pixel X; a chosen radio
+   keeps its outline, with an orange square dot in the middle. */
+.make { --tick: 16px; }
+.make :is(input[type="checkbox"], input[type="radio"]) {
+  appearance: none;
+  flex: none;
+  width: var(--tick);
+  height: var(--tick);
+  margin: 0;
+  /* in a list row: centred on the first line of its label (--first-line, set on .choice below) */
+  margin-top: calc((var(--first-line, var(--tick)) - var(--tick)) / 2);
+  cursor: pointer;
+}
+/* keyboard focus on a tick box: a dark ring around its whole row (a ring
+   on the small box itself would be cut off by its pixel corners) */
+.make :is(input[type="checkbox"], input[type="radio"]):focus-visible { outline: none; }
+:is(.choice, .check):has(> input:focus-visible) { outline: 2px solid var(--ink); outline-offset: 2px; }
+.make input[type="checkbox"]:checked {
+  --field-line: var(--accent);
+  --field-fill: var(--accent);
+  background:   /* the X, pixel by pixel (x, y from the box's outer corner) */
+    linear-gradient(var(--ink-on-color) 0 0) 4px 4px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 6px 6px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 8px 8px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 10px 10px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 10px 4px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 8px 6px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 6px 8px / 2px 2px no-repeat,
+    linear-gradient(var(--ink-on-color) 0 0) 4px 10px / 2px 2px no-repeat,
+    var(--field-corners), var(--field-fill, transparent);
+  background-origin: border-box;
+}
+.make input[type="radio"]:checked {
+  background: linear-gradient(var(--accent) 0 0) center / 6px 6px no-repeat, var(--field-corners);
+  background-origin: border-box;
+}
+
+/* a chosen row is tinted, so long lists show at a glance what's picked.
+   (Rows reach slightly past the text on both sides, for the tint.) */
+.choice:has(> input:checked) { background: var(--tint); }
 
 /* a checkbox with its label text beside it */
 .check {
@@ -48,7 +107,7 @@
 
 .form-error {
   color: var(--error);
-  font-size: var(--fs-small);
+  font-size: var(--fs-m);
 }
 
 .screen-loading { color: var(--gray); }
@@ -56,34 +115,39 @@
 /* ── form fields (Basics and later modules) ──────────────── */
 .fields { margin: 1.5rem 0 2rem; }
 .field { margin-bottom: 1.5rem; }
-.field > :is(label, legend).mono-u { display: block; margin-bottom: 0.4rem; padding: 0; }
-.field-hint { margin: 0 0 0.5rem; color: var(--gray); font-size: var(--fs-md); }   /* same size as option descriptions */
+.field > :is(label, legend, p).mono-u { display: block; margin-bottom: 0.4rem; padding: 0; }
+/* gray hint text: field hints and option descriptions (one rule) */
+.field-hint,
+.choice-desc { color: var(--gray); font-size: var(--fs-s); }
+.field-hint { margin: 0 0 0.5rem; }   /* same size as option descriptions */
 
 fieldset.field { margin-inline: 0; padding: 0; border: 0; }
+.legend-clear { margin-left: 0.9rem; font-size: 0.85em; }   /* a radio list's "Clear", beside its legend */
 
 /* radio and checkbox rows: the box, then a name over a short description */
 .choice {
+  --first-line: calc(var(--fs-m) * 1.5);   /* height of the label's first line (a bold name) */
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  padding: 0.35rem 0;
+  margin-inline: -0.5rem;
+  padding: 0.35rem 0.5rem;
 }
-.choice > input { margin-top: 0.35em; }
+/* the box is centred on the first line of its label, however many lines
+   follow (see the tick box rule); --first-line is that line's height */
+.choice:has(.choice-name:only-child),
+.choice-compact { --first-line: calc(var(--fs-s) * 1.5); }   /* a plain name, no description */
+.choice-sub :is(.choice, .choice:has(.choice-name:only-child)) { --first-line: calc(var(--fs-xs) * 1.5); }   /* follow-up radios */
 .choice label { cursor: pointer; }
-.choice-name { display: block; font-size: var(--fs-small); font-weight: 700; }
-.choice-name:only-child { font-size: var(--fs-md); font-weight: 400; }   /* a name with no description under it, e.g. a rule */
-.choice-desc { display: block; color: var(--gray); font-size: var(--fs-md); }
+.choice-name { display: block; font-size: var(--fs-m); font-weight: 700; }
+.choice-name:only-child { font-size: var(--fs-s); font-weight: 400; }   /* a name with no description under it, e.g. a rule */
+.choice-desc { display: block; }
 /* a small lime chip (js/dom.js chip): after an option's name ("Suggested",
    from your values), under it as a flag ("Has saved content"), or in a
    sentence that mentions one. Dark text so it reads in both modes. */
-.chip {
-  display: inline-block;
-  padding: 0.1em 0.4em;
+.chip {   /* shape: the shared pill in styles.css */
   background: var(--lime);
-  color: var(--on-accent);
-  font-size: var(--fs-2xs);
-  font-weight: 600;
-  line-height: 1.4;
+  color: var(--ink-on-color);
   vertical-align: 0.1em;
 }
 .choice-name .chip { margin-left: 0.5em; }
@@ -94,8 +158,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   display: block;
   margin: 0.2rem 0 0;
   padding-left: 1em;
-  color: var(--gray);
-  font-size: var(--fs-sm);
 }
 .choice-badge-note::before {
   content: "";
@@ -105,14 +167,15 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   width: 0.45em;
   height: 0.45em;
   background: var(--lime);
-  box-shadow: 0 0 0 1px var(--on-accent);
+  box-shadow: 0 0 0 1px var(--ink-on-color);
 }
 
 /* a follow-up choice under a ticked option (choices "sub"), e.g. a rule's
    "Allowed / Not allowed": a row of small radios, indented under the name */
 .choice-sub { margin: 0.3rem 0 0.2rem; padding: 0; border: 0; }
 .choice-sub .choice { padding-block: 0; }
-.choice-sub .choice-name { font-size: var(--fs-sm); font-weight: 400; }
+:is(.choice-sub, .scale) :is(.choice, .choice:has(> input:checked)) { background: none; }   /* scales: the dot is enough; sub-choices: already in a tinted row */
+.choice-sub .choice-name { font-size: var(--fs-xs); font-weight: 400; }
 
 .module-picker { margin-block: 1rem 1.5rem; }
 .module-picker .choice { padding-block: 0.6rem; border-bottom: var(--rule); }
@@ -122,112 +185,255 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .tags {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 0.4rem;
   margin: 0 0 0.6rem;
 }
 .tags:empty { display: none; }
-.tags li { padding: 0; }
-.tags li::before { display: none; }   /* no pixel bullet */
 
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.2rem 0.5rem;
+.tag {   /* shape: the shared pill in styles.css */
   background: var(--accent);
-  color: var(--on-accent);
-  font-family: var(--mono);
-  font-size: var(--fs-sm);
+  color: var(--ink-on-color);
 }
-.tags-quiet .tag { background: var(--tint-strong); color: var(--ink); }
 
+/* a tag's remove button: the same pixel X as rows and the pop-up, small */
 .tag-remove {
-  padding: 0 0.15rem;
-  border: 0;
-  background: none;
+  display: grid;
+  place-items: center;
+  width: 1.1em;
+  aspect-ratio: 1;
   color: inherit;
-  font: inherit;
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
 }
+.tag-remove span { --dot: 2px; width: var(--dot); height: var(--dot); background: currentColor; }
 .tag-remove:hover,
 .tag-remove:focus-visible { background: var(--ink); color: var(--lime); }
 
+/* choices as a row of buttons (choices.js layout "buttons"): gray, lime
+   on hover, orange when chosen, with stepped corners (shared rule in
+   styles.css). The real box is hidden but still takes the keyboard (the
+   row gets the focus ring). An option's description shows in a small box
+   under it on hover or keyboard focus. */
+.choice-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.choice-buttons > .choice.choice-button { position: relative; margin: 0; padding: 0; background: none; }
+.make input.choice-button-input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.choice-button > label {
+  --px: 2px;
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: var(--line);
+  color: var(--ink);
+  font-size: var(--fs-s);
+  cursor: pointer;
+}
+.choice-button > label:hover { background: var(--lime); color: var(--ink-on-color); }
+.choice-button:has(> input:checked) > label { background: var(--accent); color: var(--ink-on-color); }
+.choice-tip {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 6;
+  display: none;
+  width: max-content;
+  max-width: 18rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  pointer-events: none;
+}
+.choice-button:is(:hover, :has(> input:focus-visible)) > .choice-tip { display: block; }
+
+/* picked items as tags (js/controls/picklist.js): click the name to
+   annotate it; lime while hovered. A tag with a note or step gets a small
+   pixel asterisk badge on its top-right corner (a dark square with a lime
+   5x5 asterisk). Tags that can be put in order can be dragged. */
+.tag-open {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+.pick-tags .tag:has(> .tag-open:is(:hover, :focus-visible)) { background: var(--lime); }
+.pick-tags .tag { position: relative; }
+.pick-tags .tag[draggable="true"] { cursor: grab; }
+.pick-tags .tag.is-dragging { opacity: 0.4; }
+/* a tag with a note badge gets room to its right, and a list with any
+   badges more room between its rows, so badges don't crowd their
+   neighbours (tags keep one height: they don't stretch to fill a row) */
+.tag.has-note { margin-right: 0.4rem; }
+.tags:has(> .has-note) { row-gap: 0.7rem; }   /* (no extra space above: tags already sit far enough below the text for the badge) */
+.note-mark { --px: 2px; position: absolute; top: -7px; right: -7px; width: 14px; height: 14px; padding: 0; border: 0; background: var(--ink-on-color); cursor: pointer; }   /* stepped corners: shared rule in styles.css */
+.note-mark:is(:hover, :focus-visible) { background: var(--accent); }
+.note-mark::after {
+  --dot: 2px;
+  content: "";
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: var(--dot);
+  height: var(--dot);
+  background: var(--lime);
+  box-shadow:
+    0 calc(var(--dot) * -2) var(--lime),
+    calc(var(--dot) * -2) calc(var(--dot) * -1) var(--lime), 0 calc(var(--dot) * -1) var(--lime), calc(var(--dot) * 2) calc(var(--dot) * -1) var(--lime),
+    calc(var(--dot) * -1) 0 var(--lime), var(--dot) 0 var(--lime),
+    calc(var(--dot) * -2) var(--dot) var(--lime), 0 var(--dot) var(--lime), calc(var(--dot) * 2) var(--dot) var(--lime),
+    0 calc(var(--dot) * 2) var(--lime);
+}
+.pick-chosen .tags { margin-top: 0.5rem; }
+.tab-panel > .fields:first-child { margin-top: 0; }   /* the panel's own padding is gap enough */
+/* a term that changes with the open tab (Processes' hint): lime, like the open tab's text */
+.tab-term { padding: 0 0.2em; background: var(--lime); color: var(--ink-on-color); }
+/* steps (conflict, the ladder): a gray pixel arrow in the gap between two steps */
+.pick-gap.has-arrow::after {
+  --dot: 2px;
+  content: "";
+  position: absolute;
+  top: calc(50% - 1px);
+  left: calc(50% - 1px);
+  width: var(--dot);
+  height: var(--dot);
+  background: var(--gray);
+  box-shadow:
+    calc(var(--dot) * -3) 0 var(--gray), calc(var(--dot) * -2) 0 var(--gray), calc(var(--dot) * -1) 0 var(--gray),
+    var(--dot) 0 var(--gray), 0 calc(var(--dot) * -1) var(--gray), 0 var(--dot) var(--gray),
+    calc(var(--dot) * -1) calc(var(--dot) * -2) var(--gray), calc(var(--dot) * -1) calc(var(--dot) * 2) var(--gray);
+}
+/* steps (picklist.js staged): one column per step, its name on top, tags
+   stacked (several on a step = in parallel); a gap before each and after
+   the last to drop a tag into a new step. While dragging, the places to
+   drop show a dotted outline, lime under the pointer. */
+.pick-tags.in-stages { flex-wrap: wrap; align-items: stretch; gap: 0.75rem 0; }
+.pick-step { display: flex; align-items: stretch; }
+.pick-stage { display: flex; flex-direction: column; gap: 0.4rem; min-width: 9rem; padding: 0.5rem; }
+.pick-stage .summary-label { margin: 0; }
+.pick-stage .tags { flex-direction: column; align-items: flex-start; margin: 0; }
+.pick-gap { position: relative; width: 1.75rem; }
+.pick-gap:last-child { width: 3rem; }
+.is-dragging-over :is(.pick-stage, .pick-gap) { outline: 2px dotted var(--line); outline-offset: -2px; }
+:is(.pick-stage, .pick-gap).is-over { background: var(--lime); outline-color: var(--accent); }
+
+/* Federation's rules to select from (federation.js ruleSelector): compact
+   lines in a summary box, grouped by kind; Note and its badge after a
+   selected one */
+.fed-rules .fold-actions { flex-wrap: wrap; margin: 0 0 0.25rem; }
+.fed-rules .fold-head { margin-top: 1rem; }
+.fed-rule { align-items: center; padding-block: 0.2rem; font-size: var(--fs-s); cursor: pointer; }
+.fed-rule label { flex: 1; }
+.fed-rule .choice-name { font-size: inherit; font-weight: 400; }
+.fed-rule .choice-name .tag { margin-left: 0.5em; vertical-align: 0.1em; }
+.fed-rule .note-mark { position: relative; top: auto; right: auto; flex: none; }
+.fed-rules .choice:has(> input:checked) { background: var(--tint-strong); }   /* the box is already tinted */
+.fed-rule .link-button { font-size: var(--fs-xs); }
+
 /* compact rows (js/controls/choices.js layout "compact"): the name, with a
    pixel plus that opens its description underneath */
-.choice-compact { flex-wrap: wrap; align-items: center; padding-block: 0.2rem; border-bottom: var(--rule); font-size: var(--fs-md); }
+.choice-compact { flex-wrap: wrap; padding-block: 0.2rem; border-bottom: var(--rule); font-size: var(--fs-s); }
 .choice-compact:last-child { border-bottom: 0; }
-.choice-compact > input { margin-top: 0; }
 .choice-compact .choice-name { flex: 1; font-size: inherit; font-weight: 400; }
-.choice-about { flex-basis: 100%; padding-left: calc(0.9em + 0.6rem); color: var(--gray); }
+.choice-about { flex-basis: 100%; padding-left: calc(var(--tick) + 0.6rem); color: var(--gray); }
 .choice-about p { margin: 0 0 0.4rem; }
 
 /* a long list (values, approaches): a filter box over a compact scrolling list */
-.scroll-list {
+.scroll-list {   /* outline and corners: the pixel box rule at the top */
   max-height: 22rem;
   overflow-y: auto;
   margin-top: 0.5rem;
-  padding: 0 0.75rem;
-  border: 2px solid var(--line);
+  padding: 0.25rem 0.75rem;
 }
 
 .conflict-notes .callout { margin: 0.75rem 0; }
 /* changes, one per line, each after a pixel plus or minus */
 .change-list { margin: 0.25rem 0 0.75rem; }
-.change-list li { padding-left: 0; }
-.change-list li::before { display: none; }
 .change-list .pixel-plus,
 .change-list .pixel-minus { width: 0.6em; height: 0.6em; vertical-align: 0.05em; }
 
-.callout-small { margin: 0.25rem 0 0.75rem; padding-block: 0.5rem; font-size: var(--fs-sm); }   /* a one-line callout inside a field */
+.callout-small { margin: 0.25rem 0 0.75rem; padding-block: 0.5rem; }   /* a one-line callout inside a field */
 .choices + .field { margin-top: 1.25rem; }   /* a pick list's chosen rows, under the list */
 
 /* suggestion field (js/controls/suggest.js): matches drop down under the box */
 .suggest { position: relative; }
-.suggest-list {
+.suggest-list {   /* outline and corners: the pixel box rule above */
+  --field-fill: var(--bg);   /* opaque, over the page */
   position: absolute;
-  top: 100%;
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
   z-index: 4;
   max-height: 16rem;
   overflow-y: auto;
   margin: 0;
-  padding: 0;
-  border: 2px solid var(--line);
-  border-top: 0;
-  background: var(--bg);
-  font-size: var(--fs-md);
+  padding: 0.25rem 0;
+  font-size: var(--fs-s);
 }
-.suggest-list li { padding: 0.4rem 0.65rem; cursor: pointer; }
-.suggest-list li::before { display: none; }   /* no pixel bullet */
-.suggest-list li[aria-selected="true"] { background: var(--tint-strong); }
-.suggest-note { color: var(--gray); font-size: var(--fs-sm); }
-/* a list you can browse: a small arrow in the box */
-.suggest-browse::after {
-  content: "▾";
-  position: absolute;
-  top: 0.55rem;
-  right: 0.75rem;
-  color: var(--gray);
-  pointer-events: none;
-}
-.suggest-browse input { padding-right: 2rem; }
+.suggest-list li { padding: 0.4rem 0.75rem; cursor: pointer; }
+.suggest-list li:hover { background: var(--tint-strong); }
+/* the highlighted suggestion (arrow keys, or the first match): orange, like
+   the current page in the header; Enter picks it */
+.suggest-list li[aria-selected="true"] { background: var(--accent); color: var(--ink-on-color); }
+.suggest-list li[aria-selected="true"] .suggest-note { color: inherit; }
+/* small gray text (one rule for all of it): option notes, summary labels,
+   a chip's reasons, the original wording of a rule, the card's ID */
+.suggest-note,
+.choice-badge-note,
+.summary-label,
+.rule-original,
+.editor-card :is(.mono, .mono-u) { color: var(--gray); font-size: var(--fs-xs); }
 
 /* choices in a row: 1–5 scales, yes / no, costs (what 1 and 5 mean go below) */
 .scale { display: flex; flex-wrap: wrap; gap: 0.25rem clamp(0.75rem, 2vw, 1.25rem); }
-.scale .choice { padding-block: 0.2rem; }
+.scale .choice { margin-inline: 0; padding: 0.2rem 0; }
 .scale-ends { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.25rem; }
+/* a numbered range (1–5): the row of buttons centred on the page, with
+   what each end means centred under it */
+.scale-range { justify-content: center; }
+.scale-range + .scale-ends { justify-content: center; gap: 2.5rem; }
 
 /* repeatable rows (js/controls/rows.js): each entry in a thin box, with a
    pixel × in its corner to remove it */
 .rows { display: grid; gap: 0.75rem; margin-bottom: 0.5rem; }
-.row {
+/* blocks drawn on a layer behind them, with stepped pixel corners: rows
+   (an orange tint) and summaries — Basics, Rules, the structure in
+   Processes — (a lime pixel outline). Being a layer, the corners
+   (clip-path, styles.css) don't also clip a dropdown opening inside. */
+:is(.row, .summary) {
+  --px: 4px;
   position: relative;
-  padding: 0.9rem 2.75rem 0.1rem 0.9rem;   /* room on the right for the × */
-  border: var(--rule);
+  isolation: isolate;
 }
+:is(.row, .summary)::before { content: ""; position: absolute; inset: 0; z-index: -1; }
+.row::before { background: var(--tint); }
+/* a summary: a thin (2px) lime outline on the tint, with bigger corners —
+   two 2px steps each, so they show on a large box without a heavy line */
+.summary::before {
+  --s: 2px;   /* one pixel */
+  border: var(--s) solid var(--lime);
+  background:   /* the two corner steps' inner pixels, then the tint */
+    linear-gradient(var(--lime) 0 0) left calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) left var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) right calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) right var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) left calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) left var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) right calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--lime) 0 0) right var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    var(--tint);
+  background-origin: border-box;
+  clip-path: polygon(
+    0 calc(var(--s) * 3), var(--s) calc(var(--s) * 3), var(--s) calc(var(--s) * 2), calc(var(--s) * 2) calc(var(--s) * 2),
+    calc(var(--s) * 2) var(--s), calc(var(--s) * 3) var(--s), calc(var(--s) * 3) 0,
+    calc(100% - var(--s) * 3) 0, calc(100% - var(--s) * 3) var(--s), calc(100% - var(--s) * 2) var(--s),
+    calc(100% - var(--s) * 2) calc(var(--s) * 2), calc(100% - var(--s)) calc(var(--s) * 2), calc(100% - var(--s)) calc(var(--s) * 3), 100% calc(var(--s) * 3),
+    100% calc(100% - var(--s) * 3), calc(100% - var(--s)) calc(100% - var(--s) * 3), calc(100% - var(--s)) calc(100% - var(--s) * 2),
+    calc(100% - var(--s) * 2) calc(100% - var(--s) * 2), calc(100% - var(--s) * 2) calc(100% - var(--s)), calc(100% - var(--s) * 3) calc(100% - var(--s)), calc(100% - var(--s) * 3) 100%,
+    calc(var(--s) * 3) 100%, calc(var(--s) * 3) calc(100% - var(--s)), calc(var(--s) * 2) calc(100% - var(--s)),
+    calc(var(--s) * 2) calc(100% - var(--s) * 2), var(--s) calc(100% - var(--s) * 2), var(--s) calc(100% - var(--s) * 3), 0 calc(100% - var(--s) * 3));
+}
+.row { padding: 0.9rem 2.75rem 0.1rem 0.9rem; }   /* room on the right for the × */
+.summary { padding: 1rem 1.1rem; }
+.summary > :last-child { margin-bottom: 0; }
+.row:focus-within { z-index: 1; }   /* the row being edited sits above the next, so its dropdown shows */
 .row .field { margin-bottom: 0.9rem; }
 .row-remove {
   position: absolute;
@@ -237,10 +443,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   place-items: center;
   width: 1.75rem;
   aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
 }
 .row-remove span { --dot: 3px; width: var(--dot); height: var(--dot); background: currentColor; color: var(--gray); }
 .row-remove:hover span,
@@ -254,35 +456,129 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   right: 2.4rem;
   display: flex;
 }
+/* ↑ / ↓ as pixel arrows: three rows of pixels, like the dropdown arrow */
 .row-move {
   width: 1.75rem;
   aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  background: none;
   color: var(--gray);
-  font-family: var(--mono);
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
+  background:
+    linear-gradient(currentColor 0 0) center calc(50% - 2px) / var(--w1) 2px no-repeat,
+    linear-gradient(currentColor 0 0) center 50% / 6px 2px no-repeat,
+    linear-gradient(currentColor 0 0) center calc(50% + 2px) / var(--w3) 2px no-repeat;
 }
+.row-move[data-dir="up"]   { --w1: 2px;  --w3: 10px; }
+.row-move[data-dir="down"] { --w1: 10px; --w3: 2px; }
 .row-move:hover,
 .row-move:focus-visible { color: var(--accent); }
-.row-title { margin: 0 0 0.6rem; font-weight: 700; }   /* what a row is about, e.g. an approach's name */
+/* a row folded into one line (rows.js summarize): its summary, Edit, and
+   the ✓ that folds it (a pixel tick, beside the ×) */
+.row.is-folded { padding-block: 0.6rem; }
+.row-summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; margin: 0; font-size: var(--fs-s); }
+.row-summary-text { flex: 1; }
+.row-done { position: absolute; top: 0.5rem; right: 2.4rem; }
+
+/* small pixel-icon buttons (the ✓ for done); gray, orange on hover. The ✓
+   is drawn with box-shadow pixels, like the × */
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  color: var(--gray);
+  vertical-align: middle;
+}
+.icon-button:is(:hover, :focus-visible) { color: var(--accent); }
+/* the ✓: 3px pixels on the same 5x5 grid as the × */
+.pixel-tick {
+  --dot: 3px;
+  width: var(--dot);
+  height: var(--dot);
+  translate: 0 calc(var(--dot) / -2);   /* the tick sits a half-pixel low on the grid */
+  box-shadow:
+    calc(var(--dot) * 2) calc(var(--dot) * -1) currentColor, var(--dot) 0 currentColor,
+    calc(var(--dot) * -2) var(--dot) currentColor, 0 var(--dot) currentColor, calc(var(--dot) * -1) calc(var(--dot) * 2) currentColor;
+}
+
+/* a module's title and lede, with room beside them for edit buttons */
+.module-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 1rem; }
+.module-head-tools > .link-button { font-size: var(--fs-xs); }
+.module-head .module-head-tools:empty { display: none; }
+.module-head .lede-small { margin-bottom: 0; }
+.module-head + .module-head { margin-bottom: 1.5em; }
+.module-head-tools .inline-edit { flex-basis: 100%; }
+.inline-edit { display: flex; align-items: flex-start; gap: 0.5rem; width: 100%; }
+.inline-edit .field { flex: 1; margin-bottom: 0.5rem; }
+.module-head:has(.inline-edit:not([hidden])) .module-head-tools { flex: 1 1 100%; }
+
+.row:has(.row-done:not([hidden])) { padding-right: 4.5rem; }
+.row:has(.row-done) .row-moves { right: 4.3rem; }
+.row:has(.row-done):has(.row-moves) { padding-right: 8.5rem; }
 
 /* for actions that remove things (e.g. "Delete this module") */
 .link-button-danger { color: var(--error); text-decoration-color: var(--error); }
+.link-button-danger:is(:hover, :focus-visible) { background: var(--error); color: var(--lime); }
 
 /* collapsible sections (js/controls/fold.js): the heading is the toggle,
    keeping the heading's own font and orange, with the pixel plus before it */
-.fold > :is(h2, h3) { margin: 0.9em 0 0.25em; }
-.fold > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
-.fold > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }   /* the plus grows with the heading */
+:is(.fold, .fold-head) > :is(h2, h3) { margin: 0.9em 0 0.25em; }
+:is(.fold, .fold-head) > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
+/* hovering a fold's heading: section heads light up letter by letter
+   (fold.js wraps the letters, like the site's other Argent headings); the
+   smaller ink headings (level 3) turn orange as a whole */
+:is(.fold, .fold-head) > h3 .pixel-toggle:is(:hover, :focus-visible) { color: var(--accent); }
+:is(.fold, .fold-head) > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }   /* the plus grows with the heading */
 /* groups inside a section (level 3): smaller, sans, closer together */
-.fold-3 > h3 { margin: 0.4em 0 0; font-family: var(--sans); font-size: var(--fs-small); font-weight: 700; }
-.fold-3 > h3 .pixel-toggle::before { width: 9px; height: 9px; }
+:is(.fold-3, .fold-3 > .fold-head) > h3 { margin: 0.4em 0 0; font-family: var(--sans); font-size: var(--fs-m); font-weight: 700; }
+:is(.fold-3, .fold-3 > .fold-head) > h3 .pixel-toggle::before { width: 9px; height: 9px; }
 .fold-3 > .fold-body { padding: 0.25rem 0 0.75rem calc(9px + 0.35em); }
 .fold-body { padding-top: 0.25rem; }
+/* a heading with small actions beside it (fold.js actions) */
+.fold-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; }
+.fold-actions { display: flex; gap: 1rem; }
+.fold-actions .link-button { font-size: var(--fs-xs); }
+
+/* something that appears in response to an answer (js/reveal.js): shown
+   under a layer of pixels that drop away */
+.revealing { position: relative; }
+.reveal-layer { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; pointer-events: none; image-rendering: pixelated; }
+/* the cascade: each part fades and slides up, 120ms after the one before */
+.cascade-in > * { animation: cascade-in 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 120ms); }
+@keyframes cascade-in { from { opacity: 0; translate: 0 0.75rem; } }
+
+
+/* Basics as a summary: label / answer rows, then the next steps */
+.summary-list {
+  display: grid;
+  grid-template-columns: minmax(6rem, max-content) 1fr;
+  gap: 0.5rem 1.5rem;
+  align-items: baseline;
+  margin: 1rem 0 1.5rem;
+}
+.summary-list dd { margin: 0; font-size: var(--fs-s); }
+.export-list { margin-top: 0.5rem; }
+.export-list ul { margin: 0; }   /* lists in it keep the pixel bullets */
+.summary-list .tags { margin: 0; }
+/* the Rules summary: ticked rules grouped by kind, each with its qualifier
+   tag and a link to change its wording */
+.rule-summary-type { margin: 1.25rem 0 0.25rem; }
+.rule-summary { margin: 0; padding: 0; }
+.rule-summary li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: var(--rule);
+  font-size: var(--fs-s);
+}
+.rule-summary li > .field { flex-basis: 100%; margin-bottom: 0.5rem; }
+.rule-summary .link-button { margin-left: auto; font-size: var(--fs-xs); }
+.rule-original { flex-basis: 100%; order: 1; margin: 0; }
+.rule-summary-own { margin-bottom: 0; }   /* (the pixel divider below spaces it from the summary) */
+.next-steps { margin: 0.5rem 0 0; padding-left: 1.4em; }
+.next-steps li { margin-bottom: 0.25rem; }
+.next-steps li::marker { color: var(--accent); font-family: var(--mono); font-weight: 600; }
+.next-steps .chip { margin-left: 0.5em; }
 
 /* ── start: edit-an-existing-card form ───────────────────── */
 .key-form label.mono-u {
@@ -305,7 +601,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   margin-right: 0.75rem;
   padding: 0.35rem 0.6rem;
   background: var(--tint-strong);
-  font-size: 1rem;
+  font-size: var(--fs-m);
   word-break: break-all;
   user-select: all;   /* one click selects the whole value */
 }
@@ -318,15 +614,15 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   margin: -0.5rem auto 1rem;
 }
 
-:is(.editor-card, .editor-actions, .editor-forget, .editor-docs) { text-align: center; }
+:is(.editor-card, .editor-actions, .editor-forget, .editor-reset, .editor-export, .editor-docs) { text-align: center; }
 
 .editor-card { margin: 0 0 1.25rem; }
-.editor-card .mono-u { display: block; color: var(--gray); font-size: var(--fs-2xs); }
-.editor-card .editor-name { display: block; font-weight: 700; font-size: 1rem; line-height: 1.3; overflow-wrap: anywhere; }
-.editor-card .mono { display: block; color: var(--gray); font-size: var(--fs-xs); word-break: break-all; }
+.editor-card .mono-u { display: block; }
+.editor-card .editor-name { display: block; font-weight: 700; font-size: var(--fs-m); line-height: 1.3; overflow-wrap: anywhere; }
+.editor-card .mono { display: block; word-break: break-all; }
 
 /* a module with a suggestion waiting: a small neon lime pixel after its
-   name, with a thin dark edge so it shows on beige too. The narrow-screen
+   name, with a thin orange edge so it shows on beige too. The narrow-screen
    Modules toggle gets one when any module has a suggestion. */
 .flag-dot,
 .has-flags::after {
@@ -335,16 +631,20 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   height: 0.55em;
   margin-left: 0.45em;
   background: var(--lime);
-  box-shadow: 0 0 0 1px var(--on-accent);
+  box-shadow: 0 0 0 1px var(--accent);
   vertical-align: 0.1em;
 }
 .has-flags::after { content: ""; }
 
 /* module names are the main thing here: a step bigger than docs links */
-.editor-nav .module-list a { font-size: var(--fs-sm); }
+.editor-nav .module-list a { font-size: var(--fs-xs); }
 
 .editor-actions,
-.editor-forget { margin: 0 0 1.5rem; }
+.editor-forget,
+.editor-reset,
+.editor-export { margin: 0 0 0.9rem; }
+/* the sidebar's (and the narrow-screen bar's) Save / Forget / Reset: smaller than other small buttons */
+:is(.editor-nav-panel, .editor-bar) .button-small { --px: 2px; font-size: var(--fs-m); padding: 0.2em 0.85em 0.25em; }
 .editor-docs { margin: 0; }
 
 /* the status under Save, and "on this device" under Forget */
@@ -358,7 +658,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 }
 
 /* Docs: a normal link, just sized for the sidebar */
-:is(.editor-docs, .editor-bar-actions) a { font-size: var(--fs-xs); }
+.editor-docs a { font-size: var(--fs-xs); }
 
 /* ── editor sidebar (narrow screens): a slim bar that opens ── */
 .editor-bar { display: none; }
@@ -376,26 +676,72 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
     backdrop-filter: blur(4px);
   }
 
-  /* one row: the panel toggle on the left; status, Save, Forget and Docs on
-     the right (wrapping to a second row on very small screens) */
+  /* one row: the module's name with a pixel ▾ (opens the module list) and
+     Docs on the left; the save status and card name / ID, then + (Save,
+     Forget, Reset) on the right. Wraps on very small screens. */
   .editor-bar {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     gap: 0.4rem 1rem;
   }
-  .editor-bar .pixel-toggle { font-size: var(--fs-md); }
-
-  .editor-bar-actions {
-    display: flex;
+  .editor-bar-module {
+    display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-left: auto;
+    gap: 0.6rem;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: var(--fs-xs);   /* the bar's one text size */
   }
-  .editor-bar .save-status { min-height: 0; margin: 0; font-size: var(--fs-2xs); }
-  .editor-bar .button-small { font-size: 1rem; padding: 0.2em 0.8em 0.25em; }
-  .editor-bar [data-forget] { margin-right: 0.5rem; }   /* a little more room before Docs */
+  .editor-bar-module:is(:hover, :focus-visible) { color: var(--accent); }
+  /* the ▾: three rows of 3px pixels (5, 3, 1 wide) in a 15x9 box, so it
+     centres with the text; flipped while the list is open */
+  .pixel-caret {
+    flex: none;
+    width: 15px;
+    height: 9px;
+    background:
+      linear-gradient(currentColor 0 0) center 0 / 15px 3px no-repeat,
+      linear-gradient(currentColor 0 0) center 3px / 9px 3px no-repeat,
+      linear-gradient(currentColor 0 0) center 6px / 3px 3px no-repeat;
+  }
+  .editor-bar-module[aria-expanded="true"] .pixel-caret { rotate: 180deg; }
+  .editor-bar > a { font-size: var(--fs-xs); }
+  .editor-bar-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0 0.75rem;
+    min-width: 0;
+    margin: 0 0 0 auto;
+    font-size: var(--fs-xs);
+    text-align: right;
+  }
+  .editor-bar .save-status { min-height: 0; margin: 0; }
+  .editor-bar-name { max-width: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* the card's ID, at the top of the + menu */
+  .editor-bar-id { margin: 0 0 0.25rem; color: var(--gray); font-size: var(--fs-xs); text-align: center; white-space: nowrap; }
+  .editor-bar-id .mono-u { display: block; font-size: 1em; }
+  .editor-bar-more { position: relative; display: flex; }
+  /* the +: bigger than the usual pixel toggle */
+  #editor-bar-more { width: 2rem; height: 2rem; }
+  #editor-bar-more::before { width: 15px; height: 15px; }
+  #editor-bar-more:not([aria-expanded="true"], :hover, :focus-visible) { color: var(--ink); }   /* dark, so it stands out; orange when open or hovered */
+  .editor-bar-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--bg);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .editor-bar-menu[hidden] { display: none; }
 
   /* the panel: compact, and without what the bar already shows */
   .editor-nav:not(.is-open) .editor-nav-panel { display: none; }
@@ -406,43 +752,59 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
     padding: 0.5rem 0 0.25rem;
     border-top: var(--rule);
   }
-  .editor-nav-panel :is(.editor-actions, .editor-forget, .editor-docs) { display: none; }
+  /* open, it's just the module list: the bar shows the rest */
+  .editor-nav-panel :is(.editor-card, .editor-actions, .editor-forget, .editor-reset, .editor-export, .editor-docs) { display: none; }
 
-  /* card name and ID on one line */
-  .editor-nav-panel .editor-card {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0 0.6rem;
-    margin: 0 0 0.5rem;
-    text-align: left;
-  }
-  .editor-nav-panel .editor-card .mono-u { display: none; }
-  .editor-nav-panel .editor-card :is(.editor-name, .mono) { display: inline; }
-  .editor-nav-panel .editor-card .editor-name { font-size: var(--fs-md); }
 
   .editor-nav-panel .module-list { gap: 0.1rem 1rem; margin: 0 0 0.5rem; }
   .editor-nav-panel .module-list a { padding-block: 0.25rem; }
 }
 
+/* "↑ New suggestion" (js/scroll.js pointTo): a small box like the pop-ups
+   (beige, orange pixel outline: the field pixel-box rule above), near the
+   top of the screen, pointing up to something that appeared out of sight.
+   It flashes lime twice when it appears. */
+.place-pill {
+  --field-fill: var(--bg);
+  position: fixed;
+  top: calc(var(--header-h) + 0.75rem);
+  left: 50%;
+  z-index: 25;
+  translate: -50% 0;
+  padding: 0.5em 1em;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+  animation: place-pill-flash 1.2s steps(1, end);
+}
+.place-pill:is(:hover, :focus-visible) { --field-fill: var(--lime); }
+@keyframes place-pill-flash {
+  0%, 50% { --field-fill: var(--lime); }
+  25%, 75% { --field-fill: var(--bg); }
+}
+@media (prefers-reduced-motion: reduce) { .place-pill { animation: none; } }
+@media (width < 64rem) { .place-pill { top: calc(var(--header-h) + 3.25rem); } }   /* below the editor's bar */
+
 /* ── pop-up ──────────────────────────────────────────────── */
 /* a box over the page for anything that needs attention: an orange pixel
    frame (the border, cut into stepped corners by the shared rule in
    styles.css) around a beige panel */
-.popup {
-  --px: 4px;
+.popup {   /* outline and corners: the pixel-box rule at the top, with 4px steps */
+  --box-px: 4px;
+  --popup-line: var(--accent);   /* the outline: orange, or pink for an error */
+  --box-line: var(--popup-line);
+  --field-fill: var(--bg);
   width: min(32rem, calc(100% - var(--gutter) * 2));
   max-width: none;
   padding: 0;
-  border: var(--px) solid transparent;
-  background:
-    linear-gradient(var(--bg), var(--bg)) padding-box,
-    var(--accent) border-box;
   color: var(--ink);
 }
+.popup.is-error { --popup-line: var(--error); }
+.popup.is-error .popup-title { color: var(--error); }
 
 .popup::backdrop {
-  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  background: var(--veil);
   backdrop-filter: blur(3px);
 }
 
@@ -476,10 +838,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   place-items: center;
   width: 2.25rem;
   aspect-ratio: 1;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
 }
 
 .popup-close span {

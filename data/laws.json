@@ -1,0 +1,62 @@
+{
+  "version": "0.0.1",
+  "updatedAt": "2026-10-04",
+  "note": "PLACEHOLDER for building the editor's laws page — a few landmark laws only, not reviewed. Being replaced by a reviewed datasheet. appliesTo uses codes from countries.json (countries and regions); categories are copyright_ip, online_safety, data_privacy.",
+  "categories": [
+    { "id": "copyright_ip", "label": "Copyright & intellectual property" },
+    { "id": "online_safety", "label": "Online safety & content moderation" },
+    { "id": "data_privacy", "label": "Data privacy & security" }
+  ],
+  "items": [
+    {
+      "id": "eu_gdpr",
+      "name": "General Data Protection Regulation (GDPR)",
+      "jurisdiction": "EU",
+      "appliesTo": ["EU"],
+      "categories": ["data_privacy"],
+      "summary": "Placeholder summary: rules for collecting and handling personal data of people in the EU.",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+      "status": "placeholder"
+    },
+    {
+      "id": "eu_dsa",
+      "name": "Digital Services Act (DSA)",
+      "jurisdiction": "EU",
+      "appliesTo": ["EU"],
+      "categories": ["online_safety"],
+      "summary": "Placeholder summary: obligations for online services around illegal content, reporting and transparency.",
+      "url": "https://eur-lex.europa.eu/eli/reg/2022/2065/oj",
+      "status": "placeholder"
+    },
+    {
+      "id": "us_dmca",
+      "name": "Digital Millennium Copyright Act (DMCA)",
+      "jurisdiction": "US",
+      "appliesTo": ["US"],
+      "categories": ["copyright_ip"],
+      "summary": "Placeholder summary: notice-and-takedown process for copyright claims against hosted content.",
+      "url": "https://www.copyright.gov/dmca/",
+      "status": "placeholder"
+    },
+    {
+      "id": "us_coppa",
+      "name": "Children's Online Privacy Protection Act (COPPA)",
+      "jurisdiction": "US",
+      "appliesTo": ["US"],
+      "categories": ["data_privacy", "online_safety"],
+      "summary": "Placeholder summary: rules for services that collect personal information from children under 13.",
+      "url": "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa",
+      "status": "placeholder"
+    },
+    {
+      "id": "gb_osa",
+      "name": "Online Safety Act 2023",
+      "jurisdiction": "GB",
+      "appliesTo": ["GB"],
+      "categories": ["online_safety"],
+      "summary": "Placeholder summary: duties for user-to-user services around illegal and harmful content.",
+      "url": "https://www.legislation.gov.uk/ukpga/2023/50",
+      "status": "placeholder"
+    }
+  ]
+}

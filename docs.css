@@ -14,7 +14,7 @@ html {
 /* docs read as reference text: a little smaller and airier than the
    rest of the site (the column itself is .sidebar-main) */
 .docs-body {
-  font-size: 1.1rem;
+  font-size: var(--fs-m);
   line-height: 1.6;
 }
 
@@ -38,7 +38,7 @@ html {
 
 /* ── docs headings: smaller h2s with a rule above; sans h3s ── */
 .docs-body h2 {
-  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-size: var(--fs-l);
   margin: 2.5em 0 0.5em;
   padding-top: 0.5em;
   border-top: var(--rule);
@@ -49,7 +49,7 @@ html {
 .docs-body h3 {
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: var(--fs-m);
   margin: 1.8em 0 0.4em;
   padding-top: 0.5em;   /* like h2: a little room above it when a sidebar link jumps here */
 }
@@ -78,45 +78,36 @@ html {
 .table tr.named td:first-child { padding-left: 1.4rem; }
 .table tr.named td:first-child::before { content: "↳ "; color: var(--line); font-size: 0.8em; }
 
-/* small mono text and pills in table cells */
+/* small mono names in table cells (pills share their shape from styles.css) */
 .pname,
-.table td.ref-name,
-.proto,
-.badge,
-.cv {
+.table td.ref-name {
   font-family: var(--mono);
   font-weight: 600;
 }
 
 /* a platform or item name at the start of a row */
 .pname,
-.table td.ref-name { font-size: var(--fs-sm); }
+.table td.ref-name { font-size: var(--fs-xs); }
 .table td.ref-name { white-space: nowrap; }
 
-.sw    { color: var(--gray); font-size: var(--fs-sm); }
-.sw.oss  { color: var(--ok); }
-.sw.prop { color: var(--warn); }
-.model   { color: var(--gray); font-size: var(--fs-sm); }
+.sw    { color: var(--gray); font-size: var(--fs-xs); }
+.sw.oss  { color: var(--ink); }   /* open source stands out; proprietary stays gray */
+.model   { color: var(--gray); font-size: var(--fs-xs); }
 
-/* pills: protocol, yes/no/varies, cost values */
+/* pills: protocol, yes/no/varies, cost values (shape: styles.css) */
 .proto,
 .badge,
-.cv {
-  display: inline-block;
-  padding: 0.1em 0.45em;
-  font-size: var(--fs-2xs);
-  white-space: nowrap;
-}
+.cv { white-space: nowrap; }
 
 .proto     { background: var(--tint-strong); color: var(--accent); }
 .badge.yes,
-.cv.yes    { background: color-mix(in srgb, var(--ok) 12%, var(--bg)); color: var(--ok); }
+.cv.yes    { background: var(--tint-strong); color: var(--ink); }
 .badge.no,
 .cv.no,
 .cv.rare   { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
 .badge.var { background: var(--tint-strong); color: var(--accent); }
-.cv.often  { background: color-mix(in srgb, var(--info) 12%, var(--bg)); color: var(--info); }
-.cv.some   { background: color-mix(in srgb, var(--warn) 12%, var(--bg)); color: var(--warn); }
+.cv.often  { background: var(--tint-strong); color: var(--accent); }
+.cv.some   { background: var(--tint); color: var(--accent); }
 
 /* ── cost matrix: .table.matrix (centred cells, scrolls sideways) */
 .cost-wrap { overflow-x: auto; margin: 1em 0 1.5em; }
@@ -124,7 +115,7 @@ html {
 .table.matrix {
   width: auto;
   min-width: 700px;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   white-space: nowrap;
   margin-bottom: 0;   /* .cost-wrap spaces it */
 }
@@ -145,7 +136,7 @@ html {
 /* a secondary line under a cell's main text (URLs, signals, etc.) */
 .table .ref-sub {
   margin-top: 0.3rem;
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   color: var(--gray);
 }
 

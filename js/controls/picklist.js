@@ -1,134 +1,292 @@
-// Pick items from a list; each picked item becomes a row underneath, which can
-// carry a note (and a step), and can be put in order. Built from the shared
-// pieces: a compact checkbox list to choose from, and rows for the picks
-// (a row's × unticks it). Used for:
-//   - Processes' approaches: filterable list, a note on each (+ a step for conflict)
-//   - Federation's response ladder: no notes, rows put in order
+// Pick items from a list; picked items show as tags above it. Clicking a
+// tag opens a pop-up to annotate it (a note; and, staged, its step); a tag
+// with a note gets a small pixel asterisk badge, which also opens it. A
+// tag's × unselects it. Used for:
+//   - Processes' approaches: filterable list, a note on each
+//   - Membership's ways of joining: a note on each
+//   - Conflict management and Federation's response ladder: staged — tags
+//     dragged into steps (several on one step happen in parallel); conflict
+//     approaches can also be marked primary
 //
 //   const pick = pickList({
 //     legend: "Approaches",
 //     options: [{ id, label, description }],
 //     items: [{ id, note }],        // what's saved; ids no longer in options are dropped
-//     notes: true,                  // a note box on each pick (default)
-//     steps: [{ id, label }],       // optional: a step dropdown on each pick
+//     notes: true,                  // a note on each pick (default)
 //     filterable: true,             // a "Filter…" box over the list (default)
-//     reorderable: false,           // ↑ / ↓ on each pick
+//     staged: false,                // drag tags into steps; items: [{ id, note, stage, primary }]
+//     primary: true,                // staged: whether a pick can be marked primary
 //     chosenLegend: "What you use",
 //     onInput, onCommit,
 //   });
-//   pick.value()   → [{ id, note?, step? }], in the order shown
+//   pick.value()   → [{ id, note?, stage?, primary? }], in the order shown
 //
 // A list whose ticks live somewhere else (e.g. the shared structure list,
-// shown in several Processes sections): onSelect(ids) hears every tick
-// change, and pick.select(ids) re-syncs the ticks without firing anything.
-// An item unticked and ticked again gets its note back.
+// shown in several Processes tabs): onSelect(ids) hears every tick change,
+// and pick.select(ids) re-syncs the ticks without firing anything. An item
+// unticked and ticked again gets its note back.
 //
-// detachChosen: the picks aren't placed under the list; pick.chosenElement
-// is put wherever the page wants it (e.g. above other fields). noteHint
-// changes the hint on each note.
+// detachChosen: the tags aren't placed above the list; pick.chosenElement
+// is put wherever the page wants it. noteHint changes the hint on each note.
+// layout ("compact" by default, or "described"), legendHidden, before /
+// after (nodes above the tags / below the list) and pick.show(visible) work
+// as in choices.js. chosenLegend: null for no label over the tags;
+// tagsHint: false when the page already says how to annotate.
 
-import { el } from "../dom.js";
-import { renderChoices } from "./choices.js";
-import { renderRows } from "./rows.js";
-import { textField, selectField } from "./fields.js";
+import { el, button } from "../dom.js";
+import { renderChoices, scaleField } from "./choices.js";
+import { textField } from "./fields.js";
+import { showPopup, closePopup } from "../popup.js";
 
 export function pickList({
   legend,
+  legendHidden = false,
   hint,
   options,
   items = [],
   notes = true,
-  steps,
   filterable = true,
   filterLabel,
-  reorderable = false,
+  staged = false,
+  primary: canBePrimary = true,   // staged: a "Primary" box in each pop-up
   chosenLegend = "What you use",
-  emptyText = "Nothing chosen yet. Tick items in the list above.",
+  tagsHint: showTagsHint = true,   // the "Click one to add a note." line over the tags
+  emptyText = "Nothing chosen yet. Select items in the list below.",
   noteHint = "How it works in your community (optional).",
   badge,
+  layout = "compact",
+  before = [],
+  after = [],
   detachChosen = false,
   onSelect = () => {},
   onInput = () => {},
   onCommit = () => {},
 } = {}) {
   const byId = new Map(options.map((o) => [o.id, o]));
-  const known = items.filter((i) => byId.has(i.id));
-  // a fresh pick: just its id, plus empty note / step if this list has them —
-  // or what it had before, if it was unticked earlier
+  const labelOf = (id) => byId.get(id).label;
+  // a fresh pick: just its id (and an empty note), on a new last step if
+  // staged — or what it had before, if it was unticked earlier
   const removed = new Map();
-  const blank = (id) => removed.get(id) || { id, ...(steps ? { step: null } : {}), ...(notes ? { note: null } : {}) };
+  let picks = [];
+  const lastStage = () => Math.max(0, ...picks.map((p) => p.stage || 0));
+  const blank = (id) => {
+    const before = removed.get(id);
+    if (before) return staged ? { ...before, stage: lastStage() + 1 } : before;   // back on a new last step
+    return { id, ...(notes ? { note: null } : {}), ...(staged ? { stage: lastStage() + 1, primary: false } : {}) };
+  };
+  for (const i of items.filter((x) => byId.has(x.id))) picks.push({ ...blank(i.id), ...i });
+  const annotatable = notes || staged;
 
-  const chosen = renderRows({
-    legend: chosenLegend,
-    emptyText,
-    items: known,
-    reorderable,
-    itemName: (i) => byId.get(i.id).label,
-    renderRow: (item, hooks) => {
-      const step = steps
-        ? selectField({ label: "Step", options: steps, value: item.step, placeholder: "Choose a step…", onChange: hooks.onCommit })
-        : null;
-      const note = notes
-        ? textField({ label: "Note", hint: noteHint, multiline: true, value: item.note, ...hooks })
-        : null;
-      return {
-        element: el("div", {},
-          el("p", { className: "row-title", textContent: byId.get(item.id).label }),
-          step?.element,
-          note?.element,
+  // ── the tags ──────────────────────────────────────────────
+  // in order (the ladder): a pixel arrow points from each tag to the next.
+  // staged: tags in columns, one per step, arrows between the steps.
+  const tags = el("ul", { className: `tags plain-list pick-tags${staged ? " in-stages" : ""}` });
+  const empty = el("p", { className: "field-hint", textContent: emptyText });
+  const tagsHint = annotatable && showTagsHint
+    ? el("p", {
+      className: "field-hint",
+      textContent: staged
+        ? `Drag them into the order you’d try them; put ones you’d use at the same time on the same step. Click one to add a note${canBePrimary ? " or mark it primary" : ""}.`
+        : "Click one to add a note.",
+    })
+    : null;
+  const chosen = el("div", { className: "field pick-chosen" },
+    chosenLegend ? el("p", { className: "mono-u", textContent: chosenLegend }) : null,
+    tagsHint,
+    empty,
+    tags,
+  );
+
+  let dragged = null;
+  /** Something can be dropped here: allow it, and highlight while it's over. */
+  const dropTarget = (node, onDrop) => {
+    node.addEventListener("dragover", (e) => { if (dragged) { e.preventDefault(); node.classList.add("is-over"); } });
+    node.addEventListener("dragleave", () => node.classList.remove("is-over"));
+    node.addEventListener("drop", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      node.classList.remove("is-over");
+      if (dragged) onDrop(e);
+    });
+  };
+
+  /** One tag: its name (opens the pop-up), its ×, and the note badge if it has a note. */
+  function tagFor(p) {
+    const name = [labelOf(p.id), p.primary ? "Primary" : null].filter(Boolean).join(" · ");
+    const annotated = Boolean(p.note);
+    const open = annotatable ? button(name, "tag-open", () => annotate(p)) : el("span", { textContent: name });
+    if (annotatable) open.setAttribute("aria-label", `${name}${annotated ? " (has a note)" : ""}: open to annotate`);
+    const remove = button("", "tag-remove", () => untick(p.id));
+    remove.append(el("span"));   // the pixel X
+    remove.setAttribute("aria-label", `Remove ${labelOf(p.id)}`);
+    const mark = annotated ? button("", "note-mark", () => annotate(p)) : null;
+    mark?.setAttribute("aria-label", `Open the note on ${labelOf(p.id)}`);
+    const tag = el("li", { className: `tag${annotated ? " has-note" : ""}` }, open, remove, mark);
+    if (staged) {
+      tag.draggable = true;
+      tag.addEventListener("dragstart", (e) => {
+        dragged = p;
+        if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
+        tag.classList.add("is-dragging");
+        tags.classList.add("is-dragging-over");
+      });
+      tag.addEventListener("dragend", () => {
+        dragged = null;
+        tag.classList.remove("is-dragging");
+        tags.classList.remove("is-dragging-over");
+      });
+    }
+    return tag;
+  }
+
+  // ── steps (staged) ────────────────────────────────────────
+  const stageCount = () => new Set(picks.map((p) => p.stage)).size;
+  /** Steps numbered 1, 2, 3… with no gaps, keeping their order. */
+  function renumber() {
+    const order = [...new Set(picks.map((p) => p.stage))].sort((a, b) => a - b);
+    for (const p of picks) p.stage = order.indexOf(p.stage) + 1;
+    picks.sort((a, b) => a.stage - b.stage);
+  }
+  /** A step's name from where it falls: first, escalation, last resort; and when shared, in parallel. */
+  function stageName(n, total, size) {
+    const where = n === 1 ? "First" : n === total ? "Last resort" : "Escalation";
+    return `${n} · ${where}${size > 1 ? " · in parallel" : ""}`;
+  }
+  /** Put a pick on step n; "new" = a new last step; { before: n } = a new step just before step n. */
+  function moveTo(p, target) {
+    if (target === "new") p.stage = lastStage() + 1;
+    else if (typeof target === "object") {
+      for (const x of picks) if (x !== p && x.stage >= target.before) x.stage += 1;
+      p.stage = target.before;
+    } else p.stage = target;
+    renumber();
+  }
+
+  function renderStages() {
+    renumber();
+    const total = stageCount();
+    // each step: a gap on its left (drop there for a new step before it; an
+    // arrow from the step before), then the step itself; and a last gap at
+    // the end for a new last step. Every step has the same shape, so steps
+    // that wrap onto a new row line up with the first row.
+    const gap = (before, arrow) => {
+      const g = el(before === null ? "li" : "div", { className: `pick-gap${arrow ? " has-arrow" : ""}` });
+      g.setAttribute("aria-hidden", "true");
+      dropTarget(g, () => { moveTo(dragged, before === null ? "new" : { before }); changed(); });
+      return g;
+    };
+    const parts = [];
+    for (let n = 1; n <= total; n++) {
+      const inStage = picks.filter((p) => p.stage === n);
+      const stage = el("div", { className: "pick-stage" },
+        el("p", { className: "mono-u summary-label", textContent: stageName(n, total, inStage.length) }),
+        el("ul", { className: "tags plain-list" }, ...inStage.map(tagFor)));
+      dropTarget(stage, () => { moveTo(dragged, n); changed(); });   // dropped on a step: joins it
+      parts.push(el("li", { className: "pick-step" }, gap(n, n > 1), stage));
+    }
+    parts.push(gap(null, false));
+    tags.replaceChildren(...parts);
+  }
+
+  function renderTags() {
+    empty.hidden = picks.length > 0;
+    if (tagsHint) tagsHint.hidden = !picks.length;
+    if (staged) renderStages();
+    else tags.replaceChildren(...picks.map(tagFor));
+  }
+  const changed = () => { renderTags(); onCommit(); };
+
+  /** The pop-up for one pick: its note, and (staged) its step and whether it's primary. */
+  function annotate(p) {
+    const note = notes
+      ? textField({ label: "Note", hint: noteHint, multiline: true, value: p.note, onInput: () => { p.note = note.value(); onInput(); }, onCommit })
+      : null;
+    // staged: which step (the same number as another = in parallel), and primary
+    const step = staged ? scaleField({
+      legend: "Step",
+      hint: "The order you’d try it in. Give two the same step to use them at the same time.",
+      options: [...Array.from({ length: stageCount() }, (_, i) => ({ id: String(i + 1), label: String(i + 1) })), { id: "new", label: "A new last step" }],
+      value: String(p.stage),
+      onChange: (v) => { if (v) { moveTo(p, v === "new" ? "new" : Number(v)); changed(); } },
+    }) : null;
+    const primary = staged && canBePrimary ? renderChoices({
+      legend: "Primary",
+      legendHidden: true,
+      options: [{ id: "primary", label: "Primary", description: "A preferred way your community handles conflict." }],
+      selected: p.primary ? ["primary"] : [],
+      onChange: (v) => { p.primary = v.length > 0; changed(); },
+    }) : null;
+    showPopup({
+      title: labelOf(p.id),
+      body: el("div", {},
+        byId.get(p.id).description ? el("p", { className: "field-hint", textContent: byId.get(p.id).description }) : null,
+        step?.element,
+        primary?.element,
+        note?.element,
+        el("p", { className: "button-row" },
+          button("Done", "button button-small", closePopup),
+          button("Remove", "link-button link-button-danger", () => { untick(p.id); closePopup(); }),
         ),
-        collect: () => ({
-          id: item.id,
-          ...(steps ? { step: step.value() } : {}),
-          ...(notes ? { note: note.value() } : {}),
-        }),
-        focus: () => note?.focus(),
-      };
-    },
-    onRemove: (item, current) => {   // the × unticks it in the list (keeping its note for later)
-      removed.set(item.id, current);
-      list.setOne(item.id, false);
-      onSelect(list.value());
-    },
-    onInput,
-    onCommit,
-  });
+      ),
+    }).then(() => {
+      if (note) p.note = note.value();
+      changed();
+    });
+    note?.focus();
+  }
 
+  // ── the list to tick from ─────────────────────────────────
   const list = renderChoices({
     legend,
+    legendHidden,
     hint,
     options,
-    selected: known.map((i) => i.id),
-    layout: "compact",
+    selected: picks.map((p) => p.id),
+    layout,
     filterable,
     filterLabel,
     badge,
     listClass: filterable ? "scroll-list" : "",
-    after: detachChosen ? [] : [chosen.element],
+    before: [...before, ...(detachChosen ? [] : [chosen])],   // e.g. a callout, then the tags
+    after,
     onChange: (ids) => {
-      syncRows(ids);
+      sync(ids);
       onSelect(ids);
       onCommit();
     },
   });
 
-  /** A newly ticked item gets a row (at the end); an unticked one loses its row. */
-  function syncRows(ids) {
-    const now = chosen.value();
-    for (const item of now) if (!ids.includes(item.id)) removed.set(item.id, item);
-    const have = new Set(now.map((i) => i.id));
-    for (const id of ids) if (!have.has(id)) chosen.add(blank(id));
-    chosen.remove((i) => !ids.includes(i.id));
+  /** A newly ticked item gets a tag (at the end); an unticked one loses it (its note is kept). */
+  function sync(ids) {
+    for (const p of picks) if (!ids.includes(p.id)) removed.set(p.id, p);
+    const have = new Set(picks.map((p) => p.id));
+    picks = picks.filter((p) => ids.includes(p.id));
+    for (const id of ids) if (!have.has(id)) picks.push(blank(id));
+    renderTags();
   }
 
+  function untick(id) {
+    list.setOne(id, false);
+    sync(list.value());
+    onSelect(list.value());
+    onCommit();
+  }
+
+  renderTags();
   return {
     element: list.element,
-    chosenElement: chosen.element,
-    value: () => chosen.value(),
+    chosenElement: chosen,
+    value: () => picks.map((p) => ({
+      id: p.id,
+      ...(notes ? { note: p.note } : {}),
+      ...(staged ? { stage: p.stage, ...(canBePrimary ? { primary: Boolean(p.primary) } : {}) } : {}),
+    })),
+    show: list.show,
     /** Tick exactly these, from outside (fires nothing). */
     select: (ids) => {
-      list.set(ids.filter((id) => byId.has(id)));
-      syncRows(ids.filter((id) => byId.has(id)));
+      const valid = ids.filter((id) => byId.has(id));
+      list.set(valid);
+      sync(valid);
     },
   };
 }

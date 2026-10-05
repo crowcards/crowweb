@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Style — CROW</title>
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="make.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/site.js"></script>
+  <script type="module" src="js/style-page.js"></script>
+  <!-- This page's own layout only (swatch grid, specimen rows). Not part of
+       the design system: the things being reviewed all come from the site's
+       stylesheets above. The site's style reference: every field, colour and size, for tweaking in one place (not linked from the site; noindex). -->
+  <style>
+    .ft-section { margin-bottom: 4rem; }
+    .ft-group { margin: 0 0 2.5rem; }
+    .ft-label { margin: 0 0 0.75rem; padding-bottom: 0.3rem; border-bottom: var(--rule); color: var(--gray); }
+    .ft-label code { text-transform: none; font-weight: 400; }
+    .ft-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: 1rem; }
+    .ft-swatch { border: var(--rule); font-size: var(--fs-xs); }
+    .ft-swatch > div:first-child { height: 3.5rem; border-bottom: var(--rule); }
+    .ft-swatch > div:last-child { padding: 0.4rem 0.5rem; }
+    .ft-swatch p { margin: 0; }
+    .ft-flag { color: var(--error); }
+    .ft-type-row { display: grid; grid-template-columns: 11rem 1fr; gap: 1rem; align-items: baseline; padding: 0.5rem 0; border-bottom: var(--rule); }
+    .ft-type-row > :first-child { font-family: var(--mono); font-size: var(--fs-xs); color: var(--gray); }
+    .ft-type-row p { margin: 0; overflow-wrap: anywhere; }
+    .ft-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    @media (width < 64rem) { .ft-type-row { grid-template-columns: 1fr; gap: 0.25rem; } }
+  </style>
+</head>
+<body class="make">
+
+  <header class="site-header">
+    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="index.html" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" class="site-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="make.html">Make</a>
+      <a href="library.html">Library</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
+  </header>
+
+<div class="sidebar-layout">
+  <nav class="sidebar" aria-label="Style sections">
+  <ul>
+    <li><a href="#palette">Colour palette</a></li>
+    <li><a href="#type">Type: families & sizes</a></li>
+    <li><a href="#buttons">Buttons & links</a></li>
+    <li><a href="#text">Text fields</a></li>
+    <li><a href="#choices">Checkbox & radio lists</a></li>
+    <li><a href="#scales">Scales & yes/no</a></li>
+    <li><a href="#suggest">Type-ahead & tags</a></li>
+    <li><a href="#rows">Rows & pick lists</a></li>
+    <li><a href="#folds">Folds & tabs</a></li>
+    <li><a href="#notes">Callouts, chips & pills</a></li>
+    <li><a href="#summaries">Summaries</a></li>
+    <li><a href="#popups">Pop-up</a></li>
+  </ul>
+  </nav>
+
+  <main class="sidebar-main">
+    <h1>Style</h1>
+    <p class="lede lede-small">Every kind of field, colour and type size used in Make, in one place. Built from the real controls and stylesheets, so a change to them shows here. Labelled with the file and class or function each comes from.</p>
+    <section id="palette" class="ft-section"><h2>Colour palette</h2><div class="ft-body" data-ft="palette"></div></section>
+    <section id="type" class="ft-section"><h2>Type: families & sizes</h2><div class="ft-body" data-ft="type"></div></section>
+    <section id="buttons" class="ft-section"><h2>Buttons & links</h2><div class="ft-body" data-ft="buttons"></div></section>
+    <section id="text" class="ft-section"><h2>Text fields</h2><div class="ft-body" data-ft="text"></div></section>
+    <section id="choices" class="ft-section"><h2>Checkbox & radio lists</h2><div class="ft-body" data-ft="choices"></div></section>
+    <section id="scales" class="ft-section"><h2>Scales & yes/no</h2><div class="ft-body" data-ft="scales"></div></section>
+    <section id="suggest" class="ft-section"><h2>Type-ahead & tags</h2><div class="ft-body" data-ft="suggest"></div></section>
+    <section id="rows" class="ft-section"><h2>Rows & pick lists</h2><div class="ft-body" data-ft="rows"></div></section>
+    <section id="folds" class="ft-section"><h2>Folds & tabs</h2><div class="ft-body" data-ft="folds"></div></section>
+    <section id="notes" class="ft-section"><h2>Callouts, chips & pills</h2><div class="ft-body" data-ft="notes"></div></section>
+    <section id="summaries" class="ft-section"><h2>Summaries</h2><div class="ft-body" data-ft="summaries"></div></section>
+    <section id="popups" class="ft-section"><h2>Pop-up</h2><div class="ft-body" data-ft="popups"></div></section>
+  </main>
+</div>
+
+  <dialog class="popup" id="popup" aria-labelledby="popup-title">
+    <div class="popup-inner">
+      <button class="popup-close" type="button" aria-label="Close"><span></span></button>
+      <h2 class="popup-title" id="popup-title"></h2>
+      <div class="popup-body"></div>
+    </div>
+  </dialog>
+
+</body>
+</html>

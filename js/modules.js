@@ -66,14 +66,14 @@ export const sameModules = (a = [], b = []) => a.length === b.length && a.every(
  * hasContent(id), if given, says whether a module holds saved answers; an
  * unticked module that does gets a "has saved content" note, so nobody
  * forgets that unticking hides a module's answers rather than deleting them.
- * onAdd, if given, adds a "+ Add your own module" link under the list.
+ * onAdd, if given, adds an "Add your own module" link (with a pixel plus) under the list.
  */
 export function renderModulePicker(container, defaults, selected = [], { custom = [], onChange = () => {}, hasContent = () => false, onAdd } = {}) {
   const options = [
     ...defaults.modules,
     ...custom.map((m) => ({ id: m.id, label: m.name, description: m.description || "Your own module." })),
   ];
-  const add = onAdd ? el("button", { type: "button", className: "link-button", textContent: "+ Add your own module" }) : null;
+  const add = onAdd ? el("button", { type: "button", className: "link-button" }, el("span", { className: "pixel-plus" }), "Add your own module") : null;
   add?.addEventListener("click", () => onAdd());
 
   const choices = renderChoices({

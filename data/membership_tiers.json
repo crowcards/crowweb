@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-04",
+  "note": "Maps membership joining options (from membership_options.json) to their tier category. Options that span multiple tiers are listed in each relevant tier. 'hybrid_approval_process' is excluded — it is implied when multiple options are combined. 'closed' has no joining options of its own as it represents communities not accepting new members.",
+  "tiers": [
+    {
+      "id": "open",
+      "label": "Open",
+      "description": "Anyone can join with minimal or no gatekeeping. Entry is self-initiated.",
+      "options": [
+        "open_access",
+        "orientation_required",
+        "membership_agreement_or_pledge",
+        "mentorship",
+        "identity_verification"
+      ]
+    },
+    {
+      "id": "tiered_probationary",
+      "label": "Tiered / Probationary",
+      "description": "Membership is earned or provisional. Entry involves a process of demonstration, contribution, or supported onboarding before full rights are granted.",
+      "options": [
+        "contribution_based",
+        "trial_period_provisional_membership",
+        "mentorship",
+        "weighted_or_tiered_membership",
+        "skill_based_contribution"
+      ]
+    },
+    {
+      "id": "restricted_approvals",
+      "label": "Restricted / Approvals",
+      "description": "Entry requires approval from existing members or a structured gatekeeping process.",
+      "options": [
+        "invitation_only",
+        "consensus_or_vote_based_approval",
+        "application_review",
+        "collective_interviews",
+        "identity_verification",
+        "peer_sponsorship",
+        "referral_system_with_screening",
+        "pay_to_join",
+        "lottery_sortition",
+        "skill_based_evaluation"
+      ]
+    },
+    {
+      "id": "closed",
+      "label": "Closed",
+      "description": "The community is not accepting new members. If only this is selected, we assume there are no pathways to joining the community.",
+      "options": []
+    }
+  ]
+}

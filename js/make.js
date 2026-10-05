@@ -5,9 +5,13 @@ import { createCard, getCard, updateCard, errorKind } from "./api.js";
 import { loadSession, saveSession, confirmKey, forgetSession } from "./session.js";
 import { loadModuleDefaults, startingModules, moduleEntries, renderModulePicker, moduleSuggestion, hasSavedContent } from "./modules.js";
 import { createAutosaver, onSaveStatus, saveStatus, flushAll, resetSavers, stoppedParts, resumeAll } from "./autosave.js";
-import { el, richText } from "./dom.js";
+import { el, richText, button, chip } from "./dom.js";
+import { renderChoices } from "./controls/choices.js";
+import { keepPlace, pointTo, holdFloor } from "./scroll.js";
+import { loadExportData, renderExport } from "./export.js";
 import { loadData } from "./data.js";
-import { renderBasics, loadBasicsData } from "./sections/basics.js";
+import { renderBasics, renderBasicsSummary, loadBasicsData } from "./sections/basics.js";
+import { getPref, setPref } from "./prefs.js";
 import { renderMembership, loadMembershipData } from "./sections/membership.js";
 import { renderProcesses, loadProcessesData } from "./sections/processes.js";
 import { renderFederation, loadFederationData } from "./sections/federation.js";
@@ -28,14 +32,22 @@ function show(name, { focus = true } = {}) {
     el.hidden = el.dataset.screen !== name;
   }
   $("intro").hidden = name === "editor";
+  // the full-page loading cover: only while loading (not if loading failed)
+  $("page-loading").hidden = !(name === "loading" && $("loading-error").hidden);
   // move focus to the new screen's heading, so keyboard and screen-reader
   // users land at the top of what just appeared (not on first page load)
   if (focus) document.querySelector(`[data-screen="${name}"] h1`)?.focus();
 }
 
+/**
+ * Show an error by its form (or clear it, with ""). It also opens a pop-up,
+ * outlined in pink, so it can't be missed — unless the form is already in
+ * a pop-up, where it just shows in place.
+ */
 function showError(el, message) {
   el.textContent = message;
   el.hidden = !message;
+  if (message && !el.closest("dialog")) showPopup({ title: "Something needs fixing", message, tone: "error" });
 }
 
 const MESSAGES = {
@@ -204,6 +216,7 @@ async function openCard({ card, ...opts } = {}) {
     $("loading-text").hidden = true;
     $("loading-error").querySelector(".form-error").textContent = MESSAGES[kind];
     $("loading-error").hidden = false;
+    $("page-loading").hidden = true;
     $("loading-error").querySelector("h1").focus();
     return;
   }
@@ -311,7 +324,7 @@ function statusText(s) {
 
 onSaveStatus((s) => {
   $("save-status").textContent = statusText(s) || "All changes saved";
-  $("save-status-bar").textContent = statusText(s) || "All changes saved";
+  $("save-status-bar").textContent = statusText(s) || "Saved";   // (short: the bar is narrow)
   $("setup-status").textContent = statusText(s);
   if (s.state === "stopped" && !stopShown) {
     stopShown = true;
@@ -383,14 +396,17 @@ function mountCustom(id, container) {
     const next = form.collect();
     editor.card.customModules = editor.card.customModules.map((m) => (m.id === id ? next : m));
     $("module-title").textContent = next.name;   // the name shows as the page title and in the sidebar
+    $("module-description").textContent = next.description || "";
     renderModuleList();
   };
   const form = renderCustomModule(container, customModule(id), {
+    // the name and description are edited in place, beside the page's title and lede
+    head: { title: $("module-title"), titleTools: $("module-title-tools"), description: $("module-description"), descriptionTools: $("module-description-tools") },
     onInput: () => { update(); saver.schedule(); },
     onCommit: () => { update(); saver.schedule(); saver.flush(); },
     onDelete: () => {
       const m = customModule(id);
-      if (!confirm(`Delete “${m.name}” and everything in it? This can’t be undone.\n\nTo hide it instead, untick it under Basics → Modules.`)) return;
+      if (!confirm(`Delete “${m.name}” and everything in it? This can’t be undone.\n\nTo hide it instead, unselect it under Basics → Modules.`)) return;
       setCustomModules(editor.card.customModules.filter((x) => x.id !== id));
       setModules(editor.card.modules.filter((x) => x !== id));
       location.hash = "#basics";
@@ -424,7 +440,11 @@ function refreshSuggestions() {
     approachLabel: (id) => editor.approachLabels?.[id] || id,
   });
   renderModuleList();
-  renderSuggestionBox();
+  // redrawn above the fields: keep the field you're in still, and if a new
+  // suggestion lands out of sight above, point to it
+  const shown = new Set([...$("module-suggestions").children].map((n) => n.dataset.id));
+  keepPlace($("module-content"), renderSuggestionBox);
+  if ([...$("module-suggestions").children].some((n) => !shown.has(n.dataset.id))) pointTo($("module-suggestions"), "New suggestion");
   $("editor-nav-toggle").classList.toggle("has-flags", editor.suggestions.some((s) => !s.quiet));
 }
 
@@ -432,19 +452,17 @@ function refreshSuggestions() {
 function renderSuggestionBox() {
   const id = currentModuleId();
   $("module-suggestions").replaceChildren(...editor.suggestions.filter((s) => s.module === id).map((s) => {
-    const button = (label, cls, onClick) => {
-      const b = el("button", { type: "button", className: cls, textContent: label });
-      b.addEventListener("click", onClick);
-      return b;
-    };
     return el("div", { className: "callout" },
-      el("p", {}, el("b", { className: "mono-u", textContent: s.quiet ? "Note: " : "Suggestion: " }), s.title),
+      // a lime pill when it asks for a decision, orange when it's just a note;
+      // the word is the suggestion's own label, or Suggestion / Note
+      el("p", {}, s.quiet ? el("span", { className: "tag", textContent: s.label || "Note" }) : chip(s.label || "Suggestion"), " ", s.title),
       el("p", {}, ...richText(s.message)),
       // changes, one per line, each with a pixel plus or minus
       ...(s.lists || []).flatMap((list) => [
         list.heading ? el("p", { className: "field-hint", textContent: list.heading }) : null,
-        el("ul", { className: "change-list" }, ...list.lines.map((l) =>
-          el("li", {}, el("span", { className: l.sign === "+" ? "pixel-plus" : "pixel-minus" }, el("span", { className: "visually-hidden", textContent: l.sign === "+" ? "Added: " : "Removed: " })), l.text))),
+        el("ul", { className: "change-list plain-list" }, ...list.lines.map((l) =>
+          el("li", {}, el("span", { className: l.sign === "+" ? "pixel-plus" : "pixel-minus" }, el("span", { className: "visually-hidden", textContent: l.sign === "+" ? "Added: " : "Removed: " })), l.text,
+            ...(l.chip ? [" ", chip(l.chip)] : [])))),   // e.g. Kept / Undone
       ]),
       el("p", { className: "button-row" },
         s.apply ? button(s.applyLabel, "button button-small", () => applySuggestion(s, s.apply)) : null,
@@ -453,6 +471,9 @@ function renderSuggestionBox() {
       ),
     );
   }));
+  // each box knows which suggestion it is (to tell when a new one appears)
+  const forModule = editor.suggestions.filter((s) => s.module === id);
+  [...$("module-suggestions").children].forEach((box, i) => { box.dataset.id = forModule[i].id; });
 }
 
 function applySuggestion(s, action) {
@@ -509,8 +530,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
     apply(s.next);
     hintEl.replaceChildren();
   };
-  const inlineUse = el("button", { type: "button", className: "link-button", textContent: "Use suggestion" });
-  inlineUse.addEventListener("click", use);
+  const inlineUse = button("Use suggestion", "link-button", use);
   hintEl.append(el("div", { className: "callout" },
     el("p", {}, el("b", { className: "mono-u", textContent: "Suggested modules. " }), `For ${typeLabel}: ${changes}. `, inlineUse),
   ));
@@ -653,7 +673,7 @@ $("setup-continue").addEventListener("click", async (e) => {
 
 // ── editor ──────────────────────────────────────────────────
 function showEditor(opts) {
-  $("editor-id").textContent = editor.card.id;
+  $("editor-id").textContent = $("editor-bar-id").textContent = editor.card.id;
   renderCardName();
   refreshSuggestions();
   show("editor", { focus: false });
@@ -661,12 +681,15 @@ function showEditor(opts) {
 }
 
 function renderCardName() {
-  $("editor-name").textContent = editor.card.basics?.communityName || "Untitled card";
+  $("editor-name").textContent = $("editor-bar-name").textContent = editor.card.basics?.communityName || "Untitled card";
 }
 
 // Each module is a link to #<module id>; the hash picks what the main area shows.
+// (#export isn't a module: it's the Export page, opened from the sidebar)
+const EXPORT = { id: "export", label: "Export", description: "Your card’s answers in one place, to read through and download." };
 function currentModuleId() {
   const id = location.hash.slice(1);
+  if (id === EXPORT.id) return id;
   const entries = moduleEntries(editor.defaults, editor.card);
   return entries.some((m) => m.id === id) ? id : "basics";
 }
@@ -695,27 +718,47 @@ function markCurrentModule() {
   }
 }
 
+// the space under a module that holds the page's length when it gets
+// shorter while you're scrolled down (js/scroll.js holdFloor)
+const floor = holdFloor($("module-panel"));
+
 function renderModule({ focus = true } = {}) {
   if (!editor.card || $("editor").hidden) return;
   const id = currentModuleId();
-  const m = moduleEntries(editor.defaults, editor.card).find((e) => e.id === id);
+  const m = id === EXPORT.id ? EXPORT : moduleEntries(editor.defaults, editor.card).find((e) => e.id === id);
   markCurrentModule();
 
   $("module-title").textContent = m.label;
   $("module-description").textContent = m.description || "";
+  $("module-title-tools").replaceChildren();   // a custom module puts its edit buttons here
+  $("module-description-tools").replaceChildren();
+  $("module-title").hidden = $("module-description").hidden = false;   // (in case one was left open for editing)
   renderSuggestionBox();
+  floor.reset();   // a new module: no held-open space from the last one
   const content = $("module-content");
 
   editor.forms = {};
-  if (id === "basics") {
+  if (id === "basics" && basicsMode() === "summary") {
+    // Basics opens as a summary (it was filled in during set-up), with what
+    // to do next; Edit brings the form back
+    const summaryHost = el("div");
+    content.replaceChildren(el("p", { className: "button-row" }, basicsModeButton("Edit", "edit")), summaryHost);
+    const builtIn = editor.defaults.modules.map((x) => x.id);
+    const order = (x) => (builtIn.includes(x.id) ? builtIn.indexOf(x.id) : builtIn.length);   // built-in order, custom last
+    renderBasicsSummary(summaryHost, editor.card.basics, editor.basicsData, {
+      entries: moduleEntries(editor.defaults, editor.card).filter((x) => x.id !== "basics").sort((a, b) => order(a) - order(b)),
+      started: moduleHasContent,
+    });
+  } else if (id === "basics") {
     const basicsHost = el("div");
     const pickerHint = el("div");
     pickerHint.setAttribute("aria-live", "polite");
     const pickerHost = el("div");
     content.replaceChildren(
+      el("p", { className: "button-row" }, basicsModeButton("Done editing", "summary")),
       basicsHost,
       el("h2", { textContent: "Modules" }),
-      el("p", { textContent: "The parts this card covers. Unticking one hides it from the sidebar; anything already filled in is kept." }),
+      el("p", { textContent: "The parts this card covers. Unselecting one hides it from the sidebar; anything already filled in is kept." }),
       pickerHint,
       pickerHost,
     );
@@ -744,12 +787,24 @@ function renderModule({ focus = true } = {}) {
     });
   } else if (isCustom(id)) {
     mountCustom(id, content);
+  } else if (id === EXPORT.id) {
+    content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
+    loadExportData().then((data) => {
+      if (currentModuleId() !== id) return;
+      renderExport(content, editor.card, data, editor.defaults);
+    }, (err) => {
+      console.error(err);
+      content.replaceChildren(el("p", { className: "form-error", textContent: MESSAGES.other }));
+    });
   } else if (SECTIONS[id]) {
     // its reference data first (fetched once, then cached), then the form
+    // keep the page's height while the next module loads, so it doesn't collapse and re-grow
+    content.style.minHeight = `${content.offsetHeight}px`;
     content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
     SECTIONS[id].load().then((data) => {
       if (currentModuleId() !== id) return;   // moved on while it loaded
       mountSection(id, content, data);
+      content.style.minHeight = "";
     }, (err) => {
       console.error(err);
       content.replaceChildren(el("p", { className: "form-error", textContent: MESSAGES.other }));
@@ -761,6 +816,18 @@ function renderModule({ focus = true } = {}) {
   if (focus) $("module-title").focus();
 }
 
+// Basics' view (summary or edit) is remembered per card in this browser, so
+// it's how the person left it when they come back
+const basicsMode = () => getPref(`basics-mode:${editor.card.id}`, "summary");
+function basicsModeButton(label, mode) {
+  const b = button(label, "button button-small", async () => {
+    if (mode === "summary") await flushAll();   // anything just typed is saved first
+    setPref(`basics-mode:${editor.card.id}`, mode);
+    renderModule();
+  });
+  return b;
+}
+
 addEventListener("hashchange", () => {
   setEditorNav(false);   // picking a module closes the narrow-screen panel
   renderModule();
@@ -770,7 +837,17 @@ addEventListener("hashchange", () => {
 function setEditorNav(open) {
   $("editor-nav").classList.toggle("is-open", open);
   $("editor-nav-toggle").setAttribute("aria-expanded", String(open));
+  if (open) setBarMenu(false);   // one open at a time
 }
+// the bar's +: Save, Forget and Reset
+function setBarMenu(open) {
+  $("editor-bar-menu").hidden = !open;
+  $("editor-bar-more").setAttribute("aria-expanded", String(open));
+  if (open) setEditorNav(false);
+}
+$("editor-bar-more").addEventListener("click", () => setBarMenu($("editor-bar-menu").hidden));
+$("editor-bar-menu").addEventListener("click", (e) => { if (e.target.closest("button, a")) setBarMenu(false); });
+document.addEventListener("click", (e) => { if (!e.target.closest(".editor-bar-more")) setBarMenu(false); });
 // tapping the module you're already on doesn't change the address, so close here too
 $("module-list").addEventListener("click", (e) => {
   if (e.target.closest("a")) setEditorNav(false);
@@ -779,11 +856,13 @@ $("editor-nav-toggle").addEventListener("click", () => {
   setEditorNav(!$("editor-nav").classList.contains("is-open"));
 });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && $("editor-nav").classList.contains("is-open")) setEditorNav(false);
+  if (e.key !== "Escape") return;
+  if ($("editor-nav").classList.contains("is-open")) setEditorNav(false);
+  if (!$("editor-bar-menu").hidden) { setBarMenu(false); $("editor-bar-more").focus(); }
 });
 // widening past the breakpoint (--narrow in styles.css) closes the panel
 const narrow = getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";
-matchMedia(`(width >= ${narrow})`).addEventListener("change", () => setEditorNav(false));
+matchMedia(`(width >= ${narrow})`).addEventListener("change", () => { setEditorNav(false); setBarMenu(false); });
 
 // ── editor: Save ────────────────────────────────────────────
 // two Save buttons: the sidebar's, and the narrow-screen bar's
@@ -815,6 +894,69 @@ async function forgetCard() {
 
 // two Forget buttons: the sidebar's, and the narrow-screen bar's
 for (const btn of document.querySelectorAll("[data-forget]")) btn.addEventListener("click", forgetCard);
+
+// ── editor: reset ───────────────────────────────────────────
+// Clear chosen modules' answers, or start over: everything cleared and back
+// to set-up, keeping the card's ID and secret. The server puts the parts
+// back as they are on a new card (updateCard's reset); a custom module is
+// cleared by emptying its fields.
+function showReset() {
+  const entries = moduleEntries(editor.defaults, editor.card).filter((e) => e.id !== "basics");
+  const mode = renderChoices({
+    type: "radio",
+    legend: "What to reset",
+    legendHidden: true,
+    options: [
+      { id: "modules", label: "Clear some modules", description: "Empty the answers in the modules you select. Everything else stays." },
+      { id: "all", label: "Start over", description: "Clear everything — Basics, which modules you use, and every answer — and go back to set-up. The card keeps its ID and secret." },
+    ],
+    selected: "modules",
+    onChange: (v) => { which.element.hidden = v !== "modules"; },
+  });
+  const which = renderChoices({ legend: "Modules to clear", options: entries.map(({ id, label }) => ({ id, label })) });
+  const error = el("p", { className: "form-error", hidden: true });
+  const go = button("Reset", "button button-small", async () => {
+    const all = mode.value() === "all";
+    const ids = which.value();
+    if (!all && !ids.length) return showError(error, "Select at least one module to clear.");
+    go.disabled = true;
+    try {
+      await doReset(all, ids);
+      closePopup();
+    } catch (err) {
+      console.error(err);
+      showError(error, MESSAGES[errorKind(err)] || "Couldn’t reset. Please try again.");
+      go.disabled = false;
+    }
+  });
+  showPopup({
+    title: "Reset",
+    body: el("div", {},
+      mode.element,
+      which.element,
+      el("p", { className: "field-hint", textContent: "This can’t be undone." }),
+      error,
+      el("p", { className: "button-row" }, go, button("Cancel", "link-button", closePopup)),
+    ),
+  });
+}
+
+async function doReset(all, ids) {
+  await flushAll();
+  resetSavers();   // nothing left waiting to save over the reset
+  const custom = all ? [] : ids.filter((id) => customModule(id));
+  const reset = all ? [...PARTS, "attribution"] : ids.filter((id) => !customModule(id));
+  const updates = custom.length
+    ? { customModules: editor.card.customModules.map((m) => (custom.includes(m.id) ? { ...m, fields: [] } : m)) }
+    : {};
+  const { cardId, secret } = loadSession();
+  const { card } = await updateCard(cardId, secret, updates, { reset });
+  if (all) history.replaceState(null, "", location.pathname);   // back to set-up, not a module
+  await openCard({ card });
+}
+
+// two Reset buttons: the sidebar's, and the narrow-screen bar's
+for (const btn of document.querySelectorAll("[data-reset]")) btn.addEventListener("click", showReset);
 
 // ── on load: pick up where this tab (or device) left off ───
 const session = loadSession();

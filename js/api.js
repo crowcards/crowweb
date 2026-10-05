@@ -48,8 +48,10 @@ export const getCard = async (cardId, secret) => (await _getCard({ cardId, secre
  * if someone else has changed the card since; errorKind() calls that a
  * "conflict".
  */
-export const updateCard = (cardId, secret, updates, { ifUpdatedAt } = {}) =>
-  _updateCard({ cardId, secret, updates, ifUpdatedAt });
+export const updateCard = (cardId, secret, updates, { ifUpdatedAt, reset } = {}) =>
+  _updateCard({ cardId, secret, updates, ifUpdatedAt, ...(reset ? { reset } : {}) });
+// reset: ["rules", …] puts those parts back as they are on a new, empty card
+// (the server's makeEmptyCard decides what empty is).
 
 /**
  * Sort a failed call into what the editor needs to know:

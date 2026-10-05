@@ -1,5 +1,7 @@
 // The Rules module: where the community's rules live, which shared covenants
-// it follows, and which kinds of behavior and content its rules cover.
+// it follows, which kinds of behavior and content its rules cover, and — at
+// the bottom — a summary of the ticked rules, where their wording can be
+// changed and the community's own rules added.
 //
 //   const data = await loadRulesData();
 //   const form = renderRules(container, card.rules, data, { onInput, onCommit, stateKey });
@@ -8,18 +10,24 @@
 // ruleData is stored by stable rule id (rule_schema.json):
 //   ruleData.<type>.checked    = { "<rule id>": true }
 //   ruleData.<type>.qualifiers = { "<rule id>": "<qualifier id>" }   (qualifier types only)
+// Rewording keeps what the rule originally said, in case the list changes:
+//   ruleEdits   = { "<rule id>": { text: "our wording", original: "the list's wording" } }
+//   customRules = [{ id, text, typeId, qualifierSet, qualifier }]   (typeId: which kind of rule
+//     it is, or null; qualifierSet: "permission" | "requirement" | null, and the chosen qualifier id)
 
 import { loadData } from "../data.js";
-import { el } from "../dom.js";
-import { textField } from "../controls/fields.js";
-import { renderChoices } from "../controls/choices.js";
+import { el, button } from "../dom.js";
+import { textField, selectField } from "../controls/fields.js";
+import { renderRows } from "../controls/rows.js";
+import { showIf } from "../reveal.js";
+import { renderChoices, scaleField } from "../controls/choices.js";
 import { suggestField } from "../controls/suggest.js";
 import { foldSection } from "../controls/fold.js";
 
 export async function loadRulesData() {
   const [schema, covenants] = await Promise.all([loadData("rule_schema"), loadData("covenants")]);
   return {
-    qualifiers: schema.qualifierOptions,
+    qualifierSets: schema.qualifierSets,
     categories: schema.categories.map((c) => ({ ...c, types: schema.types[c.id] || [] })),
     covenants: covenants.items,
   };
@@ -30,18 +38,42 @@ export async function loadRulesData() {
  * rules. For qualifier types, ticking a rule opens "Allowed / Not allowed / …"
  * underneath it. collect() → { checked, qualifiers } for this type.
  */
-function ruleType(type, saved = {}, qualifiers, onCommit) {
+// "Select all" picks the strictest answer for rules that take one (unless one's already chosen)
+const STRICTEST = { permission: "not_allowed", requirement: "required" };
+
+function ruleType(type, saved = {}, qualifierSets, onChange) {
   const checked = saved.checked || {};
   const list = renderChoices({
     legend: type.name,
     legendHidden: true,   // the type's heading already says it
     options: type.rules,
     selected: type.rules.filter((r) => checked[r.id]).map((r) => r.id),
-    sub: type.qualifier ? { options: qualifiers, values: saved.qualifiers || {}, legend: "allowed or not" } : undefined,
-    onChange: onCommit,
+    // each rule's follow-up uses its own qualifier set, or its type's
+    sub: type.qualifier ? {
+      options: (rule) => qualifierSets[rule.qualifier || type.qualifier],
+      values: saved.qualifiers || {},
+      legend: "how your rules treat it",
+    } : undefined,
+    onChange,
   });
   return {
     element: list.element,
+    selectAll: () => {
+      const before = new Set(list.value());
+      list.set(type.rules.map((r) => r.id));
+      for (const r of type.rules) {
+        const set = r.qualifier || type.qualifier;
+        if (set && (!before.has(r.id) || !list.subValue(r.id))) list.setSub(r.id, STRICTEST[set]);
+      }
+      onChange();
+    },
+    clear: () => { list.set([]); onChange(); },
+    /** The ticked rules, with the label of the qualifier chosen for each (if any). */
+    ticked: () => list.value().map((id) => {
+      const rule = type.rules.find((r) => r.id === id);
+      const q = list.subValue(id);
+      return { rule, qualifier: q && qualifierSets[rule.qualifier || type.qualifier].find((o) => o.id === q)?.label };
+    }),
     collect: () => {
       const on = list.value();
       return {
@@ -65,13 +97,8 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     value: rules.communityRulesLink,
     ...hooks,
   });
-  const text = textField({
-    label: "Your rules, in your words",
-    hint: "Paste them here if you like. The checklists below describe what they cover.",
-    multiline: true,
-    value: rules.communityRulesText,
-    ...hooks,
-  });
+  // ("Your rules, in your words" is set aside for now: it comes back when the
+  // app can read rule text and fill in the checklists. Saved text is kept.)
 
   // ── covenants and sources: known ones by id, others as typed ──
   const covenantField = (label, hint, values) => suggestField({
@@ -95,28 +122,158 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     children: [
       el("p", { className: "field-hint", textContent: cat.description }),
       ...cat.types.map((type) => {
-        const t = { id: type.id, ...ruleType(type, ruleData[type.id], data.qualifiers, onCommit) };
+        const t = { id: type.id, type, ...ruleType(type, ruleData[type.id], data.qualifierSets, () => { renderSummary(); onCommit(); }) };
         types.push(t);
-        return foldSection({ title: type.name, key: `${stateKey}:${type.id}`, level: 3, children: [t.element] });
+        return foldSection({
+          title: type.name,
+          key: `${stateKey}:${type.id}`,
+          level: 3,
+          actions: [button("Select all", "link-button", t.selectAll), button("Clear", "link-button", t.clear)],
+          children: [t.element],
+        });
       }),
     ],
   }));
 
-  // where the rules live comes first and is always shown; the checklists fold
+  // ── the summary: what's ticked, in the community's own words ──
+  const edits = { ...rules.ruleEdits };
+  const editing = new Set();   // rules whose wording box is open
+  const summaryBody = el("div", { className: "summary" });
+  const textOf = (rule) => edits[rule.id]?.text || rule.label;
+
+  function renderSummary() {
+    const groups = types.map((t) => ({ type: t.type, ticked: t.ticked() })).filter((g) => g.ticked.length);
+    const count = groups.reduce((n, g) => n + g.ticked.length, 0);
+    const reworded = groups.reduce((n, g) => n + g.ticked.filter(({ rule }) => edits[rule.id]).length, 0);
+    // the community's own rules (those with text), last, with their qualifier
+    const own = customRules.value().filter((r) => r.text);
+    const ownQualifier = (r) => r.qualifier && data.qualifierSets[r.qualifierSet]?.find((o) => o.id === r.qualifier)?.label;
+    summaryBody.replaceChildren(
+      el("p", { className: "mono-u summary-label", textContent: "Summary" }),
+      el("p", { className: "field-hint" }, count || own.length
+        ? `${count} ${count === 1 ? "rule" : "rules"} selected${reworded ? `, ${reworded} in your own words` : ""}${own.length ? `, and ${own.length} of your own` : ""}. Change any selected rule’s wording to match how your community says it.`
+        : "No rules yet. Select the ones that apply in the lists above, or add your own, and they’ll be listed here."),
+      ...groups.flatMap((g) => [
+        el("p", { className: "mono-u summary-label rule-summary-type", textContent: g.type.name }),
+        el("ul", { className: "rule-summary plain-list" }, ...g.ticked.map(({ rule, qualifier }) => summaryRule(rule, qualifier))),
+      ]),
+      ...(own.length ? [
+        el("p", { className: "mono-u summary-label rule-summary-type", textContent: "Custom rules" }),
+        el("ul", { className: "rule-summary plain-list" }, ...own.map((r) => el("li", {},
+          el("span", { textContent: r.text }),
+          ownQualifier(r) ? el("span", { className: "tag", textContent: ownQualifier(r) }) : null))),
+      ] : []),
+    );
+  }
+
+  /** One ticked rule: its wording and qualifier, or the box to reword it. */
+  function summaryRule(rule, qualifier) {
+    const li = el("li");
+    const reopen = (focus) => {
+      li.replaceWith(summaryRule(rule, qualifier));
+      if (focus) summaryBody.querySelector(`[data-rule="${rule.id}"] ${focus}`)?.focus();
+    };
+    li.dataset.rule = rule.id;
+    if (editing.has(rule.id)) {
+      const wording = textField({
+        label: "Your wording",
+        hint: `Originally: “${rule.label}”`,
+        multiline: true,
+        value: textOf(rule),
+        onInput: () => {
+          const text = (wording.value() || "").trim();
+          if (text && text !== rule.label) edits[rule.id] = { text, original: rule.label };
+          else delete edits[rule.id];
+          onInput();
+        },
+        onCommit,
+      });
+      li.append(wording.element, el("p", { className: "button-row" },
+        button("Done", "button button-small", () => { editing.delete(rule.id); renderSummary(); summaryBody.querySelector(`[data-rule="${rule.id}"] .link-button`)?.focus(); }),
+        edits[rule.id] ? button("Back to the original", "link-button", () => { delete edits[rule.id]; editing.delete(rule.id); renderSummary(); onCommit(); }) : null,
+      ));
+      return li;
+    }
+    li.append(...[
+      el("span", { textContent: textOf(rule) }),
+      qualifier ? el("span", { className: "tag", textContent: qualifier }) : null,
+      edits[rule.id] ? el("span", { className: "rule-original", textContent: `Originally: “${edits[rule.id].original}”` }) : null,
+      button("Change wording", "link-button", () => { editing.add(rule.id); reopen("textarea"); }),
+    ].filter(Boolean));
+    return li;
+  }
+
+  // the community's own rules, each optionally placed with a kind of rule
+  const typeOptions = data.categories.flatMap((cat) => cat.types.map((t) => ({ id: t.id, label: `${cat.label}: ${t.name}` })));
+  const customRules = renderRows({
+    legend: "Custom rules",
+    legendHidden: true,   // (the section's heading says it)
+    hint: "Rules that aren’t in the lists above.",
+    items: rules.customRules || [],
+    addLabel: "Add a rule",
+    emptyText: "None yet.",
+    newItem: () => ({ id: `custom_${Date.now().toString(36)}`, text: "", typeId: null, qualifierSet: null, qualifier: null }),
+    itemName: (r) => (r.text ? `“${r.text}”` : "this rule"),
+    // folded: the rule, and its qualifier if it has one
+    summarize: (r) => (r.text ? [r.text, r.qualifier && data.qualifierSets[r.qualifierSet]?.find((o) => o.id === r.qualifier)?.label].filter(Boolean).join(" · ") : ""),
+    renderRow: (r, rowHooks) => {
+      const ruleText = textField({ label: "Rule", multiline: true, value: r.text, ...rowHooks });
+      const kind = selectField({ label: "Kind of rule (optional)", options: typeOptions, value: r.typeId, placeholder: "Not sure / none of these", onChange: rowHooks.onCommit });
+      // optional: a qualifier scale, like the listed rules have — pick which
+      // scale, then where the rule sits on it
+      const scales = {
+        permission: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.permission, value: r.qualifierSet === "permission" ? r.qualifier : null, onChange: rowHooks.onCommit }),
+        requirement: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.requirement, value: r.qualifierSet === "requirement" ? r.qualifier : null, onChange: rowHooks.onCommit }),
+      };
+      const showScale = (set) => { for (const [id, f] of Object.entries(scales)) showIf(f.element, id === set); };
+      const scaleSet = scaleField({
+        legend: "Qualifier (optional)",
+        hint: "If your rule allows or requires something, say how.",
+        options: [{ id: "permission", label: "Allowed / not allowed" }, { id: "requirement", label: "Required / recommended" }],
+        value: r.qualifierSet,
+        onChange: (set) => { showScale(set); rowHooks.onCommit(); },
+      });
+      showScale(r.qualifierSet);
+      return {
+        element: el("div", {}, ruleText.element, kind.element, scaleSet.element, scales.permission.element, scales.requirement.element),
+        collect: () => {
+          const set = scaleSet.value();
+          return { id: r.id, text: ruleText.value() || "", typeId: kind.value(), qualifierSet: set, qualifier: set ? scales[set].value() : null };
+        },
+        focus: () => ruleText.focus(),
+      };
+    },
+    onInput: () => { renderSummary(); onInput(); },
+    onCommit: () => { renderSummary(); onCommit(); },
+  });
+
+  const summary = foldSection({
+    title: "Custom rules",
+    key: `${stateKey}:summary`,
+    foldable: false,
+    children: [el("div", { className: "fields" }, el("div", { className: "rule-summary-own" }, customRules.element), el("hr", { className: "pixel-divider" }), summaryBody)],
+  });
+  renderSummary();
+
+  // where the rules live comes first and is always shown; the checklists
+  // fold; the summary is always open at the bottom
   container.replaceChildren(
-    el("div", { className: "fields" }, link.element, text.element, covenants.element, adapted.element),
+    el("div", { className: "fields" }, link.element, covenants.element, adapted.element),
     ...categoryFolds,
+    summary,
   );
 
   return {
     collect: () => ({
       ...rules,
       communityRulesLink: link.value(),
-      communityRulesText: text.value(),
       covenants: covenants.value(),
       adaptedFrom: adapted.value(),
       // every type is written in full, so unticked rules really go away
       ruleData: { ...ruleData, ...Object.fromEntries(types.map((t) => [t.id, t.collect()])) },
+      // rewording is kept even while a rule is unticked, so re-ticking brings it back
+      ruleEdits: { ...edits },
+      customRules: customRules.value(),
     }),
     focusFirst: () => link.focus(),
   };

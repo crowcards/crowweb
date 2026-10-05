@@ -4,16 +4,17 @@
 //   { id, change: "added" | "removed", from: "<section>", at }
 //   { change: "reviewed", from: "membership", at }   — the structure was
 //     confirmed in Membership (Keep these changes, or edited there)
-// so the editor can say what changed where, and what was already kept.
+// so the editor can say what changed where, and what was kept or undone.
 
 export const SECTION_LABELS = {
   membership: "Membership",
   moderation: "Moderation",
   maintenance: "Maintenance",
-  institutionalChange: "Institutional change",
+  institutionalChange: "Change",   // the tab's name in Processes
 };
 
 const now = () => new Date().toISOString();
+const PROCESSES_SECTIONS = { moderation: 1, maintenance: 1, institutionalChange: 1 };
 
 /** The log, plus entries for what changed between the old structure and `ids`. */
 export function logChanges(membership, ids, from) {
@@ -30,13 +31,25 @@ export function logChanges(membership, ids, from) {
 export const logReviewed = (log = []) => [...log, { change: "reviewed", from: "membership", at: now() }];
 
 /**
- * Changes made from Processes that were already kept: the latest entry per
- * approach before the last "reviewed" marker, if it came from Processes (an
- * approach whose latest entry came from Membership — e.g. an Undo — isn't).
+ * What happened to earlier changes made from Processes: each is "kept" (it
+ * was there when the structure was confirmed in Membership) or "undone" (it
+ * was reversed — Undo, or unticked / ticked back by hand). Changes still
+ * waiting to be confirmed aren't included. One entry per approach: its
+ * latest settled change. → [{ id, change, from, outcome }]
  */
-export function alreadyKept(log = []) {
-  const last = log.map((e) => e.change).lastIndexOf("reviewed");
-  const latest = new Map();
-  for (const e of log.slice(0, Math.max(last, 0))) if (e.id) latest.set(e.id, e);
-  return [...latest.values()].filter((e) => e.from !== "membership");
+export function settledChanges(log = []) {
+  const pending = new Map();   // approach id → its latest change from Processes, not yet settled
+  const settled = new Map();
+  for (const e of log) {
+    if (e.change === "reviewed") {
+      for (const [id, p] of pending) settled.set(id, { ...p, outcome: "kept" });
+      pending.clear();
+    } else if (e.from in PROCESSES_SECTIONS) pending.set(e.id, e);
+    else if (pending.has(e.id)) {
+      // reversed from Membership (Undo, or by hand)
+      if (pending.get(e.id).change !== e.change) settled.set(e.id, { ...pending.get(e.id), outcome: "undone" });
+      pending.delete(e.id);
+    }
+  }
+  return [...settled.values()];
 }

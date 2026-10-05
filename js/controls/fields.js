@@ -9,6 +9,7 @@
 // left (save now). Other options: hint, type ("text" | "url"), placeholder.
 
 import { el, uid } from "../dom.js";
+import { suggestField } from "./suggest.js";
 
 export function textField({
   label,
@@ -56,27 +57,26 @@ export function textField({
  *   type.setHint(text)  → change the hint under the label
  */
 export function selectField({ label, hint = "", options, value = null, placeholder = "Choose…", onChange = () => {} } = {}) {
-  const id = uid("select");
-  const hintEl = el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint, hidden: !hint });
-  const select = el("select", { id },
-    el("option", { value: "", textContent: placeholder }),
-    ...options.map((o) => el("option", { value: o.id, textContent: o.label })),
-  );
-  select.value = value || "";
-  select.setAttribute("aria-describedby", hintEl.id);
-  select.addEventListener("change", () => onChange(select.value || null));
-
-  const element = el("div", { className: "field" },
-    el("label", { className: "mono-u", htmlFor: id, textContent: label }),
-    hintEl,
-    select,
-  );
-
+  // the first item clears the choice; it shows as the box's placeholder
+  const NONE = "__none__";
+  const pick = suggestField({
+    label,
+    hint,
+    items: [{ id: NONE, label: placeholder }, ...options.map(({ id, label }) => ({ id, label }))],
+    value: value || null,
+    placeholder,
+    browse: true,
+    onChange: (v) => {
+      if (v.id === NONE || !v.id) pick.set(null);
+      onChange(v.id && v.id !== NONE ? v.id : null);
+    },
+  });
   return {
-    element,
-    value: () => select.value || null,
+    element: pick.element,
+    value: () => (pick.value().id && pick.value().id !== NONE ? pick.value().id : null),
     /** Choose from code (e.g. pre-filling); doesn't fire onChange. */
-    set: (v) => { select.value = v || ""; },
-    setHint: (text) => { hintEl.textContent = text; hintEl.hidden = !text; },
+    set: (v) => pick.set(v || null),
+    setHint: pick.setHint,
+    focus: pick.focus,
   };
 }

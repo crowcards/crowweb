@@ -4,7 +4,8 @@
 //   showPopup({ title: "Card not found", message: "…" })
 //
 // `message` is plain text; pass `body` (a DOM node) instead for richer
-// content such as buttons. Returns a promise that resolves when it closes.
+// content such as buttons; tone: "error" outlines it in pink. Returns a
+// promise that resolves when it closes.
 
 import { el } from "./dom.js";
 
@@ -28,8 +29,9 @@ export function closePopup() {
   if (dialog?.open) dialog.close();
 }
 
-export function showPopup({ title = "", message = "", body = null } = {}) {
+export function showPopup({ title = "", message = "", body = null, tone = null } = {}) {
   const d = popup();
+  d.classList.toggle("is-error", tone === "error");   // an error: outlined in pink
   const titleEl = d.querySelector(".popup-title");
   titleEl.textContent = title;
   titleEl.hidden = !title;

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="make.css" />
   <script src="js/theme.js"></script>
-  <script src="js/site.js" defer></script>
+  <script type="module" src="js/site.js"></script>
   <script src="js/crow.js" defer></script>
   <script type="module" src="js/make.js"></script>
 </head>
@@ -37,6 +37,18 @@
       <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
     </button>
   </header>
+
+  <!-- covers the page from the first moment until the right screen is ready
+     (make.js hides it): the flapping crow and "Loading" -->
+  <div class="page-loading" id="page-loading" role="status">
+    <div class="sprite" aria-hidden="true">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </div>
+    <p>Loading</p>
+  </div>
 
   <div class="info" id="intro">
     <aside class="info-side">
@@ -149,15 +161,26 @@
   <div class="sidebar-layout" id="editor" data-screen="editor" hidden>
     <nav class="sidebar editor-nav" id="editor-nav" aria-label="Card modules">
       <!-- narrow screens only: a slim bar that opens the panel below -->
+      <!-- narrow screens only: one slim bar. The module's name opens the module
+           list (the panel below); + opens Save, Forget and Reset. -->
       <div class="editor-bar">
-        <button class="pixel-toggle with-label" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
-          <span class="mono-u">Modules:</span> <span id="editor-bar-module">Basics</span>
+        <button class="editor-bar-module" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
+          <span class="visually-hidden">Module: </span><span id="editor-bar-module">Basics</span><span class="pixel-caret" aria-hidden="true"></span>
         </button>
-        <div class="editor-bar-actions">
+        <a href="docs.html" target="_blank" rel="noopener">Docs</a>
+        <p class="editor-bar-card">
           <span class="save-status" id="save-status-bar" aria-hidden="true"></span>
-          <button class="button button-small" type="button" data-save-now>Save</button>
-          <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
-          <a href="docs.html" target="_blank" rel="noopener">Docs</a>
+          <span class="editor-bar-name" id="editor-bar-name"></span>
+        </p>
+        <div class="editor-bar-more">
+          <button class="pixel-toggle" type="button" id="editor-bar-more" aria-expanded="false" aria-controls="editor-bar-menu" aria-label="Save, forget or reset"></button>
+          <div class="editor-bar-menu" id="editor-bar-menu" hidden>
+            <p class="editor-bar-id"><span class="mono-u">Card ID</span> <span class="mono" id="editor-bar-id"></span></p>
+            <button class="button button-small" type="button" data-save-now>Save</button>
+            <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
+            <button class="button button-small" type="button" data-reset>Reset</button>
+            <a class="button button-small" href="#export">Export</a>
+          </div>
         </div>
       </div>
 
@@ -187,14 +210,25 @@
           <p class="editor-forget-note" id="forget-note">on this device</p>
         </div>
 
+        <div class="editor-reset">
+          <button class="button button-small" type="button" data-reset aria-describedby="reset-note">Reset</button>
+          <p class="editor-forget-note" id="reset-note">clear answers</p>
+        </div>
+
+        <div class="editor-export">
+          <a class="button button-small" href="#export" aria-describedby="export-note">Export</a>
+          <p class="editor-forget-note" id="export-note">download your card</p>
+        </div>
+
         <p class="editor-docs"><a href="docs.html" target="_blank" rel="noopener">Docs</a></p>
       </div>
     </nav>
 
     <main class="sidebar-main">
       <section id="module-panel">
-        <h1 id="module-title" tabindex="-1"></h1>
-        <p class="lede lede-small" id="module-description"></p>
+        <!-- the -tools slots: e.g. a custom module's pencil to edit its name -->
+        <div class="module-head"><h1 id="module-title" tabindex="-1"></h1><span class="module-head-tools" id="module-title-tools"></span></div>
+        <div class="module-head"><p class="lede lede-small" id="module-description"></p><span class="module-head-tools" id="module-description-tools"></span></div>
         <div id="module-suggestions" aria-live="polite"></div>
         <div id="module-content"></div>
       </section>

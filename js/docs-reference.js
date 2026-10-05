@@ -37,6 +37,7 @@
     "covenants": (data) => data.items.map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
+        <td><span class="model">${esc(it.category || "")}</span></td>
         <td>
           ${esc(it.description || "")}
           ${it.url ? `<div class="ref-sub"><a class="inline" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a></div>` : ""}
@@ -52,11 +53,11 @@
       </tr>
     `).join(""),
 
-    // Tools: label, type, description, access
+    // Tools: label, categories, description, access
     "tools": (data) => data.items.map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
-        <td><span class="model">${esc(it.toolType || "")}</span></td>
+        <td><span class="model">${esc((it.categories || []).map(id => data.categories.find(c => c.id === id)?.label || id).join(", "))}</span></td>
         <td>${esc(it.description || "")}</td>
         <td><span class="model">${esc(it.access || "")}</span></td>
       </tr>
@@ -66,6 +67,7 @@
     "subscriptionLists": (data) => data.items.map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
+        <td><span class="model">${esc(it.category || "")}</span></td>
         <td>
           ${esc(it.description || "")}
           ${it.url ? `<div class="ref-sub"><a class="inline" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a></div>` : ""}
@@ -81,8 +83,9 @@
           <tr class="group-row"><td colspan="3"><strong>${esc(cat.label)}</strong> — ${esc(cat.description || "")}</td></tr>
         `);
         (data.types[cat.id] || []).forEach(type => {
+          // which qualifier set the type uses (some rules may use another)
           const qualifierNote = type.qualifier
-            ? `<span class="badge var">per-rule qualifier</span>`
+            ? `<span class="badge var">${type.qualifier === "requirement" ? "required / recommended" : "allowed / not allowed"}</span>`
             : "";
           out.push(`
             <tr>

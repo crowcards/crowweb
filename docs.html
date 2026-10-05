@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="docs.css" />
   <script src="js/theme.js"></script>
-  <script src="js/site.js" defer></script>
+  <script type="module" src="js/site.js"></script>
 </head>
 <body class="docs">
 
@@ -42,6 +42,7 @@
 <nav class="sidebar" aria-label="Documentation">
   <ul>
     <li><a href="#getting-started">Getting started</a></li>
+    <li><a href="#using-the-editor">Using the editor</a></li>
     <li><a href="#coming-soon">Coming soon</a></li>
     <li><a href="#platforms">Platforms</a>
       <ul class="sub">
@@ -76,11 +77,10 @@
         <li><a href="#ref-tools">Governance tools</a></li>
         <li><a href="#ref-covenants">Covenants</a></li>
         <li><a href="#ref-rule-schema">Rule schema</a></li>
-        <li><a href="#ref-federation-lists">Federation lists</a></li>
+        <li><a href="#ref-federation-lists">Federation lists &amp; tools</a></li>
         <li><a href="#ref-enum-community-size">Community size</a></li>
         <li><a href="#ref-enum-federation-approach">Federation approach</a></li>
         <li><a href="#ref-enum-federation-ladder">Response ladder</a></li>
-        <li><a href="#ref-enum-conflict-step">Conflict step</a></li>
         <li><a href="#ref-enum-channels">Communication channels</a></li>
       </ul>
     </li>
@@ -109,19 +109,19 @@
     </div>
 
 
-    <p>Getting started is simple. You can simply create a new Card by going to <a href="make.html" target="_blank">MAKE</a>, entering some <b>basic</b> information about your community:</p>
+    <p>Getting started is simple. You can create a new Card by going to <a href="make.html" target="_blank">MAKE</a> and entering some <b>basic</b> information about your community:</p>
     <ul>
-      <li><span class="mono">link</span></li>
-      <li><span class="mono">name</span></li>
+      <li><span class="mono">name</span> and <span class="mono">link</span></li>
+      <li><span class="mono">type</span> - this suggests which <span class="mono">module</span>s you'll want to fill out. You can change both the type and the module selection.</li>
       <li><span class="mono">size</span></li>
-      <li><span class="mono">platform</span> - this will infer what community <span class="mono">type</span> yours and accordingly, what <span class="mono">module</span>s you'll want to fill out in the CROW Card app. You can edit the <span class="mono">type</span> and <span class="mono">module</span> selection.</li>
       <li><span class="mono">keywords</span> - we recommend giving at least three</li>
       <li><span class="mono">values</span> - we recommend selecting at least five</li>
     </ul>
+    <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
 
     <div class="callout">
-      <p class="mono-u">Important!</p> 
-      <p>When you create a new Card, the app will give you an <b>id</b> and <b>secret key</b>. Save it somewhere! You will only get this once and you can use it to edit/update your Card.</p>
+      <p class="mono-u">Important!</p>
+      <p>When you create a new Card, the app will give you an <b>id</b> and <b>secret key</b>. Save it somewhere! You will only get this once and you can use it to edit/update your Card. You can also choose to have this browser remember your Card; <b>Forget</b> in the editor clears it from the device.</p>
     </div>
 
     <p>You may want to think about <i>how</i> your CROW Card will be filled out or updated. For example, some communities may want to convene town halls to have a participatory discussion about their governance practices, using the CROW Card app as an occasion to reflect, iterate, and document. Others might be simply run by one person who fills it out unilaterally. It will depend on your community (however, we do encourage using it as an excuse to convene)!</p>
@@ -129,17 +129,36 @@
     <p>We do run workshops to help communities fill out the CROW Card. Reach out!</p>
   </section>
 
+  <section id="using-the-editor">
+    <h2>Using the editor</h2>
+    <p>A few things that work the same way throughout the CROW Card Maker:</p>
+    <ul>
+      <li><b>Saving is automatic.</b> Your answers save as you go; the status in the sidebar says when they last did. Save saves right away.</li>
+      <li><b>Modules can be switched on and off</b> under Basics → Modules. Switching one off hides it, but keeps what you've filled in, in case you switch it back on.</li>
+      <li><b>Suggested</b> tags come from the values you chose in Basics: options that fit those values are marked, with the reasons.</li>
+      <li><b>Suggestions</b> appear at the top of a module when something you entered elsewhere affects it, e.g. choosing a federated platform suggests the Federation module. If one appears out of sight, a small "New suggestion" notice points to it.</li>
+      <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are usual for that kind of platform. Change anything that's different for you.</li>
+      <li><b>Notes on what you choose.</b> Your choices show as tags; click one to add a note about how it works in your community. Tags with a note get a small asterisk.</li>
+      <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
+      <li><b>Your community structure</b> (how decisions get made) is one list: you set it in Membership, and adjust it, with notes, for changing the rules, maintenance and moderation in Processes.</li>
+      <li><b>Laws to know.</b> Under Infrastructure → Locations, you can open a page of landmark laws for where your servers, members and admins are, and save it as a PDF. It's an informational starting point, not legal advice.</li>
+      <li><b>Your own modules.</b> Add a module for anything the built-in ones don't cover, with fields for written answers, checkboxes, radio buttons, or a 1–5 scale.</li>
+      <li><b>Export.</b> Download your Card as raw data (JSON) or as documentation (Markdown). Only Basics and the modules you use are included.</li>
+      <li><b>Reset</b> clears the modules you choose, or starts the whole Card over (it keeps its id and secret).</li>
+    </ul>
+  </section>
+
   <section id="coming-soon">
     <h2>Coming Soon</h2>
     <p>We are actively working on improving the experience of using the CROW Card Maker. This includes:</p>
     <ul>
-      <li>Automating the filling in of fields so that folks don't need to type so much! For example, if you enter your link, ideally our app should check out the link and try to fill in as many later fields as possible (e.g., community name, size).</li>
-      <li>Providing recommendations for governance practices (e.g., conflict management, decision-making) based on earlier information shared (e.g., community values or even just description of what the community is about).</li>
+      <li>Publishing your Card to the <a href="library.html">Library</a>, browsing others' Cards, and forking from publicly shared ones.</li>
+      <li>A visual summary card to download and share.</li>
+      <li>Automating the filling in of fields so that folks don't need to type so much! For example, if you enter your link, ideally our app should check out the link and try to fill in as many later fields as possible (e.g., community name, size), or read your existing rules and fill in the Rules module.</li>
+      <li>Better recommendations for governance practices, based on more of what you've shared (e.g., how transparent and participatory your processes are).</li>
+      <li>A fuller, reviewed list of laws to know for each place.</li>
       <li>Integrating CROW Cards into existing platform software as extensions.</li>
-      <li>Forking from publicly shared CROW Cards in the Library.</li>
     </ul>
-    
-
   </section>
 
   <!--Platforms-->
@@ -335,7 +354,7 @@
           </tbody>
         </table>
       </div>
-      <p style="font-size:0.82rem;color:var(--gray)">Cost values reflect what a community organizer or operator typically pays — not the platform company. "Sometimes" means the cost applies at some scales or configurations. All values can be edited in the CROW Cards tool.</p>
+      <p style="font-size:var(--fs-xs);color:var(--gray)">Cost values reflect what a community organizer or operator typically pays — not the platform company. "Sometimes" means the cost applies at some scales or configurations. All values can be edited in the CROW Cards tool.</p>
   </section>
 
   <section id="">
@@ -363,7 +382,7 @@
           <tr><td><span class="pname">Structural Model</span></td><td>How the platform organizes data and communication between participants. See <a class="inline" href="#ref-models">structural models</a> below.</td></tr>
         </tbody>
       </table>
-      <p style="font-size:0.82rem;color:var(--gray);margin-top:0.5rem">The spreadsheet also contains internal columns (License, OSI Rationale, Notes) used for research documentation and not surfaced in the CROW Cards interface.</p>
+      <p style="font-size:var(--fs-xs);color:var(--gray);margin-top:0.5rem">The spreadsheet also contains internal columns (License, OSI Rationale, Notes) used for research documentation and not surfaced in the CROW Cards interface.</p>
     </section>
 
     <section id="ref-community-types">
@@ -456,7 +475,7 @@
 
     <section id="ref-values">
       <h3>Values</h3>
-      <p>Communities select at least three values that describe what they prioritize. These values pre-fill recommended options throughout the rest of the card. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <p>Communities select values that describe what they prioritize (we recommend at least five). Options that fit your values are marked <b>Suggested</b> throughout the rest of the card, with the reasons. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
       <table class="table" data-source="/data/values.json" data-render="values">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody></tbody>
@@ -465,7 +484,12 @@
 
     <section id="ref-membership">
       <h3>Membership options</h3>
-      <p>Approaches communities use for registration and joining. A community can select multiple; the UI will flag combinations that seem contradictory.Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <p>How people can join. Communities first say how open joining is, picking one or more of four tiers; the ways of joining that fit those tiers are shown first, and any can be chosen. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <table class="table" data-source="/data/membership_tiers.json" data-render="enum" data-enum-key="tiers">
+        <thead><tr><th>Tier</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p>The ways of joining:</p>
       <table class="table" data-source="/data/membership_options.json" data-render="simple">
         <thead><tr><th>Option</th><th>Description</th></tr></thead>
         <tbody></tbody>
@@ -474,7 +498,7 @@
 
     <section id="ref-decision-approaches">
       <h3>Decision-making approaches</h3>
-      <p>Methods used in both <strong>moderation / maintenance</strong> and <strong>institutional change</strong>. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <p>Your community structure: the ways decisions get made. It's set in Membership and adjusted, with notes, for <strong>changing the rules</strong>, <strong>maintenance</strong> and <strong>moderation</strong> in Processes. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
       <table class="table" data-source="/data/decision_approaches.json" data-render="simple">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
@@ -483,7 +507,7 @@
 
     <section id="ref-conflict-management">
       <h3>Conflict management approaches</h3>
-      <p>Approaches for handling conflicts between members. For conflict management, communities can also specify the <em>step</em> at which each approach is used (primary, escalation, last resort, or parallel). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <p>Approaches for handling conflicts between members. Communities put the ones they use in <em>steps</em>, in the order they'd try them (first, escalation, last resort); several on the same step happen in parallel, and preferred ways can be marked primary. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
       <table class="table" data-source="/data/conflict_management.json" data-render="simple">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
@@ -494,7 +518,7 @@
       <h3>Governance tools</h3>
       <p>Known tools communities use to support deliberation, voting, trust &amp; safety, and other governance work. Communities can also add their own custom tools. Let us know if you think a tool should be added here!</p>
       <table class="table" data-source="/data/tools.json" data-render="tools">
-        <thead><tr><th>Tool</th><th>Type</th><th>Description</th><th>Access</th></tr></thead>
+        <thead><tr><th>Tool</th><th>Category</th><th>Description</th><th>Access</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
@@ -510,7 +534,7 @@
 
     <section id="ref-rule-schema">
       <h3>Rule schema</h3>
-      <p>The structured rule categories communities can select from. Rules are grouped into two broad categories (behavior and content) and further organized by type. Some types support <strong>per-rule qualifiers</strong> (allowed / not allowed / allowed with disclosure / approval required) — these are marked below.</p>
+      <p>The structured rule categories communities can select from. Rules are grouped into two broad categories (behavior and content) and further organized by type. Some types support <strong>per-rule qualifiers</strong>: either how a rule treats something (allowed / not allowed / allowed with labeling or disclosure / approval required) or how firm it is (required / recommended / not required). These are marked below. Communities can also reword any rule and add their own.</p>
       <table class="table" data-source="/data/rule_schema.json" data-render="ruleSchema">
         <thead><tr><th>Type</th><th>Rules</th><th></th></tr></thead>
         <tbody></tbody>
@@ -518,10 +542,10 @@
     </section>
 
     <section id="ref-federation-lists">
-      <h3>Federation subscription lists</h3>
-      <p>Known shared federation lists a community might subscribe to. Primarily relevant for ActivityPub-based platforms. Custom entries are supported.</p>
+      <h3>Federation lists &amp; tools</h3>
+      <p>Known shared blocklists a community might follow, and tools and services that help with federation decisions. Primarily relevant for ActivityPub-based platforms. Custom entries are supported.</p>
       <table class="table" data-source="/data/federation_subscription_lists.json" data-render="subscriptionLists">
-        <thead><tr><th>List</th><th>Description</th></tr></thead>
+        <thead><tr><th>Name</th><th>Category</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
@@ -546,18 +570,9 @@
 
     <section id="ref-enum-federation-ladder">
       <h3>Federation response ladder</h3>
-      <p>The sequence of actions moderators consider when a federation issue arises.</p>
+      <p>The actions moderators take when there's a problem with another server, put in the order they escalate through them. Several on the same step happen in parallel.</p>
       <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="federationResponseLadder">
         <thead><tr><th>Action</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-enum-conflict-step">
-      <h3>Conflict management step</h3>
-      <p>When a conflict management approach gets used within the community's overall process.</p>
-      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="conflictStep">
-        <thead><tr><th>Step</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>

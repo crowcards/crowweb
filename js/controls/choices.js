@@ -15,6 +15,8 @@
 //   "described" (default) — the name over its description
 //   "compact"             — just the name, with a pixel plus that opens the
 //                           description (or `details(option)`) underneath
+//   "buttons"             — a row of buttons: gray, lime on hover, orange when
+//                           chosen; the description shows on hover / focus
 // Other options: legendHidden (screen-reader-only legend), clearable (a
 // radio "Clear" link), filterable (a "Filter…" box above the list, for long
 // lists; filterLabel names what's filtered, default: the legend), before / after (nodes placed above / below the list), listClass
@@ -23,14 +25,39 @@
 //
 // sub: a follow-up choice that opens under an option when it's ticked
 // (checkbox lists, "described" layout), e.g. a rule's "Allowed / Not allowed":
-//   sub: { options: [{ id, label }], applies: (opt) => true, values: { optId: subId }, legend: "…" }
-// choices.subValue(optId) → the follow-up answer for a ticked option, or null.
+//   sub: { options: [{ id, label }] or (opt) => [{ id, label }], applies: (opt) => true,
+//          values: { optId: subId }, legend: "…" }
+// choices.subValue(optId) → the follow-up answer for a ticked option, or null;
+// choices.setSub(optId, subId) sets it from code.
+// scaleField: radio buttons in one row that can be cleared — a 1–5 scale,
+// Yes / No, a cost answer. ends: { low, high } says what each end means,
+// underneath; layout: "buttons" draws them as a row of buttons. YES_NO: the
+// Yes / No options.
+// choices.show((id, checked) => bool) hides the options it returns false for
+// (what's ticked is kept), e.g. joining options outside the chosen tiers.
 //
 // badge: (opt) => ({ label, notes: [text] }) | null — a small lime chip next
 // to an option's name (e.g. "Suggested"), with its notes under the
 // description ("described") or in the pixel-plus details ("compact").
 
 import { el, uid, chip as makeChip, richText } from "../dom.js";
+
+export const YES_NO = [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }];
+
+export function scaleField({ legend, hint, options, value = null, ends, layout = "described", onChange = () => {} }) {
+  return renderChoices({
+    type: "radio",
+    legend,
+    hint,
+    options,
+    selected: value,
+    layout,
+    listClass: layout === "buttons" ? "" : ends ? "scale scale-range" : "scale",
+    clearable: true,
+    after: ends ? [el("p", { className: "scale-ends field-hint" }, el("span", { textContent: ends.low }), el("span", { textContent: ends.high }))] : [],
+    onChange,
+  });
+}
 
 export function renderChoices({
   type = "checkbox",
@@ -58,7 +85,7 @@ export function renderChoices({
   const flags = new Map();    // option id → its flag line
   const subs = new Map();     // option id → { box, inputs } for follow-up choices
 
-  const list = el("div", { className: `choices ${listClass}`.trim() });
+  const list = el("div", { className: `choices ${layout === "buttons" ? "choice-buttons " : ""}${listClass}`.trim() });
 
   for (const opt of options) {
     const id = uid("opt");
@@ -76,7 +103,14 @@ export function renderChoices({
     const badgeNotes = (b?.notes || []).map((n) => el("p", { className: "choice-badge-note" }, ...richText(n)));
 
     let row;
-    if (layout === "compact") {
+    if (layout === "buttons") {
+      // a button-like label (the box itself is hidden, but still takes the
+      // keyboard); its description shows in a small box on hover or focus
+      input.className = "choice-button-input";
+      const tip = opt.description ? el("span", { className: "choice-tip", id: uid("tip"), role: "tooltip", textContent: opt.description }) : null;
+      if (tip) input.setAttribute("aria-describedby", tip.id);
+      row = el("div", { className: "choice choice-button" }, input, el("label", { htmlFor: id }, opt.label), tip);
+    } else if (layout === "compact") {
       const about = el("div", { className: "choice-about", id: uid("about"), hidden: true },
         ...(details ? details(opt) : [el("p", { textContent: opt.description })]),
         ...badgeNotes);
@@ -108,6 +142,7 @@ export function renderChoices({
       row = el("div", { className: "choice" }, input, follow ? el("div", {}, label, follow) : label);
     }
     row.dataset.search = `${opt.label} ${opt.description || ""}`.toLowerCase();
+    row.dataset.id = opt.id;
     list.append(row);
   }
 
@@ -125,15 +160,17 @@ export function renderChoices({
     search.addEventListener("input", () => filter(search.value));
   }
 
+  // "Clear" sits beside the legend, small (or after the list if the legend is hidden)
+  clear?.classList.add("legend-clear");
   const element = el("fieldset", { className: "field" },
-    el("legend", { className: legendHidden ? "visually-hidden" : "mono-u", textContent: legend }),
+    el("legend", { className: legendHidden ? "visually-hidden" : "mono-u" }, legend, legendHidden ? null : clear),
     hint ? el("p", { className: "field-hint", textContent: hint }) : null,
     ...before,
     search ? el("label", { className: "visually-hidden", htmlFor: search.id, textContent: `Filter ${filterLabel}` }) : null,
     search,
     list,
     ...after,
-    clear,
+    legendHidden ? clear : null,
   );
 
   function value() {
@@ -162,7 +199,7 @@ export function renderChoices({
     const subInputs = new Map();
     const box = el("fieldset", { className: "choice-sub" },
       el("legend", { className: "visually-hidden", textContent: `${opt.label}: ${sub.legend || "details"}` }),
-      el("div", { className: "scale" }, ...sub.options.map((o) => {
+      el("div", { className: "scale" }, ...(typeof sub.options === "function" ? sub.options(opt) : sub.options).map((o) => {
         const sid = uid("subopt");
         const radio = el("input", { type: "radio", id: sid, name, value: o.id, checked: sub.values?.[opt.id] === o.id });
         radio.addEventListener("change", () => onChange(value()));
@@ -176,6 +213,12 @@ export function renderChoices({
 
   function refreshSubs() {
     for (const [id, { box }] of subs) box.hidden = !inputs.get(id).checked;
+  }
+
+  /** Choose a ticked option's follow-up answer from code (doesn't fire onChange). */
+  function setSub(id, subId) {
+    const radio = subs.get(id)?.inputs.get(subId);
+    if (radio) radio.checked = true;
   }
 
   /** The follow-up answer for a ticked option, or null. */
@@ -192,11 +235,27 @@ export function renderChoices({
   refreshFlags();
   refreshSubs();
 
-  /** Show only options whose name or description contains `query`. */
-  function filter(query) {
-    const q = query.trim().toLowerCase();
-    for (const row of list.children) row.hidden = !!q && !row.dataset.search.includes(q);
+  // which rows show: what's typed in the filter box searches every option;
+  // with nothing typed, show(visible) decides (e.g. only a chosen tier's)
+  let query = "";
+  let visible = () => true;
+  function refreshRows() {
+    for (const row of list.children) {
+      row.hidden = query ? !row.dataset.search.includes(query) : !visible(row.dataset.id, inputs.get(row.dataset.id).checked);
+    }
   }
 
-  return { element, value, set, setOne, filter, subValue };
+  /** Show only options whose name or description contains `text` (searches them all). */
+  function filter(text) {
+    query = text.trim().toLowerCase();
+    refreshRows();
+  }
+
+  /** With no filter typed: show only the options where visible(id, checked) is true. */
+  function show(fn) {
+    visible = fn;
+    refreshRows();
+  }
+
+  return { element, value, set, setOne, filter, show, subValue, setSub };
 }

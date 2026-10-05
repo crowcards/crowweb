@@ -32,12 +32,12 @@ function hashSecret(secret) {
   return crypto.createHash("sha256").update(secret).digest("hex");
 }
 
-/** The empty card shape — schema v0.1.1. */
+/** The empty card shape — schema v0.1.0. */
 function makeEmptyCard(cardId) {
   const now = new Date().toISOString();
   return {
     id: cardId,
-    schemaVersion: "0.1.1",
+    schemaVersion: "0.1.0",
     createdAt: now,
     updatedAt: now,
     status: "draft",
@@ -70,6 +70,9 @@ function makeEmptyCard(cardId) {
         selfHosted: null,
         structuralModel: null,
       },
+      // what the costs were pre-filled from: { platformName, typeId, costs },
+      // so the editor can say so, and what's been changed since
+      costsPrefill: null,
       costs: {
         hostingServers: null,
         mediaStorage: null,
@@ -92,11 +95,15 @@ function makeEmptyCard(cardId) {
     },
 
     membership: {
+      joiningTiers: [],          // how open joining is: tier ids from membership_tiers.json
+      closedNote: null,          // when "closed" is one of them: why, since when, …
       registrationJoining: [],   // how people join: ids from membership_options.json
+      joiningNotes: {},          // { "<option id>": "note" }: how a way of joining works here
       // how membership is organised: ids from decision_approaches.json. One
       // shared list — Processes (moderation, maintenance, institutional
       // change) shows and edits it too.
       structure: [],
+      structureNotes: {},   // { "<approach id>": "note" }: how it works for membership
       // structure as last seen in Membership, so the editor can flag changes
       // made from Processes ("Keep these changes" / "Undo")
       structureReviewed: [],
@@ -111,6 +118,8 @@ function makeEmptyCard(cardId) {
       communityRulesText: null,
       covenants: [],
       adaptedFrom: [],
+      ruleEdits: {},     // { "<rule id>": { text, original } }: rules reworded in the summary
+      customRules: [],   // [{ id, text, typeId, qualifierSet, qualifier }]: the community's own rules
       ruleData: {
         civility:       { checked: {}, qualifiers: {} },
         harassment:     { checked: {}, qualifiers: {} },
@@ -127,22 +136,18 @@ function makeEmptyCard(cardId) {
     },
 
     processes: {
-      // moderation and maintenance each: 1–5 scales, plus a note per
-      // structure approach on how it's used for this work ({ "<approach id>": "…" })
+      // moderation and maintenance each: a note per structure approach on
+      // how it's used for this work ({ "<approach id>": "…" }), and a general note
       moderation: {
-        transparency: null,
-        participatory: null,
         approachNotes: {},
         generalNote: null,
       },
       maintenance: {
-        transparency: null,
-        participatory: null,
         approachNotes: {},
         generalNote: null,
       },
       conflictManagement: {
-        approaches: [],
+        approaches: [],   // [{ id, note, stage, primary }]: steps in order; several on one step = in parallel
         generalNote: null,
       },
       institutionalChange: {
@@ -164,19 +169,23 @@ function makeEmptyCard(cardId) {
 
     federation: {
       approach: null,
-      responseLadder: [],
+      allowlistPolicy: null,   // with an allowlist: how servers get added, and how to ask
+      responseLadder: [],       // [{ id, note, stage }]: steps in order; several on one step = in parallel
       subscriptions: {
-        subscribedLists: [],
-        customAllowList: [],
-        customDenyList: [],
-        customBlockList: [],
+        subscribedLists: [],    // shared list ids from federation_subscription_lists.json, or typed names
+        sharesBlocklist: null,  // true / false / null (not answered)
+        blocklistLink: null,
+        decisionTools: [],      // tools or services for federation decisions: ids or typed names
       },
+      relevantRules: [],        // ids of the card's rules (or custom rules) that guide federation decisions
+      ruleNotes: {},            // { "<rule id>": "note" }: how a rule guides federation decisions
       bridging: {
         enabled: false,
         protocols: [],
       },
     },
 
+    // [{ id, name, description, fields: [{ label, type: "text" | "checkbox" | "radio" | "scale", value, options?, low?, high? }] }]
     customModules: [],
 
     // Ids of editor suggestions ("add the Federation module?") the people
@@ -300,7 +309,19 @@ const EDITABLE_PARTS = [
  * can't both pass the check.
  */
 exports.updateCard = onCall({ cors: true }, async (request) => {
-  const { cardId, secret, updates, ifUpdatedAt } = request.data || {};
+  const { cardId, secret, ifUpdatedAt } = request.data || {};
+  const reset = request.data?.reset ?? [];   // (null when not given, from the browser)
+  let { updates } = request.data || {};
+
+  // reset: parts to put back as they are on a new, empty card (the editor's
+  // Reset). They're defined here, by makeEmptyCard, so "empty" means one thing.
+  if (!Array.isArray(reset) || reset.some((p) => !EDITABLE_PARTS.includes(p))) {
+    throw new HttpsError("invalid-argument", "reset must be a list of editable parts");
+  }
+  if (reset.length) {
+    const empty = makeEmptyCard(cardId);
+    updates = { ...(updates || {}), ...Object.fromEntries(reset.map((p) => [p, empty[p]])) };
+  }
 
   if (!updates || typeof updates !== "object") {
     throw new HttpsError("invalid-argument", "updates object is required");

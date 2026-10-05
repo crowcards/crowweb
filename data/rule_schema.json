@@ -1,25 +1,41 @@
 {
-  "version": "1.1.0",
-  "updatedAt": "2026-10-02",
-  "note": "Rules are identified by a stable id (stored on cards in rules.ruleData) and shown by label. Labels can be reworded freely; ids must never change once cards use them.",
-  "qualifierOptions": [
-    {
-      "id": "allowed",
-      "label": "Allowed"
-    },
-    {
-      "id": "not_allowed",
-      "label": "Not allowed"
-    },
-    {
-      "id": "allowed_with_disclosure",
-      "label": "Allowed with labeling / disclosure"
-    },
-    {
-      "id": "approval_required",
-      "label": "Approval required"
-    }
-  ],
+  "version": "1.2.0",
+  "updatedAt": "2026-10-04",
+  "note": "Rules are identified by a stable id (stored on cards in rules.ruleData) and shown by label. Labels can be reworded freely; ids must never change once cards use them. A rule type's `qualifier` names its set in qualifierSets (\"permission\": allowed / not allowed / …; \"requirement\": required / recommended / not required), or false for a plain checklist; a single rule can override it with its own `qualifier`.",
+  "qualifierSets": {
+    "permission": [
+      {
+        "id": "allowed",
+        "label": "Allowed"
+      },
+      {
+        "id": "not_allowed",
+        "label": "Not allowed"
+      },
+      {
+        "id": "allowed_with_disclosure",
+        "label": "Allowed with labeling / disclosure"
+      },
+      {
+        "id": "approval_required",
+        "label": "Approval required"
+      }
+    ],
+    "requirement": [
+      {
+        "id": "required",
+        "label": "Required"
+      },
+      {
+        "id": "recommended",
+        "label": "Recommended"
+      },
+      {
+        "id": "not_required",
+        "label": "Not required"
+      }
+    ]
+  },
   "categories": [
     {
       "id": "behavior",
@@ -170,7 +186,7 @@
       {
         "id": "authenticity",
         "name": "Authenticity and account integrity",
-        "qualifier": true,
+        "qualifier": "permission",
         "rules": [
           {
             "id": "authenticity_impersonation",
@@ -189,7 +205,7 @@
       {
         "id": "spam",
         "name": "Spam, advertising, and platform misuse",
-        "qualifier": true,
+        "qualifier": "permission",
         "rules": [
           {
             "id": "spam_spam",
@@ -261,7 +277,7 @@
       {
         "id": "cw",
         "name": "Content warnings & sensitive media labeling",
-        "qualifier": true,
+        "qualifier": "requirement",
         "rules": [
           {
             "id": "cw_sexual_content",
@@ -288,7 +304,7 @@
       {
         "id": "ai",
         "name": "AI-generated media, attribution, and copyright",
-        "qualifier": true,
+        "qualifier": "permission",
         "rules": [
           {
             "id": "ai_generated_media",
@@ -300,7 +316,8 @@
           },
           {
             "id": "ai_credit_original_creators",
-            "label": "Credit original creators"
+            "label": "Credit original creators",
+            "qualifier": "requirement"
           },
           {
             "id": "ai_reposting_without_permission",
@@ -308,7 +325,8 @@
           },
           {
             "id": "ai_copyright_infringement",
-            "label": "Copyright infringement"
+            "label": "Copyright infringement",
+            "qualifier": "requirement"
           },
           {
             "id": "ai_scraped_stolen_creative_work",
@@ -316,14 +334,15 @@
           },
           {
             "id": "ai_credit_fanworks_derivatives",
-            "label": "Fanworks / derivatives must be credited where relevant"
+            "label": "Crediting on fanworks and derivatives",
+            "qualifier": "requirement"
           }
         ]
       },
       {
         "id": "nsfw",
         "name": "Adult / explicit content rules",
-        "qualifier": true,
+        "qualifier": "permission",
         "rules": [
           {
             "id": "nsfw_explicit_sexual_content",
@@ -373,7 +392,7 @@
       {
         "id": "violence",
         "name": "Violence, threats, extremism, and self-harm",
-        "qualifier": true,
+        "qualifier": "permission",
         "rules": [
           {
             "id": "violence_violent_content",

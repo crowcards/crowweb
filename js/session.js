@@ -41,7 +41,7 @@ export function loadSession() {
   return {
     cardId: s.cardId,
     secret: s.secret,
-    confirmed: s.confirmed !== false,   // older entries without the flag count as confirmed
+    confirmed: Boolean(s.confirmed),
     remembered: !!device && device.cardId === s.cardId,
   };
 }
@@ -51,12 +51,6 @@ export function saveSession({ cardId, secret, confirmed = true }, { remember = f
   const value = { cardId, secret, confirmed };
   write(sessionStorage, value);
   write(localStorage, remember ? value : null);
-}
-
-/** Turn "remember on this device" on or off for the current card. */
-export function setRemembered(remember) {
-  const s = loadSession();
-  if (s) saveSession(s, { remember });
 }
 
 /** Mark the current card's key as saved by the person. */

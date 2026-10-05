@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CROW — Community Rules for an Open Web</title>
+  <title>Laws to know — CROW</title>
   <link rel="icon" href="img/crow-sprite-a.png" />
   <link rel="preconnect" href="https://use.typekit.net" crossorigin />
   <link rel="preconnect" href="https://p.typekit.net" crossorigin />
@@ -12,8 +12,9 @@
   <script src="js/theme.js"></script>
   <script type="module" src="js/site.js"></script>
   <script src="js/crow.js" defer></script>
+  <script type="module" src="js/laws-page.js"></script>
 </head>
-<body class="home">
+<body>
 
   <header class="site-header">
     <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
@@ -25,7 +26,7 @@
     </a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
     <nav id="nav" class="site-nav" aria-label="Main">
-      <a href="index.html" aria-current="page">Home</a>
+      <a href="index.html">Home</a>
       <a href="make.html">Make</a>
       <a href="library.html">Library</a>
       <a href="about.html">About</a>
@@ -39,40 +40,19 @@
   <div class="info">
     <aside class="info-side">
       <div class="side-art">
-        <h1 class="stagger" data-letters>
-          <span>Community</span>
-          <span>Rules</span>
-          <span><span class="smaller">for an</span></span>
-          <span>Open</span>
-          <span>Web</span>
-        </h1>
         <div class="pixel-crow" data-grid="75">
           <img src="img/crow-sprite-a.png" alt="Pixel-art crow" />
         </div>
       </div>
       <div class="logos">
-        <a href="https://hci.princeton.edu/" target="_blank"><img src="img/logos/princetonhci.png" alt="Princeton HCI" /></a>
+        <a href="https://hci.princeton.edu/" target="_blank"><img src="img/logos/princetonhci_lofi.png" alt="Princeton HCI" /></a>
         <a href="https://bonfirenetworks.org/" target="_blank"><img src="img/logos/bonfire.png" alt="Bonfire Networks" /></a>
       </div>
     </aside>
 
-    <main class="info-body">
-      <h1 class="stagger home-title" data-letters data-flicker>
-        <span>Community <span class="rules">Rules</span></span>
-        <span><span class="smaller">for an</span></span>
-        <span>Open Web</span>
-      </h1>
-      <p class="lede">Your rules for your spaces.</p>
-      <p class="lede">From private group chats to federated social networks, CROW Cards guides reflection and sharing for governing online interaction together.</p>
-
-      <p class="see-also"><span class="pixel-plus" aria-hidden="true"></span>See our <a href="https://dsmw.cs.princeton.edu/" target="_blank">workshop calls</a> and our <a href="https://dl.acm.org/doi/10.1145/3772318.3790855" target="_blank">CHI’26 paper</a></p>
-
-      <a class="button" href="make.html">Make a Card</a>
-
-      <h1>Recent</h1>
-      <ul>
-        <li>Featured on the <a href="https://blog.citp.princeton.edu/2026/09/18/making-community-governance-legible-a-semester-with-bonfire/" target="_blank">CITP Blog</a>, which was reposted by <a href="https://bonfirenetworks.org/posts/making-community-governance-legible-a-semester-with-bonfire/" target="_blank">Bonfire</a></li>
-      </ul>
+    <main class="info-body" id="laws">
+      <h1>Laws to know</h1>
+      <p id="laws-loading">Loading…</p>
     </main>
 
     <footer class="site-footer">

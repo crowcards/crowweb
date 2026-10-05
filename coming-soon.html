@@ -3,40 +3,60 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CROW — Community Rules for an Open Web</title>
-  <meta name="description" content="Community Rules for an Open Web — a project from Princeton HCI, in collaboration with Bonfire Networks." />
+  <meta name="robots" content="noindex" />
+  <title>Back soon — CROW</title>
   <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
   <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
-  <link rel="stylesheet" href="coming-soon.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/site.js"></script>
+  <script src="js/crow.js" defer></script>
 </head>
 <body>
 
-  <header>
-    <h1 aria-label="Community Rules for an Open Web">
-      <span>C</span><span>o</span><span>m</span><span>m</span><span>u</span><span>n</span><span>i</span><span>t</span><span>y</span>
-      <span>R</span><span>u</span><span>l</span><span>e</span><span>s</span>
-      <span>f</span><span>o</span><span>r</span>
-      <span>a</span><span>n</span>
-      <span>O</span><span>p</span><span>e</span><span>n</span>
-      <span>W</span><span>e</span><span>b</span>
-    </h1>
+  <header class="site-header site-header-bare">
+    <span class="site-title" data-letters>Community Rules for an Open Web</span>
+    <span class="header-crow sprite" aria-hidden="true">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </span>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
   </header>
 
-  <main>
-    <div class="crow" role="img" aria-label="Pixel-art crow, animating">
-      <img src="img/crow-sprite-a.png" alt="" decoding="async" />
-      <img src="img/crow-sprite-e.png" alt="" decoding="async" />
-      <img src="img/crow-sprite-d.png" alt="" decoding="async" />
-      <img src="img/crow-sprite-c.png" alt="" decoding="async" />
-    </div>
-    <p class="coming">COMING SOON</p>
-  </main>
+  <div class="info">
+    <aside class="info-side">
+      <div class="side-art">
+        <div class="pixel-crow" data-grid="75">
+          <img src="img/crow-sprite-a.png" alt="Pixel-art crow" />
+        </div>
+      </div>
+      <div class="logos">
+        <a href="https://hci.princeton.edu/" target="_blank"><img src="img/logos/princetonhci_lofi.png" alt="Princeton HCI" /></a>
+        <a href="https://bonfirenetworks.org/" target="_blank"><img src="img/logos/bonfire.png" alt="Bonfire Networks" /></a>
+      </div>
+    </aside>
 
-  <footer>
-    <p>Until then, check out our <a href="https://dl.acm.org/doi/10.1145/3772318.3790855" target="_blank">CHI'26 research paper</a> that motivates this project and the <a href="https://dsmw.cs.princeton.edu/" target="_blank">past workshops</a> that it was based around. You can reach us at <a href="mailto:crowcards@princeton.edu">crowcards@princeton.edu</a> ✉︎</p>
-    <!----A project from <a href="https://hci.princeton.edu/">Princeton HCI</a>, in collaboration with <a href="https://bonfirenetworks.org/">Bonfire Networks</a>.---->
-  
-  </footer>
+    <main class="info-body">
+      <!-- the holding page while the site is down for maintenance: point
+           firebase.json's hosting at it (e.g. a rewrite of "**" to
+           /coming-soon.html) and deploy; remove the rewrite to come back -->
+      <h1>Back soon</h1>
+      <p class="lede lede-small">CROW Cards is down for a little maintenance. Your cards are safe, and the site will be back shortly.</p>
+      <p>Until then, check out our <a class="inline" href="https://dl.acm.org/doi/10.1145/3772318.3790855" target="_blank" rel="noopener">CHI’26 research paper</a> that motivates this project, and the <a class="inline" href="https://dsmw.cs.princeton.edu/" target="_blank" rel="noopener">past workshops</a> it grew out of.</p>
+      <p>You can reach us at <a class="inline" href="mailto:crowcards@princeton.edu">crowcards@princeton.edu</a>.</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>CROW is a research project from <a href="https://hci.princeton.edu/" target="_blank" rel="noopener">Princeton HCI</a>, in collaboration with <a href="https://bonfirenetworks.org/" target="_blank" rel="noopener">Bonfire Networks</a>.</p>
+    </footer>
+  </div>
 
 </body>
 </html>

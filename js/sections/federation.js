@@ -1,63 +1,199 @@
 // The Federation module: how the community connects with other servers.
 //
 //   const data = await loadFederationData();
-//   const form = renderFederation(container, card.federation, data, { onInput, onCommit, stateKey });
+//   const form = renderFederation(container, card.federation, data, { onInput, onCommit, stateKey, getPart });
 //   form.collect()   → the federation object to save
+//
+// federation_subscription_lists.json holds shared lists (block- and
+// allowlists) and the tools and services that help with federation
+// decisions; each item's category says which. The card's own rules (from
+// Rules) are listed as a compact summary, to select the ones that guide
+// federation decisions and note how.
 
 import { loadData, loadProtocolItems } from "../data.js";
-import { el } from "../dom.js";
-import { renderChoices } from "../controls/choices.js";
+import { el, uid, button } from "../dom.js";
+import { renderChoices, scaleField, YES_NO } from "../controls/choices.js";
+import { textField } from "../controls/fields.js";
 import { pickList } from "../controls/picklist.js";
-import { tagInput } from "../controls/tags.js";
 import { suggestField } from "../controls/suggest.js";
-import { foldSection } from "../controls/fold.js";
+import { sectionMaker } from "../controls/fold.js";
+import { showPopup, closePopup } from "../popup.js";
+import { showIf } from "../reveal.js";
+
+// item categories that are tools or services; anything else is a shared list
+const TOOL_CATEGORIES = ["tool", "service"];
+const categoryOf = (item) => item.categories?.[0] ?? item.category ?? item.kind ?? "blocklist";
 
 export async function loadFederationData() {
-  const [enums, lists, protocols] = await Promise.all([
+  const [enums, lists, protocols, schema] = await Promise.all([
     loadData("enums"),
     loadData("federation_subscription_lists"),
     loadProtocolItems(),
+    loadData("rule_schema"),
   ]);
   return {
     approaches: enums.federationApproach,
     ladder: enums.federationResponseLadder,
-    lists: lists.items,
+    lists: lists.items.filter((i) => !TOOL_CATEGORIES.includes(categoryOf(i))),
+    tools: lists.items.filter((i) => TOOL_CATEGORIES.includes(categoryOf(i))),
     protocols,
+    // every rule type, in the Rules page's order, with its category's name
+    ruleTypes: schema.categories.flatMap((cat) => (schema.types[cat.id] || []).map((t) => ({ ...t, categoryLabel: cat.label }))),
+    qualifierSets: schema.qualifierSets,
   };
 }
 
-/** A pasted server URL or handle → just its domain: "https://Social.Example.org/about" → "social.example.org". */
-export function toDomain(text) {
-  return text.trim().toLowerCase()
-    .replace(/^[a-z]+:\/\//, "")   // scheme
-    .replace(/^@?[^@/]*@/, "")     // a handle's user part: @user@host → host
-    .replace(/[/?#].*$/, "")       // path, query, fragment
-    .replace(/:\d+$/, "");         // port
+/**
+ * The rules ticked under Rules, in their order there, in the community's
+ * wording, then the community's own rules:
+ * [{ id, label, group (the kind of rule), qualifier (its label), qualifierId }]
+ */
+export function cardRules(rules = {}, ruleTypes, qualifierSets = {}) {
+  const edits = rules.ruleEdits || {};
+  const qualifierOf = (setId, q) => (q ? (qualifierSets[setId] || []).find((o) => o.id === q)?.label ?? null : null);
+  const ticked = ruleTypes.flatMap((t) => t.rules
+    .filter((r) => rules.ruleData?.[t.id]?.checked?.[r.id])
+    .map((r) => {
+      const q = rules.ruleData[t.id].qualifiers?.[r.id] ?? null;
+      return { id: r.id, label: edits[r.id]?.text || r.label, group: t.name, qualifierId: q, qualifier: qualifierOf(r.qualifier || t.qualifier, q) };
+    }));
+  const own = (rules.customRules || []).filter((r) => r.text)
+    .map((r) => ({ id: r.id, label: r.text, group: "Custom rules", qualifierId: r.qualifier ?? null, qualifier: qualifierOf(r.qualifierSet, r.qualifier) }));
+  return [...ticked, ...own];
 }
 
-export function renderFederation(container, federation = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "federation" } = {}) {
+/**
+ * The card's rules as a compact summary to pick from, grouped by kind:
+ * click a line (or its box) to select it; shift-click selects everything
+ * between that and the last one clicked. Select all / Clear for everything
+ * or one group, and quick picks for rules marked Not allowed or Required.
+ * A selected rule can take a note (a pop-up); one with a note gets the badge.
+ */
+function ruleSelector({ rules, selected = [], notes = {}, onInput, onCommit }) {
+  const chosen = new Set(selected);
+  const noteOf = { ...notes };
+  const groups = [...new Set(rules.map((r) => r.group))];
+  const lines = new Map();   // rule id → its line's parts
+  let last = null;           // the last rule clicked, for shift-click
+  const count = el("p", { className: "field-hint" });
+
+  const set = (ids, on) => { for (const id of ids) (on ? chosen.add(id) : chosen.delete(id)); refresh(); onCommit(); };
+  function refresh() {
+    for (const [id, line] of lines) {
+      line.box.checked = chosen.has(id);
+      line.noteButton.hidden = !chosen.has(id);
+      line.mark.hidden = !(chosen.has(id) && noteOf[id]);
+    }
+    count.textContent = `${chosen.size} of ${rules.length} ${rules.length === 1 ? "rule" : "rules"} selected.`;
+  }
+
+  function annotate(rule) {
+    const note = textField({ label: "Note", hint: "How this rule guides federation decisions (optional).", multiline: true, value: noteOf[rule.id], onInput: () => { noteOf[rule.id] = note.value(); onInput(); }, onCommit });
+    showPopup({
+      title: rule.label,
+      body: el("div", {},
+        el("p", { className: "field-hint", textContent: [rule.group, rule.qualifier].filter(Boolean).join(" · ") }),
+        note.element,
+        el("p", { className: "button-row" }, button("Done", "button button-small", closePopup)),
+      ),
+    }).then(() => { noteOf[rule.id] = note.value(); refresh(); onCommit(); });
+    note.focus();
+  }
+
+  const lineFor = (rule) => {
+    const box = el("input", { type: "checkbox", id: uid("fedrule") });
+    box.addEventListener("click", (e) => {
+      // shift-click: everything from the last one clicked to this one takes this one's state
+      if (e.shiftKey && last) {
+        const ids = rules.map((r) => r.id);
+        const [a, b] = [ids.indexOf(last), ids.indexOf(rule.id)].sort((x, y) => x - y);
+        set(ids.slice(a, b + 1), box.checked);
+      } else set([rule.id], box.checked);
+      last = rule.id;
+    });
+    const noteButton = button("Note", "link-button", () => annotate(rule));
+    const mark = button("", "note-mark", () => annotate(rule));
+    mark.setAttribute("aria-label", `Open the note on ${rule.label}`);
+    lines.set(rule.id, { box, noteButton, mark });
+    return el("li", { className: "choice fed-rule" },
+      box,
+      el("label", { htmlFor: box.id }, el("span", { className: "choice-name" }, rule.label, rule.qualifier ? el("span", { className: "tag", textContent: rule.qualifier }) : null)),
+      mark,
+      noteButton,
+    );
+  };
+
+  const groupIds = (g) => rules.filter((r) => r.group === g).map((r) => r.id);
+  const marked = (q) => rules.filter((r) => r.qualifierId === q).map((r) => r.id);
+  const quick = [
+    button("Select all", "link-button", () => set(rules.map((r) => r.id), true)),
+    button("Clear", "link-button", () => set(rules.map((r) => r.id), false)),
+    marked("not_allowed").length ? button("+ all marked Not allowed", "link-button", () => set(marked("not_allowed"), true)) : null,
+    marked("required").length ? button("+ all marked Required", "link-button", () => set(marked("required"), true)) : null,
+  ];
+  const element = el("div", { className: "field" },
+    el("p", { className: "mono-u", textContent: "Rules that guide federation decisions" }),
+    el("p", { className: "field-hint", textContent: "From your Rules. Select the ones you look at when deciding whether to federate with, limit or block another server — shift-click to select a run of them. Add a note to any you select." }),
+    el("div", { className: "summary fed-rules" },
+      el("p", { className: "fold-actions" }, ...quick),
+      count,
+      ...groups.flatMap((g) => [
+        el("div", { className: "fold-head" },
+          el("p", { className: "mono-u summary-label", textContent: g }),
+          el("span", { className: "fold-actions" }, button("Select all", "link-button", () => set(groupIds(g), true)), button("Clear", "link-button", () => set(groupIds(g), false)))),
+        el("ul", { className: "plain-list fed-rule-list" }, ...rules.filter((r) => r.group === g).map(lineFor)),
+      ]),
+    ),
+  );
+  refresh();
+  return {
+    element,
+    value: () => rules.filter((r) => chosen.has(r.id)).map((r) => r.id),
+    notes: () => Object.fromEntries([...chosen].filter((id) => noteOf[id]).map((id) => [id, noteOf[id]])),
+  };
+}
+
+export function renderFederation(container, federation = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "federation", getPart = () => ({}) } = {}) {
   const subs = federation.subscriptions || {};
   const bridging = federation.bridging || {};
 
   // ── approach and response ladder ──────────────────────────
+  // with an allowlist, say how servers get onto it
+  const usesAllowlist = (a) => a === "allowlist_first";
   const approach = renderChoices({
     type: "radio",
     legend: "Overall approach",
+    layout: "buttons",   // each approach's description shows on hover
     options: data.approaches,
     selected: federation.approach || null,
     clearable: true,
-    onChange: onCommit,
+    onChange: (a) => {
+      showIf(allowlist.element, usesAllowlist(a));
+      onCommit();
+    },
   });
+  const allowlist = textField({
+    label: "How servers get on your allowlist",
+    hint: "How do you decide who gets added, and how can a server ask to be added?",
+    multiline: true,
+    value: federation.allowlistPolicy,
+    onInput,
+    onCommit,
+  });
+  allowlist.element.hidden = !usesAllowlist(federation.approach);
 
+  // in steps, like conflict management: several on one step happen in parallel
   const ladder = pickList({
     legend: "When there’s a problem with another server",
-    hint: "Tick the responses you use, then put them in the order you escalate through them.",
+    hint: "Select the responses your community takes, dragging them into the order you escalate. You can click on each to add a note.",
     options: data.ladder,
-    items: (federation.responseLadder || []).map((id) => ({ id })),
-    notes: false,
+    items: federation.responseLadder || [],
+    noteHint: "When and how you use this response (optional).",
     filterable: false,
-    reorderable: true,
-    chosenLegend: "Your ladder, first step first",
+    staged: true,
+    primary: false,
+    tagsHint: false,   // (the hint above says it)
+    chosenLegend: "Your steps",
     emptyText: "No responses chosen yet.",
     onInput,
     onCommit,
@@ -65,35 +201,53 @@ export function renderFederation(container, federation = {}, data, { onInput = (
 
   // ── subscriptions and server lists ────────────────────────
   // subscribedLists holds known list ids and anything else people typed
-  const knownIds = new Set(data.lists.map((l) => l.id));
-  const savedLists = subs.subscribedLists || [];
-  const knownLists = renderChoices({
-    legend: "Shared lists you follow",
-    hint: "Lists other communities maintain, which you use too.",
-    options: data.lists,
-    selected: savedLists.filter((id) => knownIds.has(id)),
-    onChange: onCommit,
-  });
-  const otherLists = tagInput({
-    label: "Other lists",
-    hint: "Name or link of any other list you follow. Press Enter after each one.",
-    values: savedLists.filter((id) => !knownIds.has(id)),
-    maxLength: 200,
+  const lists = suggestField({
+    label: "Shared lists you follow",
+    hint: "Lists other communities maintain, which you use too. Pick from the list, or type any other.",
+    items: data.lists,
+    multiple: true,
+    allowCustom: true,
+    browse: true,
+    values: subs.subscribedLists || [],
     onCommit,
   });
 
-  const serverList = (label, hint, values) => tagInput({
-    label,
-    hint,
-    values: values || [],
-    maxLength: 253,
-    placeholder: "example.social",
-    normalize: toDomain,
+  // ── your own block list, and tools for deciding ───────────
+  const shares = scaleField({
+    legend: "Do you share your block list?",
+    hint: "So other communities can use it, or see who you don’t federate with.",
+    options: YES_NO,
+    value: subs.sharesBlocklist == null ? null : subs.sharesBlocklist ? "yes" : "no",
+    onChange: (v) => {
+      showIf(blocklistLink.element, v === "yes");
+      onCommit();
+    },
+  });
+  const blocklistLink = textField({
+    label: "Link to your block list",
+    type: "url",
+    placeholder: "https://",
+    value: subs.blocklistLink,
+    onInput,
     onCommit,
   });
-  const allow = serverList("Allow list", "Servers you always federate with. Paste addresses or links; they’re trimmed to the server name.", subs.customAllowList);
-  const deny = serverList("Deny list", "Servers whose users can’t access your community.", subs.customDenyList);
-  const block = serverList("Block list", "Servers you don’t federate with at all.", subs.customBlockList);
+  blocklistLink.element.hidden = !subs.sharesBlocklist;
+  const tools = suggestField({
+    label: "Tools or services you use for federation decisions",
+    hint: data.tools.length ? "Pick from the list, or type any other." : "Type the name of each one and press Enter.",
+    items: data.tools,
+    multiple: true,
+    allowCustom: true,
+    browse: data.tools.length > 0,
+    values: subs.decisionTools || [],
+    onCommit,
+  });
+
+  // ── which of the card's rules guide federation decisions ──
+  const rules = cardRules(getPart("rules"), data.ruleTypes, data.qualifierSets);
+  const relevant = rules.length
+    ? ruleSelector({ rules, selected: federation.relevantRules || [], notes: federation.ruleNotes || {}, onInput, onCommit })
+    : { element: el("p", { className: "field-hint" }, "No rules selected yet. Select them under ", el("a", { className: "inline", href: "#rules", textContent: "Rules" }), ", and they’ll show here."), value: () => [], notes: () => ({}) };
 
   // ── bridging ──────────────────────────────────────────────
   const bridged = renderChoices({
@@ -102,7 +256,7 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     options: [{ id: "enabled", label: "We bridge to other networks", description: "Our community is also reachable from other protocols, e.g. through a bridge between ActivityPub and AT Protocol." }],
     selected: bridging.enabled ? ["enabled"] : [],
     onChange: (v) => {
-      protocols.element.hidden = !v.length;
+      showIf(protocols.element, v.length > 0);
       onCommit();
     },
   });
@@ -117,14 +271,12 @@ export function renderFederation(container, federation = {}, data, { onInput = (
   });
   protocols.element.hidden = !bridging.enabled;
 
-  const section = (name, title, ...fields) => foldSection({
-    title,
-    key: `${stateKey}:${name}`,
-    children: [el("div", { className: "fields" }, ...fields.map((f) => f.element))],
-  });
+  const section = sectionMaker(stateKey);   // each section folds; closed at first, then as the person left it
   container.replaceChildren(
-    section("approach", "Approach & responses", approach, ladder),
-    section("lists", "Lists & servers", knownLists, otherLists, allow, deny, block),
+    el("p", { textContent: "This page is currently mostly designed for decentralized social media systems. Let us know if you have thoughts on how to expand it to other systems!" }),
+    section("approach", "Approach & responses", approach, allowlist, ladder),
+    section("lists", "Lists & tools", lists, shares, blocklistLink, tools),
+    section("rules", "Rules for federation", relevant),
     section("bridging", "Bridging", bridged, protocols),
   );
 
@@ -132,14 +284,17 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     collect: () => ({
       ...federation,
       approach: approach.value(),
-      responseLadder: ladder.value().map((s) => s.id),
+      allowlistPolicy: usesAllowlist(approach.value()) ? allowlist.value() : null,
+      responseLadder: ladder.value(),
       subscriptions: {
         ...subs,
-        subscribedLists: [...knownLists.value(), ...otherLists.value()],
-        customAllowList: allow.value(),
-        customDenyList: deny.value(),
-        customBlockList: block.value(),
+        subscribedLists: lists.value(),
+        sharesBlocklist: shares.value() == null ? null : shares.value() === "yes",
+        blocklistLink: shares.value() === "yes" ? blocklistLink.value() : null,
+        decisionTools: tools.value(),
       },
+      relevantRules: relevant.value(),
+      ruleNotes: relevant.notes(),
       bridging: {
         ...bridging,
         enabled: bridged.value().length > 0,

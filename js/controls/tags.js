@@ -1,8 +1,9 @@
 // Tags: small mono chips, each with an × to remove it.
 //
 // tagList — just the chips, for showing a set of things (e.g. chosen values):
-//   const list = tagList({ ariaLabel: "Chosen values", quiet: true, onRemove: (id) => … });
+//   const list = tagList({ ariaLabel: "Chosen values", onRemove: (id) => … });
 //   list.render([{ id, label }]);
+// Without onRemove the chips are just for showing (no ×).
 //
 // tagInput — a labelled box where typing a word and pressing Enter, Tab or a
 // comma adds it as a tag (keywords, server lists, protocols):
@@ -13,13 +14,14 @@
 
 import { el, uid } from "../dom.js";
 
-export function tagList({ ariaLabel, quiet = false, onRemove = () => {} } = {}) {
-  const element = el("ul", { className: quiet ? "tags tags-quiet" : "tags" });
+export function tagList({ ariaLabel, onRemove } = {}) {
+  const element = el("ul", { className: "tags plain-list" });
   if (ariaLabel) element.setAttribute("aria-label", ariaLabel);
 
   function render(items) {
     element.replaceChildren(...items.map(({ id, label }) => {
-      const remove = el("button", { type: "button", className: "tag-remove", textContent: "×" });
+      if (!onRemove) return el("li", { className: "tag" }, el("span", { textContent: label }));
+      const remove = el("button", { type: "button", className: "tag-remove" }, el("span"));   // the pixel X
       remove.setAttribute("aria-label", `Remove ${label}`);
       remove.addEventListener("click", () => onRemove(id));
       return el("li", { className: "tag" }, el("span", { textContent: label }), remove);

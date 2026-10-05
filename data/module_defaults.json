@@ -6,7 +6,7 @@
     { "id": "infrastructure", "label": "Infrastructure", "description": "Platform, software, costs, other tools, and where servers, members and admins are." },
     { "id": "membership",     "label": "Membership",     "description": "How people join, and how membership is organised." },
     { "id": "rules",          "label": "Rules",          "description": "Community rules, covenants, and which behaviors and content they cover." },
-    { "id": "processes",      "label": "Processes",      "description": "Moderation, maintenance, conflict management, institutional change, and communication channels." },
+    { "id": "processes",      "label": "Processes",      "description": "Your structure in change, maintenance and moderation, then conflict management and communication channels." },
     { "id": "federation",     "label": "Federation",     "description": "How the community connects with other servers: allow and block lists, responses, bridging." }
   ],
   "default": ["infrastructure", "membership", "rules", "processes"],

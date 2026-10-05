@@ -10,13 +10,20 @@ export function el(tag, props = {}, ...children) {
   return e;
 }
 
+/** A button that runs onClick: button("Done", "button button-small", () => …). */
+export function button(label, className, onClick) {
+  const b = el("button", { type: "button", className, textContent: label });
+  b.addEventListener("click", onClick);
+  return b;
+}
+
 let n = 0;
 
 /** A page-unique id for linking labels and hints to their inputs. */
 export const uid = (prefix = "f") => `${prefix}-${++n}`;
 
 /** A small lime chip, e.g. "Suggested" (styled by .chip in make.css). */
-export const chip = (label) => el("span", { className: "chip mono-u", textContent: label });
+export const chip = (label) => el("span", { className: "chip", textContent: label });
 
 /**
  * Text with a little formatting, for sentences built in code:
