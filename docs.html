@@ -38,8 +38,15 @@
 
 <div class="sidebar-layout">
 
-<!-- ── sidebar nav ───────────────────────────────────────────────── -->
-<nav class="sidebar" aria-label="Documentation">
+<!-- ── sidebar nav (narrow screens: a slim bar, showing the section
+     you're reading, that drops the contents down: js/sidebar.js) ────── -->
+<nav class="sidebar" id="docs-nav" aria-label="Documentation">
+  <div class="sidebar-bar">
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="docs-nav-panel">
+      <span class="visually-hidden">Contents: </span><span id="docs-nav-current">Contents</span><span class="pixel-caret" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="sidebar-panel" id="docs-nav-panel">
   <ul>
     <li><a href="#getting-started">Getting started</a></li>
     <li><a href="#using-the-editor">Using the editor</a></li>
@@ -85,6 +92,7 @@
       </ul>
     </li>
   </ul>
+  </div>
 </nav>
 
 <!-- ── main content ──────────────────────────────────────────────── -->
@@ -139,6 +147,7 @@
       <li><b>Suggestions</b> appear at the top of a module when something you entered elsewhere affects it, e.g. choosing a federated platform suggests the Federation module. If one appears out of sight, a small "New suggestion" notice points to it.</li>
       <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are usual for that kind of platform. Change anything that's different for you.</li>
       <li><b>Notes on what you choose.</b> Your choices show as tags; click one to add a note about how it works in your community. Tags with a note get a small asterisk.</li>
+      <li><b>Changing your mind is safe.</b> If you unselect something, change a Yes to a No, or switch a field to another kind, what you'd entered for it is set aside rather than lost: switch back, even another day, and it's there again. Set-aside answers aren't part of your Card or its exports.</li>
       <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
       <li><b>Your community structure</b> (how decisions get made) is one list: you set it in Membership, and adjust it, with notes, for changing the rules, maintenance and moderation in Processes.</li>
       <li><b>Laws to know.</b> Under Infrastructure → Locations, you can open a page of landmark laws for where your servers, members and admins are, and save it as a PDF. It's an informational starting point, not legal advice.</li>
@@ -388,7 +397,7 @@
     <section id="ref-community-types">
       <h3>Community types</h3>
       <p>Every card is assigned a community type. Types drive the UI's suggestions for which other sections to focus on and establish the default cost profile.</p>
-      <table class="table" data-source="/data/community_types.json" data-render="communityTypes">
+      <table class="table" data-source="/data/community_types.json" data-render="simple">
         <thead><tr><th>Type</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -452,7 +461,7 @@
       </table>
       <p class="callout">For <strong>corporate / proprietary</strong> platforms, costs reflect what a group admin or community manager pays — not the company operating the platform. For <strong>self-hosted</strong> platforms, costs reflect what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), costs reflect running your own relay or PDS; most community runners on these platforms will not incur infrastructure costs.</p>
 
-      <p>Most platforms inherit their cost values from their platform type. A handful have overrides where the type default isn't accurate for that specific platform.</p>
+      <p id="ref-overrides">Most platforms inherit their cost values from their platform type. A handful have overrides where the type default isn't accurate for that specific platform.</p>
       <table class="table">
         <thead><tr><th>Platform</th><th>Column</th><th>Override value</th><th>Reason</th></tr></thead>
         <tbody>
@@ -485,7 +494,7 @@
     <section id="ref-membership">
       <h3>Membership options</h3>
       <p>How people can join. Communities first say how open joining is, picking one or more of four tiers; the ways of joining that fit those tiers are shown first, and any can be chosen. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="table" data-source="/data/membership_tiers.json" data-render="enum" data-enum-key="tiers">
+      <table class="table" data-source="/data/membership_tiers.json" data-render="simple" data-enum-key="tiers">
         <thead><tr><th>Tier</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -526,7 +535,7 @@
     <section id="ref-covenants">
       <h3>Covenants &amp; guidelines</h3>
       <p>Known covenants and community guidelines a community might endorse or adhere to. This list is seed autocomplete; communities can enter custom values.</p>
-      <table class="table" data-source="/data/covenants.json" data-render="covenants">
+      <table class="table" data-source="/data/covenants.json" data-render="linked">
         <thead><tr><th>Covenant</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -544,7 +553,7 @@
     <section id="ref-federation-lists">
       <h3>Federation lists &amp; tools</h3>
       <p>Known shared blocklists a community might follow, and tools and services that help with federation decisions. Primarily relevant for ActivityPub-based platforms. Custom entries are supported.</p>
-      <table class="table" data-source="/data/federation_subscription_lists.json" data-render="subscriptionLists">
+      <table class="table" data-source="/data/federation_subscription_lists.json" data-render="linked">
         <thead><tr><th>Name</th><th>Category</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -553,7 +562,7 @@
     <section id="ref-enum-community-size">
       <h3>Community size scale</h3>
       <p>Rough size buckets used across the schema.</p>
-      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="communitySize">
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communitySize">
         <thead><tr><th>Size</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -562,7 +571,7 @@
     <section id="ref-enum-federation-approach">
       <h3>Federation approach</h3>
       <p>The community's overall posture toward federating with other servers.</p>
-      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="federationApproach">
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationApproach">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -571,7 +580,7 @@
     <section id="ref-enum-federation-ladder">
       <h3>Federation response ladder</h3>
       <p>The actions moderators take when there's a problem with another server, put in the order they escalate through them. Several on the same step happen in parallel.</p>
-      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="federationResponseLadder">
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationResponseLadder">
         <thead><tr><th>Action</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -580,7 +589,7 @@
     <section id="ref-enum-channels">
       <h3>Communication channels</h3>
       <p>Ways a community’s members and moderators can reach each other.</p>
-      <table class="table" data-source="/data/enums.json" data-render="enum" data-enum-key="communicationChannels">
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communicationChannels">
         <thead><tr><th>Channel</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
@@ -597,60 +606,7 @@
   <p>CROW is a research project from <a class="inline" href="https://hci.princeton.edu/">Princeton HCI</a></p>
 </footer>
 
-<script>
-// Sidebar: third-level lists fold away behind a small pixel +/- toggle.
-// Closed to start; a list opens by itself when you scroll into one of its
-// sections. Without JS everything simply stays open.
-document.querySelectorAll('.sidebar .sub .sub').forEach((list, i) => {
-  const item = list.parentElement;
-  const label = item.querySelector(':scope > a').textContent;
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'pixel-toggle nav-fold';
-  btn.setAttribute('aria-label', `Show or hide ${label}`);
-  btn.setAttribute('aria-expanded', 'false');
-  list.id ||= `sidebar-fold-${i}`;
-  btn.setAttribute('aria-controls', list.id);
-  btn.addEventListener('click', () => setFold(item, !item.classList.contains('is-open')));
-  item.classList.add('foldable');
-  item.insertBefore(btn, list);
-});
-
-function setFold(item, open) {
-  item.classList.toggle('is-open', open);
-  item.querySelector(':scope > .nav-fold').setAttribute('aria-expanded', String(open));
-}
-
-// Sidebar: highlight the link for the part of the page being read — the
-// last linked heading or section whose top has scrolled past the header.
-const navLinks = [...document.querySelectorAll('.sidebar a[href^="#"]')];
-const targets = navLinks
-  .map(a => ({ a, el: document.getElementById(a.hash.slice(1)) }))
-  .filter(t => t.el);
-
-function highlightCurrent() {
-  const line = document.querySelector('.site-header').offsetHeight + 40;
-  let current = null;
-  for (const t of targets) {
-    const top = t.el.getBoundingClientRect().top;
-    if (top <= line && (!current || top > current.top)) current = { a: t.a, top };
-  }
-  navLinks.forEach(a => a.classList.toggle('active', a === current?.a));
-
-  // open a folded list when its section becomes the current one (only on
-  // the change, so it doesn't fight someone who just closed it)
-  if (current?.a !== lastActive) {
-    lastActive = current?.a;
-    const fold = lastActive?.closest('.foldable');
-    if (fold) setFold(fold, true);
-  }
-}
-let lastActive;
-
-addEventListener('scroll', highlightCurrent, { passive: true });
-addEventListener('resize', highlightCurrent);
-highlightCurrent();
-</script>
+<script type="module" src="js/docs-page.js"></script>
 <script src="js/docs-reference.js"></script>
 </body>
 </html>

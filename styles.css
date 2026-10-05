@@ -70,22 +70,25 @@
 }
 
 /* ---- night mode: set by js/theme.js, switched by the header toggle.
-   Only the colours change; everything built on them follows. ---------- */
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg:   #0E0E0E;   /* near-black */
-  --ink:  #E6E2DC;   /* very light warm gray */
-  --gray: #9A948C;   /* lighter, to stay readable on black */
-  --line: #3D3934;   /* dark gray dividers and scrollbar */
-  --error: #FF46A2; /* bright pink, readable on black */
-}
+   Only the colours change; everything built on them follows. On screen
+   only: a printed page always uses the light colours. ----------------- */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:   #0E0E0E;   /* near-black */
+    --ink:  #E6E2DC;   /* very light warm gray */
+    --gray: #9A948C;   /* lighter, to stay readable on black */
+    --line: #3D3934;   /* dark gray dividers and scrollbar */
+    --error: #FF1F8F; /* neon pink, readable on black (5.8:1) */
+  }
 
-/* black pixel art would vanish on black: flip it to light gray (0.85
-   rather than a full invert, so black becomes light gray, not white; the
-   hue-rotate brings orange back toward orange). The big crow's canvas is
-   recoloured by crow.js instead; this only covers its fallback image. */
-[data-theme="dark"] :is(.pixel-crow img, .sprite img, .logos a[href*="princeton"] img) {
-  filter: invert(0.85) hue-rotate(180deg);
+  /* black pixel art would vanish on black: flip it to light gray (0.85
+     rather than a full invert, so black becomes light gray, not white; the
+     hue-rotate brings orange back toward orange). The big crow's canvas is
+     recoloured by crow.js instead; this only covers its fallback image. */
+  [data-theme="dark"] :is(.pixel-crow img, .sprite img, .logos a[href*="princeton"] img) {
+    filter: invert(0.85) hue-rotate(180deg);
+  }
 }
 
 /* ---- base ----------------------------------------------------------- */
@@ -182,19 +185,20 @@ ul li::before {
 }
 
 /* mono text. Mono runs large next to Helvetica, so it's set at 0.8em of the
-   surrounding text: links, buttons that look like links, and the two
-   classes below all share this */
+   surrounding text: links, buttons that look like links, the two classes
+   below, and code in the docs all share this */
 a,
 .link-button,
 .mono,
-.mono-u {
+.mono-u,
+.docs-body code {
   font-family: var(--mono);
   font-size: 0.8em;
 }
 
 /* buttons that look like a link or an icon, not a button: no padding,
    border or background of their own (each adds its own look) */
-:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .editor-bar-module) {
+:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .sidebar-toggle) {
   padding: 0;
   border: 0;
   background: none;
@@ -209,7 +213,7 @@ a,
 .see-also,
 .tab,
 .table th,
-.editor-bar-module,
+.sidebar-toggle,
 .place-pill {
   font-weight: 600;
   text-transform: uppercase;
@@ -286,8 +290,15 @@ a,
   letter-spacing: var(--caps-spacing);
 }
 
-/* the 5x5-pixel X (close, or an open menu): a centre dot (the span) plus
-   two dots out along each diagonal; --dot is the size of one dot */
+/* pixel icons drawn from one dot (the span) and its box-shadow copies: the
+   menu's three dots, and the X; each sets --dot (one dot's size) and its colour */
+:is(.menu-toggle, .popup-close, .row-remove, .tag-remove) span {
+  width: var(--dot);
+  height: var(--dot);
+  background: currentColor;
+}
+/* the 5x5-pixel X (close, or an open menu): a centre dot plus two dots out
+   along each diagonal */
 :is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove, .tag-remove) span {
   box-shadow:
     calc(var(--dot) * -2) calc(var(--dot) * -2) currentColor, calc(var(--dot) * -1) calc(var(--dot) * -1) currentColor,
@@ -458,8 +469,11 @@ a:focus-visible,
 .callout > :last-child { margin-bottom: 0; }
 
 /* stepped pixel corners, shared by buttons, callouts, pop-ups, tabs, rows (on
-   their background layer) and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
-:is(.button, .callout, .popup, .tab, .row::before, .note-mark, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)) {
+   their background layer), the flag dot and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
+/* (pseudo-elements can't go inside :is(), so the layers are listed after it) */
+:is(.button, .callout, .popup, .tab, .note-mark, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
+.row::before,
+.flag-dot::before {
   --pxb: var(--px-bottom, var(--px));   /* bottom steps: the same, unless set (tabs: square bottom) */
   clip-path: polygon(
     0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
@@ -572,10 +586,7 @@ a:focus-visible,
 
 .menu-toggle span {
   --dot: 6px;
-  width: var(--dot);
-  height: var(--dot);
   color: var(--ink);
-  background: currentColor;
   box-shadow: -10px 0 currentColor, 10px 0 currentColor;
 }
 
@@ -774,35 +785,89 @@ a:focus-visible,
   height: 1.1rem;
 }
 
-/* the column beside the sidebar */
+/* the column beside the sidebar (min-width: 0, so something wide in it, like
+   a table, can't stretch it past the screen) */
 .sidebar-main {
+  min-width: 0;
   max-width: calc(var(--measure) + var(--gutter) * 2);
   padding: 3rem var(--gutter) 6rem;
 }
 
-/* narrow screens: the sidebar sits above the content as a wrapped row of
-   top-level links */
+/* narrow screens: the sidebar becomes a slim bar just under the site header
+   (it stays there while scrolling): a button showing where you are, with a
+   pixel ▾, that drops the sidebar's contents down as a panel (js/sidebar.js).
+   The editor's bar adds its own pieces (make.css). */
+.sidebar-bar { display: none; }
+
 @media (width < 64rem) {   /* = --narrow */
   .sidebar-layout { grid-template-columns: 1fr; }
   .sidebar-main { padding-top: 2rem; }
 
   .sidebar {
-    position: static;
+    z-index: 5;
+    min-width: 0;   /* (its bar can't stretch the page: long text in it is cut short instead) */
     height: auto;
     overflow: visible;
-    padding: 1rem var(--gutter);
+    padding: 0.4rem var(--gutter);
     border-right: none;
     border-bottom: var(--rule);
+    background: var(--glass);
+    backdrop-filter: blur(4px);
   }
 
-  .sidebar ul { display: flex; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin: 0; }
-  .sidebar .sub { display: none; }
+  .sidebar-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1rem;
+  }
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: var(--fs-xs);   /* the bar's one text size */
+    text-align: left;
+  }
+  .sidebar-toggle:is(:hover, :focus-visible) { color: var(--accent); }
+  .sidebar-toggle[aria-expanded="true"] .pixel-caret { rotate: 180deg; }
+
+  .sidebar.is-open { background: var(--bg); }   /* open: solid, so the list reads clearly over the page */
+  /* the panel: hidden until opened; scrolls if it's longer than the screen */
+  .sidebar:not(.is-open) .sidebar-panel { display: none; }
+  .sidebar-panel {
+    max-height: calc(100dvh - var(--header-h) - 4rem);
+    overflow-y: auto;
+    margin-top: 0.4rem;
+    padding: 0.35rem 0 0.1rem;
+    border-top: var(--rule);
+  }
+  .sidebar-panel > ul { margin-bottom: 0; }   /* (the panel's own padding is enough below) */
+}
+
+/* the ▾: three rows of 3px pixels (5, 3, 1 wide) in a 15x9 box, so it
+   centres with the text */
+.pixel-caret {
+  flex: none;
+  width: 15px;
+  height: 9px;
+  background:
+    linear-gradient(currentColor 0 0) center 0 / 15px 3px no-repeat,
+    linear-gradient(currentColor 0 0) center 3px / 9px 3px no-repeat,
+    linear-gradient(currentColor 0 0) center 6px / 3px 3px no-repeat;
 }
 
 /* ---- tables ----------------------------------------------------------- */
 /* full-width data tables: mono capital column heads (shared rule near the
    top) over thin row lines */
 .table { width: 100%; border-collapse: collapse; font-size: var(--fs-s); margin-bottom: 1rem; }
+/* narrow screens: a table wider than the screen scrolls sideways in its own
+   box, instead of pushing the page wider */
+@media (width < 64rem) {   /* = --narrow */
+  .table { display: block; overflow-x: auto; }
+}
 
 .table th {
   font-family: var(--mono);
@@ -1077,14 +1142,7 @@ a:focus-visible,
 .print-only { display: none; }
 
 @media print {
-  :root,
-  :root[data-theme="dark"] {
-    color-scheme: light;
-    --bg: #FFFFFF;
-    --ink: #141414;
-    --gray: #6B6660;
-    --line: #D8CFC4;
-  }
+  :root { --bg: #FFFFFF; }   /* (the rest of the light colours as they are: night mode is screen-only) */
   body { font-size: 11pt; }
   .site-header,
   .info-side,
@@ -1092,9 +1150,8 @@ a:focus-visible,
   .no-print { display: none !important; }
   .print-only { display: block; }
   .info { display: block; min-height: 0; }
-  .info-body { max-width: none; padding: 0; }
+  .info-body { width: auto; max-width: none; padding: 0; }
   .info .site-footer { justify-self: stretch; width: auto; max-width: none; margin: 2rem 0 0; padding-inline: 0; }
-  .info-body { width: auto; }
   h1, h2, h3 { break-after: avoid; }
   tr, .callout { break-inside: avoid; }
   /* links' addresses, written out, so they still work on paper */

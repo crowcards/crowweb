@@ -48,6 +48,7 @@ try {
     }) : []),
   );
 } catch (e) {
-  document.getElementById("laws-loading").textContent = "Couldn’t load the list of laws. Please try again later.";
+  // (the "Loading…" line may already be gone, if building the page failed)
+  main.replaceChildren(...[...main.children].filter((c) => c.matches("h1")), el("p", { className: "form-error", textContent: "Couldn’t load the list of laws. Please try again later." }));
   console.error(e);
 }

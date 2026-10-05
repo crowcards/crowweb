@@ -1,7 +1,7 @@
 // Small helpers for building the editor's forms in code.
 
 /**
- * Make an element: el("p", { className: "hint", textContent: "…" }, child, …).
+ * Make an element: el("p", { className: "field-hint", textContent: "…" }, child, …).
  * Props are set as properties; children (nodes or strings) are appended.
  */
 export function el(tag, props = {}, ...children) {
@@ -37,3 +37,6 @@ export function richText(text) {
       : part.startsWith("*") && part.endsWith("*") && part.length > 2 ? el("em", { textContent: part.slice(1, -1) })
         : part);
 }
+
+/** The one narrow-screen breakpoint, read from --narrow in styles.css so it's defined in a single place. */
+export const narrowWidth = () => getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";

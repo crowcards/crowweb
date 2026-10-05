@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Plan — CROW</title>
+  <!-- the team's plan: not linked from the site, for sharing with collaborators -->
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body class="docs">
+
+
+  <header class="site-header">
+    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="index.html" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" class="site-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="make.html">Make</a>
+      <a href="library.html">Library</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
+  </header>
+
+
+<div class="sidebar-layout">
+
+<nav class="sidebar" id="docs-nav" aria-label="Plan">
+  <div class="sidebar-bar">
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="docs-nav-panel">
+      <span class="visually-hidden">Contents: </span><span id="docs-nav-current">Contents</span><span class="pixel-caret" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="sidebar-panel" id="docs-nav-panel">
+  <ul>
+    <li><a href="#where-we-are">Where we are</a></li>
+    <li><a href="#done-so-far">Done so far</a></li>
+    <li><a href="#phase-4">Phase 4: publishing and sharing</a>
+      <ul class="sub">
+        <li><a href="#decisions">Decisions</a></li>
+        <li><a href="#view-modes">View modes</a></li>
+        <li><a href="#how-publishing-works">How publishing works</a></li>
+        <li><a href="#chunks">The work, in chunks</a></li>
+        <li><a href="#plan-4a">4a in detail</a></li>
+        <li><a href="#open-questions">Open questions</a></li>
+      </ul>
+    </li>
+    <li><a href="#before-launch">Before launch</a></li>
+    <li><a href="#after-phase-4">After Phase 4</a></li>
+  </ul>
+  </div>
+</nav>
+
+<main class="docs-body sidebar-main" id="main">
+  <h1>Plan</h1>
+  <p class="lede lede-small">What we're building next for CROW Cards, what's been decided, and what's still open. Updated 5 October 2026.</p>
+
+  <section id="where-we-are">
+    <h2>Where we are</h2>
+    <p>The Card Maker (<a href="make.html">make.html</a>) is built: communities make a card with a private key, fill in Basics and the modules that fit them (Infrastructure, Membership, Rules, Processes, Federation, and their own), get suggestions from their values and platform, and export their card as JSON or Markdown. Cards are private drafts: nothing is public yet. Phase 4 works on making cards public in nuanced ways.</p>
+  </section>
+
+  <section id="done-so-far">
+    <h2>Done so far</h2>
+    <table class="table">
+      <thead><tr><th>Phase</th><th>What it covered</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="ref-name">1. The editor and the server</td><td>The basics of connecting the frontend to the backend: starting a new card or opening one with its card ID and secret; the secret shown once, to copy or download; answers saved automatically as you go, without overwriting changes made elsewhere; Basics, the first section.</td><td><span class="badge yes">Done</span></td></tr>
+        <tr><td class="ref-name">2. The rest of the editor</td><td>Infrastructure, Membership, Rules, Processes and Federation, and a community's own custom modules, built from shared components (choice lists, type-ahead fields, tags, lists with notes, repeatable rows, folding sections, tabs, etc).</td><td><span class="badge yes">Done</span></td></tr>
+        <tr><td class="ref-name">3. Pre-filling and recommendations</td><td>We fill in platform details and usual costs; a card's values suggest decision-making approaches, ways of joining and conflict management, with reasons; a community's type suggests its modules; suggestions appear where a selection affects a module (e.g. a federated platform suggests Federation). Pre-filled stuff / recommendations are defined in a series of datasheets we make.We will want to improve the recommendation/suggestions engine eventually.</td><td><span class="badge yes">Done</span></td></tr>
+        <tr><td class="ref-name">3.5. Basic UI/UX improvements</td><td>A design pass over every field and page (with a style page of the components); Adding export as JSON and Markdown; the Docs page; a review of how cards are stored, so answers set aside while editing come back; a guard for editor tabs left open across an update + syncing across multiple tabs for the same card. Also made the Laws to know page (savable as a PDF), to be updated with final datasheet. </td><td><span class="badge yes">Done</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="phase-4">
+    <h2>Phase 4: publishing and sharing</h2>
+    <p>Let communities publish their card for others to read, browse published cards in the <a href="library.html">Library</a>, and start a new card from one they like (forking), while each community decides how much it shares.</p>
+
+    <h3 id="decisions">Decisions</h3>
+    <ul>
+      <li><b>Publishing is a snapshot.</b> Pressing Publish releases the card as it is now; the draft stays private, and edits only reach readers when the community presses Publish changes. Each publish is a numbered version (v1, v2…), with its date and an optional note on what changed.</li>
+      <li><b>Version history is public</b>, following the card's current visibility and view mode: if a community shares less later, its earlier versions are shown in the same, smaller way.</li>
+      <li><b>Visibility:</b> <i>listed</i> (in the Library, and readable by link), <i>unlisted</i> (readable only by link; card links can't be guessed), or not published (the private draft). Listed and unlisted cards use the same view modes.</li>
+      <li><b>View modes</b> decide how much a published card shows: Minimal, Minimal plus, Foggy or Full (below). A new card starts on Minimal.</li>
+      <li><b>Never public:</b> the editor's own notes (e.g. dismissed suggestions), answers set aside while editing, and the contributor's email (kept only so the CROW team can get in touch).</li>
+      <li><b>Credit is opt-in:</b> the contributor's name and organisation appear only if they choose to show them.</li>
+      <li><b>Minimum to publish:</b> enough to show Minimal: a community name and type are required. Anything else Minimal shows but the card hasn't filled in is listed in the Publish panel as a reminder (“Publish anyway”), not a blocker.</li>
+      <li><b>On public pages,</b> <b>N/A</b> means the community hasn't filled something in; <b>Not shared</b> means its view mode leaves it out.</li>
+      <li><b>The public link</b> is short: <code>crowcards.org/c/crd_…</code>.</li>
+      <li><b>Forking</b> works from Minimal plus, Foggy and Full. A fork copies only what's shared; the rest starts empty, and a pop-up at the start explains, for that view mode, what was copied and what wasn't.</li>
+      <li><b>Reporting:</b> a small pixel “report” icon sits above the back-to-top arrow on public pages. Reports are saved as a list for the team to check, with email alerts added before a public launch.</li>
+      <li><b>The Library:</b> a sidebar of filters (like the editor and docs), and a card grid that adapts to the window, with a grid / list toggle. Its visual design is still TBD.</li>
+    </ul>
+
+    <h3 id="view-modes">View modes</h3>
+    <p>What a published card shows in each mode. Changing the mode changes every published version at once.</p>
+    <table class="table">
+      <thead><tr><th>Part of the card</th><th>Minimal</th><th>Minimal plus</th><th>Foggy</th><th>Full</th></tr></thead>
+      <tbody>
+          <tr><td>Basics: name, link, type, size, keywords, values</td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Platform: platform, software, platform type, structural model</td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Locations (servers, members, admin team)</td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Rest of Infrastructure: protocol, open source, self-hosted, costs, tools</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>How people join (tiers)</td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Ways of joining, with their notes</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Rules: a count per kind (e.g. “18 rules: 11 on behaviour, 7 on content”)</td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Rules themselves: selected rules, qualifiers, wording, covenants, custom rules</td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Decision-making approaches (structure; in Membership and in Processes)</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge var">No notes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Conflict management steps</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge var">No notes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Communication: whether a channel is specified</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Federation: approach and response ladder</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge var">No notes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>1–5 scales: participatory, transparent, hierarchical</td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>All notes and general notes, the rest of Federation</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Custom modules</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Downloads (JSON, Markdown)</td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td></tr>
+          <tr><td>Can be forked</td><td><span class="badge no">No</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td></tr>
+      </tbody>
+    </table>
+    <p><span class="badge var">No notes</span> means shown, but without the community's notes on it. Federation only appears for communities that use the Federation module. The 1–5 scales show on every card (and can be used to filter the Library); they're worked out from the card's decision-making approaches, joining and conflict management (see <a href="#plan-4a">4a</a>).</p>
+
+    <h3 id="how-publishing-works">How publishing works</h3>
+    <ul>
+      <li>Each published version is kept <b>in full, privately</b>: only the server can read it.</li>
+      <li>What the public sees is <b>made from it for the card's current view mode</b>, and only that is stored where anyone can read it. Changing the mode makes the public copies again, so less really means less (notes removed from public reach, not just hidden on the page).</li>
+      <li>The rules for what each mode shows live in <b>one place</b>, used both by the server (to make the public copies) and by the editor (to preview what readers will see).</li>
+      <li>Public copies are read straight from the database, with no key needed; anything else (publishing, changing the mode, forking, reporting) goes through the server, which checks the card's key.</li>
+      <li>The CROW team can <b>take a card down</b>: marked hidden, its public copies are removed, and it can't be republished until the team clears it. To start, this is done in the Firebase console, following a written procedure; a small admin page with Google sign-in for the team can come later if it's needed often.</li>
+    </ul>
+
+    <h3 id="chunks">The work, in chunks</h3>
+    <table class="table">
+      <thead><tr><th>Chunk</th><th>What it covers</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="ref-name">4a. View modes</td><td>What each mode shows, as one shared set of rules; the 1–5 scales and the scoring file behind them (drafted, then reviewed by the team).</td><td><span class="badge var">Next</span></td></tr>
+        <tr><td class="ref-name">4b. Publish</td><td>Server: private full versions, public copies per mode, database rules. Editor: a Publish panel with the view mode (and a preview of each), listed / unlisted, credit, the note on what changed, Publish changes and Unpublish.</td><td><span class="badge no">To do</span></td></tr>
+        <tr><td class="ref-name">4c. The public card page</td><td>The card in its view mode, its versions, credit, downloads (Full only), the report icon, and a short link to share.</td><td><span class="badge no">To do</span></td></tr>
+        <tr><td class="ref-name">4d. The Library</td><td>Listed cards: a filter sidebar (type, size, platform model, the 1–5 scales, values, search), a grid that adapts to the window, and a grid / list toggle.</td><td><span class="badge no">To do</span></td></tr>
+        <tr><td class="ref-name">4e. Forking</td><td>“Use as a starting point” from Minimal plus, Foggy and Full; what's not shared starts empty; the opening pop-up for each mode; “Adapted from …” on the new card.</td><td><span class="badge no">To do</span></td></tr>
+        <tr><td class="ref-name">4f. Safety</td><td>Reports (saved for the team), taking a card down, and the protections needed before launch (below).</td><td><span class="badge no">To do</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 id="plan-4a">4a in detail: view modes and the 1–5 scales</h3>
+    <ol>
+      <li><b>One set of rules for the modes.</b> A single file (<code>js/view-modes.js</code>) takes a card and a mode, and gives back just what that mode shows: following the table above, with rules turned into counts in Minimal, notes left out in Foggy, and so on. The server gets an exact copy each time it's deployed, so the editor's preview and the public card can never disagree.</li>
+      <li><b>The scoring file</b> (<code>data/governance_scales.json</code>). For each option a card can choose that says something about how it's governed, a score from 1 to 5 on three scales:
+        <ul>
+          <li><b>Participatory</b>: how many members take part in decisions (1: a few people decide; 5: everyone can).</li>
+          <li><b>Transparent</b>: how visible decisions and their reasons are (1: made privately; 5: made in the open).</li>
+          <li><b>Hierarchical</b>: how much authority sits with particular roles (1: flat; 5: clear levels of authority).</li>
+        </ul>
+        The options scored: the 32 decision-making approaches, the 4 ways of joining (tiers) and the 19 more specific ones, and the 19 conflict management approaches. Each score comes with a short reason, so reviewers can see why, and a status, like the value recommendations: only scores the team has accepted are used.</li>
+      <li><b>A card's scores.</b> On each scale, the average of the scores of what the card chose (rounded to a whole number, shown as 1–5), or “Not enough to say” if it chose nothing that's scored. The card page says what each score is based on.</li>
+      <li><b>Review.</b> Claude drafts the scoring file; the team reviews it (a page listing every option with its scores and reasons, to accept or change), as was done for the value recommendations.</li>
+      <li><b>Tests</b> for every mode (what's in, what's left out) and for the scores, and a preview of the four modes in <a href="style.html">the style page</a> so the design can be checked before 4b.</li>
+    </ol>
+
+    <h3 id="open-questions">Open questions</h3>
+    <ul>
+      <li><b>The scales:</b> whether three is the right set, and whether some options shouldn't count towards a scale at all.</li>
+      <li><b>The Library's design:</b> what a card looks like in the grid and in the list, and which filters matter most.</li>
+    </ul>
+  </section>
+
+  <section id="before-launch">
+    <h2>Before launch</h2>
+    <ul>
+      <li>App Check, so only the CROW site can use the server, and limits on how often cards can be made, forked or reported.</li>
+      <li>Security headers for the site.</li>
+      <li>A fuller, reviewed list of laws to know for each place.</li>
+      <li>An accessibility review.</li>
+    </ul>
+  </section>
+
+  <section id="after-phase-4">
+    <h2>After Phase 4</h2>
+    <ul>
+      <li><b>A visual summary card</b> to download and share (image and / or PDF), also shown on the public card page.</li>
+      <li><b>Less typing:</b> suggest Basics from a community's link, and suggest rules from its rules page or pasted rules.</li>
+      <li><b>Better recommendations</b>, from more of what a card says (e.g. how participatory and transparent its processes are).</li>
+      <li><b>Starting templates</b> from CommunityRule's governance templates.</li>
+      <li><b>Linked data (JSON-LD)</b>, once there are real published cards to shape it against.</li>
+      <li><b>To consider:</b> shared editing and recovering a lost key (several stewards per community); comparing cards, e.g. checking two communities' policies before they federate; showing a community's card on its platform (e.g. Bonfire); translation.</li>
+    </ul>
+  </section>
+</main>
+
+</div>
+
+<footer class="site-footer">
+  <p>CROW is a research project from <a class="inline" href="https://hci.princeton.edu/">Princeton HCI</a></p>
+</footer>
+
+<script type="module" src="js/docs-page.js"></script>
+</body>
+</html>

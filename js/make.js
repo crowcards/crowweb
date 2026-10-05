@@ -4,8 +4,8 @@
 import { createCard, getCard, updateCard, errorKind } from "./api.js";
 import { loadSession, saveSession, confirmKey, forgetSession } from "./session.js";
 import { loadModuleDefaults, startingModules, moduleEntries, renderModulePicker, moduleSuggestion, hasSavedContent } from "./modules.js";
-import { createAutosaver, onSaveStatus, saveStatus, flushAll, resetSavers, stoppedParts, resumeAll } from "./autosave.js";
-import { el, richText, button, chip } from "./dom.js";
+import { createAutosaver, onSaveStatus, saveStatus, flushAll, resetSavers, stoppedParts, unsavedParts, hasUnsaved, resumeAll } from "./autosave.js";
+import { el, richText, button, chip, narrowWidth } from "./dom.js";
 import { renderChoices } from "./controls/choices.js";
 import { keepPlace, pointTo, holdFloor } from "./scroll.js";
 import { loadExportData, renderExport } from "./export.js";
@@ -19,8 +19,11 @@ import { renderInfrastructure, loadInfrastructureData } from "./sections/infrast
 import { renderRules, loadRulesData } from "./sections/rules.js";
 import { renderCustomModule, newCustomModule } from "./sections/custom.js";
 import { textField } from "./controls/fields.js";
-import { showPopup, closePopup } from "./popup.js";
+import { showPopup, closePopup, confirmPopup } from "./popup.js";
+import { startFreshness, isStale, staleError } from "./freshness.js";
 import { suggestionsFor } from "./suggestions.js";
+import { asideOf, withAside, withoutAside } from "./set-aside.js";
+import { narrowSidebar } from "./sidebar.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -54,12 +57,14 @@ const MESSAGES = {
   "no-card": "No card has this ID. Check that the whole ID is there, starting with crd_.",
   "bad-key": "This secret doesn’t match this card. Check that the whole secret is there, with nothing extra.",
   offline: "Couldn’t reach the server. Check your connection and try again.",
+  conflict: "This card was changed somewhere else. Reload the page to get the latest version, then try again.",
   other: "Something went wrong. Please try again in a moment.",
 };
 
 // ── start: make a new card ──────────────────────────────────
 $("start-new").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
+  if (await isStale({ force: true })) return showStale();   // a new card from old code would be saved in an old shape
   btn.disabled = true;
   btn.textContent = "Making your card…";
   showError($("start-error"), "");
@@ -174,8 +179,10 @@ $("key-continue").addEventListener("click", () => {
 // `version` is the card's updatedAt as this page last saw it: every save
 // sends it, so the server can refuse a save that would overwrite changes
 // made somewhere else in the meantime.
-const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, forms: {}, suggestions: [] };
-let stopShown = false;   // the "changes can't be saved" pop-up shows once per card
+const editor = { card: null, version: null, defaults: null, basicsData: null, savers: null, suggestions: [] };
+// the parts whose refused saves have been raised in a pop-up: it's raised
+// again only when another part's save is refused (or by Save)
+let stopsShown = new Set();
 
 /**
  * Load the card in this browser's session, then go to set-up (if its
@@ -235,6 +242,7 @@ $("loading-retry").addEventListener("click", () => openCard());
  * version this page last saw, and remember the new version.
  */
 async function savePart(part, data) {
+  if (await isStale()) throw staleError();   // old code mustn't save over the new shape
   const { cardId, secret } = loadSession();
   const result = await updateCard(cardId, secret, { [part]: data }, { ifUpdatedAt: editor.version });
   editor.version = result.updatedAt;
@@ -255,11 +263,11 @@ const SECTIONS = {
 
 // One auto-saver per part of the card. Each sends only its own part.
 // (customModules is one part holding every custom module.)
-const PARTS = ["modules", "customModules", "dismissedSuggestions", ...Object.keys(SECTIONS)];
+const PARTS = ["modules", "customModules", "editor", ...Object.keys(SECTIONS)];
 
 function startSavers() {
   resetSavers();
-  stopShown = false;
+  stopsShown = new Set();
   editor.savers = Object.fromEntries(PARTS.map((part) => [part, createAutosaver({
     name: part,
     collect: () => editor.card[part],
@@ -272,37 +280,67 @@ function startSavers() {
  * to that part's auto-saver. `data` is the module's reference data.
  * Extra hooks: onTypeChange (Basics), afterInput (runs after each keystroke).
  * Forms also get `stateKey` ("<card id>:<module>"), a name for remembering
- * view preferences such as which sections are open, and getPart / setPart to
- * read and change other parts of the card (e.g. Processes editing the shared
+ * view preferences such as which sections are open, and getPart / setPart
+ * (one part) / setParts ({ part: value, … }, several at once) to read and
+ * change other parts of the card (e.g. Processes editing the shared
  * structure list in membership).
  */
 function mountSection(part, container, data, { onTypeChange, afterInput } = {}) {
   const saver = editor.savers[part];
-  const form = SECTIONS[part].render(container, editor.card[part], data, {
+  let form = null;   // (a form can call setPart while it's still being drawn)
+  form = SECTIONS[part].render(container, editor.card[part], data, {
     onInput: () => {
       editor.card[part] = form.collect();
+      syncAside(part, form);
       afterInput?.();
       saver.schedule();
     },
     onCommit: () => {
       // a finished choice (or leaving a field): mark it changed, save now
       editor.card[part] = form.collect();
-      saver.schedule();
-      saver.flush();
+      saveParts(syncAside(part, form) ? [part, "editor"] : [part]);
       refreshSuggestions();
     },
     onTypeChange,
     stateKey: `${editor.card.id}:${part}`,
+    setAside: asideOf(editor.card.editor?.setAside, part),   // what this module set aside earlier (js/set-aside.js)
     getPart: (other) => editor.card[other] || {},
-    setPart: (other, value) => {
-      editor.card[other] = value;
-      saveParts([other]);
-      refreshSuggestions();
-    },
+    setPart: (other, value) => setParts({ [other]: value }),
+    setParts,
   });
-  editor.forms[part] = form;
   return form;
+
+  // change other parts ({ part: value, … }) together, with this form's own
+  // part as it is now, so suggestions only ever see them all changed (e.g. a
+  // structure tick in Membership changes the structure and what's been
+  // reviewed; one without the other would briefly look like a change from
+  // Processes)
+  function setParts(changes) {
+    Object.assign(editor.card, changes);
+    if (form) editor.card[part] = form.collect();
+    const aside = form ? syncAside(part, form) : false;
+    saveParts([...new Set([...Object.keys(changes), ...(aside ? ["editor"] : [])])]);
+    refreshSuggestions();
+  }
 }
+
+/**
+ * Keep the card's set-aside answers (editor.setAside) in step with what a
+ * form sets aside now (form.setAside(), under `part`). Says whether they
+ * changed (the editor part is then due to be saved).
+ */
+function syncAside(part, form) {
+  if (!form.setAside) return false;
+  const ed = editor.card.editor || {};
+  const next = withAside(ed.setAside, part, form.setAside());
+  if (sameEntries(next, ed.setAside || {})) return false;
+  editor.card.editor = { ...ed, setAside: next };
+  editor.savers.editor.schedule();
+  return true;
+}
+// (key order aside: the server may hand keys back in another order)
+const sameEntries = (a, b) => Object.keys(a).length === Object.keys(b).length
+  && Object.keys(a).every((k) => JSON.stringify(a[k]) === JSON.stringify(b[k]));
 
 const mountBasics = (container, hooks = {}) =>
   mountSection("basics", container, editor.basicsData, { ...hooks, afterInput: renderCardName });
@@ -316,7 +354,12 @@ function statusText(s) {
     case "unsaved": return "Unsaved changes";
     case "offline": return "Offline. Changes will save when you’re back online.";
     case "retrying": return "Can’t reach the server. Retrying…";
-    case "stopped": return s.kind === "conflict" ? "Not saved: changed somewhere else" : "Not saved: this key no longer works";
+    case "stopped": return {
+      conflict: "Not saved: changed somewhere else",
+      stale: "Not saved: the editor was updated. Reload the page",
+      "too-big": "Not saved: the card is too big",
+      invalid: "Not saved: something went wrong",
+    }[s.kind] || "Not saved: this key no longer works";
     case "saved": return `Saved ${timeNow(s.at)}`;
     default: return "";
   }
@@ -326,16 +369,41 @@ onSaveStatus((s) => {
   $("save-status").textContent = statusText(s) || "All changes saved";
   $("save-status-bar").textContent = statusText(s) || "Saved";   // (short: the bar is narrow)
   $("setup-status").textContent = statusText(s);
-  if (s.state === "stopped" && !stopShown) {
-    stopShown = true;
+  const newlyStopped = stoppedParts().filter((p) => !stopsShown.has(p));
+  if (s.state === "stopped" && newlyStopped.length) {
+    for (const p of newlyStopped) stopsShown.add(p);
     if (s.kind === "conflict") return showConflict();
+    if (s.kind === "stale") return showStale();
     showPopup({
       title: "Changes can’t be saved",
-      message: s.kind === "no-card"
-        ? "This card no longer exists, so your latest changes couldn’t be saved."
-        : "The key in this browser no longer opens this card, so your latest changes couldn’t be saved. Copy anything you need from the page before leaving it.",
+      tone: "error",
+      message: {
+        "no-card": "This card no longer exists, so your latest changes couldn’t be saved.",
+        "too-big": "This card has reached its size limit, so your latest changes couldn’t be saved. Shorten some of the longest answers (copy them somewhere first), then reload the page.",
+        invalid: "The server couldn’t accept your latest changes. Copy anything you need from the page, then reload it and try again.",
+      }[s.kind] || "The key in this browser no longer opens this card, so your latest changes couldn’t be saved. Copy anything you need from the page before leaving it.",
     });
   }
+});
+
+// ── the editor was updated since this page opened ───────────
+// Its old code can't save safely (the card's shape may have changed), so it
+// stops saving and asks for a reload.
+function showStale() {
+  showPopup({
+    title: "The editor has been updated",
+    tone: "error",
+    body: el("div", {},
+      el("p", { textContent: "A newer version of the editor went online after you opened this page. Reload to keep editing. Anything not yet saved will be lost, so copy it first if you need it." }),
+      el("p", { className: "button-row" },
+        button("Reload the page", "button button-small", () => { resetSavers(); location.reload(); }),
+        button("Not yet", "link-button", closePopup)),
+    ),
+  });
+}
+// coming back to a tab that's been open a while: check straight away
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState === "visible" && await isStale({ force: true })) showStale();
 });
 
 // ── custom modules ──────────────────────────────────────────
@@ -351,8 +419,14 @@ function moduleHasContent(id) {
 /** Change the custom modules and save them. */
 function setCustomModules(list) {
   editor.card.customModules = list;
-  editor.savers.customModules.schedule();
-  editor.savers.customModules.flush();
+  saveParts(["customModules"]);
+}
+
+/** Drop these parts' set-aside answers (e.g. a deleted custom module's), and save. */
+function clearAside(parts) {
+  const ed = editor.card.editor || {};
+  editor.card.editor = { ...ed, setAside: withoutAside(ed.setAside, parts) };
+  saveParts(["editor"]);
 }
 
 /**
@@ -391,28 +465,36 @@ function addCustomModule() {
 
 /** A custom module's page, wired to the customModules auto-saver. */
 function mountCustom(id, container) {
-  const saver = editor.savers.customModules;
   const update = () => {
     const next = form.collect();
     editor.card.customModules = editor.card.customModules.map((m) => (m.id === id ? next : m));
-    $("module-title").textContent = next.name;   // the name shows as the page title and in the sidebar
+    // the name shows as the page title, the narrow bar's module, and in the sidebar (just its text)
+    $("module-title").textContent = $("editor-bar-module").textContent = next.name;
     $("module-description").textContent = next.description || "";
-    renderModuleList();
+    const link = $("module-list").querySelector(`a[data-module="${id}"]`);
+    if (link) link.firstChild.textContent = next.name;
   };
+  const part = `customModules.${id}`;   // where this module's set-aside answers go
   const form = renderCustomModule(container, customModule(id), {
     // the name and description are edited in place, beside the page's title and lede
     head: { title: $("module-title"), titleTools: $("module-title-tools"), description: $("module-description"), descriptionTools: $("module-description-tools") },
-    onInput: () => { update(); saver.schedule(); },
-    onCommit: () => { update(); saver.schedule(); saver.flush(); },
-    onDelete: () => {
+    setAside: asideOf(editor.card.editor?.setAside, part),
+    onInput: () => { update(); syncAside(part, form); editor.savers.customModules.schedule(); },
+    onCommit: () => { update(); saveParts(syncAside(part, form) ? ["customModules", "editor"] : ["customModules"]); },
+    onDelete: async () => {
       const m = customModule(id);
-      if (!confirm(`Delete “${m.name}” and everything in it? This can’t be undone.\n\nTo hide it instead, unselect it under Basics → Modules.`)) return;
+      const ok = await confirmPopup({
+        title: `Delete “${m.name}”?`,
+        message: ["This deletes the module and everything in it, and can’t be undone.", "To hide it instead, unselect it under Basics → Modules."],
+        confirmLabel: "Delete",
+      });
+      if (!ok) return;
       setCustomModules(editor.card.customModules.filter((x) => x.id !== id));
+      clearAside([part]);   // its set-aside answers go with it
       setModules(editor.card.modules.filter((x) => x !== id));
       location.hash = "#basics";
     },
   });
-  editor.forms[id] = form;
 }
 
 /** Change which modules are on, update the sidebar, and save. */
@@ -432,27 +514,38 @@ function saveParts(parts) {
 }
 
 // ── suggestions ("update other modules" flags) ──────────────
-// Worked out again whenever something is saved (see js/suggestions.js).
-function refreshSuggestions() {
-  if (!editor.card || !editor.defaults) return;
+// Worked out again after each finished change (see js/suggestions.js).
+/** Work out the suggestions, and mark them in the sidebar. */
+function updateSuggestions() {
   editor.suggestions = suggestionsFor(editor.card, {
     defaults: editor.defaults,
     approachLabel: (id) => editor.approachLabels?.[id] || id,
   });
   renderModuleList();
+  $("editor-nav-flag").hidden = !editor.suggestions.some((s) => !s.quiet);
+}
+/** …and redraw the open module's suggestion box (in the editor, not set-up). */
+function refreshSuggestions() {
+  if (!editor.card || !editor.defaults) return;
+  updateSuggestions();
+  if ($("editor").hidden) return;
   // redrawn above the fields: keep the field you're in still, and if a new
   // suggestion lands out of sight above, point to it
-  const shown = new Set([...$("module-suggestions").children].map((n) => n.dataset.id));
+  // (only for a suggestion that's new while this module is open, not one
+  // drawn with the page, e.g. on a refresh)
+  const box = $("module-suggestions");
+  const sameModule = box.dataset.module === currentModuleId();
+  const shown = new Set([...box.children].map((n) => n.dataset.id));
   keepPlace($("module-content"), renderSuggestionBox);
-  if ([...$("module-suggestions").children].some((n) => !shown.has(n.dataset.id))) pointTo($("module-suggestions"), "New suggestion");
-  $("editor-nav-toggle").classList.toggle("has-flags", editor.suggestions.some((s) => !s.quiet));
+  if (sameModule && [...box.children].some((n) => !shown.has(n.dataset.id))) pointTo(box, "New suggestion");
 }
 
 /** The current module's suggestions, at the top of its page. */
 function renderSuggestionBox() {
   const id = currentModuleId();
-  $("module-suggestions").replaceChildren(...editor.suggestions.filter((s) => s.module === id).map((s) => {
-    return el("div", { className: "callout" },
+  const box = $("module-suggestions");
+  box.replaceChildren(...editor.suggestions.filter((s) => s.module === id).map((s) => {
+    const callout = el("div", { className: "callout" },
       // a lime pill when it asks for a decision, orange when it's just a note;
       // the word is the suggestion's own label, or Suggestion / Note
       el("p", {}, s.quiet ? el("span", { className: "tag", textContent: s.label || "Note" }) : chip(s.label || "Suggestion"), " ", s.title),
@@ -465,26 +558,26 @@ function renderSuggestionBox() {
             ...(l.chip ? [" ", chip(l.chip)] : [])))),   // e.g. Kept / Undone
       ]),
       el("p", { className: "button-row" },
-        s.apply ? button(s.applyLabel, "button button-small", () => applySuggestion(s, s.apply)) : null,
-        s.alt ? button(s.alt.label, "link-button", () => applySuggestion(s, s.alt.apply)) : null,
+        s.apply ? button(s.applyLabel, "button button-small", () => applySuggestion(s.apply)) : null,
+        s.alt ? button(s.alt.label, "link-button", () => applySuggestion(s.alt.apply)) : null,
         s.dismissible === false ? null : button("Dismiss", "link-button", () => dismissSuggestion(s)),
       ),
     );
+    callout.dataset.id = s.id;   // which suggestion it is (to tell when a new one appears)
+    return callout;
   }));
-  // each box knows which suggestion it is (to tell when a new one appears)
-  const forModule = editor.suggestions.filter((s) => s.module === id);
-  [...$("module-suggestions").children].forEach((box, i) => { box.dataset.id = forModule[i].id; });
+  box.dataset.module = id;
 }
 
-function applySuggestion(s, action) {
+function applySuggestion(action) {
   saveParts(action(editor.card));
-  refreshSuggestions();
-  renderModule({ focus: false });   // show what changed (or move on, if this module was hidden)
+  updateSuggestions();
+  renderModule({ focus: false });   // show what changed (or move on, if this module was hidden); draws the box
 }
 
 function dismissSuggestion(s) {
-  editor.card.dismissedSuggestions = [...(editor.card.dismissedSuggestions || []), s.id];
-  saveParts(["dismissedSuggestions"]);
+  editor.card.editor = { ...editor.card.editor, dismissedSuggestions: [...(editor.card.editor?.dismissedSuggestions || []), s.id] };
+  saveParts(["editor"]);
   refreshSuggestions();
 }
 
@@ -556,9 +649,12 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
 // (another tab, device or person). Saving is paused until the person picks:
 // load the latest (dropping their unsaved edits) or keep theirs (write their
 // unsaved parts over the latest; parts they didn't touch take the latest).
+const PART_NAMES = { modules: "the module list", customModules: "your own modules", editor: "the editor’s notes (e.g. dismissed suggestions)" };
+const partName = (p) => PART_NAMES[p] || moduleLabel(p);
+
 function showConflict() {
-  const parts = stoppedParts();
-  const names = parts.map((p) => (p === "modules" ? "the module list" : moduleLabel(p)));
+  // every part not yet saved: refused, or still waiting behind the refused one
+  const names = unsavedParts().map(partName);
   const latest = el("button", { type: "button", className: "button button-small", textContent: "Load the latest version" });
   const mine = el("button", { type: "button", className: "link-button", textContent: "Keep mine" });
   const error = el("p", { className: "form-error", hidden: true });
@@ -574,9 +670,6 @@ function showConflict() {
       error,
       el("p", { className: "button-row" }, latest, mine),
     ),
-  }).then(() => {
-    // closed without choosing: ask again next time a save is refused
-    if (stoppedParts().length) stopShown = false;
   });
 
   const choose = async (keepMine) => {
@@ -585,10 +678,10 @@ function showConflict() {
       const { cardId, secret } = loadSession();
       const fresh = await getCard(cardId, secret);
       if (keepMine) {
-        for (const p of parts) fresh[p] = editor.card[p];
+        for (const p of unsavedParts()) fresh[p] = editor.card[p];   // (as they are now: more may have stopped since it opened)
         editor.card = fresh;
         editor.version = fresh.updatedAt;
-        stopShown = false;
+        stopsShown = new Set();
         resumeAll();
       } else {
         editor.card = fresh;
@@ -619,21 +712,22 @@ function rerender() {
 
 // ── set up: Basics + modules, right after a card is made ────
 let setupPicker = null;
+let setupForm = null;   // set-up's Basics form
 
 function showSetup(opts) {
   // modules are only written on Continue: until then the card counts as
   // not set up, so a refresh comes back here
-  const suggested = startingModules(editor.defaults, { communityType: editor.card.basics?.communityType });
+  const suggested = startingModules(editor.defaults, { communityType: editor.card.basics?.type });
   drawSetupPicker([...suggested, ...(editor.card.customModules || []).map((m) => m.id)]);
   $("setup-modules-hint").replaceChildren();
-  const form = mountBasics($("setup-basics"), {
+  setupForm = mountBasics($("setup-basics"), {
     onTypeChange: (from, to) => suggestModules($("setup-modules-hint"), setupPicker, from, to, {
       apply: (next) => setupPicker.set(next),
     }),
   });
   showError($("setup-error"), "");
   show("setup", opts);
-  if (opts?.focus !== false) form.focusFirst();
+  if (opts?.focus !== false) setupForm.focusFirst();
 }
 
 function drawSetupPicker(selected) {
@@ -647,9 +741,9 @@ function drawSetupPicker(selected) {
 
 $("setup-continue").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
-  if (!editor.card.basics?.communityName) {
+  if (!editor.card.basics?.name) {
     showError($("setup-error"), "Give your community a name to continue.");
-    editor.forms.basics.focusFirst();
+    setupForm.focusFirst();
     return;
   }
   showError($("setup-error"), "");
@@ -664,7 +758,10 @@ $("setup-continue").addEventListener("click", async (e) => {
     showEditor();
   } catch (err) {
     console.error(err);
-    showError($("setup-error"), MESSAGES[errorKind(err)]);
+    const kind = errorKind(err);
+    if (kind === "stale") showStale();
+    else if (kind === "conflict") showConflict();
+    showError($("setup-error"), MESSAGES[kind] || MESSAGES.other);
   } finally {
     btn.disabled = false;
     btn.textContent = "Continue to the editor";
@@ -675,13 +772,14 @@ $("setup-continue").addEventListener("click", async (e) => {
 function showEditor(opts) {
   $("editor-id").textContent = $("editor-bar-id").textContent = editor.card.id;
   renderCardName();
-  refreshSuggestions();
+  updateSuggestions();
+  delete $("module-suggestions").dataset.module;   // its box is drawn fresh with the page (no "new suggestion" pill)
   show("editor", { focus: false });
-  renderModule(opts);
+  renderModule(opts);   // (draws the suggestion box)
 }
 
 function renderCardName() {
-  $("editor-name").textContent = $("editor-bar-name").textContent = editor.card.basics?.communityName || "Untitled card";
+  $("editor-name").textContent = $("editor-bar-name").textContent = editor.card.basics?.name || "Untitled card";
 }
 
 // Each module is a link to #<module id>; the hash picks what the main area shows.
@@ -736,8 +834,8 @@ function renderModule({ focus = true } = {}) {
   renderSuggestionBox();
   floor.reset();   // a new module: no held-open space from the last one
   const content = $("module-content");
+  content.style.minHeight = "";   // (held only while a module's data loads, below)
 
-  editor.forms = {};
   if (id === "basics" && basicsMode() === "summary") {
     // Basics opens as a summary (it was filled in during set-up), with what
     // to do next; Edit brings the form back
@@ -790,7 +888,7 @@ function renderModule({ focus = true } = {}) {
   } else if (id === EXPORT.id) {
     content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
     loadExportData().then((data) => {
-      if (currentModuleId() !== id) return;
+      if (!editor.card || currentModuleId() !== id) return;   // forgotten, or moved on, while it loaded
       renderExport(content, editor.card, data, editor.defaults);
     }, (err) => {
       console.error(err);
@@ -802,11 +900,12 @@ function renderModule({ focus = true } = {}) {
     content.style.minHeight = `${content.offsetHeight}px`;
     content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
     SECTIONS[id].load().then((data) => {
-      if (currentModuleId() !== id) return;   // moved on while it loaded
+      if (!editor.card || currentModuleId() !== id) return;   // forgotten, or moved on, while it loaded
       mountSection(id, content, data);
       content.style.minHeight = "";
     }, (err) => {
       console.error(err);
+      content.style.minHeight = "";
       content.replaceChildren(el("p", { className: "form-error", textContent: MESSAGES.other }));
     });
   } else {
@@ -834,11 +933,10 @@ addEventListener("hashchange", () => {
 });
 
 // ── editor: narrow-screen sidebar panel ─────────────────────
-function setEditorNav(open) {
-  $("editor-nav").classList.toggle("is-open", open);
-  $("editor-nav-toggle").setAttribute("aria-expanded", String(open));
-  if (open) setBarMenu(false);   // one open at a time
-}
+// the module list drops down from the bar (js/sidebar.js); one open at a
+// time with the bar's + menu
+const editorNav = narrowSidebar($("editor-nav"), { onToggle: (open) => { if (open) setBarMenu(false); } });
+const setEditorNav = editorNav.set;
 // the bar's +: Save, Forget and Reset
 function setBarMenu(open) {
   $("editor-bar-menu").hidden = !open;
@@ -848,21 +946,11 @@ function setBarMenu(open) {
 $("editor-bar-more").addEventListener("click", () => setBarMenu($("editor-bar-menu").hidden));
 $("editor-bar-menu").addEventListener("click", (e) => { if (e.target.closest("button, a")) setBarMenu(false); });
 document.addEventListener("click", (e) => { if (!e.target.closest(".editor-bar-more")) setBarMenu(false); });
-// tapping the module you're already on doesn't change the address, so close here too
-$("module-list").addEventListener("click", (e) => {
-  if (e.target.closest("a")) setEditorNav(false);
-});
-$("editor-nav-toggle").addEventListener("click", () => {
-  setEditorNav(!$("editor-nav").classList.contains("is-open"));
-});
 document.addEventListener("keydown", (e) => {
-  if (e.key !== "Escape") return;
-  if ($("editor-nav").classList.contains("is-open")) setEditorNav(false);
-  if (!$("editor-bar-menu").hidden) { setBarMenu(false); $("editor-bar-more").focus(); }
+  if (e.key === "Escape" && !$("editor-bar-menu").hidden) { setBarMenu(false); $("editor-bar-more").focus(); }
 });
-// widening past the breakpoint (--narrow in styles.css) closes the panel
-const narrow = getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";
-matchMedia(`(width >= ${narrow})`).addEventListener("change", () => { setEditorNav(false); setBarMenu(false); });
+// widening past the breakpoint (--narrow in styles.css) closes the menu (and the panel: js/sidebar.js)
+matchMedia(`(width >= ${narrowWidth()})`).addEventListener("change", () => setBarMenu(false));
 
 // ── editor: Save ────────────────────────────────────────────
 // two Save buttons: the sidebar's, and the narrow-screen bar's
@@ -881,9 +969,19 @@ for (const btn of document.querySelectorAll("[data-save-now]")) {
 
 // ── editor: forget this card ────────────────────────────────
 async function forgetCard() {
-  const ok = confirm("Forget this card on this device?\n\nYou’ll need its card ID and the secret you saved to open it again.");
+  const ok = await confirmPopup({
+    title: "Forget this card on this device?",
+    message: "You’ll need its card ID and the secret you saved to open it again.",
+    confirmLabel: "Forget",
+  });
   if (!ok) return;
   await flushAll();
+  // anything that still couldn't be saved (offline, refused) would be lost
+  if (hasUnsaved() && !(await confirmPopup({
+    title: "Some changes aren’t saved",
+    message: "They couldn’t be saved yet (see the save status). Forget the card anyway and lose them?",
+    confirmLabel: "Forget anyway",
+  }))) return;
   resetSavers();
   forgetSession();
   editor.card = null;
@@ -925,6 +1023,7 @@ function showReset() {
       closePopup();
     } catch (err) {
       console.error(err);
+      if (errorKind(err) === "stale") return showStale();
       showError(error, MESSAGES[errorKind(err)] || "Couldn’t reset. Please try again.");
       go.disabled = false;
     }
@@ -942,15 +1041,24 @@ function showReset() {
 }
 
 async function doReset(all, ids) {
+  if (await isStale({ force: true })) throw staleError();   // old code mustn't reset into an old shape
   await flushAll();
-  resetSavers();   // nothing left waiting to save over the reset
   const custom = all ? [] : ids.filter((id) => customModule(id));
   const reset = all ? [...PARTS, "attribution"] : ids.filter((id) => !customModule(id));
   const updates = custom.length
     ? { customModules: editor.card.customModules.map((m) => (custom.includes(m.id) ? { ...m, fields: [] } : m)) }
     : {};
+  // the editor-only state that goes with a module goes with it: its
+  // set-aside answers, and Infrastructure's pre-fill / the structure's log
+  if (!all) {
+    const ed = editor.card.editor || {};
+    updates.editor = { ...ed, setAside: withoutAside(ed.setAside, [...reset, ...custom.map((id) => `customModules.${id}`)]) };
+    if (reset.includes("infrastructure")) updates.editor.costsPrefill = null;
+    if (reset.includes("membership")) Object.assign(updates.editor, { structureReviewed: [], structureLog: [] });
+  }
   const { cardId, secret } = loadSession();
-  const { card } = await updateCard(cardId, secret, updates, { reset });
+  // built on the version this page has: refused if the card changed elsewhere
+  const { card } = await updateCard(cardId, secret, updates, { reset, ifUpdatedAt: editor.version });
   if (all) history.replaceState(null, "", location.pathname);   // back to set-up, not a module
   await openCard({ card });
 }
@@ -959,6 +1067,7 @@ async function doReset(all, ids) {
 for (const btn of document.querySelectorAll("[data-reset]")) btn.addEventListener("click", showReset);
 
 // ── on load: pick up where this tab (or device) left off ───
+startFreshness();
 const session = loadSession();
 if (!session) show("start", { focus: false });
 else if (!session.confirmed) showKey(session, { focus: false });

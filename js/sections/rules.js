@@ -7,13 +7,14 @@
 //   const form = renderRules(container, card.rules, data, { onInput, onCommit, stateKey });
 //   form.collect()   → the rules object to save
 //
-// ruleData is stored by stable rule id (rule_schema.json):
-//   ruleData.<type>.checked    = { "<rule id>": true }
-//   ruleData.<type>.qualifiers = { "<rule id>": "<qualifier id>" }   (qualifier types only)
+// The selected rules, by stable rule id (rule_schema.json):
+//   selected = [{ id: "<rule id>", qualifier: "<qualifier id>" | null }]   (qualifier: qualifier types only)
 // Rewording keeps what the rule originally said, in case the list changes:
 //   ruleEdits   = { "<rule id>": { text: "our wording", original: "the list's wording" } }
 //   customRules = [{ id, text, typeId, qualifierSet, qualifier }]   (typeId: which kind of rule
 //     it is, or null; qualifierSet: "permission" | "requirement" | null, and the chosen qualifier id)
+// An unselected rule's qualifier and rewording, and a custom rule's answer on
+// the scale it isn't using, are set aside (js/set-aside.js) until they count again.
 
 import { loadData } from "../data.js";
 import { el, button } from "../dom.js";
@@ -23,6 +24,7 @@ import { showIf } from "../reveal.js";
 import { renderChoices, scaleField } from "../controls/choices.js";
 import { suggestField } from "../controls/suggest.js";
 import { foldSection } from "../controls/fold.js";
+import { asideOf } from "../set-aside.js";
 
 export async function loadRulesData() {
   const [schema, covenants] = await Promise.all([loadData("rule_schema"), loadData("covenants")]);
@@ -36,22 +38,27 @@ export async function loadRulesData() {
 /**
  * One rule type, e.g. "Harassment and personal safety": a checklist of its
  * rules. For qualifier types, ticking a rule opens "Allowed / Not allowed / …"
- * underneath it. collect() → { checked, qualifiers } for this type.
+ * underneath it. collect() → [{ id, qualifier }] for this type's selected rules.
  */
+/** A qualifier's label (e.g. "Not allowed") from its set ("permission" / "requirement") and id; null if none. */
+export const qualifierLabel = (qualifierSets, setId, q) => (q ? (qualifierSets[setId] || []).find((o) => o.id === q)?.label ?? null : null);
+
 // "Select all" picks the strictest answer for rules that take one (unless one's already chosen)
 const STRICTEST = { permission: "not_allowed", requirement: "required" };
 
-function ruleType(type, saved = {}, qualifierSets, onChange) {
-  const checked = saved.checked || {};
+function ruleType(type, saved, qualifierSets, asideQualifiers, onChange) {
+  const mine = saved.filter((s) => type.rules.some((r) => r.id === s.id));
+  const takesQualifier = (id) => Boolean(type.qualifier || type.rules.find((r) => r.id === id)?.qualifier);
   const list = renderChoices({
     legend: type.name,
     legendHidden: true,   // the type's heading already says it
     options: type.rules,
-    selected: type.rules.filter((r) => checked[r.id]).map((r) => r.id),
+    selected: mine.map((s) => s.id),
     // each rule's follow-up uses its own qualifier set, or its type's
     sub: type.qualifier ? {
       options: (rule) => qualifierSets[rule.qualifier || type.qualifier],
-      values: saved.qualifiers || {},
+      // the saved answers, and those set aside on rules unselected earlier
+      values: { ...asideQualifiers, ...Object.fromEntries(mine.filter((s) => s.qualifier).map((s) => [s.id, s.qualifier])) },
       legend: "how your rules treat it",
     } : undefined,
     onChange,
@@ -71,22 +78,19 @@ function ruleType(type, saved = {}, qualifierSets, onChange) {
     /** The ticked rules, with the label of the qualifier chosen for each (if any). */
     ticked: () => list.value().map((id) => {
       const rule = type.rules.find((r) => r.id === id);
-      const q = list.subValue(id);
-      return { rule, qualifier: q && qualifierSets[rule.qualifier || type.qualifier].find((o) => o.id === q)?.label };
+      return { rule, qualifier: qualifierLabel(qualifierSets, rule.qualifier || type.qualifier, list.subValue(id)) };
     }),
-    collect: () => {
-      const on = list.value();
-      return {
-        checked: Object.fromEntries(on.map((id) => [id, true])),
-        qualifiers: Object.fromEntries(on.map((id) => [id, list.subValue(id)]).filter(([, q]) => q)),
-      };
-    },
+    collect: () => list.value().map((id) => ({ id, qualifier: takesQualifier(id) ? list.subValue(id) || null : null })),
+    /** Answers on rules not selected now: { "<rule id>": qualifier }. */
+    aside: () => Object.fromEntries(type.rules.filter((r) => takesQualifier(r.id) && !list.value().includes(r.id))
+      .map((r) => [r.id, list.subValue(r.id, { evenIfOff: true })]).filter(([, q]) => q)),
   };
 }
 
-export function renderRules(container, rules = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "rules" } = {}) {
+export function renderRules(container, rules = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "rules", setAside = asideOf() } = {}) {
   const hooks = { onInput, onCommit };
-  const ruleData = rules.ruleData || {};
+  const selected = rules.selected || [];
+  const asideQualifiers = Object.fromEntries(setAside.list("selected:").map((a) => [a.id, a.qualifier]));
 
   // ── where the rules live ──────────────────────────────────
   const link = textField({
@@ -122,7 +126,7 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     children: [
       el("p", { className: "field-hint", textContent: cat.description }),
       ...cat.types.map((type) => {
-        const t = { id: type.id, type, ...ruleType(type, ruleData[type.id], data.qualifierSets, () => { renderSummary(); onCommit(); }) };
+        const t = { id: type.id, type, ...ruleType(type, selected, data.qualifierSets, asideQualifiers, () => { renderSummary(); onCommit(); }) };
         types.push(t);
         return foldSection({
           title: type.name,
@@ -136,7 +140,7 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
   }));
 
   // ── the summary: what's ticked, in the community's own words ──
-  const edits = { ...rules.ruleEdits };
+  const edits = { ...Object.fromEntries(setAside.list("ruleEdits:").map(({ id, ...edit }) => [id, edit])), ...rules.ruleEdits };   // (rewordings set aside come back with their rule)
   const editing = new Set();   // rules whose wording box is open
   const summaryBody = el("div", { className: "summary" });
   const textOf = (rule) => edits[rule.id]?.text || rule.label;
@@ -147,7 +151,7 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     const reworded = groups.reduce((n, g) => n + g.ticked.filter(({ rule }) => edits[rule.id]).length, 0);
     // the community's own rules (those with text), last, with their qualifier
     const own = customRules.value().filter((r) => r.text);
-    const ownQualifier = (r) => r.qualifier && data.qualifierSets[r.qualifierSet]?.find((o) => o.id === r.qualifier)?.label;
+    const ownQualifier = (r) => qualifierLabel(data.qualifierSets, r.qualifierSet, r.qualifier);
     summaryBody.replaceChildren(
       el("p", { className: "mono-u summary-label", textContent: "Summary" }),
       el("p", { className: "field-hint" }, count || own.length
@@ -181,7 +185,7 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
         multiline: true,
         value: textOf(rule),
         onInput: () => {
-          const text = (wording.value() || "").trim();
+          const text = wording.value() || "";   // (value() is already trimmed)
           if (text && text !== rule.label) edits[rule.id] = { text, original: rule.label };
           else delete edits[rule.id];
           onInput();
@@ -215,15 +219,18 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     newItem: () => ({ id: `custom_${Date.now().toString(36)}`, text: "", typeId: null, qualifierSet: null, qualifier: null }),
     itemName: (r) => (r.text ? `“${r.text}”` : "this rule"),
     // folded: the rule, and its qualifier if it has one
-    summarize: (r) => (r.text ? [r.text, r.qualifier && data.qualifierSets[r.qualifierSet]?.find((o) => o.id === r.qualifier)?.label].filter(Boolean).join(" · ") : ""),
+    summarize: (r) => (r.text ? [r.text, qualifierLabel(data.qualifierSets, r.qualifierSet, r.qualifier)].filter(Boolean).join(" · ") : ""),
     renderRow: (r, rowHooks) => {
       const ruleText = textField({ label: "Rule", multiline: true, value: r.text, ...rowHooks });
       const kind = selectField({ label: "Kind of rule (optional)", options: typeOptions, value: r.typeId, placeholder: "Not sure / none of these", onChange: rowHooks.onCommit });
       // optional: a qualifier scale, like the listed rules have — pick which
-      // scale, then where the rule sits on it
+      // scale, then where the rule sits on it (the other scale's answer is set
+      // aside, for switching back)
+      const asideKey = `customRules:${r.id}`;
+      const kept = setAside.get(asideKey) || {};
       const scales = {
-        permission: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.permission, value: r.qualifierSet === "permission" ? r.qualifier : null, onChange: rowHooks.onCommit }),
-        requirement: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.requirement, value: r.qualifierSet === "requirement" ? r.qualifier : null, onChange: rowHooks.onCommit }),
+        permission: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.permission, value: r.qualifierSet === "permission" ? r.qualifier : kept.permission ?? null, onChange: rowHooks.onCommit }),
+        requirement: scaleField({ legend: "How your rule treats it", options: data.qualifierSets.requirement, value: r.qualifierSet === "requirement" ? r.qualifier : kept.requirement ?? null, onChange: rowHooks.onCommit }),
       };
       const showScale = (set) => { for (const [id, f] of Object.entries(scales)) showIf(f.element, id === set); };
       const scaleSet = scaleField({
@@ -241,9 +248,13 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
           return { id: r.id, text: ruleText.value() || "", typeId: kind.value(), qualifierSet: set, qualifier: set ? scales[set].value() : null };
         },
         focus: () => ruleText.focus(),
+        setAside: () => {
+          const set = scaleSet.value();
+          return { [asideKey]: Object.fromEntries(Object.entries(scales).filter(([id]) => id !== set).map(([id, f]) => [id, f.value()])) };
+        },
       };
     },
-    onInput: () => { renderSummary(); onInput(); },
+    onInput,   // (the summary catches up when the rule's finished: on commit)
     onCommit: () => { renderSummary(); onCommit(); },
   });
 
@@ -263,17 +274,32 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
     summary,
   );
 
+  // every type is written in full, so unselected rules really go away (rules no longer on the list are kept)
+  const selectedNow = () => [
+    ...selected.filter((s) => !types.some((t) => t.type.rules.some((r) => r.id === s.id))),
+    ...types.flatMap((t) => t.collect()),
+  ];
+  // rewordings of the selected rules (others are set aside, below)
+  const editsFor = (ids, on) => Object.fromEntries(Object.entries(edits).filter(([id]) => ids.has(id) === on));
   return {
-    collect: () => ({
-      ...rules,
-      communityRulesLink: link.value(),
-      covenants: covenants.value(),
-      adaptedFrom: adapted.value(),
-      // every type is written in full, so unticked rules really go away
-      ruleData: { ...ruleData, ...Object.fromEntries(types.map((t) => [t.id, t.collect()])) },
-      // rewording is kept even while a rule is unticked, so re-ticking brings it back
-      ruleEdits: { ...edits },
-      customRules: customRules.value(),
+    collect: () => {
+      const now = selectedNow();
+      return {
+        ...rules,
+        communityRulesLink: link.value(),
+        covenants: covenants.value(),
+        adaptedFrom: adapted.value(),
+        selected: now,
+        ruleEdits: editsFor(new Set(now.map((s) => s.id)), true),
+        customRules: customRules.value(),
+      };
+    },
+    // set aside: qualifiers and rewordings of rules not selected now (they
+    // come back if the rule is selected again), and custom rules' other scale
+    setAside: () => ({
+      ...Object.fromEntries(types.flatMap((t) => Object.entries(t.aside())).map(([id, qualifier]) => [`selected:${id}`, { qualifier }])),
+      ...Object.fromEntries(Object.entries(editsFor(new Set(selectedNow().map((s) => s.id)), false)).map(([id, e]) => [`ruleEdits:${id}`, e])),
+      ...customRules.setAside(),
     }),
     focusFirst: () => link.focus(),
   };

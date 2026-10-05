@@ -16,10 +16,11 @@
 // per line, each with a pixel plus or minus (and a chip after it, e.g. "Kept").
 // `id` says what triggered it (e.g. "federation-on:Federation"), so a
 // dismissed suggestion comes back if the trigger changes. Dismissed ids are
-// kept on the card (card.dismissedSuggestions), so everyone editing it sees
+// kept on the card (card.editor.dismissedSuggestions), so everyone editing it sees
 // the same thing.
 
-import { SECTION_LABELS, logChanges, logReviewed, settledChanges } from "./structure.js";
+import { SECTION_LABELS, logChanges, logReviewed, settledChanges, structureIds, changeStructure } from "./structure.js";
+import { FROM_VALUES } from "./recommend.js";
 
 /** Turn modules on or off, keeping the built-in order (custom modules last). */
 function withModule(card, defaults, id, on) {
@@ -69,14 +70,15 @@ function federationForPlatform(card, { defaults }) {
  */
 function structureChangedInProcesses(card, { approachLabel }) {
   const m = card.membership || {};
-  const now = m.structure || [];
-  const reviewed = m.structureReviewed || [];
+  const ed = card.editor || {};
+  const now = structureIds(m);
+  const reviewed = ed.structureReviewed || [];
   const added = now.filter((id) => !reviewed.includes(id));
   const removed = reviewed.filter((id) => !now.includes(id));
   if (!added.length && !removed.length) return [];
 
   // where each change came from: the latest log entry for that approach
-  const log = m.structureLog || [];
+  const log = ed.structureLog || [];
   const from = (id) => SECTION_LABELS[[...log].reverse().find((e) => e.id === id)?.from];
   const line = (id, sign, where, chip) => ({ sign, text: `${approachLabel(id)}${where ? ` (from ${where})` : ""}`, chip });
   const earlier = settledChanges(log).filter((e) => !added.includes(e.id) && !removed.includes(e.id));
@@ -96,16 +98,18 @@ function structureChangedInProcesses(card, { approachLabel }) {
     ],
     applyLabel: "Keep these changes",
     apply: (c) => {
-      c.membership = { ...c.membership, structureReviewed: [...now], structureLog: logReviewed(c.membership.structureLog) };
-      return ["membership"];
+      c.editor = { ...c.editor, structureReviewed: [...now], structureLog: logReviewed(c.editor?.structureLog) };
+      return ["editor"];
     },
     alt: {
       label: "Undo",
       apply: (c) => {
         // back to what was confirmed; logged as changes made from Membership
         // (so these changes show as undone next time)
-        c.membership = { ...c.membership, structure: [...reviewed], structureLog: logChanges(c.membership, reviewed, "membership") };
-        return ["membership"];
+        const { structure, setAside } = changeStructure(c.membership, reviewed, c.editor?.setAside);   // notes come back with their approaches
+        c.editor = { ...c.editor, structureLog: logChanges(c.editor?.structureLog, structureIds(c.membership), reviewed, "membership"), setAside };
+        c.membership = { ...c.membership, structure };
+        return ["membership", "editor"];
       },
     },
     dismissible: false,
@@ -118,7 +122,7 @@ function structureChangedInProcesses(card, { approachLabel }) {
  * A note at the top says so, until dismissed.
  */
 function processesIntro(card) {
-  const hasStructure = (card.membership?.structure || []).length > 0;
+  const hasStructure = structureIds(card.membership).length > 0;
   const hasValues = (card.basics?.values || []).length > 0;
   if (!(card.modules || []).includes("processes") || (!hasStructure && !hasValues)) return [];
   return [{
@@ -127,7 +131,7 @@ function processesIntro(card) {
     title: "Some of this is shaped by your earlier answers",
     message: [
       hasStructure ? "Your community structure is the one you chose in Membership. Changing it here updates Membership too." : null,
-      hasValues ? "[[Suggested]] tags come from the Values you selected in Basics." : null,
+      hasValues ? FROM_VALUES : null,
       "Review them and adjust anything as you go.",
     ].filter(Boolean).join(" "),
     quiet: true,
@@ -138,6 +142,6 @@ const RULES = [federationForPlatform, structureChangedInProcesses, processesIntr
 
 /** The suggestions that apply to the card now, minus dismissed ones. ctx: { defaults, approachLabel } */
 export function suggestionsFor(card, ctx) {
-  const dismissed = new Set(card.dismissedSuggestions || []);
+  const dismissed = new Set(card.editor?.dismissedSuggestions || []);
   return RULES.flatMap((rule) => rule(card, ctx)).filter((s) => !dismissed.has(s.id));
 }

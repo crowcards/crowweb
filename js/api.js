@@ -22,7 +22,7 @@ const firebaseConfig = {
 
 const functions = getFunctions(initializeApp(firebaseConfig));
 
-export const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
+const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
 if (isLocal) connectFunctionsEmulator(functions, "127.0.0.1", 5001);
 
 const call = (name) => {
@@ -42,7 +42,8 @@ export const getCard = async (cardId, secret) => (await _getCard({ cardId, secre
 
 /**
  * Merge `updates` (e.g. { basics: {...} }) into a card. Returns
- * { card, updatedAt }: the card after the save, and this save's timestamp.
+ * { updatedAt }: this save's timestamp (the card's new version); after a
+ * reset, also { card }: the card as it now is.
  *
  * Pass `ifUpdatedAt` (the card's updatedAt as last seen) to refuse the save
  * if someone else has changed the card since; errorKind() calls that a
@@ -58,6 +59,9 @@ export const updateCard = (cardId, secret, updates, { ifUpdatedAt, reset } = {})
  *   "no-card"  — no card has this ID (stop, ask the person)
  *   "bad-key"  — the card exists but the secret doesn't match (stop, ask)
  *   "conflict" — the card changed elsewhere since it was loaded (stop, ask)
+ *   "stale"    — this page's code is older than the deployed code (reload)
+ *   "too-big"  — the card would be too big to save (stop, say so)
+ *   "invalid"  — the server refused what was sent (stop: retrying can't help)
  *   "offline"  — network trouble (worth retrying)
  *   "other"    — anything else
  */
@@ -66,6 +70,9 @@ export function errorKind(err) {
   if (code === "not-found") return "no-card";
   if (code === "permission-denied") return "bad-key";
   if (code === "failed-precondition") return "conflict";
+  if (code === "stale") return "stale";
+  if (code === "resource-exhausted") return "too-big";
+  if (code === "invalid-argument") return "invalid";
   if (code === "unavailable" || code === "deadline-exceeded") return "offline";
   if (code === "internal" && !navigator.onLine) return "offline";   // how the SDK reports a dropped connection
   return "other";

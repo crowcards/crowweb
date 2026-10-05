@@ -1,10 +1,12 @@
-// The community's structure (membership.structure) is one list, edited from
-// Membership and from three Processes sections. Every change is logged in
-// membership.structureLog, oldest first:
+// The community's structure (membership.structure: [{ id, note }]) is one
+// list, edited from Membership and from Processes' three tabs. Every change
+// is logged in the editor-only editor.structureLog, oldest first:
 //   { id, change: "added" | "removed", from: "<section>", at }
 //   { change: "reviewed", from: "membership", at }   — the structure was
 //     confirmed in Membership (Keep these changes, or edited there)
 // so the editor can say what changed where, and what was kept or undone.
+// A removed approach's Membership note is set aside (js/set-aside.js:
+// "membership.structure:<id>"), and comes back if it's added again.
 
 export const SECTION_LABELS = {
   membership: "Membership",
@@ -16,12 +18,31 @@ export const SECTION_LABELS = {
 const now = () => new Date().toISOString();
 const PROCESSES_SECTIONS = { moderation: 1, maintenance: 1, institutionalChange: 1 };
 
-/** The log, plus entries for what changed between the old structure and `ids`. */
-export function logChanges(membership, ids, from) {
+/** The structure's approach ids, in order. */
+export const structureIds = (membership = {}) => (membership.structure || []).map((s) => s.id);
+
+const asideKey = (id) => `membership.structure:${id}`;
+
+/**
+ * The structure changed to these ids from outside Membership (Processes,
+ * Undo): each approach keeps its Membership note; a removed one's note is
+ * set aside, and one added back gets its note back from there.
+ * → { structure, setAside } (the card's whole editor.setAside, updated)
+ */
+export function changeStructure(membership = {}, ids, setAside = {}) {
   const before = membership.structure || [];
+  const aside = { ...setAside };
+  for (const s of before) if (!ids.includes(s.id) && s.note) aside[asideKey(s.id)] = { note: s.note };
+  const structure = ids.map((id) => before.find((s) => s.id === id) || { id, note: aside[asideKey(id)]?.note ?? null });
+  for (const id of ids) delete aside[asideKey(id)];
+  return { structure, setAside: aside };
+}
+
+/** The log, plus entries for what changed between the structure `before` (ids) and `ids`. */
+export function logChanges(log = [], before = [], ids, from) {
   const at = now();
   return [
-    ...(membership.structureLog || []),
+    ...log,
     ...ids.filter((id) => !before.includes(id)).map((id) => ({ id, change: "added", from, at })),
     ...before.filter((id) => !ids.includes(id)).map((id) => ({ id, change: "removed", from, at })),
   ];

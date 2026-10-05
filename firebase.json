@@ -1,7 +1,9 @@
 {
   "hosting": {
     "public": ".",
+    "predeploy": ["node \"$PROJECT_DIR/scripts/stamp-version.mjs\""],
     "ignore": [
+      "scripts/**",
       "firebase.json",
       "**/.*",
       "**/node_modules/**",

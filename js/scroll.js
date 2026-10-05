@@ -31,10 +31,15 @@ export function keepPlace(scope, change) {
   if (moved) scrollBy(0, moved);
 }
 
-/** Where the page starts under the sticky bars at the top (the site header; on narrow screens, the editor's bar). */
-function topLine() {
-  return Math.max(0, ...[...document.querySelectorAll(".site-header, .editor-nav")]
-    .filter((bar) => ["sticky", "fixed"].includes(getComputedStyle(bar).position))
+/**
+ * Where the page starts under the sticky bars at the top: the site header,
+ * and on narrow screens the sidebar's bar (a sidebar beside the page, on wide
+ * screens, is sticky too, but doesn't cover the top: only bars across the
+ * page count).
+ */
+export function topLine() {
+  return Math.max(0, ...[...document.querySelectorAll(".site-header, .sidebar")]
+    .filter((bar) => ["sticky", "fixed"].includes(getComputedStyle(bar).position) && bar.getBoundingClientRect().width > innerWidth / 2)
     .map((bar) => bar.getBoundingClientRect().bottom));
 }
 /** Is (enough of) `target` in sight below those bars to notice? */

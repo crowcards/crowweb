@@ -1,7 +1,7 @@
 {
   "version": "1.2.0",
   "updatedAt": "2026-10-04",
-  "note": "Rules are identified by a stable id (stored on cards in rules.ruleData) and shown by label. Labels can be reworded freely; ids must never change once cards use them. A rule type's `qualifier` names its set in qualifierSets (\"permission\": allowed / not allowed / …; \"requirement\": required / recommended / not required), or false for a plain checklist; a single rule can override it with its own `qualifier`.",
+  "note": "Rules are identified by a stable id (stored on cards in rules.selected) and shown by label. Labels can be reworded freely; ids must never change once cards use them. A rule type's `qualifier` names its set in qualifierSets (\"permission\": allowed / not allowed / …; \"requirement\": required / recommended / not required), or false for a plain checklist; a single rule can override it with its own `qualifier`.",
   "qualifierSets": {
     "permission": [
       {

@@ -14,9 +14,10 @@
 import { loadData, loadProtocolItems } from "../data.js";
 import { el, button } from "../dom.js";
 import { textField, selectField } from "../controls/fields.js";
-import { renderChoices, scaleField, YES_NO as YES_OR_NO } from "../controls/choices.js";
+import { renderChoices, scaleField, YES_NO, YES_NO_VARIES } from "../controls/choices.js";
 import { renderRows } from "../controls/rows.js";
-import { suggestField } from "../controls/suggest.js";
+import { suggestField, storedValue } from "../controls/suggest.js";
+import { asideOf } from "../set-aside.js";
 import { foldSection, sectionMaker } from "../controls/fold.js";
 import { showPopup, closePopup } from "../popup.js";
 import { LAWS_NOTE, lawsPageUrl } from "../laws.js";
@@ -60,16 +61,22 @@ export async function loadInfrastructureData() {
   };
 }
 
-// yes / no / varies answers, stored as true / false / "varies"
-const YES_NO = [...YES_OR_NO, { id: "varies", label: "It varies" }];
+// platforms.json says true / false / "varies"; cards store "yes" / "no" / "varies"
 const toChoice = (v) => (v === true ? "yes" : v === false ? "no" : v === "varies" ? "varies" : null);
-const fromChoice = (c) => (c === "yes" ? true : c === "no" ? false : c);
 
-export function renderInfrastructure(container, infrastructure = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "infrastructure" } = {}) {
+/** A tool's name: a listed tool's label, or what was typed. */
+const toolName = (tool, data) => data.tools.find((x) => x.id === tool)?.label ?? tool;
+/** A tool in one line: "Loomio · Deliberation & decision-making — votes" (also used by Export). */
+export function toolLine(t, data) {
+  const category = data.toolCategories.find((c) => c.id === t.category)?.label;
+  return `${[toolName(t.tool, data), category].filter(Boolean).join(" · ")}${t.usedFor ? ` — ${t.usedFor}` : ""}`;
+}
+
+export function renderInfrastructure(container, infrastructure = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "infrastructure", getPart = () => ({}), setPart = () => {}, setAside = asideOf() } = {}) {
   const hooks = { onInput, onCommit };
   const platform = infrastructure.platform || {};
   const costs = infrastructure.costs || {};
-  const legal = infrastructure.legalCompliance || {};
+  const locations = infrastructure.locations || {};
 
   // ── platform ──────────────────────────────────────────────
   const which = suggestField({
@@ -96,16 +103,16 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     },
   });
   const software = textField({ label: "Software", hint: "e.g. Bonfire, Zooniverse, Reddit.", value: platform.software, ...hooks });
-  const yesNo = (legend, value, { options = YES_NO, onChange = onCommit } = {}) =>
-    scaleField({ legend, options, value: toChoice(value), layout: "buttons", onChange });
+  const yesNo = (legend, value, { options = YES_NO_VARIES, onChange = onCommit } = {}) =>
+    scaleField({ legend, options, value, layout: "buttons", onChange });
 
   // protocol: yes / no first; which protocol is only asked after "Yes"
   const showProtocol = (c) => showIf(protocol.element, c === "yes");
   const usesProtocol = yesNo("Uses an open protocol", platform.usesProtocol, {
-    options: YES_NO.slice(0, 2),
+    options: YES_NO,
     onChange: (c) => { showProtocol(c); onCommit(); },
   });
-  const protocol = suggestField({ label: "Which protocol", hint: "Pick from the list, or type it.", items: data.protocols, allowCustom: true, value: platform.protocol, onCommit });
+  const protocol = suggestField({ label: "Which protocol", hint: "Pick from the list, or type it.", items: data.protocols, allowCustom: true, value: platform.protocol ?? setAside.get("platform.protocol"), onCommit });   // (set aside while the answer was No)
   showProtocol(usesProtocol.value());
   const openSource = yesNo("Open source", platform.openSource);
   const selfHosted = yesNo("Self-hosted", platform.selfHosted);
@@ -138,7 +145,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   // ── pre-filling from the platform list ────────────────────
   // the fields a listed platform fills in: how each is read, shown and set
   const typeLabel = (id) => data.platformTypes.find((t) => t.id === id)?.label;
-  const yesNoLabel = (c) => YES_NO.find((o) => o.id === c)?.label;
+  const yesNoLabel = (c) => YES_NO_VARIES.find((o) => o.id === c)?.label;
   const setType = (id) => { type.set(id); type.setHint(typeHint(id)); };
   const filled = [
     { label: "Platform type", get: () => type.value(), show: typeLabel, set: setType, from: (r, chosenType) => chosenType },
@@ -146,7 +153,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     { label: "Uses an open protocol", get: () => usesProtocol.value(), show: yesNoLabel,
       set: (c) => { usesProtocol.set(c); showProtocol(c); }, from: (r) => (namedProtocol(r) ? "yes" : "no") },
     // listed only when there is (or was) a protocol to name
-    { label: "Protocol", get: () => (usesProtocol.value() === "yes" ? protocol.value().text || null : null), set: protocol.set,
+    { label: "Protocol", get: () => (usesProtocol.value() === "yes" ? protocol.stored() : null), set: protocol.set,
       from: namedProtocol, optional: true },
     { label: "Open source", get: () => openSource.value(), show: yesNoLabel, set: openSource.set, from: (r) => toChoice(r.openSource) },
     { label: "Self-hosted", get: () => selfHosted.value(), show: yesNoLabel, set: selfHosted.set, from: (r) => toChoice(r.selfHostable) },
@@ -157,7 +164,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
 
   let lastPlatform = platform.platform || null;
   function platformChanged(v) {
-    const now = v.id || v.text || null;
+    const now = storedValue(v);
     const before = lastPlatform;
     lastPlatform = now;
     if (!now || now === before) return;
@@ -260,7 +267,8 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
 
   // the note above the costs: what they were pre-filled from, and what's
   // been changed since
-  let costsBaseline = infrastructure.costsPrefill || null;
+  // (kept in the editor-only part of the card: it's for this note, not for anyone reading the card)
+  let costsBaseline = getPart("editor").costsPrefill || null;
   const costsNote = { element: el("div") };
   function renderCostsNote() {
     if (!costsBaseline) return costsNote.element.replaceChildren();
@@ -297,6 +305,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     const now = currentCosts();
     // remember what the costs are measured against, for the note above them
     costsBaseline = { platformName: record ? which.value().text : null, typeId, costs: usual };
+    setPart("editor", { ...getPart("editor"), costsPrefill: costsBaseline });
     if (Object.values(now).every((v) => v == null)) {
       for (const r of costRows) r.choices.set(usual[r.id] ?? null);
       renderCostsNote();
@@ -347,19 +356,18 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   // each tool: its category first, then the tool (suggested from that
   // category, or typed), then what it's used for
   const categoryOf = (id) => data.toolCategories.find((c) => c.id === id);
+  const toolOf = (id) => data.tools.find((x) => x.id === id);
   const toolsIn = (category) => (category ? data.tools.filter((x) => x.categories.includes(category)) : data.tools);
   const tools = renderRows({
     legend: "Other tools",
     hint: "Tools beyond the main platform, e.g. for voting, decisions, or trust & safety.",
-    items: infrastructure.additionalSystems || [],
+    items: infrastructure.tools || [],
     addLabel: "Add a tool",
     emptyText: "No other tools yet.",
-    newItem: () => ({ category: null, toolId: null, toolName: "", usedFor: "", isCustom: true }),
-    itemName: (t) => (t.toolName ? `“${t.toolName}”` : "this tool"),
-    // folded: "Loomio · Deliberation & decision-making — votes"
-    summarize: (t) => (t.toolName ? `${[t.toolName, categoryOf(t.category)?.label].filter(Boolean).join(" · ")}${t.usedFor ? ` — ${t.usedFor}` : ""}` : ""),
+    newItem: () => ({ tool: null, category: null, usedFor: "" }),
+    itemName: (t) => (t.tool ? `“${toolName(t.tool, data)}”` : "this tool"),
+    summarize: (t) => (t.tool ? toolLine(t, data) : ""),
     renderRow: (t, rowHooks) => {
-      const toolOf = (id) => data.tools.find((x) => x.id === id);
       const category = selectField({
         label: "Category",
         options: data.toolCategories,
@@ -378,7 +386,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
         items: toolsIn(t.category),
         allowCustom: true,
         browse: true,
-        value: t.toolId || t.toolName || null,
+        value: t.tool || null,
         onChange: (v) => {
           // a tool picked before its category: fill in the tool's category
           const tool = v.id && toolOf(v.id);
@@ -394,12 +402,9 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
       return {
         element: el("div", {}, category.element, name.element, usedFor.element),
         collect: () => ({
-          ...t,
+          tool: name.stored(),   // the listed tool's id, or the typed name
           category: category.value(),
-          toolId: name.value().id,
-          toolName: name.value().text,
           usedFor: usedFor.value() || "",
-          isCustom: !name.value().id,
         }),
         focus: () => category.focus(),
       };
@@ -417,9 +422,9 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     placeholder: "Start typing a country or region…",
     onCommit: () => { refreshLaws(); onCommit(); },
   });
-  const servers = places("Where your servers are", "Where the community’s data is hosted.", legal.serverLocations);
-  const users = places("Where your members are", "Roughly; pick a region or “Worldwide” if that’s simpler.", legal.userLocations);
-  const admins = places("Where your admin team is", "Where the people running the community are based.", legal.adminTeamLocations);
+  const servers = places("Where your servers are", "Where the community’s data is hosted.", locations.servers);
+  const users = places("Where your members are", "Roughly; pick a region or “Worldwide” if that’s simpler.", locations.members);
+  const admins = places("Where your admin team is", "Where the people running the community are based.", locations.adminTeam);
 
   // laws to know about, for all of those places: a note, and a link that
   // opens the laws page in a new tab
@@ -454,25 +459,25 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
       ...infrastructure,
       platform: {
         ...platform,
-        platform: which.value().id || which.value().text || null,
+        platform: which.stored(),
         type: type.value(),
         software: software.value(),
-        usesProtocol: fromChoice(usesProtocol.value()),
-        protocol: usesProtocol.value() === "yes" ? protocol.value().text || null : null,
-        openSource: fromChoice(openSource.value()),
-        selfHosted: fromChoice(selfHosted.value()),
+        usesProtocol: usesProtocol.value(),
+        protocol: usesProtocol.value() === "yes" ? protocol.stored() : null,
+        openSource: openSource.value(),
+        selfHosted: selfHosted.value(),
         structuralModel: model.value(),
       },
-      costsPrefill: costsBaseline,
-      costs: { ...costs, ...Object.fromEntries(costRows.map((r) => [r.id, r.choices.value()])) },
-      additionalSystems: tools.value(),
-      legalCompliance: {
-        ...legal,
-        serverLocations: servers.value(),
-        userLocations: users.value(),
-        adminTeamLocations: admins.value(),
+      costs: { ...costs, ...currentCosts() },
+      tools: tools.value(),
+      locations: {
+        servers: servers.value(),
+        members: users.value(),
+        adminTeam: admins.value(),
       },
     }),
+    // set aside: the protocol's name while "Uses an open protocol" isn't Yes
+    setAside: () => ({ "platform.protocol": usesProtocol.value() === "yes" ? null : protocol.stored() }),
     focusFirst: () => which.focus(),
   };
 }

@@ -6,11 +6,12 @@
 //   checkbox  — options to tick, any number           value: ["option", …]
 //   radio     — options to pick one from              value: "option" | null
 //   scale     — 1 to 5, with what each end means      value: 1–5 | null, low, high
-// A field folds into a one-line summary once it's done (✓), and fields can
-// be put in order.
+// Each field has an id ("f_…"). A field folds into a one-line summary once
+// it's done (✓), and fields can be put in order.
 //
-//   const form = renderCustomModule(container, module, { head, onInput, onCommit, onDelete });
+//   const form = renderCustomModule(container, module, { head, onInput, onCommit, onDelete, setAside });
 //   form.collect()   → the module, as stored in card.customModules
+//   form.setAside()  → what switching a field's kind set aside (js/set-aside.js)
 //
 // head: { title, titleTools, description, descriptionTools } — the page's
 // title and lede, and the slots beside them for the edit buttons.
@@ -22,8 +23,9 @@ import { renderRows } from "../controls/rows.js";
 import { tagInput } from "../controls/tags.js";
 import { editInPlace } from "../controls/inline-edit.js";
 import { reveal } from "../reveal.js";
+import { asideOf } from "../set-aside.js";
 
-export const FIELD_TYPES = [
+const FIELD_TYPES = [
   { id: "text", label: "Text" },
   { id: "checkbox", label: "Checkboxes" },
   { id: "radio", label: "Radio buttons" },
@@ -31,11 +33,13 @@ export const FIELD_TYPES = [
 ];
 const SCALE = [1, 2, 3, 4, 5].map((n) => ({ id: String(n), label: String(n) }));
 
+/** A random id with this prefix, e.g. "cm_aB7xK9mP" (a module) or "f_…" (a field). */
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const randomId = (prefix) => `${prefix}_${Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => CHARS[b % CHARS.length]).join("")}`;
+
 /** A new custom module, ready to add to card.customModules. */
 export function newCustomModule({ name, description = null }) {
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const random = Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => chars[b % chars.length]).join("");
-  return { id: `cm_${random}`, name, description, fields: [] };
+  return { id: randomId("cm"), name, description, fields: [] };
 }
 
 /** A field's answer in a few words, for its folded summary line. */
@@ -45,16 +49,43 @@ export function answerText(f) {
   return f.value || "";
 }
 
-/** One field's inputs: its question, its kind, and the answer (which changes with the kind). */
-function fieldRow(f, hooks) {
-  let type = f.type || "text";
+const isEmpty = (v) => v == null || v === "" || (Array.isArray(v) && !v.length);
+const ATTRS = ["options", "low", "high"];   // what kinds share or keep beside the answer
+
+/**
+ * One field's inputs: its question, its kind, and the answer (which changes
+ * with the kind). Switching kinds keeps each kind's own answer, and the
+ * options and scale ends; what the current kind doesn't save is set aside
+ * under the field's id ({ options?, low?, high?, answers: { kind: value } }),
+ * and comes back if the kind is switched back.
+ */
+function fieldRow(saved, hooks, setAside) {
+  const id = saved.id || randomId("f");   // (a field from before fields had ids gets one now)
+  const asideKey = `fields:${id}`;
+  const kept = setAside.get(asideKey) || {};
+  let type = saved.type || "text";
+  const answers = { ...kept.answers, [type]: saved.value };   // each kind's answer; the saved one is its kind's
+  // options and scale ends: as saved, else as set aside
+  const attrs = Object.fromEntries(ATTRS.map((k) => [k, saved[k] ?? kept[k]]).filter(([, v]) => v != null));
+  let f = { label: saved.label, ...attrs, value: answers[type] };   // what the current kind's answer is drawn from
   const question = textField({ label: "Question", value: f.label, ...hooks });
   const kind = selectField({
     label: "Kind of answer",
     options: FIELD_TYPES,
     value: type,
     placeholder: "Choose a kind… (text if none)",
-    onChange: (v) => { type = v || "text"; drawAnswer(); reveal(area); hooks.onCommit(); },   // the new kind's answer cascades in
+    // the new kind's answer cascades in: its own earlier answer (if any),
+    // with the options and scale ends as they are now
+    onChange: (v) => {
+      const { value, ...now } = answer.collect();
+      answers[type] = value;
+      Object.assign(attrs, now);
+      type = v || "text";
+      f = { ...f, ...attrs, value: answers[type] };
+      drawAnswer();
+      reveal(area);
+      hooks.onCommit();
+    },
   });
   const area = el("div");
   let answer;   // { element, collect } for the current kind
@@ -116,12 +147,21 @@ function fieldRow(f, hooks) {
 
   return {
     element: el("div", {}, question.element, kind.element, area),
-    collect: () => ({ label: question.value() || "", type, ...answer.collect() }),
+    collect: () => ({ id, label: question.value() || "", type, ...answer.collect() }),
     focus: () => question.focus(),
+    // set aside: what this kind doesn't save (options, scale ends), and the other kinds' answers
+    setAside: () => {
+      const now = answer.collect();
+      const others = Object.fromEntries(Object.entries(answers).filter(([k, v]) => k !== type && !isEmpty(v)));
+      return { [asideKey]: {
+        ...Object.fromEntries(ATTRS.filter((k) => !(k in now) && !isEmpty(attrs[k])).map((k) => [k, attrs[k]])),
+        ...(Object.keys(others).length ? { answers: others } : {}),
+      } };
+    },
   };
 }
 
-export function renderCustomModule(container, module, { head, onInput = () => {}, onCommit = () => {}, onDelete = () => {} } = {}) {
+export function renderCustomModule(container, module, { head, onInput = () => {}, onCommit = () => {}, onDelete = () => {}, setAside = asideOf() } = {}) {
   const name = textField({ label: "Module name", value: module.name, onInput, onCommit });
   const description = textField({
     label: "What this module covers",
@@ -144,11 +184,11 @@ export function renderCustomModule(container, module, { head, onInput = () => {}
     addLabel: "Add a field",
     emptyText: "No fields yet.",
     reorderable: true,
-    newItem: () => ({ label: "", type: "text", value: "" }),
+    newItem: () => ({ id: randomId("f"), label: "", type: "text", value: "" }),
     itemName: (f) => (f.label ? `“${f.label}”` : "this field"),
     // folded: "Where we meet: Library"
     summarize: (f) => (f.label ? `${f.label}${answerText(f) ? `: ${answerText(f)}` : ""}` : ""),
-    renderRow: fieldRow,
+    renderRow: (f, rowHooks) => fieldRow(f, rowHooks, setAside),
     onInput,
     onCommit,
   });
@@ -171,6 +211,7 @@ export function renderCustomModule(container, module, { head, onInput = () => {}
       description: description.value(),
       fields: fields.value(),
     }),
+    setAside: () => fields.setAside(),   // (a deleted field's go with it)
     focusFirst: () => fields.element.querySelector("input, textarea")?.focus(),
   };
 }

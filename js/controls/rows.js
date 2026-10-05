@@ -1,24 +1,22 @@
 // Repeatable rows: a list where people add and remove entries, each made of
-// a few inputs. Used for custom-module fields, and later custom channels
-// (Processes) and additional tools (Infrastructure).
+// a few inputs. Used for custom-module fields, custom channels (Processes)
+// and other tools (Infrastructure).
 //
 //   const rows = renderRows({
 //     legend: "Fields",
 //     items: module.fields,
 //     addLabel: "Add a field",
 //     newItem: () => ({ label: "", type: "text", value: "" }),
-//     itemName: (item) => item.label || "this field",   // for the × button's label
-//     renderRow: (item, { onInput, onCommit }) => ({ element, collect, focus }),
+//     itemName: (item) => item.label || "this field",   // for the buttons' labels (from what the row holds now)
+//     renderRow: (item, { onInput, onCommit }) => ({ element, collect, focus, setAside? }),
 //     onInput, onCommit,
 //   });
 //   rows.value()   → each row's collect(), in order
+//   rows.setAside() → every row's setAside() (answers it keeps aside: js/set-aside.js), merged
 //
-// Adding or removing a row counts as a finished change (onCommit). Without
-// newItem there's no "Add" link (it has a pixel plus); rows can still be added and removed from
-// outside with rows.add(item) and rows.remove(match), and onRemove(item, current)
-// hears about rows removed with their × (current = what the row held). (js/controls/picklist.js works this
-// way.) With reorderable, each row also gets ↑ / ↓ buttons, and value()
-// follows the order on screen.
+// Adding or removing a row counts as a finished change (onCommit). With
+// reorderable, each row also gets ↑ / ↓ buttons, and value() follows the
+// order on screen.
 //
 // summarize(values) → a one-line summary (or "" if there's nothing to sum up
 // yet): each row gets a ✓ that folds it into that line, with Edit to open
@@ -38,7 +36,6 @@ export function renderRows({
   renderRow,
   reorderable = false,
   summarize,
-  onRemove = () => {},
   onInput = () => {},
   onCommit = () => {},
 } = {}) {
@@ -47,19 +44,19 @@ export function renderRows({
   const rows = [];   // { element, collect, focus }
 
   function addRow(item, { focus = false } = {}) {
-    const row = renderRow(item, { onInput, onCommit });
+    // the buttons are named after what the row holds, so they're named again after each change
+    const row = renderRow(item, { onInput, onCommit: () => { relabel(); onCommit(); } });
     // a pixel × in the row's corner removes it
     const remove = el("button", { type: "button", className: "row-remove" }, el("span"));
-    const entry = { ...row, item, wrap: el("div", { className: "row" }, row.element, remove) };
-    if (reorderable) entry.wrap.append(moveButtons(entry, itemName(item)));
-    if (summarize) addSummary(entry, item, { folded: !focus && Boolean(summarize(row.collect())) });
+    const entry = { ...row, labels: [[remove, (name) => `Remove ${name}`]], wrap: el("div", { className: "row" }, row.element, remove) };
+    const relabel = () => { const name = itemName(entry.collect()); for (const [b, label] of entry.labels) b.setAttribute("aria-label", label(name)); };
+    if (reorderable) entry.wrap.append(moveButtons(entry));
+    if (summarize) addSummary(entry, { folded: !focus && Boolean(summarize(row.collect())) });
     remove.addEventListener("click", () => {
-      const current = entry.collect();
       drop(entry);
-      onRemove(item, current);
       onCommit();
     });
-    remove.setAttribute("aria-label", `Remove ${itemName(item)}`);
+    relabel();
     rows.push(entry);
     list.append(entry.wrap);
     showEmpty();
@@ -67,14 +64,14 @@ export function renderRows({
   }
 
   /** A ✓ that folds the row into a one-line summary, and Edit to unfold it. */
-  function addSummary(entry, item, { folded }) {
+  function addSummary(entry, { folded }) {
     const line = el("span", { className: "row-summary-text" });
     const edit = el("button", { type: "button", className: "link-button", textContent: "Edit" });
     const summary = el("p", { className: "row-summary" }, line, edit);
     const done = el("button", { type: "button", className: "row-done icon-button" }, el("span", { className: "pixel-tick" }));
-    done.setAttribute("aria-label", `Done with ${itemName(item)}`);
+    entry.labels.push([done, (name) => `Done with ${name}`]);
     const fold = (on) => {
-      if (on) line.textContent = summarize(entry.collect()) || itemName(item);
+      if (on) line.textContent = summarize(entry.collect()) || itemName(entry.collect());
       entry.element.hidden = on;
       summary.hidden = !on;
       done.hidden = on;
@@ -88,11 +85,11 @@ export function renderRows({
   }
 
   /** ↑ / ↓ buttons that move a row one place, keeping focus on the button. */
-  function moveButtons(entry, name) {
+  function moveButtons(entry) {
     const button = (dir) => {   // a pixel arrow, drawn in CSS (make.css .row-move)
       const b = el("button", { type: "button", className: "row-move" });
       b.dataset.dir = dir < 0 ? "up" : "down";
-      b.setAttribute("aria-label", `Move ${name} ${dir < 0 ? "up" : "down"}`);
+      entry.labels.push([b, (name) => `Move ${name} ${dir < 0 ? "up" : "down"}`]);
       b.addEventListener("click", () => {
         const i = rows.indexOf(entry);
         const j = i + dir;
@@ -137,9 +134,6 @@ export function renderRows({
   return {
     element,
     value: () => rows.map((r) => r.collect()),
-    /** Add a row for this item (no onCommit: the caller decides). */
-    add: (item) => addRow(item),
-    /** Remove the rows whose item matches. */
-    remove: (match) => rows.filter((r) => match(r.item)).forEach(drop),
+    setAside: () => Object.assign({}, ...rows.map((r) => r.setAside?.() || {})),   // (a removed row's go with it)
   };
 }

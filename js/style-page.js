@@ -9,14 +9,14 @@ import { pointTo } from "./scroll.js";
 import { editInPlace } from "./controls/inline-edit.js";
 import { loadData } from "./data.js";
 import { textField, selectField } from "./controls/fields.js";
-import { renderChoices, scaleField, YES_NO } from "./controls/choices.js";
+import { renderChoices, scaleField, YES_NO, YES_NO_VARIES } from "./controls/choices.js";
 import { suggestField } from "./controls/suggest.js";
 import { tagList, tagInput } from "./controls/tags.js";
 import { renderRows } from "./controls/rows.js";
 import { pickList } from "./controls/picklist.js";
 import { foldSection } from "./controls/fold.js";
 import { tabBox } from "./controls/tabs.js";
-import { showPopup, closePopup } from "./popup.js";
+import { showPopup, closePopup, confirmPopup } from "./popup.js";
 import { renderBasicsSummary, loadBasicsData } from "./sections/basics.js";
 import { renderRules, loadRulesData } from "./sections/rules.js";
 
@@ -54,8 +54,8 @@ const COLOURS = [
 
 function renderPalette() {
   const swatches = [];
-  const body = COLOURS.map(([title, list]) => group(title, title.includes("Outside") ? "flagged" : "tokens",
-    el("div", { className: "ft-swatches" }, ...list.map(([value, name, where, flagged]) => {
+  const body = COLOURS.map(([title, list]) => group(title, title.startsWith("Not a token") ? "used directly, where noted" : "tokens",
+    el("div", { className: "ft-swatches" }, ...list.map(([value, name, where]) => {
       const css = value.startsWith("--") ? `var(${value})` : value;
       const code = el("p", { className: "mono" });
       swatches.push({ css, code, value });
@@ -64,7 +64,7 @@ function renderPalette() {
         el("div", {},
           el("p", {}, el("b", { textContent: value.startsWith("--") ? value : name })),
           code,
-          el("p", { className: flagged ? "ft-flag" : "field-hint", textContent: value.startsWith("--") ? `${name} — ${where}` : where })));
+          el("p", { className: "field-hint", textContent: value.startsWith("--") ? `${name} — ${where}` : where })));
     }))));
   // show each colour's current value (it changes with the theme)
   const probe = el("span", { hidden: true });
@@ -172,7 +172,7 @@ function renderScales() {
   slot("scales").append(
     group("1–5 scale (centred)", "choices.js scaleField with ends (processes.js scale)", scaleField({ legend: "Transparency", options: [1, 2, 3, 4, 5].map((n) => ({ id: String(n), label: String(n) })), value: "3",
       ends: { low: "1 = decisions stay with the moderators", high: "5 = decisions are public" } }).element),
-    group("Yes / No / It varies", "choices.js scaleField (infrastructure.js yesNo)", scaleField({ legend: "Open source", options: [...YES_NO, { id: "varies", label: "It varies" }] }).element),
+    group("Yes / No / It varies", "choices.js scaleField (infrastructure.js yesNo)", scaleField({ legend: "Open source", options: YES_NO_VARIES }).element),
     group("Yes / No", "choices.js scaleField + YES_NO (federation.js)", scaleField({ legend: "Do you share your block list?", options: YES_NO }).element),
     group("Cost row", "choices.js scaleField (infrastructure.js costRows)", scaleField({ legend: "Hosting & servers", options: ["Yes", "No", "Often", "Sometimes", "Rare"].map((l) => ({ id: l, label: l })), value: "Often" }).element),
   );
@@ -257,7 +257,7 @@ function renderNotes() {
     group("Summary block", "make.css .summary (lime two-step pixel outline on the tint): Basics, Rules, Federation's rules", el("div", { className: "summary" }, el("p", { className: "mono-u summary-label", textContent: "Summary" }), el("p", { textContent: "What's been chosen, in a compact box." }))),
     group("Pixel divider", "styles.css hr.pixel-divider (before a closing note, between custom rules and the summary)", el("hr", { className: "pixel-divider" })),
     group("A term that changes with the tab", "make.css mark.tab-term (Processes' hint)", el("p", { className: "field-hint" }, "Click one to note how it’s used for ", el("mark", { className: "tab-term", textContent: "maintenance" }), ".")),
-    group("Sidebar flag dot", "make.css .has-flags (dot after a module link)", el("p", {}, el("span", { className: "has-flags", textContent: "Membership" }))),
+    group("Sidebar flag dot", "make.css .flag-dot (after a module link)", el("p", {}, "Membership", el("span", { className: "flag-dot" }))),
     group("Docs label with a rule", "docs.css .section-label", el("p", { className: "section-label mono-u", textContent: "By community type" })),
   );
 }
@@ -265,11 +265,11 @@ function renderNotes() {
 // ── summaries ────────────────────────────────────────────────
 async function renderSummaries(rulesData) {
   const basics = el("div");
-  renderBasicsSummary(basics, { communityName: "Garden Club", communityLink: "https://garden.example", communityType: "discussion_forum", communitySize: null, communityKeywords: ["gardening"], values: ["trust"] },
+  renderBasicsSummary(basics, { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: null, keywords: ["gardening"], values: ["trust"] },
     await loadBasicsData(), { entries: [{ id: "membership", label: "Membership" }, { id: "rules", label: "Rules" }], started: (id) => id === "membership" });
   // the Rules summary is the last part of the Rules form
   const rules = el("div");
-  renderRules(rules, { ruleData: { civility: { checked: { civility_be_respectful: true } }, spam: { checked: { spam_commercial_advertising: true }, qualifiers: { spam_commercial_advertising: "not_allowed" } } },
+  renderRules(rules, { selected: [{ id: "civility_be_respectful", qualifier: null }, { id: "spam_commercial_advertising", qualifier: "not_allowed" }],
     ruleEdits: { spam_commercial_advertising: { text: "No ads unless the mods say yes", original: "Commercial advertising" } } }, rulesData, { stateKey: "ft:rules" });
   slot("summaries").append(
     group("Basics summary", "basics.js renderBasicsSummary (.summary-list, .next-steps)", basics),
@@ -292,6 +292,8 @@ function renderPopup() {
   slot("popups").append(
     group("Pop-up", "popup.js showPopup (make.css .popup)", open),
     group("Error pop-up", "popup.js showPopup tone: \"error\" (pink outline and title)", error),
+    group("Confirm pop-up", "popup.js confirmPopup (instead of the browser's confirm())",
+      button("Open a confirm pop-up", "button button-small", () => confirmPopup({ title: "Forget this card on this device?", message: "You’ll need its card ID and the secret you saved to open it again.", confirmLabel: "Forget" }))),
     group("New-suggestion notice", "scroll.js pointTo (make.css .place-pill): flashes twice", notice),
     group("The sidebar's smaller buttons", "make.css .editor-nav-panel .button-small", sidebar),
   );

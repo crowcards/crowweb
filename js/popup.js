@@ -6,8 +6,13 @@
 // `message` is plain text; pass `body` (a DOM node) instead for richer
 // content such as buttons; tone: "error" outlines it in pink. Returns a
 // promise that resolves when it closes.
+//
+// confirmPopup({ title, message, confirmLabel }) asks a yes / no question
+// in the same box (instead of the browser's own confirm()): resolves true
+// for the confirm button, false for Cancel or closing it. `message` can be
+// a list of paragraphs.
 
-import { el } from "./dom.js";
+import { el, button } from "./dom.js";
 
 // The <dialog> is looked up the first time a pop-up is used (not when this
 // file loads), so pages and tests without one can still import it.
@@ -39,4 +44,17 @@ export function showPopup({ title = "", message = "", body = null, tone = null }
   if (d.open) d.close();
   d.showModal();
   return new Promise((resolve) => d.addEventListener("close", resolve, { once: true }));
+}
+
+export function confirmPopup({ title, message, confirmLabel = "OK", cancelLabel = "Cancel" }) {
+  let confirmed = false;
+  const yes = button(confirmLabel, "button button-small", () => { confirmed = true; closePopup(); });
+  const closed = showPopup({
+    title,
+    body: el("div", {},
+      ...[].concat(message).map((text) => el("p", { textContent: text })),
+      el("p", { className: "button-row" }, yes, button(cancelLabel, "link-button", closePopup))),
+  });
+  yes.focus();
+  return closed.then(() => confirmed);
 }

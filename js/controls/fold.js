@@ -49,7 +49,9 @@ export function foldSection({ title, key, level = 2, foldable = true, actions = 
   // (the letters go in one span inside the button, so the button's gap only
   // sits between the plus and the title; the button keeps the title as its name)
   if (level === 2) {
-    toggle.replaceChildren(wrapLetters(el("span", { textContent: title })));
+    const letters = el("span", { textContent: title });
+    toggle.replaceChildren(letters);
+    wrapLetters(letters);   // (once inside the button, which names it)
     toggle.setAttribute("aria-label", title);
     if (!foldable) wrapLetters(heading);
   }

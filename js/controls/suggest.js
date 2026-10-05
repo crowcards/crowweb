@@ -12,7 +12,8 @@
 //
 // Single mode (multiple: false) is a text box with suggestions: value() →
 // { id, text } — id is the picked item's id, or null for typed text (only
-// kept when allowCustom). onChange({ id, text }) hears about every change,
+// kept when allowCustom); stored() → what a card keeps: the id if it's
+// listed, else the typed text, else null (storedValue(v) for a value). onChange({ id, text }) hears about every change,
 // picked or typed. browse: true also shows the whole list (to scroll through)
 // when the box is clicked or ↓ is pressed, before anything is typed — for
 // short lists people won't know ahead of time, like the tools in a category.
@@ -56,6 +57,9 @@ export function matchItems(items, query) {
     .slice(0, MAX_RESULTS);
 }
 
+/** A single value as a card stores it: the listed item's id, or the typed text, or null. */
+export const storedValue = (v) => v?.id || v?.text || null;
+
 export function suggestField({
   label,
   hint,
@@ -88,7 +92,7 @@ export function suggestField({
   const picks = multiple ? [...values] : null;
   let single = multiple ? null : (value == null ? { id: null, text: "" } : { id: byId.has(value) ? value : null, text: labelOf(value) });
   if (!multiple) input.value = single.text;
-  let committed = single ? single.text : "";   // single mode: the text as last saved
+  let chosen = single ? { ...single } : null;   // single mode: what was last chosen (and saved)
 
   const tags = multiple ? tagList({
     ariaLabel: label,
@@ -153,7 +157,7 @@ export function suggestField({
     } else {
       single = { id: item.id, text: item.label };
       input.value = item.label;
-      committed = single.text;
+      chosen = { ...single };
       onChange({ ...single });
     }
     close();
@@ -175,9 +179,9 @@ export function suggestField({
       if (exact) return choose(exact.item);
       if (!text) single = { id: null, text: "" };
       else if (allowCustom) single = { id: null, text };
-      else input.value = single.text;   // not in the list: put back what was chosen
-      if (single.text !== committed) {
-        committed = single.text;
+      else { single = { ...chosen }; input.value = single.text; }   // not in the list: put back what was chosen
+      if (single.text !== chosen.text) {
+        chosen = { ...single };
         onChange({ ...single });
         onCommit();
       }
@@ -214,7 +218,7 @@ export function suggestField({
   }
   input.addEventListener("blur", () => {
     if (multiple && !allowCustom) input.value = "";
-    else if (input.value.trim() !== (multiple ? "" : committed)) chooseTyped();
+    else if (input.value.trim() !== (multiple ? "" : chosen.text)) chooseTyped();
     close();
   });
 
@@ -228,10 +232,12 @@ export function suggestField({
   return {
     element,
     value: () => (multiple ? [...picks] : { ...single }),
+    stored: () => storedValue(single),
     /** Single mode: set the text and id from outside (e.g. filling in a tool's type). */
     set: (v) => {
       single = v == null ? { id: null, text: "" } : { id: byId.has(v) ? v : null, text: labelOf(v) };
-      input.value = committed = single.text;
+      input.value = single.text;
+      chosen = { ...single };
     },
     /** Suggest from a different list from now on; what's chosen stays as it is. */
     setItems: (list) => {

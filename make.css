@@ -11,6 +11,11 @@
    corner to join the steps). Lime on hover. The type-ahead suggestion
    list is one too, floating just under its box, and so is a long list to
    tick from (.scroll-list). */
+/* a box's own settings stay on that box: the pop-up's 4px steps, outline
+   and fill mustn't pass down to the tick boxes and fields inside it */
+@property --box-px { syntax: "*"; inherits: false; }
+@property --box-line { syntax: "*"; inherits: false; }
+@property --field-fill { syntax: "*"; inherits: false; }
 .make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill, .popup) {
   --px: var(--box-px, 2px);                       /* a box can set bigger steps (the pop-up: 4px) */
   --field-line: var(--box-line, var(--accent));   /* …and its own outline colour (the pop-up's) */
@@ -204,7 +209,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   aspect-ratio: 1;
   color: inherit;
 }
-.tag-remove span { --dot: 2px; width: var(--dot); height: var(--dot); background: currentColor; }
+.tag-remove span { --dot: 2px; }
 .tag-remove:hover,
 .tag-remove:focus-visible { background: var(--ink); color: var(--lime); }
 
@@ -444,7 +449,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   width: 1.75rem;
   aspect-ratio: 1;
 }
-.row-remove span { --dot: 3px; width: var(--dot); height: var(--dot); background: currentColor; color: var(--gray); }
+.row-remove span { --dot: 3px; color: var(--gray); }
 .row-remove:hover span,
 .row-remove:focus-visible span { color: var(--error); }
 .rows-add { margin: 0.5rem 0 0; }
@@ -621,20 +626,20 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .editor-card .editor-name { display: block; font-weight: 700; font-size: var(--fs-m); line-height: 1.3; overflow-wrap: anywhere; }
 .editor-card .mono { display: block; word-break: break-all; }
 
-/* a module with a suggestion waiting: a small neon lime pixel after its
-   name, with a thin orange edge so it shows on beige too. The narrow-screen
-   Modules toggle gets one when any module has a suggestion. */
-.flag-dot,
-.has-flags::after {
+/* a module with a suggestion waiting: a small neon lime pixel with stepped
+   corners after its name, with a thin orange edge (following the steps) so
+   it shows on beige too. The narrow-screen Modules toggle gets one when any
+   module has a suggestion. */
+.flag-dot {
   display: inline-block;
-  width: 0.55em;
-  height: 0.55em;
+  width: 10px;
+  height: 10px;
   margin-left: 0.45em;
-  background: var(--lime);
-  box-shadow: 0 0 0 1px var(--accent);
   vertical-align: 0.1em;
+  /* the edge: the stepped lime shape's outline, one pixel out on each side */
+  filter: drop-shadow(1px 0 0 var(--accent)) drop-shadow(-1px 0 0 var(--accent)) drop-shadow(0 1px 0 var(--accent)) drop-shadow(0 -1px 0 var(--accent));
 }
-.has-flags::after { content: ""; }
+.flag-dot::before { content: ""; display: block; height: 100%; background: var(--lime); --px: 2px; }   /* steps: the shared clip-path (2px: big enough to show past the edge) */
 
 /* module names are the main thing here: a step bigger than docs links */
 .editor-nav .module-list a { font-size: var(--fs-xs); }
@@ -660,66 +665,35 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* Docs: a normal link, just sized for the sidebar */
 .editor-docs a { font-size: var(--fs-xs); }
 
-/* ── editor sidebar (narrow screens): a slim bar that opens ── */
-.editor-bar { display: none; }
-
+/* ── editor sidebar (narrow screens): the shared slim bar (styles.css
+   .sidebar-bar) ── */
 @media (width < 64rem) {   /* = --narrow */
   .editor-crow { display: none; }   /* the header has the crow here */
 
-  /* stays just under the site header while scrolling */
-  .editor-nav {
-    position: sticky;
-    top: var(--header-h);
-    z-index: 5;
-    padding: 0.4rem var(--gutter);
-    background: var(--glass);
-    backdrop-filter: blur(4px);
-  }
-
-  /* one row: the module's name with a pixel ▾ (opens the module list) and
-     Docs on the left; the save status and card name / ID, then + (Save,
-     Forget, Reset) on the right. Wraps on very small screens. */
-  .editor-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.4rem 1rem;
-  }
-  .editor-bar-module {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    color: var(--ink);
-    font-family: var(--mono);
-    font-size: var(--fs-xs);   /* the bar's one text size */
-  }
-  .editor-bar-module:is(:hover, :focus-visible) { color: var(--accent); }
-  /* the ▾: three rows of 3px pixels (5, 3, 1 wide) in a 15x9 box, so it
-     centres with the text; flipped while the list is open */
-  .pixel-caret {
-    flex: none;
-    width: 15px;
-    height: 9px;
-    background:
-      linear-gradient(currentColor 0 0) center 0 / 15px 3px no-repeat,
-      linear-gradient(currentColor 0 0) center 3px / 9px 3px no-repeat,
-      linear-gradient(currentColor 0 0) center 6px / 3px 3px no-repeat;
-  }
-  .editor-bar-module[aria-expanded="true"] .pixel-caret { rotate: 180deg; }
+  /* the bar: the module's name (opens the module list) and Docs on the
+     left; the save status and card name, then + (Save, Forget, Reset) on
+     the right, always together on one line (on very small screens that
+     line moves under the first, and a long name is cut short with …) */
   .editor-bar > a { font-size: var(--fs-xs); }
+  .editor-bar-end {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    margin-left: auto;
+  }
   .editor-bar-card {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
     align-items: center;
-    gap: 0 0.75rem;
+    gap: 0.75rem;
     min-width: 0;
-    margin: 0 0 0 auto;
+    margin: 0;
     font-size: var(--fs-xs);
-    text-align: right;
   }
+  /* both cut short with … if the line runs out of room: the name first */
+  .editor-bar :is(.save-status, .editor-bar-name) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .editor-bar .save-status { min-height: 0; margin: 0; }
-  .editor-bar-name { max-width: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .editor-bar .editor-bar-name { flex-shrink: 4; min-width: 3.5em; max-width: 16rem; }   /* (always a few letters, never a sliver) */
   /* the card's ID, at the top of the + menu */
   .editor-bar-id { margin: 0 0 0.25rem; color: var(--gray); font-size: var(--fs-xs); text-align: center; white-space: nowrap; }
   .editor-bar-id .mono-u { display: block; font-size: 1em; }
@@ -743,21 +717,10 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   }
   .editor-bar-menu[hidden] { display: none; }
 
-  /* the panel: compact, and without what the bar already shows */
-  .editor-nav:not(.is-open) .editor-nav-panel { display: none; }
-  .editor-nav-panel {
-    max-height: calc(100dvh - var(--header-h) - 4rem);
-    overflow-y: auto;
-    margin-top: 0.4rem;
-    padding: 0.5rem 0 0.25rem;
-    border-top: var(--rule);
-  }
-  /* open, it's just the module list: the bar shows the rest */
+  /* open, the panel is just the module list, as a wrapped row: the bar shows the rest */
   .editor-nav-panel :is(.editor-card, .editor-actions, .editor-forget, .editor-reset, .editor-export, .editor-docs) { display: none; }
-
-
-  .editor-nav-panel .module-list { gap: 0.1rem 1rem; margin: 0 0 0.5rem; }
-  .editor-nav-panel .module-list a { padding-block: 0.25rem; }
+  .editor-nav-panel .module-list { display: flex; flex-wrap: wrap; gap: 0 1rem; }
+  .editor-nav-panel .module-list a { padding-block: 0.15rem; }
 }
 
 /* "↑ New suggestion" (js/scroll.js pointTo): a small box like the pop-ups
@@ -842,10 +805,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 .popup-close span {
   --dot: 4px;
-  width: var(--dot);
-  height: var(--dot);
   color: var(--ink);
-  background: currentColor;
 }
 
 .popup-close:hover span,

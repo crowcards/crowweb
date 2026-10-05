@@ -1,9 +1,9 @@
 // Export: the card's answers as a readable summary, and as downloads — the
 // raw data (JSON) and community documentation (Markdown). (A visual
 // summary card comes later.) Only Basics and the modules the card uses are
-// included, never editor-only state (dismissed suggestions, the structure's
-// change log, what costs were pre-filled from) — the same rule public views
-// follow.
+// included, never the editor-only part (card.editor: dismissed suggestions,
+// the structure's change log, what costs were pre-filled from) or the
+// contributor's attribution — the same rule public views follow.
 //
 //   const data = await loadExportData();
 //   renderExport(container, card, data, defaults);
@@ -15,12 +15,15 @@
 import { el, button } from "./dom.js";
 import { moduleEntries } from "./modules.js";
 import { loadBasicsData } from "./sections/basics.js";
-import { loadInfrastructureData } from "./sections/infrastructure.js";
+import { loadInfrastructureData, toolLine } from "./sections/infrastructure.js";
 import { loadMembershipData } from "./sections/membership.js";
 import { loadRulesData } from "./sections/rules.js";
-import { loadProcessesData } from "./sections/processes.js";
+import { loadProcessesData, channelLine } from "./sections/processes.js";
 import { loadFederationData, cardRules } from "./sections/federation.js";
 import { answerText } from "./sections/custom.js";
+import { YES_NO_VARIES } from "./controls/choices.js";
+import { stepRole } from "./controls/picklist.js";
+import { structureIds } from "./structure.js";
 
 export async function loadExportData() {
   const [basics, infrastructure, membership, rules, processes, federation] = await Promise.all([
@@ -32,10 +35,10 @@ export async function loadExportData() {
 // ── little helpers ──────────────────────────────────────────
 const labelIn = (list, id) => list?.find((x) => x.id === id)?.label ?? id;
 const labels = (list, ids = []) => ids.map((id) => labelIn(list, id));
-const yesNo = (v) => ({ true: "Yes", false: "No", varies: "It varies" })[String(v)] ?? null;
+const yesNo = (v) => (v ? labelIn(YES_NO_VARIES, v) : null);
 const withNote = (label, note) => (note ? `${label}: ${note}` : label);
 /** A step's name from where it falls (as the editor shows it). */
-const stepName = (n, total) => `Step ${n} (${n === 1 ? "first" : n === total ? "last resort" : "escalation"})`;
+const stepName = (n, total) => `Step ${n} (${stepRole(n, total).toLowerCase()})`;
 /** Steps ([{ id, note, stage, primary? }]) as rows: "Step 1 (first)": ["Peer Mediation (primary): note", …]. */
 function stepRows(steps = [], options) {
   const total = new Set(steps.map((s) => s.stage)).size;
@@ -48,11 +51,11 @@ function stepRows(steps = [], options) {
 // ── the outline: [{ title, rows: [[label, value]] }], value a string or a list ──
 const SECTIONS = {
   basics: (b = {}, d) => [
-    ["Community", b.communityName],
-    ["Link", b.communityLink],
-    ["Type", b.communityType && labelIn(d.basics.types, b.communityType)],
-    ["Size", b.communitySize && labelIn(d.basics.sizes, b.communitySize)],
-    ["Keywords", b.communityKeywords],
+    ["Community", b.name],
+    ["Link", b.link],
+    ["Type", b.type && labelIn(d.basics.types, b.type)],
+    ["Size", b.size && labelIn(d.basics.sizes, b.size)],
+    ["Keywords", b.keywords],
     ["Values", labels(d.basics.values, b.values)],
   ],
   infrastructure: (inf = {}, d) => {
@@ -69,20 +72,20 @@ const SECTIONS = {
       ["Self-hosted", yesNo(p.selfHosted)],
       ["Structural model", p.structuralModel],
       ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id]).map((c) => `${c.label}: ${labelIn(x.costValues, inf.costs[c.id])}`)],
-      ["Other tools", (inf.additionalSystems || []).filter((t) => t.toolName).map((t) =>
-        `${[t.toolName, t.category && labelIn(x.toolCategories, t.category)].filter(Boolean).join(" · ")}${t.usedFor ? ` — ${t.usedFor}` : ""}`)],
-      ["Servers", places(inf.legalCompliance?.serverLocations)],
-      ["Members", places(inf.legalCompliance?.userLocations)],
-      ["Admin team", places(inf.legalCompliance?.adminTeamLocations)],
+      ["Other tools", (inf.tools || []).filter((t) => t.tool).map((t) => toolLine(t, x))],
+      ["Servers", places(inf.locations?.servers)],
+      ["Members", places(inf.locations?.members)],
+      ["Admin team", places(inf.locations?.adminTeam)],
     ];
   },
   membership: (m = {}, d) => {
     const x = d.membership;
+    const j = m.joining || {};
     return [
-      ["How people join", labels(x.tiers, m.joiningTiers)],
-      ["About being closed", m.closedNote],
-      ["Ways of joining", (m.registrationJoining || []).map((id) => withNote(labelIn(x.options, id), m.joiningNotes?.[id]))],
-      ["Structure", (m.structure || []).map((id) => withNote(labelIn(x.approaches, id), m.structureNotes?.[id]))],
+      ["How people join", labels(x.tiers, j.tiers)],
+      ["About being closed", j.closedNote],
+      ["Ways of joining", (j.ways || []).map((w) => withNote(labelIn(x.options, w.id), w.note))],
+      ["Structure", (m.structure || []).map((s) => withNote(labelIn(x.approaches, s.id), s.note))],
       ["Anything else", m.generalNote],
     ];
   },
@@ -99,7 +102,7 @@ const SECTIONS = {
   },
   processes: (pr = {}, d, card) => {
     const x = d.processes;
-    const structure = card.membership?.structure || [];
+    const structure = structureIds(card.membership);
     const usedFor = (part) => structure.map((id) => withNote(labelIn(x.decisionApproaches, id), pr[part]?.approachNotes?.[id]));
     const comms = pr.communications || {};
     return [
@@ -111,8 +114,8 @@ const SECTIONS = {
       ["About moderation", pr.moderation?.generalNote],
       ...stepRows(pr.conflictManagement?.approaches, x.conflictApproaches).map(([label, v]) => [`Conflict: ${label.toLowerCase()}`, v]),
       ["About conflict", pr.conflictManagement?.generalNote],
-      ["Channels", [...x.channels.filter((c) => comms.channels?.[c.id]).map((c) => c.label),
-        ...(comms.customChannels || []).filter((c) => c.name).map((c) => (c.description ? `${c.name} — ${c.description}` : c.name))]],
+      ["Channels", [...labels(x.channels, comms.channels),
+        ...(comms.customChannels || []).filter((c) => c.name).map(channelLine)]],
     ];
   },
   federation: (f = {}, d, card) => {
@@ -125,10 +128,11 @@ const SECTIONS = {
       ...stepRows(f.responseLadder, x.ladder).map(([label, v]) => [`When there’s a problem: ${label.toLowerCase()}`, v]),
       ["Shared lists followed", labels(x.lists, subs.subscribedLists)],
       ["Shares its block list", yesNo(subs.sharesBlocklist)],
-      ["Block list", subs.sharesBlocklist ? subs.blocklistLink : null],
+      ["Block list", subs.blocklistLink],
       ["Tools for federation decisions", labels(x.tools, subs.decisionTools)],
       ["Rules that guide federation decisions", rules.filter((r) => (f.relevantRules || []).includes(r.id)).map((r) => withNote(r.label, f.ruleNotes?.[r.id]))],
-      ["Bridges to", f.bridging?.enabled ? f.bridging.protocols : null],
+      ["Bridges to other networks", yesNo(f.bridging?.bridges)],
+      ["Bridged protocols", f.bridging?.protocols],
     ];
   },
 };
@@ -144,18 +148,20 @@ export function cardOutline(card, data, defaults) {
       : SECTIONS[m.id]?.(card[m.id], data, card) || [];
     return { title: m.label, rows: rows.filter(([, v]) => filled(v)) };
   });
-  return { title: card.basics?.communityName || "Untitled card", sections };
+  return { title: card.basics?.name || "Untitled card", sections };
 }
 
 /** The outline as Markdown: a heading per module, a bullet per answer. */
+const oneLine = (v) => String(v).replace(/\n+/g, " ");   // a line break would end a Markdown bullet early
+
 export function toMarkdown(outline, card) {
   const lines = [`# ${outline.title}`, "", `*A CROW Card, exported from crowcards.org on ${new Date().toISOString().slice(0, 10)}. Card ${card.id}.*`, ""];
   for (const s of outline.sections) {
     lines.push(`## ${s.title}`, "");
     if (!s.rows.length) lines.push("*Nothing filled in yet.*", "");
     for (const [label, value] of s.rows) {
-      if (Array.isArray(value)) lines.push(`- **${label}:**`, ...value.map((v) => `  - ${v}`));
-      else lines.push(`- **${label}:** ${String(value).replace(/\n+/g, " ")}`);
+      if (Array.isArray(value)) lines.push(`- **${label}:**`, ...value.map((v) => `  - ${oneLine(v)}`));
+      else lines.push(`- **${label}:** ${oneLine(value)}`);
     }
     lines.push("");
   }
@@ -165,9 +171,7 @@ export function toMarkdown(outline, card) {
 /** The card's data for download: Basics and the modules it uses, without editor-only state. */
 export function cardData(card) {
   const on = new Set(card.modules || []);
-  const { structureReviewed, structureLog, ...membership } = card.membership || {};
-  const { costsPrefill, ...infrastructure } = card.infrastructure || {};
-  const parts = { infrastructure, membership, rules: card.rules, processes: card.processes, federation: card.federation };
+  const parts = { infrastructure: card.infrastructure, membership: card.membership, rules: card.rules, processes: card.processes, federation: card.federation };
   return {
     id: card.id,
     schemaVersion: card.schemaVersion,

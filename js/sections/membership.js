@@ -17,25 +17,22 @@ import { renderChoices } from "../controls/choices.js";
 import { sectionMaker } from "../controls/fold.js";
 import { pickList } from "../controls/picklist.js";
 import { showIf } from "../reveal.js";
-import { loadRecommendations, reasonsFor, suggestedBadge } from "../recommend.js";
-import { logChanges, logReviewed } from "../structure.js";
+import { loadRecommendations, suggestionsFrom, FROM_VALUES } from "../recommend.js";
+import { logChanges, logReviewed, structureIds } from "../structure.js";
+import { asideOf, picksAside } from "../set-aside.js";
 
 export async function loadMembershipData() {
   const [options, tiers, approaches, recs] = await Promise.all([loadData("membership_options"), loadData("membership_tiers"), loadData("decision_approaches"), loadRecommendations()]);
   return { options: options.items, tiers: tiers.tiers, approaches: approaches.items, recs };
 }
 
-export function renderMembership(container, membership = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "membership", getPart = () => ({}) } = {}) {
+export function renderMembership(container, membership = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "membership", getPart = () => ({}), setPart = () => {}, setAside = asideOf() } = {}) {
   // options the card's values recommend get a "Suggested" chip, and the
   // list says where those come from
-  const values = getPart("basics").values || [];
-  const suggested = (list) => suggestedBadge(reasonsFor(list, values, data.recs.valueLabel));
-  const fromValues = (list) => (reasonsFor(list, values, data.recs.valueLabel).size
-    ? [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] tags come from the Values you selected in Basics.")))]
-    : []);
-  let reviewed = membership.structureReviewed || membership.structure || [];
-  let log = membership.structureLog || [];
-  let current = membership.structure || [];
+  const recs = suggestionsFrom(data.recs, getPart("basics").values);
+  const fromValues = (list) => (recs.any(list) ? [el("div", { className: "callout callout-small" }, el("p", {}, ...richText(FROM_VALUES)))] : []);
+  const joiningSaved = membership.joining || {};
+  let current = structureIds(membership);   // the structure's ids as now (for logging changes made here)
 
   // ── joining: tiers first, then the ways of joining in them ──
   const tiers = renderChoices({
@@ -43,14 +40,14 @@ export function renderMembership(container, membership = {}, data, { onInput = (
     hint: "Pick one or more. Many communities mix them, e.g. open to anyone, with approval for some roles.",
     layout: "buttons",   // each tier's description shows on hover
     options: data.tiers,
-    selected: membership.joiningTiers || [],
+    selected: joiningSaved.tiers || [],
     onChange: () => { refreshJoining(); onCommit(); },
   });
   const closedNote = textField({
     label: "About being closed",
     hint: "For example: why, since when, and whether you might open again.",
     multiline: true,
-    value: membership.closedNote,
+    value: joiningSaved.closedNote ?? setAside.get("joining.closedNote"),   // (set aside while Closed was unselected)
     onInput,
     onCommit,
   });
@@ -62,23 +59,23 @@ export function renderMembership(container, membership = {}, data, { onInput = (
   let showAll = false;
   const seeMore = el("button", { type: "button", className: "link-button" });
   seeMore.addEventListener("click", () => { showAll = !showAll; refreshJoining(); });
-  const joiningNotes = membership.joiningNotes || {};
   // under the tiers: a note on what to do, then the tags and the list
   const joiningNote = el("div", { className: "callout callout-small" },
     el("p", {}, "Select the more specific ways someone can become a member. Click a tag to add a note about it.",
-      ...(reasonsFor(data.recs.membership, values, data.recs.valueLabel).size ? [" ", ...richText("[[Suggested]] tags come from the Values you selected in Basics.")] : [])));
+      ...(recs.any(data.recs.membership) ? [" ", ...richText(FROM_VALUES)] : [])));
   const joining = pickList({
     legend: "Ways of joining",
     legendHidden: true,
     tagsHint: false,   // (the note above says it)
     options: data.options,
-    items: (membership.registrationJoining || []).map((id) => ({ id, note: joiningNotes[id] ?? null })),
+    items: joiningSaved.ways || [],
+    remembered: setAside.list("joining.ways:"),   // notes on ways unselected earlier: back if they're selected again
     layout: "described",
     filterLabel: "ways of joining",   // searching looks through every way, not only the chosen tiers
     chosenLegend: null,
     emptyText: "None selected yet.",
     noteHint: "How this works in your community (optional).",
-    badge: suggested(data.recs.membership),
+    badge: recs.badge(data.recs.membership),
     before: [joiningNote],
     after: [el("p", {}, seeMore)],
     onInput,
@@ -102,22 +99,24 @@ export function renderMembership(container, membership = {}, data, { onInput = (
   // the structure: picked approaches as tags above the list, each taking a
   // note on how it works for membership (Processes keeps its own notes per
   // kind of work)
-  const structureNotes = membership.structureNotes || {};
   const structure = pickList({
     legend: "How membership is organised",
     hint: "How decisions get made among members. Select all that apply; you can adjust these again under Processes.",
     options: data.approaches,
-    items: (membership.structure || []).map((id) => ({ id, note: structureNotes[id] ?? null })),
+    items: membership.structure || [],
+    remembered: setAside.list("structure:"),   // notes on approaches removed earlier (here or in Processes): back if they're selected again
     noteHint: "How it works for membership (optional).",
     chosenLegend: null,
     emptyText: "None selected yet.",
     filterLabel: "approaches",
-    badge: suggested(data.recs.decision),
+    badge: recs.badge(data.recs.decision),
     before: fromValues(data.recs.decision),
     onSelect: (ids) => {
-      // changed here: logged, and confirmed (so earlier Processes changes count as kept)
-      log = logReviewed(logChanges({ structure: current, structureLog: log }, ids, "membership"));
-      current = reviewed = ids;   // changed here, so nothing to flag
+      // changed here: logged, and confirmed (so earlier Processes changes count as kept,
+      // and nothing is flagged) — in the editor-only part of the card
+      const ed = getPart("editor");
+      setPart("editor", { ...ed, structureLog: logReviewed(logChanges(ed.structureLog, current, ids, "membership")), structureReviewed: ids });
+      current = ids;
     },
     onInput,
     onCommit,   // (after onSelect for a tick; also when a note is changed)
@@ -140,18 +139,23 @@ export function renderMembership(container, membership = {}, data, { onInput = (
     el("div", { className: "fields" }, note.element),
   );
 
+  const closed = () => tiers.value().includes("closed");
   return {
     collect: () => ({
       ...membership,
-      joiningTiers: tiers.value(),
-      closedNote: closedNote.value(),   // kept even if Closed is unticked, so re-ticking brings it back
-      registrationJoining: joining.value().map((j) => j.id),
-      joiningNotes: Object.fromEntries(joining.value().filter((j) => j.note).map((j) => [j.id, j.note])),
-      structure: structure.value().map((s) => s.id),
-      structureNotes: Object.fromEntries(structure.value().filter((s) => s.note).map((s) => [s.id, s.note])),
-      structureReviewed: reviewed,
-      structureLog: log,
+      joining: {
+        tiers: tiers.value(),
+        ways: joining.value(),            // [{ id, note }]
+        closedNote: closed() ? closedNote.value() : null,
+      },
+      structure: structure.value(),       // [{ id, note }]
       generalNote: note.value(),
+    }),
+    // set aside: the closed note while Closed isn't selected, and notes on unselected ways and approaches
+    setAside: () => ({
+      "joining.closedNote": closed() ? null : closedNote.value(),
+      ...picksAside("joining.ways:", joining.remembered()),
+      ...picksAside("structure:", structure.remembered()),
     }),
     focusFirst: () => {},
   };

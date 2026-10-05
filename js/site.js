@@ -2,6 +2,7 @@
 // narrow-screen menu.
 
 import { wrapLetters } from "./letters.js";
+import { narrowWidth } from "./dom.js";
 
 // Wrap each letter of [data-letters] elements (and page headers) in a span
 // so CSS can light them up one at a time (js/letters.js).
@@ -59,12 +60,6 @@ if (themeToggle) {
   });
 }
 
-// The one narrow-screen breakpoint, read from --narrow in styles.css so it's
-// defined in a single place. Also used by js/make.js.
-function narrowWidth() {
-  return getComputedStyle(document.documentElement).getPropertyValue("--narrow").trim() || "64rem";
-}
-
 // Three-dot menu on narrow screens.
 const header = document.querySelector(".site-header");
 const toggle = header?.querySelector(".menu-toggle");
@@ -115,7 +110,12 @@ ARROW.forEach((row, y) => [...row].forEach((ch, x) => {
 document.body.append(toTop);
 toTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
-  document.querySelector("main h1, h1")?.focus?.({ preventScroll: true });
+  // the page's (visible) title: focus moves there, so the keyboard starts from the top too
+  const title = [...document.querySelectorAll("main h1")].find((h) => h.offsetParent);
+  if (title) {
+    if (!title.hasAttribute("tabindex")) title.tabIndex = -1;
+    title.focus({ preventScroll: true });
+  }
 });
 const syncToTop = () => { toTop.hidden = window.scrollY < 300; };
 addEventListener("scroll", syncToTop, { passive: true });

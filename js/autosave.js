@@ -40,8 +40,9 @@ let lastSavedAt = null;
 
 /**
  * The combined state of every saver, worst first:
- *   "stopped"  — a save was refused; `kind` says why: "no-card", "bad-key"
- *                or "conflict" (changed elsewhere)
+ *   "stopped"  — a save was refused; `kind` says why: "no-card", "bad-key",
+ *                "conflict" (changed elsewhere), "stale" (the editor was updated),
+ *                "too-big" (the card would be over the size limit) or "invalid"
  *   "offline"  — the browser says there's no connection; saves wait for it
  *   "retrying" — couldn't reach the server; will try again
  *   "saving"   — a save is in flight
@@ -78,13 +79,16 @@ export const flushAll = () => Promise.all([...savers].map((s) => s.flush()));
 /** True if anything hasn't reached the server yet. */
 export const hasUnsaved = () => [...savers].some((s) => s.dirty || s.state === "saving");
 
-/** Forget every saver (e.g. when leaving the editor for another card). */
 /** The parts whose saves were refused, e.g. ["basics"]. */
 export const stoppedParts = () => [...savers].filter((s) => s.state === "stopped").map((s) => s.name);
+
+/** The parts with changes that haven't reached the server (refused, waiting, or retrying). */
+export const unsavedParts = () => [...savers].filter((s) => s.dirty).map((s) => s.name);
 
 /** Start every stopped saver again (see saver.resume). */
 export const resumeAll = () => [...savers].forEach((s) => s.resume());
 
+/** Forget every saver (e.g. when leaving the editor for another card). */
 export function resetSavers() {
   for (const s of savers) s.stop();
   savers.clear();
@@ -96,6 +100,7 @@ export function createAutosaver({ name, collect, save, delay = DELAY }) {
   let timer = null;
   let retryWait = RETRY_FIRST;
   let inFlight = null;   // the save currently on its way, if any
+  let ended = false;   // stop() was called: this saver is finished
 
   const saver = {
     name,
@@ -119,8 +124,10 @@ export function createAutosaver({ name, collect, save, delay = DELAY }) {
       if (saver.dirty) await run();
     },
 
+    /** For good: nothing more is sent, not even a save already queued or retrying. */
     stop() {
       clearTimeout(timer);
+      ended = true;
       saver.dirty = false;
       setState("idle");
     },
@@ -141,7 +148,7 @@ export function createAutosaver({ name, collect, save, delay = DELAY }) {
 
   async function run() {
     clearTimeout(timer);
-    if (saver.state === "stopped" || !saver.dirty) return;
+    if (ended || saver.state === "stopped" || !saver.dirty) return;
     if (inFlight) {
       // a save is already on its way: this one goes right after it
       await inFlight;
@@ -154,15 +161,16 @@ export function createAutosaver({ name, collect, save, delay = DELAY }) {
 
     inFlight = (async () => {
       try {
-        await oneAtATime(() => save(data));
+        await oneAtATime(() => (ended ? null : save(data)));   // (stopped for good while waiting its turn: don't send)
         retryWait = RETRY_FIRST;
         lastSavedAt = new Date();
         setState(saver.dirty ? "unsaved" : "saved");
       } catch (err) {
         console.error(`autosave (${name}):`, err);
+        if (ended) return;
         saver.dirty = true;   // nothing reached the server: keep the changes
         const kind = errorKind(err);
-        if (kind === "no-card" || kind === "bad-key" || kind === "conflict") {
+        if (["no-card", "bad-key", "conflict", "stale", "too-big", "invalid"].includes(kind)) {   // retrying can't fix these
           saver.errorKind = kind;
           setState("stopped");
         } else {

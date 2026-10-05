@@ -19,6 +19,8 @@ import { suggestField } from "../controls/suggest.js";
 import { sectionMaker } from "../controls/fold.js";
 import { showPopup, closePopup } from "../popup.js";
 import { showIf } from "../reveal.js";
+import { qualifierLabel } from "./rules.js";
+import { asideOf, picksAside } from "../set-aside.js";
 
 // item categories that are tools or services; anything else is a shared list
 const TOOL_CATEGORIES = ["tool", "service"];
@@ -44,21 +46,21 @@ export async function loadFederationData() {
 }
 
 /**
- * The rules ticked under Rules, in their order there, in the community's
+ * The rules selected under Rules, in their order there, in the community's
  * wording, then the community's own rules:
  * [{ id, label, group (the kind of rule), qualifier (its label), qualifierId }]
  */
 export function cardRules(rules = {}, ruleTypes, qualifierSets = {}) {
   const edits = rules.ruleEdits || {};
-  const qualifierOf = (setId, q) => (q ? (qualifierSets[setId] || []).find((o) => o.id === q)?.label ?? null : null);
+  const chosen = new Map((rules.selected || []).map((s) => [s.id, s.qualifier ?? null]));
   const ticked = ruleTypes.flatMap((t) => t.rules
-    .filter((r) => rules.ruleData?.[t.id]?.checked?.[r.id])
+    .filter((r) => chosen.has(r.id))
     .map((r) => {
-      const q = rules.ruleData[t.id].qualifiers?.[r.id] ?? null;
-      return { id: r.id, label: edits[r.id]?.text || r.label, group: t.name, qualifierId: q, qualifier: qualifierOf(r.qualifier || t.qualifier, q) };
+      const q = chosen.get(r.id);
+      return { id: r.id, label: edits[r.id]?.text || r.label, group: t.name, qualifierId: q, qualifier: qualifierLabel(qualifierSets, r.qualifier || t.qualifier, q) };
     }));
   const own = (rules.customRules || []).filter((r) => r.text)
-    .map((r) => ({ id: r.id, label: r.text, group: "Custom rules", qualifierId: r.qualifier ?? null, qualifier: qualifierOf(r.qualifierSet, r.qualifier) }));
+    .map((r) => ({ id: r.id, label: r.text, group: "Custom rules", qualifierId: r.qualifier ?? null, qualifier: qualifierLabel(qualifierSets, r.qualifierSet, r.qualifier) }));
   return [...ticked, ...own];
 }
 
@@ -69,6 +71,20 @@ export function cardRules(rules = {}, ruleTypes, qualifierSets = {}) {
  * or one group, and quick picks for rules marked Not allowed or Required.
  * A selected rule can take a note (a pop-up); one with a note gets the badge.
  */
+/**
+ * What's set aside, by rule id → { selected?, note? }: notes on rules not
+ * selected, and selections of rules no longer on the card (unselected under
+ * Rules), so both come back with their rule.
+ */
+function rulesAside(rules, chosen, noteOf) {
+  const listed = new Set(rules.map((r) => r.id));
+  const ids = new Set([...Object.keys(noteOf), ...chosen]);
+  return Object.fromEntries([...ids].map((id) => [id, {
+    ...(chosen.has(id) && !listed.has(id) ? { selected: true } : {}),
+    ...(noteOf[id] && !(chosen.has(id) && listed.has(id)) ? { note: noteOf[id] } : {}),
+  }]));
+}
+
 function ruleSelector({ rules, selected = [], notes = {}, onInput, onCommit }) {
   const chosen = new Set(selected);
   const noteOf = { ...notes };
@@ -88,7 +104,10 @@ function ruleSelector({ rules, selected = [], notes = {}, onInput, onCommit }) {
   }
 
   function annotate(rule) {
-    const note = textField({ label: "Note", hint: "How this rule guides federation decisions (optional).", multiline: true, value: noteOf[rule.id], onInput: () => { noteOf[rule.id] = note.value(); onInput(); }, onCommit });
+    let savedNote = noteOf[rule.id];   // as last saved (so closing only saves a change)
+    const note = textField({ label: "Note", hint: "How this rule guides federation decisions (optional).", multiline: true, value: noteOf[rule.id],
+      onInput: () => { noteOf[rule.id] = note.value(); onInput(); },
+      onCommit: () => { savedNote = noteOf[rule.id]; onCommit(); } });
     showPopup({
       title: rule.label,
       body: el("div", {},
@@ -96,7 +115,11 @@ function ruleSelector({ rules, selected = [], notes = {}, onInput, onCommit }) {
         note.element,
         el("p", { className: "button-row" }, button("Done", "button button-small", closePopup)),
       ),
-    }).then(() => { noteOf[rule.id] = note.value(); refresh(); onCommit(); });
+    }).then(() => {
+      noteOf[rule.id] = note.value();
+      refresh();
+      if (noteOf[rule.id] !== savedNote) onCommit();
+    });
     note.focus();
   }
 
@@ -149,11 +172,12 @@ function ruleSelector({ rules, selected = [], notes = {}, onInput, onCommit }) {
   return {
     element,
     value: () => rules.filter((r) => chosen.has(r.id)).map((r) => r.id),
-    notes: () => Object.fromEntries([...chosen].filter((id) => noteOf[id]).map((id) => [id, noteOf[id]])),
+    notes: () => Object.fromEntries(rules.filter((r) => chosen.has(r.id) && noteOf[r.id]).map((r) => [r.id, noteOf[r.id]])),
+    aside: () => rulesAside(rules, chosen, noteOf),
   };
 }
 
-export function renderFederation(container, federation = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "federation", getPart = () => ({}) } = {}) {
+export function renderFederation(container, federation = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "federation", getPart = () => ({}), setAside = asideOf() } = {}) {
   const subs = federation.subscriptions || {};
   const bridging = federation.bridging || {};
 
@@ -176,7 +200,7 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     label: "How servers get on your allowlist",
     hint: "How do you decide who gets added, and how can a server ask to be added?",
     multiline: true,
-    value: federation.allowlistPolicy,
+    value: federation.allowlistPolicy ?? setAside.get("allowlistPolicy"),   // (set aside while the approach was another)
     onInput,
     onCommit,
   });
@@ -188,6 +212,7 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     hint: "Select the responses your community takes, dragging them into the order you escalate. You can click on each to add a note.",
     options: data.ladder,
     items: federation.responseLadder || [],
+    remembered: setAside.list("responseLadder:"),
     noteHint: "When and how you use this response (optional).",
     filterable: false,
     staged: true,
@@ -217,7 +242,7 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     legend: "Do you share your block list?",
     hint: "So other communities can use it, or see who you don’t federate with.",
     options: YES_NO,
-    value: subs.sharesBlocklist == null ? null : subs.sharesBlocklist ? "yes" : "no",
+    value: subs.sharesBlocklist,
     onChange: (v) => {
       showIf(blocklistLink.element, v === "yes");
       onCommit();
@@ -227,11 +252,11 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     label: "Link to your block list",
     type: "url",
     placeholder: "https://",
-    value: subs.blocklistLink,
+    value: subs.blocklistLink ?? setAside.get("subscriptions.blocklistLink"),
     onInput,
     onCommit,
   });
-  blocklistLink.element.hidden = !subs.sharesBlocklist;
+  blocklistLink.element.hidden = subs.sharesBlocklist !== "yes";
   const tools = suggestField({
     label: "Tools or services you use for federation decisions",
     hint: data.tools.length ? "Pick from the list, or type any other." : "Type the name of each one and press Enter.",
@@ -245,18 +270,31 @@ export function renderFederation(container, federation = {}, data, { onInput = (
 
   // ── which of the card's rules guide federation decisions ──
   const rules = cardRules(getPart("rules"), data.ruleTypes, data.qualifierSets);
+  // (what was set aside joins what was saved: selections and notes on rules
+  // that were off the card, or unselected here)
+  const asideRules = setAside.list("relevantRules:");
+  const ruleChoices = {
+    rules,
+    selected: [...(federation.relevantRules || []), ...asideRules.filter((r) => r.selected).map((r) => r.id)],
+    notes: { ...federation.ruleNotes, ...Object.fromEntries(asideRules.filter((r) => r.note).map((r) => [r.id, r.note])) },
+  };
   const relevant = rules.length
-    ? ruleSelector({ rules, selected: federation.relevantRules || [], notes: federation.ruleNotes || {}, onInput, onCommit })
-    : { element: el("p", { className: "field-hint" }, "No rules selected yet. Select them under ", el("a", { className: "inline", href: "#rules", textContent: "Rules" }), ", and they’ll show here."), value: () => [], notes: () => ({}) };
+    ? ruleSelector({ ...ruleChoices, onInput, onCommit })
+    : {
+      element: el("p", { className: "field-hint" }, "No rules selected yet. Select them under ", el("a", { className: "inline", href: "#rules", textContent: "Rules" }), ", and they’ll show here."),
+      value: () => [],
+      notes: () => ({}),
+      aside: () => rulesAside([], new Set(ruleChoices.selected), ruleChoices.notes),   // (all of it set aside, until there are rules)
+    };
 
   // ── bridging ──────────────────────────────────────────────
-  const bridged = renderChoices({
-    legend: "Bridging",
-    legendHidden: true,
-    options: [{ id: "enabled", label: "We bridge to other networks", description: "Our community is also reachable from other protocols, e.g. through a bridge between ActivityPub and AT Protocol." }],
-    selected: bridging.enabled ? ["enabled"] : [],
+  const bridged = scaleField({
+    legend: "Do you bridge to other networks?",
+    hint: "Whether your community is also reachable from other protocols, e.g. through a bridge between ActivityPub and AT Protocol.",
+    options: YES_NO,
+    value: bridging.bridges,
     onChange: (v) => {
-      showIf(protocols.element, v.length > 0);
+      showIf(protocols.element, v === "yes");
       onCommit();
     },
   });
@@ -266,10 +304,10 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     items: data.protocols,
     multiple: true,
     allowCustom: true,
-    values: bridging.protocols || [],
+    values: bridging.protocols?.length ? bridging.protocols : setAside.get("bridging.protocols") || [],
     onCommit,
   });
-  protocols.element.hidden = !bridging.enabled;
+  protocols.element.hidden = bridging.bridges !== "yes";
 
   const section = sectionMaker(stateKey);   // each section folds; closed at first, then as the person left it
   container.replaceChildren(
@@ -289,7 +327,7 @@ export function renderFederation(container, federation = {}, data, { onInput = (
       subscriptions: {
         ...subs,
         subscribedLists: lists.value(),
-        sharesBlocklist: shares.value() == null ? null : shares.value() === "yes",
+        sharesBlocklist: shares.value(),
         blocklistLink: shares.value() === "yes" ? blocklistLink.value() : null,
         decisionTools: tools.value(),
       },
@@ -297,9 +335,17 @@ export function renderFederation(container, federation = {}, data, { onInput = (
       ruleNotes: relevant.notes(),
       bridging: {
         ...bridging,
-        enabled: bridged.value().length > 0,
-        protocols: protocols.value(),
+        bridges: bridged.value(),
+        protocols: bridged.value() === "yes" ? protocols.value() : [],
       },
+    }),
+    // set aside: answers that only count with another answer (kept for switching back)
+    setAside: () => ({
+      allowlistPolicy: usesAllowlist(approach.value()) ? null : allowlist.value(),
+      ...picksAside("responseLadder:", ladder.remembered()),
+      "subscriptions.blocklistLink": shares.value() === "yes" ? null : blocklistLink.value(),
+      "bridging.protocols": bridged.value() === "yes" ? null : protocols.value(),
+      ...Object.fromEntries(Object.entries(relevant.aside()).map(([id, a]) => [`relevantRules:${id}`, a])),
     }),
     focusFirst: () => {},
   };

@@ -53,13 +53,13 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   const { onInput = () => {}, onCommit = () => {}, onTypeChange = () => {} } = handlers;
 
   // ── name and link ─────────────────────────────────────────
-  const name = textField({ label: "Community name", value: basics.communityName, onInput, onCommit });
+  const name = textField({ label: "Community name", value: basics.name, onInput, onCommit });
   const link = textField({
     label: "Community link",
     hint: "Where people find your community online, e.g. its website or server.",
     type: "url",
     placeholder: "https://",
-    value: basics.communityLink,
+    value: basics.link,
     onInput,
     onCommit,
   });
@@ -67,7 +67,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   // ── community type: its hint describes the chosen type ────
   const typeHint = (id) => data.types.find((t) => t.id === id)?.description
     || "What kind of space is it? This also suggests which modules your card covers.";
-  let lastType = basics.communityType || null;
+  let lastType = basics.type || null;
   const type = selectField({
     label: "Community type",
     options: data.types,
@@ -89,7 +89,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     legend: "Community size",
     layout: "buttons",   // a row of buttons; each size's description shows on hover
     options: data.sizes,
-    selected: basics.communitySize || null,
+    selected: basics.size || null,
     clearable: true,
     onChange: onCommit,
   });
@@ -98,7 +98,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   const keywords = tagInput({
     label: "Keywords",
     hint: "A few words people might search for, e.g. “gardening”, “open science”. Press Enter or Tab after each one.",
-    values: basics.communityKeywords || [],
+    values: basics.keywords || [],
     onCommit,
   });
 
@@ -167,11 +167,11 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     /** Everything this form edits, merged over what it was given. */
     collect: () => ({
       ...basics,
-      communityName: name.value(),
-      communityLink: link.value(),
-      communityType: type.value(),
-      communitySize: size.value(),
-      communityKeywords: keywords.value(),
+      name: name.value(),
+      link: link.value(),
+      type: type.value(),
+      size: size.value(),
+      keywords: keywords.value(),
       values: values.value(),
     }),
     focusFirst: () => name.focus(),
@@ -191,15 +191,15 @@ export function renderBasicsSummary(container, basics = {}, data, { entries = []
     return list.element;
   };
   const none = () => el("span", { className: "field-hint", textContent: "Not answered yet" });
-  const size = data.sizes.find((s) => s.id === basics.communitySize);
+  const size = data.sizes.find((s) => s.id === basics.size);
   const values = data.values.filter((v) => (basics.values || []).includes(v.id));
 
   const rows = [
-    ["Community", basics.communityName ? el("b", { textContent: basics.communityName }) : none()],
-    ["Link", basics.communityLink ? el("a", { className: "inline", href: basics.communityLink, target: "_blank", rel: "noopener", textContent: basics.communityLink }) : none()],
-    ["Type", label(data.types, basics.communityType) || none()],
+    ["Community", basics.name ? el("b", { textContent: basics.name }) : none()],
+    ["Link", basics.link ? el("a", { className: "inline", href: basics.link, target: "_blank", rel: "noopener", textContent: basics.link }) : none()],
+    ["Type", label(data.types, basics.type) || none()],
     ["Size", size ? `${size.label} (${size.description.charAt(0).toLowerCase()}${size.description.slice(1)})` : none()],
-    ["Keywords", basics.communityKeywords?.length ? chips(basics.communityKeywords.map((k) => ({ id: k, label: k })), "Keywords") : none()],
+    ["Keywords", basics.keywords?.length ? chips(basics.keywords.map((k) => ({ id: k, label: k })), "Keywords") : none()],
     ["Values", values.length ? chips(values, "Values") : none()],
   ];
 

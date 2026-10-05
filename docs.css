@@ -10,6 +10,9 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
 }
+@media (width < 64rem) {   /* = --narrow: …and of the sidebar's bar under it */
+  html { scroll-padding-top: calc(var(--header-h) + 2.75rem); }
+}
 
 /* docs read as reference text: a little smaller and airier than the
    rest of the site (the column itself is .sidebar-main) */
@@ -22,12 +25,9 @@ html {
 .docs-body li > ul { margin: 0.3em 0 0; }   /* nested list: tucked under its parent item */
 .docs-body p:last-child { margin-bottom: 0; }
 
-.docs-body code {
-  font-family: var(--mono);
-  font-size: 0.8em;
+.docs-body code {   /* mono at 0.8em: the shared mono rule (styles.css) */
   background: var(--tint-strong);
   padding: 0.1em 0.35em;
-  border-radius: 2px;
 }
 
 /* the footer runs the full width under both columns */
@@ -78,35 +78,32 @@ html {
 .table tr.named td:first-child { padding-left: 1.4rem; }
 .table tr.named td:first-child::before { content: "↳ "; color: var(--line); font-size: 0.8em; }
 
-/* small mono names in table cells (pills share their shape from styles.css) */
+/* small mono names at the start of a table row: a platform or item (pills share their shape from styles.css) */
 .pname,
 .table td.ref-name {
   font-family: var(--mono);
   font-weight: 600;
+  font-size: var(--fs-xs);
 }
-
-/* a platform or item name at the start of a row */
-.pname,
-.table td.ref-name { font-size: var(--fs-xs); }
 .table td.ref-name { white-space: nowrap; }
 
-.sw    { color: var(--gray); font-size: var(--fs-xs); }
-.sw.oss  { color: var(--ink); }   /* open source stands out; proprietary stays gray */
+.sw,
 .model   { color: var(--gray); font-size: var(--fs-xs); }
+.sw.oss  { color: var(--ink); }   /* open source stands out; proprietary stays gray */
 
 /* pills: protocol, yes/no/varies, cost values (shape: styles.css) */
 .proto,
 .badge,
 .cv { white-space: nowrap; }
 
-.proto     { background: var(--tint-strong); color: var(--accent); }
+.proto,
+.badge.var,
+.cv.often  { background: var(--tint-strong); color: var(--accent); }
 .badge.yes,
 .cv.yes    { background: var(--tint-strong); color: var(--ink); }
 .badge.no,
 .cv.no,
 .cv.rare   { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
-.badge.var { background: var(--tint-strong); color: var(--accent); }
-.cv.often  { background: var(--tint-strong); color: var(--accent); }
 .cv.some   { background: var(--tint); color: var(--accent); }
 
 /* ── cost matrix: .table.matrix (centred cells, scrolls sideways) */

@@ -14,8 +14,9 @@
   // for the <tbody>. Keep them small; add more here as new sections land.
 
   const renderers = {
-    // Simple two-column: label + description
-    "simple": (data) => data.items.map(it => `
+    // Simple two-column: label + description. The items are data.items, or
+    // with data-enum-key="…", that list in the file (e.g. enums.json)
+    "simple": (data, el) => (el.dataset.enumKey ? data[el.dataset.enumKey] || [] : data.items).map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
         <td>${esc(it.description || "")}</td>
@@ -33,8 +34,8 @@
       </tr>
     `).join(""),
 
-    // Covenants: label, description, link
-    "covenants": (data) => data.items.map(it => `
+    // Covenants, federation subscription lists: label, category, description, link
+    "linked": (data) => data.items.map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
         <td><span class="model">${esc(it.category || "")}</span></td>
@@ -42,14 +43,6 @@
           ${esc(it.description || "")}
           ${it.url ? `<div class="ref-sub"><a class="inline" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a></div>` : ""}
         </td>
-      </tr>
-    `).join(""),
-
-    // Community types: label, description
-    "communityTypes": (data) => data.items.map(it => `
-      <tr>
-        <td class="ref-name">${esc(it.label)}</td>
-        <td>${esc(it.description || "")}</td>
       </tr>
     `).join(""),
 
@@ -60,18 +53,6 @@
         <td><span class="model">${esc((it.categories || []).map(id => data.categories.find(c => c.id === id)?.label || id).join(", "))}</span></td>
         <td>${esc(it.description || "")}</td>
         <td><span class="model">${esc(it.access || "")}</span></td>
-      </tr>
-    `).join(""),
-
-    // Federation subscription lists
-    "subscriptionLists": (data) => data.items.map(it => `
-      <tr>
-        <td class="ref-name">${esc(it.label)}</td>
-        <td><span class="model">${esc(it.category || "")}</span></td>
-        <td>
-          ${esc(it.description || "")}
-          ${it.url ? `<div class="ref-sub"><a class="inline" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a></div>` : ""}
-        </td>
       </tr>
     `).join(""),
 
@@ -101,18 +82,6 @@
       });
       return out.join("");
     },
-
-    // Enums: pick a sub-array by data-enum-key
-    "enum": (data, el) => {
-      const key = el.dataset.enumKey;
-      const items = Array.isArray(data[key]) ? data[key] : [];
-      return items.map(it => `
-        <tr>
-          <td class="ref-name">${esc(it.label)}</td>
-          <td>${esc(it.description || "")}</td>
-        </tr>
-      `).join("");
-    },
   };
 
   // ─── HTML escape ────────────────────────────────────────
@@ -125,6 +94,18 @@
   }
 
   // ─── Main ───────────────────────────────────────────────
+  // each file fetched once, however many tables use it (e.g. enums.json)
+  const files = new Map();
+  const load = (src) => {
+    if (!files.has(src)) {
+      files.set(src, fetch(src).then((res) => {
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        return res.json();
+      }));
+    }
+    return files.get(src);
+  };
+
   async function populate(table) {
     const src = table.dataset.source;
     const kind = table.dataset.render || "simple";
@@ -139,10 +120,7 @@
     tbody.innerHTML = `<tr><td colspan="99" class="ref-loading">Loading…</td></tr>`;
 
     try {
-      const res = await fetch(src, { cache: "no-cache" });
-      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-      const data = await res.json();
-      tbody.innerHTML = renderer(data, table);
+      tbody.innerHTML = renderer(await load(src), table);
     } catch (err) {
       console.error("docs-reference: failed to load", src, err);
       tbody.innerHTML = `<tr><td colspan="99" class="ref-error">Couldn't load ${esc(src)}: ${esc(err.message)}</td></tr>`;

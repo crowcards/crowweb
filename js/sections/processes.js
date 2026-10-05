@@ -2,7 +2,7 @@
 // its space, moderates, handles conflict, and communicates.
 //
 //   const data = await loadProcessesData();
-//   const form = renderProcesses(container, card.processes, data, { onInput, onCommit, stateKey, getPart, setPart });
+//   const form = renderProcesses(container, card.processes, data, { onInput, onCommit, stateKey, getPart, setParts });
 //   form.collect()   → the processes object to save
 //
 // First a box with a tab each for institutional change, maintenance and
@@ -16,11 +16,12 @@ import { el } from "../dom.js";
 import { textField } from "../controls/fields.js";
 import { renderChoices } from "../controls/choices.js";
 import { renderRows } from "../controls/rows.js";
-import { pickList } from "../controls/picklist.js";
+import { pickList, notesOf } from "../controls/picklist.js";
 import { sectionMaker } from "../controls/fold.js";
 import { tabBox } from "../controls/tabs.js";
-import { logChanges } from "../structure.js";
-import { loadRecommendations, reasonsFor, suggestedBadge } from "../recommend.js";
+import { logChanges, structureIds, changeStructure } from "../structure.js";
+import { asideOf, picksAside } from "../set-aside.js";
+import { loadRecommendations, suggestionsFrom } from "../recommend.js";
 
 export async function loadProcessesData() {
   const [decisions, conflict, enums, recs] = await Promise.all([
@@ -37,18 +38,17 @@ export async function loadProcessesData() {
   };
 }
 
-/** { "<approach id>": "note" } → only the notes that say something */
-const notesOf = (picks) => Object.fromEntries(picks.filter((p) => p.note).map((p) => [p.id, p.note]));
+/** A custom channel in one line: "Zine — Monthly" (also used by Export). */
+export const channelLine = (c) => [c.name, c.description].filter(Boolean).join(" — ");
 
 export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
-  const { onInput = () => {}, onCommit = () => {}, stateKey = "processes", getPart = () => ({}), setPart = () => {} } = hooksIn;
+  const { onInput = () => {}, onCommit = () => {}, stateKey = "processes", getPart = () => ({}), setParts = () => {}, setAside = asideOf() } = hooksIn;
   const hooks = { onInput, onCommit };
   const con = processes.conflictManagement || {};
   const comms = processes.communications || {};
   const note = (label, value) => textField({ label, multiline: true, value, ...hooks });
   // options the card's values recommend get a "Suggested" chip
-  const values = getPart("basics").values || [];
-  const suggested = (list) => suggestedBadge(reasonsFor(list, values, data.recs.valueLabel));
+  const recs = suggestionsFrom(data.recs, getPart("basics").values);
 
   // ── the shared structure list ─────────────────────────────
   // each tab edits the one list (a change made in one shows in the others
@@ -56,11 +56,15 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
   const structurePickers = [];
   const setStructure = (ids, from, section) => {
     const m = getPart("membership");
-    setPart("membership", { ...m, structure: ids, structureLog: logChanges(m, ids, section) });
+    const ed = getPart("editor");
+    // both at once: the change's log entry, and the structure itself (Membership's
+    // own notes stay with their approaches, or are set aside and come back with them)
+    const { structure, setAside: aside } = changeStructure(m, ids, ed.setAside);
+    setParts({ editor: { ...ed, structureLog: logChanges(ed.structureLog, structureIds(m), ids, section), setAside: aside }, membership: { ...m, structure } });
     for (const p of structurePickers) if (p !== from) p.select(ids);
   };
   function structureSection(saved = {}, { usedFor, section, generalLabel }) {
-    const structure = getPart("membership").structure || [];
+    const structure = structureIds(getPart("membership"));
     const notes = saved.approachNotes || {};
     const picker = pickList({
       legend: `Approaches for ${usedFor}`,
@@ -69,10 +73,11 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
       filterLabel: "approaches",
       options: data.decisionApproaches,
       items: structure.map((id) => ({ id, note: notes[id] || null })),
+      remembered: setAside.list(`${section}.approachNotes:`),   // notes on approaches removed earlier: back if they're added again
       chosenLegend: null,
       emptyText: "None chosen yet. Select approaches in the list below.",
       noteHint: `How it’s used for ${usedFor} (optional).`,
-      badge: suggested(data.recs.decision),
+      badge: recs.badge(data.recs.decision),
       // first in the tab: the hint (naming this tab's work, highlighted), then the tags
       before: [el("p", { className: "field-hint" },
         "The decision-making approaches you use, first set in ",
@@ -95,19 +100,19 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
     hint: "Select the ones you use, then put them in steps above.",
     options: data.conflictApproaches,
     items: con.approaches || [],
+    remembered: setAside.list("conflictManagement.approaches:"),
     staged: true,
     chosenLegend: "Your steps",
-    badge: suggested(data.recs.conflict),
+    badge: recs.badge(data.recs.conflict),
     ...hooks,
   });
   const conNote = note("Anything else about conflict", con.generalNote);
 
   // ── communications ────────────────────────────────────────
-  const savedChannels = comms.channels || {};
   const channels = renderChoices({
     legend: "Channels you have",
     options: data.channels,
-    selected: data.channels.filter((c) => savedChannels[c.id]).map((c) => c.id),
+    selected: comms.channels || [],
     onChange: onCommit,
   });
   const customChannels = renderRows({
@@ -116,7 +121,7 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
     addLabel: "Add a channel",
     newItem: () => ({ name: "", description: "" }),
     itemName: (c) => (c.name ? `“${c.name}”` : "this channel"),
-    summarize: (c) => (c.name ? [c.name, c.description].filter(Boolean).join(" — ") : ""),
+    summarize: (c) => (c.name ? channelLine(c) : ""),
     renderRow: (c, rowHooks) => {
       const name = textField({ label: "Channel", value: c.name, ...rowHooks });
       const description = textField({ label: "What it’s for", value: c.description, ...rowHooks });
@@ -152,6 +157,13 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
 
   const work = (t) => ({ ...t.saved, approachNotes: notesOf(t.structure.value()), generalNote: t.note.value() });
   return {
+    // set aside: notes (and primary marks) on approaches no longer selected
+    setAside: () => ({
+      ...picksAside("institutionalChange.approachNotes:", inst.structure.remembered()),
+      ...picksAside("maintenance.approachNotes:", main.structure.remembered()),
+      ...picksAside("moderation.approachNotes:", mod.structure.remembered()),
+      ...picksAside("conflictManagement.approaches:", conApproaches.remembered()),
+    }),
     collect: () => ({
       ...processes,
       moderation: work(mod),
@@ -160,8 +172,7 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
       institutionalChange: work(inst),
       communications: {
         ...comms,
-        // every channel is stored, true or false, as the schema has them
-        channels: Object.fromEntries(data.channels.map((c) => [c.id, channels.value().includes(c.id)])),
+        channels: channels.value(),   // the ids of the channels you have
         customChannels: customChannels.value(),
       },
     }),

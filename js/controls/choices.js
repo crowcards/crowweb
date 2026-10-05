@@ -27,12 +27,13 @@
 // (checkbox lists, "described" layout), e.g. a rule's "Allowed / Not allowed":
 //   sub: { options: [{ id, label }] or (opt) => [{ id, label }], applies: (opt) => true,
 //          values: { optId: subId }, legend: "…" }
-// choices.subValue(optId) → the follow-up answer for a ticked option, or null;
-// choices.setSub(optId, subId) sets it from code.
+// choices.subValue(optId) → the follow-up answer for a ticked option, or null
+// (subValue(optId, { evenIfOff: true }): also for an unticked one, as it was
+// left, e.g. to set it aside); choices.setSub(optId, subId) sets it from code.
 // scaleField: radio buttons in one row that can be cleared — a 1–5 scale,
 // Yes / No, a cost answer. ends: { low, high } says what each end means,
 // underneath; layout: "buttons" draws them as a row of buttons. YES_NO: the
-// Yes / No options.
+// Yes / No options (stored "yes" / "no"); YES_NO_VARIES adds "It varies".
 // choices.show((id, checked) => bool) hides the options it returns false for
 // (what's ticked is kept), e.g. joining options outside the chosen tiers.
 //
@@ -43,8 +44,9 @@
 import { el, uid, chip as makeChip, richText } from "../dom.js";
 
 export const YES_NO = [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }];
+export const YES_NO_VARIES = [...YES_NO, { id: "varies", label: "It varies" }];
 
-export function scaleField({ legend, hint, options, value = null, ends, layout = "described", onChange = () => {} }) {
+export function scaleField({ legend, hint, options, value = null, ends, layout = "described", clearable = true, onChange = () => {} }) {
   return renderChoices({
     type: "radio",
     legend,
@@ -53,7 +55,7 @@ export function scaleField({ legend, hint, options, value = null, ends, layout =
     selected: value,
     layout,
     listClass: layout === "buttons" ? "" : ends ? "scale scale-range" : "scale",
-    clearable: true,
+    clearable,   // (off where an answer is always needed, e.g. a pick's step)
     after: ends ? [el("p", { className: "scale-ends field-hint" }, el("span", { textContent: ends.low }), el("span", { textContent: ends.high }))] : [],
     onChange,
   });
@@ -221,10 +223,10 @@ export function renderChoices({
     if (radio) radio.checked = true;
   }
 
-  /** The follow-up answer for a ticked option, or null. */
-  function subValue(id) {
+  /** The follow-up answer for a ticked option (or an unticked one, evenIfOff), or null. */
+  function subValue(id, { evenIfOff = false } = {}) {
     const s = subs.get(id);
-    if (!s || !inputs.get(id).checked) return null;
+    if (!s || (!evenIfOff && !inputs.get(id).checked)) return null;
     for (const [sid, radio] of s.inputs) if (radio.checked) return sid;
     return null;
   }

@@ -39,7 +39,22 @@ export function reasonsFor(list, values = [], valueLabel = {}) {
 const reasonText = (reasons) => reasons.map((r) => `Because you value *${r.valueLabel}*: ${r.why}`);   // the value in italics (richText)
 
 /** A choices `badge` (see js/controls/choices.js): "Suggested", with the reasons. */
-export const suggestedBadge = (reasons) => (opt) => {
+const suggestedBadge = (reasons) => (opt) => {
   const r = reasons.get(opt.id);
   return r ? { label: "Suggested", notes: reasonText(r) } : null;
 };
+
+/** The line that says where "Suggested" chips come from (richText). */
+export const FROM_VALUES = "[[Suggested]] tags come from the Values you selected in Basics.";
+
+/**
+ * A card's values' suggestions for a module's lists: badge(list) → a choices
+ * badge ("Suggested" chips); any(list) → whether anything in it is suggested.
+ *   const recs = suggestionsFrom(data.recs, card.basics.values);
+ */
+export function suggestionsFrom(recs, values = []) {
+  return {
+    badge: (list) => suggestedBadge(reasonsFor(list, values, recs.valueLabel)),
+    any: (list) => reasonsFor(list, values, recs.valueLabel).size > 0,
+  };
+}

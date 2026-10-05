@@ -78,7 +78,7 @@
       <!-- ── start: new card or edit an existing one ─────────────── -->
       <section data-screen="start" hidden>
         <h1 tabindex="-1">Make a CROW Card</h1>
-        <p>A CROW Card describes how your community governs itself: its values, rules, and processes. Start a new card, or keep working on one you’ve already begun.</p>
+        <p>A CROW Card describes how your community governs itself: its values, rules, and processes. Start a new card, or keep working on one you’ve already begun. You can read through the <a href="docs.html">Documentation</a> to learn more.</p>
 
         <p><button class="button" type="button" id="start-new">Start a new card</button></p>
         <p class="form-error" id="start-error" role="alert" hidden></p>
@@ -160,31 +160,33 @@
   <!-- ── editor: modules on the left, the current module on the right ── -->
   <div class="sidebar-layout" id="editor" data-screen="editor" hidden>
     <nav class="sidebar editor-nav" id="editor-nav" aria-label="Card modules">
-      <!-- narrow screens only: a slim bar that opens the panel below -->
-      <!-- narrow screens only: one slim bar. The module's name opens the module
-           list (the panel below); + opens Save, Forget and Reset. -->
-      <div class="editor-bar">
-        <button class="editor-bar-module" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
-          <span class="visually-hidden">Module: </span><span id="editor-bar-module">Basics</span><span class="pixel-caret" aria-hidden="true"></span>
+      <!-- narrow screens only: one slim bar (js/sidebar.js). The module's name
+           opens the module list (the panel below); + opens Save, Forget and Reset. -->
+      <div class="sidebar-bar editor-bar">
+        <button class="sidebar-toggle" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
+          <span class="visually-hidden">Module: </span><span id="editor-bar-module">Basics</span><span class="flag-dot" id="editor-nav-flag" hidden><span class="visually-hidden"> (a module has a suggestion)</span></span><span class="pixel-caret" aria-hidden="true"></span>
         </button>
         <a href="docs.html" target="_blank" rel="noopener">Docs</a>
-        <p class="editor-bar-card">
-          <span class="save-status" id="save-status-bar" aria-hidden="true"></span>
-          <span class="editor-bar-name" id="editor-bar-name"></span>
-        </p>
-        <div class="editor-bar-more">
-          <button class="pixel-toggle" type="button" id="editor-bar-more" aria-expanded="false" aria-controls="editor-bar-menu" aria-label="Save, forget or reset"></button>
-          <div class="editor-bar-menu" id="editor-bar-menu" hidden>
-            <p class="editor-bar-id"><span class="mono-u">Card ID</span> <span class="mono" id="editor-bar-id"></span></p>
-            <button class="button button-small" type="button" data-save-now>Save</button>
-            <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
-            <button class="button button-small" type="button" data-reset>Reset</button>
-            <a class="button button-small" href="#export">Export</a>
+        <!-- the save status, card name and +: kept together on one line -->
+        <div class="editor-bar-end">
+          <p class="editor-bar-card">
+            <span class="save-status" id="save-status-bar" aria-hidden="true"></span>
+            <span class="editor-bar-name" id="editor-bar-name"></span>
+          </p>
+          <div class="editor-bar-more">
+            <button class="pixel-toggle" type="button" id="editor-bar-more" aria-expanded="false" aria-controls="editor-bar-menu" aria-label="Save, forget or reset"></button>
+            <div class="editor-bar-menu" id="editor-bar-menu" hidden>
+              <p class="editor-bar-id"><span class="mono-u">Card ID</span> <span class="mono" id="editor-bar-id"></span></p>
+              <button class="button button-small" type="button" data-save-now>Save</button>
+              <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
+              <button class="button button-small" type="button" data-reset>Reset</button>
+              <a class="button button-small" href="#export">Export</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="editor-nav-panel" id="editor-nav-panel">
+      <div class="sidebar-panel editor-nav-panel" id="editor-nav-panel">
         <div class="sprite editor-crow" aria-hidden="true">
           <img src="img/crow-sprite-a.png" alt="" />
           <img src="img/crow-sprite-e.png" alt="" />

@@ -24,7 +24,10 @@
 // A list whose ticks live somewhere else (e.g. the shared structure list,
 // shown in several Processes tabs): onSelect(ids) hears every tick change,
 // and pick.select(ids) re-syncs the ticks without firing anything. An item
-// unticked and ticked again gets its note back.
+// unticked and ticked again gets its note (and primary mark) back:
+// `remembered` ([{ id, note, primary? }], items not selected now) seeds that
+// from what was set aside (js/set-aside.js), and pick.remembered() lists
+// what's being kept, to set it aside.
 //
 // detachChosen: the tags aren't placed above the list; pick.chosenElement
 // is put wherever the page wants it. noteHint changes the hint on each note.
@@ -38,12 +41,19 @@ import { renderChoices, scaleField } from "./choices.js";
 import { textField } from "./fields.js";
 import { showPopup, closePopup } from "../popup.js";
 
+/** Picks' notes as { id: note }, only the notes that say something (e.g. Processes' approachNotes). */
+export const notesOf = (picks = []) => Object.fromEntries(picks.filter((p) => p.note).map((p) => [p.id, p.note]));
+
+/** Where step n of `total` falls: "First", "Escalation" or "Last resort" (also used by Export). */
+export const stepRole = (n, total) => (n === 1 ? "First" : n === total ? "Last resort" : "Escalation");
+
 export function pickList({
   legend,
   legendHidden = false,
   hint,
   options,
   items = [],
+  remembered = [],
   notes = true,
   filterable = true,
   filterLabel,
@@ -66,7 +76,7 @@ export function pickList({
   const labelOf = (id) => byId.get(id).label;
   // a fresh pick: just its id (and an empty note), on a new last step if
   // staged — or what it had before, if it was unticked earlier
-  const removed = new Map();
+  const removed = new Map(remembered.filter((r) => byId.has(r.id)).map((r) => [r.id, { ...r }]));
   let picks = [];
   const lastStage = () => Math.max(0, ...picks.map((p) => p.stage || 0));
   const blank = (id) => {
@@ -148,10 +158,7 @@ export function pickList({
     picks.sort((a, b) => a.stage - b.stage);
   }
   /** A step's name from where it falls: first, escalation, last resort; and when shared, in parallel. */
-  function stageName(n, total, size) {
-    const where = n === 1 ? "First" : n === total ? "Last resort" : "Escalation";
-    return `${n} · ${where}${size > 1 ? " · in parallel" : ""}`;
-  }
+  const stageName = (n, total, size) => `${n} · ${stepRole(n, total)}${size > 1 ? " · in parallel" : ""}`;
   /** Put a pick on step n; "new" = a new last step; { before: n } = a new step just before step n. */
   function moveTo(p, target) {
     if (target === "new") p.stage = lastStage() + 1;
@@ -198,17 +205,25 @@ export function pickList({
 
   /** The pop-up for one pick: its note, and (staged) its step and whether it's primary. */
   function annotate(p) {
+    let savedNote = p.note;   // the note as last saved (so closing only saves a change)
     const note = notes
-      ? textField({ label: "Note", hint: noteHint, multiline: true, value: p.note, onInput: () => { p.note = note.value(); onInput(); }, onCommit })
+      ? textField({ label: "Note", hint: noteHint, multiline: true, value: p.note,
+        onInput: () => { p.note = note.value(); onInput(); },
+        onCommit: () => { savedNote = p.note; onCommit(); } })
       : null;
-    // staged: which step (the same number as another = in parallel), and primary
-    const step = staged ? scaleField({
+    // staged: which step (the same number as another = in parallel), and
+    // primary. The steps are drawn again after each move, since "A new last
+    // step" adds one (and the pick's number can change).
+    const stepBox = el("div");
+    const drawStep = () => stepBox.replaceChildren(scaleField({
       legend: "Step",
       hint: "The order you’d try it in. Give two the same step to use them at the same time.",
       options: [...Array.from({ length: stageCount() }, (_, i) => ({ id: String(i + 1), label: String(i + 1) })), { id: "new", label: "A new last step" }],
       value: String(p.stage),
-      onChange: (v) => { if (v) { moveTo(p, v === "new" ? "new" : Number(v)); changed(); } },
-    }) : null;
+      clearable: false,   // every pick is on a step
+      onChange: (v) => { moveTo(p, v === "new" ? "new" : Number(v)); changed(); drawStep(); },
+    }).element);
+    if (staged) drawStep();
     const primary = staged && canBePrimary ? renderChoices({
       legend: "Primary",
       legendHidden: true,
@@ -220,7 +235,7 @@ export function pickList({
       title: labelOf(p.id),
       body: el("div", {},
         byId.get(p.id).description ? el("p", { className: "field-hint", textContent: byId.get(p.id).description }) : null,
-        step?.element,
+        staged ? stepBox : null,
         primary?.element,
         note?.element,
         el("p", { className: "button-row" },
@@ -230,7 +245,8 @@ export function pickList({
       ),
     }).then(() => {
       if (note) p.note = note.value();
-      changed();
+      renderTags();   // (its note badge)
+      if (note && p.note !== savedNote) onCommit();   // a note typed but not yet saved
     });
     note?.focus();
   }
@@ -281,6 +297,10 @@ export function pickList({
       ...(notes ? { note: p.note } : {}),
       ...(staged ? { stage: p.stage, ...(canBePrimary ? { primary: Boolean(p.primary) } : {}) } : {}),
     })),
+    /** Unselected items that still have a note (kept, so it comes back if re-selected). */
+    remembered: () => [...removed.values()]
+      .filter((p) => (p.note || p.primary) && !picks.some((q) => q.id === p.id))
+      .map((p) => ({ id: p.id, ...(p.note ? { note: p.note } : {}), ...(p.primary ? { primary: true } : {}) })),
     show: list.show,
     /** Tick exactly these, from outside (fires nothing). */
     select: (ids) => {

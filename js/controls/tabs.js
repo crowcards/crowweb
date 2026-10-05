@@ -33,7 +33,7 @@ export function tabBox({ label, key, tabs, onSelect = () => {} }) {
     return { id: t.id, tab, panel };
   });
 
-  function select(tabId, { focus = false } = {}) {
+  function select(tabId, { focus = false, remember = true } = {}) {
     const chosen = parts.find((p) => p.id === tabId) || parts[0];
     for (const p of parts) {
       const on = p === chosen;
@@ -42,7 +42,7 @@ export function tabBox({ label, key, tabs, onSelect = () => {} }) {
       p.panel.hidden = !on;
     }
     if (focus) chosen.tab.focus();
-    setPref(prefKey, chosen.id);
+    if (remember) setPref(prefKey, chosen.id);
     onSelect(chosen.id);
   }
 
@@ -56,7 +56,7 @@ export function tabBox({ label, key, tabs, onSelect = () => {} }) {
   });
 
   list.append(...parts.map((p) => p.tab));
-  select(getPref(prefKey, tabs[0].id));
+  select(getPref(prefKey, tabs[0].id), { remember: false });   // (already what's remembered)
   return {
     element: el("div", { className: "tab-box" }, list, ...parts.map((p) => p.panel)),
     select,
