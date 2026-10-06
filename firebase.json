@@ -11,6 +11,7 @@
       "firestore.rules",
       "firestore.indexes.json",
       "README.md",
+      "CLAUDE.md",
       "**/*.log",
       "**/*:Zone.Identifier",
       "emulator-data/**"
