@@ -5,6 +5,8 @@
 
    Each table also declares data-render="type" to pick a renderer
    (e.g. values, platforms, rules). Add new renderers as needed.
+   data-labels="/data/other.json" also loads a file of names (its items,
+   or tiers), passed to the renderer as a lookup: id → label.
    ──────────────────────────────────────────────────────────── */
 (function () {
   "use strict";
@@ -53,6 +55,26 @@
         <td><span class="model">${esc((it.categories || []).map(id => data.categories.find(c => c.id === id)?.label || id).join(", "))}</span></td>
         <td>${esc(it.description || "")}</td>
         <td><span class="model">${esc(it.access || "")}</span></td>
+      </tr>
+    `).join(""),
+
+    // Governance scales (governance_scales.json): what each scale means
+    "scaleDefinitions": (data) => data.scales.map(sc => `
+      <tr>
+        <td class="ref-name">${esc(sc.label)}</td>
+        <td>${esc(sc.description)}</td>
+        <td><span class="model">1: ${esc(sc.low)}</span></td>
+        <td><span class="model">5: ${esc(sc.high)}</span></td>
+      </tr>
+    `).join(""),
+
+    // Governance scales: one list's scores (data-list), named from data-labels
+    "scales": (data, el, labelOf) => data.items.filter(it => it.list === el.dataset.list).map(it => `
+      <tr>
+        <td class="ref-name">${esc(labelOf(it.option))}</td>
+        ${data.scales.map(sc => `<td class="score mono">${it[sc.id] == null ? '<span class="model" title="Says nothing about this scale">—</span>' : esc(it[sc.id])}</td>`).join("")}
+        <td>${esc(it.why)}</td>
+        <td><span class="badge ${it.status === "accepted" ? "yes" : "var"}">${esc(it.status)}</span></td>
       </tr>
     `).join(""),
 
@@ -120,7 +142,10 @@
     tbody.innerHTML = `<tr><td colspan="99" class="ref-loading">Loading…</td></tr>`;
 
     try {
-      tbody.innerHTML = renderer(await load(src), table);
+      // names from a second file, if the table asks for them (id → label)
+      const names = table.dataset.labels ? await load(table.dataset.labels) : null;
+      const byId = new Map((names?.items || names?.tiers || []).map((it) => [it.id, it.label]));
+      tbody.innerHTML = renderer(await load(src), table, (id) => byId.get(id) ?? id);
     } catch (err) {
       console.error("docs-reference: failed to load", src, err);
       tbody.innerHTML = `<tr><td colspan="99" class="ref-error">Couldn't load ${esc(src)}: ${esc(err.message)}</td></tr>`;

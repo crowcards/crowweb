@@ -24,12 +24,15 @@ import { answerText } from "./sections/custom.js";
 import { YES_NO_VARIES } from "./controls/choices.js";
 import { stepRole } from "./controls/picklist.js";
 import { structureIds } from "./structure.js";
+import { loadData } from "./data.js";
+import { viewCard, rulesCount, cardScales, shows } from "./view-modes.js";
 
 export async function loadExportData() {
-  const [basics, infrastructure, membership, rules, processes, federation] = await Promise.all([
+  const [basics, infrastructure, membership, rules, processes, federation, ruleSchema, scales] = await Promise.all([
     loadBasicsData(), loadInfrastructureData(), loadMembershipData(), loadRulesData(), loadProcessesData(), loadFederationData(),
+    loadData("rule_schema"), loadData("governance_scales"),   // (for a view mode's rules count and scales)
   ]);
-  return { basics, infrastructure, membership, rules, processes, federation };
+  return { basics, infrastructure, membership, rules, processes, federation, ruleSchema, scales };
 }
 
 // ── little helpers ──────────────────────────────────────────
@@ -48,56 +51,77 @@ function stepRows(steps = [], options) {
   ]);
 }
 
-// ── the outline: [{ title, rows: [[label, value]] }], value a string or a list ──
+/** Steps as rows, or (none yet) one empty row for them, so a view mode can say N/A. */
+const stepsOrNone = (rows, label, field) => (rows.length ? rows.map(([l, v]) => [l, v, field]) : [[label, null, field]]);
+/** "18 rules: 11 on behavior, 7 on content" (kinds from rule_schema.json; "other" for custom rules without one). */
+function countText(count, ruleSchema) {
+  if (!count.total) return null;
+  const kinds = [...ruleSchema.categories.map((c) => [c.id, c.label.toLowerCase()]), ["other", "other"]]
+    .filter(([id]) => count[id]).map(([id, label]) => `${count[id]} on ${label}`);
+  return `${count.total} ${count.total === 1 ? "rule" : "rules"}: ${kinds.join(", ")}`;
+}
+/** What a "Not shared" row is called, for each part a mode can leave out. */
+const HIDDEN_LABELS = {
+  platformDetails: "Protocol, open source, self-hosted", costs: "Costs", tools: "Other tools", locations: "Locations",
+  joiningWays: "Ways of joining", closedNote: "About being closed", structure: "Decision-making approaches",
+  membershipNote: "Anything else", rules: "The rules", conflictSteps: "Conflict management steps", processNotes: "Notes",
+  channels: "Channels", federationSteps: "Approach and response ladder", federationRest: "Lists, tools, rules and bridging",
+};
+
+// ── the outline: [{ title, rows: [[label, value, field]] }], value a string or
+// a list; field = the part of the card it shows (view-modes.js FIELDS), so a
+// view mode can say "Not shared" for what it leaves out ──
 const SECTIONS = {
   basics: (b = {}, d) => [
-    ["Community", b.name],
-    ["Link", b.link],
-    ["Type", b.type && labelIn(d.basics.types, b.type)],
-    ["Size", b.size && labelIn(d.basics.sizes, b.size)],
-    ["Keywords", b.keywords],
-    ["Values", labels(d.basics.values, b.values)],
+    ["Community", b.name, "basics"],
+    ["Link", b.link, "basics"],
+    ["Type", b.type && labelIn(d.basics.types, b.type), "basics"],
+    ["Size", b.size && labelIn(d.basics.sizes, b.size), "basics"],
+    ["Keywords", b.keywords, "basics"],
+    ["Values", labels(d.basics.values, b.values), "basics"],
   ],
   infrastructure: (inf = {}, d) => {
     const x = d.infrastructure;
     const p = inf.platform || {};
     const places = (ids) => labels(x.places, ids);
     return [
-      ["Platform", p.platform && labelIn(x.platforms, p.platform)],
-      ["Platform type", p.type && labelIn(x.platformTypes, p.type)],
-      ["Software", p.software],
-      ["Uses an open protocol", yesNo(p.usesProtocol)],
-      ["Protocol", p.protocol],
-      ["Open source", yesNo(p.openSource)],
-      ["Self-hosted", yesNo(p.selfHosted)],
-      ["Structural model", p.structuralModel],
-      ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id]).map((c) => `${c.label}: ${labelIn(x.costValues, inf.costs[c.id])}`)],
-      ["Other tools", (inf.tools || []).filter((t) => t.tool).map((t) => toolLine(t, x))],
-      ["Servers", places(inf.locations?.servers)],
-      ["Members", places(inf.locations?.members)],
-      ["Admin team", places(inf.locations?.adminTeam)],
+      ["Platform", p.platform && labelIn(x.platforms, p.platform), "platform"],
+      ["Platform type", p.type && labelIn(x.platformTypes, p.type), "platform"],
+      ["Software", p.software, "platform"],
+      ["Uses an open protocol", yesNo(p.usesProtocol), "platformDetails"],
+      ["Protocol", p.protocol, "platformDetails"],
+      ["Open source", yesNo(p.openSource), "platformDetails"],
+      ["Self-hosted", yesNo(p.selfHosted), "platformDetails"],
+      ["Structural model", p.structuralModel, "platform"],
+      ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id]).map((c) => `${c.label}: ${labelIn(x.costValues, inf.costs[c.id])}`), "costs"],
+      ["Other tools", (inf.tools || []).filter((t) => t.tool).map((t) => toolLine(t, x)), "tools"],
+      ["Servers", places(inf.locations?.servers), "locations"],
+      ["Members", places(inf.locations?.members), "locations"],
+      ["Admin team", places(inf.locations?.adminTeam), "locations"],
     ];
   },
   membership: (m = {}, d) => {
     const x = d.membership;
     const j = m.joining || {};
     return [
-      ["How people join", labels(x.tiers, j.tiers)],
-      ["About being closed", j.closedNote],
-      ["Ways of joining", (j.ways || []).map((w) => withNote(labelIn(x.options, w.id), w.note))],
-      ["Structure", (m.structure || []).map((s) => withNote(labelIn(x.approaches, s.id), s.note))],
-      ["Anything else", m.generalNote],
+      ["How people join", labels(x.tiers, j.tiers), "joiningTiers"],
+      ["About being closed", j.closedNote, "closedNote"],
+      ["Ways of joining", (j.ways || []).map((w) => withNote(labelIn(x.options, w.id), w.note)), "joiningWays"],
+      ["Structure", (m.structure || []).map((s) => withNote(labelIn(x.approaches, s.id), s.note)), "structure"],
+      ["Anything else", m.generalNote, "membershipNote"],
     ];
   },
-  rules: (r = {}, d) => {
+  rules: (r = {}, d, card, extras = {}) => {
     const x = d.rules;
     const all = cardRules(r, d.federation.ruleTypes, x.qualifierSets);
     const groups = [...new Set(all.map((rule) => rule.group))];
     return [
-      ["Where the rules live", r.communityRulesLink],
-      ["Covenants and guidelines", labels(x.covenants, r.covenants)],
-      ["Adapted from", labels(x.covenants, r.adaptedFrom)],
-      ...groups.map((g) => [g, all.filter((rule) => rule.group === g).map((rule) => (rule.qualifier ? `${rule.label} (${rule.qualifier})` : rule.label))]),
+      // a view mode's count of rules by kind (e.g. "18 rules: 11 on behavior, 7 on content")
+      ...(extras.rulesCount ? [["How many rules", countText(extras.rulesCount, d.ruleSchema), "rulesCount"]] : []),
+      ["Where the rules live", r.communityRulesLink, "rules"],
+      ["Covenants and guidelines", labels(x.covenants, r.covenants), "rules"],
+      ["Adapted from", labels(x.covenants, r.adaptedFrom), "rules"],
+      ...groups.map((g) => [g, all.filter((rule) => rule.group === g).map((rule) => (rule.qualifier ? `${rule.label} (${rule.qualifier})` : rule.label)), "rules"]),
     ];
   },
   processes: (pr = {}, d, card) => {
@@ -106,16 +130,17 @@ const SECTIONS = {
     const usedFor = (part) => structure.map((id) => withNote(labelIn(x.decisionApproaches, id), pr[part]?.approachNotes?.[id]));
     const comms = pr.communications || {};
     return [
-      ["Changing the rules and structure", usedFor("institutionalChange")],
-      ["About changing the rules", pr.institutionalChange?.generalNote],
-      ["Maintenance", usedFor("maintenance")],
-      ["About maintenance", pr.maintenance?.generalNote],
-      ["Moderation", usedFor("moderation")],
-      ["About moderation", pr.moderation?.generalNote],
-      ...stepRows(pr.conflictManagement?.approaches, x.conflictApproaches).map(([label, v]) => [`Conflict: ${label.toLowerCase()}`, v]),
-      ["About conflict", pr.conflictManagement?.generalNote],
-      ["Channels", [...labels(x.channels, comms.channels),
-        ...(comms.customChannels || []).filter((c) => c.name).map(channelLine)]],
+      ["Changing the rules and structure", usedFor("institutionalChange"), "structure"],
+      ["About changing the rules", pr.institutionalChange?.generalNote, "processNotes"],
+      ["Maintenance", usedFor("maintenance"), "structure"],
+      ["About maintenance", pr.maintenance?.generalNote, "processNotes"],
+      ["Moderation", usedFor("moderation"), "structure"],
+      ["About moderation", pr.moderation?.generalNote, "processNotes"],
+      ...stepsOrNone(stepRows(pr.conflictManagement?.approaches, x.conflictApproaches).map(([label, v]) => [`Conflict: ${label.toLowerCase()}`, v]), "Conflict management steps", "conflictSteps"),
+      ["About conflict", pr.conflictManagement?.generalNote, "processNotes"],
+      // Foggy only says whether any channel is specified
+      ["Channels", "channelsSpecified" in comms ? (comms.channelsSpecified ? "At least one specified" : null)
+        : [...labels(x.channels, comms.channels), ...(comms.customChannels || []).filter((c) => c.name).map(channelLine)], "channels"],
     ];
   },
   federation: (f = {}, d, card) => {
@@ -123,32 +148,71 @@ const SECTIONS = {
     const subs = f.subscriptions || {};
     const rules = cardRules(card.rules || {}, x.ruleTypes, x.qualifierSets);
     return [
-      ["Overall approach", f.approach && labelIn(x.approaches, f.approach)],
-      ["How servers get on the allowlist", f.allowlistPolicy],
-      ...stepRows(f.responseLadder, x.ladder).map(([label, v]) => [`When there’s a problem: ${label.toLowerCase()}`, v]),
-      ["Shared lists followed", labels(x.lists, subs.subscribedLists)],
-      ["Shares its block list", yesNo(subs.sharesBlocklist)],
-      ["Block list", subs.blocklistLink],
-      ["Tools for federation decisions", labels(x.tools, subs.decisionTools)],
-      ["Rules that guide federation decisions", rules.filter((r) => (f.relevantRules || []).includes(r.id)).map((r) => withNote(r.label, f.ruleNotes?.[r.id]))],
-      ["Bridges to other networks", yesNo(f.bridging?.bridges)],
-      ["Bridged protocols", f.bridging?.protocols],
+      ["Overall approach", f.approach && labelIn(x.approaches, f.approach), "federationSteps"],
+      ["How servers get on the allowlist", f.allowlistPolicy, "federationRest"],
+      ...stepsOrNone(stepRows(f.responseLadder, x.ladder).map(([label, v]) => [`When there’s a problem: ${label.toLowerCase()}`, v]), "Response ladder", "federationSteps"),
+      ["Shared lists followed", labels(x.lists, subs.subscribedLists), "federationRest"],
+      ["Shares its block list", yesNo(subs.sharesBlocklist), "federationRest"],
+      ["Block list", subs.blocklistLink, "federationRest"],
+      ["Tools for federation decisions", labels(x.tools, subs.decisionTools), "federationRest"],
+      ["Rules that guide federation decisions", rules.filter((r) => (f.relevantRules || []).includes(r.id)).map((r) => withNote(r.label, f.ruleNotes?.[r.id])), "federationRest"],
+      ["Bridges to other networks", yesNo(f.bridging?.bridges), "federationRest"],
+      ["Bridged protocols", f.bridging?.protocols, "federationRest"],
     ];
   },
 };
 const custom = (m) => (m.fields || []).filter((f) => f.label).map((f) =>
   [f.label, f.type === "scale" && f.value ? `${answerText(f)}${f.low || f.high ? ` (1 = ${f.low || "…"}, 5 = ${f.high || "…"})` : ""}` : answerText(f)]);
 
-/** The card as an outline: { title, sections: [{ title, rows: [[label, value]] }] }, empty answers left out. */
-export function cardOutline(card, data, defaults) {
+/**
+ * The card as an outline: { title, sections: [{ title, rows: [[label, value]] }] }.
+ * Without a mode, empty answers are left out (Export). With a view `mode`
+ * (`card` being viewCard's result), every row stays: "Not shared" for what
+ * the mode leaves out (one row per part), "N/A" for what's empty; plus the
+ * rules count and the scales (`extras`: { rulesCount, scales }).
+ */
+export function cardOutline(card, data, defaults, { mode, ...extras } = {}) {
   const filled = (v) => (Array.isArray(v) ? v.length > 0 : v != null && String(v).trim() !== "");
   const sections = moduleEntries(defaults, card).map((m) => {
     const rows = m.custom
       ? custom((card.customModules || []).find((c) => c.id === m.id) || {})
-      : SECTIONS[m.id]?.(card[m.id], data, card) || [];
-    return { title: m.label, rows: rows.filter(([, v]) => filled(v)) };
+      : SECTIONS[m.id]?.(card[m.id], data, card, extras) || [];
+    if (!mode) return { title: m.label, rows: rows.filter(([, v]) => filled(v)) };
+    const hidden = new Set();
+    return {
+      title: m.label,
+      rows: rows.flatMap(([label, value, field]) => {
+        if (field && !shows(field, mode)) {
+          if (hidden.has(field)) return [];
+          hidden.add(field);
+          return [[HIDDEN_LABELS[field] || label, "Not shared"]];
+        }
+        return [[label, filled(value) ? value : "N/A"]];
+      }),
+    };
   });
+  if (mode && extras.scales) {
+    sections.push({
+      title: "Governance scales",
+      rows: data.scales.scales.map((sc) => {
+        const s = extras.scales[sc.id];
+        return [sc.label, s ? `${s.score} / 5 · based on ${s.basedOn} ${s.basedOn === 1 ? "choice" : "choices"}` : "N/A"];
+      }),
+    });
+  }
   return { title: card.basics?.name || "Untitled card", sections };
+}
+
+/**
+ * The card as a view mode shows it, as an outline (the public card, the
+ * Publish preview). includeProposed: count scores still under review (previews only).
+ */
+export function publicOutline(card, data, defaults, mode, { includeProposed = false } = {}) {
+  return cardOutline(viewCard(card, mode), data, defaults, {
+    mode,
+    rulesCount: rulesCount(card, data.ruleSchema),
+    scales: cardScales(card, data.scales, { includeProposed }),
+  });
 }
 
 /** The outline as Markdown: a heading per module, a bullet per answer. */
@@ -169,20 +233,7 @@ export function toMarkdown(outline, card) {
 }
 
 /** The card's data for download: Basics and the modules it uses, without editor-only state. */
-export function cardData(card) {
-  const on = new Set(card.modules || []);
-  const parts = { infrastructure: card.infrastructure, membership: card.membership, rules: card.rules, processes: card.processes, federation: card.federation };
-  return {
-    id: card.id,
-    schemaVersion: card.schemaVersion,
-    createdAt: card.createdAt,
-    updatedAt: card.updatedAt,
-    modules: card.modules,
-    basics: card.basics,
-    ...Object.fromEntries(Object.entries(parts).filter(([id]) => on.has(id))),
-    customModules: (card.customModules || []).filter((m) => on.has(m.id)),
-  };
-}
+export const cardData = (card) => viewCard(card, "full");   // (the Full view: the same rules as a published card)
 
 /** Save `text` as a file. */
 function download(filename, text, type) {
@@ -213,14 +264,19 @@ export function renderExport(container, card, data, defaults) {
         button("Documentation (Markdown)", "button button-small", () => download(`${fileName(card)}.md`, toMarkdown(outline, card), "text/markdown")),
         summaryCard, el("span", { className: "field-hint", textContent: "a visual summary card: coming later" })),
     ),
-    ...outline.sections.flatMap((s) => [
-      el("h2", { textContent: s.title }),
-      s.rows.length
-        ? el("dl", { className: "summary summary-list export-list" }, ...s.rows.flatMap(([label, value]) => [
-          el("dt", { className: "mono-u summary-label", textContent: label }),
-          el("dd", {}, Array.isArray(value) ? el("ul", {}, ...value.map((v) => el("li", { textContent: v }))) : String(value)),
-        ]))
-        : el("p", { className: "field-hint", textContent: "Nothing filled in yet." }),
-    ]),
+    ...outlineElements(outline),
   );
+}
+
+/** An outline drawn as a heading and a summary list per section (Export, the view-mode previews). */
+export function outlineElements(outline, { heading = "h2" } = {}) {
+  return outline.sections.flatMap((s) => [
+    el(heading, { textContent: s.title }),
+    s.rows.length
+      ? el("dl", { className: "summary summary-list export-list" }, ...s.rows.flatMap(([label, value]) => [
+        el("dt", { className: "mono-u summary-label", textContent: label }),
+        el("dd", {}, Array.isArray(value) ? el("ul", {}, ...value.map((v) => el("li", { textContent: v }))) : String(value)),
+      ]))
+      : el("p", { className: "field-hint", textContent: "Nothing filled in yet." }),
+  ]);
 }

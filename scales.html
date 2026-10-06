@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Governance scales — CROW</title>
+  <!-- the team's review page for data/governance_scales.json: not linked from the site -->
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body class="docs">
+
+  <header class="site-header">
+    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="index.html" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" class="site-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="make.html">Make</a>
+      <a href="library.html">Library</a>
+      <a href="about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
+  </header>
+
+<div class="sidebar-layout">
+
+<nav class="sidebar" id="docs-nav" aria-label="Governance scales">
+  <div class="sidebar-bar">
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="docs-nav-panel">
+      <span class="visually-hidden">Contents: </span><span id="docs-nav-current">Contents</span><span class="pixel-caret" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="sidebar-panel" id="docs-nav-panel">
+  <ul>
+    <li><a href="#the-scales">The scales</a></li>
+    <li><a href="#how-scores-work">How a card's scores work</a></li>
+    <li><a href="#reviewing">Reviewing</a></li>
+    <li><a href="#decision-approaches">Decision-making approaches</a></li>
+    <li><a href="#joining-tiers">How people join</a></li>
+    <li><a href="#joining-ways">Ways of joining</a></li>
+    <li><a href="#conflict">Conflict management</a></li>
+  </ul>
+  </div>
+</nav>
+
+<main class="docs-body sidebar-main" id="main">
+  <h1>Governance scales</h1>
+  <p class="lede lede-small">How participatory, transparent and hierarchical each governance option is, from 1 to 5: the scores behind every published card's scales, here for the team to review. Not linked from the site.</p>
+
+  <section id="the-scales">
+    <h2>The scales</h2>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scaleDefinitions">
+      <thead><tr><th>Scale</th><th>What it measures</th><th>Low</th><th>High</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p>None of the scales is “good” or “bad”: many communities choose hierarchy, or privacy, on purpose. The scales describe; they don't judge.</p>
+  </section>
+
+  <p>In the tables below, <b>P</b>, <b>T</b> and <b>H</b> are Participatory, Transparent and Hierarchical.</p>
+
+  <section id="how-scores-work">
+    <h2>How a card's scores work</h2>
+    <ul>
+      <li>A card's score on each scale is the <b>average of the scores of what it chose</b>: its decision-making approaches, how people join (tiers and ways) and its conflict management approaches, rounded to a whole number. The card says what it's based on (e.g. “Participatory 4 / 5 · based on 6 choices”).</li>
+      <li><b>—</b> means an option says nothing about that scale; it's left out of the average (not counted as low).</li>
+      <li>If nothing a card chose is scored on a scale, that scale shows <b>N/A</b>.</li>
+      <li>Only <span class="badge yes">accepted</span> scores count; <span class="badge var">proposed</span> ones are drafts waiting for review.</li>
+      <li>Later, the same scores can suggest approaches: a community says what it wants on each scale, and the approaches whose scores are closest are suggested (with these reasons as the explanation).</li>
+    </ul>
+  </section>
+
+  <section id="reviewing">
+    <h2>Reviewing</h2>
+    <p>For each option, check its three scores and its reason (the reason may be quoted to communities, so it should read well on its own). Send changes to Sohyeon, or edit <code>data/governance_scales.json</code> directly; once a score is agreed, its status becomes <i>accepted</i>. This page always shows the file as it is.</p>
+  </section>
+
+  <section id="decision-approaches">
+    <h2>Decision-making approaches</h2>
+    <p>How the community makes decisions (its structure, in Membership and Processes).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="decision_approaches" data-labels="/data/decision_approaches.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="joining-tiers">
+    <h2>How people join</h2>
+    <p>The broad tiers of joining (Membership).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="membership_tiers" data-labels="/data/membership_tiers.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="joining-ways">
+    <h2>Ways of joining</h2>
+    <p>The more specific ways someone becomes a member (Membership).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="membership_options" data-labels="/data/membership_options.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section id="conflict">
+    <h2>Conflict management</h2>
+    <p>How disputes are resolved (Processes).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="conflict_management" data-labels="/data/conflict_management.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+</main>
+
+</div>
+
+<footer class="site-footer">
+  <p>CROW is a research project from <a class="inline" href="https://hci.princeton.edu/">Princeton HCI</a></p>
+</footer>
+
+<script type="module" src="js/docs-page.js"></script>
+<script src="js/docs-reference.js"></script>
+</body>
+</html>

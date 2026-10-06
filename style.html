@@ -32,6 +32,8 @@
     .ft-type-row > :first-child { font-family: var(--mono); font-size: var(--fs-xs); color: var(--gray); }
     .ft-type-row p { margin: 0; overflow-wrap: anywhere; }
     .ft-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .ft-modes { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 2rem 1.5rem; align-items: start; }
+    .ft-modes h3 { margin-top: 1.25rem; }
     @media (width < 64rem) { .ft-type-row { grid-template-columns: 1fr; gap: 0.25rem; } }
   </style>
 </head>
@@ -59,7 +61,14 @@
   </header>
 
 <div class="sidebar-layout">
-  <nav class="sidebar" aria-label="Style sections">
+  <!-- narrow screens: a bar that drops the contents down (js/docs-page.js, as on the docs) -->
+  <nav class="sidebar" id="docs-nav" aria-label="Style sections">
+  <div class="sidebar-bar">
+    <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="docs-nav-panel">
+      <span class="visually-hidden">Contents: </span><span id="docs-nav-current">Contents</span><span class="pixel-caret" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="sidebar-panel" id="docs-nav-panel">
   <ul>
     <li><a href="#palette">Colour palette</a></li>
     <li><a href="#type">Type: families & sizes</a></li>
@@ -73,7 +82,9 @@
     <li><a href="#notes">Callouts, chips & pills</a></li>
     <li><a href="#summaries">Summaries</a></li>
     <li><a href="#popups">Pop-up</a></li>
+    <li><a href="#view-modes">View modes</a></li>
   </ul>
+  </div>
   </nav>
 
   <main class="sidebar-main">
@@ -91,6 +102,7 @@
     <section id="notes" class="ft-section"><h2>Callouts, chips & pills</h2><div class="ft-body" data-ft="notes"></div></section>
     <section id="summaries" class="ft-section"><h2>Summaries</h2><div class="ft-body" data-ft="summaries"></div></section>
     <section id="popups" class="ft-section"><h2>Pop-up</h2><div class="ft-body" data-ft="popups"></div></section>
+    <section id="view-modes" class="ft-section"><h2>View modes</h2><div class="ft-body" data-ft="view-modes"></div></section>
   </main>
 </div>
 
@@ -102,5 +114,6 @@
     </div>
   </dialog>
 
+<script type="module" src="js/docs-page.js"></script>
 </body>
 </html>

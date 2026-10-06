@@ -3,6 +3,9 @@
 // site's style reference (not linked from the site; noindex).
 // Each specimen is labelled with where it comes from.
 
+import { loadExportData, publicOutline, outlineElements } from "./export.js";
+import { MODES } from "./view-modes.js";
+import { loadModuleDefaults } from "./modules.js";
 import { el, chip, richText, button } from "./dom.js";
 import { reveal } from "./reveal.js";
 import { pointTo } from "./scroll.js";
@@ -299,6 +302,30 @@ function renderPopup() {
   );
 }
 
+// ── view modes (js/view-modes.js): one sample card as each mode shows it ──
+async function renderViewModes() {
+  const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
+  const card = {
+    modules: ["infrastructure", "membership", "rules", "processes", "federation"],
+    basics: { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], values: ["trust", "inclusivity"] },
+    infrastructure: { platform: { platform: "activitypub_client_mastodon", software: "Mastodon", type: "self_hosted_text_primary", structuralModel: "Federation", usesProtocol: "yes", protocol: "ActivityPub", openSource: "yes", selfHosted: "yes" },
+      costs: { hostingServers: "often", domain: "rare" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
+    membership: { joining: { tiers: ["open", "tiered_probationary"], ways: [{ id: "mentorship", note: "A buddy for the first month" }], closedNote: null },
+      structure: [{ id: "lazy_consensus", note: "For day-to-day changes" }, { id: "consensus_decision_making", note: null }], generalNote: "Dues are optional." },
+    rules: { communityRulesLink: "https://garden.example/rules", covenants: [], adaptedFrom: [], selected: [{ id: "civility_be_respectful", qualifier: null }, { id: "cw_sexual_content", qualifier: "required" }], ruleEdits: {}, customRules: [{ id: "c1", text: "Water the shared plot", typeId: null }] },
+    processes: { moderation: { approachNotes: { lazy_consensus: "Two mods agree" }, generalNote: null }, maintenance: { approachNotes: {}, generalNote: null }, institutionalChange: { approachNotes: {}, generalNote: "Yearly review" },
+      conflictManagement: { approaches: [{ id: "peer_mediation", note: "First stop", stage: 1, primary: true }, { id: "circle_processes", note: null, stage: 2 }], generalNote: null }, communications: { channels: ["email"], customChannels: [] } },
+    federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "mute", note: "For spam", stage: 1 }], subscriptions: { subscribedLists: [] }, relevantRules: [], ruleNotes: {}, bridging: { bridges: null, protocols: [] } },
+  };
+  slot("view-modes").append(
+    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js viewCard; export.js publicOutline / outlineElements). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
+    el("div", { className: "ft-modes" }, ...MODES.map((m) => el("div", {},
+      el("p", { className: "ft-label mono-u", textContent: m.label }),
+      el("p", { className: "field-hint", textContent: m.description }),
+      ...outlineElements(publicOutline(card, data, defaults, m.id, { includeProposed: true }), { heading: "h3" })))),
+  );
+}
+
 const [decisions, conflict, enums, countries, rulesData] = await Promise.all([
   loadData("decision_approaches"), loadData("conflict_management"), loadData("enums"), loadData("countries"), loadRulesData(),
 ]);
@@ -314,3 +341,4 @@ renderFolds();
 renderNotes();
 renderPopup();
 await renderSummaries(rulesData);
+await renderViewModes();

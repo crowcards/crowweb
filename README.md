@@ -7,7 +7,7 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
 - Live: crowcards.org (GitHub Pages until launch, then Firebase)
   - Staging: staging.crowcards.org (Firebase)
 - Firebase project: `cos-princeton-hci-crow`
-- The team's shared plan (Phase 4 onwards, readable by collaborators): `plan.html` (on staging: staging.crowcards.org/plan.html; noindex, not linked).
+- The team's plan (what's done, in progress and to do, and tasks you can claim): the **Task log** at the end of `CLAUDE.md`.
 - See `CLAUDE.md` for the architecture, the card's data structure, and how the code is organised.
 - Questions: ask Sohyeon (the team lead), or write to crowcards@princeton.edu.
 
@@ -62,16 +62,16 @@ The local database starts empty each time. To keep your test cards between runs,
     - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets.
     - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself.
     - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `CLAUDE.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
-    - After each major phase, we have Claude update `CLAUDE.md` (and `plan.html`).
+    - After each major phase, we have Claude update `CLAUDE.md`, including its Task log. To pick up a task, put your name in its **Who** column there.
 - **Never commit keys or credentials,** and never share a card's secret (e.g. in an issue or a chat message): anyone with it can edit that card.
 
 ### What's where
-- **Pages** (`*.html` at the top level): `index`, `about`, `make` (the card editor), `docs`, `laws`, `library`, `plan`, `style` (the style reference), `coming-soon`, `404`.
+- **Pages** (`*.html` at the top level): `index`, `about`, `make` (the card editor), `docs`, `laws`, `library`, `scales` (the team's review of the governance scales), `style` (the style reference), `coming-soon`, `404`.
 - **`js/`:** the site's code. `js/sections/` has one file per editor module (Basics, Infrastructure, …); `js/controls/` holds the shared form pieces they're built from (choice lists, type-ahead fields, pick lists, rows, …); the rest are shared helpers (saving, pop-ups, export, …).
 - **`data/`:** the reference datasheets (platforms, values, rules, tools, laws, …) that the editor, the docs page and the laws page are built from.
 - **`functions/`:** the server (creating, opening and saving cards).
 - **`scripts/`:** small scripts run at deploy (e.g. the deploy stamp).
-- **CSS:** `styles.css` (the whole site: colours, fonts, shared pieces), `make.css` (the editor), `docs.css` (the docs and plan pages).
+- **CSS:** `styles.css` (the whole site: colours, fonts, shared pieces), `make.css` (the editor), `docs.css` (the docs and scales pages).
 
 ### Editing the datasheets (`data/*.json`)
 - Each item has an `id` (what a card stores) and a `label` (what people see). **Never change an `id`**: saved cards point to it. Labels and descriptions can be reworded freely.

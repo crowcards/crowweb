@@ -1,4 +1,4 @@
-// The sidebar of a reference page (docs.html, plan.html): on narrow screens
+// The sidebar of a reference page (docs.html, scales.html, style.html): on narrow screens
 // a bar that drops the contents down (js/sidebar.js); third-level lists
 // that fold; and the link for the part of the page being read highlighted
 // (and named in the narrow bar).
