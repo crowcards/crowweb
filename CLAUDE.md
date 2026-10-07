@@ -160,7 +160,7 @@ The team's plan, in one place: what's done, what's being worked on, and what's s
 | Task | Status | Who | Notes |
 |---|---|---|---|
 | 4a: review the governance scores | In review | Sohyeon | On `scales.html`. Accept or change each option's scores and reason; only accepted scores count. |
-| 4b: publishing | To do (next) | | Propose the detailed plan before building. |
+| 4b: publishing | To do (plan proposed, **not yet approved**) | | Revisit after the 4a review. Claude's proposal: (1) server and storage (`published` on the card, private `cards/{id}/versions/{n}`, public `publicCards/{id}` + `/versions/{n}`, five functions, database rules, the copy-to-server script); (2) the editor's Publish page; (3) checks on the emulator. Sohyeon has answered the proposal's questions (recorded under "Phase 4 → Decisions"), but hasn't approved the plan as a whole: go over it again before building. |
 | Set up the language model's VM | To do | | Needed for UX tasks 1 and 2. In the project `cos-princeton-hci-crow`. |
 
 ## Done
@@ -200,6 +200,8 @@ Let communities publish their card for others to read, browse published cards in
 - **Links** are short: `crowcards.org/c/crd_…` (a hosting rewrite to the card page).
 - **Forking** works from Minimal plus, Foggy and Full. A fork copies only what's shared; the rest starts empty, and a pop-up at the start explains, for that view mode, what was copied and what wasn't. The fork records `forkedFrom` (card, version, name) and shows "Adapted from …".
 - **Reporting:** a small pixel "report" icon above the back-to-top arrow on public pages. Reports are saved as a list in the database (`reports`) for the team to check, with email alerts added before a public launch.
+- **Publishing in the editor (4b):** a "Publish" page in the sidebar, next to Export (`make.html#publish`): status, view mode (with a preview), listed / unlisted, credit, a note on what changed, Publish / Publish changes, Unpublish. Anyone with the card's key can publish (for now). Publishing needs the community name and type, and the contributor's **email (required)**, shown with: "Only the CROW team sees this, to contact you about your card. It's never shown publicly." Name and organisation are optional, shown only if ticked.
+- **Unpublishing** removes all public copies at once but keeps the private versions, so publishing again carries on numbering (v4 after v3). A separate, clearly worded "Unpublish and delete history" also deletes the private versions, for a fresh start at v1.
 - **Taking a card down** (the CROW team): to start, in the Firebase console, following a written procedure (mark it hidden, remove its public copies; the server refuses to re-publish a hidden card); a small admin page with Google sign-in for the team later, if needed.
 - **The Library:** a sidebar of filters (the shared sidebar: a drop-down bar on narrow screens), and a card grid that adapts to the window, with a grid / list toggle. Visual design still to decide.
 - **The scales:** Participatory, Transparent, Hierarchical (it stays "Hierarchical", 5 = most hierarchical: the scales describe, they don't judge). A card's score = the average of the *accepted* scores of its decision-making approaches, joining tiers, ways of joining and conflict approaches, rounded to a whole number, shown with "based on N choices"; an option that says nothing about a scale (null) is left out, not counted as low; nothing scored = "N/A". The same scores feed UX task 3.
@@ -258,7 +260,7 @@ Ways to make filling in a card easier and the suggestions smarter, alongside Pha
 
 1. **Values from a description.**
    - *Sohyeon's notes:* improve the Basics / set-up page so people are prompted to describe their community, its goals, and the culture they want to cultivate. The local LLM takes that open text and suggests values. Limit value selection to 5 that best describe the community; people can then edit / scroll / review. Let them know it doesn't mean the absence of other values.
-   - *Notes:* a new `basics.description` (and maybe goals / culture as separate prompts). The model's suggestions reuse the lime "Suggested" chips in the values list. *To decide:* is 5 a limit on what the model suggests, or on how many values a card can select? Where does the description sit in the view modes (Minimal shows all of Basics)?
+   - *Notes:* a new `basics.description` (and maybe goals / culture as separate prompts). The model's suggestions reuse the lime "Suggested" chips in the values list. **Decided:** 5 is a limit on how many values a card can select (the values list in Basics stops further selections at 5, saying why; today it has no limit, so this is a change to Basics too). *To decide:* where the description sits in the view modes (Minimal shows all of Basics).
 2. **Rules from pasted text.**
    - *Sohyeon's notes:* improve the Rules page so people can copy in their rule text, and the local LLM fills in the applicable rules and adds any custom rules.
    - *Notes:* this brings back "Your rules, in your words" (`rules.communityRulesText`, already in the schema). The model maps the text to rule ids and qualifiers, plus custom rules for anything else; the page shows them as proposed selections to accept or change, each with the sentence it came from where the model can give it.
@@ -288,5 +290,5 @@ Ways to make filling in a card easier and the suggestions smarter, alongside Pha
 ## Open questions
 
 - **The Library's design:** what a card looks like in the grid and in the list, and which filters matter most.
-- **UX task 1:** what "5 values" limits, and where the description sits in the view modes.
+- **UX task 1:** where the community's description sits in the view modes.
 - **UX task 3:** where communities say what they want on the three scales.

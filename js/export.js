@@ -56,8 +56,8 @@ const stepsOrNone = (rows, label, field) => (rows.length ? rows.map(([l, v]) => 
 /** "18 rules: 11 on behavior, 7 on content" (kinds from rule_schema.json; "other" for custom rules without one). */
 function countText(count, ruleSchema) {
   if (!count.total) return null;
-  const kinds = [...ruleSchema.categories.map((c) => [c.id, c.label.toLowerCase()]), ["other", "other"]]
-    .filter(([id]) => count[id]).map(([id, label]) => `${count[id]} on ${label}`);
+  const kinds = [...ruleSchema.categories.map((c) => [c.id, `on ${c.label.toLowerCase()}`]), ["other", "other"]]
+    .filter(([id]) => count[id]).map(([id, label]) => `${count[id]} ${label}`);
   return `${count.total} ${count.total === 1 ? "rule" : "rules"}: ${kinds.join(", ")}`;
 }
 /** What a "Not shared" row is called, for each part a mode can leave out. */
@@ -268,15 +268,17 @@ export function renderExport(container, card, data, defaults) {
   );
 }
 
-/** An outline drawn as a heading and a summary list per section (Export, the view-mode previews). */
+/** An outline drawn as a heading and a summary list per section (Export). */
 export function outlineElements(outline, { heading = "h2" } = {}) {
-  return outline.sections.flatMap((s) => [
-    el(heading, { textContent: s.title }),
-    s.rows.length
-      ? el("dl", { className: "summary summary-list export-list" }, ...s.rows.flatMap(([label, value]) => [
-        el("dt", { className: "mono-u summary-label", textContent: label }),
-        el("dd", {}, Array.isArray(value) ? el("ul", {}, ...value.map((v) => el("li", { textContent: v }))) : String(value)),
-      ]))
-      : el("p", { className: "field-hint", textContent: "Nothing filled in yet." }),
-  ]);
+  return outline.sections.flatMap((s) => [el(heading, { textContent: s.title }), outlineSection(s)]);
+}
+
+/** One section of an outline, as a summary list (Export, the view-mode previews). */
+export function outlineSection(section) {
+  return section.rows.length
+    ? el("dl", { className: "summary summary-list export-list" }, ...section.rows.flatMap(([label, value]) => [
+      el("dt", { className: "mono-u summary-label", textContent: label }),
+      el("dd", {}, Array.isArray(value) ? el("ul", {}, ...value.map((v) => el("li", { textContent: v }))) : String(value)),
+    ]))
+    : el("p", { className: "field-hint", textContent: "Nothing filled in yet." });
 }

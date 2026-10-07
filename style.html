@@ -32,8 +32,14 @@
     .ft-type-row > :first-child { font-family: var(--mono); font-size: var(--fs-xs); color: var(--gray); }
     .ft-type-row p { margin: 0; overflow-wrap: anywhere; }
     .ft-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; }
-    .ft-modes { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: 2rem 1.5rem; align-items: start; }
-    .ft-modes h3 { margin-top: 1.25rem; }
+    /* the view-mode preview: one column per mode, one row per module, so modules line up across modes; wider
+       than the text column on wide screens (into the space beside it), and scrolling sideways when there's no room */
+    .ft-modes-scroll { overflow-x: auto; }
+    @media (width >= 64rem) { .ft-modes-scroll { width: calc(100vw - var(--sidebar-w) - 2 * var(--gutter) - 1rem); max-width: 90rem; } }
+    .ft-modes { display: grid; grid-template-columns: repeat(4, minmax(15rem, 1fr)); gap: 0 1.25rem; }
+    .ft-modes-title { grid-column: 1 / -1; margin: 1.5rem 0 0; }
+    .ft-modes .summary-list { grid-template-columns: 1fr; gap: 0; }   /* label above value, in a narrow column */
+    .ft-modes .summary-list dd { margin-bottom: 0.6rem; }
     @media (width < 64rem) { .ft-type-row { grid-template-columns: 1fr; gap: 0.25rem; } }
   </style>
 </head>

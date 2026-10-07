@@ -3,7 +3,7 @@
 // site's style reference (not linked from the site; noindex).
 // Each specimen is labelled with where it comes from.
 
-import { loadExportData, publicOutline, outlineElements } from "./export.js";
+import { loadExportData, publicOutline, outlineSection } from "./export.js";
 import { MODES } from "./view-modes.js";
 import { loadModuleDefaults } from "./modules.js";
 import { el, chip, richText, button } from "./dom.js";
@@ -317,12 +317,20 @@ async function renderViewModes() {
       conflictManagement: { approaches: [{ id: "peer_mediation", note: "First stop", stage: 1, primary: true }, { id: "circle_processes", note: null, stage: 2 }], generalNote: null }, communications: { channels: ["email"], customChannels: [] } },
     federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "mute", note: "For spam", stage: 1 }], subscriptions: { subscribedLists: [] }, relevantRules: [], ruleNotes: {}, bridging: { bridges: null, protocols: [] } },
   };
+  // one row per module, one column per mode, so each module lines up across the modes
+  const outlines = MODES.map((m) => publicOutline(card, data, defaults, m.id, { includeProposed: true }));
+  const cell = (title, i) => {
+    const s = outlines[i].sections.find((x) => x.title === title);
+    return el("div", {}, s ? outlineSection(s) : el("p", { className: "field-hint", textContent: "Not shared" }));
+  };
   slot("view-modes").append(
-    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js viewCard; export.js publicOutline / outlineElements). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
-    el("div", { className: "ft-modes" }, ...MODES.map((m) => el("div", {},
-      el("p", { className: "ft-label mono-u", textContent: m.label }),
-      el("p", { className: "field-hint", textContent: m.description }),
-      ...outlineElements(publicOutline(card, data, defaults, m.id, { includeProposed: true }), { heading: "h3" })))),
+    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js viewCard; export.js publicOutline / outlineSection). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
+    el("div", { className: "ft-modes-scroll" }, el("div", { className: "ft-modes" },
+      ...MODES.map((m) => el("div", {}, el("p", { className: "ft-label mono-u", textContent: m.label }), el("p", { className: "field-hint", textContent: m.description }))),
+      ...outlines.at(-1).sections.flatMap((s) => [   // (Full has every module, in order)
+        el("h3", { className: "ft-modes-title", textContent: s.title }),
+        ...MODES.map((m, i) => cell(s.title, i)),
+      ]))),
   );
 }
 
