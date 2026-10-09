@@ -1,7 +1,8 @@
 // The sidebar of a reference page (docs.html, scales.html, style.html): on narrow screens
 // a bar that drops the contents down (js/sidebar.js); third-level lists
 // that fold; and the link for the part of the page being read highlighted
-// (and named in the narrow bar).
+// (and named in the narrow bar). On the docs page, it also fills the view-mode
+// table from view-modes.js.
 
 import { narrowSidebar } from "./sidebar.js";
 import { topLine } from "./scroll.js";
@@ -65,3 +66,30 @@ let lastActive;
 addEventListener('scroll', highlightCurrent, { passive: true });
 addEventListener('resize', highlightCurrent);
 highlightCurrent();
+
+// The docs' view-mode tables, from view-modes.js (what the editor and server
+// use): data-view-modes, each mode's name and description; data-view-fields,
+// each part of a card and the modes that show it (FIELDS)
+const modesTable = document.querySelector("table[data-view-modes] tbody");
+const fieldsTable = document.querySelector("table[data-view-fields]");
+if (modesTable || fieldsTable) {
+  const { MODES, FIELDS, FIELD_LABELS, shows } = await import("./view-modes.js");
+  // a table row: [text, className?] per cell, the first a row heading if asked
+  const row = (cells, tag = "td") => {
+    const tr = document.createElement("tr");
+    for (const [text, cls] of cells) {
+      const td = document.createElement(tag);
+      td.textContent = text;
+      if (cls) td.className = cls;
+      tr.append(td);
+    }
+    return tr;
+  };
+  modesTable?.replaceChildren(...MODES.map((m) => row([[m.label, "ref-name"], [m.description], [m.forkable ? "Yes" : "No"]])));
+  if (fieldsTable) {
+    fieldsTable.createTHead().replaceChildren(row([["Part of the Card"], ...MODES.map((m) => [m.label])], "th"));
+    fieldsTable.createTBody().replaceChildren(
+      ...Object.keys(FIELDS).map((f) => row([[FIELD_LABELS[f], "ref-name"], ...MODES.map((m) => [shows(f, m.id) ? "Yes" : "–"])])),
+      row([["Can be used as a starting point", "ref-name"], ...MODES.map((m) => [m.forkable ? "Yes" : "–"])]));
+  }
+}

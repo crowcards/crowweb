@@ -18,7 +18,8 @@
 // when the box is clicked or ↓ is pressed, before anything is typed — for
 // short lists people won't know ahead of time, like the tools in a category.
 // setItems(list) swaps what's suggested (e.g. once a category is chosen);
-// setHint(text) changes the hint. selectField (fields.js) is built on this:
+// setHint(text) changes the hint; hintTip: true shows it behind a small "i"
+// beside the label instead of under it (dom.js infoTip), e.g. Locations. selectField (fields.js) is built on this:
 // a dropdown is a browsable list without typed values.
 //
 // Matching ignores capitals, accents and punctuation ("cote divoire" finds
@@ -27,7 +28,7 @@
 // it, then anything containing it. An alias match shows as "matches …",
 // except aliases marked disputed, which find the item but aren't shown.
 
-import { el, uid } from "../dom.js";
+import { el, uid, infoTip } from "../dom.js";
 import { tagList } from "./tags.js";
 
 const MAX_RESULTS = 8;
@@ -37,7 +38,7 @@ const squash = (s) => norm(s).replace(/[^a-z0-9]/g, "");
 const aliasesOf = (item) => (item.aliases || []).map((a) => (typeof a === "string" ? { name: a } : a));
 
 /** Items matching `query`, best first: [{ item, via }] (via = the alias that matched, if shown). */
-export function matchItems(items, query) {
+function matchItems(items, query) {
   const q = squash(query);
   if (!q) return [];
   const results = [];
@@ -70,6 +71,7 @@ export function suggestField({
   value = null,
   placeholder = "",
   browse = false,
+  hintTip = false,
   onChange = () => {},
   onCommit = () => {},
 } = {}) {
@@ -77,7 +79,10 @@ export function suggestField({
   const labelOf = (v) => byId.get(v)?.label ?? v;
   const id = uid("suggest");
   const listId = `${id}-list`;
-  const hintEl = el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint || "", hidden: !hint });
+  // the hint: under the label, or behind an "i" beside it (either way the field points to it)
+  const tip = hintTip && hint ? infoTip(hint, `${id}-hint`) : null;
+  const hintEl = tip ? tip.querySelector(".choice-tip") : el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint || "", hidden: !hint });
+  const labelEl = el("label", { className: "mono-u", htmlFor: id, textContent: label });
 
   const input = el("input", { type: "text", id, autocomplete: "off", placeholder });
   input.setAttribute("role", "combobox");
@@ -223,8 +228,8 @@ export function suggestField({
   });
 
   const element = el("div", { className: "field" },
-    el("label", { className: "mono-u", htmlFor: id, textContent: label }),
-    hintEl,
+    tip ? el("div", { className: "field-label" }, labelEl, tip) : labelEl,
+    tip ? null : hintEl,
     tags?.element,
     el("div", { className: browse ? "suggest suggest-browse" : "suggest" }, input, list),
   );
@@ -244,7 +249,7 @@ export function suggestField({
       items = list;
       byId = new Map([...byId, ...list.map((i) => [i.id, i])]);   // keep earlier items' labels
     },
-    setHint: (text) => { hintEl.textContent = text || ""; hintEl.hidden = !text; },
+    setHint: (text) => { hintEl.textContent = text || ""; if (!tip) hintEl.hidden = !text; },
     focus: () => input.focus(),
   };
 }

@@ -1,7 +1,29 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-02",
-  "note": "communityType is an id from community_types.json. platformTypes lists cost types from cost_rules.json: one entry is pre-filled; several are recommended, and the person picks one.",
+  "updatedAt": "2026-10-08",
+  "note": "communityType is an id from community_types.json. platformTypes lists cost types from cost_rules.json: one entry is pre-filled; several are recommended, and the person picks one. structuralModels: what each structural model means (the docs' Structural models table). A generic row's otherSoftware: common software that implements its protocol but isn't a row of its own.",
+  "structuralModels": [
+    {
+      "id": "Centralized",
+      "description": "A single operator controls all data and infrastructure. The platform is one server (or cluster) owned and operated by one entity."
+    },
+    {
+      "id": "Federation",
+      "description": "Multiple independently-operated servers interoperate via a shared open protocol. Each server is autonomous; users on different servers can still interact."
+    },
+    {
+      "id": "Relay",
+      "description": "Messages are broadcast through relay nodes. Clients choose which relays to connect to and read from. There is no canonical server — the network is the relays."
+    },
+    {
+      "id": "Federation / Relay",
+      "description": "Uses elements of both models. AT Protocol uses PDS-to-PDS federation for data storage, plus a relay layer (the firehose) for real-time distribution."
+    },
+    {
+      "id": "Centralized / Federation",
+      "description": "A proprietary or institutionally-controlled platform built on top of a federation protocol. The platform itself is not self-hostable, but it interoperates with the broader protocol ecosystem."
+    }
+  ],
   "items": [
     {
       "id": "discord",
@@ -86,7 +108,12 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific client and server software chosen. Most major Matrix clients and servers are open source.",
       "notes": "Generic row for any Matrix client + server combination. Self-hostable if operating own homeserver.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Conduit",
+        "Cinny",
+        "FluffyChat"
+      ]
     },
     {
       "id": "matrix_client_synapse",
@@ -205,7 +232,11 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
       "notes": "Generic row for ActivityPub-based discussion forum software.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Kbin",
+        "Mbin"
+      ]
     },
     {
       "id": "activitypub_client_lemmy",
@@ -358,7 +389,12 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
       "notes": "Generic row for any ActivityPub-based social platform.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Calckey",
+        "Hometown",
+        "Catodon"
+      ]
     },
     {
       "id": "activitypub_client_mastodon",
@@ -511,7 +547,10 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
       "notes": "Generic row for any Diaspora Protocol client. Pre-dates ActivityPub; some software interoperates with both.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Friendica (also supports this protocol)"
+      ]
     },
     {
       "id": "diaspora_protocol_client_diaspora",
@@ -545,7 +584,12 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific client chosen. Many AT Protocol clients are open source (e.g. Bluesky app: MIT). Specify client to determine OSI compliance.",
       "notes": "Generic row for any AT Protocol client. Self-hostable if operating own PDS.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Skeets",
+        "Graysky",
+        "Sky.app"
+      ]
     },
     {
       "id": "at_protocol_client_bluesky",
@@ -613,7 +657,12 @@
       "license": "Varies by client",
       "osiRationale": "OSS status depends on specific client chosen. Most major Nostr clients are open source. Specify client to determine OSI compliance.",
       "notes": "Generic row for any Nostr client. Costs depend on whether you operate your own relay.",
-      "isGeneric": true
+      "isGeneric": true,
+      "otherSoftware": [
+        "Snort",
+        "Iris",
+        "Coracle"
+      ]
     },
     {
       "id": "nostr_client_damus",

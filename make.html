@@ -138,16 +138,27 @@
       <section data-screen="setup" hidden>
         <h1 tabindex="-1">About your community</h1>
         <p>Start with the basics. You can change all of this later in the editor.</p>
+        <label class="check">
+          <input type="checkbox" id="setup-show-all" />
+          Show all fields at once
+        </label>
+        <!-- the blocks, one after another: Basics' groups, then the modules (make.js showSetup) -->
+        <div id="setup-fork" hidden></div>   <!-- a fork: what it was given (make.js showSetup) -->
         <div id="setup-basics"></div>
 
-        <h2>What your card will cover</h2>
-        <p>Each module is a part of the card. These are the ones most cards include; add or remove any, now or later.</p>
-        <div id="setup-modules-hint" aria-live="polite"></div>
-        <div id="setup-modules"></div>
+        <div id="setup-modules-block">
+          <h2>What your card will cover</h2>
+          <p>Each module is a part of the card. These are the ones most cards include; add or remove any, now or later.</p>
+          <div id="setup-modules-hint" aria-live="polite"></div>
+          <div id="setup-modules"></div>
+        </div>
 
         <p class="save-status" id="setup-status" role="status"></p>
         <p class="form-error" id="setup-error" role="alert" hidden></p>
-        <p><button class="button" type="button" id="setup-continue">Continue to the editor</button></p>
+        <div id="setup-finish">
+          <p><button class="button" type="button" id="setup-continue" aria-describedby="setup-missing">Continue to the editor</button></p>
+          <p class="field-hint" id="setup-missing"></p>
+        </div>
       </section>
 
     </main>
@@ -219,7 +230,7 @@
 
         <div class="editor-export">
           <a class="button button-small" href="#export" aria-describedby="export-note">Export</a>
-          <p class="editor-forget-note" id="export-note">download your card</p>
+          <p class="editor-forget-note" id="export-note">publish or download</p>
         </div>
 
         <p class="editor-docs"><a href="docs.html" target="_blank" rel="noopener">Docs</a></p>

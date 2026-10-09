@@ -17,7 +17,7 @@ import { renderChoices } from "../controls/choices.js";
 import { sectionMaker } from "../controls/fold.js";
 import { pickList } from "../controls/picklist.js";
 import { showIf } from "../reveal.js";
-import { loadRecommendations, suggestionsFrom, FROM_VALUES } from "../recommend.js";
+import { loadRecommendations, suggestionsFrom, FROM_BASICS } from "../recommend.js";
 import { logChanges, logReviewed, structureIds } from "../structure.js";
 import { asideOf, picksAside } from "../set-aside.js";
 
@@ -29,8 +29,8 @@ export async function loadMembershipData() {
 export function renderMembership(container, membership = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "membership", getPart = () => ({}), setPart = () => {}, setAside = asideOf() } = {}) {
   // options the card's values recommend get a "Suggested" chip, and the
   // list says where those come from
-  const recs = suggestionsFrom(data.recs, getPart("basics").values);
-  const fromValues = (list) => (recs.any(list) ? [el("div", { className: "callout callout-small" }, el("p", {}, ...richText(FROM_VALUES)))] : []);
+  const recs = suggestionsFrom(data.recs, getPart("basics"));
+  const fromBasics = (kind) => (recs.any(kind) ? [el("div", { className: "callout callout-small" }, el("p", {}, ...richText(FROM_BASICS)))] : []);
   const joiningSaved = membership.joining || {};
   let current = structureIds(membership);   // the structure's ids as now (for logging changes made here)
 
@@ -62,7 +62,7 @@ export function renderMembership(container, membership = {}, data, { onInput = (
   // under the tiers: a note on what to do, then the tags and the list
   const joiningNote = el("div", { className: "callout callout-small" },
     el("p", {}, "Select the more specific ways someone can become a member. Click a tag to add a note about it.",
-      ...(recs.any(data.recs.membership) ? [" ", ...richText(FROM_VALUES)] : [])));
+      ...(recs.any("membership") ? [" ", ...richText(FROM_BASICS)] : [])));
   const joining = pickList({
     legend: "Ways of joining",
     legendHidden: true,
@@ -75,7 +75,8 @@ export function renderMembership(container, membership = {}, data, { onInput = (
     chosenLegend: null,
     emptyText: "None selected yet.",
     noteHint: "How this works in your community (optional).",
-    badge: recs.badge(data.recs.membership),
+    badge: recs.badge("membership"),
+    alike: recs.alike("membership"),
     before: [joiningNote],
     after: [el("p", {}, seeMore)],
     onInput,
@@ -109,8 +110,9 @@ export function renderMembership(container, membership = {}, data, { onInput = (
     chosenLegend: null,
     emptyText: "None selected yet.",
     filterLabel: "approaches",
-    badge: recs.badge(data.recs.decision),
-    before: fromValues(data.recs.decision),
+    badge: recs.badge("decision"),
+    alike: recs.alike("decision"),
+    before: fromBasics("decision"),
     onSelect: (ids) => {
       // changed here: logged, and confirmed (so earlier Processes changes count as kept,
       // and nothing is flagged) — in the editor-only part of the card

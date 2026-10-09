@@ -1,7 +1,9 @@
 {
   "hosting": {
     "public": ".",
-    "predeploy": ["node \"$PROJECT_DIR/scripts/stamp-version.mjs\""],
+    "predeploy": [
+      "node \"$PROJECT_DIR/scripts/stamp-version.mjs\""
+    ],
     "ignore": [
       "scripts/**",
       "firebase.json",
@@ -14,7 +16,14 @@
       "CLAUDE.md",
       "**/*.log",
       "**/*:Zone.Identifier",
-      "emulator-data/**"
+      "emulator-data/**",
+      "*.local.md"
+    ],
+    "rewrites": [
+      {
+        "source": "/c/**",
+        "destination": "/card.html"
+      }
     ],
     "headers": [
       {
@@ -39,6 +48,9 @@
       "source": "functions",
       "codebase": "default",
       "disallowLegacyRuntimeConfig": true,
+      "predeploy": [
+        "node \"$PROJECT_DIR/scripts/copy-shared.mjs\""
+      ],
       "ignore": [
         "node_modules",
         ".git",

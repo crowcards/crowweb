@@ -34,11 +34,20 @@
 // layout ("compact" by default, or "described"), legendHidden, before /
 // after (nodes above the tags / below the list) and pick.show(visible) work
 // as in choices.js. chosenLegend: null for no label over the tags;
-// tagsHint: false when the page already says how to annotate.
+// tagsHint: false when the page already says how to annotate. With a
+// `badge` ("Suggested" chips), the list shows the suggested options first,
+// then the rest in alphabetical order; without one, it keeps the given
+// order (e.g. the response ladder's, from mildest to strongest).
+//
+// alike: (id, optionIds, chosenIds) → { like, fresh } adds the "More like
+// this / Try something new" strip (js/controls/alike.js) under the tags' box, for
+// the option selected last (also from the strip itself), and in each pick's
+// pop-up; e.g. recs.alike("decision").
 
 import { el, button } from "../dom.js";
-import { renderChoices, scaleField } from "./choices.js";
+import { renderChoices, scaleField, suggestedFirst } from "./choices.js";
 import { textField } from "./fields.js";
+import { alikeStrip } from "./alike.js";
 import { showPopup, closePopup } from "../popup.js";
 
 /** Picks' notes as { id: note }, only the notes that say something (e.g. Processes' approachNotes). */
@@ -64,6 +73,7 @@ export function pickList({
   emptyText = "Nothing chosen yet. Select items in the list below.",
   noteHint = "How it works in your community (optional).",
   badge,
+  alike,
   layout = "compact",
   before = [],
   after = [],
@@ -100,12 +110,17 @@ export function pickList({
         : "Click one to add a note.",
     })
     : null;
-  const chosen = el("div", { className: "field pick-chosen" },
+  // the strip: for the option selected last (and in a pick's pop-up)
+  const strip = alike ? alikeStrip({ labelOf, onAdd: (id) => tick(id) }) : null;
+  const showAlike = (s, id) => s.show(labelOf(id), alike(id, [...byId.keys()], picks.map((p) => p.id)));
+  // what's chosen: in the dotted summary box (gray dotted outline), over the list
+  const chosen = el("div", { className: "field pick-chosen summary summary-dotted" },
     chosenLegend ? el("p", { className: "mono-u", textContent: chosenLegend }) : null,
     tagsHint,
     empty,
     tags,
   );
+  const chosenArea = strip ? el("div", {}, chosen, strip.element) : chosen;   // (the strip under the box)
 
   let dragged = null;
   /** Something can be dropped here: allow it, and highlight while it's over. */
@@ -231,6 +246,8 @@ export function pickList({
       selected: p.primary ? ["primary"] : [],
       onChange: (v) => { p.primary = v.length > 0; changed(); },
     }) : null;
+    const popStrip = alike ? alikeStrip({ labelOf, onAdd: (id) => { closePopup(); tick(id); } }) : null;
+    if (popStrip) showAlike(popStrip, p.id);
     showPopup({
       title: labelOf(p.id),
       body: el("div", {},
@@ -238,6 +255,7 @@ export function pickList({
         staged ? stepBox : null,
         primary?.element,
         note?.element,
+        popStrip?.element,
         el("p", { className: "button-row" },
           button("Done", "button button-small", closePopup),
           button("Remove", "link-button link-button-danger", () => { untick(p.id); closePopup(); }),
@@ -256,21 +274,41 @@ export function pickList({
     legend,
     legendHidden,
     hint,
-    options,
+    options: badge ? suggestedFirst(options, badge) : options,
     selected: picks.map((p) => p.id),
     layout,
     filterable,
     filterLabel,
     badge,
     listClass: filterable ? "scroll-list" : "",
-    before: [...before, ...(detachChosen ? [] : [chosen])],   // e.g. a callout, then the tags
+    before: [...before, ...(detachChosen ? [] : [chosenArea])],   // e.g. a callout, then the tags
     after,
     onChange: (ids) => {
+      const added = ids.filter((id) => !picks.some((p) => p.id === id));
       sync(ids);
+      refreshAlike(added.at(-1));
       onSelect(ids);
       onCommit();
     },
   });
+
+  /** The strip follows the option selected last; it goes when that one is unselected. */
+  let alikeOf = null;
+  function refreshAlike(added) {
+    if (!strip) return;
+    if (added) alikeOf = added;
+    if (alikeOf && picks.some((p) => p.id === alikeOf)) showAlike(strip, alikeOf);
+    else { alikeOf = null; strip.hide(); }
+  }
+
+  /** Select one from code, as if ticked (the strip's "+": the strip then follows it). */
+  function tick(id) {
+    list.setOne(id, true);
+    sync(list.value());
+    refreshAlike(id);
+    onSelect(list.value());
+    onCommit();
+  }
 
   /** A newly ticked item gets a tag (at the end); an unticked one loses it (its note is kept). */
   function sync(ids) {
@@ -284,6 +322,7 @@ export function pickList({
   function untick(id) {
     list.setOne(id, false);
     sync(list.value());
+    refreshAlike();
     onSelect(list.value());
     onCommit();
   }
@@ -291,7 +330,7 @@ export function pickList({
   renderTags();
   return {
     element: list.element,
-    chosenElement: chosen,
+    chosenElement: chosenArea,
     value: () => picks.map((p) => ({
       id: p.id,
       ...(notes ? { note: p.note } : {}),
@@ -307,6 +346,7 @@ export function pickList({
       const valid = ids.filter((id) => byId.has(id));
       list.set(valid);
       sync(valid);
+      refreshAlike();
     },
   };
 }

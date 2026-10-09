@@ -8,24 +8,25 @@
 //   const data = await loadExportData();
 //   renderExport(container, card, data, defaults);
 //
-// One outline of the card (cardOutline) is drawn on the page and written as
-// Markdown, so the two always say the same thing. Labels come from each
+// The card's outline (cardOutline) is written as Markdown, and gives the
+// drawn card (card-view.js) its Rules and custom modules' rows; the page
+// shows the card itself, below a dotted line. Labels come from each
 // module's own data loader.
 
 import { el, button } from "./dom.js";
 import { moduleEntries } from "./modules.js";
-import { loadBasicsData } from "./sections/basics.js";
+import { loadBasicsData, DESCRIPTION } from "./sections/basics.js";
 import { loadInfrastructureData, toolLine } from "./sections/infrastructure.js";
 import { loadMembershipData } from "./sections/membership.js";
-import { loadRulesData } from "./sections/rules.js";
+import { loadRulesData, cardRules } from "./sections/rules.js";
 import { loadProcessesData, channelLine } from "./sections/processes.js";
-import { loadFederationData, cardRules } from "./sections/federation.js";
-import { answerText } from "./sections/custom.js";
+import { loadFederationData } from "./sections/federation.js";
+import { answerText, scaleRange } from "./sections/custom.js";
 import { YES_NO_VARIES } from "./controls/choices.js";
 import { stepRole } from "./controls/picklist.js";
 import { structureIds } from "./structure.js";
 import { loadData } from "./data.js";
-import { viewCard, rulesCount, cardScales, shows } from "./view-modes.js";
+import { viewCard, shows, FIELD_LABELS } from "./view-modes.js";
 
 export async function loadExportData() {
   const [basics, infrastructure, membership, rules, processes, federation, ruleSchema, scales] = await Promise.all([
@@ -36,8 +37,8 @@ export async function loadExportData() {
 }
 
 // ── little helpers ──────────────────────────────────────────
-const labelIn = (list, id) => list?.find((x) => x.id === id)?.label ?? id;
-const labels = (list, ids = []) => ids.map((id) => labelIn(list, id));
+export const labelIn = (list, id) => list?.find((x) => x.id === id)?.label ?? id;
+export const labels = (list, ids = []) => ids.map((id) => labelIn(list, id));
 const yesNo = (v) => (v ? labelIn(YES_NO_VARIES, v) : null);
 const withNote = (label, note) => (note ? `${label}: ${note}` : label);
 /** A step's name from where it falls (as the editor shows it). */
@@ -60,13 +61,12 @@ function countText(count, ruleSchema) {
     .filter(([id]) => count[id]).map(([id, label]) => `${count[id]} ${label}`);
   return `${count.total} ${count.total === 1 ? "rule" : "rules"}: ${kinds.join(", ")}`;
 }
-/** What a "Not shared" row is called, for each part a mode can leave out. */
-const HIDDEN_LABELS = {
-  platformDetails: "Protocol, open source, self-hosted", costs: "Costs", tools: "Other tools", locations: "Locations",
-  joiningWays: "Ways of joining", closedNote: "About being closed", structure: "Decision-making approaches",
-  membershipNote: "Anything else", rules: "The rules", conflictSteps: "Conflict management steps", processNotes: "Notes",
-  channels: "Channels", federationSteps: "Approach and response ladder", federationRest: "Lists, tools, rules and bridging",
-};
+/** Target scales: "Participatory 5 / 7, …" (only the ones answered), or null. */
+function targetsText(targets = {}, scaleData) {
+  const on = scaleData.scales.filter((sc) => targets[sc.id] != null);
+  return on.length ? on.map((sc) => `${sc.label} ${targets[sc.id]} / ${scaleData.range.max}`).join(", ") : null;
+}
+
 
 // ── the outline: [{ title, rows: [[label, value, field]] }], value a string or
 // a list; field = the part of the card it shows (view-modes.js FIELDS), so a
@@ -77,7 +77,9 @@ const SECTIONS = {
     ["Link", b.link, "basics"],
     ["Type", b.type && labelIn(d.basics.types, b.type), "basics"],
     ["Size", b.size && labelIn(d.basics.sizes, b.size), "basics"],
+    ...DESCRIPTION.map((q) => [q.label, b.description?.[q.id], q.field]),
     ["Keywords", b.keywords, "basics"],
+    ["Where they’d like to be", targetsText(b.targetScales, d.basics.scales), "targetScales"],
     ["Values", labels(d.basics.values, b.values), "basics"],
   ],
   infrastructure: (inf = {}, d) => {
@@ -95,6 +97,7 @@ const SECTIONS = {
       ["Structural model", p.structuralModel, "platform"],
       ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id]).map((c) => `${c.label}: ${labelIn(x.costValues, inf.costs[c.id])}`), "costs"],
       ["Other tools", (inf.tools || []).filter((t) => t.tool).map((t) => toolLine(t, x)), "tools"],
+      ...(inf.toolCategories ? [["Kinds of other tools", labels(x.toolCategories, inf.toolCategories), "toolCategories"]] : []),
       ["Servers", places(inf.locations?.servers), "locations"],
       ["Members", places(inf.locations?.members), "locations"],
       ["Admin team", places(inf.locations?.adminTeam), "locations"],
@@ -113,15 +116,20 @@ const SECTIONS = {
   },
   rules: (r = {}, d, card, extras = {}) => {
     const x = d.rules;
-    const all = cardRules(r, d.federation.ruleTypes, x.qualifierSets);
+    const all = cardRules(r, x);
     const groups = [...new Set(all.map((rule) => rule.group))];
     return [
       // a view mode's count of rules by kind (e.g. "18 rules: 11 on behavior, 7 on content")
       ...(extras.rulesCount ? [["How many rules", countText(extras.rulesCount, d.ruleSchema), "rulesCount"]] : []),
       ["Where the rules live", r.communityRulesLink, "rules"],
+      ["Your rules, in your words", r.communityRulesText, "rules"],   // (no editor field yet)
       ["Covenants and guidelines", labels(x.covenants, r.covenants), "rules"],
       ["Adapted from", labels(x.covenants, r.adaptedFrom), "rules"],
-      ...groups.map((g) => [g, all.filter((rule) => rule.group === g).map((rule) => (rule.qualifier ? `${rule.label} (${rule.qualifier})` : rule.label)), "rules"]),
+      // a custom rule is { text, custom: true } (the card marks it; Markdown says "custom")
+      ...groups.map((g) => [g, all.filter((rule) => rule.group === g).map((rule) => {
+        const text = rule.qualifier ? `${rule.label} (${rule.qualifier})` : rule.label;
+        return rule.custom && g !== "Custom rules" ? { text, custom: true } : text;
+      }), "rules"]),
     ];
   },
   processes: (pr = {}, d, card) => {
@@ -146,23 +154,27 @@ const SECTIONS = {
   federation: (f = {}, d, card) => {
     const x = d.federation;
     const subs = f.subscriptions || {};
-    const rules = cardRules(card.rules || {}, x.ruleTypes, x.qualifierSets);
     return [
-      ["Overall approach", f.approach && labelIn(x.approaches, f.approach), "federationSteps"],
+      ["Overall approach", f.approach && labelIn(x.approaches, f.approach), "federationOverview"],
       ["How servers get on the allowlist", f.allowlistPolicy, "federationRest"],
       ...stepsOrNone(stepRows(f.responseLadder, x.ladder).map(([label, v]) => [`When there’s a problem: ${label.toLowerCase()}`, v]), "Response ladder", "federationSteps"),
       ["Shared lists followed", labels(x.lists, subs.subscribedLists), "federationRest"],
-      ["Shares its block list", yesNo(subs.sharesBlocklist), "federationRest"],
+      ["Shares its block list", yesNo(subs.sharesBlocklist), "federationOverview"],
       ["Block list", subs.blocklistLink, "federationRest"],
       ["Tools for federation decisions", labels(x.tools, subs.decisionTools), "federationRest"],
-      ["Rules that guide federation decisions", rules.filter((r) => (f.relevantRules || []).includes(r.id)).map((r) => withNote(r.label, f.ruleNotes?.[r.id])), "federationRest"],
-      ["Bridges to other networks", yesNo(f.bridging?.bridges), "federationRest"],
+      ["How their rules shape who they federate with", f.rulesNote, "federationRest"],
+      ["Bridges to other networks", yesNo(f.bridging?.bridges), "federationOverview"],
       ["Bridged protocols", f.bridging?.protocols, "federationRest"],
     ];
   },
 };
-const custom = (m) => (m.fields || []).filter((f) => f.label).map((f) =>
-  [f.label, f.type === "scale" && f.value ? `${answerText(f)}${f.low || f.high ? ` (1 = ${f.low || "…"}, 5 = ${f.high || "…"})` : ""}` : answerText(f)]);
+const custom = (m) => [
+  ["About this module", m.description],   // (what the community said the module is for)
+  ...(m.fields || []).filter((f) => f.label).map((f) =>
+    [f.label, f.type === "scale" && f.value != null
+      ? `${answerText(f)}${f.low || f.high ? ` (${scaleRange(f).min} = ${f.low || "…"}, ${scaleRange(f).max} = ${f.high || "…"})` : ""}`
+      : answerText(f)]),
+];
 
 /**
  * The card as an outline: { title, sections: [{ title, rows: [[label, value]] }] }.
@@ -185,7 +197,7 @@ export function cardOutline(card, data, defaults, { mode, ...extras } = {}) {
         if (field && !shows(field, mode)) {
           if (hidden.has(field)) return [];
           hidden.add(field);
-          return [[HIDDEN_LABELS[field] || label, "Not shared"]];
+          return [[FIELD_LABELS[field] || label, "Not shared"]];
         }
         return [[label, filled(value) ? value : "N/A"]];
       }),
@@ -196,24 +208,16 @@ export function cardOutline(card, data, defaults, { mode, ...extras } = {}) {
       title: "Governance scales",
       rows: data.scales.scales.map((sc) => {
         const s = extras.scales[sc.id];
-        return [sc.label, s ? `${s.score} / 5 · based on ${s.basedOn} ${s.basedOn === 1 ? "choice" : "choices"}` : "N/A"];
+        return [sc.label, s ? `${s.score} / ${data.scales.range.max} · based on ${s.basedOn} ${s.basedOn === 1 ? "choice" : "choices"}` : "N/A"];
       }),
     });
   }
   return { title: card.basics?.name || "Untitled card", sections };
 }
 
-/**
- * The card as a view mode shows it, as an outline (the public card, the
- * Publish preview). includeProposed: count scores still under review (previews only).
- */
-export function publicOutline(card, data, defaults, mode, { includeProposed = false } = {}) {
-  return cardOutline(viewCard(card, mode), data, defaults, {
-    mode,
-    rulesCount: rulesCount(card, data.ruleSchema),
-    scales: cardScales(card, data.scales, { includeProposed }),
-  });
-}
+/** A public copy (view-modes.js publicView, e.g. from the server) as an outline (the public card page). */
+export const viewOutline = (view, data, defaults) =>
+  cardOutline(view.card, data, defaults, { mode: view.mode, rulesCount: view.rulesCount, scales: view.scales });
 
 /** The outline as Markdown: a heading per module, a bullet per answer. */
 const oneLine = (v) => String(v).replace(/\n+/g, " ");   // a line break would end a Markdown bullet early
@@ -224,7 +228,7 @@ export function toMarkdown(outline, card) {
     lines.push(`## ${s.title}`, "");
     if (!s.rows.length) lines.push("*Nothing filled in yet.*", "");
     for (const [label, value] of s.rows) {
-      if (Array.isArray(value)) lines.push(`- **${label}:**`, ...value.map((v) => `  - ${oneLine(v)}`));
+      if (Array.isArray(value)) lines.push(`- **${label}:**`, ...value.map((v) => `  - ${oneLine(v.text ?? v)}${v.custom ? " *(custom)*" : ""}`));
       else lines.push(`- **${label}:** ${oneLine(value)}`);
     }
     lines.push("");
@@ -233,10 +237,10 @@ export function toMarkdown(outline, card) {
 }
 
 /** The card's data for download: Basics and the modules it uses, without editor-only state. */
-export const cardData = (card) => viewCard(card, "full");   // (the Full view: the same rules as a published card)
+const cardData = (card) => viewCard(card, "full");   // (the Full view: the same rules as a published card)
 
 /** Save `text` as a file. */
-function download(filename, text, type) {
+export function download(filename, text, type) {
   const url = URL.createObjectURL(new Blob([text], { type }));
   const a = el("a", { href: url, download: filename });
   document.body.append(a);
@@ -245,7 +249,7 @@ function download(filename, text, type) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 /** "crd_abc123_20261005-143012": the card's ID and when it was exported (local time; sorts in order). */
-function fileName(card) {
+export function fileName(card) {
   const d = new Date();
   const two = (n) => String(n).padStart(2, "0");
   return `${card.id}_${d.getFullYear()}${two(d.getMonth() + 1)}${two(d.getDate())}-${two(d.getHours())}${two(d.getMinutes())}${two(d.getSeconds())}`;
@@ -257,6 +261,7 @@ export function renderExport(container, card, data, defaults) {
   const summaryCard = button("Summary card", "button button-small", () => {});
   summaryCard.disabled = true;
   container.replaceChildren(
+    el("h2", { textContent: "Download" }),
     el("div", { className: "fields" },
       el("p", { textContent: "Everything your community has entered, from Basics and the modules you use (modules you’ve switched off are left out). Download it as:" }),
       el("p", { className: "button-row" },
@@ -264,21 +269,6 @@ export function renderExport(container, card, data, defaults) {
         button("Documentation (Markdown)", "button button-small", () => download(`${fileName(card)}.md`, toMarkdown(outline, card), "text/markdown")),
         summaryCard, el("span", { className: "field-hint", textContent: "a visual summary card: coming later" })),
     ),
-    ...outlineElements(outline),
+    el("hr", { className: "pixel-divider" }),   // (below it, make.js puts the card itself: card-view.js renderCard)
   );
-}
-
-/** An outline drawn as a heading and a summary list per section (Export). */
-export function outlineElements(outline, { heading = "h2" } = {}) {
-  return outline.sections.flatMap((s) => [el(heading, { textContent: s.title }), outlineSection(s)]);
-}
-
-/** One section of an outline, as a summary list (Export, the view-mode previews). */
-export function outlineSection(section) {
-  return section.rows.length
-    ? el("dl", { className: "summary summary-list export-list" }, ...section.rows.flatMap(([label, value]) => [
-      el("dt", { className: "mono-u summary-label", textContent: label }),
-      el("dd", {}, Array.isArray(value) ? el("ul", {}, ...value.map((v) => el("li", { textContent: v }))) : String(value)),
-    ]))
-    : el("p", { className: "field-hint", textContent: "Nothing filled in yet." });
 }

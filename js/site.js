@@ -94,19 +94,29 @@ const ARROW = [   // 7x7, x marks a pixel
   "...x...",
   "...x...",
 ];
-const toTop = document.createElement("button");
-toTop.type = "button";
-toTop.className = "to-top";
+/**
+ * A corner button drawn in pixels (styles.css .corner-button): a 7x7 map,
+ * "x" for each pixel. The back-to-top arrow, and the card page's report flag.
+ */
+export function pixelButton(rows, className, label) {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.className = `corner-button ${className}`;
+  b.setAttribute("aria-label", label);
+  b.title = label;
+  rows.forEach((row, y) => [...row].forEach((ch, x) => {
+    if (ch !== "x") return;
+    const px = document.createElement("span");
+    px.style.gridArea = `${y + 1} / ${x + 1}`;
+    b.append(px);
+  }));
+  return b;
+}
+
+const toTop = pixelButton(ARROW, "to-top", "Back to the top");
+toTop.removeAttribute("title");
 toTop.hidden = true;
-toTop.setAttribute("aria-label", "Back to the top");
-const pixels = [];
-ARROW.forEach((row, y) => [...row].forEach((ch, x) => {
-  if (ch !== "x") return;
-  const px = document.createElement("span");
-  px.style.gridArea = `${y + 1} / ${x + 1}`;
-  toTop.append(px);
-  pixels.push(px);
-}));
+const pixels = [...toTop.children];
 document.body.append(toTop);
 toTop.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });

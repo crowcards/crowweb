@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-10-08",
   "categories": [
     {
       "id": "hostingServers",
@@ -51,7 +51,7 @@
     {
       "id": "corporate_proprietary",
       "label": "Corporate / Proprietary",
-      "description": "Platform operated by a company / org; community runner is a tenant with no infrastructure responsibility.",
+      "description": "Operated by a company. Community runner is a tenant — no infrastructure to manage, but also no ultimate control.",
       "examples": "Facebook, LinkedIn, Reddit, Discord, Telegram, WeChat, Nextdoor, Slack, Fandom, Roundabout, Front Porch Forum, Google Groups",
       "costs": {
         "hostingServers": "no",
@@ -70,7 +70,7 @@
     {
       "id": "self_hosted_text_primary",
       "label": "Self-Hosted, Text-Primary",
-      "description": "Operator runs their own OSS instance. Primary content is text, links, or lightweight media.",
+      "description": "You run the software yourself. Primary content is text, links, or lightweight media. Full control; real infrastructure costs.",
       "examples": "Mastodon, Pleroma, Akkoma, Misskey, Bonfire, Friendica, Lemmy, Discourse, Mailman, Matrix clients, Diaspora*, Custom wiki, generic ActivityPub / Matrix / Diaspora Protocol clients",
       "costs": {
         "hostingServers": "yes",
@@ -89,7 +89,7 @@
     {
       "id": "self_hosted_media_heavy",
       "label": "Self-Hosted, Media-Heavy",
-      "description": "Operator runs their own OSS instance; primary content is video or images, creating significant storage and delivery costs.",
+      "description": "Self-hosted with significant video or image storage. Storage and delivery costs are a meaningful ongoing expense.",
       "examples": "PeerTube, Pixelfed",
       "costs": {
         "hostingServers": "yes",
@@ -108,7 +108,7 @@
     {
       "id": "hosted_oss_institutional",
       "label": "Hosted OSS / Institutional",
-      "description": "Software is open source but hosted by an institution; community runner bears no infrastructure costs.",
+      "description": "Open source software, but hosted by an institution (a university, a nonprofit). You participate; you don't operate.",
       "examples": "Zooniverse, iNaturalist, Wikipedia",
       "costs": {
         "hostingServers": "no",
@@ -127,7 +127,7 @@
     {
       "id": "protocol_client_relay_based",
       "label": "Protocol Client, Relay-Based",
-      "description": "Client connects to a relay network (Nostr). Infrastructure costs arise if the operator runs their own relay.",
+      "description": "Connects to the Nostr relay network. Infrastructure costs only arise if you run your own relay.",
       "examples": "Damus, Amethyst, Primal, generic Nostr client",
       "costs": {
         "hostingServers": "sometimes",
@@ -146,7 +146,7 @@
     {
       "id": "protocol_client_pds_based",
       "label": "Protocol Client, PDS-Based",
-      "description": "Client connects to the AT Protocol network. Infrastructure costs arise if the operator runs their own Personal Data Server (PDS).",
+      "description": "Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.",
       "examples": "Bluesky, Rsky (Blacksky), generic AT Protocol client",
       "costs": {
         "hostingServers": "sometimes",
@@ -165,7 +165,7 @@
     {
       "id": "centralized_messaging",
       "label": "Centralized Messaging",
-      "description": "Open source software operated centrally by the developer; community = a group chat. No infrastructure costs for community runner.",
+      "description": "Open source software, centrally operated by the developer. Community = a group chat. No infrastructure costs.",
       "examples": "Signal Chat",
       "costs": {
         "hostingServers": "no",

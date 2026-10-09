@@ -1,12 +1,13 @@
 {
-  "version": "0.1.0",
-  "updatedAt": "2026-10-03",
-  "note": "What a community's values suggest for how it handles conflict and disputes. Up to 3 recommendations per value. All items need_review before use.",
+  "version": "2.0.0",
+  "updatedAt": "2026-10-08",
+  "note": "What a community's values suggest for how it handles conflict and disputes. Up to 3 recommendations per value. All items need_review before use. strength: how strongly the value argues for (+1, +2) or against (−1, −2) the option; it adds to or takes from the option's score in suggestions (js/recommend.js). Only status \"accepted\" is used (proposed ones are previewed while in review).",
   "items": [
     {
       "id": "accountability__internal_tribunal",
       "value": "accountability",
       "recommends": "internal_tribunal",
+      "strength": 1,
       "why": "A formal hearing body makes responsibility explicit and creates a named record of what happened.",
       "status": "accepted"
     },
@@ -14,6 +15,7 @@
       "id": "accountability__judicial_committees",
       "value": "accountability",
       "recommends": "judicial_committees",
+      "strength": 1,
       "why": "A standing committee adjudicating disputes creates consistent, named accountability across cases.",
       "status": "accepted"
     },
@@ -21,6 +23,7 @@
       "id": "accountability__restorative_practices",
       "value": "accountability",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods for understanding and repairing harm require all parties to own their impact.",
       "status": "accepted"
     },
@@ -28,6 +31,7 @@
       "id": "adaptability__ad_hoc_arbitration",
       "value": "adaptability",
       "recommends": "ad_hoc_arbitration",
+      "strength": 1,
       "why": "Arbitrators chosen specifically for each case means the process adapts to the nature of the dispute.",
       "status": "accepted"
     },
@@ -35,6 +39,7 @@
       "id": "adaptability__facilitated_negotiation",
       "value": "adaptability",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A neutral facilitator helps guide the process, adapting it to what the situation actually requires.",
       "status": "accepted"
     },
@@ -42,6 +47,7 @@
       "id": "agency__facilitated_negotiation",
       "value": "agency",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A facilitator helps guide the process but parties drive the outcome themselves.",
       "status": "accepted"
     },
@@ -49,6 +55,7 @@
       "id": "agency__mediation",
       "value": "agency",
       "recommends": "mediation",
+      "strength": 1,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — parties decide, not the mediator.",
       "status": "accepted"
     },
@@ -56,6 +63,7 @@
       "id": "agency__peer_mediation",
       "value": "agency",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediate rather than authority figures — parties initiate without needing leadership permission.",
       "status": "accepted"
     },
@@ -63,6 +71,7 @@
       "id": "anti_oppression__circle_processes",
       "value": "anti_oppression",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved resists hierarchies of who gets heard in dispute resolution.",
       "status": "accepted"
     },
@@ -70,6 +79,7 @@
       "id": "anti_oppression__peer_mediation",
       "value": "anti_oppression",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediate rather than authority figures who may reproduce the same power dynamics.",
       "status": "accepted"
     },
@@ -77,6 +87,7 @@
       "id": "anti_oppression__restorative_practices",
       "value": "anti_oppression",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods center those harmed rather than defaulting to punitive authority structures.",
       "status": "accepted"
     },
@@ -84,6 +95,7 @@
       "id": "autonomy__consensus_building",
       "value": "autonomy",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work to reach resolution by the parties themselves — no external authority required.",
       "status": "accepted"
     },
@@ -91,6 +103,7 @@
       "id": "autonomy__internal_tribunal",
       "value": "autonomy",
       "recommends": "internal_tribunal",
+      "strength": 1,
       "why": "A formal hearing body within the organization keeps dispute resolution internal rather than escalating outside.",
       "status": "accepted"
     },
@@ -98,6 +111,7 @@
       "id": "autonomy__peer_mediation",
       "value": "autonomy",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members within the organization mediate — entirely internal, no external dependency.",
       "status": "accepted"
     },
@@ -105,6 +119,7 @@
       "id": "capacity_building__conflict_workshops",
       "value": "capacity_building",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions resolve disputes and improve future interactions — explicitly builds members' capacity.",
       "status": "accepted"
     },
@@ -112,6 +127,7 @@
       "id": "capacity_building__peer_mediation",
       "value": "capacity_building",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Training members to mediate builds durable internal capacity for handling future disputes.",
       "status": "accepted"
     },
@@ -119,6 +135,7 @@
       "id": "collaboration__consensus_building",
       "value": "collaboration",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work to reach a resolution all parties agree upon — working through rather than against each other.",
       "status": "accepted"
     },
@@ -126,6 +143,7 @@
       "id": "collaboration__facilitated_negotiation",
       "value": "collaboration",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A neutral facilitator helps keep parties working together rather than sliding into adversarial positions.",
       "status": "accepted"
     },
@@ -133,6 +151,7 @@
       "id": "collaboration__interest_based_bargaining",
       "value": "collaboration",
       "recommends": "interest_based_bargaining",
+      "strength": 1,
       "why": "Focusing on underlying interests rather than fixed positions finds the cooperative path through a dispute.",
       "status": "accepted"
     },
@@ -140,13 +159,15 @@
       "id": "community_care__circle_processes",
       "value": "community_care",
       "recommends": "circle_processes",
+      "strength": 2,
       "why": "Structured open dialogue creates space for all affected members to be heard and supported, not just adjudicated.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "community_care__conflict_workshops",
       "value": "community_care",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions build the group's shared capacity to care for one another through future disputes.",
       "status": "accepted"
     },
@@ -154,6 +175,7 @@
       "id": "community_care__restorative_practices",
       "value": "community_care",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods for understanding and repairing harm prioritize healing over punishment.",
       "status": "accepted"
     },
@@ -161,6 +183,7 @@
       "id": "conflict_resolution__conflict_resolution_council",
       "value": "conflict_resolution",
       "recommends": "conflict_resolution_council",
+      "strength": 1,
       "why": "Senior members with institutional knowledge providing guidance — a standing body directly named in this value's own description.",
       "status": "accepted"
     },
@@ -168,6 +191,7 @@
       "id": "conflict_resolution__peer_mediation",
       "value": "conflict_resolution",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediating disputes builds the community's own ongoing capacity to address disagreements constructively.",
       "status": "accepted"
     },
@@ -175,6 +199,7 @@
       "id": "conflict_resolution__restorative_practices",
       "value": "conflict_resolution",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods treat conflict as something to work through together rather than adjudicate.",
       "status": "accepted"
     },
@@ -182,6 +207,7 @@
       "id": "consent__facilitated_negotiation",
       "value": "consent",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A facilitator helps guide the process but parties choose to engage and drive the outcome.",
       "status": "accepted"
     },
@@ -189,6 +215,7 @@
       "id": "consent__mediation",
       "value": "consent",
       "recommends": "mediation",
+      "strength": 1,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — participation and outcome are both chosen.",
       "status": "accepted"
     },
@@ -196,6 +223,7 @@
       "id": "consent__non_binding_arbitration",
       "value": "consent",
       "recommends": "non_binding_arbitration",
+      "strength": 1,
       "why": "An arbitrator gives a recommendation that is not binding — parties retain the choice over whether to accept it.",
       "status": "accepted"
     },
@@ -203,6 +231,7 @@
       "id": "cooperation__consensus_building",
       "value": "cooperation",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work to reach resolution all parties agree upon treats the dispute as a shared problem to solve.",
       "status": "accepted"
     },
@@ -210,6 +239,7 @@
       "id": "cooperation__facilitated_negotiation",
       "value": "cooperation",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A neutral facilitator helps keep parties in a cooperative frame rather than competing for a win.",
       "status": "accepted"
     },
@@ -217,6 +247,7 @@
       "id": "cooperation__interest_based_bargaining",
       "value": "cooperation",
       "recommends": "interest_based_bargaining",
+      "strength": 1,
       "why": "Focusing on underlying interests rather than fixed positions finds win-win solutions — cooperation in practice.",
       "status": "accepted"
     },
@@ -224,6 +255,7 @@
       "id": "decentralization__ad_hoc_arbitration",
       "value": "decentralization",
       "recommends": "ad_hoc_arbitration",
+      "strength": 1,
       "why": "Arbitrators chosen specifically for each case — no standing central body required to handle disputes.",
       "status": "accepted"
     },
@@ -231,13 +263,15 @@
       "id": "decentralization__peer_mediation",
       "value": "decentralization",
       "recommends": "peer_mediation",
+      "strength": 2,
       "why": "Trained members within the organization mediate — dispute resolution distributed across the membership.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "decentralization__rotational_judging",
       "value": "decentralization",
       "recommends": "rotational_judging",
+      "strength": 1,
       "why": "A rotating set of members handles conflicts — no permanent central adjudicating body.",
       "status": "accepted"
     },
@@ -245,6 +279,7 @@
       "id": "diversity__circle_processes",
       "value": "diversity",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved prevents louder or more powerful voices from dominating the resolution.",
       "status": "accepted"
     },
@@ -252,6 +287,7 @@
       "id": "diversity__lottery_sortition",
       "value": "diversity",
       "recommends": "lottery_sortition",
+      "strength": 1,
       "why": "Random selection to resolve disputes or select juries removes bias toward who gets to adjudicate.",
       "status": "accepted"
     },
@@ -259,6 +295,7 @@
       "id": "diversity__rotational_judging",
       "value": "diversity",
       "recommends": "rotational_judging",
+      "strength": 1,
       "why": "Rotating who handles conflicts prevents the same members from always being in the adjudicating role.",
       "status": "accepted"
     },
@@ -266,6 +303,7 @@
       "id": "education__conflict_workshops",
       "value": "education",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions resolve disputes and improve future interactions — the improvement of future interactions is an educational outcome.",
       "status": "accepted"
     },
@@ -273,6 +311,7 @@
       "id": "empathy__circle_processes",
       "value": "empathy",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Structured open dialogue builds genuine understanding of all parties before any resolution is reached.",
       "status": "accepted"
     },
@@ -280,6 +319,7 @@
       "id": "empathy__conflict_workshops",
       "value": "empathy",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions build the relational skills members need to genuinely understand one another under stress.",
       "status": "accepted"
     },
@@ -287,13 +327,15 @@
       "id": "empathy__restorative_practices",
       "value": "empathy",
       "recommends": "restorative_practices",
+      "strength": 2,
       "why": "Dialogue-focused methods make understanding the impact of harm the explicit first step before repair.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "equity__circle_processes",
       "value": "equity",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved structurally levels speaking time regardless of power or status.",
       "status": "accepted"
     },
@@ -301,6 +343,7 @@
       "id": "equity__facilitated_negotiation",
       "value": "equity",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A neutral facilitator can actively counteract power imbalances between parties during the process.",
       "status": "accepted"
     },
@@ -308,6 +351,7 @@
       "id": "equity__restorative_practices",
       "value": "equity",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods center the experience of those harmed rather than applying uniform process regardless of context.",
       "status": "accepted"
     },
@@ -315,6 +359,7 @@
       "id": "fairness__ad_hoc_arbitration",
       "value": "fairness",
       "recommends": "ad_hoc_arbitration",
+      "strength": 1,
       "why": "Arbitrators chosen specifically for each case can be selected for impartiality relative to the parties involved.",
       "status": "accepted"
     },
@@ -322,6 +367,7 @@
       "id": "fairness__judicial_committees",
       "value": "fairness",
       "recommends": "judicial_committees",
+      "strength": 1,
       "why": "A standing committee applies rules consistently across cases, reducing ad hoc or inconsistent decisions.",
       "status": "accepted"
     },
@@ -329,6 +375,7 @@
       "id": "fairness__non_binding_arbitration",
       "value": "fairness",
       "recommends": "non_binding_arbitration",
+      "strength": 1,
       "why": "An impartial arbitrator's recommendation gives parties an objective view without forcing a binding outcome.",
       "status": "accepted"
     },
@@ -336,6 +383,7 @@
       "id": "flexibility__ad_hoc_arbitration",
       "value": "flexibility",
       "recommends": "ad_hoc_arbitration",
+      "strength": 1,
       "why": "Arbitrators chosen specifically for each case accommodate different situations rather than applying a fixed procedure.",
       "status": "accepted"
     },
@@ -343,6 +391,7 @@
       "id": "harm_reduction__conflict_workshops",
       "value": "harm_reduction",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions that improve future interactions proactively reduce the harm future conflicts might cause.",
       "status": "accepted"
     },
@@ -350,6 +399,7 @@
       "id": "harm_reduction__mediation",
       "value": "harm_reduction",
       "recommends": "mediation",
+      "strength": 1,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — lower friction reduces the risk of escalation.",
       "status": "accepted"
     },
@@ -357,13 +407,15 @@
       "id": "harm_reduction__restorative_practices",
       "value": "harm_reduction",
       "recommends": "restorative_practices",
+      "strength": 2,
       "why": "Dialogue-focused methods for understanding and repairing harm are explicitly organized around minimizing harm.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "holism__circle_processes",
       "value": "holism",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Open dialogue with equal input from all involved surfaces systemic context beyond the immediate incident.",
       "status": "accepted"
     },
@@ -371,6 +423,7 @@
       "id": "holism__interest_based_bargaining",
       "value": "holism",
       "recommends": "interest_based_bargaining",
+      "strength": 1,
       "why": "Focusing on underlying interests rather than fixed positions looks beneath the surface of the dispute.",
       "status": "accepted"
     },
@@ -378,6 +431,7 @@
       "id": "holism__restorative_practices",
       "value": "holism",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods consider the full context of what happened and who was affected, not just the presenting incident.",
       "status": "accepted"
     },
@@ -385,6 +439,7 @@
       "id": "horizontalism__circle_processes",
       "value": "horizontalism",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved — no hierarchy of who gets heard in resolving the dispute.",
       "status": "accepted"
     },
@@ -392,13 +447,15 @@
       "id": "horizontalism__peer_mediation",
       "value": "horizontalism",
       "recommends": "peer_mediation",
+      "strength": 2,
       "why": "Trained members mediate among equals rather than routing disputes through a management hierarchy.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "horizontalism__rotational_judging",
       "value": "horizontalism",
       "recommends": "rotational_judging",
+      "strength": 1,
       "why": "Rotating who handles conflicts prevents a permanent adjudicating class from forming within a flat structure.",
       "status": "accepted"
     },
@@ -406,6 +463,7 @@
       "id": "inclusion__circle_processes",
       "value": "inclusion",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Structured format with equal input from all involved counteracts the tendency for dominant voices to control outcomes.",
       "status": "accepted"
     },
@@ -413,6 +471,7 @@
       "id": "inclusion__peer_mediation",
       "value": "inclusion",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediate — anyone can initiate without navigating formal authority structures.",
       "status": "accepted"
     },
@@ -420,6 +479,7 @@
       "id": "inclusivity__circle_processes",
       "value": "inclusivity",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved ensures historically marginalized members have structural voice in resolution.",
       "status": "accepted"
     },
@@ -427,6 +487,7 @@
       "id": "inclusivity__peer_mediation",
       "value": "inclusivity",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediate — accessible to all members without gatekeeping by institutional leadership.",
       "status": "accepted"
     },
@@ -434,6 +495,7 @@
       "id": "independence__consensus_building",
       "value": "independence",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work by the parties themselves — no reliance on any external authority to resolve the dispute.",
       "status": "accepted"
     },
@@ -441,6 +503,7 @@
       "id": "independence__internal_tribunal",
       "value": "independence",
       "recommends": "internal_tribunal",
+      "strength": 1,
       "why": "A formal hearing body within the organization keeps dispute resolution away from external authorities.",
       "status": "accepted"
     },
@@ -448,6 +511,7 @@
       "id": "independence__peer_mediation",
       "value": "independence",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members within the organization mediate — entirely internal, no outside dependency.",
       "status": "accepted"
     },
@@ -455,6 +519,7 @@
       "id": "interdependence__circle_processes",
       "value": "interdependence",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Open dialogue with equal input surfaces how the dispute affects the broader community, not just the parties involved.",
       "status": "accepted"
     },
@@ -462,6 +527,7 @@
       "id": "interdependence__interest_based_bargaining",
       "value": "interdependence",
       "recommends": "interest_based_bargaining",
+      "strength": 1,
       "why": "Focusing on underlying interests rather than fixed positions recognizes that parties' needs are ongoing and intertwined.",
       "status": "accepted"
     },
@@ -469,6 +535,7 @@
       "id": "interdependence__restorative_practices",
       "value": "interdependence",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods for repairing harm recognize that parties must continue to coexist and depend on each other.",
       "status": "accepted"
     },
@@ -476,6 +543,7 @@
       "id": "justice__circle_processes",
       "value": "justice",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved centers those harmed in the resolution process.",
       "status": "accepted"
     },
@@ -483,6 +551,7 @@
       "id": "justice__consensus_building",
       "value": "justice",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work to reach resolution all parties agree upon is repair-oriented rather than punitive.",
       "status": "accepted"
     },
@@ -490,13 +559,15 @@
       "id": "justice__restorative_practices",
       "value": "justice",
       "recommends": "restorative_practices",
+      "strength": 2,
       "why": "The value's own description explicitly names prioritizing restorative processes over punitive ones.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "learning__conflict_workshops",
       "value": "learning",
       "recommends": "conflict_workshops",
+      "strength": 1,
       "why": "Structured sessions resolve disputes and improve future interactions — the improvement of future interactions is a learning outcome.",
       "status": "accepted"
     },
@@ -504,6 +575,7 @@
       "id": "learning__restorative_practices",
       "value": "learning",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods surface what happened and why — the understanding gained is itself a form of learning.",
       "status": "accepted"
     },
@@ -511,6 +583,7 @@
       "id": "meritocracy__conflict_resolution_council",
       "value": "meritocracy",
       "recommends": "conflict_resolution_council",
+      "strength": 1,
       "why": "Senior members with institutional knowledge provide guidance — authority earned through experience and contribution, not formal rank.",
       "status": "accepted"
     },
@@ -518,6 +591,7 @@
       "id": "mentorship__peer_mediation",
       "value": "mentorship",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members guiding others through disputes mirrors the guided, supportive dynamic mentorship builds.",
       "status": "accepted"
     },
@@ -525,6 +599,7 @@
       "id": "mutual_aid__circle_processes",
       "value": "mutual_aid",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal exchange of perspectives in a structured format — reciprocal rather than one party judging another.",
       "status": "accepted"
     },
@@ -532,6 +607,7 @@
       "id": "mutual_aid__consensus_building",
       "value": "mutual_aid",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work toward resolution everyone can agree upon — members helping members reach shared repair.",
       "status": "accepted"
     },
@@ -539,20 +615,23 @@
       "id": "mutual_aid__peer_mediation",
       "value": "mutual_aid",
       "recommends": "peer_mediation",
+      "strength": 2,
       "why": "Trained members mediating for one another — members giving and receiving support reciprocally.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "non_violence__mediation",
       "value": "non_violence",
       "recommends": "mediation",
+      "strength": 2,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — no coercion or force involved.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "non_violence__peer_mediation",
       "value": "non_violence",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Trained members mediate — keeps resolution de-escalatory and away from coercive external systems.",
       "status": "accepted"
     },
@@ -560,13 +639,15 @@
       "id": "non_violence__restorative_practices",
       "value": "non_violence",
       "recommends": "restorative_practices",
+      "strength": 2,
       "why": "Dialogue-focused methods repair harm through conversation rather than punitive or coercive responses.",
-      "status": "accepted"
+      "status": "proposed"
     },
     {
       "id": "openness__circle_processes",
       "value": "openness",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Structured format for open dialogue — the resolution process is visible to all involved rather than conducted behind closed doors.",
       "status": "accepted"
     },
@@ -574,6 +655,7 @@
       "id": "participation__circle_processes",
       "value": "participation",
       "recommends": "circle_processes",
+      "strength": 1,
       "why": "Equal input from all involved — participation in resolution is structural, not optional.",
       "status": "accepted"
     },
@@ -581,6 +663,7 @@
       "id": "participation__consensus_building",
       "value": "participation",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work to reach resolution keeps all parties actively engaged rather than deferring to a judge.",
       "status": "accepted"
     },
@@ -588,6 +671,7 @@
       "id": "resilience__conflict_resolution_council",
       "value": "resilience",
       "recommends": "conflict_resolution_council",
+      "strength": 1,
       "why": "Senior members with institutional knowledge — a council distributes conflict resolution capacity and survives individual turnover.",
       "status": "accepted"
     },
@@ -595,6 +679,7 @@
       "id": "resilience__peer_mediation",
       "value": "resilience",
       "recommends": "peer_mediation",
+      "strength": 1,
       "why": "Multiple trained mediators within the organization — no single point of failure for dispute resolution capacity.",
       "status": "accepted"
     },
@@ -602,6 +687,7 @@
       "id": "resilience__rotational_judging",
       "value": "resilience",
       "recommends": "rotational_judging",
+      "strength": 1,
       "why": "A rotating set of members handles conflicts — distributes the capacity across the membership rather than concentrating it.",
       "status": "accepted"
     },
@@ -609,6 +695,7 @@
       "id": "solidarity__consensus_building",
       "value": "solidarity",
       "recommends": "consensus_building",
+      "strength": 1,
       "why": "Collaborative work toward resolution everyone agrees upon keeps both parties in the community rather than excluding one.",
       "status": "accepted"
     },
@@ -616,6 +703,7 @@
       "id": "stewardship__conflict_resolution_council",
       "value": "stewardship",
       "recommends": "conflict_resolution_council",
+      "strength": 1,
       "why": "Senior members with institutional knowledge hold long-term memory of shared resources and relationships.",
       "status": "accepted"
     },
@@ -623,6 +711,7 @@
       "id": "stewardship__restorative_practices",
       "value": "stewardship",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused repair of relationships protects the shared relationships entrusted to the community's care.",
       "status": "accepted"
     },
@@ -630,6 +719,7 @@
       "id": "trust__mediation",
       "value": "trust",
       "recommends": "mediation",
+      "strength": 1,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — a low-coercion, good-faith process.",
       "status": "accepted"
     },
@@ -637,6 +727,7 @@
       "id": "trust__restorative_practices",
       "value": "trust",
       "recommends": "restorative_practices",
+      "strength": 1,
       "why": "Dialogue-focused methods for understanding and repairing harm explicitly aim to restore the relationship.",
       "status": "accepted"
     },
@@ -644,6 +735,7 @@
       "id": "voluntarism__facilitated_negotiation",
       "value": "voluntarism",
       "recommends": "facilitated_negotiation",
+      "strength": 1,
       "why": "A facilitator helps guide but parties choose whether to engage and what outcome to accept.",
       "status": "accepted"
     },
@@ -651,8 +743,137 @@
       "id": "voluntarism__non_binding_arbitration",
       "value": "voluntarism",
       "recommends": "non_binding_arbitration",
+      "strength": 1,
       "why": "An arbitrator gives a recommendation that is not binding — parties retain the right to accept or decline.",
       "status": "accepted"
+    },
+    {
+      "id": "horizontalism__managerial_decision",
+      "value": "horizontalism",
+      "recommends": "managerial_decision",
+      "strength": -2,
+      "why": "A manager settles disputes from above.",
+      "status": "proposed"
+    },
+    {
+      "id": "horizontalism__judicial_committees",
+      "value": "horizontalism",
+      "recommends": "judicial_committees",
+      "strength": -1,
+      "why": "A standing committee judges others.",
+      "status": "proposed"
+    },
+    {
+      "id": "decentralization__managerial_decision",
+      "value": "decentralization",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "Disputes are settled centrally, by one role.",
+      "status": "proposed"
+    },
+    {
+      "id": "justice__managerial_decision",
+      "value": "justice",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "One person decides, without a fair hearing for both sides.",
+      "status": "proposed"
+    },
+    {
+      "id": "consent__binding_arbitration",
+      "value": "consent",
+      "recommends": "binding_arbitration",
+      "strength": -1,
+      "why": "The parties must accept a decision they didn't agree to.",
+      "status": "proposed"
+    },
+    {
+      "id": "consent__managerial_decision",
+      "value": "consent",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "The outcome is imposed, not agreed.",
+      "status": "proposed"
+    },
+    {
+      "id": "participation__managerial_decision",
+      "value": "participation",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "The people involved don't shape the outcome.",
+      "status": "proposed"
+    },
+    {
+      "id": "transparency__managerial_decision",
+      "value": "transparency",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "How the decision was reached is often not shared.",
+      "status": "proposed"
+    },
+    {
+      "id": "agency__managerial_decision",
+      "value": "agency",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "The parties don't resolve it themselves.",
+      "status": "proposed"
+    },
+    {
+      "id": "agency__binding_arbitration",
+      "value": "agency",
+      "recommends": "binding_arbitration",
+      "strength": -1,
+      "why": "The parties hand the outcome to someone else.",
+      "status": "proposed"
+    },
+    {
+      "id": "anti_oppression__managerial_decision",
+      "value": "anti_oppression",
+      "recommends": "managerial_decision",
+      "strength": -1,
+      "why": "Puts disputes in the hands of those already in power.",
+      "status": "proposed"
+    },
+    {
+      "id": "voluntarism__binding_arbitration",
+      "value": "voluntarism",
+      "recommends": "binding_arbitration",
+      "strength": -1,
+      "why": "The outcome is imposed, not freely accepted.",
+      "status": "proposed"
+    },
+    {
+      "id": "voluntarism__binding_contracts",
+      "value": "voluntarism",
+      "recommends": "binding_contracts",
+      "strength": -1,
+      "why": "Obligations are enforced, not freely chosen.",
+      "status": "proposed"
+    },
+    {
+      "id": "trust__binding_contracts",
+      "value": "trust",
+      "recommends": "binding_contracts",
+      "strength": -1,
+      "why": "Relies on enforcement rather than good faith.",
+      "status": "proposed"
+    },
+    {
+      "id": "meritocracy__lottery_sortition",
+      "value": "meritocracy",
+      "recommends": "lottery_sortition",
+      "strength": -1,
+      "why": "Chance, not experience, picks who judges.",
+      "status": "proposed"
+    },
+    {
+      "id": "empathy__supermajority_vote",
+      "value": "empathy",
+      "recommends": "supermajority_vote",
+      "strength": -1,
+      "why": "A vote settles who's right without hearing how people feel.",
+      "status": "proposed"
     }
   ]
 }

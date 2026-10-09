@@ -1,6 +1,7 @@
-// The editor's only line to the backend: the three Cloud Functions in
-// functions/index.js. Everything goes through them — the browser never
-// reads or writes Firestore directly (the security rules deny it).
+// The site's only line to the backend: the Cloud Functions in
+// functions/index.js. Everything goes through them, including reading
+// published cards — the browser never reads or writes Firestore directly
+// (the security rules deny it).
 //
 // Served from localhost (firebase emulators:start), it talks to the local
 // emulator instead, so test cards never touch the real database.
@@ -33,6 +34,12 @@ const call = (name) => {
 const _createCard = call("createCard");
 const _getCard = call("getCard");
 const _updateCard = call("updateCard");
+const _publishCard = call("publishCard");
+const _updatePublishing = call("updatePublishing");
+const _unpublishCard = call("unpublishCard");
+const _getPublicCard = call("getPublicCard");
+const _forkCard = call("forkCard");
+const _reportCard = call("reportCard");
 
 /** Make a new empty card. Returns { cardId, secret } — the only time the secret is ever sent. */
 export const createCard = () => _createCard();
@@ -53,6 +60,29 @@ export const updateCard = (cardId, secret, updates, { ifUpdatedAt, reset } = {})
   _updateCard({ cardId, secret, updates, ifUpdatedAt, ...(reset ? { reset } : {}) });
 // reset: ["rules", …] puts those parts back as they are on a new, empty card
 // (the server's makeEmptyCard decides what empty is).
+
+// ── publishing: each returns { publishing } (the card's publishing part) ──
+
+/**
+ * Publish the card as it is now, as a new version. Refused ("failed-precondition",
+ * err.details.missing: ["a contact email", …]) without a name, type and email.
+ */
+export const publishCard = (cardId, secret, { mode, listed, note }) => _publishCard({ cardId, secret, mode, listed, note });
+
+/** Change a published card's view mode / listed, and its credit (from attribution), without a new version. */
+export const updatePublishing = (cardId, secret, { mode, listed }) => _updatePublishing({ cardId, secret, mode, listed });
+
+/** Take the card's public copies down; deleteHistory also deletes its published versions. */
+export const unpublishCard = (cardId, secret, { deleteHistory = false } = {}) => _unpublishCard({ cardId, secret, deleteHistory });
+
+/** Start a new card from a published one (Foggy, Misty or Full): { cardId, secret }, like createCard. */
+export const forkCard = (cardId, version) => _forkCard({ cardId, ...(version ? { version } : {}) });
+
+/** Report a published card to the CROW team (no key needed): reason (REPORT_REASONS id), details and email optional. */
+export const reportCard = (cardId, { version, reason, details, email }) => _reportCard({ cardId, version, reason, details, email });
+
+/** A published card as its view mode shows it (no key needed); a past one with `version`. */
+export const getPublicCard = (cardId, version) => _getPublicCard({ cardId, ...(version ? { version } : {}) });
 
 /**
  * Sort a failed call into what the editor needs to know:

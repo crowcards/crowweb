@@ -7,7 +7,7 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
 - Live: crowcards.org (GitHub Pages until launch, then Firebase)
   - Staging: staging.crowcards.org (Firebase)
 - Firebase project: `cos-princeton-hci-crow`
-- The team's plan (what's done, in progress and to do, and tasks you can claim): the **Task log** at the end of `CLAUDE.md`.
+- The team's plan (what's done, in progress and to do, and tasks you can claim): **`TODO.md`**.
 - See `CLAUDE.md` for the architecture, the card's data structure, and how the code is organised.
 - Questions: ask Sohyeon (the team lead), or write to crowcards@princeton.edu.
 
@@ -62,7 +62,7 @@ The local database starts empty each time. To keep your test cards between runs,
     - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets.
     - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself.
     - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `CLAUDE.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
-    - After each major phase, we have Claude update `CLAUDE.md`, including its Task log. To pick up a task, put your name in its **Who** column there.
+    - After each major phase, we have Claude update `CLAUDE.md` (how things work) and `TODO.md` (the plan). To pick up a task, put your name in its **Who** column in `TODO.md`.
 - **Never commit keys or credentials,** and never share a card's secret (e.g. in an issue or a chat message): anyone with it can edit that card.
 
 ### What's where

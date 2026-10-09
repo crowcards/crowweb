@@ -93,6 +93,7 @@
 
 /* ---- base ----------------------------------------------------------- */
 * { box-sizing: border-box; }
+fieldset { min-width: 0; }   /* (by default a fieldset grows to fit what's in it, e.g. a wide table, past the screen) */
 
 html {
   scrollbar-color: var(--line) transparent;
@@ -119,7 +120,8 @@ body {
 img { max-width: 100%; }
 
 /* ---- text ----------------------------------------------------------- */
-h1, h2 {
+h1, h2,
+.card-title > h3 {   /* (a card's name looks the same whatever its level: an h3 in Export) */
   margin: 1.5em 0 0.5em;
   color: var(--accent);
   font-family: var(--display);
@@ -198,7 +200,7 @@ a,
 
 /* buttons that look like a link or an icon, not a button: no padding,
    border or background of their own (each adds its own look) */
-:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .sidebar-toggle) {
+:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .sidebar-toggle, .info-tip) {
   padding: 0;
   border: 0;
   background: none;
@@ -355,6 +357,9 @@ a,
 .tab:focus-visible { background: var(--lime); color: var(--ink-on-color); }
 .tab[aria-selected="true"] { background: var(--accent); color: var(--lime); }
 .tab-panel { padding-top: 1.25rem; }
+/* one line that scrolls sideways (tabRow({ scroll: true }), e.g. the values' groups) */
+.tab-list-scroll { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+.tab-list-scroll .tab { flex: none; white-space: nowrap; }
 
 a:hover,
 a:focus-visible,
@@ -471,9 +476,10 @@ a:focus-visible,
 /* stepped pixel corners, shared by buttons, callouts, pop-ups, tabs, rows (on
    their background layer), the flag dot and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
 /* (pseudo-elements can't go inside :is(), so the layers are listed after it) */
-:is(.button, .callout, .popup, .tab, .note-mark, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
+:is(.button, .callout, .popup, .tab, .note-mark, .card-pill, .card-more, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
 .row::before,
-.flag-dot::before {
+.flag-dot::before,
+.info-tip::before {
   --pxb: var(--px-bottom, var(--px));   /* bottom steps: the same, unless set (tabs: square bottom) */
   clip-path: polygon(
     0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
@@ -696,6 +702,7 @@ a:focus-visible,
 
 .info-body {
   grid-area: body;
+  min-width: 0;   /* (a grid item grows to fit what's in it by default, e.g. a row that scrolls sideways) */
   max-width: calc(var(--measure) + var(--body-pad) * 2);
   padding: 4rem var(--body-pad) 0;
 }
@@ -984,7 +991,9 @@ a:focus-visible,
 
 /* back to the top (site.js): a 7x7 pixel arrow in the bottom-right
    corner, orange (lime on hover); now and then a pixel flashes lime or pink */
-.to-top {
+/* corner buttons drawn in pixels (site.js pixelButton): the back-to-top
+   arrow and, on a published card, the report flag under it */
+.corner-button {
   --px: 4px;
   position: fixed;
   right: 0.75rem;
@@ -998,8 +1007,10 @@ a:focus-visible,
   color: var(--accent);
   cursor: pointer;
 }
-.to-top span { background: currentColor; }
-.to-top:is(:hover, :focus-visible) { color: var(--lime); background: var(--accent); }
+.corner-button span { background: currentColor; }
+.corner-button:is(:hover, :focus-visible) { color: var(--lime); background: var(--accent); }
+/* (on a published card, the report flag; the arrow sits above it) */
+body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4rem); }   /* (the flag's height, and a gap) */
 .to-top .flash-lime { background: var(--lime); }
 .to-top .flash-pink { background: var(--error); }   /* the site's pink */
 

@@ -1,0 +1,1012 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-08",
+  "note": "The CROW team's additions to values.json (CommunityRule's list, which may be refreshed from its API, so nothing of ours lives there). all: the All tab's name and description, under the tabs when it's open; groups: the tabs on the values list (short: the tab's name; label and description: under the tabs when it's open). items, by value id: its group; cues, words and phrases a community that holds the value might use in its description, matched to suggest it (whole words; a trailing * matches any ending, \"organiz*\": organize, organizing; a cue of two or more words counts double); description, only where CommunityRule's is a placeholder (used instead of it); status: whether this entry is reviewed (proposed / accepted). js/data.js loadValues() merges the two files. A value missing here still shows (under All); an entry for a value no longer in values.json is ignored.",
+  "all": {
+    "label": "All values",
+    "description": "A variety of values that help explain what your community cares about and how it works."
+  },
+  "groups": [
+    {
+      "id": "goals",
+      "label": "Goals & causes",
+      "short": "Goals",
+      "description": "What the community works toward, or stands for in the wider world."
+    },
+    {
+      "id": "organizing",
+      "label": "How we organize",
+      "short": "Organizing",
+      "description": "How the community is structured, and how power and decisions are shared."
+    },
+    {
+      "id": "relationships",
+      "label": "How we treat each other",
+      "short": "Culture",
+      "description": "The culture between members: how people treat and look out for each other."
+    },
+    {
+      "id": "justice",
+      "label": "Justice & inclusion",
+      "short": "Justice",
+      "description": "Fairness, access and belonging, especially for people who are often left out."
+    },
+    {
+      "id": "practices",
+      "label": "Practices",
+      "short": "Practices",
+      "description": "Things the community does, and makes time for."
+    },
+    {
+      "id": "shared",
+      "label": "Widely shared",
+      "short": "Common",
+      "description": "Values most good-faith communities hold. Choose them if they're central to who you are."
+    }
+  ],
+  "items": [
+    {
+      "id": "accessibility",
+      "group": "justice",
+      "cues": [
+        "accessib*",
+        "disabilit*",
+        "disabled",
+        "plain language",
+        "caption*",
+        "alt text",
+        "alt-text",
+        "screen reader*",
+        "wheelchair*",
+        "neurodivergent"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "accountability",
+      "group": "relationships",
+      "cues": [
+        "accountab*",
+        "take responsibility",
+        "own our mistakes",
+        "own up",
+        "retrospective*",
+        "answer to",
+        "responsib*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "adaptability",
+      "group": "organizing",
+      "cues": [
+        "adapt*",
+        "change course",
+        "pivot*",
+        "evolv*",
+        "iterat*",
+        "respond to change"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "agency",
+      "group": "organizing",
+      "cues": [
+        "agency",
+        "self-direct*",
+        "choose their own",
+        "on their own terms",
+        "their own projects",
+        "own choices"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "altruism",
+      "group": "relationships",
+      "cues": [
+        "altruis*",
+        "for free",
+        "free of charge",
+        "pay what you can",
+        "give back",
+        "selfless*",
+        "charit*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "anti_oppression",
+      "group": "shared",
+      "cues": [
+        "anti-oppress*",
+        "anti oppression",
+        "oppress*",
+        "racis*",
+        "anti-racis*",
+        "sexis*",
+        "bigot*",
+        "discriminat*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "autonomy",
+      "group": "organizing",
+      "cues": [
+        "autonom*",
+        "no strings attached",
+        "self-govern*",
+        "self-determin*",
+        "not beholden",
+        "independent of"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "capacity_building",
+      "group": "practices",
+      "cues": [
+        "capacity building",
+        "build skills",
+        "building skills",
+        "skill-shar*",
+        "skill shar*",
+        "train*",
+        "upskill*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "collaboration",
+      "group": "relationships",
+      "cues": [
+        "collaborat*",
+        "work together",
+        "working together",
+        "co-creat*",
+        "build together",
+        "teamwork"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "common_ownership",
+      "group": "organizing",
+      "cues": [
+        "common ownership",
+        "collectively owned",
+        "member-owned",
+        "owned by its members",
+        "owned by our members",
+        "shared ownership",
+        "co-op",
+        "cooperative",
+        "commons"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "community_care",
+      "group": "relationships",
+      "cues": [
+        "community care",
+        "wellbeing",
+        "well-being",
+        "mental health",
+        "check-in*",
+        "take care of each other",
+        "care for each other",
+        "burnout",
+        "rest"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "conflict_resolution",
+      "group": "practices",
+      "cues": [
+        "conflict resolution",
+        "resolve conflict*",
+        "resolving conflict*",
+        "mediat*",
+        "disagree*",
+        "grievance*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "consent",
+      "group": "relationships",
+      "cues": [
+        "consent*",
+        "opt-in",
+        "opt in",
+        "permission",
+        "ask first",
+        "boundar*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "consensus",
+      "group": "organizing",
+      "cues": [
+        "consensus",
+        "everyone agrees",
+        "everyone can live with",
+        "no objections",
+        "agree together",
+        "all voices"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "constructive_feedback",
+      "group": "practices",
+      "cues": [
+        "feedback",
+        "critique*",
+        "constructive criticism",
+        "code review*",
+        "review each other*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "cooperation",
+      "group": "relationships",
+      "cues": [
+        "cooperat*",
+        "partner*",
+        "work with other",
+        "alliance*",
+        "coalition*",
+        "sister communit*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "copyleft",
+      "group": "goals",
+      "cues": [
+        "copyleft",
+        "gpl",
+        "agpl",
+        "share-alike",
+        "share alike",
+        "cc by-sa",
+        "free software"
+      ],
+      "description": "We license our work so that anything built from it stays free and open for everyone. To us, this means we release work under share-alike licenses (e.g. GPL, AGPL, CC BY-SA) and ask that changes are shared back. We acknowledge a tension with goals like adoption (Share-alike terms put off some users and companies).",
+      "status": "proposed"
+    },
+    {
+      "id": "decentralization",
+      "group": "organizing",
+      "cues": [
+        "decentrali*",
+        "distributed",
+        "no central*",
+        "power at the edges",
+        "peer-to-peer",
+        "p2p"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "direct_action",
+      "group": "goals",
+      "cues": [
+        "direct action",
+        "take action",
+        "activis*",
+        "protest*",
+        "strike*",
+        "picket*",
+        "on the ground"
+      ],
+      "description": "We take steps to solve problems ourselves instead of waiting for authorities to act. To us, this means we organize, show up and act together when something needs doing. We acknowledge a tension with goals like caution and legitimacy (Acting now vs going through official channels).",
+      "status": "proposed"
+    },
+    {
+      "id": "diversity",
+      "group": "justice",
+      "cues": [
+        "divers*",
+        "all backgrounds",
+        "different backgrounds",
+        "representation",
+        "many perspectives",
+        "multicultural"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "documentation",
+      "group": "practices",
+      "cues": [
+        "document*",
+        "wiki",
+        "handbook",
+        "write down",
+        "written down",
+        "how-to*",
+        "guides"
+      ],
+      "description": "We record our processes clearly so that others can learn from and repeat our work. To us, this means decisions, guides and how-tos are written down where members can find them. We acknowledge a tension with goals like speed (Writing it down takes time).",
+      "status": "proposed"
+    },
+    {
+      "id": "education",
+      "group": "goals",
+      "cues": [
+        "educat*",
+        "teach*",
+        "workshop*",
+        "course*",
+        "curricul*",
+        "student*",
+        "school*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "empathy",
+      "group": "relationships",
+      "cues": [
+        "empath*",
+        "compassion*",
+        "listen to",
+        "listening",
+        "understanding",
+        "lived experience"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "empowerment",
+      "group": "organizing",
+      "cues": [
+        "empower*",
+        "trust people to",
+        "ownership of their",
+        "delegat*",
+        "give people the power"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "equity",
+      "group": "justice",
+      "cues": [
+        "equit*",
+        "sliding scale",
+        "scholarship*",
+        "based on need",
+        "level the playing field",
+        "redistribut*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "experimentation",
+      "group": "practices",
+      "cues": [
+        "experiment*",
+        "try new things",
+        "trying new things",
+        "prototyp*",
+        "tinker*",
+        "playful"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "fairness",
+      "group": "shared",
+      "cues": [
+        "fair",
+        "fairly",
+        "fairness",
+        "impartial*",
+        "same rules",
+        "even-handed",
+        "consistent*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "fair_remuneration",
+      "group": "justice",
+      "cues": [
+        "fair pay",
+        "living wage",
+        "paid",
+        "wage*",
+        "salar*",
+        "compensat*",
+        "remunerat*",
+        "stipend*"
+      ],
+      "description": "People are paid fairly for the work they do for the community. To us, this means paid roles get a living wage, and unpaid work is recognized and kept within reason. We acknowledge a tension with goals like low costs and a volunteer spirit (Paying people vs keeping costs down).",
+      "status": "proposed"
+    },
+    {
+      "id": "flexibility",
+      "group": "organizing",
+      "cues": [
+        "flexib*",
+        "asynchronous",
+        "async",
+        "at their own pace",
+        "own schedule",
+        "remote",
+        "time zones"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "forkability",
+      "group": "organizing",
+      "cues": [
+        "fork*",
+        "take the project",
+        "copy and adapt",
+        "free to leave",
+        "leave with their"
+      ],
+      "description": "Anyone can take the work in a new direction if they disagree with where it's going. To us, this means our code, content and data can be copied and adapted, and leaving to start anew is respected. We acknowledge a tension with goals like unity (Easy exits can split the community).",
+      "status": "proposed"
+    },
+    {
+      "id": "freedom",
+      "group": "goals",
+      "cues": [
+        "freedom",
+        "free speech",
+        "freedom of expression",
+        "express themselves",
+        "uncensor*",
+        "censorship"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "freedom_of_information",
+      "group": "goals",
+      "cues": [
+        "freedom of information",
+        "open access",
+        "open data",
+        "paywall*",
+        "public knowledge",
+        "information should be free",
+        "archiv*"
+      ],
+      "description": "Information is a public good that should be freely available. To us, this means we keep our knowledge, research and records open, not behind paywalls or logins. We acknowledge a tension with goals like privacy and income (Open by default vs protecting people and funding).",
+      "status": "proposed"
+    },
+    {
+      "id": "generosity",
+      "group": "relationships",
+      "cues": [
+        "generos*",
+        "generous",
+        "give freely",
+        "share what we have",
+        "donat*",
+        "gift*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "harm_reduction",
+      "group": "practices",
+      "cues": [
+        "harm reduction",
+        "reduce harm",
+        "reducing harm",
+        "safer use",
+        "drug*",
+        "sex work*",
+        "meet people where they are"
+      ],
+      "description": "We focus on lowering the harm of risky situations rather than demanding they never happen. To us, this means we meet people where they are, without judgment, and offer practical ways to stay safer. We acknowledge a tension with goals like strict rules (Pragmatism vs zero tolerance).",
+      "status": "proposed"
+    },
+    {
+      "id": "holism",
+      "group": "relationships",
+      "cues": [
+        "holistic*",
+        "whole person",
+        "whole system",
+        "bigger picture",
+        "interconnect*"
+      ],
+      "description": "We consider the whole person and the whole system, not just isolated parts. To us, this means we account for members' lives outside the community, and for how one change affects everything else. We acknowledge a tension with goals like focus and speed (Seeing everything vs getting one thing done).",
+      "status": "proposed"
+    },
+    {
+      "id": "holocracy",
+      "group": "organizing",
+      "cues": [
+        "holacracy",
+        "holocracy",
+        "sociocra*",
+        "circles",
+        "roles",
+        "role-based"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "honesty",
+      "group": "shared",
+      "cues": [
+        "honest*",
+        "truth*",
+        "candid*",
+        "straight talk",
+        "admit when",
+        "forthright"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "horizontalism",
+      "group": "organizing",
+      "cues": [
+        "horizontal*",
+        "no bosses",
+        "no leaders",
+        "leaderless",
+        "flat structure",
+        "as equals",
+        "non-hierarchical",
+        "anarch*"
+      ],
+      "description": "We organize as equals, without bosses or top-down management. To us, this means no one has permanent authority over others, and roles rotate or are shared. We acknowledge a tension with goals like speed and clarity (Everyone leading vs someone deciding).",
+      "status": "proposed"
+    },
+    {
+      "id": "humility",
+      "group": "relationships",
+      "cues": [
+        "humil*",
+        "humble",
+        "modest*",
+        "don't have all the answers",
+        "open to being wrong",
+        "learn from others"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "inclusion",
+      "group": "justice",
+      "cues": [
+        "inclus*",
+        "welcom*",
+        "everyone is welcome",
+        "all are welcome",
+        "belonging",
+        "safe space",
+        "safer space"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "inclusivity",
+      "group": "justice",
+      "cues": [
+        "inclusiv*",
+        "newcomer*",
+        "beginner*",
+        "no jargon",
+        "translat*",
+        "multilingual",
+        "new members"
+      ],
+      "description": "We make it easy for anyone to take part, whatever their background, language or experience. To us, this means we avoid jargon, welcome newcomers and translate where we can. We acknowledge a tension with goals like depth and focus (Open to everyone vs built for experts).",
+      "status": "proposed"
+    },
+    {
+      "id": "independence",
+      "group": "organizing",
+      "cues": [
+        "independen*",
+        "self-funded",
+        "member-funded",
+        "funded by members",
+        "no ads",
+        "ad-free",
+        "no investors",
+        "crowdfund*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "innovation",
+      "group": "practices",
+      "cues": [
+        "innovat*",
+        "new ideas",
+        "creativ*",
+        "inventive",
+        "cutting edge",
+        "build new"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "integrity",
+      "group": "shared",
+      "cues": [
+        "integrity",
+        "ethic*",
+        "principled",
+        "walk the talk",
+        "live our values",
+        "stand by"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "interdependence",
+      "group": "relationships",
+      "cues": [
+        "interdepend*",
+        "ecosystem",
+        "rely on each other",
+        "depend on each other",
+        "web of"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "interoperability",
+      "group": "goals",
+      "cues": [
+        "interoperab*",
+        "open standards",
+        "open protocol*",
+        "activitypub",
+        "at protocol",
+        "atproto",
+        "compatib*",
+        "portab*",
+        "walled garden*"
+      ],
+      "description": "Our tools and systems work with other open systems rather than locking people in. To us, this means we use open standards and protocols, and members can take their data and connections elsewhere. We acknowledge a tension with goals like control and polish (Open standards vs a seamless, closed product).",
+      "status": "proposed"
+    },
+    {
+      "id": "intersectionality",
+      "group": "justice",
+      "cues": [
+        "intersectional*",
+        "overlapping",
+        "queer",
+        "trans",
+        "bipoc",
+        "people of colo*",
+        "feminis*",
+        "lgbtq*"
+      ],
+      "description": "We consider how different forms of discrimination overlap and compound for people. To us, this means we pay attention to how race, gender, class, disability and sexuality combine, and center those most affected. We acknowledge a tension with goals like simplicity (Many perspectives vs one clear message).",
+      "status": "proposed"
+    },
+    {
+      "id": "justice",
+      "group": "justice",
+      "cues": [
+        "justice",
+        "restorative",
+        "transformative justice",
+        "repair harm",
+        "social justice",
+        "climate justice"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "knowledge_sharing",
+      "group": "practices",
+      "cues": [
+        "knowledge sharing",
+        "share knowledge",
+        "sharing knowledge",
+        "share what we learn",
+        "open knowledge",
+        "tutorial*",
+        "help each other learn"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "labor_rights",
+      "group": "goals",
+      "cues": [
+        "labor rights",
+        "labour rights",
+        "workers' rights",
+        "workers rights",
+        "union*",
+        "worker*",
+        "working conditions",
+        "labor",
+        "labour"
+      ],
+      "description": "We uphold the right of all workers to organize and to advocate for their conditions. To us, this means we support unions and collective bargaining, and members can talk openly about pay and conditions. We acknowledge a tension with goals like flexibility and cost (Worker protections vs doing more with less).",
+      "status": "proposed"
+    },
+    {
+      "id": "leadership",
+      "group": "organizing",
+      "cues": [
+        "leadership",
+        "step up",
+        "initiative",
+        "take the lead",
+        "take charge"
+      ],
+      "description": "We encourage everyone to step up and take initiative when needed. To us, this means anyone can propose and lead work, and we support people as they grow into responsibility. We acknowledge a tension with goals like equality (Leaders emerging vs everyone the same).",
+      "status": "proposed"
+    },
+    {
+      "id": "learning",
+      "group": "practices",
+      "cues": [
+        "learn*",
+        "book club*",
+        "reading group*",
+        "study group*",
+        "curious",
+        "curiosity",
+        "mistakes"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "liberty",
+      "group": "organizing",
+      "cues": [
+        "liberty",
+        "libertar*",
+        "individual freedom",
+        "anti-authoritarian",
+        "no gatekeep*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "localism",
+      "group": "goals",
+      "cues": [
+        "local*",
+        "neighbo*",
+        "our city",
+        "our town",
+        "region*",
+        "nearby",
+        "in person"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "maintenance",
+      "group": "practices",
+      "cues": [
+        "mainten*",
+        "maintain*",
+        "upkeep",
+        "keep running",
+        "sysadmin*",
+        "behind the scenes",
+        "unglamorous"
+      ],
+      "description": "We value the unglamorous work of sustaining and fixing what we have already built. To us, this means we make time for upkeep, moderation and admin work, and credit the people who do it. We acknowledge a tension with goals like innovation (Fixing the old vs building the new).",
+      "status": "proposed"
+    },
+    {
+      "id": "mentorship",
+      "group": "practices",
+      "cues": [
+        "mentor*",
+        "onboard*",
+        "buddy",
+        "buddies",
+        "help newcomers",
+        "guide newcomers",
+        "show the ropes"
+      ],
+      "description": "Experienced members actively guide and support newcomers. To us, this means we pair newcomers with someone who shows them around, and asking for help is always welcome. We acknowledge a tension with goals like speed (Teaching takes time from doing).",
+      "status": "proposed"
+    },
+    {
+      "id": "meritocracy",
+      "group": "organizing",
+      "cues": [
+        "merit*",
+        "earned",
+        "do-ocracy",
+        "doocracy",
+        "based on contribution*",
+        "those who do the work"
+      ],
+      "description": "Influence is earned through contribution and skill rather than status or wealth. To us, this means those who do the work have a say in it, and roles go to people who have shown they can fill them. We acknowledge a tension with goals like equity (Rewarding contribution can favor those with more time and resources).",
+      "status": "proposed"
+    },
+    {
+      "id": "mutual_aid",
+      "group": "relationships",
+      "cues": [
+        "mutual aid",
+        "help each other",
+        "help one another",
+        "solidarity not charity",
+        "share resources",
+        "sharing resources",
+        "look out for each other",
+        "look out for one another"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "non_violence",
+      "group": "shared",
+      "cues": [
+        "nonviolen*",
+        "non-violen*",
+        "non violence",
+        "peaceful*",
+        "de-escalat*",
+        "pacifis*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "open_source",
+      "group": "goals",
+      "cues": [
+        "open source",
+        "open-source",
+        "foss",
+        "floss",
+        "free and open",
+        "source code",
+        "github",
+        "gitlab",
+        "codeberg"
+      ],
+      "description": "We make our work freely available for others to use, study and change. To us, this means we publish our source code (and other work) under open licenses and welcome contributions. We acknowledge a tension with goals like income and control (Giving it away vs earning from it).",
+      "status": "proposed"
+    },
+    {
+      "id": "openness",
+      "group": "organizing",
+      "cues": [
+        "openness",
+        "open to the public",
+        "open to all",
+        "anyone can join",
+        "open meetings",
+        "public meetings"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "participation",
+      "group": "organizing",
+      "cues": [
+        "particip*",
+        "have a say",
+        "everyone has a voice",
+        "vote*",
+        "voting",
+        "democra*",
+        "get involved"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "reliability",
+      "group": "relationships",
+      "cues": [
+        "reliab*",
+        "dependab*",
+        "follow through",
+        "count on",
+        "uptime",
+        "stable",
+        "stability",
+        "keep our promises"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "resilience",
+      "group": "organizing",
+      "cues": [
+        "resilien*",
+        "bus factor",
+        "redundan*",
+        "sustainab*",
+        "long-term",
+        "long term",
+        "backup*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "solidarity",
+      "group": "relationships",
+      "cues": [
+        "solidarity",
+        "stand with",
+        "stand together",
+        "each other's back*",
+        "collective defen*",
+        "united"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "stewardship",
+      "group": "practices",
+      "cues": [
+        "steward*",
+        "care for",
+        "tend*",
+        "future generations",
+        "future members",
+        "custodian*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "transparency",
+      "group": "organizing",
+      "cues": [
+        "transparen*",
+        "open books",
+        "meeting notes",
+        "minutes",
+        "public budget*",
+        "decision log*",
+        "open finances",
+        "visible to",
+        "openly"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "trust",
+      "group": "relationships",
+      "cues": [
+        "trust*",
+        "good faith",
+        "assume good intent",
+        "charitabl*"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "voluntarism",
+      "group": "organizing",
+      "cues": [
+        "volunteer*",
+        "voluntar*",
+        "unpaid",
+        "freely chosen",
+        "no pressure",
+        "step back",
+        "in their free time"
+      ],
+      "status": "proposed"
+    }
+  ]
+}

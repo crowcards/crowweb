@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />   <!-- (removed for listed cards: js/card-page.js) -->
+  <title>A CROW Card</title>
+  <!-- a published card: crowcards.org/c/crd_… (a hosting rewrite in
+       firebase.json), so every file and link here starts from the site's root (/) -->
+  <link rel="icon" href="/img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/make.css" />   <!-- (the card's outline: the same summary lists as Export) -->
+  <script src="/js/theme.js"></script>
+  <script type="module" src="/js/site.js"></script>
+  <script src="/js/crow.js" defer></script>
+  <script type="module" src="/js/card-page.js"></script>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="site-title" href="/index.html" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="/index.html" aria-label="Home">
+      <img src="/img/crow-sprite-a.png" alt="" />
+      <img src="/img/crow-sprite-e.png" alt="" />
+      <img src="/img/crow-sprite-d.png" alt="" />
+      <img src="/img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" class="site-nav" aria-label="Main">
+      <a href="/index.html">Home</a>
+      <a href="/make.html">Make</a>
+      <a href="/library.html">Library</a>
+      <a href="/about.html">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="/img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="/img/icons.svg#sun"/></svg>
+    </button>
+  </header>
+
+  <div class="info">
+    <aside class="info-side">
+      <div class="side-art">
+        <div class="pixel-crow" data-grid="75">
+          <img src="/img/crow-sprite-a.png" alt="Pixel-art crow" />
+        </div>
+      </div>
+      <div class="logos">
+        <a href="https://hci.princeton.edu/" target="_blank"><img src="/img/logos/princetonhci_lofi.png" alt="Princeton HCI" /></a>
+        <a href="https://bonfirenetworks.org/" target="_blank"><img src="/img/logos/bonfire.png" alt="Bonfire Networks" /></a>
+      </div>
+    </aside>
+
+    <main class="info-body card-page" id="card-page">
+      <p class="screen-loading">Loading…</p>
+    </main>
+
+    <footer class="site-footer">
+      <p>CROW is a research project from <a href="https://hci.princeton.edu/" target="_blank" rel="noopener">Princeton HCI</a>, in collaboration with <a href="https://bonfirenetworks.org/" target="_blank" rel="noopener">Bonfire Networks</a>.</p>
+    </footer>
+  </div>
+
+  <!-- the shared pop-up box (js/popup.js): forking and reporting ask here
+       (class "make": its fields look like the editor's) -->
+  <dialog class="popup make" id="popup" aria-labelledby="popup-title">
+    <div class="popup-inner">
+      <button class="popup-close" type="button" aria-label="Close"><span></span></button>
+      <h2 class="popup-title" id="popup-title"></h2>
+      <div class="popup-body"></div>
+    </div>
+  </dialog>
+
+</body>
+</html>

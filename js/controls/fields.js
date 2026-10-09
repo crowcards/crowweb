@@ -6,9 +6,11 @@
 //   name.value()   → the trimmed text, or null if empty (matching the empty card)
 //
 // onInput fires while typing (schedule a save); onCommit when the field is
-// left (save now). Other options: hint, type ("text" | "url"), placeholder.
+// left (save now). Other options: hint, type ("text" | "url" | "email"),
+// placeholder; hintTip: the hint in a small "i" beside the label instead of
+// under it (dom.js infoTip), e.g. in label-beside-field rows (.field-rows).
 
-import { el, uid } from "../dom.js";
+import { el, uid, infoTip } from "../dom.js";
 import { suggestField } from "./suggest.js";
 
 export function textField({
@@ -18,11 +20,13 @@ export function textField({
   type = "text",
   multiline = false,
   placeholder = "",
+  hintTip = false,
   onInput = () => {},
   onCommit = () => {},
 } = {}) {
   const id = uid("field");
-  const hintEl = hint ? el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint }) : null;
+  const tip = hintTip && hint ? infoTip(hint, `${id}-hint`) : null;
+  const hintEl = tip ? tip.querySelector(".choice-tip") : hint ? el("p", { className: "field-hint", id: `${id}-hint`, textContent: hint }) : null;
   const input = multiline
     ? el("textarea", { id, rows: 4 })
     : el("input", { id, type, autocomplete: "off" });
@@ -32,9 +36,10 @@ export function textField({
   input.addEventListener("input", () => onInput());
   input.addEventListener("change", () => onCommit());
 
+  const labelEl = el("label", { className: "mono-u", htmlFor: id, textContent: label });
   const element = el("div", { className: "field" },
-    el("label", { className: "mono-u", htmlFor: id, textContent: label }),
-    hintEl,
+    tip ? el("div", { className: "field-label" }, labelEl, tip) : labelEl,
+    tip ? null : hintEl,
     input,
   );
 

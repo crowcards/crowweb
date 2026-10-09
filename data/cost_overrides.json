@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-02",
-  "note": "Per-platform cost overrides where the platform-type default is inaccurate for that specific platform.",
+  "updatedAt": "2026-10-08",
+  "note": "Per-platform cost values that differ from the platform type's default, each with its reason (shown in the docs). Matched by platform, software and platform type. An entry that only repeats the default doesn't belong here.",
   "items": [
     {
       "platform": "WeChat",
@@ -10,6 +10,10 @@
       "overrides": {
         "paidSoftware": "sometimes",
         "legalCompliance": "sometimes"
+      },
+      "reasons": {
+        "paidSoftware": "Official Account registration involves real fees in the Chinese regulatory context.",
+        "legalCompliance": "Operating a WeChat community involves legal exposure under Chinese regulatory requirements."
       }
     },
     {
@@ -18,6 +22,9 @@
       "typeId": "hosted_oss_institutional",
       "overrides": {
         "adminModLabor": "sometimes"
+      },
+      "reasons": {
+        "adminModLabor": "Moderation is largely institutional rather than community-run."
       }
     },
     {
@@ -26,6 +33,9 @@
       "typeId": "corporate_proprietary",
       "overrides": {
         "thirdPartyTrustSafetyTools": "often"
+      },
+      "reasons": {
+        "thirdPartyTrustSafetyTools": "Active subreddits commonly use third-party moderation bots and tools."
       }
     },
     {
@@ -34,6 +44,9 @@
       "typeId": "self_hosted_text_primary",
       "overrides": {
         "emailDelivery": "yes"
+      },
+      "reasons": {
+        "emailDelivery": "Discourse requires SMTP configuration for notifications — it's not optional."
       }
     },
     {
@@ -43,6 +56,10 @@
       "overrides": {
         "emailDelivery": "yes",
         "adminModLabor": "sometimes"
+      },
+      "reasons": {
+        "emailDelivery": "Mailman is itself an email delivery system.",
+        "adminModLabor": "Mailing lists typically require less active moderation than forum or social platforms."
       }
     },
     {
@@ -51,6 +68,9 @@
       "typeId": "self_hosted_text_primary",
       "overrides": {
         "mediaStorage": "often"
+      },
+      "reasons": {
+        "mediaStorage": "These platforms actively encourage image and media sharing; object storage costs are a known operator pain point."
       }
     },
     {
@@ -59,6 +79,9 @@
       "typeId": "self_hosted_text_primary",
       "overrides": {
         "mediaStorage": "often"
+      },
+      "reasons": {
+        "mediaStorage": "These platforms actively encourage image and media sharing; object storage costs are a known operator pain point."
       }
     },
     {
@@ -67,6 +90,9 @@
       "typeId": "self_hosted_text_primary",
       "overrides": {
         "mediaStorage": "often"
+      },
+      "reasons": {
+        "mediaStorage": "These platforms actively encourage image and media sharing; object storage costs are a known operator pain point."
       }
     },
     {
@@ -75,6 +101,9 @@
       "typeId": "hosted_oss_institutional",
       "overrides": {
         "thirdPartyTrustSafetyTools": "often"
+      },
+      "reasons": {
+        "thirdPartyTrustSafetyTools": "Wikipedia communities actively use moderation tooling (Twinkle, STiki, etc.)."
       }
     }
   ]

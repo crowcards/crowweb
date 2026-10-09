@@ -49,27 +49,41 @@
   <div class="sidebar-panel" id="docs-nav-panel">
   <ul>
     <li><a href="#the-scales">The scales</a></li>
+    <li><a href="#trade-offs">Trade-offs of each end</a></li>
     <li><a href="#how-scores-work">How a card's scores work</a></li>
     <li><a href="#reviewing">Reviewing</a></li>
     <li><a href="#decision-approaches">Decision-making approaches</a></li>
     <li><a href="#joining-tiers">How people join</a></li>
     <li><a href="#joining-ways">Ways of joining</a></li>
     <li><a href="#conflict">Conflict management</a></li>
+    <li><a href="#values">Values</a></li>
+    <li><a href="#value-cues">Value groups and cues</a></li>
+    <li><a href="#suggestions">How suggestions work</a></li>
+    <li><a href="#value-links">Value links to review</a></li>
+    <li><a href="#size-fit">Size fit</a></li>
   </ul>
   </div>
 </nav>
 
 <main class="docs-body sidebar-main" id="main">
   <h1>Governance scales</h1>
-  <p class="lede lede-small">How participatory, transparent and hierarchical each governance option is, from 1 to 5: the scores behind every published card's scales, here for the team to review. Not linked from the site.</p>
+  <p class="lede lede-small">How participatory, transparent and hierarchical each governance option is, from 1 to 7: the scores behind every published card's scales, and the drafts behind the suggestions (value links, size fit), here for the team to review. Not linked from the site.</p>
 
   <section id="the-scales">
     <h2>The scales</h2>
     <table class="table" data-source="/data/governance_scales.json" data-render="scaleDefinitions">
-      <thead><tr><th>Scale</th><th>What it measures</th><th>Low</th><th>High</th></tr></thead>
+      <thead><tr><th>Scale</th><th>What it measures</th><th>What each level means</th></tr></thead>
       <tbody></tbody>
     </table>
     <p>None of the scales is “good” or “bad”: many communities choose hierarchy, or privacy, on purpose. The scales describe; they don't judge.</p>
+  </section>
+  <section id="trade-offs">
+    <h2>Trade-offs of each end</h2>
+    <p>Shown to communities under each scale when they say where they'd like to be (Basics): <b>+</b> what you gain, <b>−</b> what it costs.</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scaleEnds">
+      <thead><tr><th>Scale</th><th>Low end</th><th>High end</th></tr></thead>
+      <tbody></tbody>
+    </table>
   </section>
 
   <p>In the tables below, <b>P</b>, <b>T</b> and <b>H</b> are Participatory, Transparent and Hierarchical.</p>
@@ -77,11 +91,11 @@
   <section id="how-scores-work">
     <h2>How a card's scores work</h2>
     <ul>
-      <li>A card's score on each scale is the <b>average of the scores of what it chose</b>: its decision-making approaches, how people join (tiers and ways) and its conflict management approaches, rounded to a whole number. The card says what it's based on (e.g. “Participatory 4 / 5 · based on 6 choices”).</li>
+      <li>A card's score on each scale is the <b>average of the scores of what it chose</b>: its decision-making approaches, how people join (tiers and ways) and its conflict management approaches, rounded to a whole number. The card says what it's based on (e.g. “Participatory 5 / 7 · based on 6 choices”).</li>
       <li><b>—</b> means an option says nothing about that scale; it's left out of the average (not counted as low).</li>
       <li>If nothing a card chose is scored on a scale, that scale shows <b>N/A</b>.</li>
       <li>Only <span class="badge yes">accepted</span> scores count; <span class="badge var">proposed</span> ones are drafts waiting for review.</li>
-      <li>Later, the same scores can suggest approaches: a community says what it wants on each scale, and the approaches whose scores are closest are suggested (with these reasons as the explanation).</li>
+      <li>A community also says where it would like to be on each scale (Basics, 1–7: its <b>target scales</b>, shown publicly only in Full). Values are scored on where they point; with the community's description (each value's words and phrases, see <a class="inline" href="#value-cues">Value groups and cues</a>), that suggests values: the best 5 are <b>Suggested</b>, others that fit <b>Also fit</b>. The same scales help suggest approaches. Try it on <code>test-recs.html</code>.</li>
     </ul>
   </section>
 
@@ -126,6 +140,72 @@
     </table>
   </section>
 
+  <section id="values">
+    <h2>Values</h2>
+    <p>Values are scored on <b>where they point</b>: where a community that holds the value would tend to want to be (not what the value “is”). They suggest values in Basics: a value's distance from a community's targets is the average, over the three scales, of the difference; <b>—</b> counts as an average fit (a distance of 2, <code>neutralDistance</code> in the file), so a value can't come out close just by saying less. A value's scale part goes from +1 (at the targets) through 0 (an average fit) to −1; it's added to the description's part (see <a class="inline" href="#value-cues">Value groups and cues</a>), and the best get chips, with this reason. Many values say nothing about how a community is run, and stay <b>—</b> on all three; they're still found through the list, and later through “More like this”.</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="values" data-labels="/data/values.json">
+      <thead><tr><th>Value</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <section id="value-cues">
+    <h2>Value groups and cues</h2>
+    <p>Drafts to review, in <code>data/value_groups.json</code> (kept apart from CommunityRule's <code>values.json</code>, which may be refreshed from its API). Each value is in one <b>group</b>, shown as tabs on the values list: Goals &amp; causes, How we organize, How we treat each other, Justice &amp; inclusion, Practices, and Widely shared (values most good-faith communities hold). Its <b>cues</b> are words and phrases a community that holds it might use in its description; they're matched to suggest the value, quoting what matched. A cue matches whole words; a trailing <code>*</code> matches any ending (<code>organiz*</code>: organize, organizing); a cue of two or more words counts double. Cues should be specific: a common word (e.g. <code>rest</code>, <code>fair</code>) will match often. 18 descriptions were CommunityRule placeholders and are <b>rewritten</b>.</p>
+    <table class="table" data-source="/data/value_groups.json" data-render="valueCues" data-labels="/data/values.json">
+      <thead><tr><th>Value</th><th>Group</th><th>Cues</th><th>Description</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <section id="suggestions">
+    <h2>How suggestions work</h2>
+    <p>In Membership and Processes, each decision-making approach, way of joining and conflict approach gets a score from three parts, each from −1 to +1:</p>
+    <ul>
+      <li><b>Scale fit</b> (counts in full): how close its scores above are to where the community would like to be. +1 at its targets, 0 at an average fit (a distance of 2), down to −1.</li>
+      <li><b>Value support</b> (counts in full): the community's values' links to it, from −2 (argues strongly against) to +2 (argues strongly for), added up; ±2 = ±1.</li>
+      <li><b>Size fit</b> (counts for half): how well it suits the community's size, from −2 to +2; ±2 = ±1.</li>
+    </ul>
+    <p>Two tiers, with no cap: options scoring at least 1 (e.g. two good reasons, or one strong one) are <b>Suggested</b>; those scoring at least 0.5 (e.g. one value for it and nothing against it, or a close fit on the scales) <b>Also fit</b>, with a quieter chip. Each has a line for each part that applies, including what counts against it. Lists show Suggested options first, then Also fits, then the rest A–Z. The weights and cut-offs are in <code>js/recommend.js</code>.</p>
+    <p><b>More like this / Try something new:</b> when someone selects an approach or a value, a row under their choices offers the 3 with the closest scores on the three scales, and the 2 with the most opposite scores plus 1 at random. For one with no scores (— on all three), it offers 3 at random. Clicking one adds it.</p>
+    <p>While the drafts are in review, suggestions use proposed scores, links and size fits too, so they can be tried out. Only accepted ones count after launch.</p>
+  </section>
+  <section id="value-links">
+    <h2>Value links to review</h2>
+    <p>How strongly a value argues for (+1, +2) or against (−1, −2) an option. The existing links are accepted at +1; these are the drafts to review: links raised to +2, and new links against. Edit them in <code>data/value_recommendations_decision.json</code>, <code>_membership.json</code> and <code>_conflict.json</code>.</p>
+    <h3>Decision-making approaches</h3>
+    <table class="table" data-source="/data/value_recommendations_decision.json" data-render="valueLinks" data-status="proposed" data-labels="/data/values.json /data/decision_approaches.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Ways of joining</h3>
+    <table class="table" data-source="/data/value_recommendations_membership.json" data-render="valueLinks" data-status="proposed" data-labels="/data/values.json /data/membership_options.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Conflict management</h3>
+    <table class="table" data-source="/data/value_recommendations_conflict.json" data-render="valueLinks" data-status="proposed" data-labels="/data/values.json /data/conflict_management.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+  <section id="size-fit">
+    <h2>Size fit</h2>
+    <p>How well each option suits a community's size (<code>data/approach_size_fit.json</code>), from −2 (strains badly) to +2 (suits it well): <b>S</b>mall (under ~50), <b>M</b>edium (~50 to a few hundred), <b>L</b>arge (a few hundred to a few thousand), <b>XL</b> very large (thousands or more). <b>—</b> means size makes no real difference.</p>
+    <h3>Decision-making approaches</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="decision_approaches" data-labels="/data/decision_approaches.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Ways of joining</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="membership_options" data-labels="/data/membership_options.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Conflict management</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="conflict_management" data-labels="/data/conflict_management.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
 </main>
 
 </div>

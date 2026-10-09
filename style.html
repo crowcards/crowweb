@@ -34,12 +34,6 @@
     .ft-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 1rem; }
     /* the view-mode preview: one column per mode, one row per module, so modules line up across modes; wider
        than the text column on wide screens (into the space beside it), and scrolling sideways when there's no room */
-    .ft-modes-scroll { overflow-x: auto; }
-    @media (width >= 64rem) { .ft-modes-scroll { width: calc(100vw - var(--sidebar-w) - 2 * var(--gutter) - 1rem); max-width: 90rem; } }
-    .ft-modes { display: grid; grid-template-columns: repeat(4, minmax(15rem, 1fr)); gap: 0 1.25rem; }
-    .ft-modes-title { grid-column: 1 / -1; margin: 1.5rem 0 0; }
-    .ft-modes .summary-list { grid-template-columns: 1fr; gap: 0; }   /* label above value, in a narrow column */
-    .ft-modes .summary-list dd { margin-bottom: 0.6rem; }
     @media (width < 64rem) { .ft-type-row { grid-template-columns: 1fr; gap: 0.25rem; } }
   </style>
 </head>
@@ -88,7 +82,8 @@
     <li><a href="#notes">Callouts, chips & pills</a></li>
     <li><a href="#summaries">Summaries</a></li>
     <li><a href="#popups">Pop-up</a></li>
-    <li><a href="#view-modes">View modes</a></li>
+    <li><a href="#view-modes">View modes and the card</a></li>
+    <li><a href="#publishing">Publishing</a></li>
   </ul>
   </div>
   </nav>
@@ -108,7 +103,8 @@
     <section id="notes" class="ft-section"><h2>Callouts, chips & pills</h2><div class="ft-body" data-ft="notes"></div></section>
     <section id="summaries" class="ft-section"><h2>Summaries</h2><div class="ft-body" data-ft="summaries"></div></section>
     <section id="popups" class="ft-section"><h2>Pop-up</h2><div class="ft-body" data-ft="popups"></div></section>
-    <section id="view-modes" class="ft-section"><h2>View modes</h2><div class="ft-body" data-ft="view-modes"></div></section>
+    <section id="view-modes" class="ft-section"><h2>View modes and the card</h2><div class="ft-body" data-ft="view-modes"></div></section>
+    <section id="publishing" class="ft-section"><h2>Publishing</h2><div class="ft-body" data-ft="publishing"></div></section>
   </main>
 </div>
 

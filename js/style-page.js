@@ -3,8 +3,9 @@
 // site's style reference (not linked from the site; noindex).
 // Each specimen is labelled with where it comes from.
 
-import { loadExportData, publicOutline, outlineSection } from "./export.js";
-import { MODES } from "./view-modes.js";
+import { loadExportData } from "./export.js";
+import { MODES, publicView } from "./view-modes.js";
+import { renderCard } from "./card-view.js";
 import { loadModuleDefaults } from "./modules.js";
 import { el, chip, richText, button } from "./dom.js";
 import { reveal } from "./reveal.js";
@@ -12,7 +13,7 @@ import { pointTo } from "./scroll.js";
 import { editInPlace } from "./controls/inline-edit.js";
 import { loadData } from "./data.js";
 import { textField, selectField } from "./controls/fields.js";
-import { renderChoices, scaleField, YES_NO, YES_NO_VARIES } from "./controls/choices.js";
+import { renderChoices, scaleField, choiceTable, YES_NO, YES_NO_VARIES } from "./controls/choices.js";
 import { suggestField } from "./controls/suggest.js";
 import { tagList, tagInput } from "./controls/tags.js";
 import { renderRows } from "./controls/rows.js";
@@ -20,7 +21,9 @@ import { pickList } from "./controls/picklist.js";
 import { foldSection } from "./controls/fold.js";
 import { tabBox } from "./controls/tabs.js";
 import { showPopup, closePopup, confirmPopup } from "./popup.js";
-import { renderBasicsSummary, loadBasicsData } from "./sections/basics.js";
+import { renderBasicsSummary, loadBasicsData, targetScale } from "./sections/basics.js";
+import { alikeStrip } from "./controls/alike.js";
+import { renderPublish } from "./publish.js";
 import { renderRules, loadRulesData } from "./sections/rules.js";
 
 const slot = (id) => document.querySelector(`[data-ft="${id}"]`);
@@ -148,36 +151,53 @@ function renderText() {
       editInPlace({ display: shown, slot, field, label: "description" });
       return group("Edit in place", "inline-edit.js editInPlace (a custom module's name and description)", el("div", { className: "module-head" }, shown, slot));
     })(),
+    (() => {
+      const row = (label, hint, box) => {
+        const f = textField({ label, hint, hintTip: true });
+        if (box) f.element.append(el("label", { className: "check field-after" }, el("input", { type: "checkbox" }), box));
+        return f.element;
+      };
+      return group("Label beside the field, hint in an “i”", "fields.js textField / suggest.js suggestField hintTip; make.css .field-rows, .field-after (Locations, Publish's contact)",
+        el("div", { className: "field-rows" }, row("Contact email", "Only the CROW team sees this.", "Remember this email in this browser"), row("Your name", "Optional.", "Show my name on the published card")));
+    })(),
     group("Tick box on its own", "make.css .check (key screen)", el("label", { className: "check" }, el("input", { type: "checkbox" }), "I’ve saved my card ID and secret somewhere safe")),
   );
 }
 
 // ── checkbox & radio lists ───────────────────────────────────
 function renderLists(approaches) {
-  const suggested = (opt) => (opt.id === "o1" ? { label: "Suggested", notes: ["Because you value *Trust*: a reason, in a sentence."] } : null);
+  const suggested = (opt) => (opt.id === "o1" ? { label: "Suggested", notes: ["Because you value *Trust*: a reason, in a sentence."] }
+    : opt.id === "o2" ? { label: "Also fits", quiet: true, notes: ["Suits your size (medium): a reason, in a sentence."] } : null);
   slot("choices").append(
     group("Buttons (short lists), one choice", "choices.js layout \"buttons\": gray, lime on hover, orange when chosen; description on hover", renderChoices({ type: "radio", legend: "Community size", layout: "buttons", clearable: true, selected: "o1", options: opts("Small", "Medium", "Large") }).element),
+    group("Buttons, the chosen one's description below", "choices.js layout \"buttons\" + hintBelow (Publish: how much readers see, who can find it)", renderChoices({ type: "radio", legend: "Who can find it", layout: "buttons", hintBelow: true, selected: "o0", options: opts("Unlisted", "Listed") }).element),
     group("Buttons, several choices", "choices.js layout \"buttons\", checkbox (How people join: tiers)", renderChoices({ legend: "How people join", layout: "buttons", selected: ["o0"], options: opts("Open", "Tiered / Probationary", "Restricted / Approvals", "Closed") }).element),
     group("Checkboxes, described", "choices.js (default layout)", renderChoices({ legend: "How people join", hint: "Tick every way.", options: opts("Open access", "Application review", "Invitation only"), selected: ["o0"] }).element),
     group("Radio, described, clearable", "choices.js type radio, clearable", renderChoices({ type: "radio", legend: "Overall approach", options: opts("Open", "Allowlist only", "Allow and block"), selected: "o0", clearable: true }).element),
-    group("With a “Suggested” chip and its reason", "choices.js badge (recommend.js)", renderChoices({ legend: "Joining options", options: opts("Open access", "Trial period"), badge: suggested,
-      before: [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] tags come from the Values you selected in Basics.")))] }).element),
+    group("With “Suggested” and “Also fits” chips and their reasons", "choices.js badge (recommend.js; quiet: Also fits)", renderChoices({ legend: "Joining options", options: opts("Open access", "Trial period", "Invitation"), badge: suggested,
+      before: [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] and [[~Also fits]] tags come from your answers in Basics.")))] }).element),
+    group("With group tabs", "choices.js groups (Basics' values: value_groups.json)", renderChoices({ legend: "Values", layout: "compact", filterable: true, listClass: "scroll-list", badge: suggested,
+      options: opts("Trust", "Consensus", "Open source", "Mentorship").map((o, i) => ({ ...o, group: ["a", "b", "c", "c"][i] })),
+      groups: { items: [{ id: "a", label: "How we treat each other", description: "The culture between members." }, { id: "b", label: "How we organize", description: "How power and decisions are shared." }, { id: "c", label: "Practices", description: "Things the community does." }], of: (o) => o.group } }).element),
     group("With a flag", "choices.js flag (module picker)", renderChoices({ legend: "Modules", options: opts("Rules", "Federation"), flag: { text: "Has saved content", show: (id, on) => id === "o1" && !on }, listClass: "module-picker" }).element),
     group("With follow-up radios (qualifiers)", "choices.js sub", renderChoices({ legend: "Rules", options: opts("AI-generated media", "Content warnings"), selected: ["o0"],
       sub: { options: [{ id: "a", label: "Allowed" }, { id: "n", label: "Not allowed" }, { id: "d", label: "Allowed with labeling / disclosure" }], values: { o0: "n" } } }).element),
+    group("A capped list", "choices.js max (Basics' values: 5): the rest grey out", renderChoices({ legend: "Values", hint: "Select up to 2.", options: opts("Trust", "Openness", "Care", "Fairness"), selected: ["o0", "o1"], max: 2, layout: "compact" }).element),
     group("Compact, with pixel-plus details, scrolling", "choices.js layout compact + listClass scroll-list", renderChoices({ legend: "How membership is organised", options: approaches, selected: approaches.slice(0, 2).map((a) => a.id),
       layout: "compact", filterable: true, filterLabel: "approaches", listClass: "scroll-list", badge: (o) => (o.id === approaches[0].id ? { label: "Suggested", notes: ["Because you value *Trust*: …"] } : null) }).element),
   );
 }
 
 // ── scales & yes/no ──────────────────────────────────────────
-function renderScales() {
+function renderScales(scaleData) {
   slot("scales").append(
-    group("1–5 scale (centred)", "choices.js scaleField with ends (processes.js scale)", scaleField({ legend: "Transparency", options: [1, 2, 3, 4, 5].map((n) => ({ id: String(n), label: String(n) })), value: "3",
-      ends: { low: "1 = decisions stay with the moderators", high: "5 = decisions are public" } }).element),
-    group("Yes / No / It varies", "choices.js scaleField (infrastructure.js yesNo)", scaleField({ legend: "Open source", options: YES_NO_VARIES }).element),
-    group("Yes / No", "choices.js scaleField + YES_NO (federation.js)", scaleField({ legend: "Do you share your block list?", options: YES_NO }).element),
-    group("Cost row", "choices.js scaleField (infrastructure.js costRows)", scaleField({ legend: "Hosting & servers", options: ["Yes", "No", "Often", "Sometimes", "Rare"].map((l) => ({ id: l, label: l })), value: "Often" }).element),
+    group("Target scale, with its trade-offs", "basics.js targetScale (Basics and set-up): 1–7, each number's meaning in its bubble; the trade-offs in a note", targetScale(scaleData.scales[0], scaleData.range, 5).element),
+    group("1–5 range", "choices.js scaleField with range: each number's meaning in its bubble (basics.js target scales)", scaleField({ legend: "Transparency", value: "3", range: true,
+      options: ["Decisions stay with the moderators", "Outcomes are shared", "Outcomes and reasons are shared", "Mostly open", "Decisions are public"].map((d, i) => ({ id: String(i + 1), label: String(i + 1), description: `${i + 1}: ${d}` })) }).element),
+    group("Yes / No / It varies", "choices.js scaleField + YES_NO_VARIES, layout buttons (Infrastructure)", scaleField({ legend: "Open source", options: YES_NO_VARIES, layout: "buttons" }).element),
+    group("Yes / No", "choices.js scaleField + YES_NO, layout buttons (Infrastructure, Federation)", scaleField({ legend: "Do you share your block list?", options: YES_NO, layout: "buttons" }).element),
+    group("Costs table", "choices.js choiceTable (infrastructure.js costs): a row per question, the answers as even columns of buttons; Not sure clears a row", choiceTable({ legend: "Costs", legendHidden: true,
+      rows: [{ id: "hosting", label: "Hosting & servers" }, { id: "domain", label: "Domain" }], options: ["Yes", "Often", "Sometimes", "Rare", "No"].map((l) => ({ id: l, label: l })), values: { hosting: "Often" } }).element),
   );
 }
 
@@ -205,6 +225,13 @@ function renderRowsAndPicks(approaches, conflicts) {
     group("Pick list: tags you click to annotate", "picklist.js (Processes structure, joining)", pickList({ legend: "Add or change approaches", options: approaches, items: [{ id: approaches[0].id, note: "Used for small changes" }], chosenLegend: "How your structure is used" }).element),
     group("Pick list in steps", "picklist.js staged (Conflict management): drag into steps; same step = in parallel", pickList({ legend: "How conflicts are handled", options: conflicts, chosenLegend: "Your steps", staged: true,
       items: [{ id: conflicts[0].id, stage: 1, primary: true, note: "Most issues" }, { id: conflicts[1].id, stage: 2 }, { id: conflicts[2].id, stage: 2 }, { id: conflicts[3].id, stage: 3 }] }).element),
+    (() => {
+      const strip = alikeStrip({ labelOf: (id) => id, onAdd: () => {} });
+      strip.show("Sociocracy", { like: ["Holacracy", "Lazy Consensus", "Modified Consensus"], fresh: ["Autocratic Decision-Making", "Executive Committees", "Do-ocracy"] });
+      const full = alikeStrip({ labelOf: (id) => id, onAdd: () => {} });
+      full.show("Trust", { like: [], fresh: ["Openness", "Care", "Mutual Aid"] }, { full: "You have 5 values. Unselect one to add another." });
+      return group("“More like this / Try something new”", "controls/alike.js alikeStrip (under the chosen tags of pick lists and values; with nothing scored, only random picks; at the cap, greyed)", strip.element, full.element);
+    })(),
     group("Pick list in steps, no primary", "picklist.js staged, primary: false (response ladder)", pickList({ legend: "When there’s a problem", options: opts("Warn", "Mute", "Block"), items: [{ id: "o0", stage: 1 }, { id: "o1", stage: 1 }, { id: "o2", stage: 2 }], filterable: false, staged: true, primary: false, chosenLegend: "Your steps" }).element),
   );
 }
@@ -253,11 +280,15 @@ function renderNotes() {
         el("li", {}, el("span", { className: "pixel-plus" }), "Lazy consensus (from Change)"),
         el("li", {}, el("span", { className: "pixel-minus" }), "Do-ocracy (from Moderation)")),
       el("p", { className: "button-row" }, el("button", { type: "button", className: "button button-small", textContent: "Add Federation" }), el("button", { type: "button", className: "link-button", textContent: "Dismiss" })))),
-    group("Every pill-like thing", "make.css .chip (lime), .tag (orange), .choice-flag; docs.css .proto, .badge.*, .cv.*, .sw",
-      el("div", { className: "ft-row" }, chip("Suggested"), chip("Started"), pill("tag", "Not allowed"), pill("proto", "ActivityPub"),
+    group("Every pill-like thing", "make.css .chip (lime), .tag (orange), .tag-soft (gray), .tag-add (the strip's +), .card-pill (dark, the card), .choice-flag; docs.css .proto, .badge.*, .cv.*, .sw",
+      el("div", { className: "ft-row" }, chip("Suggested"), chip("Also fits", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Holacracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
         pill("badge yes", "Yes"), pill("badge no", "No"), pill("badge var", "Varies"),
         pill("cv yes", "Yes"), pill("cv often", "Often"), pill("cv some", "Sometimes"), pill("cv rare", "Rare"), pill("cv no", "No"), pill("sw oss", "Open source"), pill("sw", "Proprietary"))),
-    group("Summary block", "make.css .summary (lime two-step pixel outline on the tint): Basics, Rules, Federation's rules", el("div", { className: "summary" }, el("p", { className: "mono-u summary-label", textContent: "Summary" }), el("p", { textContent: "What's been chosen, in a compact box." }))),
+    group("Pixel icons", "make.css .icon-* (drawn with box-shadow pixels; currentColor)",
+      el("div", { className: "ft-row" }, ...[["icon-yes", "yes"], ["icon-no", "no"], ["icon-note", "note"], ["icon-sub", "nested ↳"], ["icon-meet", "when there's a problem"], ["icon-list", "lists"], ["icon-announce", "channels"], ["icon-out", "opens a new tab"]]
+        .map(([cls, label]) => el("span", { className: "ft-icon" }, el("span", { className: cls }), el("span", { className: "field-hint", textContent: ` ${label}` }))))),
+    group("Summary block", "make.css .summary (lime two-step pixel outline on the tint): Basics, Rules, Federation's rules, the card", el("div", { className: "summary" }, el("p", { className: "mono-u summary-label", textContent: "Summary" }), el("p", { textContent: "A summary of answers, in a compact box." }))),
+    group("Dotted summary block", "make.css .summary.summary-dotted (gray dotted outline): what's been chosen in a pick list", el("div", { className: "summary summary-dotted" }, el("p", { className: "mono-u summary-label", textContent: "What you use" }), (() => { const t = tagList({ ariaLabel: "Chosen" }); t.render(opts("Lazy consensus", "Sociocracy")); return t.element; })())),
     group("Pixel divider", "styles.css hr.pixel-divider (before a closing note, between custom rules and the summary)", el("hr", { className: "pixel-divider" })),
     group("A term that changes with the tab", "make.css mark.tab-term (Processes' hint)", el("p", { className: "field-hint" }, "Click one to note how it’s used for ", el("mark", { className: "tab-term", textContent: "maintenance" }), ".")),
     group("Sidebar flag dot", "make.css .flag-dot (after a module link)", el("p", {}, "Membership", el("span", { className: "flag-dot" }))),
@@ -268,7 +299,7 @@ function renderNotes() {
 // ── summaries ────────────────────────────────────────────────
 async function renderSummaries(rulesData) {
   const basics = el("div");
-  renderBasicsSummary(basics, { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: null, keywords: ["gardening"], values: ["trust"] },
+  renderBasicsSummary(basics, { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: null, keywords: ["gardening"], targetScales: { participatory: 5, transparent: 6, hierarchical: 2 }, values: ["trust"] },
     await loadBasicsData(), { entries: [{ id: "membership", label: "Membership" }, { id: "rules", label: "Rules" }], started: (id) => id === "membership" });
   // the Rules summary is the last part of the Rules form
   const rules = el("div");
@@ -307,42 +338,43 @@ async function renderViewModes() {
   const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
   const card = {
     modules: ["infrastructure", "membership", "rules", "processes", "federation"],
-    basics: { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], values: ["trust", "inclusivity"] },
+    basics: { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], targetScales: { participatory: 6, transparent: 5, hierarchical: 2 }, values: ["trust", "inclusivity"] },
     infrastructure: { platform: { platform: "activitypub_client_mastodon", software: "Mastodon", type: "self_hosted_text_primary", structuralModel: "Federation", usesProtocol: "yes", protocol: "ActivityPub", openSource: "yes", selfHosted: "yes" },
-      costs: { hostingServers: "often", domain: "rare" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
+      costs: { hostingServers: "often", domain: "rare", adminModLabor: "yes", inPersonEvents: "no" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
     membership: { joining: { tiers: ["open", "tiered_probationary"], ways: [{ id: "mentorship", note: "A buddy for the first month" }], closedNote: null },
-      structure: [{ id: "lazy_consensus", note: "For day-to-day changes" }, { id: "consensus_decision_making", note: null }], generalNote: "Dues are optional." },
-    rules: { communityRulesLink: "https://garden.example/rules", covenants: [], adaptedFrom: [], selected: [{ id: "civility_be_respectful", qualifier: null }, { id: "cw_sexual_content", qualifier: "required" }], ruleEdits: {}, customRules: [{ id: "c1", text: "Water the shared plot", typeId: null }] },
-    processes: { moderation: { approachNotes: { lazy_consensus: "Two mods agree" }, generalNote: null }, maintenance: { approachNotes: {}, generalNote: null }, institutionalChange: { approachNotes: {}, generalNote: "Yearly review" },
+      structure: [{ id: "lazy_consensus", note: "For day-to-day changes" }, { id: "consensus_decision_making", note: null }], generalNote: "Dues are optional, and anyone who can't pay is always welcome; we'd rather have more gardeners than more money in the tin." },
+    rules: { communityRulesLink: "https://garden.example/rules", covenants: [], adaptedFrom: [], selected: [{ id: "civility_be_respectful", qualifier: null }, { id: "cw_sexual_content", qualifier: "required" }], ruleEdits: {}, customRules: [{ id: "c1", text: "Water the shared plot", typeId: null }, { id: "c2", text: "No mocking newcomers' questions", typeId: "civility" }] },
+    processes: { moderation: { approachNotes: { lazy_consensus: "Two mods agree" }, generalNote: "Mods rotate each season." }, maintenance: { approachNotes: {}, generalNote: null }, institutionalChange: { approachNotes: {}, generalNote: "Yearly review" },
       conflictManagement: { approaches: [{ id: "peer_mediation", note: "First stop", stage: 1, primary: true }, { id: "circle_processes", note: null, stage: 2 }], generalNote: null }, communications: { channels: ["email"], customChannels: [] } },
-    federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "mute", note: "For spam", stage: 1 }], subscriptions: { subscribedLists: [] }, relevantRules: [], ruleNotes: {}, bridging: { bridges: null, protocols: [] } },
+    federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "warn", note: "For spam", stage: 1 }, { id: "mute", note: null, stage: 2 }, { id: "block", note: null, stage: 3 }],
+      subscriptions: { subscribedLists: [], sharesBlocklist: "yes", blocklistLink: "https://garden.example/blocks" }, rulesNote: "Servers that allow harassment (our first rule) are blocked.", bridging: { bridges: "yes", protocols: ["AT Protocol"] } },
   };
-  // one row per module, one column per mode, so each module lines up across the modes
-  const outlines = MODES.map((m) => publicOutline(card, data, defaults, m.id, { includeProposed: true }));
-  const cell = (title, i) => {
-    const s = outlines[i].sections.find((x) => x.title === title);
-    return el("div", {}, s ? outlineSection(s) : el("p", { className: "field-hint", textContent: "Not shared" }));
-  };
+  // the card as each mode shows it (card-view.js renderCard), one at a time
+  const host = el("div");
+  const show = (mode) => host.replaceChildren(renderCard(publicView(card, mode, { ruleSchema: data.ruleSchema, scales: data.scales }), data, defaults));
+  const pick = renderChoices({
+    type: "radio", legend: "View mode", layout: "buttons", hintBelow: true,
+    options: MODES.map(({ id, label, description }) => ({ id, label, description })),
+    selected: "full",
+    onChange: show,
+  });
+  show("full");
   slot("view-modes").append(
-    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js viewCard; export.js publicOutline / outlineSection). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
-    el("div", { className: "ft-modes-scroll" }, el("div", { className: "ft-modes" },
-      ...MODES.map((m) => el("div", {}, el("p", { className: "ft-label mono-u", textContent: m.label }), el("p", { className: "field-hint", textContent: m.description }))),
-      ...outlines.at(-1).sections.flatMap((s) => [   // (Full has every module, in order)
-        el("h3", { className: "ft-modes-title", textContent: s.title }),
-        ...MODES.map((m, i) => cell(s.title, i)),
-      ]))),
+    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js publicView; card-view.js renderCard: the published page, its preview, and Export). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
+    pick.element,
+    host,
   );
 }
 
-const [decisions, conflict, enums, countries, rulesData] = await Promise.all([
-  loadData("decision_approaches"), loadData("conflict_management"), loadData("enums"), loadData("countries"), loadRulesData(),
+const [decisions, conflict, enums, countries, rulesData, scaleData] = await Promise.all([
+  loadData("decision_approaches"), loadData("conflict_management"), loadData("enums"), loadData("countries"), loadRulesData(), loadData("governance_scales"),
 ]);
 renderPalette();
 renderType();
 renderButtons();
 renderText();
 renderLists(decisions.items);
-renderScales();
+renderScales(scaleData);
 renderSuggest([...countries.countries, ...countries.regions.map((r) => ({ ...r, note: "region" }))]);
 renderRowsAndPicks(decisions.items, conflict.items);
 renderFolds();
@@ -350,3 +382,21 @@ renderNotes();
 renderPopup();
 await renderSummaries(rulesData);
 await renderViewModes();
+await renderPublishing();
+
+// ── publishing (publish.js): the Publish section, for a card published twice ──
+async function renderPublishing() {
+  const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
+  const card = {
+    id: "crd_sample", updatedAt: "2026-10-08T12:00:00Z", modules: [], basics: { name: "Garden Club", type: "discussion_forum" },
+    attribution: { contributorEmail: "garden@example.org", contributorName: "Sam", showName: true },
+    publishing: { status: "published", mode: "misty", listed: false, version: 2, publishedAt: "2026-10-08T12:00:00Z", fingerprint: "(not this card)", credit: { name: "Sam" },
+      history: [{ version: 1, publishedAt: "2026-10-01T12:00:00Z", note: null }, { version: 2, publishedAt: "2026-10-08T12:00:00Z", note: "Added our conflict steps" }] },
+  };
+  const host = el("section", { className: "publish" });
+  renderPublish(host, { card, data, defaults, setAttribution: (a) => { card.attribution = a; }, onPublishing: () => {} });
+  slot("publishing").append(
+    el("p", { className: "field-hint", textContent: "The Publish section at the top of Export (publish.js renderPublish), for a sample card published twice with edits since; its buttons don't call the server here." }),
+    host,
+  );
+}

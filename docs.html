@@ -50,6 +50,7 @@
   <ul>
     <li><a href="#getting-started">Getting started</a></li>
     <li><a href="#using-the-editor">Using the editor</a></li>
+    <li><a href="#publishing">Publishing</a></li>
     <li><a href="#coming-soon">Coming soon</a></li>
     <li><a href="#platforms">Platforms</a>
       <ul class="sub">
@@ -123,7 +124,8 @@
       <li><span class="mono">type</span> - this suggests which <span class="mono">module</span>s you'll want to fill out. You can change both the type and the module selection.</li>
       <li><span class="mono">size</span></li>
       <li><span class="mono">keywords</span> - we recommend giving at least three</li>
-      <li><span class="mono">values</span> - we recommend selecting at least five</li>
+      <li>where you'd like your community to be on three scales (from 1 to 7): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span>. Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
+      <li><span class="mono">values</span> - up to five; the ones closest to where you'd like to be are suggested</li>
     </ul>
     <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
 
@@ -143,7 +145,8 @@
     <ul>
       <li><b>Saving is automatic.</b> Your answers save as you go; the status in the sidebar says when they last did. Save saves right away.</li>
       <li><b>Modules can be switched on and off</b> under Basics → Modules. Switching one off hides it, but keeps what you've filled in, in case you switch it back on.</li>
-      <li><b>Suggested</b> tags come from the values you chose in Basics: options that fit those values are marked, with the reasons.</li>
+      <li><b>Suggested</b> tags come from your answers in Basics: where you'd like to be on the three scales, your values and your size. Up to five options per list are marked, each with the reasons (including anything that counts against it).</li>
+      <li><b>More like this / Try something new.</b> When you select an approach or a value, a row under your choices offers similar ones, and a few different ones to consider; click one to add it.</li>
       <li><b>Suggestions</b> appear at the top of a module when something you entered elsewhere affects it, e.g. choosing a federated platform suggests the Federation module. If one appears out of sight, a small "New suggestion" notice points to it.</li>
       <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are usual for that kind of platform. Change anything that's different for you.</li>
       <li><b>Notes on what you choose.</b> Your choices show as tags; click one to add a note about how it works in your community. Tags with a note get a small asterisk.</li>
@@ -151,9 +154,37 @@
       <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
       <li><b>Your community structure</b> (how decisions get made) is one list: you set it in Membership, and adjust it, with notes, for changing the rules, maintenance and moderation in Processes.</li>
       <li><b>Laws to know.</b> Under Infrastructure → Locations, you can open a page of landmark laws for where your servers, members and admins are, and save it as a PDF. It's an informational starting point, not legal advice.</li>
-      <li><b>Your own modules.</b> Add a module for anything the built-in ones don't cover, with fields for written answers, checkboxes, radio buttons, or a 1–5 scale.</li>
+      <li><b>Your own modules.</b> Add a module for anything the built-in ones don't cover, with fields for written answers, checkboxes, radio buttons, or a scale (1–5, 1–7 or 0–10).</li>
+      <li><b>Publish.</b> On the Export page, publish your Card at a link to share, choosing how much it shows (Minimal, Foggy, Misty or Full). Each publish is a new version; your draft stays private until you publish changes. You can unpublish at any time.</li>
       <li><b>Export.</b> Download your Card as raw data (JSON) or as documentation (Markdown). Only Basics and the modules you use are included.</li>
       <li><b>Reset</b> clears the modules you choose, or starts the whole Card over (it keeps its id and secret).</li>
+    </ul>
+  </section>
+
+  <section id="publishing">
+    <h2>Publishing</h2>
+    <p>On the Export page you can publish your Card at a link to share. Your Card stays a private draft: readers see the version you published, until you publish your edits as a new version. You choose how much readers see, and who can find it, and you can change either at any time without publishing again.</p>
+    <h3>How much readers see</h3>
+    <table class="table" data-view-modes>
+      <thead><tr><th>View</th><th>What readers see</th><th>Can be used as a starting point</th></tr></thead>
+      <tbody>
+        </tbody>
+    </table>
+    <p>Part by part:</p>
+    <table class="table" data-view-fields></table>
+    <p>On a published Card, <b>Not shared</b> marks what its view leaves out, and <b>N/A</b> what the community hasn't filled in. What a view leaves out isn't just hidden: it isn't sent to readers at all. Earlier versions are shown in the same view.</p>
+    <h3>Who can find it</h3>
+    <ul>
+      <li><b>Unlisted:</b> only people you give the link to can open it.</li>
+      <li><b>Listed:</b> it will also appear in the <a href="library.html">Library</a>, for anyone to find. The Library is coming soon: until then, listed Cards can also only be opened by link.</li>
+    </ul>
+    <h3>Contact and credit</h3>
+    <p>Publishing needs a contact email. Only the CROW team sees it, to contact you about your Card; it's never shown publicly. Your name and organisation are optional, and shown on the published Card only if you tick their boxes.</p>
+    <h3>Versions and unpublishing</h3>
+    <ul>
+      <li>Each time you publish your edits, the Card gets a new version (v1, v2, …), with an optional note on what changed. Readers can look back at earlier versions.</li>
+      <li><b>Unpublish</b> takes the Card down: its link stops working. Your published versions are kept privately, so publishing again carries on from them.</li>
+      <li><b>Unpublish and delete history</b> also deletes every published version, so publishing again starts at v1.</li>
     </ul>
   </section>
 
@@ -161,10 +192,10 @@
     <h2>Coming Soon</h2>
     <p>We are actively working on improving the experience of using the CROW Card Maker. This includes:</p>
     <ul>
-      <li>Publishing your Card to the <a href="library.html">Library</a>, browsing others' Cards, and forking from publicly shared ones.</li>
+      <li>Browsing published Cards in the <a href="library.html">Library</a>.</li>
       <li>A visual summary card to download and share.</li>
       <li>Automating the filling in of fields so that folks don't need to type so much! For example, if you enter your link, ideally our app should check out the link and try to fill in as many later fields as possible (e.g., community name, size), or read your existing rules and fill in the Rules module.</li>
-      <li>Better recommendations for governance practices, based on more of what you've shared (e.g., how transparent and participatory your processes are).</li>
+      <li>Recommendations that learn from published Cards.</li>
       <li>A fuller, reviewed list of laws to know for each place.</li>
       <li>Integrating CROW Cards into existing platform software as extensions.</li>
     </ul>
@@ -189,7 +220,7 @@
     <!-- Chat Group -->
     <div class="platform-section" id="chat-group">
       <div class="section-label mono-u">Chat group</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="chat_group">
         <thead>
           <tr>
             <th>Platform</th>
@@ -201,14 +232,6 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="pname">Discord</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Telegram</span></td><td><span class="sw prop">Proprietary</span></td><td><span class="proto">MTProto</span></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">WeChat</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Signal Chat</span></td><td><span class="sw oss">Signal</span></td><td><span class="proto">Signal Protocol</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr class="generic"><td><span class="pname">Matrix client</span> <em>(any)</em></td><td></td><td><span class="proto">Matrix</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">Matrix client</span></td><td><span class="sw oss">Synapse</span></td><td><span class="proto">Matrix</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">Matrix client</span></td><td><span class="sw oss">Dendrite</span></td><td><span class="proto">Matrix</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">Matrix client</span></td><td><span class="sw oss">Element</span></td><td><span class="proto">Matrix</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -216,11 +239,9 @@
     <!-- Citizen Science -->
     <div class="platform-section" id="citizen-science">
       <div class="section-label mono-u">Citizen science</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="citizen_science">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Zooniverse</span></td><td><span class="sw oss">Panoptes</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">iNaturalist</span></td><td><span class="sw oss">iNaturalist</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -228,13 +249,9 @@
     <!-- Discussion Forum -->
     <div class="platform-section" id="discussion-forum">
       <div class="section-label mono-u">Discussion forum</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="discussion_forum">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Reddit</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr class="generic"><td><span class="pname">ActivityPub client</span> <em>(any)</em></td><td></td><td><span class="proto">ActivityPub</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Lemmy</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr><td><span class="pname">Discourse</span></td><td><span class="sw oss">Discourse</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Centralized</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -242,12 +259,9 @@
     <!-- Listserv / Email -->
     <div class="platform-section" id="listserv-email">
       <div class="section-label mono-u">Listserv / email</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="listserv_email">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Front Porch Forum</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Google Groups</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Mailman-based lists</span></td><td><span class="sw oss">GNU Mailman</span></td><td><span class="proto">SMTP / Email</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -255,31 +269,9 @@
     <!-- Social Network / Media -->
     <div class="platform-section" id="social-network">
       <div class="section-label mono-u">Social network / media</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="social_network_media">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Facebook</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">LinkedIn</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Nextdoor</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr class="generic"><td><span class="pname">ActivityPub client</span> <em>(any)</em></td><td></td><td><span class="proto">ActivityPub</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Mastodon</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Bonfire</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Pleroma</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Akkoma</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Misskey</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">PeerTube</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Pixelfed</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">ActivityPub client</span></td><td><span class="sw oss">Friendica</span></td><td><span class="proto">ActivityPub</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="generic"><td><span class="pname">Diaspora Protocol client</span> <em>(any)</em></td><td></td><td><span class="proto">Diaspora Protocol</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="named"><td><span class="pname">Diaspora Protocol client</span></td><td><span class="sw oss">Diaspora*</span></td><td><span class="proto">Diaspora Protocol</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Federation</span></td></tr>
-          <tr class="generic"><td><span class="pname">AT Protocol client</span> <em>(any)</em></td><td></td><td><span class="proto">AT Protocol</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Federation / Relay</span></td></tr>
-          <tr class="named"><td><span class="pname">AT Protocol client</span></td><td><span class="sw oss">Bluesky</span></td><td><span class="proto">AT Protocol</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Federation / Relay</span></td></tr>
-          <tr class="named"><td><span class="pname">AT Protocol client</span></td><td><span class="sw oss">Rsky (Blacksky)</span></td><td><span class="proto">AT Protocol</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Federation / Relay</span></td></tr>
-          <tr><td><span class="pname">Roundabout</span></td><td><span class="sw prop">Roundabout</span></td><td><span class="proto">AT Protocol</span></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized / Federation</span></td></tr>
-          <tr class="generic"><td><span class="pname">Nostr client</span> <em>(any)</em></td><td></td><td><span class="proto">Nostr</span></td><td><span class="badge var">Varies</span></td><td><span class="badge var">Varies</span></td><td><span class="model">Relay</span></td></tr>
-          <tr class="named"><td><span class="pname">Nostr client</span></td><td><span class="sw oss">Damus</span></td><td><span class="proto">Nostr</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Relay</span></td></tr>
-          <tr class="named"><td><span class="pname">Nostr client</span></td><td><span class="sw oss">Amethyst</span></td><td><span class="proto">Nostr</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Relay</span></td></tr>
-          <tr class="named"><td><span class="pname">Nostr client</span></td><td><span class="sw oss">Primal</span></td><td><span class="proto">Nostr</span></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Relay</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -287,12 +279,9 @@
     <!-- Peer Production -->
     <div class="platform-section" id="peer-production">
       <div class="section-label mono-u">Peer production</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="peer_production">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Wikipedia</span></td><td><span class="sw oss">MediaWiki</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Fandom</span></td><td><span class="sw prop">MediaWiki (proprietary fork)</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
-          <tr><td><span class="pname">Custom wiki</span></td><td><span class="sw oss">MediaWiki</span></td><td></td><td><span class="badge yes">Yes</span></td><td><span class="badge yes">Yes</span></td><td><span class="model">Centralized</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -300,10 +289,9 @@
     <!-- Workplace -->
     <div class="platform-section" id="workplace">
       <div class="section-label mono-u">Workplace</div>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="workplace">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Slack</span></td><td><span class="sw prop">Proprietary</span></td><td></td><td><span class="badge no">No</span></td><td><span class="badge no">No</span></td><td><span class="model">Centralized</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -311,17 +299,10 @@
   <h3 id="platform-types">Platform types</h3>
   <p>We also think about the platform type, based on the labels (is it protocolized, is the software open source, is it self-hostable, what model does it follow). We use this to provides some reasonable estimates of potential costs of using that platform. It also makes it easier to compare platforms that look different on the surface but share the same underlying structure.</p>
 
-    <table class="table">
+    <table class="table" data-source="/data/cost_rules.json" data-render="simple" data-enum-key="types">
       <thead><tr><th>Type</th><th>Description</th></tr></thead>
       <tbody>
-        <tr><td class="ref-name">Corporate / Proprietary</td><td>Operated by a company. Community runner is a tenant — no infrastructure to manage, but also no ultimate control.</td></tr>
-        <tr><td class="ref-name">Self-Hosted, Text-Primary</td><td>You run the software yourself. Primary content is text, links, or lightweight media. Full control; real infrastructure costs.</td></tr>
-        <tr><td class="ref-name">Self-Hosted, Media-Heavy</td><td>Self-hosted with significant video or image storage. Storage and delivery costs are a meaningful ongoing expense.</td></tr>
-        <tr><td class="ref-name">Hosted OSS / Institutional</td><td>Open source software, but hosted by an institution (a university, a nonprofit). You participate; you don't operate.</td></tr>
-        <tr><td class="ref-name">Protocol Client, Relay-Based</td><td>Connects to the Nostr relay network. Infrastructure costs only arise if you run your own relay.</td></tr>
-        <tr><td class="ref-name">Protocol Client, PDS-Based</td><td>Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.</td></tr>
-        <tr><td class="ref-name">Centralized Messaging</td><td>Open source software, centrally operated by the developer. Community = a group chat. No infrastructure costs.</td></tr>
-      </tbody>
+        </tbody>
     </table>
 
   <h3 id="cost-logic">Expected costs</h3>
@@ -335,7 +316,7 @@
     <p>Some platforms have overrides where the type default isn't accurate — for example, Discourse requires SMTP for notifications (email delivery = Yes, not Sometimes), and Mailman is itself an email delivery system.</p>
 
       <div class="cost-wrap">
-        <table class="table matrix">
+        <table class="table matrix" data-source="/data/cost_rules.json" data-render="costMatrix">
           <thead>
             <tr>
               <th>Platform type</th>
@@ -353,13 +334,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="type-row"><td>Corporate / Proprietary</td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv often">Often</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv some">Sometimes</span></td></tr>
-            <tr><td>Self-Hosted, Text-Primary</td><td><span class="cv yes">Yes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv yes">Yes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv no">No</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv often">Often</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td></tr>
-            <tr class="type-row"><td>Self-Hosted, Media-Heavy</td><td><span class="cv yes">Yes</span></td><td><span class="cv yes">Yes</span></td><td><span class="cv yes">Yes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv no">No</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv yes">Yes</span></td><td><span class="cv often">Often</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td></tr>
-            <tr><td>Hosted OSS / Institutional</td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv often">Often</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv some">Sometimes</span></td></tr>
-            <tr class="type-row"><td>Protocol Client, Relay-Based</td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv rare">Rare</span></td></tr>
-            <tr><td>Protocol Client, PDS-Based</td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv rare">Rare</span></td></tr>
-            <tr class="type-row"><td>Centralized Messaging</td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv no">No</span></td><td><span class="cv some">Sometimes</span></td><td><span class="cv no">No</span></td><td><span class="cv rare">Rare</span></td><td><span class="cv rare">Rare</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -406,14 +380,9 @@
     <section id="ref-models">
       <h3>Structural models</h3>
       <p>The structural model describes how a platform's infrastructure is organized — who controls data, and how communication flows between participants.</p>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="models">
         <thead><tr><th>Model</th><th>Description</th><th>Examples</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Centralized</span></td><td>A single operator controls all data and infrastructure. The platform is one server (or cluster) owned and operated by one entity.</td><td>Facebook, Reddit, Discord, Discourse (each instance)</td></tr>
-          <tr><td><span class="pname">Federation</span></td><td>Multiple independently-operated servers interoperate via a shared open protocol. Each server is autonomous; users on different servers can still interact.</td><td>Mastodon (ActivityPub), Matrix (homeservers), Mailman (email/SMTP)</td></tr>
-          <tr><td><span class="pname">Relay</span></td><td>Messages are broadcast through relay nodes. Clients choose which relays to connect to and read from. There is no canonical server — the network is the relays.</td><td>Damus, Amethyst, Primal (all Nostr)</td></tr>
-          <tr><td><span class="pname">Federation / Relay</span></td><td>Uses elements of both models. AT Protocol uses PDS-to-PDS federation for data storage, plus a relay layer (the firehose) for real-time distribution.</td><td>Bluesky, Rsky (Blacksky)</td></tr>
-          <tr><td><span class="pname">Centralized / Federation</span></td><td>A proprietary or institutionally-controlled platform built on top of a federation protocol. The platform itself is not self-hostable, but it interoperates with the broader protocol ecosystem.</td><td>Roundabout (proprietary, built on AT Protocol)</td></tr>
         </tbody>
       </table>
     </section>
@@ -421,15 +390,9 @@
     <section id="ref-protocols">
       <h3>Protocol generics</h3>
       <p>You might have noticed in the <a href="#platforms">platforms</a> section that some platforms were grouped up a generic "client" for protocol-based systems. Generic protocol client rows represent any software that implements a given protocol. When you select one in the CROW Cards interface, a dropdown lets you choose from the named examples below — or enter a custom name if your software isn't listed.</p>
-      <table class="table">
+      <table class="table" data-source="/data/platforms.json" data-render="protocolGenerics" data-labels="/data/community_types.json">
         <thead><tr><th>Generic row</th><th>Protocol</th><th>Named examples in dataset</th><th>Other common software</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Matrix client</span></td><td><span class="proto">Matrix</span></td><td>Synapse, Dendrite, Element</td><td>Conduit, Cinny, FluffyChat</td></tr>
-          <tr><td><span class="pname">ActivityPub client</span> (Discussion Forum)</td><td><span class="proto">ActivityPub</span></td><td>Lemmy</td><td>Kbin, Mbin</td></tr>
-          <tr><td><span class="pname">ActivityPub client</span> (Social Network)</td><td><span class="proto">ActivityPub</span></td><td>Mastodon, Bonfire, Pleroma, Akkoma, Misskey, PeerTube, Pixelfed, Friendica</td><td>Calckey, Hometown, Catodon</td></tr>
-          <tr><td><span class="pname">Diaspora Protocol client</span></td><td><span class="proto">Diaspora Protocol</span></td><td>Diaspora*</td><td>Friendica also supports this protocol</td></tr>
-          <tr><td><span class="pname">AT Protocol client</span></td><td><span class="proto">AT Protocol</span></td><td>Bluesky, Rsky (Blacksky)</td><td>Skeets, Graysky, Sky.app</td></tr>
-          <tr><td><span class="pname">Nostr client</span></td><td><span class="proto">Nostr</span></td><td>Damus, Amethyst, Primal</td><td>Snort, Iris, Coracle</td></tr>
         </tbody>
       </table>
     </section>
@@ -449,43 +412,24 @@
     <section id="ref-cost-values">
       <h3>Cost values</h3>
       <p>Cost columns use a five-point scale. All values reflect what a community organizer or operator typically pays — not the platform company.</p>
-      <table class="table">
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="costValues">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody>
-          <tr><td><span class="cv yes">Yes</span></td><td>This cost reliably applies to community operators on this platform.</td></tr>
-          <tr><td><span class="cv no">No</span></td><td>This cost does not apply.</td></tr>
-          <tr><td><span class="cv often">Often</span></td><td>Applies frequently, but not universally — varies by community size or activity level.</td></tr>
-          <tr><td><span class="cv some">Sometimes</span></td><td>Applies in some configurations or at some scale, but not by default.</td></tr>
-          <tr><td><span class="cv rare">Rare</span></td><td>Technically possible but uncommon in practice.</td></tr>
         </tbody>
       </table>
       <p class="callout">For <strong>corporate / proprietary</strong> platforms, costs reflect what a group admin or community manager pays — not the company operating the platform. For <strong>self-hosted</strong> platforms, costs reflect what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), costs reflect running your own relay or PDS; most community runners on these platforms will not incur infrastructure costs.</p>
 
       <p id="ref-overrides">Most platforms inherit their cost values from their platform type. A handful have overrides where the type default isn't accurate for that specific platform.</p>
-      <table class="table">
+      <table class="table" data-source="/data/cost_overrides.json" data-render="overrides" data-labels="/data/cost_rules.json">
         <thead><tr><th>Platform</th><th>Column</th><th>Override value</th><th>Reason</th></tr></thead>
         <tbody>
-          <tr><td><span class="pname">Discourse</span></td><td>Email delivery</td><td><span class="cv yes">Yes</span></td><td>Discourse requires SMTP configuration for notifications — it's not optional.</td></tr>
-          <tr><td><span class="pname">Mailman-based lists</span></td><td>Email delivery</td><td><span class="cv yes">Yes</span></td><td>Mailman is itself an email delivery system.</td></tr>
-          <tr><td><span class="pname">Mailman-based lists</span></td><td>Admin + mod labor</td><td><span class="cv some">Sometimes</span></td><td>Mailing lists typically require less active moderation than forum or social platforms.</td></tr>
-          <tr><td><span class="pname">PeerTube</span></td><td>Backups & disaster recovery</td><td><span class="cv yes">Yes</span></td><td>Video hosting makes backups essential rather than occasional.</td></tr>
-          <tr><td><span class="pname">Mastodon, Bonfire, Misskey</span></td><td>Media storage & delivery</td><td><span class="cv often">Often</span></td><td>These platforms actively encourage image and media sharing; object storage costs are a known operator pain point.</td></tr>
-          <tr><td><span class="pname">Wikipedia</span></td><td>Trust, safety & tools</td><td><span class="cv often">Often</span></td><td>Wikipedia communities actively use moderation tooling (Twinkle, STiki, etc.).</td></tr>
-          <tr><td><span class="pname">Reddit</span></td><td>Trust, safety & tools</td><td><span class="cv often">Often</span></td><td>Active subreddits commonly use third-party moderation bots and tools.</td></tr>
-          <tr><td><span class="pname">WeChat</span></td><td>Paid software</td><td><span class="cv some">Sometimes</span></td><td>Official Account registration involves real fees in the Chinese regulatory context.</td></tr>
-          <tr><td><span class="pname">WeChat</span></td><td>Legal & compliance</td><td><span class="cv some">Sometimes</span></td><td>Operating a WeChat community involves legal exposure under Chinese regulatory requirements.</td></tr>
-          <tr><td><span class="pname">Front Porch Forum</span></td><td>Paid software</td><td><span class="cv rare">Rare</span></td><td>Some municipalities pay a subscription fee; most community runners do not.</td></tr>
-          <tr><td><span class="pname">Slack</span></td><td>Paid software</td><td><span class="cv rare">Rare</span></td><td>The free tier is genuinely viable for small communities; paid plans are optional.</td></tr>
-          <tr><td><span class="pname">iNaturalist</span></td><td>Admin + mod labor</td><td><span class="cv some">Sometimes</span></td><td>Moderation is largely institutional rather than community-run.</td></tr>
-          <tr><td><span class="pname">Zooniverse</span></td><td>Trust, safety & tools</td><td><span class="cv some">Sometimes</span></td><td>Project leaders commonly use third-party tools for project and community management.</td></tr>
-          <tr><td><span class="pname">Fandom</span></td><td>Trust, safety & tools</td><td><span class="cv some">Sometimes</span></td><td>Fandom provides platform-level tools; wiki communities often supplement with their own.</td></tr>
         </tbody>
       </table>
 
     <section id="ref-values">
       <h3>Values</h3>
-      <p>Communities select values that describe what they prioritize (we recommend at least five). Options that fit your values are marked <b>Suggested</b> throughout the rest of the card, with the reasons. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="table" data-source="/data/values.json" data-render="values">
+      <p>Communities select up to five values that describe what they prioritize. Options that fit your values count towards what's marked <b>Suggested</b> throughout the rest of the card, with the reasons. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <table class="table" data-source="/data/values.json" data-render="values" data-labels="/data/value_groups.json">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody></tbody>
       </table>

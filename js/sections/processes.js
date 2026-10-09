@@ -38,6 +38,13 @@ export async function loadProcessesData() {
   };
 }
 
+/** The three areas the structure is used for: the Processes tabs (also named on the card). */
+export const WORK_AREAS = [
+  { part: "institutionalChange", id: "change", label: "Change" },
+  { part: "maintenance", id: "maintenance", label: "Maintenance" },
+  { part: "moderation", id: "moderation", label: "Moderation" },
+];
+
 /** A custom channel in one line: "Zine — Monthly" (also used by Export). */
 export const channelLine = (c) => [c.name, c.description].filter(Boolean).join(" — ");
 
@@ -48,7 +55,7 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
   const comms = processes.communications || {};
   const note = (label, value) => textField({ label, multiline: true, value, ...hooks });
   // options the card's values recommend get a "Suggested" chip
-  const recs = suggestionsFrom(data.recs, getPart("basics").values);
+  const recs = suggestionsFrom(data.recs, getPart("basics"));
 
   // ── the shared structure list ─────────────────────────────
   // each tab edits the one list (a change made in one shows in the others
@@ -77,7 +84,8 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
       chosenLegend: null,
       emptyText: "None chosen yet. Select approaches in the list below.",
       noteHint: `How it’s used for ${usedFor} (optional).`,
-      badge: recs.badge(data.recs.decision),
+      badge: recs.badge("decision"),
+      alike: recs.alike("decision"),
       // first in the tab: the hint (naming this tab's work, highlighted), then the tags
       before: [el("p", { className: "field-hint" },
         "The decision-making approaches you use, first set in ",
@@ -103,7 +111,8 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
     remembered: setAside.list("conflictManagement.approaches:"),
     staged: true,
     chosenLegend: "Your steps",
-    badge: recs.badge(data.recs.conflict),
+    badge: recs.badge("conflict"),
+    alike: recs.alike("conflict"),
     ...hooks,
   });
   const conNote = note("Anything else about conflict", con.generalNote);
@@ -141,11 +150,7 @@ export function renderProcesses(container, processes = {}, data, hooksIn = {}) {
   const tabs = tabBox({
     label: "How your structure is used",
     key: `${stateKey}:structure`,
-    tabs: [
-      tab("change", "Change", inst),
-      tab("maintenance", "Maintenance", main),
-      tab("moderation", "Moderation", mod),
-    ],
+    tabs: WORK_AREAS.map((w) => tab(w.id, w.label, { institutionalChange: inst, maintenance: main, moderation: mod }[w.part])),
   });
   container.replaceChildren(
     el("div", { className: "fields" },

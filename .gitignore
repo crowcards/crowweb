@@ -6,3 +6,7 @@ firestore-debug.log
 ui-debug.log
 emulator-data/
 version.json
+functions/shared/
+
+# test cards made by scripts/seed-test-cards.mjs (keys to local emulator cards)
+*.local.md

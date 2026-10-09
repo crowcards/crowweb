@@ -14,7 +14,7 @@
 import { loadData, loadProtocolItems } from "../data.js";
 import { el, button } from "../dom.js";
 import { textField, selectField } from "../controls/fields.js";
-import { renderChoices, scaleField, YES_NO, YES_NO_VARIES } from "../controls/choices.js";
+import { renderChoices, scaleField, choiceTable, YES_NO, YES_NO_VARIES } from "../controls/choices.js";
 import { renderRows } from "../controls/rows.js";
 import { suggestField, storedValue } from "../controls/suggest.js";
 import { asideOf } from "../set-aside.js";
@@ -242,25 +242,24 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     });
   }
 
-  // ── costs: one row of choices per category ────────────────
+  // ── costs: a table, a row per category and a column per answer ──
   // what each answer means is said once, above the rows, not in every row
   const costsHint = {
     element: el("div", { className: "field-hint" },
       el("p", { textContent: "Which of these your community pays for, in money or time." }),
-      el("p", {}, ...data.costValues.flatMap((v, i) => [i ? " · " : "", el("b", { textContent: v.label }), `: ${v.description.replace(/\.$/, "").toLowerCase()}`])),
+      el("ul", { className: "cost-values" }, ...data.costValues.map((v) => el("li", {}, el("b", { textContent: v.label }), `: ${v.description.replace(/\.$/, "").toLowerCase()}`))),   // one answer per line
     ),
   };
   const costAnswers = data.costValues.map(({ id, label, description }) => ({ id, label, description }));   // (descriptions show on hover)
-  const costRows = data.costCategories.map((cat) => ({
-    id: cat.id,
-    choices: scaleField({
-      legend: cat.label,
-      layout: "buttons",
-      options: costAnswers,
-      value: costs[cat.id] || null,
-      onChange: () => { renderCostsNote(); onCommit(); },
-    }),
-  }));
+  const costTable = choiceTable({
+    legend: "Costs",
+    legendHidden: true,   // (the section's heading says it)
+    rows: data.costCategories,
+    options: costAnswers,
+    values: costs,
+    onChange: () => { renderCostsNote(); onCommit(); },
+  });
+  const costRows = data.costCategories.map((cat) => ({ id: cat.id, choices: costTable.row(cat.id) }));
 
   const costLabel = (id) => data.costValues.find((v) => v.id === id)?.label ?? "not answered";
   const categoryLabel = (id) => data.costCategories.find((c) => c.id === id).label;
@@ -413,6 +412,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   });
 
   // ── locations ─────────────────────────────────────────────
+  // a row per place: its name (and hint) beside the field on wide screens (.field-rows)
   const places = (label, hint, values) => suggestField({
     label,
     hint,
@@ -420,11 +420,12 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     multiple: true,
     values: values || [],
     placeholder: "Start typing a country or region…",
+    hintTip: true,   // (the hint behind an "i" beside the label, so the label lines up with the field)
     onCommit: () => { refreshLaws(); onCommit(); },
   });
-  const servers = places("Where your servers are", "Where the community’s data is hosted.", locations.servers);
-  const users = places("Where your members are", "Roughly; pick a region or “Worldwide” if that’s simpler.", locations.members);
-  const admins = places("Where your admin team is", "Where the people running the community are based.", locations.adminTeam);
+  const servers = places("Servers", "Where the community’s data is hosted.", locations.servers);
+  const users = places("Members", "Roughly; pick a region or “Worldwide” if that’s simpler.", locations.members);
+  const admins = places("Admin team", "Where the people running the community are based.", locations.adminTeam);
 
   // laws to know about, for all of those places: a note, and a link that
   // opens the laws page in a new tab
@@ -449,9 +450,10 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   });
   container.replaceChildren(
     platformSection,
-    section("costs", "Costs", costsNote, costsHint, ...costRows.map((r) => r.choices)),
+    section("costs", "Costs", costsNote, costsHint, costTable),
     section("tools", "Other tools", tools),
-    section("locations", "Locations", el("p", { className: "field-hint", textContent: "You may choose more than one in each, if that applies." }), servers, users, admins, laws),
+    section("locations", "Locations", el("p", { className: "field-hint", textContent: "Where things are. You may choose more than one in each, if that applies." }),
+      el("div", { className: "field-rows" }, servers.element, users.element, admins.element), laws),
   );
 
   return {

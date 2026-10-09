@@ -56,7 +56,7 @@ export function hasSavedContent(value) {
 }
 
 /** Same modules, same order? */
-export const sameModules = (a = [], b = []) => a.length === b.length && a.every((id, i) => id === b[i]);
+const sameModules = (a = [], b = []) => a.length === b.length && a.every((id, i) => id === b[i]);
 
 /**
  * Checkboxes for the card's modules: the built-in ones, then any custom ones

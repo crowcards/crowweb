@@ -9,8 +9,12 @@ import { el, richText, button, chip, narrowWidth } from "./dom.js";
 import { renderChoices } from "./controls/choices.js";
 import { keepPlace, pointTo, holdFloor } from "./scroll.js";
 import { loadExportData, renderExport } from "./export.js";
+import { renderPublish } from "./publish.js";
+import { renderCard } from "./card-view.js";
+import { publicView, forkCopies, MODES } from "./view-modes.js";
 import { loadData } from "./data.js";
-import { renderBasics, renderBasicsSummary, loadBasicsData } from "./sections/basics.js";
+import { renderBasics, renderBasicsSummary, loadBasicsData, missingBasics, listText } from "./sections/basics.js";
+import { reveal } from "./reveal.js";
 import { getPref, setPref } from "./prefs.js";
 import { renderMembership, loadMembershipData } from "./sections/membership.js";
 import { renderProcesses, loadProcessesData } from "./sections/processes.js";
@@ -263,7 +267,7 @@ const SECTIONS = {
 
 // One auto-saver per part of the card. Each sends only its own part.
 // (customModules is one part holding every custom module.)
-const PARTS = ["modules", "customModules", "editor", ...Object.keys(SECTIONS)];
+const PARTS = ["modules", "customModules", "editor", "attribution", ...Object.keys(SECTIONS)];
 
 function startSavers() {
   resetSavers();
@@ -278,27 +282,28 @@ function startSavers() {
 /**
  * A module's form, drawn into `container` from editor.card[part] and wired
  * to that part's auto-saver. `data` is the module's reference data.
- * Extra hooks: onTypeChange (Basics), afterInput (runs after each keystroke).
+ * Extra hooks: onTypeChange (Basics), afterChange (runs after each keystroke and each finished choice).
  * Forms also get `stateKey` ("<card id>:<module>"), a name for remembering
  * view preferences such as which sections are open, and getPart / setPart
  * (one part) / setParts ({ part: value, … }, several at once) to read and
  * change other parts of the card (e.g. Processes editing the shared
  * structure list in membership).
  */
-function mountSection(part, container, data, { onTypeChange, afterInput } = {}) {
+function mountSection(part, container, data, { onTypeChange, afterChange } = {}) {
   const saver = editor.savers[part];
   let form = null;   // (a form can call setPart while it's still being drawn)
   form = SECTIONS[part].render(container, editor.card[part], data, {
     onInput: () => {
       editor.card[part] = form.collect();
       syncAside(part, form);
-      afterInput?.();
+      afterChange?.();
       saver.schedule();
     },
     onCommit: () => {
       // a finished choice (or leaving a field): mark it changed, save now
       editor.card[part] = form.collect();
       saveParts(syncAside(part, form) ? [part, "editor"] : [part]);
+      afterChange?.();
       refreshSuggestions();
     },
     onTypeChange,
@@ -342,8 +347,8 @@ function syncAside(part, form) {
 const sameEntries = (a, b) => Object.keys(a).length === Object.keys(b).length
   && Object.keys(a).every((k) => JSON.stringify(a[k]) === JSON.stringify(b[k]));
 
-const mountBasics = (container, hooks = {}) =>
-  mountSection("basics", container, editor.basicsData, { ...hooks, afterInput: renderCardName });
+const mountBasics = (container, { afterChange, ...hooks } = {}) =>
+  mountSection("basics", container, editor.basicsData, { ...hooks, afterChange: () => { renderCardName(); afterChange?.(); } });
 
 // ── save status (shared by set-up and the editor) ───────────
 const timeNow = (d) => d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
@@ -587,8 +592,10 @@ function dismissSuggestion(s) {
  * switch them to the new type's straight away (and say so); if the person
  * has changed them, offer the new defaults with a button instead. In the
  * editor (autoApply: false) it always offers, never changes by itself.
+ * popups: false (set-up, where the modules come last anyway) says so only
+ * in the callout by the picker, without a pop-up.
  */
-function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = true }) {
+function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = true, popups = true }) {
   const s = moduleSuggestion(editor.defaults, picker.value(), { fromType, toType });
   hintEl.replaceChildren();
   if (!s.add.length && !s.remove.length) return;
@@ -604,6 +611,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
   if (s.untouched && autoApply) {
     apply(s.next);
     hintEl.append(el("div", { className: "callout" }, el("p", { textContent: `Updated for ${typeLabel}: ${changes}.` })));
+    if (!popups) return;
 
     const showMe = el("button", { type: "button", className: "link-button", textContent: "Show me" });
     showPopup({
@@ -627,6 +635,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
   hintEl.append(el("div", { className: "callout" },
     el("p", {}, el("b", { className: "mono-u", textContent: "Suggested modules. " }), `For ${typeLabel}: ${changes}. `, inlineUse),
   ));
+  if (!popups) return;
 
   const popUse = el("button", { type: "button", className: "button button-small", textContent: "Use suggestion" });
   const popShow = el("button", { type: "button", className: "link-button", textContent: "Show me" });
@@ -711,41 +720,126 @@ function rerender() {
 }
 
 // ── set up: Basics + modules, right after a card is made ────
+// In blocks: Basics' groups (about, target scales, values), then the
+// modules. Each block's Next shows the one after, once its required answers
+// are in; "Show all fields at once" shows them all. Continue waits for
+// everything required, and says what's missing.
 let setupPicker = null;
 let setupForm = null;   // set-up's Basics form
+let setupBlocks = [];   // [{ element, next: { row, button, hint } | null }]
+
+/** What's still needed, per block (the last one: the modules). */
+function setupMissing() {
+  const missing = missingBasics(editor.card.basics, editor.basicsData);
+  return setupBlocks.map((_, i) => i < setupBlocks.length - 1
+    ? missing.filter((m) => m.group === i).map((m) => m.text)
+    : setupPicker.value().length ? [] : ["at least one module"]);
+}
+const stillNeeded = (texts) => (texts.length ? `Still needed: ${listText(texts)}.` : "");
+
+function refreshSetup() {
+  const missing = setupMissing();
+  setupBlocks.forEach((b, i) => {
+    if (!b.next) return;
+    b.next.button.disabled = missing[i].length > 0;
+    b.next.hint.textContent = stillNeeded(missing[i]);
+  });
+  const all = missing.flat();
+  $("setup-continue").disabled = all.length > 0;
+  $("setup-missing").textContent = stillNeeded(all);
+}
+
+/** Show blocks 0…last (and their Next only on the last shown, if there's one after). */
+function showSetupBlocks(last) {
+  setupBlocks.forEach((b, i) => {
+    b.element.hidden = i > last;
+    if (b.next) b.next.row.hidden = i !== last;
+  });
+  $("setup-finish").hidden = last < setupBlocks.length - 1;
+}
+
+/** Where set-up starts: everything with "Show all", else up to the first block still missing something. */
+function firstSetupBlocks() {
+  if ($("setup-show-all").checked) return showSetupBlocks(setupBlocks.length - 1);
+  const missing = setupMissing();
+  const first = missing.findIndex((m) => m.length);
+  showSetupBlocks(first === -1 ? setupBlocks.length - 1 : first);
+}
 
 function showSetup(opts) {
   // modules are only written on Continue: until then the card counts as
   // not set up, so a refresh comes back here
-  const suggested = startingModules(editor.defaults, { communityType: editor.card.basics?.type });
-  drawSetupPicker([...suggested, ...(editor.card.customModules || []).map((m) => m.id)]);
+  // a fork starts with its source's modules ticked; a new card with its type's
+  const fork = editor.card.forkedFrom;
+  const suggested = editor.card.editor?.forkModules || startingModules(editor.defaults, { communityType: editor.card.basics?.type });
+  drawSetupPicker([...new Set([...suggested, ...(editor.card.customModules || []).map((m) => m.id)])]);
+  // …and a note on what it was given (closable)
+  $("setup-fork").hidden = !fork;
+  if (fork) {
+    const { notCopiedBrief, prefilledTargets } = forkCopies(fork.mode);
+    const mode = MODES.find((m) => m.id === fork.mode)?.label || fork.mode;
+    $("setup-fork").replaceChildren(el("div", { className: "callout" },
+      el("p", {}, el("b", { className: "mono-u", textContent: "Forked " }), `from ${fork.name || "another card"} (${mode} view): your card starts with everything that view shares. Change anything.`),
+      prefilledTargets ? el("p", { className: "field-hint", textContent: `Where you’d like to be on the scales starts at ${fork.name || "that card"}’s scales (what its choices add up to).` }) : null,
+      el("p", { className: "field-hint", textContent: `Not copied: ${listText(notCopiedBrief)}.` }),
+      el("p", {}, button("Dismiss", "link-button", () => { $("setup-fork").hidden = true; }))));
+  }
   $("setup-modules-hint").replaceChildren();
   setupForm = mountBasics($("setup-basics"), {
     onTypeChange: (from, to) => suggestModules($("setup-modules-hint"), setupPicker, from, to, {
-      apply: (next) => setupPicker.set(next),
+      apply: (next) => {
+        setupPicker.set(next);
+        refreshSetup();
+      },
+      popups: false,
     }),
+    afterChange: refreshSetup,
   });
+  setupBlocks = [...setupForm.groups, $("setup-modules-block")].map((element, i, all) => {
+    if (i === all.length - 1) return { element, next: null };
+    const nextButton = button("Next", "button", () => {
+      row.hidden = true;
+      const after = setupBlocks[i + 1];
+      reveal(after.element);
+      if (after.next) after.next.row.hidden = false;
+      if (i + 1 === setupBlocks.length - 1) $("setup-finish").hidden = false;
+      after.element.querySelector("input, select, textarea")?.focus({ preventScroll: true });
+      after.element.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    const hint = el("p", { className: "field-hint", id: `setup-next-hint-${i}` });
+    nextButton.setAttribute("aria-describedby", hint.id);
+    const row = el("div", { className: "setup-next" }, el("p", {}, nextButton), hint);
+    element.append(row);
+    return { element, next: { row, button: nextButton, hint } };
+  });
+  $("setup-show-all").checked = getPref("setupShowAll", false);
+  firstSetupBlocks();
+  refreshSetup();
   showError($("setup-error"), "");
   show("setup", opts);
   if (opts?.focus !== false) setupForm.focusFirst();
 }
 
+$("setup-show-all").addEventListener("change", (e) => {
+  setPref("setupShowAll", e.target.checked);
+  firstSetupBlocks();
+});
+
 function drawSetupPicker(selected) {
   setupPicker = renderModulePicker($("setup-modules"), editor.defaults, selected, {
     custom: editor.card.customModules || [],
-    onChange: () => $("setup-modules-hint").replaceChildren(),
-    // a new custom module starts ticked
+    onChange: () => {
+      $("setup-modules-hint").replaceChildren();
+      refreshSetup();
+    },
+    // a new custom module starts selected
     onAdd: () => addCustomModule().then((m) => m && drawSetupPicker([...setupPicker.value(), m.id])),
   });
 }
 
 $("setup-continue").addEventListener("click", async (e) => {
   const btn = e.currentTarget;
-  if (!editor.card.basics?.name) {
-    showError($("setup-error"), "Give your community a name to continue.");
-    setupForm.focusFirst();
-    return;
-  }
+  if (setupMissing().flat().length) return refreshSetup();   // (the button is disabled until then)
   showError($("setup-error"), "");
   btn.disabled = true;
   btn.textContent = "Saving…";
@@ -784,7 +878,7 @@ function renderCardName() {
 
 // Each module is a link to #<module id>; the hash picks what the main area shows.
 // (#export isn't a module: it's the Export page, opened from the sidebar)
-const EXPORT = { id: "export", label: "Export", description: "Your card’s answers in one place, to read through and download." };
+const EXPORT = { id: "export", label: "Export", description: "Publish your card, and read through and download its answers." };
 function currentModuleId() {
   const id = location.hash.slice(1);
   if (id === EXPORT.id) return id;
@@ -846,6 +940,7 @@ function renderModule({ focus = true } = {}) {
     renderBasicsSummary(summaryHost, editor.card.basics, editor.basicsData, {
       entries: moduleEntries(editor.defaults, editor.card).filter((x) => x.id !== "basics").sort((a, b) => order(a) - order(b)),
       started: moduleHasContent,
+      forkedFrom: editor.card.forkedFrom,
     });
   } else if (id === "basics") {
     const basicsHost = el("div");
@@ -889,7 +984,21 @@ function renderModule({ focus = true } = {}) {
     content.replaceChildren(el("p", { className: "screen-loading", textContent: "Loading…" }));
     loadExportData().then((data) => {
       if (!editor.card || currentModuleId() !== id) return;   // forgotten, or moved on, while it loaded
-      renderExport(content, editor.card, data, editor.defaults);
+      const publishHost = el("section", { className: "publish" });
+      const exportHost = el("section");
+      content.replaceChildren(publishHost, exportHost);
+      renderPublish(publishHost, {
+        get card() { return editor.card; },
+        data,
+        defaults: editor.defaults,
+        setAttribution: (attribution) => {
+          editor.card.attribution = attribution;
+          editor.savers.attribution.schedule();
+        },
+        onPublishing: (publishing) => { editor.card.publishing = publishing; },
+      });
+      renderExport(exportHost, editor.card, data, editor.defaults);
+      exportHost.append(renderCard(publicView(editor.card, "full", { ruleSchema: data.ruleSchema, scales: data.scales }), data, editor.defaults, { heading: "h3" }));
     }, (err) => {
       console.error(err);
       content.replaceChildren(el("p", { className: "form-error", textContent: MESSAGES.other }));

@@ -20,7 +20,7 @@
 // the same thing.
 
 import { SECTION_LABELS, logChanges, logReviewed, settledChanges, structureIds, changeStructure } from "./structure.js";
-import { FROM_VALUES } from "./recommend.js";
+import { FROM_BASICS } from "./recommend.js";
 
 /** Turn modules on or off, keeping the built-in order (custom modules last). */
 function withModule(card, defaults, id, on) {
@@ -118,20 +118,20 @@ function structureChangedInProcesses(card, { approachLabel }) {
 
 /**
  * Processes starts from things chosen elsewhere: the structure (Membership)
- * shown above the three tabs, and "Suggested" chips from the values (Basics).
+ * shown above the three tabs, and "Suggested" chips from Basics.
  * A note at the top says so, until dismissed.
  */
 function processesIntro(card) {
   const hasStructure = structureIds(card.membership).length > 0;
-  const hasValues = (card.basics?.values || []).length > 0;
-  if (!(card.modules || []).includes("processes") || (!hasStructure && !hasValues)) return [];
+  const hasBasics = (card.basics?.values || []).length > 0 || Object.values(card.basics?.targetScales || {}).some((v) => v != null);
+  if (!(card.modules || []).includes("processes") || (!hasStructure && !hasBasics)) return [];
   return [{
     id: "note:processes-from-elsewhere",
     module: "processes",
     title: "Some of this is shaped by your earlier answers",
     message: [
       hasStructure ? "Your community structure is the one you chose in Membership. Changing it here updates Membership too." : null,
-      hasValues ? FROM_VALUES : null,
+      hasBasics ? FROM_BASICS : null,
       "Review them and adjust anything as you go.",
     ].filter(Boolean).join(" "),
     quiet: true,

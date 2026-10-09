@@ -31,11 +31,6 @@
       "description": "This cost reliably applies."
     },
     {
-      "id": "no",
-      "label": "No",
-      "description": "This cost does not apply."
-    },
-    {
       "id": "often",
       "label": "Often",
       "description": "Applies frequently but not universally; depends on community size or activity."
@@ -49,6 +44,11 @@
       "id": "rare",
       "label": "Rare",
       "description": "Technically possible but uncommon in practice."
+    },
+    {
+      "id": "no",
+      "label": "No",
+      "description": "This cost does not apply."
     }
   ],
   "federationApproach": [

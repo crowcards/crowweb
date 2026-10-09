@@ -15,6 +15,26 @@ export function loadData(name) {
 }
 
 /**
+ * The values: CommunityRule's list (values.json, which may be refreshed from
+ * its API) with the CROW team's additions (value_groups.json): each value's
+ * group and cues, and a description where CommunityRule's is a placeholder
+ * (descriptionDraft: true). → { all, groups, items }
+ */
+export async function loadValues() {
+  const [values, ours] = await Promise.all([loadData("values"), loadData("value_groups")]);
+  const extra = new Map(ours.items.map((it) => [it.id, it]));
+  return {
+    all: ours.all,   // the All tab's name and description
+    groups: ours.groups,
+    items: values.items.map((v) => {
+      const x = extra.get(v.id);
+      if (!x) return { ...v, group: null, cues: [] };
+      return { ...v, group: x.group, cues: x.cues || [], ...(x.description ? { description: x.description, descriptionDraft: true } : {}), status: x.status };
+    }),
+  };
+}
+
+/**
  * The protocols named in platforms.json (ActivityPub, AT Protocol, Matrix…),
  * as suggestion items. Shared by Infrastructure's protocol field and
  * Federation's bridged protocols, so both offer the same list.

@@ -43,6 +43,31 @@ export async function loadRulesData() {
 /** A qualifier's label (e.g. "Not allowed") from its set ("permission" / "requirement") and id; null if none. */
 export const qualifierLabel = (qualifierSets, setId, q) => (q ? (qualifierSets[setId] || []).find((o) => o.id === q)?.label ?? null : null);
 
+/**
+ * The card's rules (data: loadRulesData's), by type in the Rules page's order: each type's selected
+ * rules (in the community's wording), then the custom rules given that type;
+ * custom rules without a type come last, as "Custom rules":
+ * [{ id, label, group (the type's name), custom?, qualifier (its label), qualifierId }]
+ */
+export function cardRules(rules = {}, { categories, qualifierSets = {} }) {
+  const ruleTypes = categories.flatMap((c) => c.types);
+  const edits = rules.ruleEdits || {};
+  const chosen = new Map((rules.selected || []).map((s) => [s.id, s.qualifier ?? null]));
+  const own = (rules.customRules || []).filter((r) => r.text);
+  const custom = (r, group) => ({ id: r.id, label: r.text, group, custom: true, qualifierId: r.qualifier ?? null, qualifier: qualifierLabel(qualifierSets, r.qualifierSet, r.qualifier) });
+  // each type's chosen rules, then the custom rules given that type (custom: true)
+  const byType = ruleTypes.flatMap((t) => [
+    ...t.rules.filter((r) => chosen.has(r.id)).map((r) => {
+      const q = chosen.get(r.id);
+      return { id: r.id, label: edits[r.id]?.text || r.label, group: t.name, qualifierId: q, qualifier: qualifierLabel(qualifierSets, r.qualifier || t.qualifier, q) };
+    }),
+    ...own.filter((r) => r.typeId === t.id).map((r) => custom(r, t.name)),
+  ]);
+  // custom rules without a type: their own group, last
+  const untyped = own.filter((r) => !ruleTypes.some((t) => t.id === r.typeId)).map((r) => custom(r, "Custom rules"));
+  return [...byType, ...untyped];
+}
+
 // "Select all" picks the strictest answer for rules that take one (unless one's already chosen)
 const STRICTEST = { permission: "not_allowed", requirement: "required" };
 
@@ -118,11 +143,13 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
   const covenants = covenantField("Covenants and guidelines you follow", "Shared codes your community has signed on to. Pick from the list or type your own.", rules.covenants);
   const adapted = covenantField("Adapted from", "Rules or guidelines yours are based on.", rules.adaptedFrom);
 
-  // ── the checklists: one fold per category, one per rule type inside ──
+  // ── the checklists: a section per category (always open: Behavior,
+  // Content), with a fold per rule type inside (closed until opened) ──
   const types = [];
   const categoryFolds = data.categories.map((cat) => foldSection({
     title: cat.label,
     key: `${stateKey}:${cat.id}`,
+    foldable: false,
     children: [
       el("p", { className: "field-hint", textContent: cat.description }),
       ...cat.types.map((type) => {
@@ -146,12 +173,19 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
   const textOf = (rule) => edits[rule.id]?.text || rule.label;
 
   function renderSummary() {
-    const groups = types.map((t) => ({ type: t.type, ticked: t.ticked() })).filter((g) => g.ticked.length);
-    const count = groups.reduce((n, g) => n + g.ticked.length, 0);
-    const reworded = groups.reduce((n, g) => n + g.ticked.filter(({ rule }) => edits[rule.id]).length, 0);
-    // the community's own rules (those with text), last, with their qualifier
+    // the community's own rules (those with text): under their type, marked "Custom";
+    // those without a type last, as "Custom rules"
     const own = customRules.value().filter((r) => r.text);
     const ownQualifier = (r) => qualifierLabel(data.qualifierSets, r.qualifierSet, r.qualifier);
+    const ownItem = (r, marked) => el("li", {},
+      el("span", { textContent: r.text }),
+      marked ? el("span", { className: "tag tag-soft", textContent: "Custom" }) : null,
+      ownQualifier(r) ? el("span", { className: "tag", textContent: ownQualifier(r) }) : null);
+    const groups = types.map((t) => ({ type: t.type, ticked: t.ticked(), own: own.filter((r) => r.typeId === t.type.id) }))
+      .filter((g) => g.ticked.length || g.own.length);
+    const untyped = own.filter((r) => !types.some((t) => t.type.id === r.typeId));
+    const count = groups.reduce((n, g) => n + g.ticked.length, 0);
+    const reworded = groups.reduce((n, g) => n + g.ticked.filter(({ rule }) => edits[rule.id]).length, 0);
     summaryBody.replaceChildren(
       el("p", { className: "mono-u summary-label", textContent: "Summary" }),
       el("p", { className: "field-hint" }, count || own.length
@@ -159,13 +193,13 @@ export function renderRules(container, rules = {}, data, { onInput = () => {}, o
         : "No rules yet. Select the ones that apply in the lists above, or add your own, and they’ll be listed here."),
       ...groups.flatMap((g) => [
         el("p", { className: "mono-u summary-label rule-summary-type", textContent: g.type.name }),
-        el("ul", { className: "rule-summary plain-list" }, ...g.ticked.map(({ rule, qualifier }) => summaryRule(rule, qualifier))),
+        el("ul", { className: "rule-summary plain-list" },
+          ...g.ticked.map(({ rule, qualifier }) => summaryRule(rule, qualifier)),
+          ...g.own.map((r) => ownItem(r, true))),
       ]),
-      ...(own.length ? [
+      ...(untyped.length ? [
         el("p", { className: "mono-u summary-label rule-summary-type", textContent: "Custom rules" }),
-        el("ul", { className: "rule-summary plain-list" }, ...own.map((r) => el("li", {},
-          el("span", { textContent: r.text }),
-          ownQualifier(r) ? el("span", { className: "tag", textContent: ownQualifier(r) }) : null))),
+        el("ul", { className: "rule-summary plain-list" }, ...untyped.map((r) => ownItem(r, false))),
       ] : []),
     );
   }

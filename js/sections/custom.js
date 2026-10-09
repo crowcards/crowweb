@@ -5,7 +5,8 @@
 //   text      — a written answer                      value: "…"
 //   checkbox  — options to tick, any number           value: ["option", …]
 //   radio     — options to pick one from              value: "option" | null
-//   scale     — 1 to 5, with what each end means      value: 1–5 | null, low, high
+//   scale     — 1–5, 1–7 or 0–10, with what each end means   value: a number | null, min, max, low, high
+//               (min / max: the range; a field without them is 1–5)
 // Each field has an id ("f_…"). A field folds into a one-line summary once
 // it's done (✓), and fields can be put in order.
 //
@@ -29,9 +30,18 @@ const FIELD_TYPES = [
   { id: "text", label: "Text" },
   { id: "checkbox", label: "Checkboxes" },
   { id: "radio", label: "Radio buttons" },
-  { id: "scale", label: "Scale (1–5)" },
+  { id: "scale", label: "Scale" },
 ];
-const SCALE = [1, 2, 3, 4, 5].map((n) => ({ id: String(n), label: String(n) }));
+/** The ranges a scale field can have (1–5 unless chosen otherwise). */
+const RANGES = [
+  { id: "1-5", min: 1, max: 5, label: "1–5" },
+  { id: "1-7", min: 1, max: 7, label: "1–7" },
+  { id: "0-10", min: 0, max: 10, label: "0–10" },
+];
+/** A scale field's range (also used by Export). */
+export const scaleRange = (f) => RANGES.find((r) => r.min === (f.min ?? 1) && r.max === (f.max ?? 5)) || RANGES[0];
+/** What a kind's answer is remembered under: the kind, and for a scale its range (each range keeps its own answer). */
+const answerKey = (type, f) => (type === "scale" ? `scale:${scaleRange(f).id}` : type);
 
 /** A random id with this prefix, e.g. "cm_aB7xK9mP" (a module) or "f_…" (a field). */
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -45,12 +55,12 @@ export function newCustomModule({ name, description = null }) {
 /** A field's answer in a few words, for its folded summary line. */
 export function answerText(f) {
   if (f.type === "checkbox") return (f.value || []).join(", ");
-  if (f.type === "scale") return f.value ? `${f.value} of 5` : "";
+  if (f.type === "scale") return f.value != null ? `${f.value} of ${scaleRange(f).max}` : "";   // (0 is an answer)
   return f.value || "";
 }
 
 const isEmpty = (v) => v == null || v === "" || (Array.isArray(v) && !v.length);
-const ATTRS = ["options", "low", "high"];   // what kinds share or keep beside the answer
+const ATTRS = ["options", "low", "high", "min", "max"];   // what kinds share or keep beside the answer
 
 /**
  * One field's inputs: its question, its kind, and the answer (which changes
@@ -64,10 +74,11 @@ function fieldRow(saved, hooks, setAside) {
   const asideKey = `fields:${id}`;
   const kept = setAside.get(asideKey) || {};
   let type = saved.type || "text";
-  const answers = { ...kept.answers, [type]: saved.value };   // each kind's answer; the saved one is its kind's
-  // options and scale ends: as saved, else as set aside
+  // options, scale range and ends: as saved, else as set aside
   const attrs = Object.fromEntries(ATTRS.map((k) => [k, saved[k] ?? kept[k]]).filter(([, v]) => v != null));
-  let f = { label: saved.label, ...attrs, value: answers[type] };   // what the current kind's answer is drawn from
+  // each kind's answer (a scale's, per range); the saved one is its kind's
+  const answers = { ...kept.answers, [answerKey(type, attrs)]: saved.value };
+  let f = { label: saved.label, ...attrs, value: answers[answerKey(type, attrs)] };   // what the current kind's answer is drawn from
   const question = textField({ label: "Question", value: f.label, ...hooks });
   const kind = selectField({
     label: "Kind of answer",
@@ -78,10 +89,10 @@ function fieldRow(saved, hooks, setAside) {
     // with the options and scale ends as they are now
     onChange: (v) => {
       const { value, ...now } = answer.collect();
-      answers[type] = value;
       Object.assign(attrs, now);
+      answers[answerKey(type, attrs)] = value;
       type = v || "text";
-      f = { ...f, ...attrs, value: answers[type] };
+      f = { ...f, ...attrs, value: answers[answerKey(type, attrs)] };
       drawAnswer();
       reveal(area);
       hooks.onCommit();
@@ -125,13 +136,35 @@ function fieldRow(saved, hooks, setAside) {
     };
   }
 
+  // a scale: its range first (1–5, 1–7 or 0–10), then what each end means, then the answer
   function scaleAnswer() {
-    const low = textField({ label: "1 means", value: f.low, placeholder: "e.g. Never", ...hooks });
-    const high = textField({ label: "5 means", value: f.high, placeholder: "e.g. Always", ...hooks });
-    const choice = scaleField({ legend: "Answer", options: SCALE, value: f.value == null ? null : String(f.value), onChange: hooks.onCommit });
+    const r = scaleRange(f);
+    const range = scaleField({
+      legend: "Scale",
+      options: RANGES.map(({ id, label }) => ({ id, label })),
+      value: r.id,
+      layout: "buttons",
+      clearable: false,
+      // another range: the answer comes along if it fits; if not, it's set
+      // aside (each range keeps its own), and an answer this range had before comes back
+      onChange: (to) => {
+        const { value, ...now } = answer.collect();
+        answers[answerKey("scale", now)] = value;
+        const next = RANGES.find((x) => x.id === to);
+        Object.assign(attrs, now, { min: next.min, max: next.max });
+        const fits = value != null && value >= next.min && value <= next.max;
+        f = { ...f, ...attrs, value: answers[answerKey("scale", attrs)] ?? (fits ? value : null) };
+        drawAnswer();
+        hooks.onCommit();
+      },
+    });
+    const low = textField({ label: `${r.min} means`, value: f.low, placeholder: "e.g. Never", ...hooks });
+    const high = textField({ label: `${r.max} means`, value: f.high, placeholder: "e.g. Always", ...hooks });
+    const steps = Array.from({ length: r.max - r.min + 1 }, (_, i) => String(r.min + i)).map((n) => ({ id: n, label: n }));
+    const choice = scaleField({ legend: "Answer", options: steps, value: f.value == null ? null : String(f.value), onChange: hooks.onCommit });
     return {
-      element: el("div", {}, low.element, high.element, choice.element),
-      collect: () => ({ low: low.value(), high: high.value(), value: choice.value() == null ? null : Number(choice.value()) }),
+      element: el("div", {}, range.element, low.element, high.element, choice.element),
+      collect: () => ({ min: r.min, max: r.max, low: low.value(), high: high.value(), value: choice.value() == null ? null : Number(choice.value()) }),
     };
   }
 

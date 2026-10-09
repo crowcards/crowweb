@@ -16,7 +16,9 @@
 @property --box-px { syntax: "*"; inherits: false; }
 @property --box-line { syntax: "*"; inherits: false; }
 @property --field-fill { syntax: "*"; inherits: false; }
-.make :is(input[type="text"], input[type="url"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill, .popup) {
+.make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill),
+.popup,   /* (on any page: the card page's fork pop-up too) */
+.make .info-tip::before {   /* (the "i"'s backdrop; a pseudo-element can't go inside :is()) */
   --px: var(--box-px, 2px);                       /* a box can set bigger steps (the pop-up: 4px) */
   --field-line: var(--box-line, var(--accent));   /* …and its own outline colour (the pop-up's) */
   --field-corners:
@@ -33,7 +35,7 @@
 
 /* text boxes, links, filters, dropdowns and notes: the strong orange tint
    inside while typing */
-.make :is(input[type="text"], input[type="url"], input[type="search"], textarea) {
+.make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea) {
   display: block;
   width: 100%;
   padding: 0.5rem 0.75rem;
@@ -41,7 +43,7 @@
   font-size: var(--fs-s);
 }
 .make textarea { resize: vertical; font-family: inherit; line-height: 1.5; }
-.make :is(input[type="text"], input[type="url"], input[type="search"], textarea):focus-visible {
+.make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea):focus-visible {
   outline: none;
   --field-line: var(--accent);
   --field-fill: var(--tint-strong);
@@ -155,6 +157,8 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   color: var(--ink-on-color);
   vertical-align: 0.1em;
 }
+/* the quiet one ("Also fits"): a lime outline, no fill */
+.chip-quiet { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px var(--lime); }
 .choice-name .chip { margin-left: 0.5em; }
 .choice-flag { display: block; width: fit-content; margin-top: 0.3rem; }
 /* a chip's reasons ("Because you value …"), each with a lime pixel bullet */
@@ -200,6 +204,16 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   background: var(--accent);
   color: var(--ink-on-color);
 }
+
+/* "More like this / Try something new" (js/controls/alike.js): a row of
+   pills to add, gray like an unselected choice, lime on hover */
+.alike { display: grid; gap: 0.4rem; margin: 0.25rem 0 0.75rem; }
+.alike-row { gap: 0.4rem; }
+.alike-row > .summary-label { margin-right: 0.25rem; }
+.tag-add { border: 0; cursor: pointer; }
+.tag-add:is(:hover, :focus-visible):not(:disabled) { background: var(--lime); color: var(--ink-on-color); }
+.tag-add:disabled { color: var(--gray); cursor: not-allowed; }
+.alike > .field-hint { margin: 0; }
 
 /* a tag's remove button: the same pixel X as rows and the pop-up, small */
 .tag-remove {
@@ -247,7 +261,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   line-height: 1.4;
   pointer-events: none;
 }
-.choice-button:is(:hover, :has(> input:focus-visible)) > .choice-tip { display: block; }
+.choice:is(.choice-button, .choice-range):is(:hover, :has(> input:focus-visible)) > .choice-tip { display: block; }
 
 /* picked items as tags (js/controls/picklist.js): click the name to
    annotate it; lime while hovered. A tag with a note or step gets a small
@@ -287,11 +301,33 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
     0 calc(var(--dot) * 2) var(--lime);
 }
 .pick-chosen .tags { margin-top: 0.5rem; }
+.choice-hint-below { margin: 0.5rem 0 0; }
+/* "opens a new tab": a small pixel arrow pointing up and right, in the text's colour */
+.icon-out { position: relative; display: inline-block; width: 10px; height: 10px; margin-left: 0.4em; vertical-align: 0.05em; }
+.icon-out::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  box-shadow: 4px 0, 6px 0, 8px 0, 6px 2px, 8px 2px, 4px 4px, 8px 4px, 2px 6px, 0 8px;
+  color: currentColor;
+}
+.publish-up-to-date { font-weight: 700; }
+.publish-history { margin-top: 0.75rem; }
+.publish-history li .link-button { margin-left: 0.5rem; }
+.publish-wipe { margin: 0.75rem 0 0; }
+.publish-history > .summary-label { margin: 0 0 0.25rem; }
+.publish-history li + li { margin-top: 0.15rem; }
+.pick-chosen.summary { margin-bottom: 1rem; }
+.pick-chosen.summary > :is(p, .tags):last-child { margin-bottom: 0; }
+.pick-chosen.summary:has(+ .alike:not([hidden])) { margin-bottom: 0.6rem; }
 .tab-panel > .fields:first-child { margin-top: 0; }   /* the panel's own padding is gap enough */
 /* a term that changes with the open tab (Processes' hint): lime, like the open tab's text */
 .tab-term { padding: 0 0.2em; background: var(--lime); color: var(--ink-on-color); }
-/* steps (conflict, the ladder): a gray pixel arrow in the gap between two steps */
-.pick-gap.has-arrow::after {
+/* steps (conflict, the ladder; and the card's flows): a gray pixel arrow in the gap between two steps */
+:is(.pick-gap.has-arrow, .flow-arrow)::after {
   --dot: 2px;
   content: "";
   position: absolute;
@@ -319,19 +355,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .is-dragging-over :is(.pick-stage, .pick-gap) { outline: 2px dotted var(--line); outline-offset: -2px; }
 :is(.pick-stage, .pick-gap).is-over { background: var(--lime); outline-color: var(--accent); }
 
-/* Federation's rules to select from (federation.js ruleSelector): compact
-   lines in a summary box, grouped by kind; Note and its badge after a
-   selected one */
-.fed-rules .fold-actions { flex-wrap: wrap; margin: 0 0 0.25rem; }
-.fed-rules .fold-head { margin-top: 1rem; }
-.fed-rule { align-items: center; padding-block: 0.2rem; font-size: var(--fs-s); cursor: pointer; }
-.fed-rule label { flex: 1; }
-.fed-rule .choice-name { font-size: inherit; font-weight: 400; }
-.fed-rule .choice-name .tag { margin-left: 0.5em; vertical-align: 0.1em; }
-.fed-rule .note-mark { position: relative; top: auto; right: auto; flex: none; }
-.fed-rules .choice:has(> input:checked) { background: var(--tint-strong); }   /* the box is already tinted */
-.fed-rule .link-button { font-size: var(--fs-xs); }
-
 /* compact rows (js/controls/choices.js layout "compact"): the name, with a
    pixel plus that opens its description underneath */
 .choice-compact { flex-wrap: wrap; padding-block: 0.2rem; border-bottom: var(--rule); font-size: var(--fs-s); }
@@ -341,6 +364,11 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .choice-about p { margin: 0 0 0.4rem; }
 
 /* a long list (values, approaches): a filter box over a compact scrolling list */
+/* group tabs on top of a list (choices.js groups): room above and below,
+   slimmer tabs than a tab box's, the open group's description in small gray */
+.choice-groups { margin: 1.25rem 0 0.75rem; }
+.choice-groups .tab { padding: 0.45rem 0.75rem; }
+.choice-group-hint { margin: 0.6rem 0 0; font-size: var(--fs-xs); }
 .scroll-list {   /* outline and corners: the pixel box rule at the top */
   max-height: 22rem;
   overflow-y: auto;
@@ -385,15 +413,61 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .summary-label,
 .rule-original,
 .editor-card :is(.mono, .mono-u) { color: var(--gray); font-size: var(--fs-xs); }
+/* …and small gray mono text: the save status and the sidebar's notes, the
+   card's scale scores, costs' answer letters and step numbers */
+.save-status,
+.editor-forget-note,
+.card-scale-score,
+.card-costs thead th,
+.card-step-n { color: var(--gray); font-family: var(--mono); font-size: var(--fs-xs); }
+
+/* rows of things side by side that wrap onto more lines when there isn't
+   room (one rule for all of them; each sets its own gap) */
+.alike-row, .setup-next, #setup-finish, .button-row,
+.card-group, .card-flow, .card-inline, .card-approach, .card-row { display: flex; flex-wrap: wrap; align-items: center; }
+/* …and rows that stay on one line */
+.field-label, .card-places > li, .card-step, .card-head { display: flex; align-items: center; }
 
 /* choices in a row: 1–5 scales, yes / no, costs (what 1 and 5 mean go below) */
 .scale { display: flex; flex-wrap: wrap; gap: 0.25rem clamp(0.75rem, 2vw, 1.25rem); }
 .scale .choice { margin-inline: 0; padding: 0.2rem 0; }
-.scale-ends { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.25rem; }
-/* a numbered range (1–5): the row of buttons centred on the page, with
-   what each end means centred under it */
-.scale-range { justify-content: center; }
-.scale-range + .scale-ends { justify-content: center; gap: 2.5rem; }
+/* a numbered range (1–5, 1–7: scaleField with ends): spread across the
+   line, each number under its radio button; what an end (or the middle)
+   means shows in the bubble on hover, like the "i" */
+.scale-range { justify-content: space-between; }
+.choice-range { --first-line: var(--tick); position: relative; flex-direction: column; align-items: center; gap: 0.2rem; }
+.choice-range > label { font-size: var(--fs-s); cursor: pointer; }
+.choice-range:has(> .choice-tip) > label { text-decoration: underline dotted var(--gray); text-underline-offset: 3px; }
+/* (the bubble hangs from its number: the first three's open to the right,
+   the last three's to the left, the middle of seven's centred; narrower on
+   small screens, so none runs off the edge) */
+.choice-range > .choice-tip { max-width: min(18rem, 60vw); }
+.choice-range:nth-last-child(-n + 3):not(:nth-child(-n + 3)) > .choice-tip { left: auto; right: 0; }
+.choice-range:nth-child(4):nth-last-child(4) > .choice-tip { left: 50%; transform: translateX(-50%); }
+.target-scale { margin-bottom: 1.5rem; }
+
+/* a scale's trade-offs, in a note (callout) under it: small mono capitals,
+   the low end on the left and the high end on the right (under the
+   range's ends); + what you gain, − what it costs (mirrored on the right) */
+.trade-offs { margin: 0.75rem 0 0; }
+.trade-offs > .summary-label { margin: 0 0 0.4rem; }
+.trade-offs-ends { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; font-size: var(--fs-xs); font-weight: 400; line-height: 1.45; }
+.trade-offs-ends :is(p, ul) { margin: 0; }
+.trade-offs-ends p { margin-bottom: 0.25rem; color: var(--accent); font-weight: 600; }
+.trade-offs-end:last-child { text-align: right; }
+.trade-offs-ends li::before { width: auto; height: auto; top: 0; background: none; font-weight: 600; }
+.trade-offs-ends .gain::before { content: "+"; }
+.trade-offs-ends .cost::before { content: "−"; }
+.trade-offs-end:last-child li { padding: 0 1em 0 0; }
+.trade-offs-end:last-child li::before { left: auto; right: 0; }
+
+/* a choice that can't be selected now (e.g. values, once 5 are) */
+.choice:has(> input:disabled) > label { color: var(--gray); cursor: not-allowed; }
+.make :is(input[type="checkbox"], input[type="radio"]):disabled { --box-line: var(--line); cursor: not-allowed; }
+
+/* set-up's blocks: a Next under each, and what's still needed beside it */
+.setup-next, #setup-finish { gap: 0.25rem 1rem; }
+.setup-next > p, #setup-finish > p { margin: 0; }
 
 /* repeatable rows (js/controls/rows.js): each entry in a thin box, with a
    pixel × in its corner to remove it */
@@ -437,6 +511,20 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 }
 .row { padding: 0.9rem 2.75rem 0.1rem 0.9rem; }   /* room on the right for the × */
 .summary { padding: 1rem 1.1rem; }
+/* the dotted summary: an outline of square gray pixel dots, like the card's
+   section lines, for what's been chosen (pick lists' tags). Each edge is a
+   row of 2px dots, 4px apart; the stepped corners come from the clip-path. */
+.summary-dotted::before {
+  --dots: repeating-linear-gradient(90deg, var(--gray) 0 2px, transparent 2px 6px);
+  --dots-down: repeating-linear-gradient(180deg, var(--gray) 0 2px, transparent 2px 6px);
+  border: 0;
+  background:
+    var(--dots) top / 100% 2px no-repeat,
+    var(--dots) bottom / 100% 2px no-repeat,
+    var(--dots-down) left / 2px 100% no-repeat,
+    var(--dots-down) right / 2px 100% no-repeat,
+    var(--tint);
+}
 .summary > :last-child { margin-bottom: 0; }
 .row:focus-within { z-index: 1; }   /* the row being edited sits above the next, so its dropdown shows */
 .row .field { margin-bottom: 0.9rem; }
@@ -518,6 +606,11 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .row:has(.row-done:not([hidden])) { padding-right: 4.5rem; }
 .row:has(.row-done) .row-moves { right: 4.3rem; }
 .row:has(.row-done):has(.row-moves) { padding-right: 8.5rem; }
+/* narrow screens: the buttons (↑ ↓ ✓ ×) sit in a strip along the row's top
+   instead of a column down its right side, so the fields get the full width */
+@media (width < 64rem) {   /* = --narrow */
+  .row:has(.row-moves, .row-done:not([hidden])) { padding-top: 2.6rem; padding-right: 0.9rem; }
+}
 
 /* for actions that remove things (e.g. "Delete this module") */
 .link-button-danger { color: var(--error); text-decoration-color: var(--error); }
@@ -560,8 +653,76 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   margin: 1rem 0 1.5rem;
 }
 .summary-list dd { margin: 0; font-size: var(--fs-s); }
-.export-list { margin-top: 0.5rem; }
-.export-list ul { margin: 0; }   /* lists in it keep the pixel bullets */
+/* choices as a table (choices.js choiceTable, e.g. costs): the question on
+   the left, the answers as buttons (the shared button choices above), each
+   as wide as its word; every row has the same answers, so the columns line
+   up. When the table itself is too narrow for the buttons (a container
+   query, not the screen size: e.g. a phone): compact radio buttons under
+   angled column headings. */
+.choice-table-box { container-type: inline-size; }
+.cost-values { margin: 0.25rem 0 0.5rem; }
+.cost-values li + li { margin-top: 0.1rem; }
+.choice-table { width: 100%; border-collapse: collapse; margin: 0.25rem 0 0; }
+.choice-table thead { display: none; }
+.choice-table tbody th { width: 100%; padding: 0.45rem 1.25rem 0.45rem 0; font-size: var(--fs-s); font-weight: 400; text-align: left; vertical-align: middle; }
+.choice-table tbody td { padding: 0.45rem 0.25rem; text-align: center; vertical-align: middle; white-space: nowrap; }
+.choice-table tbody tr + tr :is(th, td) { border-top: var(--rule); }
+.choice-table .choice-button > label { padding-inline: 0.8rem; }
+.choice-table .choice-button-none:has(> input:checked) > label { background: var(--tint-strong); color: var(--ink); }   /* "Not sure" = no answer: muted, not orange */
+@container (width < 34rem) {   /* (about the width the buttons need) */
+  .choice-table thead { display: table-header-group; }
+  /* the headings, tilted so each column stays narrow */
+  /* (each heading sits outside the column's width, so all the answer columns are the same narrow width) */
+  .choice-table thead th { position: relative; width: 2.1rem; height: 5.5rem; padding: 0; font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; color: var(--gray); text-transform: uppercase; letter-spacing: var(--caps-spacing); white-space: nowrap; }
+  .choice-table thead th > span { position: absolute; left: 50%; bottom: 0.4rem; transform: rotate(-60deg); transform-origin: left bottom; }
+  .choice-table { width: calc(100% - 1.75rem); }   /* (room on the right for the last heading's tilt) */
+  .choice-table tbody td { padding-inline: 0.35rem; }
+  /* the answers as the shared pixel radio buttons; their words are said by the headings (and each radio's own label) */
+  .make .choice-table .choice-button-input { position: static; width: var(--tick); height: var(--tick); opacity: 1; vertical-align: middle; }
+  .choice-table .choice-button > :is(label, .choice-tip) { display: none !important; }
+}
+
+/* fields as rows (e.g. Locations, Publish's contact): the labels (with
+   their "i") in one column as wide as the longest, each lined up with its
+   field; anything chosen sits above the field, and a .field-after (e.g. a
+   "show it" box) under it; stacked on narrow screens */
+@media (width >= 64rem) {
+  .field-rows { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 1rem; }
+  .field-rows > .field { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; }
+  .field-rows > .field > :is(label, .field-label) { grid-column: 1; grid-row: 2; margin: 0; }
+  .field-rows > .field > :is(.suggest, input, textarea) { grid-column: 2; grid-row: 2; }
+  .field-rows > .field > :not(label, .field-label, .suggest, input, textarea, .field-after) { grid-column: 2; grid-row: 1; }
+  .field-rows > .field > .field-after { grid-column: 2; grid-row: 3; }
+}
+.field-after.check { margin: 0.4rem 0 0; font-size: var(--fs-s); }
+
+/* a label with a small "i" beside it (dom.js infoTip): the "i" is a pixel
+   italic, and shows its hint in the shared bubble (.choice-tip) on hover,
+   keyboard focus, or a tap */
+.field-label { gap: 0.4rem; }
+.field-label > label { margin: 0; }
+.info-tip {
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  color: var(--gray);
+  font-family: var(--display);
+  font-size: var(--fs-s);
+  font-style: italic;
+  line-height: 1;
+  cursor: help;
+}
+/* its ring: the fields' pixel outline (the rule at the top), on a layer
+   behind; quiet (gray) until hovered or opened, then orange */
+.info-tip::before { content: ""; position: absolute; inset: 0; z-index: -1; --box-line: var(--tint-strong); --field-fill: var(--tint-strong); }   /* (a filled tint, no ring) */
+.info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) { z-index: 7; color: var(--accent); }   /* (in front, so its bubble isn't covered) */
+.info-tip:is(:hover, :focus-visible, [aria-expanded="true"])::before { --box-line: var(--accent); }
+.info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) > .choice-tip { display: block; }
+.info-tip > .choice-tip { font-family: var(--sans); font-style: normal; text-align: left; }   /* (not the "i"'s pixel italic) */
+
 .summary-list .tags { margin: 0; }
 /* the Rules summary: ticked rules grouped by kind, each with its qualifier
    tag and a link to change its wording */
@@ -657,9 +818,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .editor-forget-note {
   min-height: 1.5em;   /* holds its space so what's below doesn't jump */
   margin: 0.5rem 0 0;
-  color: var(--gray);
-  font-family: var(--mono);
-  font-size: var(--fs-xs);
 }
 
 /* Docs: a normal link, just sized for the sidebar */
@@ -785,9 +943,6 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 /* a row of buttons, e.g. at the bottom of a pop-up or a suggestion */
 .button-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   gap: 0.75rem 1.25rem;
   margin-top: 1.25rem;
 }
@@ -810,3 +965,127 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 .popup-close:hover span,
 .popup-close:focus-visible span { color: var(--accent); }
+
+/* the fork pop-up (card-page.js): what's copied and what isn't, side by side, small */
+.fork-lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.5rem 1.5rem; margin-bottom: 1.25rem; font-size: var(--fs-s); }
+.fork-lists ul { margin: 0.25rem 0 0; }
+.fork-lists li + li { margin-top: 0.1rem; }
+
+/* ── the card (js/card-view.js): one summary box, sections under dotted
+   pixel lines; the view's name in the top-right corner ── */
+.card-view { position: relative; padding: 1.5rem 1.5rem 1.25rem; font-size: 0.8rem; }   /* one small size for everything but the headings: between --fs-xs (its labels) and --fs-s */
+.card-mode { position: absolute; top: 0.9rem; right: 1.1rem; margin: 0; color: var(--gray); font-size: var(--fs-xs); }
+/* tags have no margins of their own in the card: their container spaces them (this
+   rule comes before those spacings, and is no stronger, so they win) */
+.card-view :where(.tags) { margin: 0; }
+.card-top > * + * { margin-top: 0.6rem; }
+.card-title { padding-right: 6rem; }
+.card-title a { color: inherit; font: inherit; text-transform: none; letter-spacing: normal; text-decoration: none; background: none; }
+.card-title a:is(:hover, :focus-visible) { color: var(--lime); }
+.card-title > :is(h1, h2, h3) { margin: 0; }
+/* a small group side by side (pills, tags, an icon and its label) */
+.card-group { gap: 0.4rem; }
+/* tags under a small label: a little room between them */
+.card-view .summary-label + .tags { margin-top: 0.3rem; }
+.card-view .summary-list dd { font-size: inherit; }
+.card-line { margin: 0.35rem 0 0; }
+.card-section { margin-top: 1.25rem; padding-top: 1rem; background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px) top / 100% 2px no-repeat; }
+.card-section > h3 { margin: 0 0 0.5rem; font-size: var(--fs-l); }
+.card-section > * + * { margin-top: 0.6rem; }
+.card-section > div:has(> .card-head) { margin-top: 1rem; }   /* a headed group: a little more room above it */
+
+/* pixel pills (type, size, how people join, an approach): dark, small mono capitals */
+.card-pill { --px: 2px; display: inline-block; padding: 0.2em 0.6em; background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--caps-spacing); text-transform: uppercase; }
+/* soft tags: gray (keywords, places, lists); .tag-add (the "More like this" pills) builds on them */
+.tag:is(.tag-soft, .tag-add) { background: var(--line); color: var(--ink); }
+.card-places { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 0.35rem 0 0; }
+.card-places > li { gap: 0.4rem; }
+.tag-role { color: var(--gray); font-size: var(--fs-xs); }
+
+/* a pixel ✓ (orange) or ✗ (gray) after a yes / no answer: strokes two dots thick, to read easily */
+.card-yesno { white-space: nowrap; }
+:is(.icon-yes, .icon-no, .icon-announce, .icon-sub, .icon-note, .icon-meet, .icon-list) { --dot: 2px; position: relative; display: inline-block; width: 18px; height: 14px; vertical-align: -2px; }
+.icon-sub { width: 12px; height: 10px; margin-right: 0.35rem; color: var(--gray); vertical-align: 0; }
+:is(.icon-yes, .icon-no, .icon-announce, .icon-sub, .icon-note, .icon-meet, .icon-list)::after { content: ""; position: absolute; left: 0; top: 0; width: var(--dot); height: var(--dot); }
+.icon-yes { color: var(--accent); }
+.icon-no { color: var(--gray); }
+.icon-yes::after { box-shadow: calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 8) calc(var(--dot) * 0), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 7) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 5); }
+.icon-no::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 6) calc(var(--dot) * 0), calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 1), calc(var(--dot) * 2) calc(var(--dot) * 1), calc(var(--dot) * 5) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 1) calc(var(--dot) * 5), calc(var(--dot) * 2) calc(var(--dot) * 5), calc(var(--dot) * 5) calc(var(--dot) * 5), calc(var(--dot) * 6) calc(var(--dot) * 5), calc(var(--dot) * 0) calc(var(--dot) * 6), calc(var(--dot) * 1) calc(var(--dot) * 6), calc(var(--dot) * 6) calc(var(--dot) * 6), calc(var(--dot) * 7) calc(var(--dot) * 6); }
+/* a pixel note (before every note), two arrows meeting (the response ladder: when there's a problem) and list (shared lists) */
+:is(.icon-note, .icon-meet, .icon-list) { width: 12px; height: 14px; margin-right: 0.35rem; color: var(--gray); vertical-align: -2px; }
+.icon-note::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 0), calc(var(--dot) * 3) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 1), calc(var(--dot) * 3) calc(var(--dot) * 1), calc(var(--dot) * 4) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 0) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 0) calc(var(--dot) * 5), calc(var(--dot) * 2) calc(var(--dot) * 5), calc(var(--dot) * 3) calc(var(--dot) * 5), calc(var(--dot) * 5) calc(var(--dot) * 5), calc(var(--dot) * 0) calc(var(--dot) * 6), calc(var(--dot) * 1) calc(var(--dot) * 6), calc(var(--dot) * 2) calc(var(--dot) * 6), calc(var(--dot) * 3) calc(var(--dot) * 6), calc(var(--dot) * 4) calc(var(--dot) * 6), calc(var(--dot) * 5) calc(var(--dot) * 6); }
+.icon-meet::after { box-shadow: calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 7) calc(var(--dot) * 2), calc(var(--dot) * 8) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 6) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 4), calc(var(--dot) * 7) calc(var(--dot) * 4); }
+.icon-meet { width: 18px; height: 10px; color: var(--accent); vertical-align: 0; }
+.icon-list::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 0), calc(var(--dot) * 3) calc(var(--dot) * 0), calc(var(--dot) * 4) calc(var(--dot) * 0), calc(var(--dot) * 5) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 4), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4); }
+.icon-list { color: var(--accent); }
+/* a pixel ↳ (a process nested under an approach) */
+.icon-sub::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 4); }
+/* a pixel megaphone (communication channels) */
+.icon-announce { color: var(--accent); }
+.icon-announce::after { box-shadow: calc(var(--dot) * 6) calc(var(--dot) * 0), calc(var(--dot) * 4) calc(var(--dot) * 1), calc(var(--dot) * 5) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 6) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 6) calc(var(--dot) * 4), calc(var(--dot) * 1) calc(var(--dot) * 5), calc(var(--dot) * 6) calc(var(--dot) * 5), calc(var(--dot) * 1) calc(var(--dot) * 6); }
+
+/* the scales: a bar of pixel squares per scale, filled to the card's score; the target (Full) with a dotted border, its key on hover */
+.card-scales { display: grid; grid-template-columns: max-content max-content max-content; align-items: center; gap: 0.3rem 0.75rem; }
+.card-scale { display: contents; }
+.card-scale-name { font-size: var(--fs-xs); }
+.card-scale-bar { display: flex; gap: 3px; }
+.card-scale-bar > i { position: relative; width: 12px; height: 12px; background: var(--line); }
+.card-scale-bar > i.on { background: var(--accent); }
+.card-scale-bar > i.target { outline: 2px dotted var(--ink); outline-offset: -2px; cursor: help; }
+.card-scale-bar > i.target:is(:hover, :focus-visible) > .choice-tip { display: block; }   /* "where they'd like to be", in the shared bubble */
+
+/* two columns in a section (Infrastructure: the platform, and the costs), stacked when narrow */
+.card-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem 2rem; align-items: start; }
+.card-columns > div > * + * { margin-top: 0.4rem; }
+/* costs: a row per category, a column per answer (Y O S R N), a pixel dot in its column */
+.card-costs { border-collapse: collapse; margin-top: 0.2rem; }
+.card-costs th, .card-costs td { padding: 0.1rem 0.3rem; line-height: 1.3; }
+.card-costs tbody th { padding-left: 0; font-size: var(--fs-xs); text-align: left; }   /* (mono-u, from the cell) */
+.card-costs thead th { position: relative; cursor: help; }
+.card-costs thead th.card-costs-title { padding-left: 0; text-align: left; cursor: auto; }
+.card-costs thead th:is(:hover, :focus-visible) > .choice-tip { display: block; }
+.card-costs td { text-align: center; }
+.card-costs tbody tr + tr > * { border-top: var(--rule); }
+.card-dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); vertical-align: middle; }
+
+/* steps left to right (conflict, the response ladder): a column of tags per step, a pixel arrow between */
+.card-flow { gap: 0.4rem 0; }
+.card-flow > .tags { flex-direction: column; align-items: flex-start; }
+.flow-arrow { position: relative; width: 1.75rem; height: 1rem; }
+/* …or numbered (conflict): a line per step, its approaches side by side */
+.card-steps { margin: 0; padding: 0; list-style: none; }
+.card-steps .card-note { margin-left: 1.75rem; }   /* (a step's notes, under its approaches) */
+.card-step { gap: 0.5rem; }
+.card-steps > li + li { margin-top: 0.3rem; }
+.card-step-n { min-width: 1.25rem; }
+
+/* notes: a line under what they're about; long ones cut short, with a pixel "…" to read them whole */
+.card-note { margin: 0.25rem 0 0; }
+.card-note > .summary-label { margin-right: 0.15rem; }
+/* a heading with what it's about on the same line (Federation: when there's a problem, and the ladder) */
+.card-inline { gap: 0.4rem 1rem; }
+.card-inline > .card-head { margin: 0; }
+/* a group's small heading (an icon before it, optionally) */
+.card-head { gap: 0.5rem; margin-bottom: 0.35rem; }
+/* (an icon in a flex row: the row's gap spaces it) */
+:is(.card-head, .card-group) > [class^="icon-"] { margin-right: 0; }
+/* the general notes, together, in a small note box (beside what they're about): a label column, the notes beside */
+.card-notes-box { align-self: stretch; margin: 0; padding-block: 0.6rem; font-size: inherit; background-color: var(--tint-strong); }   /* (the stronger tint: it sits on the card's own) */
+.card-notes-box > .card-head { margin-bottom: 0.4rem; }
+.card-notes { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; align-items: baseline; }
+.card-notes > .card-note { margin: 0; }
+/* an approach, with its note beside it */
+.card-approach { gap: 0.25rem 0.75rem; }
+.card-approach > .card-note { margin: 0; }
+.card-more { --px: 2px; border: 0; display: inline-flex; gap: 2px; align-items: center; padding: 4px 5px; background: var(--line); vertical-align: middle; cursor: pointer; }
+.card-more > span { width: 3px; height: 3px; background: var(--ink); }
+.card-more:is(:hover, :focus-visible), .card-more[aria-expanded="true"] { background: var(--lime); }
+.card-structure > li { margin-top: 0.4rem; }
+.card-structure .card-note { margin-left: 1rem; }
+/* a row of separate things (Federation: the approach, the block list, the lists followed), well apart */
+.card-row { gap: 0.6rem 1.75rem; }
+.card-channels { margin-top: 1.25rem; }
+.card-rows { margin: 0; }
+/* a custom rule, under its type: a hollow bullet (an outlined pixel square), unlike the listed rules' filled ones */
+.card-rows li.custom::before { top: calc(0.5lh - 3.5px); width: 7px; height: 7px; background: none; box-shadow: inset 0 0 0 2px var(--accent); }
+@media (width < 40rem) { .card-rows { grid-template-columns: 1fr; gap: 0; } .card-rows dd { margin-bottom: 0.5rem; } }   /* label above its value */
