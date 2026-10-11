@@ -1569,7 +1569,7 @@
       "fit": 2,
       "flag": null,
       "why": "Sharing data and findings is the point.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1577,7 +1577,7 @@
       "fit": 1,
       "flag": null,
       "why": "Volunteers learn the science as they take part.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1585,7 +1585,7 @@
       "fit": 1,
       "flag": null,
       "why": "Many projects teach as much as they collect.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1593,7 +1593,7 @@
       "fit": 1,
       "flag": null,
       "why": "Open participation and, often, open data.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1601,7 +1601,7 @@
       "fit": 1,
       "flag": null,
       "why": "Results and data are often published openly.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1609,7 +1609,7 @@
       "fit": 1,
       "flag": null,
       "why": "Anyone should be able to take part, whatever their background.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1617,7 +1617,7 @@
       "fit": 1,
       "flag": null,
       "why": "Careful, consistent data is what makes it count.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1625,7 +1625,7 @@
       "fit": 1,
       "flag": null,
       "why": "Clear protocols let many people collect data the same way.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1633,7 +1633,7 @@
       "fit": 1,
       "flag": null,
       "why": "Many hands on one question.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1641,7 +1641,7 @@
       "fit": 1,
       "flag": null,
       "why": "Often about caring for a place or a species: counts, surveys, monitoring.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -1649,7 +1649,7 @@
       "fit": 1,
       "flag": "interesting",
       "why": "Some projects are about one place: a river, a neighborhood's air.",
-      "status": "proposed"
+      "status": "accepted"
     }
   ],
   "removed": []

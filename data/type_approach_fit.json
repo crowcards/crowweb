@@ -4528,7 +4528,7 @@
       "fit": 2,
       "flag": null,
       "why": "Anyone can contribute observations; that openness is the point.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4537,7 +4537,7 @@
       "fit": 1,
       "flag": null,
       "why": "Contributors usually learn the protocol first, so their data is usable.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4546,7 +4546,7 @@
       "fit": 1,
       "flag": null,
       "why": "Experienced volunteers often help newcomers, e.g. on the forum or as validators.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4555,7 +4555,7 @@
       "fit": 1,
       "flag": null,
       "why": "Experienced volunteers often take on more, e.g. as moderators or validators.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4564,7 +4564,7 @@
       "fit": -2,
       "flag": null,
       "why": "Volunteers aren't screened one by one: the protocol, not the person, is checked, and screening would shrink the crowd the project depends on.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4573,7 +4573,7 @@
       "fit": -1,
       "flag": null,
       "why": "Invitation-only joining defeats the purpose of crowdsourced data.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4582,7 +4582,7 @@
       "fit": -1,
       "flag": null,
       "why": "Members don't vote on each new volunteer.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4591,7 +4591,7 @@
       "fit": -2,
       "flag": "gate",
       "why": "Paying to contribute would shut out the volunteers the project depends on.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4600,7 +4600,7 @@
       "fit": 1,
       "flag": null,
       "why": "When scientists or an institution run it, the team sets the protocol and decides how the data is used.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4609,7 +4609,7 @@
       "fit": 2,
       "flag": null,
       "why": "The project team usually hands day-to-day calls to moderators and coordinators.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4618,7 +4618,7 @@
       "fit": 1,
       "flag": null,
       "why": "Larger projects often have a volunteer or community advisory group.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4627,7 +4627,7 @@
       "fit": 1,
       "flag": "interesting",
       "why": "Community-run projects, e.g. a collective monitoring its own air or water, often decide together.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4636,7 +4636,7 @@
       "fit": 1,
       "flag": "interesting",
       "why": "In community-run projects, whoever organizes a count often decides how it runs.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4645,7 +4645,7 @@
       "fit": 2,
       "flag": null,
       "why": "Moderators or the project team usually settle disputes; that is the norm here.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4654,7 +4654,7 @@
       "fit": -1,
       "flag": null,
       "why": "Too formal for a volunteer data project.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4663,7 +4663,7 @@
       "fit": -1,
       "flag": null,
       "why": "Too formal for a volunteer data project.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "type": "citizen_science",
@@ -4672,7 +4672,7 @@
       "fit": 1,
       "flag": "interesting",
       "why": "Community-run projects often work disagreements out together.",
-      "status": "proposed"
+      "status": "accepted"
     }
   ],
   "removed": [

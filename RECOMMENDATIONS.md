@@ -147,7 +147,7 @@ What happened:
 1. **Conflict management:** 1 of 20 good choices Suggested on the held-out set.
 2. **The identity / cultural community type:** a starting-point table, to work out with the Blacksky folks.
 3. **Descriptions:** the word lists find few values, because people rarely use the values' own words. On the benchmarks, words alone find about a third of core values.
-4. **The citizen-science community type:** its marks are new and still waiting for review.
+4. **The citizen-science community type:** its marks are new (approved 2026-10-11) and checked on only one example, Fireball Count.
 
 ---
 
@@ -241,7 +241,6 @@ Watch for contradictions between datasheets: the same idea can be counted twice,
 
 ### D. Open questions and smaller tasks
 
-- **Citizen science:** review and approve its new marks (`bench.html`, Type fit).
 - **Identity / cultural:** work out its table with the Blacksky folks.
 - **Strong "against" marks can vanish.** Because the community type is compared with the usual, an "against" that most types share says nothing for any of them. The current rules stop this from causing wrong chips, but it should be revisited if a case turns up.
 - **Maybe later:** word lists for approaches ("we vote on everything" → majority rule); a chosen decision-making approach as evidence for conflict management; our own starting templates, perhaps from the benchmark communities; recommendations that learn from published cards (opt-in, once the Library exists).
