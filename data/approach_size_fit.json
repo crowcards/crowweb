@@ -205,7 +205,7 @@
       "medium": 1,
       "large": 2,
       "very_large": 1,
-      "why": "Heavy structure for a small group; built for growing organisations.",
+      "why": "Heavy structure for a small group; built for growing organizations.",
       "status": "accepted"
     },
     {
@@ -700,7 +700,7 @@
       "medium": 0,
       "large": 1,
       "very_large": 1,
-      "why": "Tiers help organise many members; small groups rarely need them.",
+      "why": "Tiers help organize many members; small groups rarely need them.",
       "status": "accepted"
     },
     {

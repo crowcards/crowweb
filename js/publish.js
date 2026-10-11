@@ -172,10 +172,10 @@ export function renderPublish(container, ctx) {
   });
   const remember = check("Remember this email in this browser, for my next cards", Boolean(getPref(EMAIL_PREF, null)) && getPref(EMAIL_PREF, null) === a().contributorEmail,
     (on) => setPref(EMAIL_PREF, on ? email.value() : null));
-  const name = textField({ label: "Your name", hint: "Optional. Shown on the published card only if you tick the box.", hintTip: true, value: a().contributorName, onInput: () => changeAttribution({ contributorName: name.value() }) });
+  const name = textField({ label: "Your name", hint: "Optional. Shown on the published card only if you select the box.", hintTip: true, value: a().contributorName, onInput: () => changeAttribution({ contributorName: name.value() }) });
   const showName = check("Show my name on the published card", Boolean(a().showName), (on) => changeAttribution({ showName: on }));
-  const org = textField({ label: "Organisation", hint: "Optional. Shown on the published card only if you tick the box.", hintTip: true, value: a().organization, onInput: () => changeAttribution({ organization: org.value() }) });
-  const showOrg = check("Show the organisation on the published card", Boolean(a().showOrganization), (on) => changeAttribution({ showOrganization: on }));
+  const org = textField({ label: "Organization", hint: "Optional. Shown on the published card only if you select the box.", hintTip: true, value: a().organization, onInput: () => changeAttribution({ organization: org.value() }) });
+  const showOrg = check("Show the organization on the published card", Boolean(a().showOrganization), (on) => changeAttribution({ showOrganization: on }));
   // each box under its field (in the rows: .field-after)
   for (const [field, box] of [[email, remember], [name, showName], [org, showOrg]]) {
     box.element.classList.add("field-after");

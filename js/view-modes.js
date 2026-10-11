@@ -17,7 +17,7 @@
 //   scoredItems(scaleData, opts)      → Map "list:option" → its scores (the ones that count)
 //
 // The modes, from least to most shared: Minimal, Foggy, Misty, Full
-// (see "Publishing behaviour" in DESIGN.md). Never shown in any mode: the editor-only part (set-aside
+// (see "Publishing behavior" in DESIGN.md). Never shown in any mode: the editor-only part (set-aside
 // answers, dismissed suggestions, …) and attribution (credit appears only
 // if the contributor opts in). Switched-off modules are left out.
 

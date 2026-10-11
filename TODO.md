@@ -1,6 +1,6 @@
 # CROW Cards — to do
 
-The roadmap, smaller tasks, what to test and review, and what's needed before launch. How the project works (architecture, behaviour, design decisions, the team's procedures) is in `DESIGN.md`. People read this file (e.g. on GitHub); Claude reads it too.
+The roadmap, smaller tasks, what to test and review, and what's needed before launch. How the project works (architecture, behavior, design decisions, the team's procedures) is in `DESIGN.md`. People read this file (e.g. on GitHub); Claude reads it too.
 
 **Claiming a task:** put your name in its **Who** column and set **Status** to *In progress* (commit that on your branch, and tell the team). If a task already has a name, ask that person before taking it over. When it's finished, set it to *Done*, and add anything others need to know to the notes here, or to the relevant section of `DESIGN.md`.
 
@@ -32,7 +32,7 @@ The phases and major pieces of work, in order. We launch without the Library (Ph
 ### Phase 4: basic publish/share functionality
 | What it covers | Status | Note |
 |---|---|---|
-| View modes (Minimal, Foggy, Misty, Full) and the 1–7 governance scales; publishing on the Export page (versions, preview, credit, unpublish); See "Publishing behaviour" in `DESIGN.md`. | Done (checked on the emulator and on staging, 2026-10-08) | Claude |
+| View modes (Minimal, Foggy, Misty, Full) and the 1–7 governance scales; publishing on the Export page (versions, preview, credit, unpublish); See "Publishing behavior" in `DESIGN.md`. | Done (checked on the emulator and on staging, 2026-10-08) | Claude |
 | The public card page (`/c/crd_…`), drawn as one visual summary box; forking from a published card; adding reporting and the takedown procedure.  | Done | |
 | Design tweaks: set-up presented in blocks, the community description text box added, target scales, values capped at 5, and scored recommendations with "More like this / Try something new". | Done | |
 
@@ -106,13 +106,13 @@ To support some of this work, there are a few first tasks we need to do:
     * `value_recommendations_{decision,membership,conflict}.json`
     * `type_value_fit.json`
     * `type_approach_fit.json`
-  In general, it does seem to work okay and Sohyeon did a high-level pass through every entry. But this would benefit from a project to score them properly, e.g. via crowdsourcing: several raters (students, community organisers, governance researchers) score each option and value independently on P, T and H, using the definitions and "applies" notes; measure agreement (e.g. Krippendorff's alpha), discuss and resolve the disagreements, and replace the positions with the agreed scores, recording the method. One thing to be wary of is conflicting claims across datasheets. Likewise, a project developing a rubric for scoring would be valuable, i.e., how strongly each value argues for or against each approach, −2 … +2, with a reason) were drafted, pruned in two passes (contradictions, stretched or uncharitable reasons) and approved at a high level by Sohyeon (2026-10-09).
+  In general, it does seem to work okay and Sohyeon did a high-level pass through every entry. But this would benefit from a project to score them properly, e.g. via crowdsourcing: several raters (students, community organizers, governance researchers) score each option and value independently on P, T and H, using the definitions and "applies" notes; measure agreement (e.g. Krippendorff's alpha), discuss and resolve the disagreements, and replace the positions with the agreed scores, recording the method. One thing to be wary of is conflicting claims across datasheets. Likewise, a project developing a rubric for scoring would be valuable, i.e., how strongly each value argues for or against each approach, −2 … +2, with a reason) were drafted, pruned in two passes (contradictions, stretched or uncharitable reasons) and approved at a high level by Sohyeon (2026-10-09).
 * **Review / validate a set of test cards**. The 18 benchmark communities (`benchmark_communities.json`) were written alongside the datasheets and word lists, so the suggestions are partly tuned to them and web app performs better for them. Sohyeon had Claude generate 300 (fake) communities. Ideally, we want to move in 25-chunks to test and suggest iterations/improvements to the recommendations flow (namely, the datasheets).
 * **Gather some real-world cards** This would then be further validated by a project to gather 15–30 real online communities across the community types: each one's own about / purpose text and rules as written (with permission, or public and quoted briefly), its community type, format and size, and, ideally from its members or moderators, what it would choose (core values, and good / acceptable / to-avoid approaches); then measure the suggestions on them **without** changing the datasheets or tuning to them, so the numbers say how well it works on communities nobody had in mind.
 
 ## Recommendations
 
-How the recommendations were built, tested and tuned, what we learned, and the next steps (the language model, firmer datasheets, better test examples): **`RECOMMENDATIONS.md`**. How they work today, in short: `DESIGN.md`, "Recommendations behaviour".
+How the recommendations were built, tested and tuned, what we learned, and the next steps (the language model, firmer datasheets, better test examples): **`RECOMMENDATIONS.md`**. How they work today, in short: `DESIGN.md`, "Recommendations behavior".
 
 ## Checking things
 

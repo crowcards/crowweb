@@ -372,7 +372,7 @@ fitSelect.append(...typesFile.items.map((st) => {
 let fitShow = "changes";   // "changes" or "all"
 function renderFit() {
   const st = typesFile.items.find((x) => x.id === fitSelect.value);
-  // its benchmarks: anything they expect that the marks argue against, or that they avoid but the marks favour
+  // its benchmarks: anything they expect that the marks argue against, or that they avoid but the marks favor
   const problems = [];
   const weak = [];
   for (const c of bench.communities.filter((x) => x.type === st.id)) {

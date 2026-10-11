@@ -1,6 +1,6 @@
 /* ============================================================
    CROW Docs — loaded after styles.css on docs.html only.
-   The header, colours, fonts, links, sidebar layout and base tables all
+   The header, colors, fonts, links, sidebar layout and base tables all
    come from styles.css; this file only adds docs-specific pieces.
    ============================================================ */
 
@@ -57,7 +57,7 @@ html {
 /* ── platform tables ─────────────────────────────────────── */
 .platform-section { margin-bottom: 3rem; }
 
-/* "Chat group" etc.: a small grey label with a line running off to the
+/* "Chat group" etc.: a small gray label with a line running off to the
    right (the capitals come from .mono-u on the element) */
 .section-label {
   display: flex;
@@ -106,7 +106,7 @@ html {
 .cv.rare   { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
 .cv.some   { background: var(--tint); color: var(--accent); }
 
-/* ── cost matrix: .table.matrix (centred cells, scrolls sideways) */
+/* ── cost matrix: .table.matrix (centered cells, scrolls sideways) */
 .cost-wrap { overflow-x: auto; margin: 1em 0 1.5em; }
 
 .table.matrix {
@@ -118,7 +118,7 @@ html {
 }
 
 .table.matrix :is(th, td) { text-align: center; vertical-align: middle; }
-.table :is(th, td).score { width: 1%; text-align: center; }   /* a narrow, centred column of scores (the workbench, bench.html) */
+.table :is(th, td).score { width: 1%; text-align: center; }   /* a narrow, centered column of scores (the workbench, bench.html) */
 .table.matrix :is(th, td):first-child { text-align: left; }
 .table.matrix th:first-child { min-width: 160px; }
 .table.matrix td:first-child { font-family: var(--mono); }

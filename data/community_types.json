@@ -13,7 +13,7 @@
     {
       "id": "family",
       "label": "Family",
-      "description": "Relatives keeping in touch and organising family life.",
+      "description": "Relatives keeping in touch and organizing family life.",
       "examples": "A family group chat, a cousins' Discord, a shared family calendar",
       "status": "accepted"
     },
@@ -25,10 +25,10 @@
       "status": "accepted"
     },
     {
-      "id": "neighbourhood",
-      "label": "Neighbourhood / local",
+      "id": "neighborhood",
+      "label": "Neighborhood / local",
       "description": "People who live in the same place.",
-      "examples": "A street or building forum, a neighbourhood mutual aid chat, a village noticeboard",
+      "examples": "A street or building forum, a neighborhood mutual aid chat, a village noticeboard",
       "status": "accepted"
     },
     {
@@ -40,15 +40,15 @@
     },
     {
       "id": "workplace",
-      "label": "Workplace / organisation",
-      "description": "People who work together in one organisation.",
+      "label": "Workplace / organization",
+      "description": "People who work together in one organization.",
       "examples": "A company's Slack, a nonprofit's staff chat, a team's workspace",
       "status": "accepted"
     },
     {
       "id": "professional",
       "label": "Professional / industry",
-      "description": "People in the same field, across organisations.",
+      "description": "People in the same field, across organizations.",
       "examples": "A professional network, an industry mailing list, a practitioners' Slack",
       "status": "accepted"
     },
@@ -62,7 +62,7 @@
     {
       "id": "movement",
       "label": "Movement / activism",
-      "description": "People organising for a cause or for change.",
+      "description": "People organizing for a cause or for change.",
       "examples": "A tenants' union, a climate campaign, a mutual aid network",
       "status": "accepted"
     },
@@ -97,7 +97,7 @@
     {
       "id": "citizen_science",
       "label": "Citizen science",
-      "description": "Members of the public collecting, classifying or analysing data for a research project. Often run by scientists or an institution, but also by communities and collectives.",
+      "description": "Members of the public collecting, classifying or analyzing data for a research project. Often run by scientists or an institution, but also by communities and collectives.",
       "examples": "A Zooniverse project, iNaturalist, a bird count, a community air-quality network",
       "status": "proposed"
     },
@@ -125,7 +125,7 @@
     {
       "id": "club",
       "label": "Club / association",
-      "description": "A membership organisation with formal members.",
+      "description": "A membership organization with formal members.",
       "examples": "A sports club, an alumni association, a membership nonprofit",
       "status": "accepted"
     },
@@ -146,7 +146,7 @@
     {
       "id": "dao_web3",
       "label": "DAO / web3 project",
-      "description": "An organisation governed on a blockchain.",
+      "description": "An organization governed on a blockchain.",
       "examples": "A protocol DAO, a grants DAO, a token-governed project",
       "status": "accepted"
     }

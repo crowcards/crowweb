@@ -164,67 +164,67 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "localism",
       "fit": 2,
       "flag": null,
-      "why": "Neighbourhoods are about the place and helping each other.",
+      "why": "Neighborhoods are about the place and helping each other.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "mutual_aid",
       "fit": 2,
       "flag": null,
-      "why": "Neighbourhoods are about the place and helping each other.",
+      "why": "Neighborhoods are about the place and helping each other.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "community_care",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "inclusion",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "transparency",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "participation",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "generosity",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "trust",
       "fit": 1,
       "flag": null,
-      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "why": "What makes a neighborhood space work for everyone nearby.",
       "status": "accepted"
     },
     {
@@ -504,7 +504,7 @@
       "value": "participation",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -512,7 +512,7 @@
       "value": "direct_action",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -520,7 +520,7 @@
       "value": "accountability",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -528,7 +528,7 @@
       "value": "transparency",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -536,7 +536,7 @@
       "value": "collaboration",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -544,7 +544,7 @@
       "value": "equity",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -552,7 +552,7 @@
       "value": "anti_oppression",
       "fit": 1,
       "flag": null,
-      "why": "How movements try to organise.",
+      "why": "How movements try to organize.",
       "status": "accepted"
     },
     {
@@ -1180,7 +1180,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "stewardship",
       "fit": 1,
       "flag": null,
@@ -1500,7 +1500,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "value": "common_ownership",
       "fit": 1,
       "flag": "interesting",
@@ -1648,7 +1648,7 @@
       "value": "localism",
       "fit": 1,
       "flag": "interesting",
-      "why": "Some projects are about one place: a river, a neighbourhood's air.",
+      "why": "Some projects are about one place: a river, a neighborhood's air.",
       "status": "proposed"
     }
   ],

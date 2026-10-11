@@ -227,7 +227,7 @@ function makeEmptyCard(cardId) {
       forkModules: null,        // a fork's modules, ticked at set-up (then no longer used)
     },
 
-    // Who shared the card: never public, except the name and organisation
+    // Who shared the card: never public, except the name and organization
     // when their "show" box is ticked. The email (required to publish) is
     // only for the CROW team, to get in touch about the card.
     attribution: {

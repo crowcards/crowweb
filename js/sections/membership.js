@@ -1,6 +1,6 @@
 // The Membership module: how people join (first how open joining is — one or
 // more tiers — then the ways of joining in those tiers), how membership is
-// organised (the community's structure: decision-making approaches), and a note.
+// organized (the community's structure: decision-making approaches), and a note.
 //
 //   const data = await loadMembershipData();
 //   const form = renderMembership(container, card.membership, data, { onInput, onCommit, stateKey });
@@ -101,7 +101,7 @@ export function renderMembership(container, membership = {}, data, { onInput = (
   // note on how it works for membership (Processes keeps its own notes per
   // kind of work)
   const structure = pickList({
-    legend: "How membership is organised",
+    legend: "How membership is organized",
     hint: "How decisions get made among members. Select all that apply; you can adjust these again under Processes.",
     options: data.approaches,
     items: membership.structure || [],

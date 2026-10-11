@@ -15,7 +15,7 @@
     "hierarchical": 4
    },
    "description": {
-    "purpose": "A Discord server for Filipinos who grew up abroad, and anyone still working out where they fit. Swap recipes, practise your Tagalog or Bisaya, vent about family, and find kababayan in your new city.",
+    "purpose": "A Discord server for Filipinos who grew up abroad, and anyone still working out where they fit. Swap recipes, practice your Tagalog or Bisaya, vent about family, and find kababayan in your new city.",
     "culture": "Like the kitchen at a family party: loud, a lot of teasing, and everyone gets fed. Ask the question you were too embarrassed to ask your titas; someone here has asked it too."
    },
    "keywords": [
@@ -720,7 +720,7 @@
     "hierarchical": 4
    },
    "description": {
-    "purpose": "The local club for licensed radio amateurs and people working towards a licence. We run the repeater, a Tuesday night net, Field Day every June and licence classes twice a year; this list carries meeting notices, swap-and-sell posts and the odd argument about antennas.",
+    "purpose": "The local club for licensed radio amateurs and people working towards a license. We run the repeater, a Tuesday night net, Field Day every June and license classes twice a year; this list carries meeting notices, swap-and-sell posts and the odd argument about antennas.",
     "culture": "Old hands and newcomers are on the same footing on the air. Dues keep the repeater running, and the minutes go out to the list after every meeting."
    },
    "keywords": [
@@ -728,7 +728,7 @@
     "amateur radio",
     "repeater",
     "field day",
-    "licence classes"
+    "license classes"
    ],
    "expected": {
     "values": {

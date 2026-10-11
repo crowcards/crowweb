@@ -8,7 +8,7 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
   - Staging: staging.crowcards.org (Firebase)
 - Firebase project: `cos-princeton-hci-crow`
 - The team's plan (what's done, in progress and to do, and tasks you can claim): **`TODO.md`**.
-- See `DESIGN.md` for the architecture, the card's data structure, and how the code is organised.
+- See `DESIGN.md` for the architecture, the card's data structure, and how the code is organized.
 - Questions: ask Sohyeon (the team lead), or write to crowcards@princeton.edu.
 
 ## Getting set up
@@ -74,7 +74,7 @@ The local database starts empty each time. To keep your test cards between runs,
 - **`data/`:** the reference datasheets (platforms, values, rules, tools, laws, …) that the editor, the docs page and the laws page are built from.
 - **`functions/`:** the server (creating, opening and saving cards).
 - **`scripts/`:** small scripts run at deploy (e.g. the deploy stamp).
-- **CSS:** `styles.css` (the whole site: colours, fonts, shared pieces), `make.css` (the editor), `docs.css` (the docs and scales pages).
+- **CSS:** `styles.css` (the whole site: colors, fonts, shared pieces), `make.css` (the editor), `docs.css` (the docs and scales pages).
 
 ### Editing the datasheets (`data/*.json`)
 - Each item has an `id` (what a card stores) and a `label` (what people see). **Never change an `id`**: saved cards point to it. Labels and descriptions can be reworded freely.

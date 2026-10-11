@@ -3,7 +3,7 @@
 A handoff for whoever picks up the next steps, starting with our own language model. It explains how the editor's recommendations work, how they were developed and tested, what we learned, and what's left to do.
 
 Related documents:
-- `DESIGN.md`, "Recommendations behaviour": how recommendations work today, in short. The code is the final word.
+- `DESIGN.md`, "Recommendations behavior": how recommendations work today, in short. The code is the final word.
 - `TODO.md`: the tasks themselves (Improvement tasks, the Local Model notes, before-launch items).
 
 ---
@@ -91,7 +91,7 @@ We started over from how to make a recommendation, deciding these together:
    - **Size fit** was re-scored with a written rule: an approach strains with size only where it needs the whole membership, personal acquaintance, or a few people's work that grows with every member.
    - **The value links** were pruned in passes: contradictions, stretched reasons, and reasons that assumed the worst version of an approach (e.g. a manager who doesn't hear both sides).
    - **The value tabs** were settled, and 18 placeholder descriptions rewritten.
-6. **Regenerate the word lists.** Mining CommunityRule's value descriptions for distinctive words (TF-IDF) was tried and set aside: those descriptions are written as examples ("wheelchair ramps"), not the way communities talk, so it gave fragments and even opposites. Instead, each value's list is its own name plus everyday phrases (e.g. Community care: "look after each other", "check in on"), with words that match too many values removed. Matching is by word stem (`js/stem.js`: "organise / organising / organiser" match), phrases must match in order, and a match after "not", "no" or "never" is skipped. `scripts/make-value-terms.mjs` proposes and measures the lists.
+6. **Regenerate the word lists.** Mining CommunityRule's value descriptions for distinctive words (TF-IDF) was tried and set aside: those descriptions are written as examples ("wheelchair ramps"), not the way communities talk, so it gave fragments and even opposites. Instead, each value's list is its own name plus everyday phrases (e.g. Community care: "look after each other", "check in on"), with words that match too many values removed. Matching is by word stem (`js/stem.js`: "organize / organizing / organizer" match), phrases must match in order, and a match after "not", "no" or "never" is skipped. `scripts/make-value-terms.mjs` proposes and measures the lists.
 7. **Build a workbench** (`bench.html`) to review every datasheet, see every score broken down, and measure against the benchmarks.
 
 The baseline after the rebuild was 30 of 78 core values and 51 of 110 good approaches Suggested on the benchmarks, with no to-avoid chips.
@@ -220,7 +220,7 @@ That tells us whether the model is worth its cost before anything is wired in, a
 
 ### B. Put the main datasheets on firmer ground
 
-These four rest on one person's careful judgement, checked at a high level:
+These four rest on one person's careful judgment, checked at a high level:
 - **The community type fit tables** (the most influential): a written rubric for what +2, +1, "interesting" and "not a fit" mean, several raters per community type, agreement measured, and a check against real communities of each type. Start with conflict management.
 - **The scales positions:** several raters score each option and value on the three scales, using the definitions; measure agreement (e.g. Krippendorff's alpha); resolve the disagreements; record the method.
 - **The value links:** a rubric (when does a value argue for or against an approach, and what makes it +2 rather than +1), grounded where possible in governance research and real communities' rules. It should also catch links that describe a mechanism rather than a fit.

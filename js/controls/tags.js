@@ -5,7 +5,7 @@
 //   list.render([{ id, label }]);
 // Without onRemove the chips are just for showing (no ×).
 //
-// tagInput — a labelled box where typing a word and pressing Enter, Tab or a
+// tagInput — a labeled box where typing a word and pressing Enter, Tab or a
 // comma adds it as a tag (keywords, server lists, protocols):
 //   const kw = tagInput({ label: "Keywords", hint, values: ["seeds"], onCommit });
 //   kw.value()   → the list of tags

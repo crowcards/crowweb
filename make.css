@@ -20,7 +20,7 @@
 .popup,   /* (on any page: the card page's fork pop-up too) */
 .make .info-tip::before {   /* (the "i"'s backdrop; a pseudo-element can't go inside :is()) */
   --px: var(--box-px, 2px);                       /* a box can set bigger steps (the pop-up: 4px) */
-  --field-line: var(--box-line, var(--accent));   /* …and its own outline colour (the pop-up's) */
+  --field-line: var(--box-line, var(--accent));   /* …and its own outline color (the pop-up's) */
   --field-corners:
     linear-gradient(var(--field-line) 0 0) left var(--px) top var(--px) / var(--px) var(--px) no-repeat,
     linear-gradient(var(--field-line) 0 0) right var(--px) top var(--px) / var(--px) var(--px) no-repeat,
@@ -71,7 +71,7 @@
   width: var(--tick);
   height: var(--tick);
   margin: 0;
-  /* in a list row: centred on the first line of its label (--first-line, set on .choice below) */
+  /* in a list row: centered on the first line of its label (--first-line, set on .choice below) */
   margin-top: calc((var(--first-line, var(--tick)) - var(--tick)) / 2);
   cursor: pointer;
 }
@@ -140,7 +140,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   margin-inline: -0.5rem;
   padding: 0.35rem 0.5rem;
 }
-/* the box is centred on the first line of its label, however many lines
+/* the box is centered on the first line of its label, however many lines
    follow (see the tick box rule); --first-line is that line's height */
 .choice:has(.choice-name:only-child),
 .choice-compact { --first-line: calc(var(--fs-s) * 1.5); }   /* a plain name, no description */
@@ -279,7 +279,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .pick-tags .tag.is-dragging { opacity: 0.4; }
 /* a tag with a note badge gets room to its right, and a list with any
    badges more room between its rows, so badges don't crowd their
-   neighbours (tags keep one height: they don't stretch to fill a row) */
+   neighbors (tags keep one height: they don't stretch to fill a row) */
 .tag.has-note { margin-right: 0.4rem; }
 .tags:has(> .has-note) { row-gap: 0.7rem; }   /* (no extra space above: tags already sit far enough below the text for the badge) */
 .note-mark { --px: 2px; position: absolute; top: -7px; right: -7px; width: 14px; height: 14px; padding: 0; border: 0; background: var(--ink-on-color); cursor: pointer; }   /* stepped corners: shared rule in styles.css */
@@ -302,7 +302,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 }
 .pick-chosen .tags { margin-top: 0.5rem; }
 .choice-hint-below { margin: 0.5rem 0 0; }
-/* "opens a new tab": a small pixel arrow pointing up and right, in the text's colour */
+/* "opens a new tab": a small pixel arrow pointing up and right, in the text's color */
 .icon-out { position: relative; display: inline-block; width: 10px; height: 10px; margin-left: 0.4em; vertical-align: 0.05em; }
 .icon-out::after {
   content: "";
@@ -439,7 +439,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .choice-range > label { font-size: var(--fs-s); cursor: pointer; }
 .choice-range:has(> .choice-tip) > label { text-decoration: underline dotted var(--gray); text-underline-offset: 3px; }
 /* (the bubble hangs from its number: the first three's open to the right,
-   the last three's to the left, the middle of seven's centred; narrower on
+   the last three's to the left, the middle of seven's centered; narrower on
    small screens, so none runs off the edge) */
 .choice-range > .choice-tip { max-width: min(18rem, 60vw); }
 .choice-range:nth-last-child(-n + 3):not(:nth-child(-n + 3)) > .choice-tip { left: auto; right: 0; }
@@ -774,7 +774,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 }
 
 /* ── editor sidebar (wide screens) ───────────────────────── */
-/* the crow, the card's name, the buttons and Docs sit centred; the module
+/* the crow, the card's name, the buttons and Docs sit centered; the module
    list stays left-aligned */
 .editor-crow {   /* the flapping header crow, perched at the top */
   --sprite: 4rem;

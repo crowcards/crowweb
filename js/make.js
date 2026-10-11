@@ -436,7 +436,7 @@ function clearAside(parts) {
 
 /**
  * Ask for a name and description in a pop-up, then add the module to the
- * card's custom modules. Resolves with the new module, or null if cancelled.
+ * card's custom modules. Resolves with the new module, or null if canceled.
  */
 function addCustomModule() {
   return new Promise((resolve) => {

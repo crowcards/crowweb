@@ -141,7 +141,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   const typeHint = (id) => {
     const t = data.communityTypes.find((x) => x.id === id);
     return t?.examples ? `${t.description} E.g. ${t.examples}.` : t?.description
-      || "What kind of group is it, e.g. a workplace, a neighbourhood, a support group? This shapes what's suggested.";
+      || "What kind of group is it, e.g. a workplace, a neighborhood, a support group? This shapes what's suggested.";
   };
   const type = selectField({
     label: "Community type",

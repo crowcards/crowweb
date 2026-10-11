@@ -45,7 +45,7 @@ export function foldSection({ title, key, level = 2, foldable = true, actions = 
 
   const heading = el(`h${level}`, {}, foldable ? toggle : title);
   // section headings (level 2) light up letter by letter, like the site's
-  // other Argent headings; smaller headings change colour as a whole
+  // other Argent headings; smaller headings change color as a whole
   // (the letters go in one span inside the button, so the button's gap only
   // sits between the plus and the title; the button keeps the title as its name)
   if (level === 2) {

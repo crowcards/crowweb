@@ -2,7 +2,7 @@
 // details, how people join once a tier is picked, …). By default its parts
 // cascade in: each fades and slides up a moment after the one before.
 // Other effects, kept for trying out (style.html), combinable:
-//   pixels — shown under a layer of page-coloured pixels that drop away in
+//   pixels — shown under a layer of page-colored pixels that drop away in
 //            random order, a few flashing lime or orange on the way out
 //   tail   — the pixels go fast at first and the last few slowly
 //   decode — its text scrambles through random characters before settling
@@ -14,7 +14,7 @@
 // With "reduce motion" on (or where canvas isn't available) it just appears.
 
 const CELL = 8;           // pixel size, in CSS px
-const FLASH = 0.06;       // share of pixels that flash a colour before going
+const FLASH = 0.06;       // share of pixels that flash a color before going
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$%&@*+=<>/";
 const SIZES = ["0.55em", "0.75em", "1.35em", "1.7em"];
 
@@ -63,7 +63,7 @@ function dissolve(element, duration, tail) {
 
   const css = getComputedStyle(document.documentElement);
   const bg = css.getPropertyValue("--bg").trim();
-  const colours = [css.getPropertyValue("--lime").trim(), css.getPropertyValue("--accent").trim()];
+  const colors = [css.getPropertyValue("--lime").trim(), css.getPropertyValue("--accent").trim()];
   const cols = Math.ceil(width / CELL);
   const rows = Math.ceil(height / CELL);
   const cells = [];
@@ -91,7 +91,7 @@ function dissolve(element, duration, tail) {
     for (; gone < target; gone++) {
       const [x, y] = cells[gone];
       if (Math.random() < FLASH) {
-        ctx.fillStyle = colours[Math.floor(Math.random() * colours.length)];
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
         ctx.fillRect(x * CELL, y * CELL, CELL, CELL);
         flashing.push([x, y]);
       } else ctx.clearRect(x * CELL, y * CELL, CELL, CELL);

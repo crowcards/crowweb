@@ -30,7 +30,7 @@ export function startingModules(defaults, { format, structuralModel } = {}) {
 
 /**
  * Sidebar entries for a card: Basics first (always on), then each module in
- * card.modules — built-in ones labelled from the defaults file, custom ones
+ * card.modules — built-in ones labeled from the defaults file, custom ones
  * from card.customModules.
  */
 export function moduleEntries(defaults, card) {

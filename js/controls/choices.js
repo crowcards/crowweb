@@ -47,7 +47,7 @@
 // (what's ticked is kept), e.g. joining options outside the chosen tiers.
 //
 // max (checkbox lists): at most this many can be ticked; the rest are
-// greyed out until one is unticked.
+// grayed out until one is unticked.
 //
 // groups: { items: [{ id, label, short?, description }], of: (opt) => group id (or ids: an option can be in several),
 // all?: { label, description } (the All tab's, under the tabs), selected?, onChange?(id) } — tabs on top of the list (All, then each

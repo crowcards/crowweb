@@ -880,7 +880,7 @@
       "value": "equity",
       "recommends": "weighted_voting",
       "strength": -1,
-      "why": "Unequal votes can favour those already better placed.",
+      "why": "Unequal votes can favor those already better placed.",
       "status": "accepted"
     },
     {

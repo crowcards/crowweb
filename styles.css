@@ -1,6 +1,6 @@
 /* ---- theme ---------------------------------------------------------- */
 :root {
-  /* colour */
+  /* color */
   --bg:     #F3EADF;   /* flat beige */
   --ink:    #141414;   /* black */
   --gray:   #6B6660;   /* the one gray */
@@ -70,8 +70,8 @@
 }
 
 /* ---- night mode: set by js/theme.js, switched by the header toggle.
-   Only the colours change; everything built on them follows. On screen
-   only: a printed page always uses the light colours. ----------------- */
+   Only the colors change; everything built on them follows. On screen
+   only: a printed page always uses the light colors. ----------------- */
 @media screen {
   :root[data-theme="dark"] {
     color-scheme: dark;
@@ -85,7 +85,7 @@
   /* black pixel art would vanish on black: flip it to light gray (0.85
      rather than a full invert, so black becomes light gray, not white; the
      hue-rotate brings orange back toward orange). The big crow's canvas is
-     recoloured by crow.js instead; this only covers its fallback image. */
+     recolored by crow.js instead; this only covers its fallback image. */
   [data-theme="dark"] :is(.pixel-crow img, .sprite img, .logos a[href*="princeton"] img) {
     filter: invert(0.85) hue-rotate(180deg);
   }
@@ -151,7 +151,7 @@ ul li::before {
   content: "";
   position: absolute;
   left: 0;
-  top: calc(0.5lh - 0.175em);   /* centred on the first line */
+  top: calc(0.5lh - 0.175em);   /* centered on the first line */
   width: 0.35em;
   height: 0.35em;
   background: var(--accent);
@@ -241,7 +241,7 @@ a,
 }
 .pixel-minus { clip-path: inset(33.3% 0); }
 
-/* a toggle that shows more: a grey plus that turns into an orange minus
+/* a toggle that shows more: a gray plus that turns into an orange minus
    when open (aria-expanded="true"). Docs sidebar folds, value details. */
 .pixel-toggle {
   display: inline-grid;
@@ -271,7 +271,7 @@ a,
   text-align: left;
 }
 
-/* pills: small mono capitals on a colour, all one shape. The colour says
+/* pills: small mono capitals on a color, all one shape. The color says
    what kind: .chip lime (Suggested, Started), .tag orange (chosen items,
    qualifiers; may hold a remove ×), and the docs table pills .proto,
    .badge, .cv on tints (docs.css) */
@@ -293,13 +293,13 @@ a,
 }
 
 /* pixel icons drawn from one dot (the span) and its box-shadow copies: the
-   menu's three dots, and the X; each sets --dot (one dot's size) and its colour */
+   menu's three dots, and the X; each sets --dot (one dot's size) and its color */
 :is(.menu-toggle, .popup-close, .row-remove, .tag-remove) span {
   width: var(--dot);
   height: var(--dot);
   background: currentColor;
 }
-/* the 5x5-pixel X (close, or an open menu): a centre dot plus two dots out
+/* the 5x5-pixel X (close, or an open menu): a center dot plus two dots out
    along each diagonal */
 :is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove, .tag-remove) span {
   box-shadow:
@@ -855,7 +855,7 @@ a:focus-visible,
 }
 
 /* the ▾: three rows of 3px pixels (5, 3, 1 wide) in a 15x9 box, so it
-   centres with the text */
+   centers with the text */
 .pixel-caret {
   flex: none;
   width: 15px;
@@ -1014,7 +1014,7 @@ body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4
 .to-top .flash-lime { background: var(--lime); }
 .to-top .flash-pink { background: var(--error); }   /* the site's pink */
 
-/* the loading cover (make.html): the page's colour, the crow flapping in the
+/* the loading cover (make.html): the page's color, the crow flapping in the
    middle, and "Loading" in Argent under it; the header stays visible */
 .page-loading {
   --sprite: 7rem;
@@ -1114,7 +1114,7 @@ body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4
   .info-body { padding-top: 2.5rem; }
 
   /* on tablet widths the screen is wider than a comfortable line of text:
-     centre the column instead of leaving a gap on the right */
+     center the column instead of leaving a gap on the right */
   .info-body,
   .info-side {
     justify-self: center;
@@ -1148,12 +1148,12 @@ body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4
 
 /* ---- print / save as PDF ---------------------------------------------
    Pages that can be saved as a PDF (the laws page) print as plain text on
-   white: no header, side art or buttons, always the light colours. Mark
+   white: no header, side art or buttons, always the light colors. Mark
    anything screen-only with .no-print, print-only with .print-only. */
 .print-only { display: none; }
 
 @media print {
-  :root { --bg: #FFFFFF; }   /* (the rest of the light colours as they are: night mode is screen-only) */
+  :root { --bg: #FFFFFF; }   /* (the rest of the light colors as they are: night mode is screen-only) */
   body { font-size: 11pt; }
   .site-header,
   .info-side,

@@ -1,4 +1,4 @@
-// Labelled form fields: textField (one line, or several for notes) and
+// Labeled form fields: textField (one line, or several for notes) and
 // selectField (a dropdown).
 //
 //   const name = textField({ label: "Community name", value, onInput, onCommit });
@@ -54,7 +54,7 @@ export function textField({
 }
 
 /**
- * A labelled dropdown.
+ * A labeled dropdown.
  *
  *   const type = selectField({ label: "Community type", options: [{ id, label }],
  *                              value, placeholder: "Choose a type…", onChange });

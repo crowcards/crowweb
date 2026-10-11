@@ -1,7 +1,7 @@
-// style.html: every kind of field, colour and type size used in Make, drawn
+// style.html: every kind of field, color and type size used in Make, drawn
 // with the real shared controls so a styling change shows up here. The
 // site's style reference (not linked from the site; noindex).
-// Each specimen is labelled with where it comes from.
+// Each specimen is labeled with where it comes from.
 
 import { loadExportData } from "./export.js";
 import { MODES, publicView } from "./view-modes.js";
@@ -27,16 +27,16 @@ import { renderPublish } from "./publish.js";
 import { renderRules, loadRulesData } from "./sections/rules.js";
 
 const slot = (id) => document.querySelector(`[data-ft="${id}"]`);
-/** A labelled specimen: what it is, and where it comes from. */
+/** A labeled specimen: what it is, and where it comes from. */
 const group = (title, source, ...children) => el("div", { className: "ft-group" },
   el("p", { className: "mono-u ft-label" }, title, " · ", el("code", { textContent: source })),
   ...children);
 const opts = (...labels) => labels.map((label, i) => ({ id: `o${i}`, label, description: `What “${label}” means, in a sentence.` }));
 
-// ── colour palette ───────────────────────────────────────────
-// [token or CSS colour, name, where it's used]; values are read live, so
+// ── color palette ───────────────────────────────────────────
+// [token or CSS color, name, where it's used]; values are read live, so
 // they follow the light / dark toggle
-const COLOURS = [
+const COLORS = [
   ["Base tokens (styles.css :root)", [
     ["--bg", "background", "every page"],
     ["--ink", "text", "every page"],
@@ -60,7 +60,7 @@ const COLOURS = [
 
 function renderPalette() {
   const swatches = [];
-  const body = COLOURS.map(([title, list]) => group(title, title.startsWith("Not a token") ? "used directly, where noted" : "tokens",
+  const body = COLORS.map(([title, list]) => group(title, title.startsWith("Not a token") ? "used directly, where noted" : "tokens",
     el("div", { className: "ft-swatches" }, ...list.map(([value, name, where]) => {
       const css = value.startsWith("--") ? `var(${value})` : value;
       const code = el("p", { className: "mono" });
@@ -72,7 +72,7 @@ function renderPalette() {
           code,
           el("p", { className: "field-hint", textContent: value.startsWith("--") ? `${name} — ${where}` : where })));
     }))));
-  // show each colour's current value (it changes with the theme)
+  // show each color's current value (it changes with the theme)
   const probe = el("span", { hidden: true });
   document.body.append(probe);
   const refresh = () => swatches.forEach(({ css, code, value }) => {
@@ -160,7 +160,7 @@ function renderText() {
       return group("Label beside the field, hint in an “i”", "fields.js textField / suggest.js suggestField hintTip; make.css .field-rows, .field-after (Locations, Publish's contact)",
         el("div", { className: "field-rows" }, row("Contact email", "Only the CROW team sees this.", "Remember this email in this browser"), row("Your name", "Optional.", "Show my name on the published card")));
     })(),
-    group("Tick box on its own", "make.css .check (key screen)", el("label", { className: "check" }, el("input", { type: "checkbox" }), "I’ve saved my card ID and secret somewhere safe")),
+    group("Checkbox on its own", "make.css .check (key screen)", el("label", { className: "check" }, el("input", { type: "checkbox" }), "I’ve saved my card ID and secret somewhere safe")),
   );
 }
 
@@ -173,7 +173,7 @@ function renderLists(approaches) {
     group("Buttons (short lists), one choice", "choices.js layout \"buttons\": gray, lime on hover, orange when chosen; description on hover", renderChoices({ type: "radio", legend: "Community size", layout: "buttons", clearable: true, selected: "o1", options: opts("Small", "Medium", "Large") }).element),
     group("Buttons, the chosen one's description below", "choices.js layout \"buttons\" + hintBelow (Publish: how much readers see, who can find it)", renderChoices({ type: "radio", legend: "Who can find it", layout: "buttons", hintBelow: true, selected: "o0", options: opts("Unlisted", "Listed") }).element),
     group("Buttons, several choices", "choices.js layout \"buttons\", checkbox (How people join: tiers)", renderChoices({ legend: "How people join", layout: "buttons", selected: ["o0"], options: opts("Open", "Tiered / Probationary", "Restricted / Approvals", "Closed") }).element),
-    group("Checkboxes, described", "choices.js (default layout)", renderChoices({ legend: "How people join", hint: "Tick every way.", options: opts("Open access", "Application review", "Invitation only"), selected: ["o0"] }).element),
+    group("Checkboxes, described", "choices.js (default layout)", renderChoices({ legend: "How people join", hint: "Select every way.", options: opts("Open access", "Application review", "Invitation only"), selected: ["o0"] }).element),
     group("Radio, described, clearable", "choices.js type radio, clearable", renderChoices({ type: "radio", legend: "Overall approach", options: opts("Open", "Allowlist only", "Allow and block"), selected: "o0", clearable: true }).element),
     group("With “Suggested” and “See also” chips and their reasons", "choices.js badge (recommend.js; quiet: See also)", renderChoices({ legend: "Joining options", options: opts("Open access", "Trial period", "Invitation", "Pay to join"), badge: suggested,
       before: [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] and [[~See also]] tags come from your answers in Basics.")))] }).element),
@@ -183,8 +183,8 @@ function renderLists(approaches) {
     group("With a flag", "choices.js flag (module picker)", renderChoices({ legend: "Modules", options: opts("Rules", "Federation"), flag: { text: "Has saved content", show: (id, on) => id === "o1" && !on }, listClass: "module-picker" }).element),
     group("With follow-up radios (qualifiers)", "choices.js sub", renderChoices({ legend: "Rules", options: opts("AI-generated media", "Content warnings"), selected: ["o0"],
       sub: { options: [{ id: "a", label: "Allowed" }, { id: "n", label: "Not allowed" }, { id: "d", label: "Allowed with labeling / disclosure" }], values: { o0: "n" } } }).element),
-    group("A capped list", "choices.js max (Basics' values: 5): the rest grey out", renderChoices({ legend: "Values", hint: "Select up to 2.", options: opts("Trust", "Openness", "Care", "Fairness"), selected: ["o0", "o1"], max: 2, layout: "compact" }).element),
-    group("Compact, with pixel-plus details, scrolling", "choices.js layout compact + listClass scroll-list", renderChoices({ legend: "How membership is organised", options: approaches, selected: approaches.slice(0, 2).map((a) => a.id),
+    group("A capped list", "choices.js max (Basics' values: 5): the rest gray out", renderChoices({ legend: "Values", hint: "Select up to 2.", options: opts("Trust", "Openness", "Care", "Fairness"), selected: ["o0", "o1"], max: 2, layout: "compact" }).element),
+    group("Compact, with pixel-plus details, scrolling", "choices.js layout compact + listClass scroll-list", renderChoices({ legend: "How membership is organized", options: approaches, selected: approaches.slice(0, 2).map((a) => a.id),
       layout: "compact", filterable: true, filterLabel: "approaches", listClass: "scroll-list", badge: (o) => (o.id === approaches[0].id ? { label: "Suggested", notes: ["Because you value *Trust*: …"] } : null) }).element),
   );
 }
@@ -231,7 +231,7 @@ function renderRowsAndPicks(approaches, conflicts) {
       strip.show("Sociocracy", { like: ["Holacracy", "Lazy Consensus", "Modified Consensus"], fresh: ["Autocratic Decision-Making", "Executive Committees", "Do-ocracy"] });
       const full = alikeStrip({ labelOf: (id) => id, onAdd: () => {} });
       full.show("Trust", { like: [], fresh: ["Openness", "Care", "Mutual Aid"] }, { full: "You have 5 values. Unselect one to add another." });
-      return group("“More like this / Try something new”", "controls/alike.js alikeStrip (under the chosen tags of pick lists and values; with nothing scored, only random picks; at the cap, greyed)", strip.element, full.element);
+      return group("“More like this / Try something new”", "controls/alike.js alikeStrip (under the chosen tags of pick lists and values; with nothing scored, only random picks; at the cap, grayed)", strip.element, full.element);
     })(),
     group("Pick list in steps, no primary", "picklist.js staged, primary: false (response ladder)", pickList({ legend: "When there’s a problem", options: opts("Warn", "Mute", "Block"), items: [{ id: "o0", stage: 1 }, { id: "o1", stage: 1 }, { id: "o2", stage: 2 }], filterable: false, staged: true, primary: false, chosenLegend: "Your steps" }).element),
   );
@@ -249,7 +249,7 @@ function renderFolds() {
       // the same small block, revealed with each combination of effects
       const sample = () => el("div", { hidden: true },
         el("p", { className: "mono-u", textContent: "How people join" }),
-        el("p", { className: "field-hint", textContent: "Tick every way someone can become a member." }),
+        el("p", { className: "field-hint", textContent: "Select every way someone can become a member." }),
         el("div", { className: "callout" }, el("p", { textContent: "This appeared after a choice." })));
       const target = sample();
       const combos = [

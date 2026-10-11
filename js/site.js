@@ -1,4 +1,4 @@
-// Shared behaviour for every page: letter-by-letter title hover and the
+// Shared behavior for every page: letter-by-letter title hover and the
 // narrow-screen menu.
 
 import { wrapLetters } from "./letters.js";
@@ -14,7 +14,7 @@ document.addEventListener("pointerover", (e) => {
   if (letter) letter.classList.toggle("hover-lime", Math.random() < 0.5);
 });
 
-// Letters in [data-flicker] titles now and then flash an accent colour,
+// Letters in [data-flicker] titles now and then flash an accent color,
 // mostly the capitals (C, R, O, W). Each flash blinks on, off, on again so
 // it reads as a flicker rather than a fade. One letter at a time, fast,
 // often overlapping (used on the home page title).

@@ -688,7 +688,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "majority_rule",
       "fit": 2,
@@ -697,7 +697,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "advisory_committees",
       "fit": 2,
@@ -706,7 +706,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "elected_board_of_directors",
       "fit": 1,
@@ -715,7 +715,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "lazy_consensus",
       "fit": 1,
@@ -724,7 +724,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "approval_voting",
       "fit": 1,
@@ -733,25 +733,25 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "autocratic_decision_making",
       "fit": -1,
       "flag": null,
-      "why": "One person deciding for the neighbourhood rarely goes down well.",
+      "why": "One person deciding for the neighborhood rarely goes down well.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "proof_of_work",
       "fit": -2,
       "flag": "gate",
-      "why": "Foreign to a neighbourhood group.",
+      "why": "Foreign to a neighborhood group.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "identity_verification",
       "fit": 2,
@@ -760,70 +760,70 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "orientation_required",
       "fit": 1,
       "flag": null,
-      "why": "Welcoming neighbours, with the house rules up front.",
+      "why": "Welcoming neighbors, with the house rules up front.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "open_access",
       "fit": 1,
       "flag": null,
-      "why": "Welcoming neighbours, with the house rules up front.",
+      "why": "Welcoming neighbors, with the house rules up front.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "peer_sponsorship",
       "fit": 1,
       "flag": null,
-      "why": "Welcoming neighbours, with the house rules up front.",
+      "why": "Welcoming neighbors, with the house rules up front.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "skill_based_evaluation",
       "fit": -2,
       "flag": "gate",
-      "why": "Neighbours belong because they live there.",
+      "why": "Neighbors belong because they live there.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "membership_options",
       "option": "contribution_based",
       "fit": -2,
       "flag": "gate",
-      "why": "Neighbours belong because they live there.",
+      "why": "Neighbors belong because they live there.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "mediation",
       "fit": 2,
       "flag": null,
-      "why": "A neutral neighbour helps people sort things out.",
+      "why": "A neutral neighbor helps people sort things out.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "peer_mediation",
       "fit": 2,
       "flag": null,
-      "why": "A neutral neighbour helps people sort things out.",
+      "why": "A neutral neighbor helps people sort things out.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "facilitated_negotiation",
       "fit": 1,
@@ -832,7 +832,7 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "restorative_practices",
       "fit": 1,
@@ -841,21 +841,21 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "binding_contracts",
       "fit": -1,
       "flag": null,
-      "why": "Heavier than neighbourhood disputes usually need.",
+      "why": "Heavier than neighborhood disputes usually need.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "internal_tribunal",
       "fit": -1,
       "flag": null,
-      "why": "Heavier than neighbourhood disputes usually need.",
+      "why": "Heavier than neighborhood disputes usually need.",
       "status": "accepted"
     },
     {
@@ -1737,7 +1737,7 @@
       "option": "autocratic_decision_making",
       "fit": -2,
       "flag": null,
-      "why": "Against how most movements want to organise.",
+      "why": "Against how most movements want to organize.",
       "status": "accepted"
     },
     {
@@ -1926,7 +1926,7 @@
       "option": "delegated_decision_making",
       "fit": 1,
       "flag": null,
-      "why": "Members' votes and trusted organisers.",
+      "why": "Members' votes and trusted organizers.",
       "status": "accepted"
     },
     {
@@ -1935,7 +1935,7 @@
       "option": "majority_rule",
       "fit": 1,
       "flag": null,
-      "why": "Members' votes and trusted organisers.",
+      "why": "Members' votes and trusted organizers.",
       "status": "accepted"
     },
     {
@@ -1944,7 +1944,7 @@
       "option": "approval_voting",
       "fit": 1,
       "flag": null,
-      "why": "Members' votes and trusted organisers.",
+      "why": "Members' votes and trusted organizers.",
       "status": "accepted"
     },
     {
@@ -3420,7 +3420,7 @@
       "option": "consensus_decision_making",
       "fit": -2,
       "flag": null,
-      "why": "Hard to fit to a space centred on one creator.",
+      "why": "Hard to fit to a space centered on one creator.",
       "status": "accepted"
     },
     {
@@ -3429,7 +3429,7 @@
       "option": "sociocracy",
       "fit": -2,
       "flag": null,
-      "why": "Hard to fit to a space centred on one creator.",
+      "why": "Hard to fit to a space centered on one creator.",
       "status": "accepted"
     },
     {
@@ -3559,21 +3559,21 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "interest_based_bargaining",
       "fit": 1,
       "flag": null,
-      "why": "Finding an outcome neighbours can all live with.",
+      "why": "Finding an outcome neighbors can all live with.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "consensus_building",
       "fit": 1,
       "flag": null,
-      "why": "Finding an outcome neighbours can all live with.",
+      "why": "Finding an outcome neighbors can all live with.",
       "status": "accepted"
     },
     {
@@ -3609,7 +3609,7 @@
       "option": "consensus_seeking_with_delegates",
       "fit": 1,
       "flag": null,
-      "why": "Members from many organisations, represented by delegates.",
+      "why": "Members from many organizations, represented by delegates.",
       "status": "accepted"
     },
     {
@@ -3681,7 +3681,7 @@
       "option": "rotational_leadership",
       "fit": 1,
       "flag": null,
-      "why": "Taking turns organising.",
+      "why": "Taking turns organizing.",
       "status": "accepted"
     },
     {
@@ -3798,7 +3798,7 @@
       "option": "delegated_decision_making",
       "fit": 1,
       "flag": null,
-      "why": "Like most online communities: moderators and organisers decide, often with an advisory group (e.g. respected members or elders).",
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
       "status": "accepted"
     },
     {
@@ -3807,7 +3807,7 @@
       "option": "advisory_committees",
       "fit": 1,
       "flag": null,
-      "why": "Like most online communities: moderators and organisers decide, often with an advisory group (e.g. respected members or elders).",
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
       "status": "accepted"
     },
     {
@@ -3816,7 +3816,7 @@
       "option": "lazy_consensus",
       "fit": 1,
       "flag": null,
-      "why": "Like most online communities: moderators and organisers decide, often with an advisory group (e.g. respected members or elders).",
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
       "status": "accepted"
     },
     {
@@ -4068,7 +4068,7 @@
       "option": "rotational_leadership",
       "fit": 1,
       "flag": "interesting",
-      "why": "Taking turns organising holidays and family events.",
+      "why": "Taking turns organizing holidays and family events.",
       "status": "accepted"
     },
     {
@@ -4117,30 +4117,30 @@
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "lottery_sortition",
       "fit": 1,
       "flag": "interesting",
-      "why": "Neighbourhood assemblies with members chosen by lot.",
+      "why": "Neighborhood assemblies with members chosen by lot.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "decision_approaches",
       "option": "deliberative_polling",
       "fit": 1,
       "flag": "interesting",
-      "why": "Neighbours weighing a question together before deciding.",
+      "why": "Neighbors weighing a question together before deciding.",
       "status": "accepted"
     },
     {
-      "type": "neighbourhood",
+      "type": "neighborhood",
       "list": "conflict_management",
       "option": "circle_processes",
       "fit": 1,
       "flag": "interesting",
-      "why": "Community circles for disputes between neighbours.",
+      "why": "Community circles for disputes between neighbors.",
       "status": "accepted"
     },
     {
@@ -4266,7 +4266,7 @@
       "option": "sociocracy",
       "fit": 1,
       "flag": "interesting",
-      "why": "Some projects organise in circles.",
+      "why": "Some projects organize in circles.",
       "status": "accepted"
     },
     {
@@ -4311,7 +4311,7 @@
       "option": "sociocracy",
       "fit": 1,
       "flag": "interesting",
-      "why": "Some labs organise as circles, without a single PI deciding.",
+      "why": "Some labs organize as circles, without a single PI deciding.",
       "status": "accepted"
     },
     {
@@ -4437,7 +4437,7 @@
       "option": "sociocracy",
       "fit": 1,
       "flag": "interesting",
-      "why": "Organising in circles.",
+      "why": "Organizing in circles.",
       "status": "accepted"
     },
     {
@@ -4635,7 +4635,7 @@
       "option": "do_ocracy",
       "fit": 1,
       "flag": "interesting",
-      "why": "In community-run projects, whoever organises a count often decides how it runs.",
+      "why": "In community-run projects, whoever organizes a count often decides how it runs.",
       "status": "proposed"
     },
     {

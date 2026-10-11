@@ -2,7 +2,7 @@
 // it on a canvas, and pushes pixels away from the mouse. Pixels spring back
 // once the mouse leaves. The <img> stays as the fallback if anything fails.
 //
-// Colour: the eye (any non-gray pixel) is drawn in the site's --accent, so
+// Color: the eye (any non-gray pixel) is drawn in the site's --accent, so
 // it follows the palette. In dark mode the grays are flipped to light gray
 // here rather than with a CSS filter, so the eye stays exactly --accent.
 //
@@ -25,7 +25,7 @@ async function initCrow(el) {
   const grid = Number(el.dataset.grid);
   await img.decode();
 
-  // Sample the centre of each grid cell from the full-size image.
+  // Sample the center of each grid cell from the full-size image.
   const src = document.createElement("canvas");
   src.width = img.naturalWidth;
   src.height = img.naturalHeight;
@@ -62,7 +62,7 @@ async function initCrow(el) {
   let pointer = null;
   let running = false;
 
-  // Resolve each pixel's colour for the current theme.
+  // Resolve each pixel's color for the current theme.
   function recolor() {
     const root = document.documentElement;
     const accent = getComputedStyle(root).getPropertyValue("--accent").trim();

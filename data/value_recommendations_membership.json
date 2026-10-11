@@ -552,7 +552,7 @@
       "value": "equity",
       "recommends": "weighted_or_tiered_membership",
       "strength": -1,
-      "why": "Gives more rights to longer-standing members, which can favour those with more time to give.",
+      "why": "Gives more rights to longer-standing members, which can favor those with more time to give.",
       "status": "accepted"
     },
     {

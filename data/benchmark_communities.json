@@ -105,13 +105,13 @@
         "hierarchical": 2
       },
       "description": {
-        "purpose": "Renters in our building organising together for repairs and fair rents, and backing each other when the landlord pushes back.",
+        "purpose": "Renters in our building organizing together for repairs and fair rents, and backing each other when the landlord pushes back.",
         "culture": "Everyone has a say, decisions are made together, and we look out for each other."
       },
       "keywords": [
         "tenants",
         "housing",
-        "organising"
+        "organizing"
       ],
       "expected": {
         "values": {
@@ -370,8 +370,8 @@
       "type": "friends"
     },
     {
-      "id": "neighbours",
-      "name": "Maple Street Neighbours",
+      "id": "neighbors",
+      "name": "Maple Street Neighbors",
       "size": "medium",
       "targetScales": {
         "participatory": 5,
@@ -380,10 +380,10 @@
       },
       "description": {
         "purpose": "A forum for people living on and around Maple Street: lost pets, street clean-ups, tool lending and local news.",
-        "culture": "Friendly and practical; neighbours help neighbours, and discussions stay civil."
+        "culture": "Friendly and practical; neighbors help neighbors, and discussions stay civil."
       },
       "keywords": [
-        "neighbourhood",
+        "neighborhood",
         "local",
         "tool library"
       ],
@@ -455,7 +455,7 @@
       "notes": "Identity verification here means checking someone lives in the area.",
       "status": "accepted",
       "format": "discussion_forum",
-      "type": "neighbourhood"
+      "type": "neighborhood"
     },
     {
       "id": "civic_budget",

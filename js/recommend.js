@@ -2,7 +2,7 @@
 // the approach lists (decision-making in Membership and the Processes tabs,
 // ways of joining, conflict management); and the "More like this / Try
 // something new" strip (alike, below). How it works, for people: DESIGN.md,
-// "Recommendations behaviour"; how it was built and tested: RECOMMENDATIONS.md.
+// "Recommendations behavior"; how it was built and tested: RECOMMENDATIONS.md.
 //
 // Every option gets signals, each from −1 (against) to +1 (for), with a weight
 // (TUNING); a signal that doesn't apply is left out, not counted as 0:
@@ -343,14 +343,14 @@ export function alike(recs, kind, scored, { last = null, options, chosen = [], l
     .map((x) => ({ id: x, why: scored.get(x).interesting }));
   const picked = [...chosen, ...(last && !chosen.includes(last) ? [last] : [])];
   const placedChosen = picked.map(pos).filter(Boolean);
-  const centre = Object.fromEntries(scales.map((sc) => {
+  const center = Object.fromEntries(scales.map((sc) => {
     const xs = placedChosen.map((p) => p[sc.id]).filter((v) => v != null);
     return [sc.id, xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null];
   }));
   // the scale an option is furthest from the chosen ones on
   const away = (x) => {
     const p = pos(x);
-    return p ? scales.filter((sc) => p[sc.id] != null && centre[sc.id] != null).map((sc) => ({ sc, gap: p[sc.id] - centre[sc.id] }))
+    return p ? scales.filter((sc) => p[sc.id] != null && center[sc.id] != null).map((sc) => ({ sc, gap: p[sc.id] - center[sc.id] }))
       .sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap))[0] || null : null;
   };
   const chosenGroups = new Set(picked.flatMap(groupsOf));
@@ -373,7 +373,7 @@ export function alike(recs, kind, scored, { last = null, options, chosen = [], l
 /**
  * Which values a description suggests: each value's words and phrases
  * (value_groups.json cues) found in the text. Matching is by stem
- * (js/stem.js), so "organise" also finds "organising" and "organisers"; a
+ * (js/stem.js), so "organize" also finds "organizing" and "organizers"; a
  * cue ending in * matches any ending of its last word. A phrase must match
  * word for word in order, within a sentence. A cue of two or more words
  * counts 2, one word 1; each cue counts once. A match with "not", "no",
