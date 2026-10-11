@@ -1,14 +1,16 @@
 // Proposes word lists for the values (value_groups.json "cues"): the words
 // and phrases that, found in a community's description, suggest a value.
-// For each value: its distinctive words and two-word phrases (TF-IDF over
-// the 69 values' names and descriptions, by stem: js/stem.js), compared with
-// its current list: kept (in both), new (found), questionable (current
-// single words common across many values, likely noise). Then measures
-// both lists on the benchmark communities' descriptions.
+// For each value: its own name and the everyday phrases drafted in
+// value_phrases_drafted.json, compared with its current list (by stem:
+// js/stem.js): kept (in both), new (proposed), questionable (current single
+// words common across many values, likely noise), misfires (terms matching
+// a benchmark community that wouldn't choose the value). Then measures both
+// lists on the benchmark communities' descriptions.
 //
 //   node scripts/make-value-terms.mjs     → data/value_terms_proposed.json (reviewed in bench.html → Value groups)
 //
-// Nothing is changed in value_groups.json: accepted terms are merged by hand.
+// Nothing is changed in value_groups.json: a reviewed list is taken in with
+// node scripts/review.mjs terms <value>.
 import { readFileSync, writeFileSync } from "node:fs";
 import { stem, words } from "../js/stem.js";
 import { cueMatches } from "../js/recommend.js";   // the editor's own matching, so the measurement is what card makers get

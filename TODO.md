@@ -58,7 +58,7 @@ The phases and major pieces of work, in order. We launch without the Library (Ph
 | An accessibility review | To do | |
 | Switch crowcards.org from GitHub Pages to Firebase | To do | |
 | Email the team about new reports (a function run on each new `reports` document; needs an email service chosen) | To do | |
-| Delete the workbench: `bench.html`, `js/test-recs.js` (its page script), `js/bench.js`, `scripts/tune-recs.mjs`, `data/tuning_results.json` (and decide whether the benchmark files and review scripts stay for the team) | To do | |
+| Delete the workbench: `bench.html`, `js/test-recs.js` (its page script), `js/bench.js`, `scripts/tune-recs.mjs`, `data/tuning_results.json`, `data/value_terms_proposed.json` (the word-list proposals, shown in its Value groups tab). Decide whether the benchmark files and review scripts stay for the team: `make-value-terms.mjs` would then write its proposals outside `data/`, so they aren't deployed | To do | |
 | Once the drafts are reviewed: suggestions use accepted scores, links and size fits only (`COUNT_PROPOSED = false` in `js/view-modes.js`; it also covers previews and published cards' scales) | To do | |
 
 
