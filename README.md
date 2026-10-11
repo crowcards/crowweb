@@ -58,11 +58,14 @@ The local database starts empty each time. To keep your test cards between runs,
 
 ### Developing / building
 
-- This web app has been built with the help of Claude Code. To avoid creating a massively annoying codebase, we follow a few golden rules:
-    - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets.
-    - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself.
+- **This web app has been built with the help of Claude Code.** To avoid creating a massively annoying codebase, we follow a few golden rules:
+    - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets. Make sure you always have a good sense of what was edited and why.
+    - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself. Do not have the AI tool commit to our repo. 
     - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `DESIGN.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
-    - After each major phase, we have Claude update `DESIGN.md` (how things work) and `TODO.md` (the plan). To pick up a task, put your name in its **Who** column in `TODO.md`.
+    - After each major phase, we have Claude update `DESIGN.md` (how things work) and `TODO.md` (the plan). We also edit these ourselves because sometimes the way Claude documents is extremely annoying.
+    - Always disclose use of AI tools. You are ultimately responsible for the commits made. 
+    - At present, the use of AI Agents is not allowed. 
+    - To pick up a task, put your name in its **Who** column in `TODO.md`.
 - **Never commit keys or credentials,** and never share a card's secret (e.g. in an issue or a chat message): anyone with it can edit that card.
 
 ### What's where
