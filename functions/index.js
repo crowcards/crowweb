@@ -103,7 +103,8 @@ function makeEmptyCard(cardId) {
     basics: {
       name: null,
       link: null,
-      type: null,       // community_types.json id
+      type: null,       // community_types.json id, or "other": the kind of group (required in set-up; public from Misty)
+      format: null,     // formats.json id: the kind of online space
       size: null,       // enums.json communitySize id
       // what the community is, in its own words (each optional; js/sections/basics.js DESCRIPTION)
       description: { purpose: null, culture: null },
@@ -483,7 +484,7 @@ exports.publishCard = onCall({ cors: true }, async (request) => {
     if (p.hidden) throw new HttpsError("permission-denied", "This card was taken down by the CROW team");
     const missing = [
       !card.basics?.name?.trim() && "a community name",
-      !card.basics?.type && "a community type",
+      !card.basics?.format && "a format",
       !EMAIL.test(card.attribution?.contributorEmail?.trim() || "") && "a contact email",
     ].filter(Boolean);
     if (missing.length) throw new HttpsError("failed-precondition", `To publish, the card needs ${missing.join(", ")}`, { missing });
@@ -659,7 +660,7 @@ const MAX_OPEN_REPORTS = 20;   // per card: more are refused until the team has 
  * least a note on what's wrong. Saves
  * reports/{id}: { cardId, version, mode, reason, details, email, createdAt,
  * status: "new" }, read in the Firebase console (see "For the CROW team" in
- * CLAUDE.md). The email is optional, for following up; never shown publicly.
+ * DESIGN.md). The email is optional, for following up; never shown publicly.
  */
 exports.reportCard = onCall({ cors: true }, async (request) => {
   const { cardId, version, reason, details, email } = request.data || {};

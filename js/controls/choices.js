@@ -49,14 +49,14 @@
 // max (checkbox lists): at most this many can be ticked; the rest are
 // greyed out until one is unticked.
 //
-// groups: { items: [{ id, label, short?, description }], of: (opt) => group id,
+// groups: { items: [{ id, label, short?, description }], of: (opt) => group id (or ids: an option can be in several),
 // all?: { label, description } (the All tab's, under the tabs), selected?, onChange?(id) } — tabs on top of the list (All, then each
 // group by its short name, with how many of its options have a badge, e.g.
 // "(2)"; one line, scrolling sideways), showing only that group's options,
 // the open group's name and description under them; the filter box (under
 // the tabs, right above the list) searches within the group.
 //
-// badge: (opt) => ({ label, notes: [text] }) | null — a small lime chip next
+// badge: (opt) => ({ label, quiet?, notes: [text] }) | null — a small lime chip next (no label: no chip, the notes only, e.g. a "not a fit" reason)
 // to an option's name (e.g. "Suggested"), with its notes under the
 // description ("described") or in the pixel-plus details ("compact").
 
@@ -66,10 +66,10 @@ import { tabRow } from "./tabs.js";
 export const YES_NO = [{ id: "yes", label: "Yes" }, { id: "no", label: "No" }];
 export const YES_NO_VARIES = [...YES_NO, { id: "varies", label: "It varies" }];
 
-/** Options with a badge first (loud ones, then quiet ones), then the rest, each A–Z (e.g. Suggested, Also fits, the rest). */
+/** Options with a badge first (loud ones, then quiet ones), then the rest, each A–Z (e.g. Suggested, See also, the rest). */
 const byLabel = (a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: "base" });
 export const suggestedFirst = (options, badge) => {
-  const rank = (o) => { const b = badge(o); return b ? (b.quiet ? 1 : 0) : 2; };
+  const rank = (o) => { const b = badge(o); return b?.label ? (b.quiet ? 1 : 0) : 2; };   // (a badge with no chip, e.g. a "not a fit" reason, isn't put first)
   return [...options].sort((a, b) => rank(a) - rank(b) || byLabel(a, b));
 };
 
@@ -132,7 +132,7 @@ export function renderChoices({
     });
 
     const b = badge(opt);
-    const chip = b ? makeChip(b.label, { quiet: b.quiet }) : null;
+    const chip = b?.label ? makeChip(b.label, { quiet: b.quiet }) : null;   // (a badge with no label: its notes only, e.g. "Generally not a fit…")
     const badgeNotes = (b?.notes || []).map((n) => el("p", { className: "choice-badge-note" }, ...richText(n)));
 
     let row;
@@ -202,9 +202,10 @@ export function renderChoices({
 
   // the group tabs, on top of the list: which group's options show
   let shownGroup = groups?.selected ?? "all";
-  const groupOf = new Map(groups ? options.map((o) => [o.id, groups.of(o)]) : []);
+  // (an option can be in several groups: of() gives one id or a list)
+  const groupOf = new Map(groups ? options.map((o) => [o.id, [].concat(groups.of(o) ?? [])]) : []);
   const groupTabs = [{ id: "all", label: "All", name: groups?.all?.label || "All", description: groups?.all?.description || "" }, ...(groups?.items || []).map((g) => {
-    const n = options.filter((o) => groupOf.get(o.id) === g.id && badge(o)).length;
+    const n = options.filter((o) => groupOf.get(o.id).includes(g.id) && badge(o)?.label).length;
     const name = g.short || g.label;
     return { ...g, name: g.label, label: n ? `${name} (${n})` : name, title: g.label };
   })];
@@ -338,7 +339,7 @@ export function renderChoices({
   function refreshRows() {
     for (const row of rows) {
       const id = row.dataset.id;
-      row.hidden = (shownGroup !== "all" && groupOf.get(id) !== shownGroup)   // (the group buttons, if any)
+      row.hidden = (shownGroup !== "all" && !groupOf.get(id).includes(shownGroup))   // (the group buttons, if any)
         || (query ? !row.dataset.search.includes(query) : !visible(id, inputs.get(id).checked));
     }
     if (query) list.append(...[...rows].sort((a, b) => rank(a) - rank(b)));

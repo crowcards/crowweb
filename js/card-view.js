@@ -300,8 +300,9 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
     // the name, linking to the community (when there's a link)
     el("div", { className: "card-title" }, el(heading, {},
       b.link ? el("a", { href: b.link, target: "_blank", rel: "noopener nofollow", textContent: b.name || "A community" }) : b.name || "A community")),
-    b.type || b.size ? el("div", { className: "card-group" },
-      b.type ? pill(labelIn(data.basics.types, b.type)) : null,
+    b.type || b.format || b.size ? el("div", { className: "card-group" },
+      b.type && b.type !== "other" ? pill(labelIn(data.basics.communityTypes, b.type)) : null,
+      b.format ? pill(labelIn(data.basics.formats, b.format)) : null,
       b.size ? pill(labelIn(data.basics.sizes, b.size)) : null) : null,
     // the community in its own words: the parts the view shows, as one paragraph
     description(b.description),

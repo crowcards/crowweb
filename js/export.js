@@ -75,7 +75,8 @@ const SECTIONS = {
   basics: (b = {}, d) => [
     ["Community", b.name, "basics"],
     ["Link", b.link, "basics"],
-    ["Type", b.type && labelIn(d.basics.types, b.type), "basics"],
+    ["Community type", b.type && labelIn(d.basics.communityTypes, b.type), "type"],
+    ["Format", b.format && labelIn(d.basics.formats, b.format), "basics"],
     ["Size", b.size && labelIn(d.basics.sizes, b.size), "basics"],
     ...DESCRIPTION.map((q) => [q.label, b.description?.[q.id], q.field]),
     ["Keywords", b.keywords, "basics"],

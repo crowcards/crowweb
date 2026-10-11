@@ -2,22 +2,22 @@
 // right after a card is made, and the Basics module in the editor.
 //
 //   const data = await loadBasicsData();
-//   const form = renderBasics(container, card.basics, data, { onInput, onCommit, onTypeChange });
+//   const form = renderBasics(container, card.basics, data, { onInput, onCommit, onFormatChange });
 //   form.collect()   → the basics object to save
 //   form.focusFirst()
 //   form.groups      → [element]: about, target scales, values (set-up shows them as blocks)
 //   missingBasics(basics, data) → what's still needed: [{ group, text: "a community name" }, …]
 //
 // onInput fires while typing (schedule a save); onCommit fires when a field
-// is left or a choice is made (save now); onTypeChange(from, to) fires when
-// the community type changes (so the module picker can re-suggest).
+// is left or a choice is made (save now); onFormatChange(from, to) fires when
+// the format changes (so the module picker can re-suggest).
 
 import { loadData, loadValues } from "../data.js";
 import { el, chip } from "../dom.js";
 import { textField, selectField } from "../controls/fields.js";
 import { renderChoices, scaleField, suggestedFirst } from "../controls/choices.js";
 import { tagList, tagInput } from "../controls/tags.js";
-import { valueSuggestions, alike } from "../recommend.js";
+import { suggestionsFrom, loadRecommendations } from "../recommend.js";
 import { alikeStrip } from "../controls/alike.js";
 import { MODES } from "../view-modes.js";
 
@@ -36,15 +36,20 @@ const MAX_VALUES = 5;
 
 /** The reference data the form is built from. */
 export async function loadBasicsData() {
-  const [types, enums, values, conflicts, scales] = await Promise.all([
-    loadData("community_types"),
+  const [formats, enums, values, conflicts, scales, communityTypes, recs] = await Promise.all([
+    loadData("formats"),
     loadData("enums"),
     loadValues(),
     loadData("value_conflicts"),
     loadData("governance_scales"),
+    loadData("community_types"),
+    loadRecommendations(),
   ]);
   return {
-    types: types.items,
+    formats: formats.items,   // the online space: chat group, forum, social network, …
+    // the community types (the kind of group), and "Other" for any that don't fit
+    communityTypes: [...communityTypes.items, { id: "other", label: "Other", description: "None of these quite fits." }],
+    recs,   // for the values' suggestions (js/recommend.js)
     sizes: enums.communitySize,
     values: values.items,          // with each one's group and cues (value_groups.json)
     valueGroups: values.groups,
@@ -64,6 +69,7 @@ export function missingBasics(basics = {}, data) {
   const values = basics.values || [];
   return [
     !basics.name?.trim() && { group: 0, text: "a community name" },
+    !basics.type && { group: 0, text: "a community type" },
     ...data.scales.scales.filter((sc) => targets[sc.id] == null).map((sc) => ({ group: 1, text: `where you’d like to be on ${sc.label}` })),
     !values.length && { group: 2, text: "at least one value" },
     values.length > MAX_VALUES && { group: 2, text: `no more than ${MAX_VALUES} values` },
@@ -117,7 +123,7 @@ const LEVEL = {
 };
 
 export function renderBasics(container, basics = {}, data, handlers = {}) {
-  const { onInput = () => {}, onCommit = () => {}, onTypeChange = () => {} } = handlers;
+  const { onInput = () => {}, onCommit = () => {}, onFormatChange = () => {} } = handlers;
 
   // ── name and link ─────────────────────────────────────────
   const name = textField({ label: "Community name", value: basics.name, onInput, onCommit });
@@ -131,22 +137,42 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     onCommit,
   });
 
-  // ── community type: its hint describes the chosen type ────
-  const typeHint = (id) => data.types.find((t) => t.id === id)?.description
-    || "What kind of space is it? This also suggests which modules your card covers.";
-  let lastType = basics.type || null;
+  // ── the community type (the kind of group): its hint describes the chosen one; suggestions follow it ──
+  const typeHint = (id) => {
+    const t = data.communityTypes.find((x) => x.id === id);
+    return t?.examples ? `${t.description} E.g. ${t.examples}.` : t?.description
+      || "What kind of group is it, e.g. a workplace, a neighbourhood, a support group? This shapes what's suggested.";
+  };
   const type = selectField({
     label: "Community type",
-    options: data.types,
-    value: lastType,
+    options: data.communityTypes,
+    value: basics.type || null,
     placeholder: "Choose a type…",
-    hint: typeHint(lastType),
+    hint: typeHint(basics.type),
     onChange: (to) => {
       type.setHint(typeHint(to));
-      const from = lastType;
-      lastType = to;
-      onTypeChange(from, to);
       onCommit();
+      drawValues();
+    },
+  });
+
+  // ── the format (the online space): its hint describes the chosen one; it suggests modules ──
+  const formatHint = (id) => data.formats.find((t) => t.id === id)?.description
+    || "What kind of online space is it? This also suggests which modules your card covers.";
+  let lastFormat = basics.format || null;
+  const format = selectField({
+    label: "Format",
+    options: data.formats,
+    value: lastFormat,
+    placeholder: "Choose a format…",
+    hint: formatHint(lastFormat),
+    onChange: (to) => {
+      format.setHint(formatHint(to));
+      const from = lastFormat;
+      lastFormat = to;
+      onFormatChange(from, to);
+      onCommit();
+      drawValues();   // (the format says something about values too)
     },
   });
 
@@ -175,7 +201,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     label: "Keywords",
     hint: "A few words people might search for, e.g. “gardening”, “open science”. Press Enter or Tab after each one.",
     values: basics.keywords || [],
-    onCommit,
+    onCommit: () => { onCommit(); drawValues(); },   // (keywords suggest values, like the description)
   });
 
   // ── target scales: where they'd like to be, 1–7 (aims; public only in Full) ──
@@ -198,8 +224,9 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
       changed();
     },
   });
-  // "More like this / Try something new" for the value selected last, also
-  // from the strip itself (at 5, still shown, to help revise, but nothing can be added)
+  // "More like this" for the value selected last (also from the strip itself),
+  // "Try something new" from all selected (at 5, still shown, to help revise,
+  // but nothing can be added)
   const strip = alikeStrip({
     labelOf: (id) => valueById.get(id).label,
     onAdd: (id) => {
@@ -212,18 +239,21 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   conflictNotes.setAttribute("aria-live", "polite");
 
   // the list is redrawn when the targets or the description change:
-  // Suggested values first, then Also fits, then the rest A–Z
+  // Suggested values first, then See also, then the rest A–Z
   let values = null;
+  let valuesAlike = null;   // "More like this / Try something new", from the same scores as the chips
   let valueGroup = "all";
   let drawnFor = null;   // (the description the list was last drawn for)
   const valuesHost = el("div");
   function drawValues() {
     drawnFor = JSON.stringify(descriptionNow());
-    const badge = valueSuggestions(data.scales, data.values, { targetScales: targetsNow, description: descriptionNow() });
-    const anySuggested = data.values.some((v) => badge(v));
+    const suggestions = suggestionsFrom(data.recs, { type: type.value(), format: format.value(), targetScales: targetsNow, description: descriptionNow(), keywords: keywords.value() });
+    const badge = suggestions.badge("values");
+    valuesAlike = suggestions.alike("values");
+    const anySuggested = data.values.some((v) => badge(v)?.label);
     values = renderChoices({
       legend: "Values",
-      hint: `What your community cares about. Select up to ${MAX_VALUES}.${anySuggested ? " Suggested ones come from your description and where you’d like to be on the scales." : ""}`,
+      hint: `What your community cares about. Select up to ${MAX_VALUES}.${anySuggested ? " Suggested ones come from your community type, description and keywords, and where you’d like to be on the scales." : ""}`,
       options: anySuggested ? suggestedFirst(data.values, badge) : data.values,
       selected: values ? values.value() : basics.values || [],
       layout: "compact",
@@ -232,7 +262,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
       max: MAX_VALUES,
       badge,
       // the groups (value_groups.json) as buttons; the one chosen kept when the list is redrawn
-      groups: { items: data.valueGroups, all: data.valuesAll, of: (v) => v.group, selected: valueGroup, onChange: (g) => { valueGroup = g; } },
+      groups: { items: data.valueGroups, all: data.valuesAll, of: (v) => v.groups, selected: valueGroup, onChange: (g) => { valueGroup = g; } },
       details: (v) => [
         el("p", { textContent: v.description }),
         v.signals ? el("p", { className: "field-hint" }, el("em", { textContent: "Example of inconsistency: " }), v.signals) : null,
@@ -257,8 +287,10 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   function renderChosen() {
     shownValues = values.value();
     const on = new Set(values.value());
-    if (alikeOf && on.has(alikeOf)) {
-      strip.show(valueById.get(alikeOf).label, alike(data.scales, "values", alikeOf, data.values.map((v) => v.id), [...on]),
+    if (alikeOf && !on.has(alikeOf)) alikeOf = null;
+    if (on.size) {
+      const name = alikeOf ? valueById.get(alikeOf).label : null;
+      strip.show(name, valuesAlike(alikeOf, data.values.map((v) => v.id), [...on], name),
         { full: on.size >= MAX_VALUES ? `You have ${MAX_VALUES} values. Unselect one to add another.` : null });
     } else strip.hide();
     chosen.render(data.values.filter((v) => on.has(v.id)));
@@ -279,7 +311,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   // three groups, in order (set-up shows them as blocks, one after another;
   // missingBasics says what each still needs)
   const groups = [
-    el("div", { className: "fields" }, name.element, type.element, size.element, link.element, describe, keywords.element),
+    el("div", { className: "fields" }, name.element, type.element, format.element, size.element, link.element, describe, keywords.element),
     el("div", { className: "fields" },
       el("h2", { textContent: "Where you’d like to be" }),
       el("p", { textContent: "Three scales describe how a community is run. There’s no right answer: each end suits some communities. Your answers suggest values below, and later, approaches to try. They’re only shown publicly if you share your full card." }),
@@ -295,6 +327,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
       name: name.value(),
       link: link.value(),
       type: type.value(),
+      format: format.value(),
       size: size.value(),
       description: descriptionNow(),
       keywords: keywords.value(),
@@ -326,7 +359,8 @@ export function renderBasicsSummary(container, basics = {}, data, { entries = []
 
   const rows = [
     ["Community", basics.name ? el("b", { textContent: basics.name }) : none()],
-    ["Type", label(data.types, basics.type) || none()],
+    ["Community type", label(data.communityTypes, basics.type) || none()],
+    ["Format", label(data.formats, basics.format) || none()],
     ["Size", size ? `${size.label} (${size.description.charAt(0).toLowerCase()}${size.description.slice(1)})` : none()],
     ["Link", basics.link ? el("a", { className: "inline", href: basics.link, target: "_blank", rel: "noopener", textContent: basics.link }) : none()],
     ...DESCRIPTION.map((d) => [d.label, basics.description?.[d.id] ? el("span", { textContent: basics.description[d.id] }) : none()]),

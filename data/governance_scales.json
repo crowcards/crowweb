@@ -1,7 +1,7 @@
 {
   "version": "0.3.0",
   "updatedAt": "2026-10-08",
-  "note": "Scores for the three governance scales. Options a card can choose (decision approaches, joining tiers and ways, conflict approaches) are scored on what they are: a card's score on a scale is the average of the accepted scores of what it chose (rounded to a whole number, on the same 1–7 range). Values (list \"values\") are scored on where they point: a community that holds the value would tend to want that end; they suggest values from a card's target scales (basics.targetScales). null = says nothing about that scale: left out of a card's average; for suggestions, it counts as neutralDistance (an average fit, neither close nor far). Each scale's levels: what each score means, from range.min to range.max (1, 4 and 7 are the anchors the scores were drafted against). Each scale's ends: the trade-offs of being at the low (1) or high (7) end (pros: what you gain; cons: what it costs), short phrases, with an optional short title where the level's own text is too long for the box, shown when a community chooses its targets. Only status \"accepted\" is used (\"proposed\" = drafted, waiting for the team's review). Review page: scales.html.",
+  "note": "Scores for the three governance scales. Options a card can choose (decision approaches, joining tiers and ways, conflict approaches) are scored on what they are (joining options only on Transparent and Hierarchical, from the members' point of view; conflict approaches' Participatory is how much the community takes part, agreed 2026-10-09): a card's score on a scale is the average of the accepted scores of what it chose (rounded to a whole number, on the same 1–7 range). Values (list \"values\") are scored on where they point: a community that holds the value would tend to want that end; they suggest values from a card's target scales (basics.targetScales). null = says nothing about that scale: left out of a card's average; for suggestions, it counts as neutralDistance (an average fit, neither close nor far). Each scale's levels: what each score means, from range.min to range.max (1, 4 and 7 are the anchors the scores were drafted against). Each scale's ends: the trade-offs of being at the low (1) or high (7) end (pros: what you gain; cons: what it costs), short phrases, with an optional short title where the level's own text is too long for the box, shown when a community chooses its targets. Only status \"accepted\" is used (\"proposed\" = drafted, waiting for the team's review). Reviewed in the workbench, bench.html. How each scale applies to each kind of option is in each scale's \"applies\" (decision, conflict, joining, values). An option that says nothing about a scale is null (\"—\") and is left out of a card's average, not counted as low. The scales describe; they don't judge.",
   "range": {
     "min": 1,
     "max": 7
@@ -11,7 +11,7 @@
     {
       "id": "participatory",
       "label": "Participatory",
-      "description": "How widely people can take part and have a say.",
+      "description": "How many members take part in a decision, and how much say they have.",
       "levels": [
         "One person, or a few, decide",
         "A small group decides, sometimes asking others",
@@ -42,12 +42,18 @@
             "Tiring; loud voices can dominate"
           ]
         }
+      },
+      "applies": {
+        "decision": "How many members take part in making decisions, and how much say they have (1: one person or a few decide; 7: everyone takes part, as in consensus; votes are 6: everyone has a say, but only through a ballot).",
+        "conflict": "How much of the community takes part in resolving a conflict, beyond the people in it (a community vote 6; circles and restorative practices 5; mediation by one neutral person 3; a manager deciding 1).",
+        "joining": "Not scored: how open joining is shows in the joining tiers themselves (open, tiered, approvals, closed).",
+        "values": "Where a community that holds the value would tend to want to be."
       }
     },
     {
       "id": "transparent",
       "label": "Transparent",
-      "description": "How visible the process, the criteria and the reasons are.",
+      "description": "How visible the process, the criteria and the reasons are to members (not necessarily to the public).",
       "levels": [
         "Private: decisions and reasons aren't seen",
         "Some outcomes are shared, rarely the reasons",
@@ -80,12 +86,18 @@
             "Keeping records takes work"
           ]
         }
+      },
+      "applies": {
+        "decision": "Whether the discussion, the reasons and the outcome are visible and recorded.",
+        "conflict": "Whether the process and outcome are visible. Confidential processes (mediation, circles, restorative practices) score low by design; that isn't a flaw.",
+        "joining": "Whether the criteria for joining, and decisions about who joins, are visible.",
+        "values": "Where a community that holds the value would tend to want to be."
       }
     },
     {
       "id": "hierarchical",
       "label": "Hierarchical",
-      "description": "How much authority sits with particular roles or levels.",
+      "description": "How much the authority to decide sits with particular people, roles or levels, rather than with members as equals.",
       "levels": [
         "Flat: no role carries more authority",
         "Nearly flat: some roles coordinate, but don't decide",
@@ -116,6 +128,12 @@
             "Decisions bottleneck at the top"
           ]
         }
+      },
+      "applies": {
+        "decision": "Who decides: members as equals (1), roles that coordinate but don't decide (2), roles with more weight (3–4), roles with authority over others (5), a leader or the top of several levels (6–7).",
+        "conflict": "Who decides the outcome: the people involved, as equals (1–2), a council or panel of members (3–4), an arbitrator, manager or other single role (5–7).",
+        "joining": "Who holds the gate, from the members' point of view: all members together (1), some members (3), a gatekeeper, or levels of membership (5).",
+        "values": "Where a community that holds the value would tend to want to be."
       }
     }
   ],
@@ -128,7 +146,7 @@
       "transparent": 5,
       "hierarchical": 2,
       "why": "Anyone can object, proposals are shared openly for a set time, and no role holds a veto.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:do_ocracy",
@@ -138,7 +156,7 @@
       "transparent": 3,
       "hierarchical": 2,
       "why": "Whoever takes on the work decides, so anyone can take part by acting, though decisions aren't always discussed first.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:consensus_decision_making",
@@ -148,7 +166,7 @@
       "transparent": 6,
       "hierarchical": 1,
       "why": "Everyone must agree, which means everyone takes part, usually in open discussion, with no one deciding alone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:rotational_leadership",
@@ -158,7 +176,7 @@
       "transparent": 3,
       "hierarchical": 4,
       "why": "Authority sits with one person or group at a time, but everyone takes a turn.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:modified_consensus",
@@ -166,9 +184,9 @@
       "option": "modified_consensus",
       "participatory": 7,
       "transparent": 6,
-      "hierarchical": 2,
+      "hierarchical": 1,
       "why": "Everyone works towards agreement in the open, with a vote as the fallback.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:consensus_seeking_with_delegates",
@@ -178,7 +196,7 @@
       "transparent": 4,
       "hierarchical": 4,
       "why": "Members give input, but delegates shape the final decision.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:sociocracy",
@@ -188,97 +206,97 @@
       "transparent": 6,
       "hierarchical": 3,
       "why": "Decisions are made by consent in small circles, linked by roles, with records shared between circles.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:supermajority_rule",
       "list": "decision_approaches",
       "option": "supermajority_rule",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes, and a large majority is needed, so no group can decide alone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:ranked_choice_voting",
       "list": "decision_approaches",
       "option": "ranked_choice_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes; results are counted openly, though reasons aren't part of the vote.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:range_voting",
       "list": "decision_approaches",
       "option": "range_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member scores the options; results are counted openly, though reasons aren't part of the vote.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:majority_rule",
       "list": "decision_approaches",
       "option": "majority_rule",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes and the majority decides; results are open, though reasons aren't part of the vote.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:approval_voting",
       "list": "decision_approaches",
       "option": "approval_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes for each option they accept; results are open, though reasons aren't part of the vote.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:weighted_voting",
       "list": "decision_approaches",
       "option": "weighted_voting",
-      "participatory": 6,
+      "participatory": 5,
       "transparent": 4,
       "hierarchical": 5,
       "why": "Members vote, but some members' votes count for more, by seniority or contribution.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:cumulative_voting",
       "list": "decision_approaches",
       "option": "cumulative_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes and can show how strongly they feel; no role counts for more.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:quadratic_voting",
       "list": "decision_approaches",
       "option": "quadratic_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes and can show how strongly they feel, at a rising cost; no role counts for more.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:continuous_voting",
       "list": "decision_approaches",
       "option": "continuous_voting",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 5,
       "hierarchical": 1,
       "why": "Every member can vote and change their vote over time, with the running tally visible.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:holacracy",
@@ -288,7 +306,7 @@
       "transparent": 6,
       "hierarchical": 4,
       "why": "Authority is spread across defined roles and teams, with the rules and roles written down for everyone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:collaborative_platforms",
@@ -298,17 +316,17 @@
       "transparent": 7,
       "hierarchical": 1,
       "why": "Members discuss and decide together on a shared tool, where the discussion and the outcome are recorded for all to see.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:deliberative_polling",
       "list": "decision_approaches",
       "option": "deliberative_polling",
-      "participatory": 6,
+      "participatory": 4,
       "transparent": 6,
       "hierarchical": 1,
-      "why": "Members discuss an issue together before everyone votes.",
-      "status": "proposed"
+      "why": "A random, representative sample of members deliberates in small groups, hearing different views, and is polled before and after.",
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:investor_filled_board_seats",
@@ -318,7 +336,7 @@
       "transparent": 2,
       "hierarchical": 7,
       "why": "A board, with seats given to investors or stakeholders, makes the key decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:elected_board_of_directors",
@@ -328,7 +346,7 @@
       "transparent": 3,
       "hierarchical": 5,
       "why": "Members choose the board, but the board makes the decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:advisory_committees",
@@ -338,7 +356,7 @@
       "transparent": 4,
       "hierarchical": 3,
       "why": "Small groups recommend, and the wider community usually follows.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:delegated_decision_making",
@@ -348,7 +366,7 @@
       "transparent": 3,
       "hierarchical": 5,
       "why": "Particular people or groups are given the authority to decide.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:executive_committees",
@@ -358,17 +376,17 @@
       "transparent": 2,
       "hierarchical": 6,
       "why": "A small group of leaders makes the critical decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:first_past_the_post",
       "list": "decision_approaches",
       "option": "first_past_the_post",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Every member votes and the option with the most votes wins.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:lottery_sortition",
@@ -378,27 +396,27 @@
       "transparent": 4,
       "hierarchical": 1,
       "why": "Anyone may be chosen at random to decide, so no role holds power, though only a few decide each time.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:proof_of_work",
       "list": "decision_approaches",
       "option": "proof_of_work",
-      "participatory": 4,
+      "participatory": 5,
       "transparent": 5,
-      "hierarchical": 4,
+      "hierarchical": 5,
       "why": "Say follows visible contribution: those who've done more count for more.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:random_choice",
       "list": "decision_approaches",
       "option": "random_choice",
-      "participatory": 1,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 1,
       "why": "Chance decides, so no one has a say, but no one holds power over the outcome either.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:algorithm_driven_decisions",
@@ -406,19 +424,19 @@
       "option": "algorithm_driven_decisions",
       "participatory": 1,
       "transparent": 2,
-      "hierarchical": 4,
+      "hierarchical": 5,
       "why": "An automated system decides, so authority sits with whoever designs and runs it.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:autocratic_decision_making",
       "list": "decision_approaches",
       "option": "autocratic_decision_making",
       "participatory": 1,
-      "transparent": 1,
+      "transparent": 2,
       "hierarchical": 7,
       "why": "One leader decides alone, without the group's input.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:hierarchical_decision_making",
@@ -428,7 +446,7 @@
       "transparent": 2,
       "hierarchical": 7,
       "why": "Decisions are made at different levels, with more authority higher up.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decision_approaches:negotiated_decisions",
@@ -438,247 +456,247 @@
       "transparent": 3,
       "hierarchical": 2,
       "why": "The parties involved negotiate until they agree.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_tiers:open",
       "list": "membership_tiers",
       "option": "open",
-      "participatory": 7,
-      "transparent": 5,
+      "participatory": null,
+      "transparent": 6,
       "hierarchical": 1,
       "why": "Anyone can join, with little or no gatekeeping.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_tiers:tiered_probationary",
       "list": "membership_tiers",
       "option": "tiered_probationary",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 4,
       "why": "People join step by step, earning full rights over time.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_tiers:restricted_approvals",
       "list": "membership_tiers",
       "option": "restricted_approvals",
-      "participatory": 3,
+      "participatory": null,
       "transparent": 3,
-      "hierarchical": 5,
-      "why": "Joining needs approval from existing members or a gatekeeping process.",
-      "status": "proposed"
+      "hierarchical": 3,
+      "why": "Joining needs approval, from existing members or a gatekeeping process.",
+      "status": "accepted"
     },
     {
       "id": "membership_tiers:closed",
       "list": "membership_tiers",
       "option": "closed",
-      "participatory": 1,
+      "participatory": null,
       "transparent": null,
       "hierarchical": null,
-      "why": "The community isn't taking new members.",
-      "status": "proposed"
+      "why": "The community isn't taking new members; this says nothing about how its members decide.",
+      "status": "accepted"
     },
     {
       "id": "membership_options:open_access",
       "list": "membership_options",
       "option": "open_access",
-      "participatory": 7,
+      "participatory": null,
       "transparent": 6,
       "hierarchical": 1,
       "why": "Anyone can join straight away by showing up.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:orientation_required",
       "list": "membership_options",
       "option": "orientation_required",
-      "participatory": 6,
+      "participatory": null,
       "transparent": 6,
       "hierarchical": 2,
       "why": "Anyone can join after an orientation, which explains how the community works.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:invitation_only",
       "list": "membership_options",
       "option": "invitation_only",
-      "participatory": 3,
+      "participatory": null,
       "transparent": 2,
       "hierarchical": 2,
       "why": "People join only if an existing member vouches for them, by criteria that may not be written down.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:contribution_based",
       "list": "membership_options",
       "option": "contribution_based",
-      "participatory": 5,
+      "participatory": null,
       "transparent": 5,
       "hierarchical": 2,
-      "why": "Membership is for people contributing their work, a criterion anyone can see.",
-      "status": "proposed"
+      "why": "Membership comes from contributing work over time, a criterion anyone can see.",
+      "status": "accepted"
     },
     {
       "id": "membership_options:mentorship",
       "list": "membership_options",
       "option": "mentorship",
-      "participatory": 5,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 4,
       "why": "Newcomers are guided by mentors through a probationary period.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:peer_sponsorship",
       "list": "membership_options",
       "option": "peer_sponsorship",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 3,
       "hierarchical": 2,
       "why": "An existing member sponsors each newcomer.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:consensus_or_vote_based_approval",
       "list": "membership_options",
       "option": "consensus_or_vote_based_approval",
-      "participatory": 6,
+      "participatory": null,
       "transparent": 5,
       "hierarchical": 1,
       "why": "Members decide together whether to admit someone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:trial_period_provisional_membership",
       "list": "membership_options",
       "option": "trial_period_provisional_membership",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 4,
       "why": "Newcomers have a trial period before full rights.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:referral_system_with_screening",
       "list": "membership_options",
       "option": "referral_system_with_screening",
-      "participatory": 3,
+      "participatory": null,
       "transparent": 2,
       "hierarchical": 5,
       "why": "Members refer people, who are then screened.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:membership_agreement_or_pledge",
       "list": "membership_options",
       "option": "membership_agreement_or_pledge",
-      "participatory": 6,
-      "transparent": 7,
+      "participatory": null,
+      "transparent": 6,
       "hierarchical": 1,
       "why": "Newcomers agree to written values and responsibilities, visible to everyone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:weighted_or_tiered_membership",
       "list": "membership_options",
       "option": "weighted_or_tiered_membership",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 4,
-      "hierarchical": 7,
+      "hierarchical": 5,
       "why": "Membership has levels, with more rights higher up.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:hybrid_approval_process",
       "list": "membership_options",
       "option": "hybrid_approval_process",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 3,
       "hierarchical": 5,
       "why": "Joining goes through several approval steps, such as screening, referral and a vote.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:skill_based_contribution",
       "list": "membership_options",
       "option": "skill_based_contribution",
-      "participatory": 5,
+      "participatory": null,
       "transparent": 6,
       "hierarchical": 3,
-      "why": "People join by contributing work, such as a pull request, reviewed in the open.",
-      "status": "proposed"
+      "why": "People join with one piece of work, such as a pull request, reviewed in the open.",
+      "status": "accepted"
     },
     {
       "id": "membership_options:pay_to_join",
       "list": "membership_options",
       "option": "pay_to_join",
-      "participatory": 4,
+      "participatory": null,
       "transparent": 6,
       "hierarchical": null,
       "why": "Anyone who pays the dues can join: a clear rule, but a cost barrier.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:application_review",
       "list": "membership_options",
       "option": "application_review",
-      "participatory": 2,
+      "participatory": null,
       "transparent": 3,
       "hierarchical": 5,
       "why": "An onboarding team reviews applications.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:identity_verification",
       "list": "membership_options",
       "option": "identity_verification",
-      "participatory": 3,
+      "participatory": null,
       "transparent": 2,
       "hierarchical": 4,
       "why": "Joining needs a check of identity, credentials or background.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:collective_interviews",
       "list": "membership_options",
       "option": "collective_interviews",
-      "participatory": 6,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 2,
       "why": "The group interviews newcomers together.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:skill_based_evaluation",
       "list": "membership_options",
       "option": "skill_based_evaluation",
-      "participatory": 3,
+      "participatory": null,
       "transparent": 4,
       "hierarchical": 5,
       "why": "Joining needs passing an assessment or a portfolio review.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "membership_options:lottery_sortition",
       "list": "membership_options",
       "option": "lottery_sortition",
-      "participatory": 4,
-      "transparent": 6,
+      "participatory": null,
+      "transparent": 4,
       "hierarchical": 1,
-      "why": "Members are chosen at random from those eligible: fair and visible, but few get in each time.",
-      "status": "proposed"
+      "why": "Members are chosen at random from those eligible, so no one holds the gate, though few get in each time.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:peer_mediation",
       "list": "conflict_management",
       "option": "peer_mediation",
-      "participatory": 5,
-      "transparent": 4,
+      "participatory": 4,
+      "transparent": 2,
       "hierarchical": 2,
-      "why": "Trained members help their peers resolve disputes.",
-      "status": "proposed"
+      "why": "Trained members help their peers resolve disputes, usually in private.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:conflict_resolution_council",
@@ -688,7 +706,7 @@
       "transparent": 3,
       "hierarchical": 6,
       "why": "Senior members guide or decide disputes.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:facilitated_negotiation",
@@ -698,7 +716,7 @@
       "transparent": 4,
       "hierarchical": 2,
       "why": "A neutral facilitator helps the parties negotiate.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:ad_hoc_arbitration",
@@ -706,9 +724,9 @@
       "option": "ad_hoc_arbitration",
       "participatory": 2,
       "transparent": 3,
-      "hierarchical": 4,
-      "why": "Arbitrators chosen for each case decide it.",
-      "status": "proposed"
+      "hierarchical": 5,
+      "why": "Arbitrators chosen for each case, often from within the community, decide it.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:conflict_workshops",
@@ -718,17 +736,17 @@
       "transparent": 5,
       "hierarchical": 1,
       "why": "The people involved work through the dispute together in structured sessions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:supermajority_vote",
       "list": "conflict_management",
       "option": "supermajority_vote",
-      "participatory": 7,
+      "participatory": 6,
       "transparent": 5,
       "hierarchical": 1,
       "why": "Members vote to resolve the dispute, and a large majority is needed.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:interest_based_bargaining",
@@ -738,17 +756,17 @@
       "transparent": 4,
       "hierarchical": 1,
       "why": "The parties look for a solution that meets everyone's underlying interests.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:restorative_practices",
       "list": "conflict_management",
       "option": "restorative_practices",
-      "participatory": 6,
-      "transparent": 5,
+      "participatory": 5,
+      "transparent": 3,
       "hierarchical": 1,
-      "why": "Those involved and affected talk through the harm and how to repair it.",
-      "status": "proposed"
+      "why": "Those involved and affected talk through the harm and how to repair it, usually in confidence.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:mediation",
@@ -758,17 +776,17 @@
       "transparent": 2,
       "hierarchical": 2,
       "why": "A neutral third party helps the parties reach a voluntary agreement, usually in private.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:circle_processes",
       "list": "conflict_management",
       "option": "circle_processes",
-      "participatory": 7,
-      "transparent": 6,
+      "participatory": 5,
+      "transparent": 3,
       "hierarchical": 1,
-      "why": "Everyone involved takes part in an open, structured dialogue with equal input.",
-      "status": "proposed"
+      "why": "Those involved and affected take part in a structured dialogue with equal input, usually in confidence.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:judicial_committees",
@@ -778,17 +796,17 @@
       "transparent": 4,
       "hierarchical": 6,
       "why": "A standing committee judges disputes.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:managerial_decision",
       "list": "conflict_management",
       "option": "managerial_decision",
       "participatory": 1,
-      "transparent": 1,
+      "transparent": 2,
       "hierarchical": 7,
       "why": "A manager or leader makes a binding decision.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:internal_tribunal",
@@ -798,7 +816,7 @@
       "transparent": 4,
       "hierarchical": 6,
       "why": "A formal hearing body within the community decides.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:consensus_building",
@@ -808,7 +826,7 @@
       "transparent": 6,
       "hierarchical": 1,
       "why": "Everyone works together towards a resolution they can all agree to.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:binding_arbitration",
@@ -816,9 +834,9 @@
       "option": "binding_arbitration",
       "participatory": 1,
       "transparent": 3,
-      "hierarchical": 6,
-      "why": "An outside arbitrator makes a binding decision.",
-      "status": "proposed"
+      "hierarchical": 5,
+      "why": "A standing outside arbitrator makes a decision both sides must accept.",
+      "status": "accepted"
     },
     {
       "id": "conflict_management:non_binding_arbitration",
@@ -828,7 +846,7 @@
       "transparent": 3,
       "hierarchical": 4,
       "why": "An arbitrator recommends a resolution that the parties can accept or not.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:binding_contracts",
@@ -838,7 +856,7 @@
       "transparent": 6,
       "hierarchical": 4,
       "why": "How disputes are resolved is set out in advance, in a written agreement.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:lottery_sortition",
@@ -848,7 +866,7 @@
       "transparent": 4,
       "hierarchical": 1,
       "why": "Members chosen at random resolve the dispute or form the jury.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "conflict_management:rotational_judging",
@@ -858,7 +876,7 @@
       "transparent": 4,
       "hierarchical": 3,
       "why": "Members take turns handling disputes.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:accessibility",
@@ -868,7 +886,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Spaces everyone can use let more people take part.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:accountability",
@@ -878,7 +896,7 @@
       "transparent": 6,
       "hierarchical": null,
       "why": "Owning decisions and mistakes means they're done where people can see them.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:adaptability",
@@ -888,7 +906,7 @@
       "transparent": null,
       "hierarchical": 3,
       "why": "Changing course is easier without a rigid chain of command.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:agency",
@@ -898,7 +916,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Each person acts on their own behalf, without asking a manager first.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:altruism",
@@ -908,7 +926,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About caring for others, not about how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:anti_oppression",
@@ -918,7 +936,7 @@
       "transparent": null,
       "hierarchical": 1,
       "why": "Opposes hierarchy itself, and makes room for voices that are usually left out.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:autonomy",
@@ -928,7 +946,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About independence from outside control, not how the community runs itself.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:capacity_building",
@@ -938,7 +956,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Members grow the skills to take part in more of the work and decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:collaboration",
@@ -948,7 +966,7 @@
       "transparent": 5,
       "hierarchical": 3,
       "why": "Work and decisions are shared, in the open, rather than owned by one person.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:common_ownership",
@@ -958,7 +976,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "What's owned together is decided together, without owners at the top.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:community_care",
@@ -968,7 +986,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About members' wellbeing, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:conflict_resolution",
@@ -978,7 +996,7 @@
       "transparent": 5,
       "hierarchical": null,
       "why": "Disagreements are dealt with openly, through known processes.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:consent",
@@ -988,7 +1006,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Nothing is decided for people without their agreement.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:consensus",
@@ -998,7 +1016,7 @@
       "transparent": 6,
       "hierarchical": 1,
       "why": "Everyone takes part and agrees, in open discussion, with no one above the rest.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:constructive_feedback",
@@ -1008,7 +1026,7 @@
       "transparent": 5,
       "hierarchical": null,
       "why": "Everyone can offer feedback, openly, on the work.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:cooperation",
@@ -1018,7 +1036,7 @@
       "transparent": null,
       "hierarchical": 3,
       "why": "Members work together rather than being directed.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:copyleft",
@@ -1028,7 +1046,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About licensing work, not how the community decides.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:decentralization",
@@ -1038,7 +1056,7 @@
       "transparent": null,
       "hierarchical": 1,
       "why": "Power is spread out, with no central authority.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:direct_action",
@@ -1048,7 +1066,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "People act themselves, without waiting for leaders.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:diversity",
@@ -1058,7 +1076,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "A wide range of members' perspectives is part of decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:documentation",
@@ -1068,7 +1086,7 @@
       "transparent": 7,
       "hierarchical": null,
       "why": "Decisions and how things work are written down for everyone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:education",
@@ -1078,7 +1096,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About learning and growth, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:empathy",
@@ -1088,7 +1106,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About how members treat each other, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:empowerment",
@@ -1098,7 +1116,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Members are given the power to decide and act, not just leaders.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:equity",
@@ -1108,7 +1126,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About distributing resources by need, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:experimentation",
@@ -1118,7 +1136,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About trying new things, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:fairness",
@@ -1128,7 +1146,7 @@
       "transparent": 6,
       "hierarchical": null,
       "why": "Rules and criteria are applied impartially, and visibly.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:fair_remuneration",
@@ -1138,7 +1156,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About fair pay, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:flexibility",
@@ -1148,7 +1166,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About adapting plans, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:forkability",
@@ -1158,7 +1176,7 @@
       "transparent": 6,
       "hierarchical": 2,
       "why": "Anyone can take the work elsewhere, so it's open and no one can hold it hostage.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:freedom",
@@ -1168,7 +1186,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Individuals act as they choose, with little authority over them.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:freedom_of_information",
@@ -1178,7 +1196,7 @@
       "transparent": 7,
       "hierarchical": null,
       "why": "Information, including how decisions are made, is open to all.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:generosity",
@@ -1188,7 +1206,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About giving, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:harm_reduction",
@@ -1198,7 +1216,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About reducing harm, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:holism",
@@ -1208,17 +1226,17 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About seeing the whole picture, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:holocracy",
       "list": "values",
       "option": "holocracy",
-      "participatory": 5,
+      "participatory": 4,
       "transparent": 6,
-      "hierarchical": 3,
-      "why": "Authority sits with roles and circles rather than managers, and the governance is written down.",
-      "status": "proposed"
+      "hierarchical": 4,
+      "why": "Authority is spread across defined roles and teams, with the rules and roles written down for everyone.",
+      "status": "accepted"
     },
     {
       "id": "values:honesty",
@@ -1228,7 +1246,7 @@
       "transparent": 6,
       "hierarchical": null,
       "why": "Reasons and information are shared truthfully, not held back.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:horizontalism",
@@ -1238,7 +1256,7 @@
       "transparent": null,
       "hierarchical": 1,
       "why": "Everyone takes part as an equal, with no levels of authority.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:humility",
@@ -1248,7 +1266,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About how members see themselves, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:inclusion",
@@ -1258,7 +1276,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Everyone is brought into the community and its decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:inclusivity",
@@ -1268,7 +1286,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Everyone is welcome to take part.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:independence",
@@ -1278,7 +1296,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About not depending on one funder or authority from outside.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:innovation",
@@ -1288,7 +1306,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About new ideas, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:integrity",
@@ -1298,7 +1316,7 @@
       "transparent": 5,
       "hierarchical": null,
       "why": "Actions match stated values, which is easier to show when they're visible.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:interdependence",
@@ -1308,7 +1326,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Members' success depends on each other, so they decide with each other in mind.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:interoperability",
@@ -1318,7 +1336,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About working with other systems, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:intersectionality",
@@ -1328,7 +1346,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Brings in people affected by overlapping kinds of power, and questions who holds it.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:justice",
@@ -1338,7 +1356,7 @@
       "transparent": 5,
       "hierarchical": null,
       "why": "A fair system is one people can take part in and see into.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:knowledge_sharing",
@@ -1348,7 +1366,7 @@
       "transparent": 6,
       "hierarchical": null,
       "why": "What's known is shared openly, not kept by a few.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:labor_rights",
@@ -1358,7 +1376,7 @@
       "transparent": null,
       "hierarchical": 3,
       "why": "Workers organise and have a say in their conditions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:leadership",
@@ -1368,7 +1386,7 @@
       "transparent": null,
       "hierarchical": 3,
       "why": "Everyone is encouraged to take the lead, rather than leading being one role.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:learning",
@@ -1378,7 +1396,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About learning, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:liberty",
@@ -1388,7 +1406,7 @@
       "transparent": null,
       "hierarchical": 1,
       "why": "Opposes authoritarian control over members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:localism",
@@ -1398,7 +1416,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About local needs and resources, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:maintenance",
@@ -1408,7 +1426,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About sustaining what's built, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:mentorship",
@@ -1418,7 +1436,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About guiding newcomers, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:meritocracy",
@@ -1428,7 +1446,7 @@
       "transparent": null,
       "hierarchical": 5,
       "why": "Influence goes to those who contribute most, so some carry more weight.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:mutual_aid",
@@ -1438,7 +1456,7 @@
       "transparent": null,
       "hierarchical": 1,
       "why": "Members support each other as equals, not through a hierarchy.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:non_violence",
@@ -1448,7 +1466,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About how conflict is carried out, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:open_source",
@@ -1458,7 +1476,7 @@
       "transparent": 7,
       "hierarchical": null,
       "why": "The work and how it's made are open, and anyone can contribute.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:openness",
@@ -1468,7 +1486,7 @@
       "transparent": 7,
       "hierarchical": null,
       "why": "The community and its workings are open to see and to join.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:participation",
@@ -1478,7 +1496,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "Everyone takes part in the community's decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:reliability",
@@ -1488,7 +1506,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About following through on commitments, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:resilience",
@@ -1498,7 +1516,7 @@
       "transparent": 5,
       "hierarchical": 3,
       "why": "Knowledge is written down and no single role is critical, so it survives people leaving.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:solidarity",
@@ -1508,7 +1526,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "Members stand together as equals.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:stewardship",
@@ -1518,7 +1536,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About caring for shared resources, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:transparency",
@@ -1528,7 +1546,7 @@
       "transparent": 7,
       "hierarchical": null,
       "why": "How and why decisions are made is open to everyone.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:trust",
@@ -1538,7 +1556,7 @@
       "transparent": null,
       "hierarchical": null,
       "why": "About good faith between members, not how decisions are made.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "values:voluntarism",
@@ -1548,7 +1566,7 @@
       "transparent": null,
       "hierarchical": 2,
       "why": "People choose what they take on; no one assigns them.",
-      "status": "proposed"
+      "status": "accepted"
     }
   ]
 }

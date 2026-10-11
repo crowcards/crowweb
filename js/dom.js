@@ -39,13 +39,13 @@ let n = 0;
 /** A page-unique id for linking labels and hints to their inputs. */
 export const uid = (prefix = "f") => `${prefix}-${++n}`;
 
-/** A small lime chip, e.g. "Suggested" (styled by .chip in make.css); quiet: the softer one ("Also fits"). */
+/** A small lime chip, e.g. "Suggested" (styled by .chip in make.css); quiet: the softer one ("See also"). */
 export const chip = (label, { quiet = false } = {}) => el("span", { className: quiet ? "chip chip-quiet" : "chip", textContent: label });
 
 /**
  * Text with a little formatting, for sentences built in code:
  *   [[Suggested]]  → the lime chip it mentions (so text matches the chips)
- *   [[~Also fits]] → the quiet chip
+ *   [[~See also]] → the quiet chip
  *   *Trust*        → italics (e.g. a value's name)
  * richText("Because you value *Trust*: …") → nodes to append.
  */

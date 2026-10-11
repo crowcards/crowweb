@@ -252,7 +252,7 @@ export function renderPublish(container, ctx) {
     const c = card();
     const missing = [
       !c.basics?.name?.trim() && "a community name (Basics)",
-      !c.basics?.type && "a community type (Basics)",
+      !c.basics?.format && "a format (Basics)",
       !EMAIL.test(c.attribution?.contributorEmail?.trim() || "") && "a contact email",
     ].filter(Boolean);
     missingLine.textContent = missing.length ? `Still needed: ${listText(missing)}.` : "";

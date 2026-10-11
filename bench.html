@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Test recommendations — CROW</title>
+  <!-- the team's page for testing and tuning suggestions (js/recommend.js): not linked; delete before launch -->
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <link rel="stylesheet" href="make.css" />
+  <script src="js/theme.js"></script>
+  <style>
+    /* (a temporary page: its layout rules stay here) */
+    .tr { display: grid; grid-template-columns: minmax(20rem, 26rem) 1fr; gap: 0 3rem; max-width: 90rem; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+    .tr-head { grid-column: 1 / -1; }
+    .tr-top { max-width: 90rem; margin: 0 auto; padding: 1.5rem 1.5rem 0; }
+    .tr-top h1 { margin-bottom: 0.25rem; }
+    section.tr-panel { max-width: 90rem; margin: 0 auto; padding: 0.5rem 1.5rem 4rem; }
+    section.tr-panel > h2:first-child { margin-top: 1rem; }
+    section.tr-panel > p.field-hint { max-width: 60rem; }
+    .tr-avoid { display: inline-block; font: 600 0.68rem/1.4 var(--mono); letter-spacing: 0.04em; text-transform: uppercase; padding: 0.1rem 0.45rem; color: var(--error); box-shadow: inset 0 0 0 2px var(--error); text-decoration: line-through; }
+    .tr-stage { margin-top: 1.5rem; }
+    .tr-stage h3 { margin: 0 0 0.4rem; }
+    .tr-stage .now { color: var(--accent); }
+    .tr-bench { display: grid; grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+    .tr-bench > article { min-width: 0; padding: 1rem 1.1rem; background: var(--tint); }
+    .tr-bench h3 { margin: 0; font-size: var(--fs-m); }
+    .tr-bench .meta { font: var(--fs-xs) var(--mono); color: var(--gray); text-transform: uppercase; margin: 0.25rem 0 0.5rem; }
+    .tr-bench dl { display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.35rem 0.75rem; margin: 0.6rem 0 0; font-size: var(--fs-s); }
+    .tr-bench dt { font: var(--fs-xs) var(--mono); text-transform: uppercase; color: var(--gray); padding-top: 0.15rem; }
+    .tr-bench dd { margin: 0; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .tr-bench .quote { font-size: var(--fs-s); margin: 0.35rem 0 0; }
+    .tr-bench .note { font-size: var(--fs-xs); color: var(--gray); margin: 0.6rem 0 0; }
+    @media (max-width: 30rem) { .tr-bench { grid-template-columns: 1fr; } }
+    .tr-fit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr)); gap: 0 2rem; }
+    .tr-fit-grid > div { min-width: 0; overflow-x: auto; }
+    .tr-mark { font: 600 var(--fs-xs) var(--mono); white-space: nowrap; }
+    .tr-mark.pos { color: var(--ink); background: var(--lime); padding: 0 0.3rem; }
+    .tr-mark.neg { color: var(--error); }
+    #tr-fit-type, #tr-format-fit { max-width: 100%; }
+    #tr-format-fit { overflow-x: auto; }
+    .tr-approve .link-button.tr-on { background: var(--lime); color: var(--ink-on-color); }
+    .tr-how { margin: 0.5rem 0 1rem; }
+    .tr-how summary { cursor: pointer; }
+    .tr-global { margin-top: 3rem; padding-top: 1.5rem; border-top: 2px dashed var(--line); }
+    .tr-was { font-size: var(--fs-xs); color: var(--gray); }
+    .tr-approve { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin: 0.5rem 0 0; }
+    .tr-check { padding: 0.75rem 1rem; background: var(--tint); margin: 0.75rem 0 1rem; font-size: var(--fs-s); }
+    .tr-check ul { margin: 0.3rem 0 0; padding-left: 1.2rem; }
+    #tr-tune-table, #tr-tune-avoid, #tr-tune-misses { overflow-x: auto; }
+    .tr > div, .tr-grid2 > div { min-width: 0; }   /* (grid items: shrink, so wide tables scroll instead) */
+    #tr-approaches, #tr-value-tables > div { overflow-x: auto; }
+    .tr-left { position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto; padding: 0 0.5rem 2rem 0; }
+    @media (max-width: 64rem) { .tr { grid-template-columns: 1fr; } .tr-left { position: static; max-height: none; } }
+    .tr h2 { font-size: var(--fs-l); margin: 1.75rem 0 0.25rem; }
+    .tr h2 .step { color: var(--gray); margin-right: 0.3em; }
+    .tr h3 { font-size: var(--fs-m); margin: 1.5rem 0 0.25rem; }
+    .tr-card { margin-top: 0.75rem; padding: 1rem; background: var(--tint); }
+    .tr-row select { max-width: 100%; min-width: 0; }
+    .tr-row { display: grid; grid-template-columns: 9rem minmax(0, 1fr); align-items: center; gap: 0.5rem; margin: 0.4rem 0; }
+    .tr-row > span:first-child { font-family: var(--mono); font-size: var(--fs-xs); text-transform: uppercase; color: var(--gray); }
+    .tr select, .tr input[type="number"], .tr textarea { font: inherit; font-size: var(--fs-s); padding: 0.3rem 0.4rem; border: 1px solid var(--line); background: var(--bg); color: var(--ink); }
+    .tr textarea { width: 100%; min-height: 3.2rem; resize: vertical; }
+    .tr-desc label { display: block; margin-top: 0.5rem; font-size: var(--fs-xs); font-family: var(--mono); text-transform: uppercase; color: var(--gray); }
+    .tr-values { columns: 2; column-gap: 1rem; font-size: var(--fs-s); margin-top: 0.5rem; }
+    .tr-values h4 { margin: 0.6rem 0 0.15rem; font-size: var(--fs-xs); font-family: var(--mono); text-transform: uppercase; color: var(--gray); break-after: avoid; }
+    .tr-values label { display: block; break-inside: avoid; }
+    .tr-knob { margin: 0.9rem 0; }
+    .tr-knob .tr-knob-top { display: flex; align-items: center; gap: 0.5rem; }
+    .tr-knob input[type="range"] { flex: 1; accent-color: var(--accent); }
+    .tr-knob input[type="number"] { width: 4.5rem; }
+    .tr-knob .field-hint { margin: 0.15rem 0 0; font-size: var(--fs-xs); }
+    .tr-knob.changed .tr-knob-name::after { content: " · changed"; color: var(--accent); }
+    .tr-knob-name { font-weight: 600; font-size: var(--fs-s); }
+    .tr-formula { font-family: var(--mono); font-size: var(--fs-xs); padding: 0.5rem 0.75rem; background: var(--tint); margin: 0.5rem 0 0; }
+    .tr-summary { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: var(--fs-s); }
+    .tr table { width: 100%; font-size: var(--fs-s); }
+    .tr td, .tr th { vertical-align: middle; }
+    .tr .num { text-align: right; font-family: var(--mono); white-space: nowrap; }
+    .tr tr.below td { color: var(--gray); }
+    .tr tr.cut td { padding: 0.15rem 0.5rem; font-family: var(--mono); font-size: var(--fs-xs); color: var(--accent); border-bottom: 2px dashed var(--accent); }
+    .tr-bar { display: inline-flex; width: 4rem; height: 0.6rem; background: var(--tint-strong); position: relative; vertical-align: middle; margin-right: 0.35rem; }
+    .tr-bar i { position: absolute; top: 0; bottom: 0; }
+    .tr-bar i.pos { left: 50%; background: var(--lime); }
+    .tr-bar i.neg { right: 50%; background: var(--error); }
+    .tr-bar::after { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; border-left: 1px solid var(--gray); }
+    .tr details { font-size: var(--fs-xs); }
+    .tr details p { margin: 0.25rem 0; }
+    .tr .tab-list { margin-top: 0.75rem; }
+    .tr-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 0 2rem; }
+  </style>
+</head>
+<body>
+<header class="tr-top">
+  <h1>Recommendations workbench</h1>
+  <p class="field-hint">For the team, to delete before launch: what's being reviewed at each stage, the benchmark communities, and a place to try the suggestions. Nothing here is saved, and nothing here changes the editor.</p>
+  <div id="tr-tabs"></div>
+</header>
+
+<section class="tr-panel" id="tr-p-overview">
+  <h2>What to review, and when</h2>
+  <p class="field-hint">The suggestions are being rebuilt (see RECOMMENDATIONS.md, “How we got here”). Each stage has its own files to review; the counts update from the files themselves.</p>
+  <div id="tr-overview"></div>
+</section>
+
+<section class="tr-panel" id="tr-p-bench">
+  <h2>Benchmark communities</h2>
+  <p class="field-hint">Example communities with what they'd choose: the test cases the suggestions are measured against. They are <b>not</b> the type fit tables (those mark every option for every community type); they're what those tables have to get right. Review: does each community ring true, and are its choices right? <span class="chip">good</span> should be Suggested, <span class="chip quiet">also</span> is fine as See also (or interesting for this community type), <span class="tr-avoid">avoid</span> should get no chip. File: <code>data/benchmark_communities.json</code>.</p>
+  <div id="tr-bench"></div>
+</section>
+
+<section class="tr-panel" id="tr-p-tune">
+  <h2>Tuning</h2>
+  <p class="field-hint">How well the suggestions do, and with which settings. The <b>benchmarks</b> (18) are what the settings are tuned on; the <b>held-out</b> communities (10, drafted by web Claude, <code>data/benchmark_heldout.json</code>) are never tuned on, only checked, so they show whether a setting really works or just fits the 18 examples. In each cell: Suggested of the good choices (+ See also). The goal, in order: no to-avoid option gets a chip; short lists; as many good choices Suggested as possible. The search is <code>node scripts/tune-recs.mjs</code> (<code>data/tuning_results.json</code>); the editor's settings are <code>TUNING</code> in <code>js/recommend.js</code>, changed only by hand. Method and decisions: RECOMMENDATIONS.md, “Tuning”.</p>
+  <div id="tr-tune-table"></div>
+  <h3>To-avoid options that get a chip (the editor's settings)</h3>
+  <p class="field-hint">Each should get no chip. The reasons show which datasheet put it forward: most are a question for the data, not the settings.</p>
+  <div id="tr-tune-avoid"></div>
+  <h3>Good choices not Suggested (the editor's settings)</h3>
+  <p><label for="tr-tune-miss-set" class="label">Communities</label> <select id="tr-tune-miss-set"></select></p>
+  <div id="tr-tune-misses"></div>
+</section>
+
+<section class="tr-panel" id="tr-p-fit">
+  <h2>Type fit</h2>
+  <p class="field-hint">For each community type (the kind of group), how typical each value is, and how well each approach suits it: marks from −2 (strongly against) to +2 (strongly for), each with a reason; a blank means no opinion. <span class="tr-avoid">gate</span> = generally not a fit (no chip, the reason shown); <span class="chip quiet">interesting</span> = rare for this kind of group but viable. Review: are the marks and reasons right, and is anything important missing? Each type's benchmark communities are checked against its marks. <b>Typical</b> is the option's usual mark across all kinds of group (the median); suggestions will use the difference from it, so a mark only counts where this kind of group differs from groups in general. When a type looks right, <b>Approve this type</b> copies a command that marks it and its marks approved (<code>scripts/review.mjs</code>). Files: <code>data/community_types.json</code>, <code>data/type_value_fit.json</code>, <code>data/type_approach_fit.json</code>.</p>
+  <p><label for="tr-fit-type" class="label">Community type</label> <select id="tr-fit-type"></select></p>
+  <div id="tr-fit"></div>
+  <div class="tr-global">
+    <h2>Across all community types</h2>
+    <h3>Rarely a fit anywhere</h3>
+    <p class="field-hint">The same for every kind of group (not the type chosen above): options that are a poor fit almost everywhere get no chip, with the reason shown, unless a community type marks them for or interesting (<code>data/option_flags.json</code>). They replace gates that were repeated in most types.</p>
+    <div id="tr-rarely"></div>
+  </div>
+</section>
+
+
+<section class="tr-panel" id="tr-p-positions">
+  <h2>Positions on the scales</h2>
+  <p class="field-hint">Where each option and value sits on Participatory, Transparent and Hierarchical, from 1 to 7 (<code>data/governance_scales.json</code>). These positions give every published card its scales, and feed the scales signal of every suggestion. Review: check each option's three positions and its reason (the reason may be quoted to communities, so it should read well on its own). <b>—</b> means it says nothing about that scale. In the tables, <b>P</b>, <b>T</b> and <b>H</b> are the three scales. How each scale applies to decision-making, conflict, joining and values is under its definition below.</p>
+  <h3>The scales</h3>
+  <table class="table" data-source="/data/governance_scales.json" data-render="scaleDefinitions">
+      <thead><tr><th>Scale</th><th>What it measures</th><th>What each level means</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p>None of the scales is “good” or “bad”: many communities choose hierarchy, or privacy, on purpose. The scales describe; they don't judge.</p>
+  <h3>Trade-offs of each end</h3>
+  <p class="field-hint">Shown to communities under each scale when they say where they'd like to be (Basics): <b>+</b> what you gain, <b>−</b> what it costs.</p>
+  <table class="table" data-source="/data/governance_scales.json" data-render="scaleEnds">
+      <thead><tr><th>Scale</th><th>Low end</th><th>High end</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  <section id="how-scores-work">
+    <h3>How a card's scores work</h3>
+    <ul>
+      <li>A card's score on each scale is the <b>average of the scores of what it chose</b>: its decision-making approaches, how people join (tiers and ways) and its conflict management approaches, rounded to a whole number. The card says what it's based on (e.g. “Participatory 5 / 7 · based on 6 choices”).</li>
+      <li><b>—</b> means an option says nothing about that scale; it's left out of the average (not counted as low).</li>
+      <li>If nothing a card chose is scored on a scale, that scale shows <b>N/A</b>.</li>
+      <li>Only <span class="badge yes">accepted</span> scores count; <span class="badge var">proposed</span> ones are drafts waiting for review.</li>
+      <li>A community also says where it would like to be on each scale (Basics, 1–7: its <b>target scales</b>, shown publicly only in Full). Suggestions compare these targets with the positions here: the scales signal (see RECOMMENDATIONS.md, “How we got here”).</li>
+    </ul>
+  </section>
+  <section id="decision-approaches">
+    <h3>Decision-making approaches</h3>
+    <p>How the community makes decisions (its structure, in Membership and Processes).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="decision_approaches" data-labels="/data/decision_approaches.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+<section id="joining-tiers">
+    <h3>How people join</h3>
+    <p>The broad tiers of joining (Membership).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="membership_tiers" data-labels="/data/membership_tiers.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+<section id="joining-ways">
+    <h3>Ways of joining</h3>
+    <p>The more specific ways someone becomes a member (Membership).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="membership_options" data-labels="/data/membership_options.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+<section id="conflict">
+    <h3>Conflict management</h3>
+    <p>How disputes are resolved (Processes).</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="conflict_management" data-labels="/data/conflict_management.json">
+      <thead><tr><th>Option</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+<section id="values">
+    <h3>Values</h3>
+    <p class="field-hint">Values are positioned on <b>where they point</b>: where a community that holds the value would tend to want to be (not what the value “is”). Many values say nothing about how a community is run, and stay <b>—</b> on all three.</p>
+    <table class="table" data-source="/data/governance_scales.json" data-render="scales" data-list="values" data-labels="/data/values.json /data/value_groups.json">
+      <thead><tr><th>Value</th><th class="score"><abbr title="Participatory">P</abbr></th><th class="score"><abbr title="Transparent">T</abbr></th><th class="score"><abbr title="Hierarchical">H</abbr></th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+</section>
+
+<section class="tr-panel" id="tr-p-links">
+  <h2>Values for and against approaches</h2>
+  <p class="field-hint">How strongly a selected value argues for (+1, +2) or against (−1, −2) each option (<code>data/value_recommendations_*.json</code>); this is the values signal for approach suggestions. Review: is the strength right, and does the reason hold? Some links may now belong to the community type instead (e.g. a value that only fits workplaces): flag those.</p>
+  <h3>Decision-making approaches</h3>
+    <table class="table" data-source="/data/value_recommendations_decision.json" data-render="valueLinks" data-labels="/data/values.json /data/value_groups.json /data/decision_approaches.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Ways of joining</h3>
+    <table class="table" data-source="/data/value_recommendations_membership.json" data-render="valueLinks" data-labels="/data/values.json /data/value_groups.json /data/membership_options.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Conflict management</h3>
+    <table class="table" data-source="/data/value_recommendations_conflict.json" data-render="valueLinks" data-labels="/data/values.json /data/value_groups.json /data/conflict_management.json">
+      <thead><tr><th>Value</th><th>Option</th><th class="score">Strength</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  <h2>Format × values</h2>
+  <p class="field-hint">What the kind of online space (Basics' format: chat group, forum, social network, team…) says about values, only where it says something: the format signal for value suggestions (<code>data/format_value_fit.json</code>). The same whatever the community type.</p>
+  <div id="tr-format-fit"></div>
+  <h2>Format × approaches</h2>
+  <p class="field-hint">What the kind of online space says about approaches, whatever the community type: e.g. a team is a set group, not open to join, whatever kind of group it is (<code>data/format_approach_fit.json</code>, drafted after the held-out check and accepted 2026-10-10). The format signal for approach suggestions (weight 0.5, a specific signal). It took good approaches Suggested from 50 to 56 of 110 on the benchmarks and from 12 to 17 of 65 on the held-out set, with no to-avoid chips on either (RECOMMENDATIONS.md, “Tuning”).</p>
+  <div id="tr-format-approach-fit"></div>
+</section>
+
+<section class="tr-panel" id="tr-p-size">
+  <h2>Size fit</h2>
+  <p class="field-hint">How well each option suits a community's size (<code>data/approach_size_fit.json</code>), from −2 (strains badly) to +2 (suits it well); — means size makes no real difference. Sizes: <b>S</b>mall (under ~50), <b>M</b>edium (~50 to a few hundred), <b>L</b>arge (a few hundred to a few thousand), <b>XL</b> very large (more).</p>
+  <p class="field-hint"><b>The rule:</b> score how the approach behaves at each size <i>as it's normally used</i>, without assuming more people take part in each process as the community grows. Strain counts only when the approach by its nature needs the whole membership (everyone must agree; every member approves each newcomer; a community-wide vote on a dispute), needs people to know each other personally, or makes a few people's work grow with every member or case (one leader deciding everything; a few reviewers reading every application). “Suits it” means designed for many people (delegation, sampling, standing bodies). Formal structure in a small group is overhead, not failure: at most −1. Rows re-scored with this rule show what they <b>were</b>.</p>
+  <h3>Decision-making approaches</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="decision_approaches" data-labels="/data/decision_approaches.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Ways of joining</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="membership_options" data-labels="/data/membership_options.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <h3>Conflict management</h3>
+    <table class="table" data-source="/data/approach_size_fit.json" data-render="scales" data-list="conflict_management" data-labels="/data/conflict_management.json">
+      <thead><tr><th>Option</th><th class="score">S</th><th class="score">M</th><th class="score">L</th><th class="score">XL</th><th>Why</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+</section>
+
+<section class="tr-panel" id="tr-p-groups">
+  <h2>Value groups and word lists</h2>
+  <p class="field-hint">Each value has a <b>word list</b>: words and phrases that, when a community uses them in its Purpose, Culture or keywords, suggest that value. E.g. if <i>Community care</i>'s list has “look after each other” and a family writes “we look after each other”, they see <i>Community care</i> suggested, with <i>Because you wrote “look after each other”</i>. Matching is by word stem, so “helping each other” also matches “help each other”; a trailing <code>*</code> matches any ending.</p>
+  <details class="field-hint tr-how">
+    <summary>How these word lists were made</summary>
+    <p>First drafts were written by hand. A script (<code>scripts/make-value-terms.mjs</code>) then tried mining CommunityRule's value descriptions for distinctive words and phrases (TF-IDF, by word stem). That gave mostly noise, because the descriptions are written as examples (“wheelchair ramps”), not the way communities talk; on the example communities it found fewer core values with twice the wrong ones, so it was set aside. The proposals are now each value's name and everyday phrases drafted by Claude (<code>data/value_phrases_drafted.json</code>); the script flags questionable words (common across many values) and misfires, and tests every list with the editor's own matching. Full account: DESIGN.md, “How the word lists were made”.</p>
+  </details>
+  <h3>Proposed changes to the word lists</h3>
+  <p class="field-hint">One row per value, with its whole <b>word list as proposed</b>: today's words, plus the <b>new</b> ones (the value's name, and everyday phrases drafted by Claude). <b>Questionable</b>: today's words that would be dropped, being so common they'd match too often. <b>Misfires</b>: words that suggested this value for an example community that wouldn't choose it (possibly noise, for you to judge). The lists in use now are in the table further down. <b>Accept</b> copies the command that applies a row (its list, minus questionable, plus new); for anything in between, tell Claude.</p>
+  <div id="tr-terms"></div>
+  <h3>In use now: each value's group, word list and description</h3>
+  <p class="field-hint">What the editor uses today, for reference: each value's tab on the values list, its word list, and its description (18 rewritten by us where CommunityRule's was a placeholder). File: <code>data/value_groups.json</code>, kept apart from CommunityRule's <code>values.json</code>.</p>
+  <table class="table" data-source="/data/value_groups.json" data-render="valueCues" data-labels="/data/values.json /data/value_groups.json">
+      <thead><tr><th>Value</th><th>Group</th><th>Word list</th><th>Description</th><th>Status</th></tr></thead>
+      <tbody></tbody>
+    </table>
+</section>
+
+<main class="tr tr-panel" id="tr-p-try">
+  <div class="tr-head">
+    <p class="field-hint">Try the suggestions as the editor makes them today (the current scoring, before the rebuild). On the left, a community's answers (<b>step 1</b>) and the settings you can tune (<b>step 2</b>); on the right, what the editor would suggest (<b>step 3</b>), updating as you type. Drafts count while <code>COUNT_PROPOSED</code> is on.</p>
+  </div>
+
+  <div class="tr-left">
+    <h2><span class="step">1</span>The community's answers</h2>
+    <p class="field-hint">What set-up asks. <button class="link-button" type="button" id="tr-sample">Fill in a sample</button> · <button class="link-button" type="button" id="tr-clear">Clear</button></p>
+    <div class="tr-card">
+      <label class="tr-row"><span>Size</span><select id="tr-size"></select></label>
+      <div id="tr-scales"></div>
+      <p class="field-hint">Where they'd like to be on each scale.</p>
+    </div>
+    <div class="tr-card tr-desc" id="tr-description"><p class="field-hint" style="margin:0">Description: suggests values by its words and phrases (in the editor, when someone leaves a box).</p></div>
+    <div class="tr-card">
+      <p class="field-hint" style="margin:0">Values chosen: <b id="tr-value-count">0</b> (the editor allows 5; the chosen ones feed approach suggestions)</p>
+      <div class="tr-values" id="tr-values"></div>
+    </div>
+
+    <h2><span class="step">2</span>Settings to tune</h2>
+    <p class="field-hint">Each value and approach gets a score; the cut-offs decide its chip. <button class="link-button" type="button" id="tr-reset">Back to the editor's settings</button></p>
+    <div id="tr-tuning"></div>
+    <p class="tr-formula" id="tr-formula"></p>
+  </div>
+
+  <div class="tr-right">
+    <h2><span class="step">3</span>What the editor would suggest</h2>
+
+    <h3>Values</h3>
+    <p class="field-hint">Every value with something for it, best first, as the values list ranks them. Bars show each part of the score; dashed lines are the cut-offs; "Matched" is what the description said.</p>
+    <div class="tr-summary" id="tr-values-summary"></div>
+    <div class="tr-grid2" id="tr-value-tables"></div>
+
+    <h3>Approaches</h3>
+    <p class="field-hint">Every option, best first. The bars show each part of the score (green for, pink against); dashed lines are the cut-offs. Open "why" for the reasons the chip would give.</p>
+    <div id="tr-approach-tabs"></div>
+    <div id="tr-approaches"></div>
+
+    <h3>More like this / Try something new</h3>
+    <p class="field-hint">What the strip would offer for an option, as if it were the only one selected, with the answers on the left: 3 “more like this” (the closest on the scales among options with a chip; values: same group first) and 3 “try something new” (this community type's interesting marks first, unless something specific is against them; then options with a chip that sit 2 or more away on a scale). Each with its reason (in the editor, on hover).</p>
+    <p><select id="tr-alike-list"></select> <select id="tr-alike-option"></select></p>
+    <div id="tr-alike"></div>
+  </div>
+</main>
+<script type="module" src="js/test-recs.js"></script>
+<script src="js/docs-reference.js"></script>
+</body>
+</html>

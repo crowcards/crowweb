@@ -1,0 +1,1656 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "How typical each value is for each community type (community_types.json). Renamed 2026-10-09 from setting_value_fit.json. How typical each value is for each community type (community_types.json). Marks from −2 (strongly against) to +2 (strongly for); a blank means no opinion. flag \"gate\": generally not a fit for this community type (no chip; the reason is shown). flag \"interesting\": rare for this community type but viable (not penalised; its reason says so). status: proposed until reviewed. Identity / cultural and DAO / web3 are blank for now. Review changes: \"change\" is \"added\" or \"changed\" (with \"was\": the mark before) since the first draft; \"removed\" lists marks taken out. Approving a setting (scripts/review.mjs) clears them.",
+  "items": [
+    {
+      "type": "personal",
+      "value": "autonomy",
+      "fit": 2,
+      "flag": null,
+      "why": "A personal space is its owner's own.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "value": "independence",
+      "fit": 2,
+      "flag": null,
+      "why": "A personal space is its owner's own.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "value": "freedom",
+      "fit": 1,
+      "flag": null,
+      "why": "Owning your own corner of the network; others are there by invitation.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "value": "decentralization",
+      "fit": 1,
+      "flag": null,
+      "why": "Owning your own corner of the network; others are there by invitation.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "trust",
+      "fit": 2,
+      "flag": null,
+      "why": "Families run on trust and looking after each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "community_care",
+      "fit": 2,
+      "flag": null,
+      "why": "Families run on trust and looking after each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "empathy",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "honesty",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "generosity",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "humility",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "consent",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "reliability",
+      "fit": 1,
+      "flag": null,
+      "why": "Everyday family virtues.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "meritocracy",
+      "fit": -1,
+      "flag": null,
+      "why": "Families don't rank members by what they contribute.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "trust",
+      "fit": 2,
+      "flag": null,
+      "why": "Friend groups hold together on trust and everyone getting a fair turn.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "fairness",
+      "fit": 2,
+      "flag": null,
+      "why": "Friend groups hold together on trust and everyone getting a fair turn.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "Easygoing values friend groups tend to share.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "Easygoing values friend groups tend to share.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "flexibility",
+      "fit": 1,
+      "flag": null,
+      "why": "Easygoing values friend groups tend to share.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "voluntarism",
+      "fit": 1,
+      "flag": null,
+      "why": "Easygoing values friend groups tend to share.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "generosity",
+      "fit": 1,
+      "flag": null,
+      "why": "Easygoing values friend groups tend to share.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "localism",
+      "fit": 2,
+      "flag": null,
+      "why": "Neighbourhoods are about the place and helping each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "mutual_aid",
+      "fit": 2,
+      "flag": null,
+      "why": "Neighbourhoods are about the place and helping each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "community_care",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "participation",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "generosity",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "trust",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a neighbourhood space work for everyone nearby.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "transparency",
+      "fit": 2,
+      "flag": null,
+      "why": "Public decisions have to be open, accountable and fair to every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "participation",
+      "fit": 2,
+      "flag": null,
+      "why": "Public decisions have to be open, accountable and fair to every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "accountability",
+      "fit": 2,
+      "flag": null,
+      "why": "Public decisions have to be open, accountable and fair to every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "equity",
+      "fit": 2,
+      "flag": null,
+      "why": "Public decisions have to be open, accountable and fair to every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "fairness",
+      "fit": 2,
+      "flag": null,
+      "why": "Public decisions have to be open, accountable and fair to every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "Reaching everyone the decisions affect.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "openness",
+      "fit": 1,
+      "flag": null,
+      "why": "Reaching everyone the decisions affect.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "justice",
+      "fit": 1,
+      "flag": null,
+      "why": "Reaching everyone the decisions affect.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "reliability",
+      "fit": 2,
+      "flag": null,
+      "why": "Work depends on people following through and owning their part.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "accountability",
+      "fit": 2,
+      "flag": null,
+      "why": "Work depends on people following through and owning their part.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "constructive_feedback",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "fair_remuneration",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "learning",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "innovation",
+      "fit": 1,
+      "flag": null,
+      "why": "What good workplaces aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "knowledge_sharing",
+      "fit": 2,
+      "flag": null,
+      "why": "Professional networks exist to share what people know.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "learning",
+      "fit": 2,
+      "flag": null,
+      "why": "Professional networks exist to share what people know.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "capacity_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "openness",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "diversity",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "constructive_feedback",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing the field and who's in it.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "learning",
+      "fit": 2,
+      "flag": null,
+      "why": "A class is there to learn.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "education",
+      "fit": 2,
+      "flag": null,
+      "why": "A class is there to learn.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a classroom safe to learn in.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "constructive_feedback",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a classroom safe to learn in.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a classroom safe to learn in.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a classroom safe to learn in.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "value": "empathy",
+      "fit": 1,
+      "flag": null,
+      "why": "What makes a classroom safe to learn in.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "solidarity",
+      "fit": 2,
+      "flag": null,
+      "why": "Movements run on people backing each other and a sense of justice.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "mutual_aid",
+      "fit": 2,
+      "flag": null,
+      "why": "Movements run on people backing each other and a sense of justice.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "justice",
+      "fit": 2,
+      "flag": null,
+      "why": "Movements run on people backing each other and a sense of justice.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "participation",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "direct_action",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "equity",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "anti_oppression",
+      "fit": 1,
+      "flag": null,
+      "why": "How movements try to organise.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "value": "meritocracy",
+      "fit": -1,
+      "flag": null,
+      "why": "Movements tend to resist ranking members by contribution.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "community_care",
+      "fit": 2,
+      "flag": null,
+      "why": "Interest groups thrive on sharing what they know and being kind about it.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "knowledge_sharing",
+      "fit": 2,
+      "flag": null,
+      "why": "Interest groups thrive on sharing what they know and being kind about it.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "mutual_aid",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "trust",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "generosity",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "learning",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming people into the interest.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "open_source",
+      "fit": 2,
+      "flag": null,
+      "why": "Working in the open, together, and writing it down.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "transparency",
+      "fit": 2,
+      "flag": null,
+      "why": "Working in the open, together, and writing it down.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "collaboration",
+      "fit": 2,
+      "flag": null,
+      "why": "Working in the open, together, and writing it down.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "documentation",
+      "fit": 2,
+      "flag": null,
+      "why": "Working in the open, together, and writing it down.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "knowledge_sharing",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "meritocracy",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "copyleft",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "forkability",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "interoperability",
+      "fit": 1,
+      "flag": null,
+      "why": "Common open-source values.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "community_care",
+      "fit": 2,
+      "flag": null,
+      "why": "Caring for members and giving to others.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "generosity",
+      "fit": 2,
+      "flag": null,
+      "why": "Caring for members and giving to others.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "humility",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "integrity",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "trust",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "altruism",
+      "fit": 1,
+      "flag": null,
+      "why": "Values most faith communities hold.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "learning",
+      "fit": 2,
+      "flag": null,
+      "why": "Research runs on learning, sharing and being honest about results.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "knowledge_sharing",
+      "fit": 2,
+      "flag": null,
+      "why": "Research runs on learning, sharing and being honest about results.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "honesty",
+      "fit": 2,
+      "flag": null,
+      "why": "Research runs on learning, sharing and being honest about results.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "documentation",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "fairness",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "constructive_feedback",
+      "fit": 1,
+      "flag": null,
+      "why": "Good research practice, and fair credit.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "At scale, moderation is often run by a team; being open about it and answerable for it helps.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "At scale, moderation is often run by a team; being open about it and answerable for it helps.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "inclusion",
+      "fit": 2,
+      "flag": null,
+      "why": "A public space needs moderation people can see and trust, and room for everyone.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "anti_oppression",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "reliability",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "interoperability",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "fairness",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "trust",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "voluntarism",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping a shared space safe, running and connected.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "community_care",
+      "fit": 2,
+      "flag": null,
+      "why": "Support depends on care, understanding and trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "empathy",
+      "fit": 2,
+      "flag": null,
+      "why": "Support depends on care, understanding and trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "consent",
+      "fit": 2,
+      "flag": null,
+      "why": "Support depends on care, understanding and trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "trust",
+      "fit": 2,
+      "flag": null,
+      "why": "Support depends on care, understanding and trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "harm_reduction",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in peer support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "humility",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in peer support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "honesty",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in peer support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "mutual_aid",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in peer support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "solidarity",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in peer support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "value": "openness",
+      "fit": -1,
+      "flag": null,
+      "why": "Privacy usually matters more than openness here.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "common_ownership",
+      "fit": 2,
+      "flag": null,
+      "why": "Co-ops are owned and run by their members, with fair shares.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "participation",
+      "fit": 2,
+      "flag": null,
+      "why": "Co-ops are owned and run by their members, with fair shares.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "solidarity",
+      "fit": 2,
+      "flag": null,
+      "why": "Co-ops are owned and run by their members, with fair shares.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "fair_remuneration",
+      "fit": 2,
+      "flag": null,
+      "why": "Co-ops are owned and run by their members, with fair shares.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "Cooperative principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Cooperative principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "equity",
+      "fit": 1,
+      "flag": null,
+      "why": "Cooperative principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "Cooperative principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "horizontalism",
+      "fit": 1,
+      "flag": null,
+      "why": "Cooperative principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "fairness",
+      "fit": 2,
+      "flag": null,
+      "why": "Members expect fair access and a committee that answers to them.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "accountability",
+      "fit": 2,
+      "flag": null,
+      "why": "Members expect fair access and a committee that answers to them.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "participation",
+      "fit": 1,
+      "flag": null,
+      "why": "What well-run clubs aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "reliability",
+      "fit": 1,
+      "flag": null,
+      "why": "What well-run clubs aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "transparency",
+      "fit": 1,
+      "flag": null,
+      "why": "What well-run clubs aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "What well-run clubs aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "inclusion",
+      "fit": 1,
+      "flag": null,
+      "why": "What well-run clubs aim for.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "inclusion",
+      "fit": 2,
+      "flag": null,
+      "why": "A friendly, welcoming space around the creator's work.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "constructive_feedback",
+      "fit": 2,
+      "flag": null,
+      "why": "A friendly, welcoming space around the creator's work.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "community_care",
+      "fit": 2,
+      "flag": null,
+      "why": "A friendly, welcoming space around the creator's work.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "innovation",
+      "fit": 1,
+      "flag": null,
+      "why": "Creative and dependable.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "reliability",
+      "fit": 1,
+      "flag": null,
+      "why": "Creative and dependable.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "trust",
+      "fit": 1,
+      "flag": null,
+      "why": "Creative and dependable.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "generosity",
+      "fit": 1,
+      "flag": null,
+      "why": "Creative and dependable.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "Looking after shared places and resources for the people who come next.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "accessibility",
+      "fit": 2,
+      "flag": null,
+      "why": "Public participation has to be usable by every resident.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "localism",
+      "fit": 1,
+      "flag": null,
+      "why": "Civic spaces are often about a place.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "Looking after public resources, and keeping what works running.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "maintenance",
+      "fit": 1,
+      "flag": null,
+      "why": "Looking after public resources, and keeping what works running.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "capacity_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Training and growing people's skills.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some workplaces are employee-owned.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "voluntarism",
+      "fit": 1,
+      "flag": null,
+      "why": "Interest groups run on people taking part because they want to.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "maintenance",
+      "fit": 1,
+      "flag": null,
+      "why": "Projects depend on the unglamorous work of keeping things running.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": null,
+      "why": "The code belongs to everyone who uses and builds it.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "voluntarism",
+      "fit": 1,
+      "flag": null,
+      "why": "Much of open source is volunteer work.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "value": "direct_action",
+      "fit": 1,
+      "flag": null,
+      "why": "Fixing it yourself: send a patch rather than wait.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "holism",
+      "fit": 1,
+      "flag": null,
+      "why": "Caring for the whole person.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "education",
+      "fit": 1,
+      "flag": null,
+      "why": "Training the next researchers.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "capacity_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Training the next researchers.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "openness",
+      "fit": 1,
+      "flag": null,
+      "why": "Open to many kinds of people, and adapting as the space grows.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "adaptability",
+      "fit": 1,
+      "flag": null,
+      "why": "Open to many kinds of people, and adapting as the space grows.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "Looking after the co-op for members who come later.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "Members working together toward the club's shared purpose.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "anti_oppression",
+      "fit": 2,
+      "flag": null,
+      "why": "Standing against the discrimination members face.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "solidarity",
+      "fit": 2,
+      "flag": null,
+      "why": "Members backing each other, especially under outside pressure.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "accessibility",
+      "fit": 1,
+      "flag": null,
+      "why": "Making the space usable for everyone in the community.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "capacity_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Growing members' skills and leadership.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "community_care",
+      "fit": 1,
+      "flag": null,
+      "why": "Looking after each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "harm_reduction",
+      "fit": 1,
+      "flag": null,
+      "why": "Keeping members safer in practical ways.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "intersectionality",
+      "fit": 1,
+      "flag": null,
+      "why": "Members' identities overlap in many ways.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "justice",
+      "fit": 1,
+      "flag": null,
+      "why": "Repairing harm and working toward fairness.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "value": "autonomy",
+      "fit": 1,
+      "flag": null,
+      "why": "The community decides for itself (self-determination).",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "decentralization",
+      "fit": 2,
+      "flag": null,
+      "why": "No single party controls the network.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "transparency",
+      "fit": 2,
+      "flag": null,
+      "why": "Proposals, votes and code are public.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "open_source",
+      "fit": 2,
+      "flag": null,
+      "why": "The code is open for anyone to read, use and build on.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "interoperability",
+      "fit": 1,
+      "flag": null,
+      "why": "Built on shared standards other projects can use.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "autonomy",
+      "fit": 1,
+      "flag": null,
+      "why": "Independent of companies and governments.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "innovation",
+      "fit": 1,
+      "flag": null,
+      "why": "Experimenting with new forms of coordination.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "forkability",
+      "fit": 1,
+      "flag": null,
+      "why": "Anyone can fork the code, and sometimes the chain.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "freedom_of_information",
+      "fit": 1,
+      "flag": null,
+      "why": "Open data, open research.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "value": "accountability",
+      "fit": 1,
+      "flag": null,
+      "why": "Decisions are on the record.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "value": "transparency",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Publishing your own block list, and why.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "value": "transparency",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Open family finances, e.g. a shared budget everyone can see.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Shared gear, or a shared kitty for the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighbourhood",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Community land trusts, shared tool libraries and gardens.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "value": "experimentation",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Civic labs piloting new ways for residents to decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "value": "horizontalism",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "A flat network with no officers.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Member-owned servers, e.g. hosted as a co-op.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "value": "horizontalism",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Lay-led communities without clergy.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "value": "horizontalism",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Flat labs and collectives without a PI.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Member-owned servers, e.g. run as a co-op.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "value": "common_ownership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some creators share ownership or revenue with their community.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "value": "knowledge_sharing",
+      "fit": 2,
+      "flag": null,
+      "why": "Sharing data and findings is the point.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "learning",
+      "fit": 1,
+      "flag": null,
+      "why": "Volunteers learn the science as they take part.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "education",
+      "fit": 1,
+      "flag": null,
+      "why": "Many projects teach as much as they collect.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "openness",
+      "fit": 1,
+      "flag": null,
+      "why": "Open participation and, often, open data.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "freedom_of_information",
+      "fit": 1,
+      "flag": null,
+      "why": "Results and data are often published openly.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "accessibility",
+      "fit": 1,
+      "flag": null,
+      "why": "Anyone should be able to take part, whatever their background.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "reliability",
+      "fit": 1,
+      "flag": null,
+      "why": "Careful, consistent data is what makes it count.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "documentation",
+      "fit": 1,
+      "flag": null,
+      "why": "Clear protocols let many people collect data the same way.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "collaboration",
+      "fit": 1,
+      "flag": null,
+      "why": "Many hands on one question.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "stewardship",
+      "fit": 1,
+      "flag": null,
+      "why": "Often about caring for a place or a species: counts, surveys, monitoring.",
+      "status": "proposed"
+    },
+    {
+      "type": "citizen_science",
+      "value": "localism",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some projects are about one place: a river, a neighbourhood's air.",
+      "status": "proposed"
+    }
+  ],
+  "removed": []
+}

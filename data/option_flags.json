@@ -1,0 +1,35 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-09",
+  "note": "Options that are a poor fit almost everywhere (flag \"rarely\"): no chip, with the reason shown, unless a community type marks it for or interesting (type_approach_fit.json), which overrides the flag for that kind of group. Replaces gates that were repeated in most community types. status: accepted (agreed 2026-10-09).",
+  "items": [
+    {
+      "list": "decision_approaches",
+      "option": "investor_filled_board_seats",
+      "flag": "rarely",
+      "why": "Hands decisions to outside investors: a poor fit for almost any community.",
+      "status": "accepted"
+    },
+    {
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "flag": "rarely",
+      "why": "Legal contracts to settle disputes are rare outside formal organisations.",
+      "status": "accepted"
+    },
+    {
+      "list": "membership_options",
+      "option": "lottery_sortition",
+      "flag": "rarely",
+      "why": "Admitting members by lottery is rare; it suits a few cases, e.g. citizens' panels or housing co-op places.",
+      "status": "accepted"
+    },
+    {
+      "list": "conflict_management",
+      "option": "lottery_sortition",
+      "flag": "rarely",
+      "why": "Settling disputes by chance is rare; it suits a few cases, e.g. juries drawn by lot.",
+      "status": "accepted"
+    }
+  ]
+}

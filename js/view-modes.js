@@ -17,11 +17,11 @@
 //   scoredItems(scaleData, opts)      → Map "list:option" → its scores (the ones that count)
 //
 // The modes, from least to most shared: Minimal, Foggy, Misty, Full
-// (see "Publishing behaviour" in CLAUDE.md). Never shown in any mode: the editor-only part (set-aside
+// (see "Publishing behaviour" in DESIGN.md). Never shown in any mode: the editor-only part (set-aside
 // answers, dismissed suggestions, …) and attribution (credit appears only
 // if the contributor opts in). Switched-off modules are left out.
 
-// While the team reviews the drafts (scales.html), proposed scores (and
+// While the team reviews the drafts (bench.html), proposed scores (and
 // value links and size fits, in js/recommend.js) count too: in suggestions,
 // previews and published cards, so they can be tried out. Before launch: false.
 export const COUNT_PROPOSED = true;
@@ -46,7 +46,8 @@ const ALL = MODE_IDS;
  * forking (what a fork copies).
  */
 export const FIELDS = {
-  basics: ALL,                          // name, link, type, size, keywords, values
+  basics: ALL,                          // name, link, format, size, keywords, values
+  type: from("misty"),                  // the community type (basics.type; the format is part of basics)
   // the description: its purpose in every view, its culture from Misty
   describePurpose: ALL,
   describeCulture: from("misty"),
@@ -83,7 +84,8 @@ export const shows = (field, mode) => (FIELDS[field] || []).includes(mode);
 
 /** What each part is called, for people: "Not shared" rows, the fork pop-up. */
 export const FIELD_LABELS = {
-  basics: "Type, size, keywords and values",
+  basics: "Format, size, keywords and values",
+  type: "Community type",
   describePurpose: "Purpose",
   describeCulture: "Culture",
   targetScales: "Where they’d like to be on the scales",
@@ -141,7 +143,7 @@ export function forkCopies(mode) {
 
 /** Parts in short groups, for brief summaries (a fork's set-up note): every kind of note is "notes". */
 const FIELD_GROUPS = {
-  basics: "basics", targetScales: "where they’d like to be on the scales",
+  basics: "basics", type: "the community type", targetScales: "where they’d like to be on the scales",
   platform: "the platform", platformDetails: "infrastructure details", costs: "infrastructure details", tools: "infrastructure details", locations: "locations",
   joiningTiers: "how people join", joiningWays: "ways of joining", closedNote: "ways of joining", structure: "decision-making approaches",
   rules: "rules", conflictSteps: "conflict steps", channels: "channels",
@@ -171,6 +173,7 @@ export function viewCard(card, mode) {
     basics: { ...card.basics },
   };
   if (!has("targetScales")) delete view.basics.targetScales;
+  if (!has("type")) delete view.basics.type;
   // the description: only the parts this mode shows
   const parts = { purpose: "describePurpose", culture: "describeCulture" };
   if (card.basics?.description) view.basics.description = Object.fromEntries(Object.entries(parts).filter(([, f]) => has(f)).map(([k]) => [k, card.basics.description[k] ?? null]));

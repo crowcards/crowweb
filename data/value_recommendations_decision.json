@@ -20,14 +20,6 @@
       "status": "accepted"
     },
     {
-      "id": "accountability__rotational_leadership",
-      "value": "accountability",
-      "recommends": "rotational_leadership",
-      "strength": 1,
-      "why": "Rotating who decides means more members experience the weight of accountability firsthand.",
-      "status": "accepted"
-    },
-    {
       "id": "accountability__sociocracy",
       "value": "accountability",
       "recommends": "sociocracy",
@@ -188,20 +180,12 @@
       "status": "accepted"
     },
     {
-      "id": "conflict_resolution__negotiated_decisions",
-      "value": "conflict_resolution",
-      "recommends": "negotiated_decisions",
-      "strength": 1,
-      "why": "Stakeholders discuss and negotiate until reaching agreement — the same orientation conflict resolution requires.",
-      "status": "accepted"
-    },
-    {
       "id": "consensus__consensus_decision_making",
       "value": "consensus",
       "recommends": "consensus_decision_making",
       "strength": 2,
       "why": "All members must agree — the direct procedural expression of holding consensus as a value.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consensus__modified_consensus",
@@ -231,9 +215,9 @@
       "id": "consent__lazy_consensus",
       "value": "consent",
       "recommends": "lazy_consensus",
-      "strength": 2,
-      "why": "Every member has a window to object before a decision proceeds — silence is consent, not coercion.",
-      "status": "proposed"
+      "strength": -1,
+      "why": "Silence is taken as agreement, rather than asking people to opt in.",
+      "status": "accepted"
     },
     {
       "id": "consent__modified_consensus",
@@ -289,7 +273,7 @@
       "recommends": "do_ocracy",
       "strength": 2,
       "why": "Decisions by those who take initiative and carry out the work — acting immediately rather than waiting for permission.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "direct_action__lazy_consensus",
@@ -313,7 +297,7 @@
       "recommends": "lottery_sortition",
       "strength": 2,
       "why": "Random selection promotes fairness and prevents the same voices from repeatedly shaping decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "diversity__ranked_choice_voting",
@@ -345,7 +329,7 @@
       "recommends": "do_ocracy",
       "strength": 2,
       "why": "Decisions by those who take initiative gives authority to whoever steps up rather than requiring permission from above.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "empowerment__sociocracy",
@@ -360,7 +344,7 @@
       "value": "equity",
       "recommends": "deliberative_polling",
       "strength": 1,
-      "why": "Discussing and reflecting before voting surfaces whose needs are most affected, so decisions reflect actual need rather than assumption.",
+      "why": "A representative sample gives every group a say, including those usually unheard.",
       "status": "accepted"
     },
     {
@@ -369,14 +353,6 @@
       "recommends": "quadratic_voting",
       "strength": 1,
       "why": "Members use credits to vote, with costs increasing quadratically — those most affected can express greater intensity without dominating every decision.",
-      "status": "accepted"
-    },
-    {
-      "id": "equity__supermajority_rule",
-      "value": "equity",
-      "recommends": "supermajority_rule",
-      "strength": 1,
-      "why": "A high threshold protects members with less power from having decisions made against them by a bare majority.",
       "status": "accepted"
     },
     {
@@ -396,14 +372,6 @@
       "status": "accepted"
     },
     {
-      "id": "experimentation__rotational_leadership",
-      "value": "experimentation",
-      "recommends": "rotational_leadership",
-      "strength": 1,
-      "why": "Rotating who leads treats governance itself as an experiment — different members try leading rather than defaulting to the same person.",
-      "status": "accepted"
-    },
-    {
       "id": "fairness__approval_voting",
       "value": "fairness",
       "recommends": "approval_voting",
@@ -416,7 +384,7 @@
       "value": "fairness",
       "recommends": "deliberative_polling",
       "strength": 1,
-      "why": "Members discuss and reflect before voting — reduces the chance outcomes reflect ignorance or manipulation rather than genuine preference.",
+      "why": "A representative sample deliberates with balanced information before it's polled: a considered, impartial view.",
       "status": "accepted"
     },
     {
@@ -465,7 +433,7 @@
       "recommends": "holacracy",
       "strength": 2,
       "why": "Decision-making authority distributed across self-organizing teams — roles and circles replace managers, directly enacting the value.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__consensus_decision_making",
@@ -473,7 +441,7 @@
       "recommends": "consensus_decision_making",
       "strength": 2,
       "why": "All members must agree — decisions cannot be imposed from above.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__lottery_sortition",
@@ -500,22 +468,6 @@
       "status": "accepted"
     },
     {
-      "id": "humility__consensus_seeking_with_delegates",
-      "value": "humility",
-      "recommends": "consensus_seeking_with_delegates",
-      "strength": 1,
-      "why": "Delegates must seek broad agreement rather than act on their own judgment — structurally requires setting aside certainty.",
-      "status": "accepted"
-    },
-    {
-      "id": "humility__deliberative_polling",
-      "value": "humility",
-      "recommends": "deliberative_polling",
-      "strength": 1,
-      "why": "Members discuss and reflect before voting, informed by deliberation — no single view goes unchallenged.",
-      "status": "accepted"
-    },
-    {
       "id": "inclusion__consensus_seeking_with_delegates",
       "value": "inclusion",
       "recommends": "consensus_seeking_with_delegates",
@@ -528,7 +480,7 @@
       "value": "inclusion",
       "recommends": "deliberative_polling",
       "strength": 1,
-      "why": "Structured discussion before voting gives quieter members equal time to shape outcomes.",
+      "why": "A representative sample gives every group of members a voice, not just the most vocal.",
       "status": "accepted"
     },
     {
@@ -572,14 +524,6 @@
       "status": "accepted"
     },
     {
-      "id": "innovation__lottery_sortition",
-      "value": "innovation",
-      "recommends": "lottery_sortition",
-      "strength": 1,
-      "why": "Random selection disrupts entrenched patterns and surfaces unconventional voices.",
-      "status": "accepted"
-    },
-    {
       "id": "innovation__modified_consensus",
       "value": "innovation",
       "recommends": "modified_consensus",
@@ -617,7 +561,7 @@
       "recommends": "proof_of_work",
       "strength": 2,
       "why": "Decision weight tied to demonstrable effort or contributions — influence earned through work rather than status.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "meritocracy__weighted_voting",
@@ -628,20 +572,12 @@
       "status": "accepted"
     },
     {
-      "id": "openness__collaborative_platforms",
-      "value": "openness",
-      "recommends": "collaborative_platforms",
-      "strength": 1,
-      "why": "Structured discussions on tools like Loomio or Polis make deliberation visible and accessible to outside participants.",
-      "status": "accepted"
-    },
-    {
       "id": "participation__consensus_decision_making",
       "value": "participation",
       "recommends": "consensus_decision_making",
       "strength": 2,
       "why": "All members must agree — demands active engagement from the full membership, not just a voting majority.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "participation__consensus_seeking_with_delegates",
@@ -649,14 +585,6 @@
       "recommends": "consensus_seeking_with_delegates",
       "strength": 1,
       "why": "Delegates mandated to seek broad agreement must draw participation out of the membership, not just poll it.",
-      "status": "accepted"
-    },
-    {
-      "id": "participation__deliberative_polling",
-      "value": "participation",
-      "recommends": "deliberative_polling",
-      "strength": 1,
-      "why": "Members discuss and reflect before voting — active engagement, not just casting a ballot.",
       "status": "accepted"
     },
     {
@@ -712,7 +640,7 @@
       "value": "solidarity",
       "recommends": "supermajority_rule",
       "strength": 1,
-      "why": "A high threshold protects members with less power from having decisions made against them by a bare majority.",
+      "why": "Keeps the group together: a large majority is needed before anyone is overruled.",
       "status": "accepted"
     },
     {
@@ -753,7 +681,7 @@
       "recommends": "collaborative_platforms",
       "strength": 2,
       "why": "Structured discussions on tools like Loomio make the full deliberation trail — not just the outcome — visible to members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "transparency__deliberative_polling",
@@ -761,14 +689,6 @@
       "recommends": "deliberative_polling",
       "strength": 1,
       "why": "Members discuss and reflect before voting — how and why views shifted is surfaced, not just what was decided.",
-      "status": "accepted"
-    },
-    {
-      "id": "transparency__elected_board_of_directors",
-      "value": "transparency",
-      "recommends": "elected_board_of_directors",
-      "strength": 1,
-      "why": "Named, elected representatives whose reasoning can be scrutinized and challenged by the membership.",
       "status": "accepted"
     },
     {
@@ -801,7 +721,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "One person deciding for everyone is the opposite of a flat community.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__hierarchical_decision_making",
@@ -809,7 +729,7 @@
       "recommends": "hierarchical_decision_making",
       "strength": -2,
       "why": "Decisions passed down levels of authority go against having no levels.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__executive_committees",
@@ -817,7 +737,7 @@
       "recommends": "executive_committees",
       "strength": -1,
       "why": "A small committee deciding for the rest puts some above others.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__investor_filled_board_seats",
@@ -825,7 +745,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Seats held by investors give outsiders authority over members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decentralization__autocratic_decision_making",
@@ -833,7 +753,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "All decisions go through one person: the most central there is.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decentralization__hierarchical_decision_making",
@@ -841,7 +761,7 @@
       "recommends": "hierarchical_decision_making",
       "strength": -1,
       "why": "Authority gathers at the top rather than spreading out.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decentralization__executive_committees",
@@ -849,7 +769,7 @@
       "recommends": "executive_committees",
       "strength": -1,
       "why": "Decisions concentrate in one central group.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "anti_oppression__autocratic_decision_making",
@@ -857,7 +777,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "Concentrates power in one person, with no check from those affected.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "anti_oppression__investor_filled_board_seats",
@@ -865,7 +785,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Gives decision power to those with money.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "anti_oppression__weighted_voting",
@@ -873,7 +793,7 @@
       "recommends": "weighted_voting",
       "strength": -1,
       "why": "Weighting votes can reproduce existing inequalities.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "anti_oppression__proof_of_work",
@@ -881,7 +801,7 @@
       "recommends": "proof_of_work",
       "strength": -1,
       "why": "Rewards those with the most time and resources to contribute.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "participation__autocratic_decision_making",
@@ -889,15 +809,15 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "Members don't take part in decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "participation__executive_committees",
       "value": "participation",
       "recommends": "executive_committees",
       "strength": -1,
-      "why": "Most members are left out of decisions.",
-      "status": "proposed"
+      "why": "A small group makes the critical decisions, not the members.",
+      "status": "accepted"
     },
     {
       "id": "participation__algorithm_driven_decisions",
@@ -905,7 +825,7 @@
       "recommends": "algorithm_driven_decisions",
       "strength": -1,
       "why": "Decisions are made by a system rather than by members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consensus__majority_rule",
@@ -913,7 +833,7 @@
       "recommends": "majority_rule",
       "strength": -1,
       "why": "A majority can overrule the rest instead of finding agreement.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consensus__first_past_the_post",
@@ -921,7 +841,7 @@
       "recommends": "first_past_the_post",
       "strength": -1,
       "why": "The largest group wins outright, with no search for agreement.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consensus__autocratic_decision_making",
@@ -929,7 +849,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "One person decides, without anyone else's agreement.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consent__autocratic_decision_making",
@@ -937,7 +857,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "Decisions are made for people without their consent.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "consent__random_choice",
@@ -945,7 +865,7 @@
       "recommends": "random_choice",
       "strength": -1,
       "why": "Chance decides, not the people affected.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "transparency__algorithm_driven_decisions",
@@ -953,23 +873,7 @@
       "recommends": "algorithm_driven_decisions",
       "strength": -1,
       "why": "How an algorithm decides can be hard to see or explain.",
-      "status": "proposed"
-    },
-    {
-      "id": "transparency__executive_committees",
-      "value": "transparency",
-      "recommends": "executive_committees",
-      "strength": -1,
-      "why": "Decisions are often made behind closed doors.",
-      "status": "proposed"
-    },
-    {
-      "id": "transparency__autocratic_decision_making",
-      "value": "transparency",
-      "recommends": "autocratic_decision_making",
-      "strength": -1,
-      "why": "One person's reasons are often not shared.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "equity__weighted_voting",
@@ -977,7 +881,7 @@
       "recommends": "weighted_voting",
       "strength": -1,
       "why": "Unequal votes can favour those already better placed.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "equity__investor_filled_board_seats",
@@ -985,7 +889,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Gives more say to those with money.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "equity__first_past_the_post",
@@ -993,7 +897,7 @@
       "recommends": "first_past_the_post",
       "strength": -1,
       "why": "The largest group wins everything; smaller groups get nothing.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "fairness__first_past_the_post",
@@ -1001,7 +905,7 @@
       "recommends": "first_past_the_post",
       "strength": -1,
       "why": "Can elect an option most people didn't choose.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "fairness__investor_filled_board_seats",
@@ -1009,7 +913,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -1,
       "why": "Seats go to investors, not by an impartial process.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "inclusion__weighted_voting",
@@ -1017,7 +921,7 @@
       "recommends": "weighted_voting",
       "strength": -1,
       "why": "Some members' voices count for less.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "inclusion__autocratic_decision_making",
@@ -1025,7 +929,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -1,
       "why": "Most members are left out of decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "inclusivity__weighted_voting",
@@ -1033,7 +937,7 @@
       "recommends": "weighted_voting",
       "strength": -1,
       "why": "Some members' voices count for less.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "inclusivity__autocratic_decision_making",
@@ -1041,7 +945,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -1,
       "why": "Most members are left out of decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "liberty__autocratic_decision_making",
@@ -1049,7 +953,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "Authoritarian control is exactly what liberty opposes.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "liberty__hierarchical_decision_making",
@@ -1057,7 +961,7 @@
       "recommends": "hierarchical_decision_making",
       "strength": -1,
       "why": "Authority over individuals sits at the top.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "freedom__autocratic_decision_making",
@@ -1065,7 +969,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -1,
       "why": "One person decides what others can do.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "meritocracy__lottery_sortition",
@@ -1073,7 +977,7 @@
       "recommends": "lottery_sortition",
       "strength": -1,
       "why": "Chance, not contribution, decides who has a say.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "meritocracy__random_choice",
@@ -1081,7 +985,7 @@
       "recommends": "random_choice",
       "strength": -2,
       "why": "Chance, not contribution or skill, decides.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "independence__investor_filled_board_seats",
@@ -1089,7 +993,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Investors on the board make the community depend on them.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "autonomy__investor_filled_board_seats",
@@ -1097,7 +1001,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Gives outside funders control over decisions.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "empowerment__autocratic_decision_making",
@@ -1105,7 +1009,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -2,
       "why": "Members have no power to decide.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "agency__autocratic_decision_making",
@@ -1113,15 +1017,15 @@
       "recommends": "autocratic_decision_making",
       "strength": -1,
       "why": "Individuals can't act without one person's decision.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "agency__hierarchical_decision_making",
       "value": "agency",
       "recommends": "hierarchical_decision_making",
       "strength": -1,
-      "why": "People wait for decisions from above.",
-      "status": "proposed"
+      "why": "Authority to decide sits with the levels above, not with individuals.",
+      "status": "accepted"
     },
     {
       "id": "accountability__random_choice",
@@ -1129,7 +1033,7 @@
       "recommends": "random_choice",
       "strength": -1,
       "why": "No one is responsible for a decision made by chance.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "accountability__algorithm_driven_decisions",
@@ -1137,7 +1041,7 @@
       "recommends": "algorithm_driven_decisions",
       "strength": -1,
       "why": "It can be unclear who answers for what an algorithm decides.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "common_ownership__investor_filled_board_seats",
@@ -1145,7 +1049,7 @@
       "recommends": "investor_filled_board_seats",
       "strength": -2,
       "why": "Outside owners take a share of control.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "common_ownership__weighted_voting",
@@ -1153,15 +1057,7 @@
       "recommends": "weighted_voting",
       "strength": -1,
       "why": "Unequal votes sit uneasily with owning things equally.",
-      "status": "proposed"
-    },
-    {
-      "id": "solidarity__weighted_voting",
-      "value": "solidarity",
-      "recommends": "weighted_voting",
-      "strength": -1,
-      "why": "Unequal votes can divide members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "diversity__first_past_the_post",
@@ -1169,7 +1065,7 @@
       "recommends": "first_past_the_post",
       "strength": -1,
       "why": "Winner takes all: minority views lose out.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "collaboration__autocratic_decision_making",
@@ -1177,15 +1073,7 @@
       "recommends": "autocratic_decision_making",
       "strength": -1,
       "why": "One person decides instead of working it out together.",
-      "status": "proposed"
-    },
-    {
-      "id": "mutual_aid__hierarchical_decision_making",
-      "value": "mutual_aid",
-      "recommends": "hierarchical_decision_making",
-      "strength": -1,
-      "why": "Members help each other as equals, not through levels of authority.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "reliability__random_choice",
@@ -1193,7 +1081,7 @@
       "recommends": "random_choice",
       "strength": -1,
       "why": "Outcomes are unpredictable by design.",
-      "status": "proposed"
+      "status": "accepted"
     }
   ]
 }

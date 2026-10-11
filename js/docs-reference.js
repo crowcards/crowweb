@@ -31,9 +31,9 @@
     // CommunityRule's is a placeholder
     "values": (data, el, labelOf, [ours] = []) => data.items.map(it => `
       <tr>
-        <td class="ref-name">${esc(it.label)}</td>
+        <td class="ref-name">${esc(ours?.items.find(x => x.id === it.id)?.label || it.label)}</td>
         <td>
-          ${esc(ours?.items.find(x => x.id === it.id)?.description || it.description || "")}
+          ${esc(reword(ours, ours?.items.find(x => x.id === it.id)?.description || it.description || ""))}
           ${it.signals ? `<div class="ref-sub"><em>Example of inconsistency:</em> ${esc(it.signals)}</div>` : ""}
         </td>
       </tr>
@@ -61,12 +61,13 @@
       </tr>
     `).join(""),
 
-    // Governance scales (governance_scales.json): what each scale means
-    // (the range, e.g. 1–7, comes from the file, with what each level means)
+    // Governance scales (governance_scales.json): what each scale means, how it
+    // applies to each kind of option ("applies"), and what each level means
+    // (the range, e.g. 1–7, comes from the file)
     "scaleDefinitions": (data) => data.scales.map(sc => `
       <tr>
         <td class="ref-name">${esc(sc.label)}</td>
-        <td>${esc(sc.description)}</td>
+        <td>${esc(sc.description)}${sc.applies ? `<div class="ref-sub">${[["decision", "Decision-making"], ["conflict", "Conflict"], ["joining", "Joining"], ["values", "Values"]].filter(([k]) => sc.applies[k]).map(([k, label]) => `<b>${label}:</b> ${esc(sc.applies[k])}`).join("<br>")}</div>` : ""}</td>
         <td>${sc.levels.map((t, i) => `<span class="model">${data.range.min + i}</span> ${esc(t)}`).join("<br>")}</td>
       </tr>
     `).join(""),
@@ -84,7 +85,7 @@
       <tr>
         <td class="ref-name">${esc(labelOf(it.option))}</td>
         ${(data.scales || data.sizes).map(sc => `<td class="score mono">${it[sc.id] == null ? '<span class="model" title="Says nothing about this scale">—</span>' : esc(it[sc.id])}</td>`).join("")}
-        <td>${esc(it.why)}</td>
+        <td>${esc(it.why)}${it.was ? `<div class="ref-sub"><span class="badge var">changed</span> was ${(data.scales || data.sizes).map(sc => it.was[sc.id] == null ? "—" : esc(it.was[sc.id])).join(" · ")}: ${esc(it.was.why)}</div>` : ""}</td>
         <td><span class="badge ${it.status === "accepted" ? "yes" : "var"}">${esc(it.status)}</span></td>
       </tr>
     `).join(""),
@@ -92,12 +93,13 @@
     // Values' groups and cues (value_groups.json, with data-labels="/data/values.json"),
     // in group order: each value's cues (a trailing * = any ending) and its
     // description: ours where CommunityRule's is a placeholder (marked), else theirs
-    "valueCues": (data, el, labelOf, [values]) => data.groups.flatMap(g => data.items.filter(it => it.group === g.id).map(it => `
+    // (a value with two groups is listed under its main one, with both named)
+    "valueCues": (data, el, labelOf, [values]) => data.groups.flatMap(g => data.items.filter(it => it.groups[0] === g.id).map(it => `
       <tr>
-        <td class="ref-name">${esc(labelOf(it.id))}</td>
-        <td><span class="model">${esc(g.label)}</span></td>
+        <td class="ref-name">${esc(it.label || labelOf(it.id))}</td>
+        <td><span class="model">${esc(it.groups.map(id => data.groups.find(x => x.id === id)?.label || id).join(" · "))}</span></td>
         <td class="mono">${it.cues.map(esc).join(" · ")}</td>
-        <td>${it.description ? `<span class="badge var">rewritten</span> ${esc(it.description)}` : esc(values.items.find(v => v.id === it.id)?.description || "")}</td>
+        <td>${it.description ? `<span class="badge var">rewritten</span> ${esc(reword(data, it.description))}` : esc(reword(data, values.items.find(v => v.id === it.id)?.description || ""))}</td>
         <td><span class="badge ${it.status === "accepted" ? "yes" : "var"}">${esc(it.status)}</span></td>
       </tr>
     `)).join(""),
@@ -114,12 +116,12 @@
       </tr>
     `).join(""),
 
-    // Platforms (platforms.json) of one community type (data-type): name,
+    // Platforms (platforms.json) of one format (data-format): name,
     // software (open source or proprietary), protocol, open source and
     // self-hostable (Yes / No / Varies), model. A generic "(any)" row and its
     // named versions are marked, so they read as a group.
     "platforms": (data, el) => {
-      const items = data.items.filter(p => p.communityType === el.dataset.type);
+      const items = data.items.filter(p => p.format === el.dataset.format);
       const yn = (v) => (v === true ? '<span class="badge yes">Yes</span>' : v === false ? '<span class="badge no">No</span>' : v === "varies" ? '<span class="badge var">Varies</span>' : "");
       const hasGeneric = (p) => items.some(q => q.isGeneric && q.platform === p.platform);
       return items.map(p => `
@@ -171,8 +173,8 @@
       const generics = data.items.filter(p => p.isGeneric);
       const twins = (p) => generics.filter(q => q.platform === p.platform).length > 1;
       return generics.map(g => {
-        const named = data.items.filter(p => !p.isGeneric && p.platform === g.platform && p.communityType === g.communityType).map(p => p.software);
-        return `<tr><td><span class="pname">${esc(g.platform)}</span>${twins(g) ? ` (${esc(labelOf(g.communityType))})` : ""}</td>
+        const named = data.items.filter(p => !p.isGeneric && p.platform === g.platform && p.format === g.format).map(p => p.software);
+        return `<tr><td><span class="pname">${esc(g.platform)}</span>${twins(g) ? ` (${esc(labelOf(g.format))})` : ""}</td>
           <td><span class="proto">${esc(g.protocol || "")}</span></td><td>${esc(named.join(", "))}</td><td>${esc((g.otherSoftware || []).join(", "))}</td></tr>`;
       }).join("");
     },
@@ -214,6 +216,12 @@
       .replace(/"/g, "&quot;");
   }
 
+  // value_groups.json's rewordings, applied to a value description (the same
+  // pairs js/data.js rewordFor applies in the editor)
+  function reword(groups, text) {
+    return ((groups && groups.rewordings) || []).reduce((t, [from, to]) => t.split(from).join(to), text);
+  }
+
   // ─── Main ───────────────────────────────────────────────
   // each file fetched once, however many tables use it (e.g. enums.json)
   const files = new Map();
@@ -243,7 +251,7 @@
     try {
       // names from other files, if the table asks for them (id → label; several, space-separated)
       const names = await Promise.all((table.dataset.labels || "").split(" ").filter(Boolean).map(load));
-      const byId = new Map(names.flatMap((n) => n.items || n.tiers || n.categories || []).map((it) => [it.id, it.label]));
+      const byId = new Map(names.flatMap((n) => n.items || n.tiers || n.categories || []).filter((it) => it.label).map((it) => [it.id, it.label]));
       tbody.innerHTML = renderer(await load(src), table, (id) => byId.get(id) ?? id, names);
     } catch (err) {
       console.error("docs-reference: failed to load", src, err);

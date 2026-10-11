@@ -210,7 +210,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .alike { display: grid; gap: 0.4rem; margin: 0.25rem 0 0.75rem; }
 .alike-row { gap: 0.4rem; }
 .alike-row > .summary-label { margin-right: 0.25rem; }
-.tag-add { border: 0; cursor: pointer; }
+.tag-add { position: relative; border: 0; cursor: pointer; }   /* (its reason hangs from it in the shared bubble) */
 .tag-add:is(:hover, :focus-visible):not(:disabled) { background: var(--lime); color: var(--ink-on-color); }
 .tag-add:disabled { color: var(--gray); cursor: not-allowed; }
 .alike > .field-hint { margin: 0; }
@@ -720,8 +720,9 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .info-tip::before { content: ""; position: absolute; inset: 0; z-index: -1; --box-line: var(--tint-strong); --field-fill: var(--tint-strong); }   /* (a filled tint, no ring) */
 .info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) { z-index: 7; color: var(--accent); }   /* (in front, so its bubble isn't covered) */
 .info-tip:is(:hover, :focus-visible, [aria-expanded="true"])::before { --box-line: var(--accent); }
-.info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) > .choice-tip { display: block; }
-.info-tip > .choice-tip { font-family: var(--sans); font-style: normal; text-align: left; }   /* (not the "i"'s pixel italic) */
+.info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) > .choice-tip,
+.tag-add:is(:hover, :focus-visible) > .choice-tip { display: block; }
+:is(.info-tip, .tag-add) > .choice-tip { font-family: var(--sans); font-style: normal; font-weight: normal; text-transform: none; letter-spacing: normal; text-align: left; white-space: normal; }   /* (not the "i"'s pixel italic, nor a tag's type) */
 
 .summary-list .tags { margin: 0; }
 /* the Rules summary: ticked rules grouped by kind, each with its qualifier

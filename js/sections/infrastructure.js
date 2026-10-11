@@ -24,9 +24,9 @@ import { LAWS_NOTE, lawsPageUrl } from "../laws.js";
 import { reveal, showIf } from "../reveal.js";
 
 export async function loadInfrastructureData() {
-  const [platforms, communityTypes, costRules, costOverrides, enums, tools, countries, protocols] = await Promise.all([
+  const [platforms, formats, costRules, costOverrides, enums, tools, countries, protocols] = await Promise.all([
     loadData("platforms"),
-    loadData("community_types"),
+    loadData("formats"),
     loadData("cost_rules"),
     loadData("cost_overrides"),
     loadData("enums"),
@@ -34,7 +34,7 @@ export async function loadInfrastructureData() {
     loadData("countries"),
     loadProtocolItems(),
   ]);
-  const communityLabel = Object.fromEntries(communityTypes.items.map((t) => [t.id, t.label]));
+  const formatLabel = Object.fromEntries(formats.items.map((t) => [t.id, t.label]));
   return {
     platformRecords: Object.fromEntries(platforms.items.map((p) => [p.id, p])),
     // e.g. "Matrix client (Synapse)", with the community type as a note
@@ -43,7 +43,7 @@ export async function loadInfrastructureData() {
       label: p.isGeneric ? `${p.platform} (any)`
         : p.software && !["Proprietary", p.platform].includes(p.software) ? `${p.platform} (${p.software})` : p.platform,
       aliases: [p.software, p.protocol].filter((a) => a && a !== "None" && a !== "Proprietary"),
-      note: communityLabel[p.communityType],
+      note: formatLabel[p.format],
     })),
     platformTypes: Object.values(costRules.types).map((t) => ({ id: t.id, label: t.label, description: t.description })),
     structuralModels: [...new Set(platforms.items.map((p) => p.structuralModel))].sort().map((m) => ({ id: m, label: m })),

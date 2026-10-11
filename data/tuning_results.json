@@ -1,0 +1,124 @@
+{
+ "generatedAt": "2026-10-11T01:03:31.269Z",
+ "note": "Made by scripts/tune-recs.mjs on benchmark_communities.json only (never the held-out set). Candidates for TUNING in js/recommend.js; nothing is changed until the team decides. Workbench only.",
+ "rules": {
+  "maxSuggested": 5,
+  "maxSeeAlso": 8,
+  "step": 0.25,
+  "minGain": 1
+ },
+ "steps": [
+  {
+   "label": "Today's settings",
+   "tuning": {
+    "values": {
+     "weights": {
+      "type": 1,
+      "description": 1.5,
+      "scales": 1,
+      "format": 0.5
+     },
+     "max": 5,
+     "typeAlone": 1
+    },
+    "decision": {
+     "weights": {
+      "type": 1,
+      "values": 1,
+      "scales": 1.25,
+      "size": 0.4,
+      "format": 0.5
+     }
+    },
+    "membership": {
+     "weights": {
+      "type": 1.25,
+      "values": 1,
+      "scales": 0.5,
+      "size": 0.4,
+      "format": 0.5
+     }
+    },
+    "conflict": {
+     "weights": {
+      "type": 1,
+      "values": 1.25,
+      "scales": 0.75,
+      "size": 0.25,
+      "format": 0.5
+     }
+    },
+    "suggested": 0.5,
+    "seeAlso": 0.3,
+    "supportFrom": 0.25
+   },
+   "core": 78,
+   "coreSug": 49,
+   "coreSee": 26,
+   "good": 110,
+   "goodSug": 55,
+   "goodSee": 32,
+   "avoid": 0,
+   "chips": 5,
+   "sugChips": 2.2777777777777777,
+   "hits": 133,
+   "ok": true
+  },
+  {
+   "label": "Cut-offs searched",
+   "tuning": {
+    "values": {
+     "weights": {
+      "type": 1,
+      "description": 1.5,
+      "scales": 1,
+      "format": 0.5
+     },
+     "max": 5,
+     "typeAlone": 1
+    },
+    "decision": {
+     "weights": {
+      "type": 1,
+      "values": 1,
+      "scales": 1.25,
+      "size": 0.4,
+      "format": 0.5
+     }
+    },
+    "membership": {
+     "weights": {
+      "type": 1.25,
+      "values": 1,
+      "scales": 0.5,
+      "size": 0.4,
+      "format": 0.5
+     }
+    },
+    "conflict": {
+     "weights": {
+      "type": 1,
+      "values": 1.25,
+      "scales": 0.75,
+      "size": 0.25,
+      "format": 0.5
+     }
+    },
+    "suggested": 0.3,
+    "seeAlso": 0.2,
+    "supportFrom": 0.25
+   },
+   "core": 78,
+   "coreSug": 50,
+   "coreSee": 26,
+   "good": 110,
+   "goodSug": 69,
+   "goodSee": 21,
+   "avoid": 0,
+   "chips": 6,
+   "sugChips": 3.3333333333333335,
+   "hits": 142.5,
+   "ok": true
+  }
+ ]
+}

@@ -39,10 +39,11 @@
 // then the rest in alphabetical order; without one, it keeps the given
 // order (e.g. the response ladder's, from mildest to strongest).
 //
-// alike: (id, optionIds, chosenIds) → { like, fresh } adds the "More like
-// this / Try something new" strip (js/controls/alike.js) under the tags' box, for
-// the option selected last (also from the strip itself), and in each pick's
-// pop-up; e.g. recs.alike("decision").
+// alike: (lastId, optionIds, chosenIds, lastName) → { like, fresh } adds the
+// "More like this / Try something new" strip (js/controls/alike.js) under the
+// tags' box: more like the option selected last (also from the strip itself),
+// something new from everything selected; and in each pick's pop-up (more
+// like that pick); e.g. recs.alike("decision").
 
 import { el, button } from "../dom.js";
 import { renderChoices, scaleField, suggestedFirst } from "./choices.js";
@@ -112,7 +113,7 @@ export function pickList({
     : null;
   // the strip: for the option selected last (and in a pick's pop-up)
   const strip = alike ? alikeStrip({ labelOf, onAdd: (id) => tick(id) }) : null;
-  const showAlike = (s, id) => s.show(labelOf(id), alike(id, [...byId.keys()], picks.map((p) => p.id)));
+  const showAlike = (s, id) => s.show(id ? labelOf(id) : null, alike(id, [...byId.keys()], picks.map((p) => p.id), id ? labelOf(id) : null));
   // what's chosen: in the dotted summary box (gray dotted outline), over the list
   const chosen = el("div", { className: "field pick-chosen summary summary-dotted" },
     chosenLegend ? el("p", { className: "mono-u", textContent: chosenLegend }) : null,
@@ -292,13 +293,14 @@ export function pickList({
     },
   });
 
-  /** The strip follows the option selected last; it goes when that one is unselected. */
+  /** "More like this" follows the option selected last (gone when it's unselected); "Try something new" shows while anything is selected. */
   let alikeOf = null;
   function refreshAlike(added) {
     if (!strip) return;
     if (added) alikeOf = added;
-    if (alikeOf && picks.some((p) => p.id === alikeOf)) showAlike(strip, alikeOf);
-    else { alikeOf = null; strip.hide(); }
+    if (alikeOf && !picks.some((p) => p.id === alikeOf)) alikeOf = null;
+    if (picks.length) showAlike(strip, alikeOf);
+    else strip.hide();
   }
 
   /** Select one from code, as if ticked (the strip's "+": the strip then follows it). */

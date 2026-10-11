@@ -54,15 +54,14 @@
     <li><a href="#coming-soon">Coming soon</a></li>
     <li><a href="#platforms">Platforms</a>
       <ul class="sub">
-        <li><a href="#by-community-type">By community type</a>
+        <li><a href="#by-format">By format</a>
           <ul class="sub">
             <li><a href="#chat-group">Chat group</a></li>
-            <li><a href="#citizen-science">Citizen science</a></li>
             <li><a href="#discussion-forum">Discussion forum</a></li>
             <li><a href="#listserv-email">Listserv / email</a></li>
             <li><a href="#social-network">Social network / media</a></li>
             <li><a href="#peer-production">Peer production</a></li>
-            <li><a href="#workplace">Workplace</a></li>
+            <li><a href="#team">Team</a></li>
           </ul>
         </li>
         <li><a href="#platform-types">Platform types</a></li>
@@ -73,6 +72,7 @@
       <ul class="sub">
         <li><a href="#ref-columns">Column definitions</a></li>
         <li><a href="#ref-community-types">Community types</a></li>
+        <li><a href="#ref-formats">Formats</a></li>
         <li><a href="#ref-models">Structural models</a></li>
         <li><a href="#ref-protocols">Protocol generics</a></li>
         <li><a href="#ref-osi">Open source (OSI)</a></li>
@@ -120,12 +120,14 @@
 
     <p>Getting started is simple. You can create a new Card by going to <a href="make.html" target="_blank">MAKE</a> and entering some <b>basic</b> information about your community:</p>
     <ul>
-      <li><span class="mono">name</span> and <span class="mono">link</span></li>
-      <li><span class="mono">type</span> - this suggests which <span class="mono">module</span>s you'll want to fill out. You can change both the type and the module selection.</li>
-      <li><span class="mono">size</span></li>
+      <li><span class="mono">name</span></li>
+      <li><span class="mono">community type</span> - the kind of group, e.g. a workplace, a neighbourhood, a support group. This shapes what's suggested to you.</li>
+      <li><span class="mono">format</span> - the kind of online space, e.g. a chat group or a forum. This suggests which <span class="mono">module</span>s you'll want to fill out. You can change both the format and the module selection.</li>
+      <li><span class="mono">size</span> and <span class="mono">link</span></li>
+      <li>a short description: its <span class="mono">purpose</span> and its <span class="mono">culture</span></li>
       <li><span class="mono">keywords</span> - we recommend giving at least three</li>
       <li>where you'd like your community to be on three scales (from 1 to 7): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span>. Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
-      <li><span class="mono">values</span> - up to five; the ones closest to where you'd like to be are suggested</li>
+      <li><span class="mono">values</span> - up to five; some are suggested, from your community type, your description and keywords, and where you'd like to be</li>
     </ul>
     <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
 
@@ -214,13 +216,13 @@
       <li>Self-hostable. Can one host their own instance of the software for their community (e.g., on their own server)?</li>
       <li>Model. What kind of structural model describes how the infrastructure of the platform is organized?</li>
     </ul>
-    <p>These all impact how much technical and organizational work you may be on the hook for, how much autonomy and power you're likely to have, and some costs you might incur. You can look through <a href="#reference">Reference</a> below to find definitions of these columns as well as community types, platform types, etc.</p>
+    <p>These all impact how much technical and organizational work you may be on the hook for, how much autonomy and power you're likely to have, and some costs you might incur. You can look through <a href="#reference">Reference</a> below to find definitions of these columns as well as formats, platform types, etc.</p>
 
-    <h3 id="by-community-type">By community type</h3>
+    <h3 id="by-format">By format</h3>
     <!-- Chat Group -->
     <div class="platform-section" id="chat-group">
       <div class="section-label mono-u">Chat group</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="chat_group">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="chat_group">
         <thead>
           <tr>
             <th>Platform</th>
@@ -236,20 +238,10 @@
       </table>
     </div>
 
-    <!-- Citizen Science -->
-    <div class="platform-section" id="citizen-science">
-      <div class="section-label mono-u">Citizen science</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="citizen_science">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-
     <!-- Discussion Forum -->
     <div class="platform-section" id="discussion-forum">
       <div class="section-label mono-u">Discussion forum</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="discussion_forum">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="discussion_forum">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
         </tbody>
@@ -259,7 +251,7 @@
     <!-- Listserv / Email -->
     <div class="platform-section" id="listserv-email">
       <div class="section-label mono-u">Listserv / email</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="listserv_email">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="listserv_email">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
         </tbody>
@@ -269,7 +261,7 @@
     <!-- Social Network / Media -->
     <div class="platform-section" id="social-network">
       <div class="section-label mono-u">Social network / media</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="social_network_media">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="social_network_media">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
         </tbody>
@@ -279,17 +271,17 @@
     <!-- Peer Production -->
     <div class="platform-section" id="peer-production">
       <div class="section-label mono-u">Peer production</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="peer_production">
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="peer_production">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
         </tbody>
       </table>
     </div>
 
-    <!-- Workplace -->
-    <div class="platform-section" id="workplace">
-      <div class="section-label mono-u">Workplace</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-type="workplace">
+    <!-- Team -->
+    <div class="platform-section" id="team">
+      <div class="section-label mono-u">Team</div>
+      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="team">
         <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
         <tbody>
         </tbody>
@@ -370,9 +362,18 @@
 
     <section id="ref-community-types">
       <h3>Community types</h3>
-      <p>Every card is assigned a community type. Types drive the UI's suggestions for which other sections to focus on and establish the default cost profile.</p>
+      <p>The kind of group a community is. It shapes which values and approaches are suggested.</p>
       <table class="table" data-source="/data/community_types.json" data-render="simple">
         <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="ref-formats">
+      <h3>Formats</h3>
+      <p>The kind of online space a community uses. Formats suggest which modules to fill in, and group the platforms above.</p>
+      <table class="table" data-source="/data/formats.json" data-render="simple">
+        <thead><tr><th>Format</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
@@ -390,7 +391,7 @@
     <section id="ref-protocols">
       <h3>Protocol generics</h3>
       <p>You might have noticed in the <a href="#platforms">platforms</a> section that some platforms were grouped up a generic "client" for protocol-based systems. Generic protocol client rows represent any software that implements a given protocol. When you select one in the CROW Cards interface, a dropdown lets you choose from the named examples below — or enter a custom name if your software isn't listed.</p>
-      <table class="table" data-source="/data/platforms.json" data-render="protocolGenerics" data-labels="/data/community_types.json">
+      <table class="table" data-source="/data/platforms.json" data-render="protocolGenerics" data-labels="/data/formats.json">
         <thead><tr><th>Generic row</th><th>Protocol</th><th>Named examples in dataset</th><th>Other common software</th></tr></thead>
         <tbody>
         </tbody>

@@ -1,0 +1,433 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-09",
+  "note": "Everyday phrases a community holding each value might write, drafted by Claude for review (not mined from CommunityRule's text). Used by scripts/make-value-terms.mjs as the 'drafted' proposals; nothing changes until accepted terms are merged into value_groups.json.",
+  "items": {
+    "accessibility": [
+      "accessible to everyone",
+      "screen readers",
+      "image descriptions",
+      "easy to read",
+      "disabled members"
+    ],
+    "accountability": [
+      "own our mistakes",
+      "hold each other accountable",
+      "answer for",
+      "take responsibility for"
+    ],
+    "adaptability": [
+      "adapt as we grow",
+      "change course",
+      "try and adjust",
+      "open to change"
+    ],
+    "agency": [
+      "your own choices",
+      "decide for themselves",
+      "set your own pace",
+      "in control of"
+    ],
+    "altruism": [
+      "help others",
+      "give back",
+      "without expecting anything",
+      "for the common good"
+    ],
+    "anti_oppression": [
+      "no racism",
+      "no bigotry",
+      "zero tolerance for hate",
+      "anti-racist",
+      "fight oppression"
+    ],
+    "autonomy": [
+      "independent of",
+      "govern ourselves",
+      "on our own terms",
+      "nobody tells us"
+    ],
+    "capacity_building": [
+      "learn new skills",
+      "train new organisers",
+      "build skills",
+      "grow leaders"
+    ],
+    "collaboration": [
+      "work together",
+      "build together",
+      "make things together",
+      "team up"
+    ],
+    "common_ownership": [
+      "owned by its members",
+      "member-owned",
+      "collectively owned",
+      "belongs to all of us"
+    ],
+    "community_care": [
+      "look after each other",
+      "take care of each other",
+      "check in on",
+      "wellbeing"
+    ],
+    "conflict_resolution": [
+      "work through disagreements",
+      "resolve conflicts",
+      "talk it out",
+      "sort out disputes"
+    ],
+    "consent": [
+      "opt in",
+      "ask before",
+      "respect boundaries",
+      "nothing without permission"
+    ],
+    "consensus": [
+      "everyone agrees",
+      "decide together",
+      "find agreement",
+      "everyone can live with"
+    ],
+    "constructive_feedback": [
+      "kind feedback",
+      "honest feedback",
+      "critique",
+      "help each other improve"
+    ],
+    "cooperation": [
+      "partner with",
+      "work with other groups",
+      "alliances",
+      "sister communities"
+    ],
+    "copyleft": [
+      "share-alike",
+      "gpl",
+      "copyleft",
+      "keep it free"
+    ],
+    "decentralization": [
+      "decentralised",
+      "no central",
+      "distributed",
+      "no single owner"
+    ],
+    "direct_action": [
+      "take action",
+      "direct action",
+      "show up",
+      "do it ourselves"
+    ],
+    "diversity": [
+      "diverse",
+      "all backgrounds",
+      "many perspectives",
+      "different voices"
+    ],
+    "documentation": [
+      "write it down",
+      "wiki",
+      "documented",
+      "guides"
+    ],
+    "education": [
+      "workshops",
+      "teach",
+      "learn together",
+      "classes"
+    ],
+    "empathy": [
+      "listen to each other",
+      "understanding",
+      "compassion",
+      "put ourselves in"
+    ],
+    "empowerment": [
+      "give people the power",
+      "empower",
+      "trust people to",
+      "people closest to"
+    ],
+    "equity": [
+      "sliding scale",
+      "based on need",
+      "fair outcomes",
+      "level the playing field"
+    ],
+    "experimentation": [
+      "try new things",
+      "experiment",
+      "it's ok to fail",
+      "try it and see"
+    ],
+    "fairness": [
+      "fair to everyone",
+      "same rules for everyone",
+      "treated fairly",
+      "everyone gets a turn"
+    ],
+    "fair_remuneration": [
+      "fair pay",
+      "living wage",
+      "paid fairly",
+      "pay our contributors"
+    ],
+    "flexibility": [
+      "at your own pace",
+      "flexible",
+      "whenever you can",
+      "asynchronous"
+    ],
+    "forkability": [
+      "fork",
+      "copy and adapt",
+      "free to leave",
+      "take it elsewhere"
+    ],
+    "freedom": [
+      "free speech",
+      "express yourself",
+      "free to",
+      "no censorship"
+    ],
+    "freedom_of_information": [
+      "open access",
+      "open data",
+      "free to read",
+      "no paywalls"
+    ],
+    "generosity": [
+      "share what we have",
+      "give freely",
+      "generous",
+      "donate"
+    ],
+    "harm_reduction": [
+      "harm reduction",
+      "safer use",
+      "meet people where they are",
+      "without judgment"
+    ],
+    "holism": [
+      "the whole person",
+      "whole picture",
+      "mind and body",
+      "everything is connected"
+    ],
+    "holocracy": [
+      "circles and roles",
+      "roles instead of",
+      "holacracy",
+      "self-organising"
+    ],
+    "honesty": [
+      "honest",
+      "tell the truth",
+      "admit when",
+      "no spin"
+    ],
+    "horizontalism": [
+      "no bosses",
+      "as equals",
+      "no leaders",
+      "flat",
+      "non-hierarchical"
+    ],
+    "humility": [
+      "humble",
+      "don't have all the answers",
+      "learn from others",
+      "open to being wrong"
+    ],
+    "inclusion": [
+      "everyone is welcome",
+      "all are welcome",
+      "belonging",
+      "safe space",
+      "welcoming"
+    ],
+    "inclusivity": [
+      "beginners welcome",
+      "no jargon",
+      "newcomers",
+      "translate",
+      "all languages"
+    ],
+    "independence": [
+      "no ads",
+      "member-funded",
+      "funded by members",
+      "independent",
+      "no investors"
+    ],
+    "innovation": [
+      "new ideas",
+      "creative",
+      "experiment",
+      "build something new"
+    ],
+    "integrity": [
+      "stand by our values",
+      "walk the talk",
+      "ethical",
+      "principled"
+    ],
+    "interdependence": [
+      "rely on each other",
+      "depend on each other",
+      "connected",
+      "ecosystem"
+    ],
+    "interoperability": [
+      "open standards",
+      "activitypub",
+      "fediverse",
+      "connect with other",
+      "portable"
+    ],
+    "intersectionality": [
+      "queer",
+      "trans",
+      "bipoc",
+      "intersectional",
+      "people of colour"
+    ],
+    "justice": [
+      "justice",
+      "repair harm",
+      "make things right",
+      "fair system"
+    ],
+    "knowledge_sharing": [
+      "share what we know",
+      "share knowledge",
+      "tips",
+      "help each other learn"
+    ],
+    "labor_rights": [
+      "workers' rights",
+      "union",
+      "working conditions",
+      "organise at work"
+    ],
+    "leadership": [
+      "step up",
+      "take the lead",
+      "take initiative",
+      "lead"
+    ],
+    "learning": [
+      "learn",
+      "curious",
+      "questions welcome",
+      "grow"
+    ],
+    "liberty": [
+      "individual freedom",
+      "no gatekeeping",
+      "free to choose",
+      "liberty"
+    ],
+    "localism": [
+      "local",
+      "our neighbourhood",
+      "our town",
+      "nearby",
+      "in person"
+    ],
+    "maintenance": [
+      "keep it running",
+      "maintain",
+      "upkeep",
+      "behind the scenes"
+    ],
+    "mentorship": [
+      "mentor",
+      "show newcomers",
+      "buddy",
+      "guide new members"
+    ],
+    "meritocracy": [
+      "earn",
+      "based on contribution",
+      "those who do the work",
+      "track record"
+    ],
+    "mutual_aid": [
+      "mutual aid",
+      "help each other",
+      "share resources",
+      "look out for each other",
+      "solidarity not charity"
+    ],
+    "non_violence": [
+      "non-violent",
+      "peaceful",
+      "de-escalate",
+      "no threats"
+    ],
+    "open_source": [
+      "open source",
+      "source code",
+      "free software",
+      "contributions welcome"
+    ],
+    "openness": [
+      "open to everyone",
+      "open meetings",
+      "anyone can join",
+      "in the open"
+    ],
+    "participation": [
+      "everyone has a say",
+      "get involved",
+      "have your say",
+      "vote"
+    ],
+    "reliability": [
+      "reliable",
+      "follow through",
+      "count on",
+      "keep our promises"
+    ],
+    "resilience": [
+      "keep going",
+      "bounce back",
+      "backups",
+      "no single point"
+    ],
+    "solidarity": [
+      "stand together",
+      "solidarity",
+      "have each other's back",
+      "stand with"
+    ],
+    "stewardship": [
+      "look after",
+      "for future",
+      "take care of the space",
+      "stewards"
+    ],
+    "transparency": [
+      "transparent",
+      "in public",
+      "meeting notes",
+      "open books",
+      "explain our decisions"
+    ],
+    "trust": [
+      "trust",
+      "good faith",
+      "assume good intent",
+      "trusting"
+    ],
+    "voluntarism": [
+      "volunteer",
+      "volunteers",
+      "unpaid",
+      "in our free time",
+      "no pressure"
+    ]
+  }
+}

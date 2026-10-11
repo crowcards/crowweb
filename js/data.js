@@ -23,16 +23,25 @@ export function loadData(name) {
 export async function loadValues() {
   const [values, ours] = await Promise.all([loadData("values"), loadData("value_groups")]);
   const extra = new Map(ours.items.map((it) => [it.id, it]));
+  const reword = rewordFor(ours);
   return {
     all: ours.all,   // the All tab's name and description
     groups: ours.groups,
     items: values.items.map((v) => {
       const x = extra.get(v.id);
-      if (!x) return { ...v, group: null, cues: [] };
-      return { ...v, group: x.group, cues: x.cues || [], ...(x.description ? { description: x.description, descriptionDraft: true } : {}), status: x.status };
+      const own = { ...v, description: reword(v.description) };
+      if (!x) return { ...own, groups: [], group: null, cues: [] };
+      return { ...own, ...(x.label ? { label: x.label } : {}), groups: x.groups || [], group: (x.groups || [])[0] ?? null, cues: x.cues || [], ...(x.description ? { description: reword(x.description), descriptionDraft: true } : {}), status: x.status };
     }),
   };
 }
+
+/**
+ * value_groups.json's rewordings, as a function: a value description with
+ * CommunityRule's wording softened ("To us, this means" → "This may mean").
+ * Shared with js/docs-reference.js, which applies the same pairs.
+ */
+export const rewordFor = (ours) => (text = "") => (ours.rewordings || []).reduce((t, [from, to]) => t.replaceAll(from, to), text);
 
 /**
  * The protocols named in platforms.json (ActivityPub, AT Protocol, Matrix…),

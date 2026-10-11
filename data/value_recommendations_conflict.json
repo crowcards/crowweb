@@ -161,7 +161,7 @@
       "recommends": "circle_processes",
       "strength": 2,
       "why": "Structured open dialogue creates space for all affected members to be heard and supported, not just adjudicated.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "community_care__conflict_workshops",
@@ -263,9 +263,9 @@
       "id": "decentralization__peer_mediation",
       "value": "decentralization",
       "recommends": "peer_mediation",
-      "strength": 2,
+      "strength": 1,
       "why": "Trained members within the organization mediate — dispute resolution distributed across the membership.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decentralization__rotational_judging",
@@ -329,7 +329,7 @@
       "recommends": "restorative_practices",
       "strength": 2,
       "why": "Dialogue-focused methods make understanding the impact of harm the explicit first step before repair.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "equity__circle_processes",
@@ -409,7 +409,7 @@
       "recommends": "restorative_practices",
       "strength": 2,
       "why": "Dialogue-focused methods for understanding and repairing harm are explicitly organized around minimizing harm.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "holism__circle_processes",
@@ -449,7 +449,7 @@
       "recommends": "peer_mediation",
       "strength": 2,
       "why": "Trained members mediate among equals rather than routing disputes through a management hierarchy.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__rotational_judging",
@@ -561,7 +561,7 @@
       "recommends": "restorative_practices",
       "strength": 2,
       "why": "The value's own description explicitly names prioritizing restorative processes over punitive ones.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "learning__conflict_workshops",
@@ -588,14 +588,6 @@
       "status": "accepted"
     },
     {
-      "id": "mentorship__peer_mediation",
-      "value": "mentorship",
-      "recommends": "peer_mediation",
-      "strength": 1,
-      "why": "Trained members guiding others through disputes mirrors the guided, supportive dynamic mentorship builds.",
-      "status": "accepted"
-    },
-    {
       "id": "mutual_aid__circle_processes",
       "value": "mutual_aid",
       "recommends": "circle_processes",
@@ -615,17 +607,17 @@
       "id": "mutual_aid__peer_mediation",
       "value": "mutual_aid",
       "recommends": "peer_mediation",
-      "strength": 2,
-      "why": "Trained members mediating for one another — members giving and receiving support reciprocally.",
-      "status": "proposed"
+      "strength": 1,
+      "why": "Members help each other resolve disputes, rather than relying on outside authority.",
+      "status": "accepted"
     },
     {
       "id": "non_violence__mediation",
       "value": "non_violence",
       "recommends": "mediation",
-      "strength": 2,
+      "strength": 1,
       "why": "A neutral third party assists parties in reaching a voluntary agreement — no coercion or force involved.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "non_violence__peer_mediation",
@@ -639,9 +631,9 @@
       "id": "non_violence__restorative_practices",
       "value": "non_violence",
       "recommends": "restorative_practices",
-      "strength": 2,
+      "strength": 1,
       "why": "Dialogue-focused methods repair harm through conversation rather than punitive or coercive responses.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "openness__circle_processes",
@@ -753,7 +745,7 @@
       "recommends": "managerial_decision",
       "strength": -2,
       "why": "A manager settles disputes from above.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "horizontalism__judicial_committees",
@@ -761,7 +753,7 @@
       "recommends": "judicial_committees",
       "strength": -1,
       "why": "A standing committee judges others.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "decentralization__managerial_decision",
@@ -769,47 +761,23 @@
       "recommends": "managerial_decision",
       "strength": -1,
       "why": "Disputes are settled centrally, by one role.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "justice__managerial_decision",
       "value": "justice",
       "recommends": "managerial_decision",
       "strength": -1,
-      "why": "One person decides, without a fair hearing for both sides.",
-      "status": "proposed"
-    },
-    {
-      "id": "consent__binding_arbitration",
-      "value": "consent",
-      "recommends": "binding_arbitration",
-      "strength": -1,
-      "why": "The parties must accept a decision they didn't agree to.",
-      "status": "proposed"
-    },
-    {
-      "id": "consent__managerial_decision",
-      "value": "consent",
-      "recommends": "managerial_decision",
-      "strength": -1,
-      "why": "The outcome is imposed, not agreed.",
-      "status": "proposed"
+      "why": "Settles a dispute by one person's ruling, rather than a process that repairs the harm.",
+      "status": "accepted"
     },
     {
       "id": "participation__managerial_decision",
       "value": "participation",
       "recommends": "managerial_decision",
       "strength": -1,
-      "why": "The people involved don't shape the outcome.",
-      "status": "proposed"
-    },
-    {
-      "id": "transparency__managerial_decision",
-      "value": "transparency",
-      "recommends": "managerial_decision",
-      "strength": -1,
-      "why": "How the decision was reached is often not shared.",
-      "status": "proposed"
+      "why": "One role decides, rather than the community taking part.",
+      "status": "accepted"
     },
     {
       "id": "agency__managerial_decision",
@@ -817,7 +785,7 @@
       "recommends": "managerial_decision",
       "strength": -1,
       "why": "The parties don't resolve it themselves.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "agency__binding_arbitration",
@@ -825,31 +793,15 @@
       "recommends": "binding_arbitration",
       "strength": -1,
       "why": "The parties hand the outcome to someone else.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "anti_oppression__managerial_decision",
       "value": "anti_oppression",
       "recommends": "managerial_decision",
       "strength": -1,
-      "why": "Puts disputes in the hands of those already in power.",
-      "status": "proposed"
-    },
-    {
-      "id": "voluntarism__binding_arbitration",
-      "value": "voluntarism",
-      "recommends": "binding_arbitration",
-      "strength": -1,
-      "why": "The outcome is imposed, not freely accepted.",
-      "status": "proposed"
-    },
-    {
-      "id": "voluntarism__binding_contracts",
-      "value": "voluntarism",
-      "recommends": "binding_contracts",
-      "strength": -1,
-      "why": "Obligations are enforced, not freely chosen.",
-      "status": "proposed"
+      "why": "Leaves disputes to whoever holds formal authority, which can reproduce existing power imbalances.",
+      "status": "accepted"
     },
     {
       "id": "trust__binding_contracts",
@@ -857,7 +809,7 @@
       "recommends": "binding_contracts",
       "strength": -1,
       "why": "Relies on enforcement rather than good faith.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "meritocracy__lottery_sortition",
@@ -865,15 +817,15 @@
       "recommends": "lottery_sortition",
       "strength": -1,
       "why": "Chance, not experience, picks who judges.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "empathy__supermajority_vote",
       "value": "empathy",
       "recommends": "supermajority_vote",
       "strength": -1,
-      "why": "A vote settles who's right without hearing how people feel.",
-      "status": "proposed"
+      "why": "Settles it by counting votes, rather than by the parties understanding each other.",
+      "status": "accepted"
     }
   ]
 }

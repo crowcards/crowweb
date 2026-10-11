@@ -11,11 +11,11 @@ export const loadModuleDefaults = () => loadData("module_defaults");
 
 /**
  * The starting modules for a card, most specific first: the platform's
- * structural model (e.g. "Federation / Relay"), then the community type,
+ * structural model (e.g. "Federation / Relay"), then the format (the online space),
  * then the default. Returned in the built-in sidebar order.
  */
-export function startingModules(defaults, { communityType, structuralModel } = {}) {
-  const set = new Set(defaults.byCommunityType[communityType] || defaults.default);
+export function startingModules(defaults, { format, structuralModel } = {}) {
+  const set = new Set(defaults.byFormat[format] || defaults.default);
 
   if (structuralModel) {
     // a mixed model like "Centralized / Federation" applies each part;
@@ -105,8 +105,8 @@ export function moduleSuggestion(defaults, current = [], { fromType, toType }) {
   const builtInIds = new Set(defaults.modules.map((m) => m.id));
   const currentBuiltIn = current.filter((id) => builtInIds.has(id));
   const custom = current.filter((id) => !builtInIds.has(id));
-  const before = startingModules(defaults, { communityType: fromType });
-  const after = startingModules(defaults, { communityType: toType });
+  const before = startingModules(defaults, { format: fromType });
+  const after = startingModules(defaults, { format: toType });
   return {
     untouched: sameModules(currentBuiltIn, before),
     next: [...after, ...custom],

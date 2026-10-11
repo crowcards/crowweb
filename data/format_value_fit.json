@@ -1,0 +1,70 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "Only where the format (formats.json: the kind of online space) says something about values. Marks from −2 to +2. Renamed 2026-10-09 from type_value_fit.json. status: proposed until reviewed.",
+  "items": [
+    {
+      "format": "social_network_media",
+      "value": "interoperability",
+      "fit": 1,
+      "why": "Social networks, especially federated ones, connect to the wider network.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "value": "collaboration",
+      "fit": 2,
+      "why": "Peer production is making things together.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "value": "open_source",
+      "fit": 1,
+      "why": "Usually in the open, and written down.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "value": "documentation",
+      "fit": 1,
+      "why": "Usually in the open, and written down.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "value": "knowledge_sharing",
+      "fit": 1,
+      "why": "Usually in the open, and written down.",
+      "status": "accepted"
+    },
+    {
+      "format": "discussion_forum",
+      "value": "knowledge_sharing",
+      "fit": 1,
+      "why": "Forums keep answers for others to find.",
+      "status": "accepted"
+    },
+    {
+      "format": "team",
+      "value": "reliability",
+      "fit": 1,
+      "why": "Team tools come with responsibilities.",
+      "status": "accepted"
+    },
+    {
+      "format": "team",
+      "value": "accountability",
+      "fit": 1,
+      "why": "Team tools come with responsibilities.",
+      "status": "accepted"
+    },
+    {
+      "format": "listserv_email",
+      "value": "transparency",
+      "fit": 1,
+      "why": "Lists keep a shared record everyone receives.",
+      "status": "accepted"
+    }
+  ]
+}

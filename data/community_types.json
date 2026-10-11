@@ -1,42 +1,154 @@
 {
-  "version": "1.0.0",
-  "updatedAt": "2026-10-01",
-  "note": "The seven community types used in the platform dataset.",
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "The community type (basics.type): the kind of group, e.g. family, workplace, movement, one per card, plus Other. Required in set-up; public from Misty; shapes suggestions (type_value_fit.json, type_approach_fit.json). Renamed 2026-10-09 from settings.json; the online space is now formats.json. status: proposed until reviewed.",
   "items": [
     {
-      "id": "chat_group",
-      "label": "Chat Group",
-      "description": "Real-time or near-real-time conversation among members, typically organized into channels or rooms."
+      "id": "personal",
+      "label": "Personal space",
+      "description": "Run by one person, for themselves and whoever they let in.",
+      "examples": "A single-user Mastodon or Bluesky server, a personal blog with comments, someone's own small Discord",
+      "status": "accepted"
     },
     {
-      "id": "citizen_science",
-      "label": "Citizen Science",
-      "description": "Community-based collection, classification, or analysis of scientific data; participation structured by projects."
+      "id": "family",
+      "label": "Family",
+      "description": "Relatives keeping in touch and organising family life.",
+      "examples": "A family group chat, a cousins' Discord, a shared family calendar",
+      "status": "accepted"
     },
     {
-      "id": "discussion_forum",
-      "label": "Discussion Forum",
-      "description": "Asynchronous threaded discussion, often with voting or ranking of posts."
+      "id": "friends",
+      "label": "Friends",
+      "description": "A group of friends, or friends of friends.",
+      "examples": "A friend group's chat, a weekly games night, a running club of friends",
+      "status": "accepted"
     },
     {
-      "id": "listserv_email",
-      "label": "Listserv / Email",
-      "description": "Email-based group communication; each list server independently hosted."
+      "id": "neighbourhood",
+      "label": "Neighbourhood / local",
+      "description": "People who live in the same place.",
+      "examples": "A street or building forum, a neighbourhood mutual aid chat, a village noticeboard",
+      "status": "accepted"
     },
     {
-      "id": "social_network_media",
-      "label": "Social Network / Media",
-      "description": "Profile-based social communication, often with public posts and follow relationships."
-    },
-    {
-      "id": "peer_production",
-      "label": "Peer Production",
-      "description": "Collaborative creation of shared artifacts (e.g., wikis, documentation, encyclopedias)."
+      "id": "civic",
+      "label": "Civic / public",
+      "description": "Public life: residents, citizens, local government.",
+      "examples": "A participatory budgeting forum, a public consultation, a citizens' assembly",
+      "status": "accepted"
     },
     {
       "id": "workplace",
-      "label": "Workplace",
-      "description": "Communication platforms designed for coordination among coworkers or project teams."
+      "label": "Workplace / organisation",
+      "description": "People who work together in one organisation.",
+      "examples": "A company's Slack, a nonprofit's staff chat, a team's workspace",
+      "status": "accepted"
+    },
+    {
+      "id": "professional",
+      "label": "Professional / industry",
+      "description": "People in the same field, across organisations.",
+      "examples": "A professional network, an industry mailing list, a practitioners' Slack",
+      "status": "accepted"
+    },
+    {
+      "id": "classroom",
+      "label": "Classroom / education",
+      "description": "Learners and teachers in a course or school.",
+      "examples": "A class forum, a course's Discord, a school club",
+      "status": "accepted"
+    },
+    {
+      "id": "movement",
+      "label": "Movement / activism",
+      "description": "People organising for a cause or for change.",
+      "examples": "A tenants' union, a climate campaign, a mutual aid network",
+      "status": "accepted"
+    },
+    {
+      "id": "hobby",
+      "label": "Hobby / interest / fandom",
+      "description": "People who share an interest.",
+      "examples": "A gardening server, a knitting forum, a fandom community",
+      "status": "accepted"
+    },
+    {
+      "id": "open_source",
+      "label": "Open source / peer production",
+      "description": "People making something together in the open.",
+      "examples": "An open-source project, a wiki, a shared map or dataset",
+      "status": "accepted"
+    },
+    {
+      "id": "faith",
+      "label": "Faith / spiritual",
+      "description": "A religious or spiritual community.",
+      "examples": "A parish mailing list, a meditation group, a congregation's chat",
+      "status": "accepted"
+    },
+    {
+      "id": "research",
+      "label": "Research / science",
+      "description": "Researchers working together.",
+      "examples": "A lab's chat, a research collaboration, a research network",
+      "status": "accepted"
+    },
+    {
+      "id": "citizen_science",
+      "label": "Citizen science",
+      "description": "Members of the public collecting, classifying or analysing data for a research project. Often run by scientists or an institution, but also by communities and collectives.",
+      "examples": "A Zooniverse project, iNaturalist, a bird count, a community air-quality network",
+      "status": "proposed"
+    },
+    {
+      "id": "general_social",
+      "label": "General-purpose social space",
+      "description": "A public space for many kinds of people, not one group: general feeds and servers.",
+      "examples": "A general Mastodon or Bluesky community, a general-interest server, an open public forum",
+      "status": "accepted"
+    },
+    {
+      "id": "support",
+      "label": "Support / peer support",
+      "description": "People supporting each other through something.",
+      "examples": "A recovery group, a patient community, a grief or caregivers' group",
+      "status": "accepted"
+    },
+    {
+      "id": "cooperative",
+      "label": "Cooperative / collective",
+      "description": "Owned and run by its members.",
+      "examples": "A worker co-op, a housing co-op, a platform co-op, an artists' collective",
+      "status": "accepted"
+    },
+    {
+      "id": "club",
+      "label": "Club / association",
+      "description": "A membership organisation with formal members.",
+      "examples": "A sports club, an alumni association, a membership nonprofit",
+      "status": "accepted"
+    },
+    {
+      "id": "identity_cultural",
+      "label": "Identity / cultural community",
+      "description": "People who share an identity or culture.",
+      "examples": "A diaspora group, an LGBTQ+ space, a language community, etc.",
+      "status": "accepted"
+    },
+    {
+      "id": "creator_audience",
+      "label": "Creator and audience",
+      "description": "A community around a creator or a small team.",
+      "examples": "A streamer's Discord, a newsletter's readers, a podcast community",
+      "status": "accepted"
+    },
+    {
+      "id": "dao_web3",
+      "label": "DAO / web3 project",
+      "description": "An organisation governed on a blockchain.",
+      "examples": "A protocol DAO, a grants DAO, a token-governed project",
+      "status": "accepted"
     }
   ]
 }

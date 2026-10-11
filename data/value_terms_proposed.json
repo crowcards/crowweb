@@ -1,0 +1,2524 @@
+{
+  "generatedAt": "2026-10-09",
+  "note": "Proposed by scripts/make-value-terms.mjs, for review in bench.html → Value groups. For each value: current (its word list in value_groups.json), kept (current terms the script also found), new (the value's own name as one term, and everyday phrases drafted by Claude in data/value_phrases_drafted.json), fromDefinition (for reference only, not proposed: distinctive two-word phrases from the first sentence of its description by TF-IDF; mining CommunityRule's text gave mostly fragments), questionable (current single words common across many values' texts, likely to match too often), misfires (terms that match a benchmark community that wouldn't choose the value). benchmark: for each benchmark community, the core values its description finds by words alone, with the current lists and with the proposed ones (current minus questionable, plus new), and any values found that it wouldn't choose. Nothing here is used until accepted terms are merged into value_groups.json.",
+  "items": [
+    {
+      "id": "accessibility",
+      "label": "Accessibility",
+      "current": [
+        "accessib*",
+        "disabilit*",
+        "disabled",
+        "plain language",
+        "caption*",
+        "alt text",
+        "alt-text",
+        "screen reader*",
+        "wheelchair*",
+        "neurodivergent",
+        "accessibility",
+        "accessible to everyone",
+        "image descriptions",
+        "easy to read",
+        "disabled members"
+      ],
+      "kept": [
+        "screen reader*",
+        "accessibility",
+        "accessible to everyone",
+        "image descriptions",
+        "easy to read",
+        "disabled members"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "design spaces"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "accountability",
+      "label": "Accountability",
+      "current": [
+        "accountab*",
+        "take responsibility",
+        "own our mistakes",
+        "own up",
+        "retrospective*",
+        "answer to",
+        "responsib*",
+        "accountability",
+        "hold each other accountable",
+        "answer for",
+        "take responsibility for"
+      ],
+      "kept": [
+        "own our mistakes",
+        "accountability",
+        "hold each other accountable",
+        "answer for",
+        "take responsibility for"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "accept responsibility"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "adaptability",
+      "label": "Adaptability",
+      "current": [
+        "adapt*",
+        "change course",
+        "pivot*",
+        "evolv*",
+        "iterat*",
+        "respond to change",
+        "adaptability",
+        "adapt as we grow",
+        "try and adjust",
+        "open to change"
+      ],
+      "kept": [
+        "change course",
+        "adaptability",
+        "adapt as we grow",
+        "try and adjust",
+        "open to change"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "remains flexible",
+        "change strategies",
+        "circumstances shift"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "agency",
+      "label": "Agency",
+      "current": [
+        "agency",
+        "self-direct*",
+        "choose their own",
+        "on their own terms",
+        "their own projects",
+        "own choices",
+        "your own choices",
+        "decide for themselves",
+        "set your own pace",
+        "in control of"
+      ],
+      "kept": [
+        "agency",
+        "your own choices",
+        "decide for themselves",
+        "set your own pace",
+        "in control of"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "individual possesses"
+      ],
+      "questionable": [],
+      "misfires": {
+        "agency": [
+          "Acme Design Studio"
+        ]
+      }
+    },
+    {
+      "id": "altruism",
+      "label": "Altruism",
+      "current": [
+        "altruis*",
+        "for free",
+        "free of charge",
+        "pay what you can",
+        "give back",
+        "selfless*",
+        "charit*",
+        "altruism",
+        "help others",
+        "without expecting anything",
+        "for the common good"
+      ],
+      "kept": [
+        "give back",
+        "altruism",
+        "help others",
+        "without expecting anything",
+        "for the common good"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "genuine concern",
+        "expecting reward"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "anti_oppression",
+      "label": "Anti-oppression",
+      "current": [
+        "anti-oppress*",
+        "anti oppression",
+        "oppress*",
+        "racis*",
+        "anti-racis*",
+        "sexis*",
+        "bigot*",
+        "discriminat*",
+        "anti-oppression",
+        "no racism",
+        "no bigotry",
+        "zero tolerance for hate",
+        "anti-racist",
+        "fight oppression"
+      ],
+      "kept": [
+        "anti-oppression",
+        "no racism",
+        "no bigotry",
+        "zero tolerance for hate",
+        "anti-racist",
+        "fight oppression"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "actively oppose",
+        "systemic discrimination"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "autonomy",
+      "label": "Autonomy",
+      "current": [
+        "autonom*",
+        "no strings attached",
+        "self-govern*",
+        "self-determin*",
+        "not beholden",
+        "independent of",
+        "autonomy",
+        "govern ourselves",
+        "on our own terms",
+        "nobody tells us"
+      ],
+      "kept": [
+        "independent of",
+        "autonomy",
+        "govern ourselves",
+        "on our own terms",
+        "nobody tells us"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "maintains independence",
+        "external control"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "capacity_building",
+      "label": "Capacity Building",
+      "current": [
+        "capacity building",
+        "build skills",
+        "building skills",
+        "skill-shar*",
+        "skill shar*",
+        "train*",
+        "upskill*",
+        "learn new skills",
+        "train new organisers",
+        "grow leaders"
+      ],
+      "kept": [
+        "capacity building",
+        "build skills",
+        "building skills",
+        "learn new skills",
+        "train new organisers",
+        "grow leaders"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "teaching skills",
+        "become stronger"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "collaboration",
+      "label": "Collaboration",
+      "current": [
+        "collaborat*",
+        "work together",
+        "working together",
+        "co-creat*",
+        "build together",
+        "teamwork",
+        "make things together",
+        "team up"
+      ],
+      "kept": [
+        "collaborat*",
+        "work together",
+        "working together",
+        "build together",
+        "make things together",
+        "team up"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "problems rather",
+        "competing against"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "common_ownership",
+      "label": "Common Ownership",
+      "current": [
+        "common ownership",
+        "collectively owned",
+        "member-owned",
+        "owned by its members",
+        "owned by our members",
+        "shared ownership",
+        "co-op",
+        "cooperative",
+        "commons",
+        "belongs to all of us"
+      ],
+      "kept": [
+        "common ownership",
+        "collectively owned",
+        "member-owned",
+        "owned by its members",
+        "belongs to all of us"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "owned collectively",
+        "private investors"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "community_care",
+      "label": "Community Care",
+      "current": [
+        "community care",
+        "wellbeing",
+        "well-being",
+        "mental health",
+        "check-in*",
+        "take care of each other",
+        "care for each other",
+        "burnout",
+        "rest",
+        "look after each other",
+        "check in on"
+      ],
+      "kept": [
+        "community care",
+        "wellbeing",
+        "take care of each other",
+        "look after each other",
+        "check in on"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "above productivity"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "conflict_resolution",
+      "label": "Conflict Resolution",
+      "current": [
+        "conflict resolution",
+        "resolve conflict*",
+        "resolving conflict*",
+        "mediat*",
+        "disagree*",
+        "grievance*",
+        "work through disagreements",
+        "talk it out",
+        "sort out disputes"
+      ],
+      "kept": [
+        "conflict resolution",
+        "resolve conflict*",
+        "resolving conflict*",
+        "work through disagreements",
+        "talk it out",
+        "sort out disputes"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "address disagreements",
+        "disagreements openly"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "consent",
+      "label": "Consent",
+      "current": [
+        "consent*",
+        "opt-in",
+        "opt in",
+        "permission",
+        "ask first",
+        "boundar*",
+        "ask before",
+        "respect boundaries",
+        "nothing without permission"
+      ],
+      "kept": [
+        "consent*",
+        "opt in",
+        "ask before",
+        "respect boundaries",
+        "nothing without permission"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "always voluntary",
+        "clear permission"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "consensus",
+      "label": "Consensus",
+      "current": [
+        "consensus",
+        "everyone agrees",
+        "everyone can live with",
+        "no objections",
+        "agree together",
+        "all voices",
+        "decide together",
+        "find agreement"
+      ],
+      "kept": [
+        "consensus",
+        "everyone agrees",
+        "everyone can live with",
+        "decide together",
+        "find agreement"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "least live"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "constructive_feedback",
+      "label": "Constructive Feedback",
+      "current": [
+        "feedback",
+        "critique*",
+        "constructive criticism",
+        "code review*",
+        "review each other*",
+        "constructive feedback",
+        "kind feedback",
+        "honest feedback",
+        "help each other improve"
+      ],
+      "kept": [
+        "critique*",
+        "constructive feedback",
+        "kind feedback",
+        "honest feedback",
+        "help each other improve"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "offered kindly",
+        "help improve"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "cooperation",
+      "label": "Cooperation",
+      "current": [
+        "cooperat*",
+        "partner*",
+        "work with other",
+        "alliance*",
+        "coalition*",
+        "sister communit*",
+        "partner with",
+        "work with other groups",
+        "sister communities"
+      ],
+      "kept": [
+        "cooperat*",
+        "alliance*",
+        "partner with",
+        "work with other groups",
+        "sister communities"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "believe working",
+        "together produces",
+        "produces better"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "copyleft",
+      "label": "Copyleft",
+      "current": [
+        "copyleft",
+        "gpl",
+        "agpl",
+        "share-alike",
+        "share alike",
+        "cc by-sa",
+        "free software",
+        "keep it free"
+      ],
+      "kept": [
+        "copyleft",
+        "gpl",
+        "share-alike",
+        "keep it free"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "anything built",
+        "stays free"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "decentralization",
+      "label": "Decentralization",
+      "current": [
+        "decentrali*",
+        "distributed",
+        "no central*",
+        "power at the edges",
+        "peer-to-peer",
+        "p2p",
+        "decentralization",
+        "decentralised",
+        "no single owner"
+      ],
+      "kept": [
+        "distributed",
+        "no central*",
+        "decentralization",
+        "decentralised",
+        "no single owner"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "distributed across",
+        "network rather",
+        "central authority"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "direct_action",
+      "label": "Direct Action",
+      "current": [
+        "direct action",
+        "take action",
+        "activis*",
+        "protest*",
+        "strike*",
+        "picket*",
+        "on the ground",
+        "show up",
+        "do it ourselves"
+      ],
+      "kept": [
+        "direct action",
+        "take action",
+        "show up",
+        "do it ourselves"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "take steps",
+        "problems ourselves"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "diversity",
+      "label": "Diversity",
+      "current": [
+        "divers*",
+        "all backgrounds",
+        "different backgrounds",
+        "representation",
+        "many perspectives",
+        "multicultural",
+        "diversity",
+        "diverse",
+        "different voices"
+      ],
+      "kept": [
+        "all backgrounds",
+        "many perspectives",
+        "diversity",
+        "diverse",
+        "different voices"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "wide range"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "documentation",
+      "label": "Documentation",
+      "current": [
+        "document*",
+        "wiki",
+        "handbook",
+        "write down",
+        "written down",
+        "how-to*",
+        "guides",
+        "documentation",
+        "write it down",
+        "documented"
+      ],
+      "kept": [
+        "wiki",
+        "guides",
+        "documentation",
+        "write it down",
+        "documented"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "processes clearly"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "education",
+      "label": "Education",
+      "current": [
+        "educat*",
+        "teach*",
+        "workshop*",
+        "course*",
+        "curricul*",
+        "student*",
+        "school*",
+        "learn together",
+        "classes"
+      ],
+      "kept": [
+        "educat*",
+        "teach*",
+        "workshop*",
+        "learn together",
+        "classes"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "continuous learning"
+      ],
+      "questionable": [],
+      "misfires": {
+        "student*": [
+          "Coastal Ecology Lab"
+        ]
+      }
+    },
+    {
+      "id": "empathy",
+      "label": "Empathy",
+      "current": [
+        "empath*",
+        "compassion*",
+        "listen to",
+        "listening",
+        "understanding",
+        "lived experience",
+        "empathy",
+        "listen to each other",
+        "put ourselves in"
+      ],
+      "kept": [
+        "compassion*",
+        "understanding",
+        "empathy",
+        "listen to each other",
+        "put ourselves in"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "empowerment",
+      "label": "Empowerment",
+      "current": [
+        "empower*",
+        "trust people to",
+        "ownership of their",
+        "delegat*",
+        "give people the power",
+        "empowerment",
+        "people closest to"
+      ],
+      "kept": [
+        "empower*",
+        "trust people to",
+        "give people the power",
+        "empowerment",
+        "people closest to"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "take charge"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "equity",
+      "label": "Equity",
+      "current": [
+        "equit*",
+        "sliding scale",
+        "scholarship*",
+        "based on need",
+        "level the playing field",
+        "redistribut*",
+        "equity",
+        "fair outcomes"
+      ],
+      "kept": [
+        "sliding scale",
+        "based on need",
+        "level the playing field",
+        "equity",
+        "fair outcomes"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "resources based",
+        "ensure fair"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "experimentation",
+      "label": "Experimentation",
+      "current": [
+        "experiment*",
+        "try new things",
+        "trying new things",
+        "prototyp*",
+        "tinker*",
+        "playful",
+        "experimentation",
+        "it's ok to fail",
+        "try it and see"
+      ],
+      "kept": [
+        "experiment*",
+        "try new things",
+        "trying new things",
+        "experimentation",
+        "it's ok to fail",
+        "try it and see"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "encourage trying",
+        "trying new",
+        "new things"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "fairness",
+      "label": "Fairness",
+      "current": [
+        "fair",
+        "fairly",
+        "fairness",
+        "impartial*",
+        "same rules",
+        "even-handed",
+        "consistent*",
+        "fair to everyone",
+        "same rules for everyone",
+        "treated fairly",
+        "everyone gets a turn"
+      ],
+      "kept": [
+        "fair",
+        "fairly",
+        "fairness",
+        "fair to everyone",
+        "same rules for everyone",
+        "treated fairly",
+        "everyone gets a turn"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "apply rules",
+        "impartial manner"
+      ],
+      "questionable": [],
+      "misfires": {
+        "fair": [
+          "Riverbend Tenants' Union"
+        ],
+        "fairly": [
+          "Riverbend Tenants' Union"
+        ],
+        "fairness": [
+          "Riverbend Tenants' Union"
+        ]
+      }
+    },
+    {
+      "id": "fair_remuneration",
+      "label": "Fair Remuneration",
+      "current": [
+        "fair pay",
+        "living wage",
+        "paid",
+        "wage*",
+        "salar*",
+        "compensat*",
+        "remunerat*",
+        "stipend*",
+        "fair remuneration",
+        "paid fairly",
+        "pay our contributors"
+      ],
+      "kept": [
+        "fair pay",
+        "living wage",
+        "fair remuneration",
+        "paid fairly",
+        "pay our contributors"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "flexibility",
+      "label": "Flexibility",
+      "current": [
+        "flexib*",
+        "asynchronous",
+        "async",
+        "at their own pace",
+        "own schedule",
+        "remote",
+        "time zones",
+        "flexibility",
+        "at your own pace",
+        "flexible",
+        "whenever you can"
+      ],
+      "kept": [
+        "asynchronous",
+        "flexibility",
+        "at your own pace",
+        "flexible",
+        "whenever you can"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "different needs"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "forkability",
+      "label": "Forkability",
+      "current": [
+        "fork*",
+        "take the project",
+        "copy and adapt",
+        "free to leave",
+        "leave with their",
+        "forkability",
+        "take it elsewhere"
+      ],
+      "kept": [
+        "fork*",
+        "copy and adapt",
+        "free to leave",
+        "forkability",
+        "take it elsewhere"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "new direction",
+        "it's going"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "freedom",
+      "label": "Freedom",
+      "current": [
+        "freedom",
+        "free speech",
+        "freedom of expression",
+        "express themselves",
+        "uncensor*",
+        "censorship",
+        "express yourself",
+        "free to",
+        "no censorship"
+      ],
+      "kept": [
+        "freedom",
+        "free speech",
+        "express yourself",
+        "free to",
+        "no censorship"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "freedom_of_information",
+      "label": "Freedom of Information",
+      "current": [
+        "freedom of information",
+        "open access",
+        "open data",
+        "paywall*",
+        "public knowledge",
+        "information should be free",
+        "archiv*",
+        "free to read",
+        "no paywalls"
+      ],
+      "kept": [
+        "freedom of information",
+        "open access",
+        "open data",
+        "free to read",
+        "no paywalls"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "public good"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "generosity",
+      "label": "Generosity",
+      "current": [
+        "generos*",
+        "generous",
+        "give freely",
+        "share what we have",
+        "donat*",
+        "gift*",
+        "generosity"
+      ],
+      "kept": [
+        "generous",
+        "give freely",
+        "share what we have",
+        "donat*",
+        "generosity"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {
+        "generous": [
+          "UX Researchers Network"
+        ]
+      }
+    },
+    {
+      "id": "harm_reduction",
+      "label": "Harm Reduction",
+      "current": [
+        "harm reduction",
+        "reduce harm",
+        "reducing harm",
+        "safer use",
+        "drug*",
+        "sex work*",
+        "meet people where they are",
+        "without judgment"
+      ],
+      "kept": [
+        "harm reduction",
+        "safer use",
+        "meet people where they are",
+        "without judgment"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "risky situations",
+        "situations rather"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "holism",
+      "label": "Holism",
+      "current": [
+        "holistic*",
+        "whole person",
+        "whole system",
+        "bigger picture",
+        "interconnect*",
+        "holism",
+        "the whole person",
+        "whole picture",
+        "mind and body",
+        "everything is connected"
+      ],
+      "kept": [
+        "holism",
+        "the whole person",
+        "whole picture",
+        "mind and body",
+        "everything is connected"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "isolated parts"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "holocracy",
+      "label": "Holocracy",
+      "current": [
+        "holacracy",
+        "holocracy",
+        "sociocra*",
+        "circles",
+        "roles",
+        "role-based",
+        "circles and roles",
+        "roles instead of",
+        "self-organising"
+      ],
+      "kept": [
+        "holacracy",
+        "holocracy",
+        "circles and roles",
+        "roles instead of",
+        "self-organising"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "organize around",
+        "around roles",
+        "circles rather"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "honesty",
+      "label": "Honesty",
+      "current": [
+        "honest*",
+        "truth*",
+        "candid*",
+        "straight talk",
+        "admit when",
+        "forthright",
+        "honesty",
+        "tell the truth",
+        "no spin"
+      ],
+      "kept": [
+        "honest*",
+        "admit when",
+        "honesty",
+        "tell the truth",
+        "no spin"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {
+        "honest*": [
+          "Acme Design Studio"
+        ]
+      }
+    },
+    {
+      "id": "horizontalism",
+      "label": "Horizontalism",
+      "current": [
+        "horizontal*",
+        "no bosses",
+        "no leaders",
+        "leaderless",
+        "flat structure",
+        "as equals",
+        "non-hierarchical",
+        "anarch*",
+        "horizontalism",
+        "flat"
+      ],
+      "kept": [
+        "no bosses",
+        "no leaders",
+        "as equals",
+        "non-hierarchical",
+        "horizontalism",
+        "flat"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "top-down management"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "humility",
+      "label": "Humility",
+      "current": [
+        "humil*",
+        "humble",
+        "modest*",
+        "don't have all the answers",
+        "open to being wrong",
+        "learn from others",
+        "humility"
+      ],
+      "kept": [
+        "humble",
+        "don't have all the answers",
+        "open to being wrong",
+        "learn from others",
+        "humility"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "inclusion",
+      "label": "Inclusion",
+      "current": [
+        "inclus*",
+        "welcom*",
+        "everyone is welcome",
+        "all are welcome",
+        "belonging",
+        "safe space",
+        "safer space",
+        "inclusion"
+      ],
+      "kept": [
+        "welcom*",
+        "everyone is welcome",
+        "all are welcome",
+        "belonging",
+        "safe space",
+        "safer space",
+        "inclusion"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "proactively welcome"
+      ],
+      "questionable": [],
+      "misfires": {
+        "welcom*": [
+          "Libre Mapper",
+          "Coastal Ecology Lab"
+        ]
+      }
+    },
+    {
+      "id": "inclusivity",
+      "label": "Inclusivity",
+      "current": [
+        "inclusiv*",
+        "newcomer*",
+        "beginner*",
+        "no jargon",
+        "translat*",
+        "multilingual",
+        "new members",
+        "inclusivity",
+        "beginners welcome",
+        "all languages"
+      ],
+      "kept": [
+        "newcomer*",
+        "no jargon",
+        "translat*",
+        "inclusivity",
+        "beginners welcome",
+        "all languages"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "take part"
+      ],
+      "questionable": [],
+      "misfires": {
+        "beginner*": [
+          "Fedi Gardeners"
+        ]
+      }
+    },
+    {
+      "id": "independence",
+      "label": "Independence",
+      "current": [
+        "independen*",
+        "self-funded",
+        "member-funded",
+        "funded by members",
+        "no ads",
+        "ad-free",
+        "no investors",
+        "crowdfund*",
+        "independence",
+        "independent"
+      ],
+      "kept": [
+        "member-funded",
+        "funded by members",
+        "no ads",
+        "no investors",
+        "independence",
+        "independent"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "avoid reliance",
+        "single funding",
+        "funding source"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "innovation",
+      "label": "Innovation",
+      "current": [
+        "innovat*",
+        "new ideas",
+        "creativ*",
+        "inventive",
+        "cutting edge",
+        "build new",
+        "experiment",
+        "build something new"
+      ],
+      "kept": [
+        "innovat*",
+        "new ideas",
+        "creativ*",
+        "experiment",
+        "build something new"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "creative solutions",
+        "established methods"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "integrity",
+      "label": "Integrity",
+      "current": [
+        "integrity",
+        "ethic*",
+        "principled",
+        "walk the talk",
+        "live our values",
+        "stand by",
+        "stand by our values",
+        "ethical"
+      ],
+      "kept": [
+        "integrity",
+        "principled",
+        "walk the talk",
+        "stand by our values",
+        "ethical"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "interdependence",
+      "label": "Interdependence",
+      "current": [
+        "interdepend*",
+        "ecosystem",
+        "rely on each other",
+        "depend on each other",
+        "web of",
+        "interdependence",
+        "connected"
+      ],
+      "kept": [
+        "ecosystem",
+        "rely on each other",
+        "depend on each other",
+        "interdependence",
+        "connected"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "interoperability",
+      "label": "Interoperability",
+      "current": [
+        "interoperab*",
+        "open standards",
+        "open protocol*",
+        "activitypub",
+        "at protocol",
+        "atproto",
+        "compatib*",
+        "portab*",
+        "walled garden*",
+        "interoperability",
+        "fediverse",
+        "connect with other",
+        "portable"
+      ],
+      "kept": [
+        "open standards",
+        "activitypub",
+        "interoperability",
+        "fediverse",
+        "connect with other",
+        "portable"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "systems work",
+        "open systems",
+        "systems rather"
+      ],
+      "questionable": [],
+      "misfires": {
+        "fediverse": [
+          "Fedi Gardeners"
+        ]
+      }
+    },
+    {
+      "id": "intersectionality",
+      "label": "Intersectionality",
+      "current": [
+        "intersectional*",
+        "overlapping",
+        "queer",
+        "trans",
+        "bipoc",
+        "people of colo*",
+        "feminis*",
+        "lgbtq*",
+        "intersectionality",
+        "people of colour"
+      ],
+      "kept": [
+        "intersectional*",
+        "queer",
+        "trans",
+        "bipoc",
+        "intersectionality",
+        "people of colour"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "different forms",
+        "discrimination overlap"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "justice",
+      "label": "Justice",
+      "current": [
+        "justice",
+        "restorative",
+        "transformative justice",
+        "repair harm",
+        "social justice",
+        "climate justice",
+        "make things right",
+        "fair system"
+      ],
+      "kept": [
+        "justice",
+        "repair harm",
+        "make things right",
+        "fair system"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "repair past",
+        "past wrongs"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "knowledge_sharing",
+      "label": "Knowledge Sharing",
+      "current": [
+        "knowledge sharing",
+        "share knowledge",
+        "sharing knowledge",
+        "share what we learn",
+        "open knowledge",
+        "tutorial*",
+        "help each other learn",
+        "share what we know",
+        "tips"
+      ],
+      "kept": [
+        "knowledge sharing",
+        "share knowledge",
+        "sharing knowledge",
+        "help each other learn",
+        "share what we know",
+        "tips"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "freely distribute",
+        "distribute information"
+      ],
+      "questionable": [],
+      "misfires": {
+        "help each other learn": [
+          "Ms. Ortiz's 10th Grade Biology"
+        ]
+      }
+    },
+    {
+      "id": "labor_rights",
+      "label": "Labor Rights",
+      "current": [
+        "labor rights",
+        "labour rights",
+        "workers' rights",
+        "workers rights",
+        "union*",
+        "working conditions",
+        "labor",
+        "labour",
+        "organise at work"
+      ],
+      "kept": [
+        "labor rights",
+        "workers' rights",
+        "workers rights",
+        "union*",
+        "working conditions",
+        "organise at work"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "leadership",
+      "label": "Leadership",
+      "current": [
+        "leadership",
+        "step up",
+        "initiative",
+        "take the lead",
+        "take charge",
+        "take initiative",
+        "lead"
+      ],
+      "kept": [
+        "leadership",
+        "step up",
+        "take the lead",
+        "take initiative",
+        "lead"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "learning",
+      "label": "Learning",
+      "current": [
+        "learn*",
+        "book club*",
+        "reading group*",
+        "study group*",
+        "curious",
+        "curiosity",
+        "mistakes",
+        "questions welcome",
+        "grow"
+      ],
+      "kept": [
+        "learn*",
+        "curious",
+        "questions welcome",
+        "grow"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "embrace mistakes",
+        "grow rather"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "liberty",
+      "label": "Liberty",
+      "current": [
+        "liberty",
+        "libertar*",
+        "individual freedom",
+        "anti-authoritarian",
+        "no gatekeep*",
+        "free to choose"
+      ],
+      "kept": [
+        "liberty",
+        "individual freedom",
+        "no gatekeep*",
+        "free to choose"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "oppose authoritarian",
+        "authoritarian control"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "localism",
+      "label": "Localism",
+      "current": [
+        "local*",
+        "neighbo*",
+        "our city",
+        "our town",
+        "region*",
+        "nearby",
+        "in person",
+        "localism",
+        "our neighbourhood"
+      ],
+      "kept": [
+        "local*",
+        "our town",
+        "nearby",
+        "in person",
+        "localism",
+        "our neighbourhood"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "prioritize local",
+        "local needs"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "maintenance",
+      "label": "Maintenance",
+      "current": [
+        "mainten*",
+        "maintain*",
+        "upkeep",
+        "keep running",
+        "sysadmin*",
+        "behind the scenes",
+        "unglamorous",
+        "maintenance",
+        "keep it running"
+      ],
+      "kept": [
+        "maintain*",
+        "upkeep",
+        "behind the scenes",
+        "maintenance",
+        "keep it running"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "unglamorous work",
+        "already built"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "mentorship",
+      "label": "Mentorship",
+      "current": [
+        "mentor*",
+        "onboard*",
+        "buddy",
+        "buddies",
+        "help newcomers",
+        "guide newcomers",
+        "show the ropes",
+        "mentorship",
+        "show newcomers",
+        "guide new members"
+      ],
+      "kept": [
+        "mentor*",
+        "buddy",
+        "buddies",
+        "mentorship",
+        "show newcomers",
+        "guide new members"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "actively guide",
+        "support newcomers"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "meritocracy",
+      "label": "Meritocracy",
+      "current": [
+        "merit*",
+        "earned",
+        "do-ocracy",
+        "doocracy",
+        "based on contribution*",
+        "those who do the work",
+        "meritocracy",
+        "track record"
+      ],
+      "kept": [
+        "earned",
+        "based on contribution*",
+        "those who do the work",
+        "meritocracy",
+        "track record"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "skill rather"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "mutual_aid",
+      "label": "Mutual Aid",
+      "current": [
+        "mutual aid",
+        "help each other",
+        "help one another",
+        "solidarity not charity",
+        "share resources",
+        "sharing resources",
+        "look out for each other",
+        "look out for one another"
+      ],
+      "kept": [
+        "mutual aid",
+        "help each other",
+        "solidarity not charity",
+        "share resources",
+        "sharing resources",
+        "look out for each other"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "reciprocal exchange"
+      ],
+      "questionable": [],
+      "misfires": {
+        "help each other": [
+          "Hendricks Family Chat",
+          "Ms. Ortiz's 10th Grade Biology"
+        ]
+      }
+    },
+    {
+      "id": "non_violence",
+      "label": "Non-violence",
+      "current": [
+        "nonviolen*",
+        "non-violen*",
+        "non violence",
+        "peaceful*",
+        "de-escalat*",
+        "pacifis*",
+        "non-violence",
+        "non-violent",
+        "no threats"
+      ],
+      "kept": [
+        "peaceful*",
+        "de-escalat*",
+        "non-violence",
+        "non-violent",
+        "no threats"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "reject physical",
+        "emotional violence"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "open_source",
+      "label": "Open Source",
+      "current": [
+        "open source",
+        "open-source",
+        "foss",
+        "floss",
+        "free and open",
+        "source code",
+        "github",
+        "gitlab",
+        "codeberg",
+        "free software",
+        "contributions welcome"
+      ],
+      "kept": [
+        "open source",
+        "source code",
+        "free software",
+        "contributions welcome"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "work freely"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "openness",
+      "label": "Openness",
+      "current": [
+        "openness",
+        "open to the public",
+        "open to all",
+        "anyone can join",
+        "open meetings",
+        "public meetings",
+        "open to everyone",
+        "in the open"
+      ],
+      "kept": [
+        "openness",
+        "anyone can join",
+        "open meetings",
+        "open to everyone",
+        "in the open"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "operate transparently",
+        "invite participation",
+        "outside world"
+      ],
+      "questionable": [],
+      "misfires": {
+        "openness": [
+          "Hearth Social",
+          "Libre Mapper"
+        ],
+        "in the open": [
+          "Libre Mapper"
+        ]
+      }
+    },
+    {
+      "id": "participation",
+      "label": "Participation",
+      "current": [
+        "particip*",
+        "have a say",
+        "everyone has a voice",
+        "vote*",
+        "voting",
+        "democra*",
+        "get involved",
+        "participation",
+        "everyone has a say",
+        "have your say"
+      ],
+      "kept": [
+        "vote*",
+        "voting",
+        "get involved",
+        "participation",
+        "everyone has a say",
+        "have your say"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "democracy requires",
+        "active engagement",
+        "decision-making process"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "reliability",
+      "label": "Reliability",
+      "current": [
+        "reliab*",
+        "dependab*",
+        "follow through",
+        "count on",
+        "uptime",
+        "stable",
+        "stability",
+        "keep our promises",
+        "reliability",
+        "reliable"
+      ],
+      "kept": [
+        "follow through",
+        "count on",
+        "keep our promises",
+        "reliability",
+        "reliable"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "resilience",
+      "label": "Resilience",
+      "current": [
+        "resilien*",
+        "bus factor",
+        "redundan*",
+        "sustainab*",
+        "long-term",
+        "long term",
+        "backup*",
+        "resilience",
+        "keep going",
+        "bounce back",
+        "no single point"
+      ],
+      "kept": [
+        "backup*",
+        "resilience",
+        "keep going",
+        "bounce back",
+        "no single point"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "absorb shocks",
+        "keep functioning"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "solidarity",
+      "label": "Solidarity",
+      "current": [
+        "solidarity",
+        "stand with",
+        "stand together",
+        "each other's back*",
+        "collective defen*",
+        "united",
+        "have each other's back"
+      ],
+      "kept": [
+        "solidarity",
+        "stand with",
+        "stand together",
+        "have each other's back"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "face pressure",
+        "outside forces"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "stewardship",
+      "label": "Stewardship",
+      "current": [
+        "steward*",
+        "care for",
+        "tend*",
+        "future generations",
+        "future members",
+        "custodian*",
+        "stewardship",
+        "look after",
+        "for future",
+        "take care of the space"
+      ],
+      "kept": [
+        "steward*",
+        "stewardship",
+        "look after",
+        "for future",
+        "take care of the space"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "take responsibility",
+        "shared resources",
+        "relationships entrusted"
+      ],
+      "questionable": [],
+      "misfires": {
+        "look after": [
+          "Hendricks Family Chat"
+        ]
+      }
+    },
+    {
+      "id": "transparency",
+      "label": "Transparency",
+      "current": [
+        "transparen*",
+        "open books",
+        "meeting notes",
+        "minutes",
+        "public budget*",
+        "decision log*",
+        "open finances",
+        "visible to",
+        "transparency",
+        "transparent",
+        "in public",
+        "explain our decisions"
+      ],
+      "kept": [
+        "open books",
+        "meeting notes",
+        "transparency",
+        "transparent",
+        "in public",
+        "explain our decisions"
+      ],
+      "new": [],
+      "fromDefinition": [],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "trust",
+      "label": "Trust",
+      "current": [
+        "trust*",
+        "good faith",
+        "assume good intent",
+        "charitabl*"
+      ],
+      "kept": [
+        "trust*",
+        "good faith",
+        "assume good intent"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "extend good",
+        "build relationships"
+      ],
+      "questionable": [],
+      "misfires": {}
+    },
+    {
+      "id": "voluntarism",
+      "label": "Voluntarism",
+      "current": [
+        "volunteer*",
+        "voluntar*",
+        "unpaid",
+        "freely chosen",
+        "no pressure",
+        "step back",
+        "in their free time",
+        "voluntarism",
+        "in our free time"
+      ],
+      "kept": [
+        "volunteer*",
+        "unpaid",
+        "no pressure",
+        "voluntarism",
+        "in our free time"
+      ],
+      "new": [],
+      "fromDefinition": [
+        "chosen rather"
+      ],
+      "questionable": [],
+      "misfires": {
+        "volunteer*": [
+          "St. Brigid's Parish Community",
+          "Riverside Rowing Club"
+        ]
+      }
+    }
+  ],
+  "benchmark": [
+    {
+      "id": "single_user",
+      "name": "Ana's Corner",
+      "core": [
+        "autonomy",
+        "independence",
+        "freedom",
+        "consent"
+      ],
+      "current": {
+        "found": [],
+        "other": []
+      },
+      "proposed": {
+        "found": [],
+        "other": []
+      }
+    },
+    {
+      "id": "tenants_union",
+      "name": "Riverbend Tenants' Union",
+      "core": [
+        "solidarity",
+        "mutual_aid",
+        "participation",
+        "justice"
+      ],
+      "current": {
+        "found": [
+          "mutual_aid",
+          "participation"
+        ],
+        "other": [
+          "fairness"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "mutual_aid",
+          "participation"
+        ],
+        "other": [
+          "fairness"
+        ]
+      }
+    },
+    {
+      "id": "family_chat",
+      "name": "Hendricks Family Chat",
+      "core": [
+        "trust",
+        "community_care",
+        "empathy",
+        "honesty"
+      ],
+      "current": {
+        "found": [
+          "community_care"
+        ],
+        "other": [
+          "mutual_aid",
+          "stewardship"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "community_care"
+        ],
+        "other": [
+          "mutual_aid",
+          "stewardship"
+        ]
+      }
+    },
+    {
+      "id": "board_games",
+      "name": "Thursday Board Games Crew",
+      "core": [
+        "collaboration",
+        "fairness",
+        "trust",
+        "inclusion"
+      ],
+      "current": {
+        "found": [
+          "fairness",
+          "inclusion"
+        ],
+        "other": []
+      },
+      "proposed": {
+        "found": [
+          "fairness",
+          "inclusion"
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "neighbours",
+      "name": "Maple Street Neighbours",
+      "core": [
+        "localism",
+        "mutual_aid",
+        "community_care",
+        "inclusion"
+      ],
+      "current": {
+        "found": [
+          "localism"
+        ],
+        "other": []
+      },
+      "proposed": {
+        "found": [
+          "localism"
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "civic_budget",
+      "name": "Bayview Participatory Budget Forum",
+      "core": [
+        "transparency",
+        "participation",
+        "accountability",
+        "equity",
+        "fairness"
+      ],
+      "current": {
+        "found": [
+          "transparency",
+          "participation",
+          "accountability",
+          "fairness"
+        ],
+        "other": []
+      },
+      "proposed": {
+        "found": [
+          "transparency",
+          "participation",
+          "accountability",
+          "fairness"
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "design_studio",
+      "name": "Acme Design Studio",
+      "core": [
+        "reliability",
+        "accountability",
+        "collaboration",
+        "constructive_feedback"
+      ],
+      "current": {
+        "found": [
+          "accountability",
+          "constructive_feedback"
+        ],
+        "other": [
+          "agency",
+          "honesty"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "accountability",
+          "constructive_feedback"
+        ],
+        "other": [
+          "agency",
+          "honesty"
+        ]
+      }
+    },
+    {
+      "id": "worker_coop",
+      "name": "Open Pantry Worker Co-op",
+      "core": [
+        "common_ownership",
+        "participation",
+        "solidarity",
+        "fair_remuneration",
+        "transparency"
+      ],
+      "current": {
+        "found": [
+          "common_ownership"
+        ],
+        "other": []
+      },
+      "proposed": {
+        "found": [
+          "common_ownership"
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "ux_network",
+      "name": "UX Researchers Network",
+      "core": [
+        "knowledge_sharing",
+        "learning",
+        "mentorship",
+        "inclusion"
+      ],
+      "current": {
+        "found": [
+          "knowledge_sharing",
+          "learning",
+          "mentorship"
+        ],
+        "other": [
+          "generosity"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "knowledge_sharing",
+          "learning",
+          "mentorship"
+        ],
+        "other": [
+          "generosity"
+        ]
+      }
+    },
+    {
+      "id": "classroom",
+      "name": "Ms. Ortiz's 10th Grade Biology",
+      "core": [
+        "learning",
+        "education",
+        "inclusion",
+        "constructive_feedback"
+      ],
+      "current": {
+        "found": [
+          "learning",
+          "education"
+        ],
+        "other": [
+          "knowledge_sharing",
+          "mutual_aid"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "learning",
+          "education"
+        ],
+        "other": [
+          "knowledge_sharing",
+          "mutual_aid"
+        ]
+      }
+    },
+    {
+      "id": "fedi_gardeners",
+      "name": "Fedi Gardeners",
+      "core": [
+        "community_care",
+        "knowledge_sharing",
+        "inclusion",
+        "mutual_aid"
+      ],
+      "current": {
+        "found": [
+          "knowledge_sharing",
+          "inclusion",
+          "mutual_aid"
+        ],
+        "other": [
+          "inclusivity",
+          "interoperability"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "knowledge_sharing",
+          "inclusion",
+          "mutual_aid"
+        ],
+        "other": [
+          "inclusivity",
+          "interoperability"
+        ]
+      }
+    },
+    {
+      "id": "general_server",
+      "name": "Hearth Social",
+      "core": [
+        "transparency",
+        "accountability",
+        "inclusion",
+        "anti_oppression",
+        "reliability"
+      ],
+      "current": {
+        "found": [
+          "inclusion"
+        ],
+        "other": [
+          "openness"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "inclusion"
+        ],
+        "other": [
+          "openness"
+        ]
+      }
+    },
+    {
+      "id": "recovery_circle",
+      "name": "Tuesday Night Recovery Circle",
+      "core": [
+        "community_care",
+        "empathy",
+        "consent",
+        "trust",
+        "harm_reduction"
+      ],
+      "current": {
+        "found": [],
+        "other": []
+      },
+      "proposed": {
+        "found": [],
+        "other": []
+      }
+    },
+    {
+      "id": "open_source",
+      "name": "Libre Mapper",
+      "core": [
+        "open_source",
+        "transparency",
+        "collaboration",
+        "documentation",
+        "knowledge_sharing"
+      ],
+      "current": {
+        "found": [
+          "open_source"
+        ],
+        "other": [
+          "openness",
+          "inclusion"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "open_source"
+        ],
+        "other": [
+          "openness",
+          "inclusion"
+        ]
+      }
+    },
+    {
+      "id": "parish",
+      "name": "St. Brigid's Parish Community",
+      "core": [
+        "community_care",
+        "generosity",
+        "humility",
+        "integrity"
+      ],
+      "current": {
+        "found": [
+          "generosity"
+        ],
+        "other": [
+          "voluntarism"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "generosity"
+        ],
+        "other": [
+          "voluntarism"
+        ]
+      }
+    },
+    {
+      "id": "rowing_club",
+      "name": "Riverside Rowing Club",
+      "core": [
+        "fairness",
+        "accountability",
+        "participation",
+        "reliability"
+      ],
+      "current": {
+        "found": [
+          "fairness"
+        ],
+        "other": [
+          "voluntarism"
+        ]
+      },
+      "proposed": {
+        "found": [
+          "fairness"
+        ],
+        "other": [
+          "voluntarism"
+        ]
+      }
+    },
+    {
+      "id": "art_stream",
+      "name": "Mira's Art Stream",
+      "core": [
+        "inclusion",
+        "constructive_feedback",
+        "community_care",
+        "innovation"
+      ],
+      "current": {
+        "found": [
+          "constructive_feedback"
+        ],
+        "other": []
+      },
+      "proposed": {
+        "found": [
+          "constructive_feedback"
+        ],
+        "other": []
+      }
+    },
+    {
+      "id": "research_lab",
+      "name": "Coastal Ecology Lab",
+      "core": [
+        "learning",
+        "mentorship",
+        "accountability",
+        "knowledge_sharing",
+        "honesty"
+      ],
+      "current": {
+        "found": [],
+        "other": [
+          "education",
+          "inclusion"
+        ]
+      },
+      "proposed": {
+        "found": [],
+        "other": [
+          "education",
+          "inclusion"
+        ]
+      }
+    }
+  ]
+}

@@ -30,7 +30,7 @@ const publish = (c, mode, note = null, listed = false) => call("publishCard", { 
 // the rich card's content (every module, notes long and short, custom rules and module)
 const rich = (name) => (card) => ({
   modules: ["infrastructure", "membership", "rules", "processes", "federation", "cm_tests1"],
-  basics: { ...card.basics, name, link: "https://willow.example", type: "social_network_media", size: "medium",
+  basics: { ...card.basics, name, link: "https://willow.example", type: "hobby", format: "social_network_media", size: "medium",
     description: { purpose: "A home on the fediverse for gardeners, allotment holders and small growers in the river valley: seed swaps, harvest photos, planting calendars and monthly work days", culture: "Warm and patient: we help each other, and newcomers are always welcome" },
     keywords: ["gardening", "seed swaps", "local food"], targetScales: { participatory: 6, transparent: 6, hierarchical: 2 },
     values: ["trust", "consensus", "transparency", "mutual_aid", "community_care"] },
@@ -107,7 +107,7 @@ await fetch(`${DB}cards/${down.cardId}?updateMask.fieldPaths=publishing.hidden&u
 const vers = await (await fetch(`${DB}public/${down.cardId}/versions`, { headers: H })).json();
 for (const d of vers.documents || []) await fetch(`http://127.0.0.1:8080/v1/${d.name}`, { method: "DELETE", headers: H });
 await fetch(`${DB}public/${down.cardId}`, { method: "DELETE", headers: H });
-log(down, "Taken down (the procedure in CLAUDE.md, done by the seed)", "Its link says not available; Export says \"Taken down by the CROW team\"; publishing is refused.");
+log(down, "Taken down (the procedure in DESIGN.md, done by the seed)", "Its link says not available; Export says \"Taken down by the CROW team\"; publishing is refused.");
 
 // 9: reported
 const rep = await make("Reported Garden", rich("Reported Garden"));
@@ -117,7 +117,7 @@ await call("reportCard", { cardId: rep.cardId, version: 1, reason: null, details
 log(rep, "Published Foggy, with 2 reports (in the emulator's Firestore → reports)", "Report flag under the to-top arrow: a reason or a note required; then see the reports at localhost:4000 → Firestore → reports.");
 
 // 10: a draft without a contact email
-const draft = await make("Draft Without Email", (card) => ({ modules: ["membership"], basics: { ...card.basics, name: "Draft Without Email", type: "discussion_forum", size: "small", targetScales: { participatory: 4, transparent: 4, hierarchical: 4 }, values: ["learning"] } }));
+const draft = await make("Draft Without Email", (card) => ({ modules: ["membership"], basics: { ...card.basics, name: "Draft Without Email", type: "hobby", format: "discussion_forum", size: "small", targetScales: { participatory: 4, transparent: 4, hierarchical: 4 }, values: ["learning"] } }));
 log(draft, "A draft: name and type, no contact email", "Export → Publish says what's missing (the email) and is refused; add an email and it publishes v1 (Minimal by default).");
 
 const md = ["# Test cards (local emulator)", "", "Made by scripts/seed-test-cards.mjs. Don't share this file or commit it. Open localhost:5000/make.html → Edit an existing card, and paste the ID and secret. Public pages: localhost:5000/c/<ID>.", ""];

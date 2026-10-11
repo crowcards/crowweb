@@ -282,14 +282,14 @@ function startSavers() {
 /**
  * A module's form, drawn into `container` from editor.card[part] and wired
  * to that part's auto-saver. `data` is the module's reference data.
- * Extra hooks: onTypeChange (Basics), afterChange (runs after each keystroke and each finished choice).
+ * Extra hooks: onFormatChange (Basics), afterChange (runs after each keystroke and each finished choice).
  * Forms also get `stateKey` ("<card id>:<module>"), a name for remembering
  * view preferences such as which sections are open, and getPart / setPart
  * (one part) / setParts ({ part: value, … }, several at once) to read and
  * change other parts of the card (e.g. Processes editing the shared
  * structure list in membership).
  */
-function mountSection(part, container, data, { onTypeChange, afterChange } = {}) {
+function mountSection(part, container, data, { onFormatChange, afterChange } = {}) {
   const saver = editor.savers[part];
   let form = null;   // (a form can call setPart while it's still being drawn)
   form = SECTIONS[part].render(container, editor.card[part], data, {
@@ -306,7 +306,7 @@ function mountSection(part, container, data, { onTypeChange, afterChange } = {})
       afterChange?.();
       refreshSuggestions();
     },
-    onTypeChange,
+    onFormatChange,
     stateKey: `${editor.card.id}:${part}`,
     setAside: asideOf(editor.card.editor?.setAside, part),   // what this module set aside earlier (js/set-aside.js)
     getPart: (other) => editor.card[other] || {},
@@ -601,7 +601,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
   if (!s.add.length && !s.remove.length) return;
 
   const label = (id) => editor.defaults.modules.find((m) => m.id === id)?.label || id;
-  const typeLabel = editor.basicsData.types.find((t) => t.id === toType)?.label || "no type";
+  const typeLabel = editor.basicsData.formats.find((t) => t.id === toType)?.label || "no format";
   const changes = [
     ...s.add.map((id) => `add ${label(id)}`),
     ...s.remove.map((id) => `remove ${label(id)}`),
@@ -643,7 +643,7 @@ function suggestModules(hintEl, picker, fromType, toType, { apply, autoApply = t
   showPopup({
     title: "Suggested changes",
     body: el("div", {},
-      el("p", { textContent: `Changing your community type to ${typeLabel} suggests changes to your card’s modules: ${changes}.` }),
+      el("p", { textContent: `Changing your format to ${typeLabel} suggests changes to your card’s modules: ${changes}.` }),
       el("p", { textContent: "Your current modules stay as they are unless you choose to use the suggestion." }),
       el("p", { className: "button-row" }, popUse, popShow, popLater),
     ),
@@ -769,9 +769,9 @@ function firstSetupBlocks() {
 function showSetup(opts) {
   // modules are only written on Continue: until then the card counts as
   // not set up, so a refresh comes back here
-  // a fork starts with its source's modules ticked; a new card with its type's
+  // a fork starts with its source's modules ticked; a new card with its format's
   const fork = editor.card.forkedFrom;
-  const suggested = editor.card.editor?.forkModules || startingModules(editor.defaults, { communityType: editor.card.basics?.type });
+  const suggested = editor.card.editor?.forkModules || startingModules(editor.defaults, { format: editor.card.basics?.format });
   drawSetupPicker([...new Set([...suggested, ...(editor.card.customModules || []).map((m) => m.id)])]);
   // …and a note on what it was given (closable)
   $("setup-fork").hidden = !fork;
@@ -786,7 +786,7 @@ function showSetup(opts) {
   }
   $("setup-modules-hint").replaceChildren();
   setupForm = mountBasics($("setup-basics"), {
-    onTypeChange: (from, to) => suggestModules($("setup-modules-hint"), setupPicker, from, to, {
+    onFormatChange: (from, to) => suggestModules($("setup-modules-hint"), setupPicker, from, to, {
       apply: (next) => {
         setupPicker.set(next);
         refreshSetup();
@@ -973,7 +973,7 @@ function renderModule({ focus = true } = {}) {
     // in the editor the person has already chosen modules, so a type change
     // only ever suggests (with a button); it never changes them by itself
     mountBasics(basicsHost, {
-      onTypeChange: (from, to) => suggestModules(pickerHint, picker, from, to, {
+      onFormatChange: (from, to) => suggestModules(pickerHint, picker, from, to, {
         apply: (next) => { picker.set(next); setModules(next); },
         autoApply: false,
       }),

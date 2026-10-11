@@ -8,7 +8,7 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
   - Staging: staging.crowcards.org (Firebase)
 - Firebase project: `cos-princeton-hci-crow`
 - The team's plan (what's done, in progress and to do, and tasks you can claim): **`TODO.md`**.
-- See `CLAUDE.md` for the architecture, the card's data structure, and how the code is organised.
+- See `DESIGN.md` for the architecture, the card's data structure, and how the code is organised.
 - Questions: ask Sohyeon (the team lead), or write to crowcards@princeton.edu.
 
 ## Getting set up
@@ -18,10 +18,10 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
   - **PLEASE** make sure you work on a branch!!! Right now everything in staging works on the **beta** branch, *not* **main**.
 - **The GCP project `cos-princeton-hci-crow`:** one Google Cloud Platform project, holding everything:
   - Firebase (hosting, the Firestore database, the server functions) and,
-  - once it's set up, the VM for the team's language model (for the UX tasks in `CLAUDE.md`).
+  - once it's set up, the VM for the team's language model (for the UX tasks in `DESIGN.md`).
   - Team lead (Sohyeon) adds your Google account once (Firebase console → Project settings → Users and permissions, or the Google Cloud console's IAM page; it's the same list). "Viewer" to look around (database, logs); "Editor" or higher to deploy. Working on the VM may need a Compute Engine role on top (e.g. to SSH in), granted when the VM exists.
 - **Fonts:** the site's fonts (Argent Pixel CF, Helvetica LT Pro) load from an Adobe Fonts kit tied to the site's domains; Sohyeon owns the kit. If they don't show on your local copy, ask Sohyeon to add the domain you're using (e.g. `localhost`) to the kit.
-- **Optional:** Claude Code, to work on the codebase with Claude from the terminal. It reads `CLAUDE.md` automatically when you start it in the repo. You should read `CLAUDE.md` too: it contains the working style and our preferences for how we add + review code, so that we're not left with an ungodly and hard to debug codebase.
+- **Optional:** Claude Code, to work on the codebase with Claude from the terminal. It reads `CLAUDE.md` automatically when you start it in the repo, which loads `DESIGN.md` (the project's context and working rules). You should read `DESIGN.md` too: it contains the working style and our preferences for how we add + review code, so that we're not left with an ungodly and hard to debug codebase.
 
 ### Install (Windows: inside WSL; macOS: in Terminal, with Homebrew)
 1. **Windows only:** WSL with Ubuntu (`wsl --install` in PowerShell, run as administrator), then do everything below in the Ubuntu terminal, with the project inside WSL's own files (e.g. `~/…`), not under `/mnt/c`.
@@ -61,8 +61,8 @@ The local database starts empty each time. To keep your test cards between runs,
 - This web app has been built with the help of Claude Code. To avoid creating a massively annoying codebase, we follow a few golden rules:
     - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets.
     - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself.
-    - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `CLAUDE.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
-    - After each major phase, we have Claude update `CLAUDE.md` (how things work) and `TODO.md` (the plan). To pick up a task, put your name in its **Who** column in `TODO.md`.
+    - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `DESIGN.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
+    - After each major phase, we have Claude update `DESIGN.md` (how things work) and `TODO.md` (the plan). To pick up a task, put your name in its **Who** column in `TODO.md`.
 - **Never commit keys or credentials,** and never share a card's secret (e.g. in an issue or a chat message): anyone with it can edit that card.
 
 ### What's where

@@ -167,15 +167,16 @@ function renderText() {
 // ── checkbox & radio lists ───────────────────────────────────
 function renderLists(approaches) {
   const suggested = (opt) => (opt.id === "o1" ? { label: "Suggested", notes: ["Because you value *Trust*: a reason, in a sentence."] }
-    : opt.id === "o2" ? { label: "Also fits", quiet: true, notes: ["Suits your size (medium): a reason, in a sentence."] } : null);
+    : opt.id === "o2" ? { label: "See also", quiet: true, notes: ["Suits your size (medium): a reason, in a sentence."] }
+    : opt.id === "o3" ? { label: null, notes: ["Generally not a fit for groups like yours (Family): a reason, in a sentence."] } : null);
   slot("choices").append(
     group("Buttons (short lists), one choice", "choices.js layout \"buttons\": gray, lime on hover, orange when chosen; description on hover", renderChoices({ type: "radio", legend: "Community size", layout: "buttons", clearable: true, selected: "o1", options: opts("Small", "Medium", "Large") }).element),
     group("Buttons, the chosen one's description below", "choices.js layout \"buttons\" + hintBelow (Publish: how much readers see, who can find it)", renderChoices({ type: "radio", legend: "Who can find it", layout: "buttons", hintBelow: true, selected: "o0", options: opts("Unlisted", "Listed") }).element),
     group("Buttons, several choices", "choices.js layout \"buttons\", checkbox (How people join: tiers)", renderChoices({ legend: "How people join", layout: "buttons", selected: ["o0"], options: opts("Open", "Tiered / Probationary", "Restricted / Approvals", "Closed") }).element),
     group("Checkboxes, described", "choices.js (default layout)", renderChoices({ legend: "How people join", hint: "Tick every way.", options: opts("Open access", "Application review", "Invitation only"), selected: ["o0"] }).element),
     group("Radio, described, clearable", "choices.js type radio, clearable", renderChoices({ type: "radio", legend: "Overall approach", options: opts("Open", "Allowlist only", "Allow and block"), selected: "o0", clearable: true }).element),
-    group("With “Suggested” and “Also fits” chips and their reasons", "choices.js badge (recommend.js; quiet: Also fits)", renderChoices({ legend: "Joining options", options: opts("Open access", "Trial period", "Invitation"), badge: suggested,
-      before: [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] and [[~Also fits]] tags come from your answers in Basics.")))] }).element),
+    group("With “Suggested” and “See also” chips and their reasons", "choices.js badge (recommend.js; quiet: See also)", renderChoices({ legend: "Joining options", options: opts("Open access", "Trial period", "Invitation", "Pay to join"), badge: suggested,
+      before: [el("div", { className: "callout callout-small" }, el("p", {}, ...richText("[[Suggested]] and [[~See also]] tags come from your answers in Basics.")))] }).element),
     group("With group tabs", "choices.js groups (Basics' values: value_groups.json)", renderChoices({ legend: "Values", layout: "compact", filterable: true, listClass: "scroll-list", badge: suggested,
       options: opts("Trust", "Consensus", "Open source", "Mentorship").map((o, i) => ({ ...o, group: ["a", "b", "c", "c"][i] })),
       groups: { items: [{ id: "a", label: "How we treat each other", description: "The culture between members." }, { id: "b", label: "How we organize", description: "How power and decisions are shared." }, { id: "c", label: "Practices", description: "Things the community does." }], of: (o) => o.group } }).element),
@@ -281,7 +282,7 @@ function renderNotes() {
         el("li", {}, el("span", { className: "pixel-minus" }), "Do-ocracy (from Moderation)")),
       el("p", { className: "button-row" }, el("button", { type: "button", className: "button button-small", textContent: "Add Federation" }), el("button", { type: "button", className: "link-button", textContent: "Dismiss" })))),
     group("Every pill-like thing", "make.css .chip (lime), .tag (orange), .tag-soft (gray), .tag-add (the strip's +), .card-pill (dark, the card), .choice-flag; docs.css .proto, .badge.*, .cv.*, .sw",
-      el("div", { className: "ft-row" }, chip("Suggested"), chip("Also fits", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Holacracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
+      el("div", { className: "ft-row" }, chip("Suggested"), chip("See also", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Holacracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
         pill("badge yes", "Yes"), pill("badge no", "No"), pill("badge var", "Varies"),
         pill("cv yes", "Yes"), pill("cv often", "Often"), pill("cv some", "Sometimes"), pill("cv rare", "Rare"), pill("cv no", "No"), pill("sw oss", "Open source"), pill("sw", "Proprietary"))),
     group("Pixel icons", "make.css .icon-* (drawn with box-shadow pixels; currentColor)",
@@ -299,7 +300,7 @@ function renderNotes() {
 // ── summaries ────────────────────────────────────────────────
 async function renderSummaries(rulesData) {
   const basics = el("div");
-  renderBasicsSummary(basics, { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: null, keywords: ["gardening"], targetScales: { participatory: 5, transparent: 6, hierarchical: 2 }, values: ["trust"] },
+  renderBasicsSummary(basics, { name: "Garden Club", link: "https://garden.example", type: "hobby", format: "discussion_forum", size: null, keywords: ["gardening"], targetScales: { participatory: 5, transparent: 6, hierarchical: 2 }, values: ["trust"] },
     await loadBasicsData(), { entries: [{ id: "membership", label: "Membership" }, { id: "rules", label: "Rules" }], started: (id) => id === "membership" });
   // the Rules summary is the last part of the Rules form
   const rules = el("div");
@@ -338,7 +339,7 @@ async function renderViewModes() {
   const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
   const card = {
     modules: ["infrastructure", "membership", "rules", "processes", "federation"],
-    basics: { name: "Garden Club", link: "https://garden.example", type: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], targetScales: { participatory: 6, transparent: 5, hierarchical: 2 }, values: ["trust", "inclusivity"] },
+    basics: { name: "Garden Club", link: "https://garden.example", type: "hobby", format: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], targetScales: { participatory: 6, transparent: 5, hierarchical: 2 }, values: ["trust", "inclusivity"] },
     infrastructure: { platform: { platform: "activitypub_client_mastodon", software: "Mastodon", type: "self_hosted_text_primary", structuralModel: "Federation", usesProtocol: "yes", protocol: "ActivityPub", openSource: "yes", selfHosted: "yes" },
       costs: { hostingServers: "often", domain: "rare", adminModLabor: "yes", inPersonEvents: "no" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
     membership: { joining: { tiers: ["open", "tiered_probationary"], ways: [{ id: "mentorship", note: "A buddy for the first month" }], closedNote: null },
@@ -360,7 +361,7 @@ async function renderViewModes() {
   });
   show("full");
   slot("view-modes").append(
-    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js publicView; card-view.js renderCard: the published page, its preview, and Export). The scales use the scores still under review (", el("a", { className: "inline", href: "scales.html", textContent: "scales.html" }), ")."),
+    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js publicView; card-view.js renderCard: the published page, its preview, and Export). The scales use the scores still under review (", el("a", { className: "inline", href: "bench.html", textContent: "the workbench" }), ")."),
     pick.element,
     host,
   );
@@ -388,7 +389,7 @@ await renderPublishing();
 async function renderPublishing() {
   const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
   const card = {
-    id: "crd_sample", updatedAt: "2026-10-08T12:00:00Z", modules: [], basics: { name: "Garden Club", type: "discussion_forum" },
+    id: "crd_sample", updatedAt: "2026-10-08T12:00:00Z", modules: [], basics: { name: "Garden Club", type: "hobby", format: "discussion_forum" },
     attribution: { contributorEmail: "garden@example.org", contributorName: "Sam", showName: true },
     publishing: { status: "published", mode: "misty", listed: false, version: 2, publishedAt: "2026-10-08T12:00:00Z", fingerprint: "(not this card)", credit: { name: "Sam" },
       history: [{ version: 1, publishedAt: "2026-10-01T12:00:00Z", note: null }, { version: 2, publishedAt: "2026-10-08T12:00:00Z", note: "Added our conflict steps" }] },
