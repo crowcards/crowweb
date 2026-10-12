@@ -96,7 +96,7 @@ const SECTIONS = {
       ["Open source", yesNo(p.openSource), "platformDetails"],
       ["Self-hosted", yesNo(p.selfHosted), "platformDetails"],
       ["Structural model", p.structuralModel, "platform"],
-      ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id]).map((c) => `${c.label}: ${labelIn(x.costValues, inf.costs[c.id])}`), "costs"],
+      ["Costs", x.costCategories.filter((c) => inf.costs?.[c.id] === "yes").map((c) => c.label), "costs"],   // the ones paid for
       ["Other tools", (inf.tools || []).filter((t) => t.tool).map((t) => toolLine(t, x)), "tools"],
       ...(inf.toolCategories ? [["Kinds of other tools", labels(x.toolCategories, inf.toolCategories), "toolCategories"]] : []),
       ["Servers", places(inf.locations?.servers), "locations"],
@@ -111,8 +111,9 @@ const SECTIONS = {
       ["How people join", labels(x.tiers, j.tiers), "joiningTiers"],
       ["About being closed", j.closedNote, "closedNote"],
       ["Ways of joining", (j.ways || []).map((w) => withNote(labelIn(x.options, w.id), w.note)), "joiningWays"],
+      ["About joining", j.note, "joiningNote"],
       ["Structure", (m.structure || []).map((s) => withNote(labelIn(x.approaches, s.id), s.note)), "structure"],
-      ["Anything else", m.generalNote, "membershipNote"],
+      ["About how membership is organized", m.generalNote, "membershipNote"],
     ];
   },
   rules: (r = {}, d, card, extras = {}) => {

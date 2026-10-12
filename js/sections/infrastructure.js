@@ -7,9 +7,11 @@
 //
 // Picking a platform from the list fills in the platform fields from
 // platforms.json (and says so in a pop-up); everything stays editable.
-// Setting the platform type fills in the costs (cost_rules.json, plus that
+// Each cost is answered yes or no. Setting the platform type fills in the
+// costs that are usually yes or no for it (cost_rules.json, plus that
 // platform's exceptions in cost_overrides.json) if none are answered yet, or
-// suggests the changes if some are.
+// suggests the changes if some are; under every cost, what's usual shows as a
+// guide ("Usually: often").
 
 import { loadData, loadProtocolItems } from "../data.js";
 import { el, button } from "../dom.js";
@@ -50,7 +52,8 @@ export async function loadInfrastructureData() {
     costCategories: costRules.categories,
     typeCosts: Object.fromEntries(costRules.types.map((t) => [t.id, t.costs])),
     costOverrides: costOverrides.items,
-    costValues: enums.costValues,
+    costValues: enums.costValues,   // the answers: yes / no
+    costGuides: enums.costGuides,   // what's usual (cost_rules.json's words): yes / often / sometimes / rare / no
     tools: tools.items,
     toolCategories: tools.categories,
     places: [
@@ -62,10 +65,15 @@ export async function loadInfrastructureData() {
 }
 
 // platforms.json says true / false / "varies"; cards store "yes" / "no" / "varies"
+
+// the usual costs that can be filled in as answers: those that are always yes or no
+// (often / sometimes / rare stay a guide)
+const DEFINITE = ["yes", "no"];
+const definite = (costs = {}) => Object.fromEntries(Object.entries(costs).filter(([, v]) => DEFINITE.includes(v)));
 const toChoice = (v) => (v === true ? "yes" : v === false ? "no" : v === "varies" ? "varies" : null);
 
-/** A tool's name: a listed tool's label, or what was typed. */
-const toolName = (tool, data) => data.tools.find((x) => x.id === tool)?.label ?? tool;
+/** A tool's name: a listed tool's label, or what was typed (also used by the card). */
+export const toolName = (tool, data) => data.tools.find((x) => x.id === tool)?.label ?? tool;
 /** A tool in one line: "Loomio · Deliberation & decision-making — votes" (also used by Export). */
 export function toolLine(t, data) {
   const category = data.toolCategories.find((c) => c.id === t.category)?.label;
@@ -214,7 +222,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
         }),
         items.length ? el("ul", {}, ...items) : null,
         chosenType ? null : el("p", { className: "field-hint", textContent: "Choose a platform type under Platform when you’re ready." }),
-        costs.filled ? el("p", { textContent: `The costs under Costs were filled in too, from what’s usual for ${name}.` }) : null,
+        costs.filled ? el("p", { textContent: `The costs under Costs were filled in too, from what’s usual for ${name}. Costs that are only sometimes paid are left for you to answer.` }) : null,
         el("p", { className: "button-row" }, ok),
       ),
     });
@@ -246,8 +254,8 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   // what each answer means is said once, above the rows, not in every row
   const costsHint = {
     element: el("div", { className: "field-hint" },
-      el("p", { textContent: "Which of these your community pays for, in money or time." }),
-      el("ul", { className: "cost-values" }, ...data.costValues.map((v) => el("li", {}, el("b", { textContent: v.label }), `: ${v.description.replace(/\.$/, "").toLowerCase()}`))),   // one answer per line
+      el("p", { textContent: "Which of these your community pays for, in money or time. Once you’ve chosen a platform type, each cost says what’s usual for it, as a guide:" }),
+      el("ul", { className: "cost-values" }, ...data.costGuides.filter((v) => !DEFINITE.includes(v.id)).map((v) => el("li", {}, el("b", { textContent: v.label }), `: ${v.description.replace(/\.$/, "").toLowerCase()}`))),   // one guide word per line
     ),
   };
   const costAnswers = data.costValues.map(({ id, label, description }) => ({ id, label, description }));   // (descriptions show on hover)
@@ -261,7 +269,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   });
   const costRows = data.costCategories.map((cat) => ({ id: cat.id, choices: costTable.row(cat.id) }));
 
-  const costLabel = (id) => data.costValues.find((v) => v.id === id)?.label ?? "not answered";
+  const costLabel = (id) => [...data.costValues, ...data.costGuides].find((v) => v.id === id)?.label ?? "not answered";
   const categoryLabel = (id) => data.costCategories.find((c) => c.id === id).label;
 
   // the note above the costs: what they were pre-filled from, and what's
@@ -272,19 +280,26 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   function renderCostsNote() {
     if (!costsBaseline) return costsNote.element.replaceChildren();
     const type = typeLabel(costsBaseline.typeId);
-    const changed = costRows.filter((r) => (costsBaseline.costs[r.id] ?? null) !== r.choices.value())
-      .map((r) => ({ id: r.id, from: costsBaseline.costs[r.id] ?? null, to: r.choices.value() }));
+    const filled = definite(costsBaseline.costs);
+    const changed = costRows.filter((r) => (filled[r.id] ?? null) !== r.choices.value())
+      .map((r) => ({ id: r.id, from: filled[r.id] ?? null, to: r.choices.value() }));
     costsNote.element.replaceChildren(el("div", { className: "callout callout-small" },
       el("p", {}, costsBaseline.platformName
         ? `Pre-filled from your platform, ${costsBaseline.platformName}, which we categorize as ${type}.`
-        : `Pre-filled from the usual costs for ${type} platforms.`),
+        : `Pre-filled from the usual costs for ${type} platforms.`,
+        " Costs that are only sometimes paid are left for you to answer."),
       el("p", {}, changed.length ? `You’ve changed ${changed.length} since:` : "You haven’t changed any yet."),
       // one change per line: what it was pre-filled as → what it is now
       changed.length ? el("ul", { className: "change-list plain-list" }, ...changed.map((d) =>
         el("li", {}, el("b", { textContent: categoryLabel(d.id) }), `: ${costLabel(d.from)} → ${costLabel(d.to)}`))) : null,
     ));
   }
+  /** Under each cost, what's usual for the platform type the costs were filled from. */
+  function renderGuides() {
+    for (const r of costRows) r.choices.guide(costsBaseline?.costs[r.id] ? `Usually: ${costLabel(costsBaseline.costs[r.id]).toLowerCase()}` : null);
+  }
   renderCostsNote();
+  renderGuides();
 
   // ── costs that follow the platform type ───────────────────
   const currentCosts = () => Object.fromEntries(costRows.map((r) => [r.id, r.choices.value()]));
@@ -296,22 +311,25 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   }
 
   /**
-   * After the platform type is set: with no costs answered yet, fill them in
-   * ({ filled: true }); otherwise return the costs that differ ({ diff }).
+   * After the platform type is set: with no costs answered yet, fill in the
+   * ones that are usually yes or no ({ filled: true }); otherwise return
+   * those that differ ({ diff }). The rest are left to answer, with the guide.
    */
   function costsForType(typeId, record) {
     const usual = usualCosts(typeId, record);
+    const sure = definite(usual);
     const now = currentCosts();
-    // remember what the costs are measured against, for the note above them
+    // remember what the costs are measured against, for the note above them and the guides
     costsBaseline = { platformName: record ? which.value().text : null, typeId, costs: usual };
     setPart("editor", { ...getPart("editor"), costsPrefill: costsBaseline });
+    renderGuides();
     if (Object.values(now).every((v) => v == null)) {
-      for (const r of costRows) r.choices.set(usual[r.id] ?? null);
+      for (const r of costRows) r.choices.set(sure[r.id] ?? null);
       renderCostsNote();
       return { filled: true };
     }
     renderCostsNote();
-    return { diff: costRows.filter((r) => (usual[r.id] ?? null) !== now[r.id]).map((r) => ({ id: r.id, from: now[r.id], to: usual[r.id] ?? null })) };
+    return { diff: costRows.filter((r) => sure[r.id] && sure[r.id] !== now[r.id]).map((r) => ({ id: r.id, from: now[r.id], to: sure[r.id] })) };
   }
 
   /** The type was chosen by hand: fill or suggest the costs, saying which. */
@@ -319,7 +337,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
     const costs = costsForType(typeId, record);
     if (costs.filled) {
       onCommit();
-      showPopup({ title: "Costs filled in", message: `We filled in the costs that are usual for ${typeLabel(typeId)} platforms. You can change any of them under Costs.` });
+      showPopup({ title: "Costs filled in", message: `We filled in the costs that are usual for ${typeLabel(typeId)} platforms. Costs that are only sometimes paid are left for you to answer, with what’s usual as a guide. You can change any of them under Costs.` });
     } else if (costs.diff.length) suggestCosts(typeId, costs.diff);
   }
 

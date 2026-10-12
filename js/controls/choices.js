@@ -377,10 +377,12 @@ export function renderChoices({
  *   const t = choiceTable({ legend, hint, rows: [{ id, label }], options: [{ id, label, description }],
  *                           values: { rowId: optionId }, onChange: (rowId, optionId) => {} });
  *   t.row(rowId).value() → optionId | null;  t.row(rowId).set(optionId | null)  (fires nothing)
+ *   t.row(rowId).guide(text | null)   a small gray label just before the row's answers (e.g. "Usually: often")
  */
 export function choiceTable({ legend, legendHidden = false, hint, rows, options, values = {}, none = "Not sure", onChange = () => {} }) {
   const answers = [...options, { id: "", label: none }];   // "" = no answer
   const radios = new Map();   // row id → its radio buttons
+  const guides = new Map();   // row id → its guide line
   const body = el("tbody", {}, ...rows.map((r) => {
     const name = uid("row");
     const cells = answers.map((o) => {
@@ -392,15 +394,17 @@ export function choiceTable({ legend, legendHidden = false, hint, rows, options,
       return { input, cell: el("td", {}, el("div", { className: "choice-buttons" }, el("div", { className: `choice choice-button${o.id ? "" : " choice-button-none"}` }, input, el("label", { htmlFor: id, textContent: o.label }), tip))) };
     });
     radios.set(r.id, cells.map((c) => c.input));
-    return el("tr", {}, el("th", { scope: "row", textContent: r.label }), ...cells.map((c) => c.cell));
+    guides.set(r.id, el("span", { className: "mono-u summary-label", hidden: true }));
+    return el("tr", {}, el("th", { scope: "row", textContent: r.label }), el("td", { className: "choice-guide" }, guides.get(r.id)), ...cells.map((c) => c.cell));
   }));
   // the column headings: shown on narrow screens only (the buttons say their answer)
   const head = el("thead", {}, el("tr", {},
-    el("td"),
+    el("td"), el("td"),   // (the row names and the guides)
     ...answers.map((o) => el("th", { scope: "col", title: o.description || "" }, el("span", { textContent: o.label })))));
   const row = (id) => ({
     value: () => radios.get(id).find((i) => i.checked)?.value || null,
     set: (v) => { for (const i of radios.get(id)) i.checked = v != null && i.value === v; },   // (no answer: nothing selected)
+    guide: (text) => { const g = guides.get(id); g.textContent = text || ""; g.hidden = !text; },
   });
   return {
     element: el("fieldset", { className: "field" },

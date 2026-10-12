@@ -1,6 +1,7 @@
 // The Membership module: how people join (first how open joining is — one or
-// more tiers — then the ways of joining in those tiers), how membership is
-// organized (the community's structure: decision-making approaches), and a note.
+// more tiers — then the ways of joining in those tiers, and a note), and how
+// membership is organized (the community's structure: decision-making
+// approaches, and a note).
 //
 //   const data = await loadMembershipData();
 //   const form = renderMembership(container, card.membership, data, { onInput, onCommit, stateKey });
@@ -96,6 +97,14 @@ export function renderMembership(container, membership = {}, data, { onInput = (
     showIf(joining.element, joiningShown());
   }
   refreshJoining();
+  const aboutJoining = textField({
+    label: "Anything else about joining",
+    hint: "For example: who can invite people, how long a trial lasts, or what new members are asked to do first.",
+    multiline: true,
+    value: joiningSaved.note,
+    onInput,
+    onCommit,
+  });
 
   // the structure: picked approaches as tags above the list, each taking a
   // note on how it works for membership (Processes keeps its own notes per
@@ -125,8 +134,8 @@ export function renderMembership(container, membership = {}, data, { onInput = (
   });
 
   const note = textField({
-    label: "Anything else about membership",
-    hint: "For example: who can invite people, how long a trial lasts, or what happens when someone leaves.",
+    label: "Anything else about how membership is organized",
+    hint: "For example: who holds which roles, how long they serve, or what happens when someone leaves.",
     multiline: true,
     value: membership.generalNote,
     onInput,
@@ -135,10 +144,8 @@ export function renderMembership(container, membership = {}, data, { onInput = (
 
   const section = sectionMaker(stateKey);   // each section folds; closed at first, then as the person left it
   container.replaceChildren(
-    section("joining", "Joining", tiers, closedNote, joining),
-    section("structure", "Structure", structure),
-    el("hr", { className: "pixel-divider" }),
-    el("div", { className: "fields" }, note.element),
+    section("joining", "Joining", tiers, closedNote, joining, aboutJoining),
+    section("structure", "Structure", structure, note),
   );
 
   const closed = () => tiers.value().includes("closed");
@@ -149,6 +156,7 @@ export function renderMembership(container, membership = {}, data, { onInput = (
         tiers: tiers.value(),
         ways: joining.value(),            // [{ id, note }]
         closedNote: closed() ? closedNote.value() : null,
+        note: aboutJoining.value(),
       },
       structure: structure.value(),       // [{ id, note }]
       generalNote: note.value(),

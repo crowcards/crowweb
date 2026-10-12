@@ -132,7 +132,7 @@ function makeEmptyCard(cardId) {
         selfHosted: null,       // "yes" | "no" | "varies" | null
         structuralModel: null,
       },
-      costs: {                  // each: an enums.json costValues id, or null
+      costs: {                  // each: an enums.json costValues id (yes / no), or null
         hostingServers: null,
         mediaStorage: null,
         domain: null,
@@ -158,11 +158,12 @@ function makeEmptyCard(cardId) {
         tiers: [],              // membership_tiers.json ids: how open joining is
         ways: [],               // [{ id, note }]: membership_options.json ids
         closedNote: null,       // when "closed" is one of the tiers: why, since when, …
+        note: null,             // anything else about joining
       },
       // how decisions get made: [{ id, note }], decision_approaches.json ids.
       // One shared list: Processes shows and edits it too (with its own notes).
       structure: [],
-      generalNote: null,
+      generalNote: null,        // anything else about how membership is organized
     },
 
     rules: {
@@ -213,7 +214,7 @@ function makeEmptyCard(cardId) {
 
     // Editor-only state: helps the editor, never shown publicly or exported.
     editor: {
-      costsPrefill: null,       // what Infrastructure's costs were pre-filled from: { platformName, typeId, costs }
+      costsPrefill: null,       // what Infrastructure’s costs were pre-filled from, and their guides: { platformName, typeId, costs (the usual values) }
       structureReviewed: [],    // the structure's ids as last confirmed in Membership (to flag changes from Processes)
       structureLog: [],         // every change to the structure, oldest first: { id, change: "added" | "removed" | "reviewed", from, at }
       dismissedSuggestions: [], // ids of editor suggestions dismissed

@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-04",
-  "note": "Enumerated values used across the schema.",
+  "updatedAt": "2026-10-12",
+  "note": "Enumerated values used across the schema. costValues are a card's answers (yes / no); costGuides are the words cost_rules.json and cost_overrides.json use for what's usual, shown beside the answers as a guide.",
   "communitySize": [
     {
       "id": "small",
@@ -25,6 +25,18 @@
     }
   ],
   "costValues": [
+    {
+      "id": "yes",
+      "label": "Yes",
+      "description": "Your community pays for this, in money or time."
+    },
+    {
+      "id": "no",
+      "label": "No",
+      "description": "Your community doesn't pay for this."
+    }
+  ],
+  "costGuides": [
     {
       "id": "yes",
       "label": "Yes",

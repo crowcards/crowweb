@@ -62,9 +62,10 @@ export const FIELDS = {
   joiningWays: from("misty"),
   joiningWaysNotes: ["full"],
   closedNote: from("misty"),
+  joiningNote: ["full"],                // Membership's note on joining
   structure: from("misty"),             // decision-making approaches (Membership, and the Processes tabs)
   structureNotes: ["full"],
-  membershipNote: ["full"],
+  membershipNote: ["full"],             // Membership's note on how it's organized (membership.generalNote)
   rulesCount: ["minimal"],              // how many rules, in all (fuller views show more)
   rulesByType: ["foggy"],               // for each rule type: how many of its rules were chosen, and custom ones added
   rules: from("misty"),                 // the rules link, covenants, selected rules (with qualifiers and wording), custom rules
@@ -99,9 +100,10 @@ export const FIELD_LABELS = {
   joiningWays: "Ways of joining",
   joiningWaysNotes: "Notes on ways of joining",
   closedNote: "About being closed",
+  joiningNote: "Membership’s note on joining",
   structure: "Decision-making approaches",
   structureNotes: "Notes on decision-making approaches",
-  membershipNote: "Membership’s general note",
+  membershipNote: "Membership’s note on how it’s organized",
   rulesCount: "How many rules",
   rulesByType: "Rules counted by type",
   rules: "Rules",
@@ -149,7 +151,7 @@ const FIELD_GROUPS = {
   rules: "rules", conflictSteps: "conflict steps", channels: "channels",
   federationOverview: "the federation approach", federationSteps: "federation details", federationRest: "federation details",
   customModules: "custom modules",
-  joiningWaysNotes: "notes", structureNotes: "notes", membershipNote: "notes", processNotes: "notes", federationNotes: "notes",
+  joiningWaysNotes: "notes", joiningNote: "notes", structureNotes: "notes", membershipNote: "notes", processNotes: "notes", federationNotes: "notes",
 };
 
 /** Keep these keys of an object (what a mode shows). */
@@ -203,6 +205,7 @@ export function viewCard(card, mode) {
         tiers: j.tiers,
         ...(has("joiningWays") ? { ways: withNotes(j.ways, has("joiningWaysNotes")) } : {}),
         ...(has("closedNote") ? { closedNote: j.closedNote } : {}),
+        ...(has("joiningNote") ? { note: j.note } : {}),
       },
       ...(structure ? { structure } : {}),
       ...(has("membershipNote") ? { generalNote: card.membership?.generalNote } : {}),
