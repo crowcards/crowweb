@@ -215,6 +215,7 @@ function makeEmptyCard(cardId) {
     // Editor-only state: helps the editor, never shown publicly or exported.
     editor: {
       costsPrefill: null,       // what Infrastructure’s costs were pre-filled from, and their guides: { platformName, typeId, costs (the usual values) }
+      filledFromLink: null,     // what "Fill in from this link" filled in: { source (the server), software, at, parts: { <module>: [what] } }, for the notes at the top of modules
       structureReviewed: [],    // the structure's ids as last confirmed in Membership (to flag changes from Processes)
       structureLog: [],         // every change to the structure, oldest first: { id, change: "added" | "removed" | "reviewed", from, at }
       dismissedSuggestions: [], // ids of editor suggestions dismissed

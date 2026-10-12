@@ -21,6 +21,7 @@
 
 import { SECTION_LABELS, logChanges, logReviewed, settledChanges, structureIds, changeStructure } from "./structure.js";
 import { FROM_BASICS } from "./recommend.js";
+import { listText } from "./sections/basics.js";
 
 /** Turn modules on or off, keeping the built-in order (custom modules last). */
 function withModule(card, defaults, id, on) {
@@ -138,7 +139,27 @@ function processesIntro(card) {
   }];
 }
 
-const RULES = [federationForPlatform, structureChangedInProcesses, processesIntro];
+/**
+ * What "Fill in from this link" filled in (js/fill-from-link.js, recorded in
+ * editor.filledFromLink): a note at the top of each module concerned, until
+ * dismissed. Filling in again later (a new time) brings the notes back.
+ */
+function filledFromLink(card) {
+  const f = card.editor?.filledFromLink;
+  if (!f) return [];
+  return Object.entries(f.parts || {}).map(([module, what]) => {
+    const said = listText(what);
+    return {
+      id: `note:filled-from-link:${module}:${f.at}`,
+      module,
+      title: `Filled in from ${f.source}`,
+      message: `${said[0].toUpperCase()}${said.slice(1)} came from what ${f.source} shares publicly. Have a look, and change anything that’s different.`,
+      quiet: true,
+    };
+  });
+}
+
+const RULES = [federationForPlatform, structureChangedInProcesses, processesIntro, filledFromLink];
 
 /** The suggestions that apply to the card now, minus dismissed ones. ctx: { defaults, approachLabel } */
 export function suggestionsFor(card, ctx) {

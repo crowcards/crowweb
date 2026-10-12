@@ -470,6 +470,11 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* set-up's blocks: a Next under each, and what's still needed beside it */
 .setup-next, #setup-finish { gap: 0.25rem 1rem; }
 .setup-next > p, #setup-finish > p { margin: 0; }
+/* set-up starting from a link (basics.js): only the question and the link show, until it's filled in:
+   not the rest of the block (its Next too), nor the blocks after it, even with "Show all fields at once" */
+.is-starting > :not(.setup-start),
+.is-starting ~ *,
+[data-screen="setup"]:has(.is-starting) :is(#setup-modules-block, #setup-finish) { display: none; }
 
 /* repeatable rows (js/controls/rows.js): each entry in a thin box, with a
    pixel × in its corner to remove it */

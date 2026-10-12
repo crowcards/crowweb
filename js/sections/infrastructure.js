@@ -69,8 +69,32 @@ export async function loadInfrastructureData() {
 // the usual costs that can be filled in as answers: those that are always yes or no
 // (often / sometimes / rare stay a guide)
 const DEFINITE = ["yes", "no"];
-const definite = (costs = {}) => Object.fromEntries(Object.entries(costs).filter(([, v]) => DEFINITE.includes(v)));
+export const definite = (costs = {}) => Object.fromEntries(Object.entries(costs).filter(([, v]) => DEFINITE.includes(v)));
 const toChoice = (v) => (v === true ? "yes" : v === false ? "no" : v === "varies" ? "varies" : null);
+const namedProtocol = (r) => (r.protocol && r.protocol !== "None" ? r.protocol : null);
+
+/**
+ * A listed platform's details, as a card stores them (infrastructure.platform,
+ * without the platform itself), for platform type `typeId`. Used by the form
+ * when a platform is picked, and by filling in from a link (js/fill-from-link.js).
+ */
+export function platformFromRecord(r, typeId) {
+  return {
+    type: typeId ?? null,
+    software: r.software,
+    usesProtocol: namedProtocol(r) ? "yes" : "no",
+    protocol: namedProtocol(r),
+    openSource: toChoice(r.openSource),
+    selfHosted: toChoice(r.selfHostable),
+    structuralModel: r.structuralModel,
+  };
+}
+
+/** The usual costs for a platform type, with a listed platform's own exceptions on top. */
+export function usualCosts(data, typeId, record) {
+  const own = record && data.costOverrides.find((o) => o.platform === record.platform && o.software === record.software && o.typeId === typeId);
+  return { ...(data.typeCosts[typeId] || {}), ...own?.overrides };
+}
 
 /** A tool's name: a listed tool's label, or what was typed (also used by the card). */
 export const toolName = (tool, data) => data.tools.find((x) => x.id === tool)?.label ?? tool;
@@ -155,20 +179,19 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   const typeLabel = (id) => data.platformTypes.find((t) => t.id === id)?.label;
   const yesNoLabel = (c) => YES_NO_VARIES.find((o) => o.id === c)?.label;
   const setType = (id) => { type.set(id); type.setHint(typeHint(id)); };
+  // (key: the detail in platformFromRecord's answer)
   const filled = [
-    { label: "Platform type", get: () => type.value(), show: typeLabel, set: setType, from: (r, chosenType) => chosenType },
-    { label: "Software", get: () => software.value(), set: software.set, from: (r) => r.software },
-    { label: "Uses an open protocol", get: () => usesProtocol.value(), show: yesNoLabel,
-      set: (c) => { usesProtocol.set(c); showProtocol(c); }, from: (r) => (namedProtocol(r) ? "yes" : "no") },
+    { key: "type", label: "Platform type", get: () => type.value(), show: typeLabel, set: setType },
+    { key: "software", label: "Software", get: () => software.value(), set: software.set },
+    { key: "usesProtocol", label: "Uses an open protocol", get: () => usesProtocol.value(), show: yesNoLabel,
+      set: (c) => { usesProtocol.set(c); showProtocol(c); } },
     // listed only when there is (or was) a protocol to name
-    { label: "Protocol", get: () => (usesProtocol.value() === "yes" ? protocol.stored() : null), set: protocol.set,
-      from: namedProtocol, optional: true },
-    { label: "Open source", get: () => openSource.value(), show: yesNoLabel, set: openSource.set, from: (r) => toChoice(r.openSource) },
-    { label: "Self-hosted", get: () => selfHosted.value(), show: yesNoLabel, set: selfHosted.set, from: (r) => toChoice(r.selfHostable) },
-    { label: "Structural model", get: () => model.value(), set: model.set, from: (r) => r.structuralModel },
+    { key: "protocol", label: "Protocol", get: () => (usesProtocol.value() === "yes" ? protocol.stored() : null), set: protocol.set, optional: true },
+    { key: "openSource", label: "Open source", get: () => openSource.value(), show: yesNoLabel, set: openSource.set },
+    { key: "selfHosted", label: "Self-hosted", get: () => selfHosted.value(), show: yesNoLabel, set: selfHosted.set },
+    { key: "structuralModel", label: "Structural model", get: () => model.value(), set: model.set },
   ];
   const shown = (f, v) => (v == null ? "—" : (f.show ? f.show(v) : v));
-  function namedProtocol(r) { return r.protocol && r.protocol !== "None" ? r.protocol : null; }
 
   let lastPlatform = platform.platform || null;
   function platformChanged(v) {
@@ -194,7 +217,8 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
    */
   async function prefill(record, name, changing) {
     const chosenType = record.platformTypes.length > 1 ? await askType(record, name) : record.platformTypes[0];
-    const rows = filled.map((f) => ({ f, before: f.get(), after: f.from(record, chosenType) }));
+    const details = platformFromRecord(record, chosenType);
+    const rows = filled.map((f) => ({ f, before: f.get(), after: details[f.key] }));
     for (const r of rows) r.f.set(r.after);
     const costs = chosenType ? costsForType(chosenType, record) : {};
     onCommit();
@@ -304,19 +328,13 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   // ── costs that follow the platform type ───────────────────
   const currentCosts = () => Object.fromEntries(costRows.map((r) => [r.id, r.choices.value()]));
 
-  /** The usual costs for a platform type, with a listed platform's own exceptions on top. */
-  function usualCosts(typeId, record) {
-    const own = record && data.costOverrides.find((o) => o.platform === record.platform && o.software === record.software && o.typeId === typeId);
-    return { ...(data.typeCosts[typeId] || {}), ...own?.overrides };
-  }
-
   /**
    * After the platform type is set: with no costs answered yet, fill in the
    * ones that are usually yes or no ({ filled: true }); otherwise return
    * those that differ ({ diff }). The rest are left to answer, with the guide.
    */
   function costsForType(typeId, record) {
-    const usual = usualCosts(typeId, record);
+    const usual = usualCosts(data, typeId, record);
     const sure = definite(usual);
     const now = currentCosts();
     // remember what the costs are measured against, for the note above them and the guides

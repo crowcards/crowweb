@@ -13,13 +13,14 @@
 // the format changes (so the module picker can re-suggest).
 
 import { loadData, loadValues } from "../data.js";
-import { el, chip } from "../dom.js";
+import { el, chip, button } from "../dom.js";
 import { textField, selectField } from "../controls/fields.js";
-import { renderChoices, scaleField, suggestedFirst } from "../controls/choices.js";
+import { renderChoices, scaleField, suggestedFirst, YES_NO } from "../controls/choices.js";
 import { tagList, tagInput } from "../controls/tags.js";
 import { suggestionsFrom, loadRecommendations } from "../recommend.js";
 import { alikeStrip } from "../controls/alike.js";
 import { MODES } from "../view-modes.js";
+import { fillFromLink, SUPPORTED } from "../fill-from-link.js";
 
 /**
  * The community's description, in two parts (basics.description): what each
@@ -123,7 +124,7 @@ const LEVEL = {
 };
 
 export function renderBasics(container, basics = {}, data, handlers = {}) {
-  const { onInput = () => {}, onCommit = () => {}, onFormatChange = () => {} } = handlers;
+  const { onInput = () => {}, onCommit = () => {}, onFormatChange = () => {}, getPart = () => ({}), setParts = () => {}, setup = false } = handlers;
 
   // ── name and link ─────────────────────────────────────────
   const name = textField({ label: "Community name", value: basics.name, onInput, onCommit });
@@ -133,9 +134,11 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     type: "url",
     placeholder: "https://",
     value: basics.link,
-    onInput,
+    onInput: () => { filler.refresh(); onInput(); },
     onCommit,
   });
+  const linkHome = el("div");   // (the link's usual place, after the size)
+  linkHome.append(link.element);
 
   // ── the community type (the kind of group): its hint describes the chosen one; suggestions follow it ──
   const typeHint = (id) => {
@@ -308,10 +311,64 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
   }
   renderChosen();
 
+  // "Fill in from this link" (js/fill-from-link.js), under the link: what it finds for Basics
+  // goes into these fields; the rest into the other parts of the card
+  const filler = fillFromLink({
+    getLink: () => link.value(),
+    sizes: data.sizes,
+    getPart: (part) => (part === "basics" ? { ...basics, ...collectNow() } : getPart(part)),
+    setParts,
+    onCommit: () => { onCommit(); drawValues(); },
+    onDone: () => { if (startAnswer === "yes") { linkDone = true; layoutStart(); } },   // (filled in, or couldn't read it: the rest comes in)
+    applyBasics: (b) => {
+      if (b.name != null) name.set(b.name);
+      if (b.link != null) link.set(b.link);
+      if (b.size != null) size.set(b.size);
+      if (b.purpose != null) description.find((d) => d.id === "purpose").field.set(b.purpose);
+      if (b.format != null && b.format !== format.value()) {
+        const from = lastFormat;
+        format.set(b.format);
+        format.setHint(formatHint(b.format));
+        lastFormat = b.format;
+        onFormatChange(from, b.format);
+      }
+    },
+  });
+  const fillerBox = el("div", {}, filler.element);   // (hidden as a whole when set-up isn't starting from the link)
+  link.element.append(fillerBox);
+
+  // set-up starts by asking whether to start from a link. Yes: the link and its
+  // button come first, and the rest of this block once it's filled in (or by
+  // hand); No: the rest at once, the link in its usual place, without the
+  // button. (The editor's Basics doesn't ask: the button is always by the link.)
+  let startAnswer = null;
+  let linkDone = false;
+  const fresh = !basics.name && !basics.link;   // (set-up reopened with answers: everything shows)
+  const startQuestion = setup ? scaleField({
+    legend: "Start from your community’s link?",
+    hint: `We can fill in answers from ${listText(SUPPORTED)} servers so far.`,
+    options: YES_NO,
+    layout: "buttons",
+    clearable: false,   // (Yes and No can be switched; there's nothing to clear)
+    onChange: (v) => { startAnswer = v; layoutStart(); },
+  }) : null;
+  const byHand = button("Fill in by hand instead", "link-button", () => { linkDone = true; layoutStart(); });
+  const linkSlot = el("div");   // (where the link goes: first, or in its usual place)
+  const startBox = setup ? el("div", { className: "setup-start" }, startQuestion.element, linkSlot, el("p", {}, byHand)) : null;
+  /** Set-up's first block: the question, then the link first (Yes) or the rest (No). */
+  function layoutStart() {
+    if (!setup) return;
+    const first = startAnswer === "yes";
+    (first ? linkSlot : linkHome).append(link.element);
+    fillerBox.hidden = !first;
+    byHand.parentElement.hidden = !first || linkDone;
+    groups[0].classList.toggle("is-starting", fresh && (startAnswer == null || (first && !linkDone)));
+  }
+
   // three groups, in order (set-up shows them as blocks, one after another;
   // missingBasics says what each still needs)
   const groups = [
-    el("div", { className: "fields" }, name.element, type.element, format.element, size.element, link.element, describe, keywords.element),
+    el("div", { className: "fields" }, ...(setup ? [startBox] : []), name.element, type.element, format.element, size.element, linkHome, describe, keywords.element),
     el("div", { className: "fields" },
       el("h2", { textContent: "Where you’d like to be" }),
       el("p", { textContent: "Three scales describe how a community is run. There’s no right answer: each end suits some communities. Your answers suggest values below, and later, approaches to try. They’re only shown publicly if you share your full card." }),
@@ -319,11 +376,10 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     el("div", { className: "fields" }, valuesHost),
   ];
   container.replaceChildren(...groups);
+  layoutStart();
 
-  return {
-    /** Everything this form edits, merged over what it was given. */
-    collect: () => ({
-      ...basics,
+  function collectNow() {
+    return {
       name: name.value(),
       link: link.value(),
       type: type.value(),
@@ -333,8 +389,12 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
       keywords: keywords.value(),
       targetScales: targetValue(),
       values: values.value(),
-    }),
-    focusFirst: () => name.focus(),
+    };
+  }
+  return {
+    /** Everything this form edits, merged over what it was given. */
+    collect: () => ({ ...basics, ...collectNow() }),
+    focusFirst: () => (groups[0].classList.contains("is-starting") ? startQuestion.element.querySelector("input")?.focus() : name.focus()),
     groups,
   };
 }

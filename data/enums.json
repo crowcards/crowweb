@@ -1,25 +1,29 @@
 {
   "version": "1.0.0",
   "updatedAt": "2026-10-12",
-  "note": "Enumerated values used across the schema. costValues are a card's answers (yes / no); costGuides are the words cost_rules.json and cost_overrides.json use for what's usual, shown beside the answers as a guide.",
+  "note": "Enumerated values used across the schema. communitySize's minMembers: where each size starts, in members (active members, when counted from a server); costValues are a card's answers (yes / no); costGuides are the words cost_rules.json and cost_overrides.json use for what's usual, shown beside the answers as a guide.",
   "communitySize": [
     {
       "id": "small",
+      "minMembers": 1,
       "label": "Small",
       "description": "Under ~50 members"
     },
     {
       "id": "medium",
+      "minMembers": 50,
       "label": "Medium",
       "description": "~50 to a few hundred members"
     },
     {
       "id": "large",
+      "minMembers": 500,
       "label": "Large",
       "description": "A few hundred to a few thousand members"
     },
     {
       "id": "very_large",
+      "minMembers": 5000,
       "label": "Very large",
       "description": "Thousands or more members"
     }

@@ -289,7 +289,7 @@ function startSavers() {
  * change other parts of the card (e.g. Processes editing the shared
  * structure list in membership).
  */
-function mountSection(part, container, data, { onFormatChange, afterChange } = {}) {
+function mountSection(part, container, data, { onFormatChange, afterChange, setup } = {}) {
   const saver = editor.savers[part];
   let form = null;   // (a form can call setPart while it's still being drawn)
   form = SECTIONS[part].render(container, editor.card[part], data, {
@@ -307,6 +307,7 @@ function mountSection(part, container, data, { onFormatChange, afterChange } = {
       refreshSuggestions();
     },
     onFormatChange,
+    setup,   // (Basics: in set-up, it starts by asking whether to start from a link)
     stateKey: `${editor.card.id}:${part}`,
     setAside: asideOf(editor.card.editor?.setAside, part),   // what this module set aside earlier (js/set-aside.js)
     getPart: (other) => editor.card[other] || {},
@@ -794,6 +795,7 @@ function showSetup(opts) {
       popups: false,
     }),
     afterChange: refreshSetup,
+    setup: true,
   });
   setupBlocks = [...setupForm.groups, $("setup-modules-block")].map((element, i, all) => {
     if (i === all.length - 1) return { element, next: null };
