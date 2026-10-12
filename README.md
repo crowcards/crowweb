@@ -42,7 +42,7 @@ cd functions && npm install && cd ..
 firebase use cos-princeton-hci-crow
 firebase emulators:start
 ```
-The site is at http://localhost:5000 (the editor is `/make.html`; it uses the local server and database automatically: `js/api.js` switches to the emulator on localhost), and the emulator dashboard at http://localhost:4000 (where you can see the emulated backend, e.g. the cards in the database). Nothing done locally touches the live site or staging. Stop with Ctrl+C. Pages update on reload as you edit; you can do a hard reload with `Ctrl/Cmd + Shift + R`.
+The site is at http://localhost:5000 (the editor is `/make`; it uses the local server and database automatically: `js/api.js` switches to the emulator on localhost), and the emulator dashboard at http://localhost:4000 (where you can see the emulated backend, e.g. the cards in the database). Nothing done locally touches the live site or staging. Stop with Ctrl+C. Pages update on reload as you edit; you can do a hard reload with `Ctrl/Cmd + Shift + R`.
 
 The local database starts empty each time. To keep your test cards between runs, start with `firebase emulators:start --import=emulator-data --export-on-exit` (`emulator-data/` is yours alone: it isn't committed).
 

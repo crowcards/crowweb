@@ -374,7 +374,7 @@ async function renderViewModes() {
   });
   show("full");
   slot("view-modes").append(
-    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js publicView; card-view.js renderCard: the published page, its preview, and Export). The scales use the scores still under review (", el("a", { className: "inline", href: "bench.html", textContent: "the workbench" }), ")."),
+    el("p", { className: "field-hint" }, "One sample card, as each view mode shows it (view-modes.js publicView; card-view.js renderCard: the published page, its preview, and Export). The scales use the scores still under review (", el("a", { className: "inline", href: "/bench", textContent: "the workbench" }), ")."),
     pick.element,
     host,
   );

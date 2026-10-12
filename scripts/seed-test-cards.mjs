@@ -216,7 +216,7 @@ for (const [name, check, fill, mode = "full"] of varieties) {
   log(c, `Variety, published ${mode === "full" ? "Full" : "Misty"}`, check);
 }
 
-const md = ["# Test cards (local emulator)", "", "Made by scripts/seed-test-cards.mjs. Don't share this file or commit it. Open localhost:5000/make.html → Edit an existing card, and paste the ID and secret. Public pages: localhost:5000/c/<ID>.", ""];
+const md = ["# Test cards (local emulator)", "", "Made by scripts/seed-test-cards.mjs. Don't share this file or commit it. Open localhost:5000/make → Edit an existing card, and paste the ID and secret. Public pages: localhost:5000/c/<ID>.", ""];
 for (const c of out) md.push(`## ${c.name}`, `- ID: \`${c.cardId}\``, `- Secret: \`${c.secret}\``, `- Public page: http://localhost:5000/c/${c.cardId}`, `- What it is: ${c.what}`, `- Check: ${c.check}`, "");
 const file = new URL("../test-cards.local.md", import.meta.url);
 writeFileSync(file, md.join("\n"));

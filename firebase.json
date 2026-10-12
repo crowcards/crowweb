@@ -24,9 +24,12 @@
       "emulator-data/**",
       "*.local.md"
     ],
+    "cleanUrls": true,
     "redirects": [
       { "source": "/docs.html", "destination": "https://docs.crowcards.org/", "type": 301 },
-      { "source": "/platforms.html", "destination": "https://docs.crowcards.org/platforms", "type": 301 }
+      { "source": "/docs", "destination": "https://docs.crowcards.org/", "type": 301 },
+      { "source": "/platforms.html", "destination": "https://docs.crowcards.org/platforms", "type": 301 },
+      { "source": "/platforms", "destination": "https://docs.crowcards.org/platforms", "type": 301 }
     ],
     "rewrites": [
       {

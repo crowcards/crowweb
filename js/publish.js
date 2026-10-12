@@ -123,7 +123,7 @@ export function renderPublish(container, ctx) {
   // in the chosen view mode (js/card-page.js #preview asks for it when it
   // loads; reloading it shows the card as it is then, while this page is open)
   const previewButton = button("Preview", "link-button", () => {
-    const tab = window.open("/card.html#preview", "_blank");
+    const tab = window.open("/card#preview", "_blank");
     const reply = (e) => {
       if (tab.closed) return removeEventListener("message", reply);
       if (e.source !== tab || e.origin !== location.origin || e.data?.type !== "crow-preview-ready") return;

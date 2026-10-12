@@ -7,7 +7,7 @@
 
 export const LAWS_NOTE = "Note that you may be held responsible to regional/local regulation when operating a platform. Broadly, there are a few kinds of laws to keep in mind: copyright/IP, online safety + content moderation, data privacy & security. Given the locations you’ve selected, we’ve collated some landmark laws that you may want to be aware of. This is strictly an informational resource - you should do your due diligence to check for other responsibilities (including laws that may not fall cleanly under the categories we’ve flagged above)!";
 
-export const lawsPageUrl = (codes) => `laws.html?codes=${codes.map(encodeURIComponent).join(",")}`;
+export const lawsPageUrl = (codes) => `/laws?codes=${codes.map(encodeURIComponent).join(",")}`;
 
 /**
  * The laws that apply to any of these places (countries.json codes). A

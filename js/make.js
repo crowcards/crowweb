@@ -160,7 +160,7 @@ $("key-download").addEventListener("click", () => {
     `Card ID: ${cardId}`,
     `Secret:  ${secret}`,
     "",
-    `Edit your card at ${location.origin}/make.html (choose "Edit an existing card").`,
+    `Edit your card at ${location.origin}/make (choose "Edit an existing card").`,
     "",
     "Keep this file private: anyone with both lines can edit the card.",
     "The secret can't be recovered if it's lost.",

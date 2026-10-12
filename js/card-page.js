@@ -39,7 +39,7 @@ function unavailable(message) {
   main.replaceChildren(
     el("h1", { textContent: "This card isn’t available" }),
     el("p", { className: "lede lede-small", textContent: message }),
-    el("p", {}, "You can ", el("a", { className: "inline", href: "/make.html", textContent: "make a card of your own" }), "."),
+    el("p", {}, "You can ", el("a", { className: "inline", href: "/make", textContent: "make a card of your own" }), "."),
   );
 }
 
@@ -148,7 +148,7 @@ function askFork(pub, mode) {
     try {
       const { cardId, secret } = await forkCard(pub.id, pub.version);
       saveSession({ cardId, secret, confirmed: false });   // (not yet confirmed: the editor asks them to save it first)
-      location.href = "/make.html";
+      location.href = "/make";
     } catch (err) {
       console.error(err);
       error.textContent = errorKind(err) === "offline" ? "Can’t reach the server. Check your connection and try again." : "Something went wrong. Please try again.";
