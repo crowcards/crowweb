@@ -175,20 +175,26 @@ What happened:
 All of these are for the team; they're deleted before launch (see TODO.md).
 
 - **`bench.html`**, the workbench, served by the local emulator at localhost:5000/bench.html (see `README.md`). Its tabs:
-  - **What to review:** counts from the files.
-  - **Benchmarks:** each example community and how it scores.
-  - **Tuning:** the settings compared on both sets, every wrong chip and every miss, with what held it back.
-  - **Type fit:** each community type's marks, with an "Approve this type" button.
-  - **Positions, Value links, Size fit, Value groups:** the other datasheets.
-  - **Try it:** answers you can type in, every score broken down, and the weights to play with.
-- **`js/bench.js`:** the benchmark scoring, shared by the workbench and the scripts.
-- **`node scripts/tune-recs.mjs`:** searches the cut-offs on the benchmarks only (`--weights` tries the weights too, for comparison) and writes `data/tuning_results.json`. It never changes the editor.
+  - **Log:** what was worked on and approved, one line each (`data/workbench_log.json`, edited by hand).
+  - **Benchmarks:** each example community (the 18 benchmarks, or the 10 held-out) and how it scores.
+  - **Fit:** the community type marks (with an "Approve this type" button and a check against the examples), the format tables and size fit.
+  - **Positions, Value scores, Value word lists:** the other datasheets.
+  - **Review cases:** the drafted communities to rate (part C), with each rater's ratings kept in their browser and downloaded as a file; loading several raters' files shows what's most often wrong, and whether the editor still suggests it.
+  - **Try it:** start from any example or review case, or a file of your own, and see every score broken down.
+- **`js/bench.js`:** the benchmark scoring, used by the workbench and loadable in Node.
 - **`node scripts/review.mjs approve <community type>`:** marks a community type and its marks accepted. `terms <value>|all` takes a value's proposed word list.
 - **`node scripts/make-value-terms.mjs`:** proposes and measures word lists.
 - **`node scripts/seed-test-cards.mjs`:** test cards on the local emulator, for checking by hand.
 - **`COUNT_PROPOSED`** (in `js/view-modes.js`): while it's on, entries still in review count. It's turned off before launch.
 
-A useful way to test without a browser: the scripts load the editor's own code in Node by serving `data/` to it from disk (see the top of `scripts/tune-recs.mjs`).
+A useful way to test without a browser: load the editor's own code in Node, serving `data/` to it from disk:
+```js
+import { readFileSync } from "node:fs";   // (a script saved in crowweb/)
+globalThis.fetch = async (url) => ({ ok: true, json: async () => JSON.parse(readFileSync(`.${url}`, "utf8")) });   // run from crowweb/
+const { loadRecommendations, TUNING } = await import("./js/recommend.js");
+const { benchmarkScores, benchTotals, benchLine } = await import("./js/bench.js");
+```
+There's no tuning tool any more: searching the numbers overfitted (part 2, "Tuning"). A new way to tune, from the students' ratings, is for whoever takes it on.
 
 ---
 
@@ -212,9 +218,9 @@ A useful way to test without a browser: the scripts load the editor's own code i
 5. **Help fill in a card from a community's link** (its about page and rules), together with the planned pre-filling for Bonfire, Mastodon and Acorn.
 
 **A suggested first milestone, before any server work:** an offline comparison.
-1. Run a candidate model over the descriptions of the drafted test communities (the 28 here, then the 300 described below).
+1. Run a candidate model over the descriptions of the 28 example communities, then of the drafted set B (described below), where the values it suggests can be rated.
 2. Turn its output into the same evidence the word lists produce.
-3. Score it with `js/bench.js` against the word lists, on examples never used for tuning.
+3. Score it with `js/bench.js` against the word lists on the 28, and compare the two by rating on set B.
 
 That tells us whether the model is worth its cost before anything is wired in, and which model size is enough.
 
@@ -230,13 +236,15 @@ Watch for contradictions between datasheets: the same idea can be counted twice,
 
 ### C. Better examples to test on
 
-- **300 drafted communities** (by web Claude, from instructions in the same shape as the benchmarks, spread across the community types and formats, a third of them hard cases). Work through them 25 at a time:
-  1. check that each one rings true and that its choices are right
-  2. measure the suggestions on the batch
-  3. trace the misses to datasheet entries
-  4. propose fixes
+- **300 drafted communities, for people to rate** (by web Claude; the instructions are kept with the team, not in the repo). Unlike the 28 examples, these have no answer key. They were written in two steps, so the tool's vocabulary doesn't leak into them:
+  1. the communities first, in their own words, without seeing any of our lists: a mix of kinds of group, places and sizes; a quarter a single line, half a short paragraph, a quarter detailed (history, rules, a recent problem); a third tricky
+  2. then the set-up answers, picked from our menus as a member would: community type, format, size, the scales and, in set A, the values
 
-  Keep some batches aside, never looked at during fixing, for the final check.
+  Two sets:
+  - **Set A (200), set-up with values:** rate the suggested approaches.
+  - **Set B (100), set-up without values:** rate the suggested values.
+
+  Students rate each case's suggestions: are they reasonable for this community, and is any of them wrong? Work through them 25 at a time, trace the problems to datasheet entries, and propose fixes. Keep some batches aside, never looked at during fixing, for the final check. Rate them in the workbench's Review cases tab: each rater downloads their ratings as a file into `ratings/` (in the repo, not deployed), and loading everyone's files there shows what's most often wrong. The cases go in `data/review_cases.json`.
 - **15–30 real communities:** their own about text and rules (with permission, or public and quoted briefly), their community type, format and size, and ideally what their members or moderators would choose. Measure on them **without** tuning to them: that's the honest number.
 
 ### D. Open questions and smaller tasks

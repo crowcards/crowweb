@@ -150,7 +150,7 @@
       <li><b>Suggested</b> tags come from your answers in Basics: where you'd like to be on the three scales, your values and your size. Up to five options per list are marked, each with the reasons (including anything that counts against it).</li>
       <li><b>More like this / Try something new.</b> When you select an approach or a value, a row under your choices offers similar ones, and a few different ones to consider; click one to add it.</li>
       <li><b>Suggestions</b> appear at the top of a module when something you entered elsewhere affects it, e.g. choosing a federated platform suggests the Federation module. If one appears out of sight, a small "New suggestion" notice points to it.</li>
-      <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are usual for that kind of platform. Change anything that's different for you.</li>
+      <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are always or never paid on that kind of platform. Costs that are only sometimes paid are left for you to answer, with what's usual shown under each as a guide. Change anything that's different for you.</li>
       <li><b>Notes on what you choose.</b> Your choices show as tags; click one to add a note about how it works in your community. Tags with a note get a small asterisk.</li>
       <li><b>Changing your mind is safe.</b> If you unselect something, change a Yes to a No, or switch a field to another kind, what you'd entered for it is set aside rather than lost: switch back, even another day, and it's there again. Set-aside answers aren't part of your Card or its exports.</li>
       <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
@@ -201,6 +201,8 @@
       <li>A fuller, reviewed list of laws to know for each place.</li>
       <li>Integrating CROW Cards into existing platform software as extensions.</li>
     </ul>
+
+    <p>You can explore more at our <a href="https://github.com/crowcards/crowweb/" target="_blank">Git repo</a>; see in particular the TODO.md for the roadmap and tasks being worked on. You can also look at the README to understand how to contribute.</p>
   </section>
 
   <!--Platforms-->
@@ -412,8 +414,8 @@
 
     <section id="ref-cost-values">
       <h3>Cost values</h3>
-      <p>Cost columns use a five-point scale. All values reflect what a community organizer or operator typically pays — not the platform company.</p>
-      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="costValues">
+      <p>On a card, each cost is answered Yes or No: whether your community pays for it, in money or time. What's usual for each kind of platform uses a five-point scale, and the editor shows it under each cost as a guide. All values reflect what a community organizer or operator typically pays — not the platform company.</p>
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="costGuides">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
         <tbody>
         </tbody>
