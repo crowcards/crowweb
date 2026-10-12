@@ -443,7 +443,7 @@ function rate(c, change) {
 const reviewCases = reviewFile?.communities || [];
 const setSel = el("select", { id: "tr-review-set" }, el("option", { value: "A", textContent: "Set A: rate the approaches" }), el("option", { value: "B", textContent: "Set B: rate the values" }));
 const batchSel = el("select", { id: "tr-review-batch" });
-const raterIn = el("input", { type: "text", id: "tr-rater", value: mine.rater, placeholder: "Your name" });
+const raterIn = el("input", { type: "text", id: "tr-rater", value: mine.rater, placeholder: "Your initials" });   // (initials, not names: the files go in the public repo)
 const status = el("span", { className: "field-hint" });
 const casesBox = el("div", { className: "tr-bench" });
 const inSet = () => reviewCases.filter((c) => c.set === setSel.value);
@@ -499,7 +499,7 @@ function renderCases() {
   renderReviewStatus();
 }
 async function downloadRatings() {
-  if (!mine.rater.trim()) { status.textContent = "Add your name first, so your ratings can be told apart."; raterIn.focus(); return; }
+  if (!mine.rater.trim()) { status.textContent = "Add your initials first, so your ratings can be told apart."; raterIn.focus(); return; }
   const today = new Date().toISOString().slice(0, 10);
   const slug = mine.rater.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-");
   const url = URL.createObjectURL(new Blob([JSON.stringify({ rater: mine.rater.trim(), downloadedAt: today, cases: mine.cases }, null, 1)], { type: "application/json" }));

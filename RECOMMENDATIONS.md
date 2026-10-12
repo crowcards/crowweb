@@ -244,7 +244,7 @@ Watch for contradictions between datasheets: the same idea can be counted twice,
   - **Set A (200), set-up with values:** rate the suggested approaches.
   - **Set B (100), set-up without values:** rate the suggested values.
 
-  Students rate each case's suggestions: are they reasonable for this community, and is any of them wrong? Work through them 25 at a time, trace the problems to datasheet entries, and propose fixes. Keep some batches aside, never looked at during fixing, for the final check. Rate them in the workbench's Review cases tab: each rater downloads their ratings as a file into `ratings/` (in the repo, not deployed), and loading everyone's files there shows what's most often wrong. The cases go in `data/review_cases.json`.
+  Students rate each case's suggestions: are they reasonable for this community, and is any of them wrong? Work through them 25 at a time, trace the problems to datasheet entries, and propose fixes. Keep some batches aside, never looked at during fixing, for the final check. Rate them in the workbench's Review cases tab: each rater, going by their initials, downloads their ratings as a file into `ratings/` (in the repo, not deployed), and loading everyone's files there shows what's most often wrong. The cases go in `data/review_cases.json`.
 - **15–30 real communities:** their own about text and rules (with permission, or public and quoted briefly), their community type, format and size, and ideally what their members or moderators would choose. Measure on them **without** tuning to them: that's the honest number.
 
 ### D. Open questions and smaller tasks
