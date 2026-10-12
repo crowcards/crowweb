@@ -46,20 +46,15 @@ The phases and major pieces of work, in order. We launch without the Library (Ph
 | What it covers | Status | Note |
 |---|---|---|
 | For Bonfire, Mastodon and Acorn (Blacksky): a community's link fills in what it can (name, type, size, keywords, description, rules, platform and costs), with a note at the top of each module on what was filled in and what's left. Needs Acorn in the datasheets. | In progress | Mastodon done 2026-10-12 (`js/fill-from-link.js`, `js/fill-from-link/mastodon.js`). Bonfire: ask Ivan and Mayel what a server shares publicly. Acorn: waiting on the Blacksky team. Released as each is ready. |
-
-#### Before launch
-
-| Task | Status | Who |
-|---|---|---|
-| App Check, so only the CROW site can use the server; and limits on how often cards can be made, forked or reported | To do | |
-| Restrict the Firebase browser key to our own sites (Google Cloud console → APIs & Services → Credentials) | To do | |
-| Security headers for the site (in `firebase.json`) | To do | |
+| App Check, so only the CROW site can use the server; and limits on how often cards can be made, forked or reported | In progress | Plan proposed 2026-10-12: App Check with reCAPTCHA Enterprise (the site gets a token; every function refuses calls without one; rolled out in two steps: site first, then enforced), and per-address limits on creating, forking and reporting (counts kept under a one-way hash of the address, deleted after a day). Sohyeon: the reCAPTCHA key and App Check registration in the console. |
+| Restrict the Firebase browser key to our own sites (Google Cloud console → APIs & Services → Credentials) | In progress | Plan proposed 2026-10-12: limit it to our addresses (crowcards.org, staging, the Firebase defaults, localhost for the emulator), then to the APIs it uses, once the console shows which. Sohyeon, in the console, after App Check is in. |
+| Security headers for the site (in `firebase.json`) | In progress | Plan proposed 2026-10-12: HSTS, nosniff, referrer policy, no framing, a permissions policy, and a content security policy (what the pages may load: our files, the Firebase SDK, Adobe Fonts, reCAPTCHA; any https server for Fill in from this link), first in report-only mode on staging, then enforced; the docs site too. |
 | The reviewed `laws.json` (Prishaa's datasheet replaces the placeholder) | To do | |
 | An accessibility review | To do | |
 | Switch crowcards.org from GitHub Pages to Firebase | To do | |
 | Docs site at launch: point its links at the app's real address (`docs-site/site.json` `appUrl`: staging → https://crowcards.org), rebuild and deploy it | To do | |
 | Email the team about new reports (a function run on each new `reports` document; needs an email service chosen) | To do | |
-| Delete the workbench: `bench.html`, `js/workbench.js` (its page script), `js/bench.js`, `data/workbench_log.json`, `data/review_cases.json`, `data/value_terms_proposed.json` (the word-list proposals, shown in its Value word lists tab). Decide whether the benchmark files and review scripts stay for the team: `make-value-terms.mjs` would then write its proposals outside `data/`, so they aren't deployed | To do | |
+| Delete/remove the workbench from deployed site: `bench.html`, `js/workbench.js` (its page script), `js/bench.js`, `data/workbench_log.json`, `data/review_cases.json`, `data/value_terms_proposed.json` (the word-list proposals, shown in its Value word lists tab). Decide whether the benchmark files and review scripts stay for the team: `make-value-terms.mjs` would then write its proposals outside `data/`, so they aren't deployed | To do | |
 | Once the drafts are reviewed: suggestions use accepted scores, links and size fits only (`COUNT_PROPOSED = false` in `js/view-modes.js`; it also covers previews and published cards' scales) | To do | |
 | Move docs to docs.crowcards.org | Done | A separate Firebase site (`crowcards-docs`) built from `docs-site/`; the app redirects its old docs addresses there. |
 
