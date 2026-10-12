@@ -980,14 +980,14 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* ── the card (js/card-view.js): one summary box. The top (name, kinds,
    places), the description, tags and values, then each module in a light
    outline (a summary box in the line color); notes on pixel asterisk badges ── */
-.card-view { padding: 1.5rem 1.5rem 1.25rem; font-size: 0.8rem; }   /* one small size for everything but the headings: between --fs-xs (its labels) and --fs-s */
+.card-view { container-type: inline-size; padding: 1.5rem 1.5rem 1.25rem; font-size: 0.8rem; }   /* one small size for everything but the headings: between --fs-xs (its labels) and --fs-s */
 /* tags, lists and lines have no margins of their own in the card: their container
    spaces them (this rule comes before those spacings, and is no stronger, so they win) */
 .card-view :where(.tags, dl, p, ul) { margin: 0; }
 .card-view > * + * { margin-top: 1rem; }
 
 /* the top: the name and TYPE • FORMAT • SIZE on the left, the places on the right */
-.card-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.75rem 2rem; }
+.card-top { display: flex; flex-direction: column; gap: 0.75rem; }
 .card-title a { color: inherit; font: inherit; text-transform: none; letter-spacing: normal; text-decoration: none; background: none; }
 .card-title a:is(:hover, :focus-visible) { color: var(--accent); }   /* (black → orange, like the card's other hovers) */
 .card-title > :is(h1, h2, h3) { margin: 0; color: var(--ink); font-style: normal; }   /* (upright and black, like the modules' headings) */
@@ -995,10 +995,17 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* a pixel dot between things on one line (the kinds, the platform's flags) */
 .card-sep { display: inline-block; width: 6px; height: 6px; margin: 0 0.6rem; background: currentColor; vertical-align: 0.15em; }
 .card-places { display: flex; gap: 0.5rem; align-items: flex-start; }
-.card-places > .px-icon { width: 24px; height: 24px; margin-top: calc((1lh - 1em) / 2); }   /* (the pin, 1.5×, its top level with the first place's letters) */
-.card-places li { width: fit-content; }
-.card-places li + li { margin-top: 0.15rem; }
-.card-places .choice-tip { left: auto; right: 0; }   /* (at the right edge: the bubble opens leftward) */
+.card-places > .px-icon { flex: none; margin-top: calc(0.5lh - 8px); }   /* (under the name: the pin at 1×, centered on the line) */
+.card-places li { display: inline; }   /* (under the name: one line, with commas) */
+.card-places li:not(:last-child)::after { content: ", "; color: var(--ink); }
+@container (width >= 36rem) {   /* (room for both: the places on the right, one under another) */
+  .card-top { flex-direction: row; justify-content: space-between; align-items: flex-start; gap: 2rem; }
+  .card-places > .px-icon { width: 24px; height: 24px; margin-top: calc((1lh - 1em) / 2); }   /* (the pin, 1.5×, its top level with the first place's letters) */
+  .card-places li { display: block; width: fit-content; }
+  .card-places li:not(:last-child)::after { content: none; }
+  .card-places li + li { margin-top: 0.15rem; }
+  .card-places .choice-tip { left: auto; right: 0; }   /* (at the right edge: the bubble opens leftward) */
+}
 
 /* the description: a tinted box; a long one cut to a few lines, the pixel "…" to read it whole */
 .card-description { --px: 4px; position: relative; padding: 0.75rem 1rem; background: var(--tint-strong); font-size: var(--fs-s); }
