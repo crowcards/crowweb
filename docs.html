@@ -52,71 +52,85 @@
     <li><a href="#using-the-editor">Using the editor</a></li>
     <li><a href="#publishing">Publishing</a></li>
     <li><a href="#coming-soon">Coming soon</a></li>
-    <li><a href="#platforms">Platforms</a>
-      <ul class="sub">
-        <li><a href="#by-format">By format</a>
-          <ul class="sub">
-            <li><a href="#chat-group">Chat group</a></li>
-            <li><a href="#discussion-forum">Discussion forum</a></li>
-            <li><a href="#listserv-email">Listserv / email</a></li>
-            <li><a href="#social-network">Social network / media</a></li>
-            <li><a href="#peer-production">Peer production</a></li>
-            <li><a href="#team">Team</a></li>
-          </ul>
-        </li>
-        <li><a href="#platform-types">Platform types</a></li>
-        <li><a href="#cost-logic">Expected costs</a></li>
-      </ul>
-    </li>
+    <li><a href="platforms.html">Choosing a platform ↗</a></li>
     <li><a href="#reference">Reference</a>
       <ul class="sub">
-        <li><a href="#ref-columns">Column definitions</a></li>
-        <li><a href="#ref-community-types">Community types</a></li>
-        <li><a href="#ref-formats">Formats</a></li>
-        <li><a href="#ref-models">Structural models</a></li>
-        <li><a href="#ref-protocols">Protocol generics</a></li>
-        <li><a href="#ref-osi">Open source (OSI)</a></li>
-        <li><a href="#ref-cost-values">Cost values</a></li>
-        <li><a href="#ref-overrides">Platform overrides</a></li>
-        <li><a href="#ref-values">Values</a></li>
-        <li><a href="#ref-membership">Membership options</a></li>
-        <li><a href="#ref-decision-approaches">Decision approaches</a></li>
-        <li><a href="#ref-conflict-management">Conflict management</a></li>
-        <li><a href="#ref-tools">Governance tools</a></li>
-        <li><a href="#ref-covenants">Covenants</a></li>
-        <li><a href="#ref-rule-schema">Rule schema</a></li>
-        <li><a href="#ref-federation-lists">Federation lists &amp; tools</a></li>
-        <li><a href="#ref-enum-community-size">Community size</a></li>
-        <li><a href="#ref-enum-federation-approach">Federation approach</a></li>
-        <li><a href="#ref-enum-federation-ladder">Response ladder</a></li>
-        <li><a href="#ref-enum-channels">Communication channels</a></li>
+        <li><a href="#communities">Communities</a>
+          <ul class="sub">
+            <li><a href="#ref-community-types">Community types</a></li>
+            <li><a href="#ref-formats">Formats</a></li>
+            <li><a href="#ref-sizes">Sizes</a></li>
+          </ul>
+        </li>
+        <li><a href="#values">Values</a></li>
+        <li><a href="#platforms">Platforms</a>
+          <ul class="sub">
+            <li><a href="#ref-platform-columns">What we label</a></li>
+            <li><a href="#ref-osi">Open source (OSI)</a></li>
+            <li><a href="#ref-protocols">Protocol generics</a></li>
+            <li><a href="#ref-platform-types">Platform types</a></li>
+            <li><a href="#ref-models">Structural models</a></li>
+            <li><a href="#ref-costs">Expected costs</a></li>
+          </ul>
+        </li>
+        <li><a href="#other-tools">Other tools</a>
+          <ul class="sub">
+            <li><a href="#ref-tools">Governance tools</a></li>
+            <li><a href="#ref-channels">Communication channels</a></li>
+          </ul>
+        </li>
+        <li><a href="#membership">Membership</a>
+          <ul class="sub">
+            <li><a href="#ref-joining">Joining</a></li>
+            <li><a href="#ref-structure">Structure: the three scales</a></li>
+          </ul>
+        </li>
+        <li><a href="#rules">Rules</a>
+          <ul class="sub">
+            <li><a href="#ref-covenants">Covenants</a></li>
+            <li><a href="#ref-rule-schema">Rule schema</a></li>
+          </ul>
+        </li>
+        <li><a href="#processes">Processes</a>
+          <ul class="sub">
+            <li><a href="#ref-decision-approaches">Decision-making</a></li>
+            <li><a href="#ref-conflict-management">Conflict management</a></li>
+          </ul>
+        </li>
+        <li><a href="#federation">Federation</a>
+          <ul class="sub">
+            <li><a href="#ref-federation-approach">Approach</a></li>
+            <li><a href="#ref-federation-ladder">Response ladder</a></li>
+            <li><a href="#ref-federation-lists">Lists &amp; tools</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
   </div>
 </nav>
 
-<!-- ── main content ──────────────────────────────────────────────── -->
+<!-- ── main content: guides, then the reference (all open to start);
+     each section folds (js/docs-page.js, data-fold) ── -->
 <main class="docs-body sidebar-main" id="main">
 
   <h1>Documentation</h1>
   <p class="lede lede-small">
-    Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. The information here may also be useful for community organizers choosing where and how to build an online space.
+    Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. Choosing where to build your community's online space? See <a class="inline" href="platforms.html">Choosing a platform</a>.
   </p>
 
-  <section id="getting-started">
-    <h2>Getting Started</h2>
-    <p>The MAKE feature assumes you've already set up (or at least selected) a system for your community to sit within. If you haven't, you may consider perusing the <a href="#platforms">platforms</a> section, which provides an overview of some common systems communities have used, alongside information we think is useful (because it can shape how much autonomy or power your community has!): whether the software is open source, whether you can host an instance of it yourself, what structural model it follows, and what costs you should expect.</p>
+  <section id="getting-started" data-fold="open">
+    <h2>Getting started</h2>
+    <p>The MAKE feature assumes you've already set up (or at least selected) a system for your community to sit within. If you haven't, have a look at <a class="inline" href="platforms.html">Choosing a platform</a>: an overview of some common systems communities use, alongside what we think is useful to know (because it can shape how much autonomy or power your community has!): whether the software is open source, whether you can host an instance of it yourself, what structural model it follows, and what costs you should expect.</p>
 
     <p>By <b>community</b>, we take a pretty broad view: a group that engages in and enforces some kind of collective decision-making, has a shared (digital) space, has boundaries for membership, and some kind of shared purpose. However, this also excludes some informal or cultural communities we often colloquially refer to, e.g., a distinct subset of users on Bluesky. This is not to say those groups can't use the CROW Card Maker! We presume that there just wouldn't be a clear place to post the Card itself, nor clear mechanisms to enforce the values and practices that are stated on it.</p>
 
     <div class="callout">
-      <p class="mono-u">Examples.</p> 
+      <p class="mono-u">Examples.</p>
       <p>A Reddit subreddit qualifies: moderators set rules, and the community experiences them. A Facebook Group qualifies too, but note that Facebook can override or dissolve it unilaterally, which limits sovereignty. Likewise, Bonfire instances and other groups on community-oriented platform software generally count as communities (and in the case of Bonfire, some features may even result in some nested communities).</p>
       <p>A TikTok account or just a social media feed does not qualify: there is no community governance surface, only an audience and an algorithm.</p>
       <p>Some emergent systems also create some interesting new cases of online community: labeling services like Blacksky (built on AT Protocol) govern a <em>normative filter</em>, deciding whose content is visible to people who opt in, which is a real form of collective decision-making (but not for a shared venue in the traditional sense).</p>
     </div>
-
 
     <p>Getting started is simple. You can create a new Card by going to <a href="make.html" target="_blank">MAKE</a> and entering some <b>basic</b> information about your community:</p>
     <ul>
@@ -126,8 +140,8 @@
       <li><span class="mono">size</span> and <span class="mono">link</span></li>
       <li>a short description: its <span class="mono">purpose</span> and its <span class="mono">culture</span></li>
       <li><span class="mono">keywords</span> - we recommend giving at least three</li>
-      <li>where you'd like your community to be on three scales (from 1 to 7): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span>. Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
-      <li><span class="mono">values</span> - up to five; some are suggested, from your community type, your description and keywords, and where you'd like to be</li>
+      <li>where you'd like your community to be on three scales (from 1 to 7): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span> (see <a class="inline" href="#ref-structure">the three scales</a>). Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
+      <li><span class="mono">values</span> - up to five; some are suggested, from your community type, format, description and keywords, and where you'd like to be</li>
     </ul>
     <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
 
@@ -141,16 +155,16 @@
     <p>We do run workshops to help communities fill out the CROW Card. Reach out!</p>
   </section>
 
-  <section id="using-the-editor">
+  <section id="using-the-editor" data-fold="open">
     <h2>Using the editor</h2>
     <p>A few things that work the same way throughout the CROW Card Maker:</p>
     <ul>
       <li><b>Saving is automatic.</b> Your answers save as you go; the status in the sidebar says when they last did. Save saves right away.</li>
       <li><b>Modules can be switched on and off</b> under Basics → Modules. Switching one off hides it, but keeps what you've filled in, in case you switch it back on.</li>
-      <li><b>Suggested</b> tags come from your answers in Basics: where you'd like to be on the three scales, your values and your size. Up to five options per list are marked, each with the reasons (including anything that counts against it).</li>
+      <li><b>Suggested</b> and <b>See also</b> chips mark values and approaches that may suit your community, from what you said in Basics: its community type, format, description and keywords, where you'd like to be on the three scales, its size, and the values you selected. Each says why, including anything that counts against it. At most five values are Suggested. A few options say why they're generally <b>not a fit</b> for groups like yours. Nothing is ever selected for you.</li>
       <li><b>More like this / Try something new.</b> When you select an approach or a value, a row under your choices offers similar ones, and a few different ones to consider; click one to add it.</li>
       <li><b>Suggestions</b> appear at the top of a module when something you entered elsewhere affects it, e.g. choosing a federated platform suggests the Federation module. If one appears out of sight, a small "New suggestion" notice points to it.</li>
-      <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are always or never paid on that kind of platform. Costs that are only sometimes paid are left for you to answer, with what's usual shown under each as a guide. Change anything that's different for you.</li>
+      <li><b>Pre-filling.</b> Choosing a platform you know fills in its details and the costs that are always or never paid on that kind of platform. Costs that are only sometimes paid are left for you to answer, with what's usual shown beside each as a guide. Change anything that's different for you.</li>
       <li><b>Notes on what you choose.</b> Your choices show as tags; click one to add a note about how it works in your community. Tags with a note get a small asterisk.</li>
       <li><b>Changing your mind is safe.</b> If you unselect something, change a Yes to a No, or switch a field to another kind, what you'd entered for it is set aside rather than lost: switch back, even another day, and it's there again. Set-aside answers aren't part of your Card or its exports.</li>
       <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
@@ -163,10 +177,10 @@
     </ul>
   </section>
 
-  <section id="publishing">
+  <section id="publishing" data-fold="open">
     <h2>Publishing</h2>
     <p>On the Export page you can publish your Card at a link to share. Your Card stays a private draft: readers see the version you published, until you publish your edits as a new version. You choose how much readers see, and who can find it, and you can change either at any time without publishing again.</p>
-    <h3>How much readers see</h3>
+    <h3 id="view-modes">How much readers see</h3>
     <table class="table" data-view-modes>
       <thead><tr><th>View</th><th>What readers see</th><th>Can be used as a starting point</th></tr></thead>
       <tbody>
@@ -174,24 +188,34 @@
     </table>
     <p>Part by part:</p>
     <table class="table" data-view-fields></table>
-    <p>On a published Card, <b>Not shared</b> marks what its view leaves out, and <b>N/A</b> what the community hasn't filled in. What a view leaves out isn't just hidden: it isn't sent to readers at all. Earlier versions are shown in the same view.</p>
-    <h3>Who can find it</h3>
+    <p>What a view leaves out isn't just hidden: it isn't sent to readers at all. Earlier versions are shown in the same view.</p>
+    <h3 id="finding">Who can find it</h3>
     <ul>
       <li><b>Unlisted:</b> only people you give the link to can open it.</li>
       <li><b>Listed:</b> it will also appear in the <a href="library.html">Library</a>, for anyone to find. The Library is coming soon: until then, listed Cards can also only be opened by link.</li>
     </ul>
-    <h3>Contact and credit</h3>
+    <h3 id="contact">Contact and credit</h3>
     <p>Publishing needs a contact email. Only the CROW team sees it, to contact you about your Card; it's never shown publicly. Your name and organization are optional, and shown on the published Card only if you select them.</p>
-    <h3>Versions and unpublishing</h3>
+    <h3 id="versions">Versions and unpublishing</h3>
     <ul>
       <li>Each time you publish your edits, the Card gets a new version (v1, v2, …), with an optional note on what changed. Readers can look back at earlier versions.</li>
       <li><b>Unpublish</b> takes the Card down: its link stops working. Your published versions are kept privately, so publishing again carries on from them.</li>
       <li><b>Unpublish and delete history</b> also deletes every published version, so publishing again starts at v1.</li>
     </ul>
+    <h3 id="reading-a-card">Reading a published Card</h3>
+    <ul>
+      <li><b>Above the Card:</b> its version, when it was published, which view it's shown in (with what that view shares in the "i"), any credit, and where it was forked from. Fork this card and the downloads are there too, when the view allows them.</li>
+      <li><b>The top:</b> the community's name (a link to it, when given), its community type, format and size, and where it is (hover a place to see whether it's where the servers, members or admins are).</li>
+      <li><b>Modules</b> each sit in a light outline. Whatever wasn't filled in is left out.</li>
+      <li><b>Notes</b> sit behind a small asterisk: hover it, tab to it or tap it to read the note. Long notes are cut short; the whole note is in the raw data download.</li>
+      <li><b>Other things with more to say</b> show it the same way, in a bubble, and turn orange when you point at them: the joining icons, tools, protocols and the scales.</li>
+      <li><b>The three scales</b> are drawn as icons with a column of squares, filled to what the community's choices add up to. In the Full view, the square outlined in dots is where the community would like to be. See <a class="inline" href="#ref-structure">the three scales</a>.</li>
+      <li>A <b>star</b> marks a primary step in conflict management.</li>
+    </ul>
   </section>
 
-  <section id="coming-soon">
-    <h2>Coming Soon</h2>
+  <section id="coming-soon" data-fold="open">
+    <h2>Coming soon</h2>
     <p>We are actively working on improving the experience of using the CROW Card Maker. This includes:</p>
     <ul>
       <li>Browsing published Cards in the <a href="library.html">Library</a>.</li>
@@ -201,114 +225,113 @@
       <li>A fuller, reviewed list of laws to know for each place.</li>
       <li>Integrating CROW Cards into existing platform software as extensions.</li>
     </ul>
-
-    <p>You can explore more at our <a href="https://github.com/crowcards/crowweb/" target="_blank">Git repo</a>; see in particular the TODO.md for the roadmap and tasks being worked on. You can also look at the README to understand how to contribute.</p>
+    <h3 id="contribute">How to contribute</h3>
+    <p>You can explore more at our <a href="https://github.com/crowcards/crowweb/" target="_blank">Git repo</a>: see in particular <code>TODO.md</code> for the roadmap and the tasks being worked on, and the <code>README</code> for setting up and how to contribute. Let us know if a platform, tool or covenant should be added to the lists below.</p>
   </section>
 
-  <!--Platforms-->
-  <section id="platforms">
-    <h2>Platforms</h2>
-    <p>If you're really just getting started and have yet to select a digital home for your community, we have tried to collate and annotate some of the most common platforms that communities seem to sit within these days. Let us know if you believe a platform should be included here.</p>
+  <!-- ── reference ── -->
+  <section id="reference">
+    <h2>Reference</h2>
+    <p>Definitions and values for the fields of a Card, in the order the editor's modules ask about them.</p>
+    <p class="fold-all" id="reference-folds"></p>
 
-    <p>We label the following for each platform:</p>
-    <ul>
-      <li>Software. What is the exact software being used?</li>
-      <li>Protocol. Is the platform based on an open protocol?</li>
-      <li>Open source. Is it considered OSS per <a href="https://opensource.org/" target="_blank">OSI</a> standards?</li>
-      <li>Self-hostable. Can one host their own instance of the software for their community (e.g., on their own server)?</li>
-      <li>Model. What kind of structural model describes how the infrastructure of the platform is organized?</li>
-    </ul>
-    <p>These all impact how much technical and organizational work you may be on the hook for, how much autonomy and power you're likely to have, and some costs you might incur. You can look through <a href="#reference">Reference</a> below to find definitions of these columns as well as formats, platform types, etc.</p>
+    <section id="communities" data-fold="open">
+      <h3>Communities</h3>
+      <p>Three answers in Basics describe what a community is: what kind of group it is (its <b>community type</b>), the kind of online space it uses (its <b>format</b>), and how big it is (its <b>size</b>). The community type shapes which values and approaches are suggested; the format suggests which modules to fill in, and groups the platforms in <a class="inline" href="platforms.html">Choosing a platform</a>; the size also counts towards suggested approaches.</p>
 
-    <h3 id="by-format">By format</h3>
-    <!-- Chat Group -->
-    <div class="platform-section" id="chat-group">
-      <div class="section-label mono-u">Chat group</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="chat_group">
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Software</th>
-            <th>Protocol</th>
-            <th>Open source</th>
-            <th>Self-hostable</th>
-            <th>Model</th>
-          </tr>
-        </thead>
+      <h4 id="ref-community-types">Community types</h4>
+      <table class="table" data-source="/data/community_types.json" data-render="simple">
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h4 id="ref-formats">Formats</h4>
+      <table class="table" data-source="/data/formats.json" data-render="simple">
+        <thead><tr><th>Format</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <h4 id="ref-sizes">Sizes</h4>
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communitySize">
+        <thead><tr><th>Size</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="values" data-fold="open">
+      <h3>Values</h3>
+      <p>Communities select up to five values that describe what they prioritize. Values you select count towards the approaches marked <b>Suggested</b> throughout the rest of the Card, with the reasons. The values are from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov; we grouped them into tabs and reworded a few descriptions.</p>
+      <h4 id="ref-value-groups">The groups (tabs)</h4>
+      <table class="table" data-source="/data/value_groups.json" data-render="simple" data-enum-key="groups">
+        <thead><tr><th>Group</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h4 id="ref-values">The values</h4>
+      <table class="table" data-source="/data/values.json" data-render="values" data-labels="/data/value_groups.json">
+        <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="platforms" data-fold="open">
+      <h3>Platforms</h3>
+      <p>Infrastructure starts with the platform a community runs on. We've collected some of the most common ones, by format, in <a class="inline" href="platforms.html">Choosing a platform</a>; picking a listed one in the editor fills in its details and the usual costs. Let us know if a platform should be included.</p>
+
+      <h4 id="ref-platform-columns">What we label</h4>
+      <p>For each platform (<code>data/platforms.json</code>):</p>
+      <table class="table">
+        <thead><tr><th>Label</th><th>What it means</th></tr></thead>
         <tbody>
+          <tr><td class="ref-name">Platform</td><td>The platform or software family. A row marked <em>(any)</em> is a protocol generic: any software that speaks that protocol (see <a class="inline" href="#ref-protocols">protocol generics</a>).</td></tr>
+          <tr><td class="ref-name">Format</td><td>The kind of online space it's listed under (see <a class="inline" href="#ref-formats">formats</a>).</td></tr>
+          <tr><td class="ref-name">Software</td><td>The specific software powering it. <em>Proprietary</em> means closed source with no published code; a name (e.g. Mastodon, GNU Mailman) means that open source project. Blank on generic rows: you type in the software you use.</td></tr>
+          <tr><td class="ref-name">Protocol</td><td>The open interoperability protocol it implements, if any. Blank if it uses no open protocol.</td></tr>
+          <tr><td class="ref-name">Open source</td><td>Whether the software is released under an OSI-approved open source license (see <a class="inline" href="#ref-osi">open source</a>). <em>Varies</em> on generic rows, since it depends on the software you choose.</td></tr>
+          <tr><td class="ref-name">Self-hostable</td><td>Whether you can run your own instance of it. <em>Varies</em> where self-hosting is possible but optional (e.g. your own Matrix homeserver, AT Protocol PDS, or Nostr relay).</td></tr>
+          <tr><td class="ref-name">Structural model</td><td>How it organizes data and communication between participants (see <a class="inline" href="#ref-models">structural models</a>).</td></tr>
+          <tr><td class="ref-name">Platform type</td><td>Its cost profile: who runs it, and what it mostly carries (see <a class="inline" href="#ref-platform-types">platform types</a>). Some platforms could be one of several; the editor asks which.</td></tr>
         </tbody>
       </table>
-    </div>
+      <p class="ref-note">The datasheet also keeps each platform's license, the reasoning behind its open source label, and notes, for research documentation; they aren't shown in the editor.</p>
 
-    <!-- Discussion Forum -->
-    <div class="platform-section" id="discussion-forum">
-      <div class="section-label mono-u">Discussion forum</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="discussion_forum">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
+      <h4 id="ref-osi">Open source (OSI)</h4>
+      <p>The Open Source Initiative (OSI) defines open source software as software whose license grants freedoms to use, study, modify, and distribute. A platform is labeled open source when its software is released under an <a class="inline" href="https://opensource.org/licenses" target="_blank">OSI-approved license</a>. A few cases worth noting:</p>
+      <ul>
+        <li><strong>Telegram</strong> — client apps are open source (GPLv3), but the server is proprietary and not published. Since the server is the operative component for a platform, Telegram is classified as not open source.</li>
+        <li><strong>Signal</strong> — both client and server are AGPLv3, so it is open source. However, Signal controls the central infrastructure and the server is not practically self-hostable to interoperate with the main network, hence Self-hostable = No.</li>
+        <li><strong>Fandom</strong> — built on a proprietary fork of MediaWiki. Although MediaWiki itself is open source (GPLv2+), Fandom's modifications are not published under an OSI-compatible license.</li>
+        <li><strong>Wikipedia</strong> — the MediaWiki software is open source (GPLv2+), but Wikipedia itself is hosted exclusively by the Wikimedia Foundation. The software label is open source; the platform is not self-hostable as Wikipedia.</li>
+      </ul>
+
+      <h4 id="ref-protocols">Protocol generics</h4>
+      <p>Some platforms are listed as a generic <em>(any)</em> row for a protocol: any software that implements it. Choose one in the editor and type in the software you use, if it isn't listed separately. The named examples are those we list on their own rows; the others are common software for the same protocol.</p>
+      <table class="table" data-source="/data/platforms.json" data-render="protocolGenerics" data-labels="/data/formats.json">
+        <thead><tr><th>Generic row</th><th>Protocol</th><th>Named examples in dataset</th><th>Other common software</th></tr></thead>
+        <tbody></tbody>
       </table>
-    </div>
 
-    <!-- Listserv / Email -->
-    <div class="platform-section" id="listserv-email">
-      <div class="section-label mono-u">Listserv / email</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="listserv_email">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
+      <h4 id="ref-platform-types">Platform types</h4>
+      <p>We also group platforms by type, from their labels (is it protocol-based, is the software open source, is it self-hostable, what model does it follow). We use this to give some reasonable estimates of the costs of using a platform. It also makes it easier to compare platforms that look different on the surface but share the same underlying structure.</p>
+      <table class="table" data-source="/data/cost_rules.json" data-render="simple" data-enum-key="types">
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody></tbody>
       </table>
-    </div>
 
-    <!-- Social Network / Media -->
-    <div class="platform-section" id="social-network">
-      <div class="section-label mono-u">Social network / media</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="social_network_media">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
+      <h4 id="ref-models">Structural models</h4>
+      <p>The structural model describes how a platform's infrastructure is organized — who controls data, and how communication flows between participants.</p>
+      <table class="table" data-source="/data/platforms.json" data-render="models">
+        <thead><tr><th>Model</th><th>Description</th><th>Examples</th></tr></thead>
+        <tbody></tbody>
       </table>
-    </div>
 
-    <!-- Peer Production -->
-    <div class="platform-section" id="peer-production">
-      <div class="section-label mono-u">Peer production</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="peer_production">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Team -->
-    <div class="platform-section" id="team">
-      <div class="section-label mono-u">Team</div>
-      <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="team">
-        <thead><tr><th>Platform</th><th>Software</th><th>Protocol</th><th>Open source</th><th>Self-hostable</th><th>Model</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  
-  <h3 id="platform-types">Platform types</h3>
-  <p>We also think about the platform type, based on the labels (is it protocolized, is the software open source, is it self-hostable, what model does it follow). We use this to provides some reasonable estimates of potential costs of using that platform. It also makes it easier to compare platforms that look different on the surface but share the same underlying structure.</p>
-
-    <table class="table" data-source="/data/cost_rules.json" data-render="simple" data-enum-key="types">
-      <thead><tr><th>Type</th><th>Description</th></tr></thead>
-      <tbody>
-        </tbody>
-    </table>
-
-  <h3 id="cost-logic">Expected costs</h3>
-    <p>Rather than guessing costs platform by platform, costs are derived from each platform's <a href="#platform-types">type</a>. The logic is simple: the main cost drivers are infrastructure ownership (do you host it?) and content type (does it generate heavy media?). Everything else — admin labor, third-party tools — applies broadly regardless of platform choice and depends more on your community's size and activity.</p>
+      <h4 id="ref-costs">Expected costs</h4>
+      <p>On a Card, each cost is answered <b>Yes</b> or <b>No</b>: whether your community pays for it, in money or time. What's usual is worked out from each platform's <a class="inline" href="#ref-platform-types">type</a> rather than platform by platform, and the editor shows it beside each cost as a guide. The main cost drivers are infrastructure ownership (do you host it?) and content type (does it generate heavy media?). Everything else — admin labor, third-party tools — applies broadly regardless of platform choice and depends more on your community's size and activity.</p>
       <ul>
         <li><strong>Self-hosting</strong> means you bear hosting, domain, email delivery, backups, and potentially managed hosting costs. Proprietary or institutionally-hosted platforms mean you bear none of these.</li>
         <li><strong>Media-heavy platforms</strong> (PeerTube, Pixelfed) add significant storage and delivery costs on top of the standard self-hosting baseline.</li>
         <li><strong>Protocol-native clients</strong> (Nostr, AT Protocol) have costs that only arise if you choose to run your own relay or Personal Data Server — most community runners won't.</li>
         <li><strong>Admin and moderation labor</strong> is the one cost that cuts across all platform types, because it follows community size and culture rather than technical architecture.</li>
       </ul>
-    <p>Some platforms have overrides where the type default isn't accurate — for example, Discourse requires SMTP for notifications (email delivery = Yes, not Sometimes), and Mailman is itself an email delivery system.</p>
-
       <div class="cost-wrap">
         <table class="table matrix" data-source="/data/cost_rules.json" data-render="costMatrix">
           <thead>
@@ -327,120 +350,44 @@
               <th>Events</th>
             </tr>
           </thead>
-          <tbody>
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
-      <p style="font-size:var(--fs-xs);color:var(--gray)">Cost values reflect what a community organizer or operator typically pays — not the platform company. "Sometimes" means the cost applies at some scales or configurations. All values can be edited in the CROW Cards tool.</p>
-  </section>
-
-  <section id="">
-
-  </section>
-
-  <!-- reference -->
-  <section id="reference">
-    <h2>Reference</h2>
-    <p>Here we document definitions and values for different fields.</p>
-
-    <section id="ref-columns">
-      <h3>Column definitions</h3>
-      <p>We built a platform dataset spreadsheet to pre-fill the platform section of a CROW Card; it has the following columns:</p>
-      <table class="table">
-        <thead><tr><th>Column</th><th>Explanation</th></tr></thead>
-        <tbody>
-          <tr><td><span class="pname">Type</span></td><td>Community platform category. Only filled on the first row of each group in the spreadsheet.</td></tr>
-          <tr><td><span class="pname">Platform</span></td><td>Platform or software family name. Rows ending in "client" are protocol-generic — they represent any software that speaks that protocol.</td></tr>
-          <tr><td><span class="pname">Protocol_Generic</span></td><td><code>yes</code> marks a generic protocol row. In the CROW Cards interface, selecting one triggers a dropdown of named software options drawn from the rows below it with the same platform name.</td></tr>
-          <tr><td><span class="pname">Software</span></td><td>The specific software powering the platform. <em>Proprietary</em> means closed source with no published code. A named value (e.g. Mastodon, GNU Mailman) means the specific open source project. Blank on generic rows — filled in when you choose a client.</td></tr>
-          <tr><td><span class="pname">Protocol</span></td><td>The open interoperability protocol the platform implements, if any. Blank if the platform uses no open protocol layer.</td></tr>
-          <tr><td><span class="pname">Open Source (OSI)</span></td><td>Whether the software is released under an OSI-approved open source license. <em>Varies</em> on generic rows, since the answer depends on which client you choose.</td></tr>
-          <tr><td><span class="pname">Self-Hostable</span></td><td>Whether you can run your own instance of the software. <em>Varies</em> on protocol client rows where self-hosting is possible but optional (e.g. running your own Matrix homeserver, AT Protocol PDS, or Nostr relay).</td></tr>
-          <tr><td><span class="pname">Structural Model</span></td><td>How the platform organizes data and communication between participants. See <a class="inline" href="#ref-models">structural models</a> below.</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:var(--fs-xs);color:var(--gray);margin-top:0.5rem">The spreadsheet also contains internal columns (License, OSI Rationale, Notes) used for research documentation and not surfaced in the CROW Cards interface.</p>
-    </section>
-
-    <section id="ref-community-types">
-      <h3>Community types</h3>
-      <p>The kind of group a community is. It shapes which values and approaches are suggested.</p>
-      <table class="table" data-source="/data/community_types.json" data-render="simple">
-        <thead><tr><th>Type</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-formats">
-      <h3>Formats</h3>
-      <p>The kind of online space a community uses. Formats suggest which modules to fill in, and group the platforms above.</p>
-      <table class="table" data-source="/data/formats.json" data-render="simple">
-        <thead><tr><th>Format</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-models">
-      <h3>Structural models</h3>
-      <p>The structural model describes how a platform's infrastructure is organized — who controls data, and how communication flows between participants.</p>
-      <table class="table" data-source="/data/platforms.json" data-render="models">
-        <thead><tr><th>Model</th><th>Description</th><th>Examples</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="ref-protocols">
-      <h3>Protocol generics</h3>
-      <p>You might have noticed in the <a href="#platforms">platforms</a> section that some platforms were grouped up a generic "client" for protocol-based systems. Generic protocol client rows represent any software that implements a given protocol. When you select one in the CROW Cards interface, a dropdown lets you choose from the named examples below — or enter a custom name if your software isn't listed.</p>
-      <table class="table" data-source="/data/platforms.json" data-render="protocolGenerics" data-labels="/data/formats.json">
-        <thead><tr><th>Generic row</th><th>Protocol</th><th>Named examples in dataset</th><th>Other common software</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-    </section>
-
-    <section id="ref-osi">
-      <h3>Open source (OSI)</h3>
-      <p>The Open Source Initiative (OSI) defines open source software as software whose license grants freedoms to use, study, modify, and distribute. The <span class="pname">Open Source (OSI)</span> column reflects whether the platform's software is released under an <a class="inline" href="https://opensource.org/licenses" target="_blank">OSI-approved license</a>.</p>
-      <p>A few cases worth noting:</p>
-      <ul>
-        <li><strong>Telegram</strong> — client apps are open source (GPLv3), but the server is proprietary and not published. Since the server is the operative component for a platform, Telegram is classified as not open source.</li>
-        <li><strong>Signal</strong> — both client and server are AGPLv3, so it is open source. However, Signal controls the central infrastructure and the server is not practically self-hostable to interoperate with the main network, hence Self-Hostable = No.</li>
-        <li><strong>Fandom</strong> — built on a proprietary fork of MediaWiki. Although MediaWiki itself is open source (GPLv2+), Fandom's modifications are not published under an OSI-compatible license.</li>
-        <li><strong>Wikipedia</strong> — the MediaWiki software is open source (GPLv2+), but Wikipedia itself is hosted exclusively by the Wikimedia Foundation. The software label is open source; the platform is not self-hostable as Wikipedia.</li>
-      </ul>
-    </section>
-
-    <section id="ref-cost-values">
-      <h3>Cost values</h3>
-      <p>On a card, each cost is answered Yes or No: whether your community pays for it, in money or time. What's usual for each kind of platform uses a five-point scale, and the editor shows it under each cost as a guide. All values reflect what a community organizer or operator typically pays — not the platform company.</p>
+      <p id="ref-cost-values">What the words mean:</p>
       <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="costGuides">
         <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
-        <tbody>
-        </tbody>
+        <tbody></tbody>
       </table>
-      <p class="callout">For <strong>corporate / proprietary</strong> platforms, costs reflect what a group admin or community manager pays — not the company operating the platform. For <strong>self-hosted</strong> platforms, costs reflect what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), costs reflect running your own relay or PDS; most community runners on these platforms will not incur infrastructure costs.</p>
-
-      <p id="ref-overrides">Most platforms inherit their cost values from their platform type. A handful have overrides where the type default isn't accurate for that specific platform.</p>
+      <p class="callout">All values reflect what a community organizer or operator typically pays — not the platform company. For <strong>corporate / proprietary</strong> platforms, that's what a group admin or community manager pays. For <strong>self-hosted</strong> platforms, what an instance operator pays. For <strong>protocol client</strong> rows (Nostr, AT Protocol), what running your own relay or PDS costs; most community runners on these platforms will not incur infrastructure costs.</p>
+      <p id="ref-overrides">Most platforms take what's usual from their platform type. A handful have overrides where the type's isn't accurate for that platform — for example, Discourse requires email delivery for notifications, and Mailman is itself an email delivery system.</p>
       <table class="table" data-source="/data/cost_overrides.json" data-render="overrides" data-labels="/data/cost_rules.json">
-        <thead><tr><th>Platform</th><th>Column</th><th>Override value</th><th>Reason</th></tr></thead>
-        <tbody>
-        </tbody>
-      </table>
-
-    <section id="ref-values">
-      <h3>Values</h3>
-      <p>Communities select up to five values that describe what they prioritize. Options that fit your values count towards what's marked <b>Suggested</b> throughout the rest of the card, with the reasons. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="table" data-source="/data/values.json" data-render="values" data-labels="/data/value_groups.json">
-        <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
+        <thead><tr><th>Platform</th><th>Cost</th><th>Usually</th><th>Reason</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <section id="ref-membership">
-      <h3>Membership options</h3>
-      <p>How people can join. Communities first say how open joining is, picking one or more of four tiers; the ways of joining that fit those tiers are shown first, and any can be chosen. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+    <section id="other-tools" data-fold="open">
+      <h3>Other tools</h3>
+      <p>Besides its platform, a community may use other tools for its governance work (Infrastructure → Other tools), and has ways for members and moderators to reach each other (Processes → Communications).</p>
+      <h4 id="ref-tools">Governance tools</h4>
+      <p>Known tools communities use to support deliberation, voting, trust &amp; safety, and other governance work. Communities can also add their own. Let us know if you think a tool should be added here!</p>
+      <table class="table" data-source="/data/tools.json" data-render="tools">
+        <thead><tr><th>Tool</th><th>Category</th><th>Description</th><th>Access</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h4 id="ref-channels">Communication channels</h4>
+      <p>Ways a community's members and moderators can reach each other. Communities can also add their own.</p>
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communicationChannels">
+        <thead><tr><th>Channel</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="membership" data-fold="open">
+      <h3>Membership</h3>
+      <p>How people join a community, and how it's organized.</p>
+      <h4 id="ref-joining">Joining</h4>
+      <p>Communities first say how open joining is, picking one or more of four tiers; the ways of joining that fit those tiers are shown first, and any can be chosen. The ways of joining are from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
       <table class="table" data-source="/data/membership_tiers.json" data-render="simple" data-enum-key="tiers">
         <thead><tr><th>Tier</th><th>Description</th></tr></thead>
         <tbody></tbody>
@@ -450,100 +397,75 @@
         <thead><tr><th>Option</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
-    </section>
-
-    <section id="ref-decision-approaches">
-      <h3>Decision-making approaches</h3>
-      <p>Your community structure: the ways decisions get made. It's set in Membership and adjusted, with notes, for <strong>changing the rules</strong>, <strong>maintenance</strong> and <strong>moderation</strong> in Processes. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes). Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="table" data-source="/data/decision_approaches.json" data-render="simple">
-        <thead><tr><th>Approach</th><th>Description</th></tr></thead>
+      <h4 id="ref-structure">Structure: the three scales</h4>
+      <p>A community's structure is how decisions get made among its members: the decision-making approaches it selects (described under <a class="inline" href="#ref-decision-approaches">Processes → Decision-making</a>). Each approach, joining tier, way of joining and conflict approach sits somewhere on three scales, from 1 to 7; a Card's score on each is the average of its choices. In Basics, communities also say where they'd like to be.</p>
+      <table class="table" data-source="/data/governance_scales.json" data-render="scaleDefinitions">
+        <thead><tr><th>Scale</th><th>What it measures</th><th>What each level means</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p>None of the scales is "good" or "bad". Each end gains something (<b>+</b>) and costs something (<b>−</b>):</p>
+      <table class="table" data-source="/data/governance_scales.json" data-render="scaleEnds">
+        <thead><tr><th>Scale</th><th>Low end</th><th>High end</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <section id="ref-conflict-management">
-      <h3>Conflict management approaches</h3>
-      <p>Approaches for handling conflicts between members. Communities put the ones they use in <em>steps</em>, in the order they'd try them (first, escalation, last resort); several on the same step happen in parallel, and preferred ways can be marked primary. Sourced from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
-      <table class="table" data-source="/data/conflict_management.json" data-render="simple">
-        <thead><tr><th>Approach</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-tools">
-      <h3>Governance tools</h3>
-      <p>Known tools communities use to support deliberation, voting, trust &amp; safety, and other governance work. Communities can also add their own custom tools. Let us know if you think a tool should be added here!</p>
-      <table class="table" data-source="/data/tools.json" data-render="tools">
-        <thead><tr><th>Tool</th><th>Category</th><th>Description</th><th>Access</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-covenants">
-      <h3>Covenants &amp; guidelines</h3>
-      <p>Known covenants and community guidelines a community might endorse or adhere to. This list is seed autocomplete; communities can enter custom values.</p>
+    <section id="rules" data-fold="open">
+      <h3>Rules</h3>
+      <p>A community's rules: a link to where they live, the covenants it endorses, and the rules it selects (each can be reworded, and communities can add their own). How rules shape who a community federates with is under <a class="inline" href="#federation">Federation</a>.</p>
+      <h4 id="ref-covenants">Covenants &amp; guidelines</h4>
+      <p>Known covenants and community guidelines a community might endorse or adhere to. Communities can also add their own.</p>
       <table class="table" data-source="/data/covenants.json" data-render="linked">
         <thead><tr><th>Covenant</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
-    </section>
-
-    <section id="ref-rule-schema">
-      <h3>Rule schema</h3>
-      <p>The structured rule categories communities can select from. Rules are grouped into two broad categories (behavior and content) and further organized by type. Some types support <strong>per-rule qualifiers</strong>: either how a rule treats something (allowed / not allowed / allowed with labeling or disclosure / approval required) or how firm it is (required / recommended / not required). These are marked below. Communities can also reword any rule and add their own.</p>
+      <h4 id="ref-rule-schema">Rule schema</h4>
+      <p>The rules communities can select from. Rules are grouped into two broad categories (behavior and content) and further organized by type. Some types support <strong>per-rule qualifiers</strong>: either how a rule treats something (allowed / not allowed / allowed with labeling or disclosure / approval required) or how firm it is (required / recommended / not required). These are marked below.</p>
       <table class="table" data-source="/data/rule_schema.json" data-render="ruleSchema">
         <thead><tr><th>Type</th><th>Rules</th><th></th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <section id="ref-federation-lists">
-      <h3>Federation lists &amp; tools</h3>
-      <p>Known shared blocklists a community might follow, and tools and services that help with federation decisions. Primarily relevant for ActivityPub-based platforms. Custom entries are supported.</p>
-      <table class="table" data-source="/data/federation_subscription_lists.json" data-render="linked">
-        <thead><tr><th>Name</th><th>Category</th><th>Description</th></tr></thead>
+    <section id="processes" data-fold="open">
+      <h3>Processes</h3>
+      <p>How a community makes decisions, handles conflict, and communicates. The decision-making and conflict management approaches are from the <a class="inline" href="https://communityrule.info/" target="_blank" rel="noopener">CommunityRule</a> project by Metagov.</p>
+      <h4 id="ref-decision-approaches">Decision-making</h4>
+      <p>The approaches a community selects describe its general structure: how decisions get made (set in Membership). In Processes, the same list is adjusted, with notes, for three kinds of decisions in particular: <strong>changing the rules</strong>, <strong>maintenance</strong> and <strong>moderation</strong>. A community typically picks a few, often different approaches for different kinds of decisions (e.g., lazy consensus for daily operations, full consensus for governance changes).</p>
+      <table class="table" data-source="/data/decision_approaches.json" data-render="simple">
+        <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
-    </section>
-
-    <section id="ref-enum-community-size">
-      <h3>Community size scale</h3>
-      <p>Rough size buckets used across the schema.</p>
-      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communitySize">
-        <thead><tr><th>Size</th><th>Description</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </section>
-
-    <section id="ref-enum-federation-approach">
-      <h3>Federation approach</h3>
-      <p>The community's overall posture toward federating with other servers.</p>
-      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationApproach">
+      <h4 id="ref-conflict-management">Conflict management</h4>
+      <p>Approaches for handling conflicts between members. Communities put the ones they use in <em>steps</em>, in the order they'd try them (first, escalation, last resort); several on the same step happen in parallel, and preferred ways can be marked primary.</p>
+      <table class="table" data-source="/data/conflict_management.json" data-render="simple">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
 
-    <section id="ref-enum-federation-ladder">
-      <h3>Federation response ladder</h3>
+    <section id="federation" data-fold="open">
+      <h3>Federation</h3>
+      <p>For communities on federated platforms (e.g. ActivityPub): who they federate with, what they do when there's a problem with another server, and the shared lists and tools they use. Also how their rules shape who they federate with.</p>
+      <h4 id="ref-federation-approach">Approach</h4>
+      <p>The community's overall posture toward federating with other servers.</p>
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationApproach">
+        <thead><tr><th>Approach</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h4 id="ref-federation-ladder">Response ladder</h4>
       <p>The actions moderators take when there's a problem with another server, put in the order they escalate through them. Several on the same step happen in parallel.</p>
       <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationResponseLadder">
         <thead><tr><th>Action</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
-    </section>
-
-    <section id="ref-enum-channels">
-      <h3>Communication channels</h3>
-      <p>Ways a community’s members and moderators can reach each other.</p>
-      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="communicationChannels">
-        <thead><tr><th>Channel</th><th>Description</th></tr></thead>
+      <h4 id="ref-federation-lists">Lists &amp; tools</h4>
+      <p>Known shared block lists a community might follow, and tools and services that help with federation decisions. Communities can also add their own.</p>
+      <table class="table" data-source="/data/federation_subscription_lists.json" data-render="linked">
+        <thead><tr><th>Name</th><th>Category</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
     </section>
-
-
-
   </section>
 
 </main>

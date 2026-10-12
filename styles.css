@@ -271,6 +271,16 @@ a,
   text-align: left;
 }
 
+/* …as a heading's toggle (the editor's folds, js/controls/fold.js; the docs'
+   sections, data-fold in js/docs-page.js): the heading keeps its own font and
+   color, the pixel plus grows with it. Hovered, section heads light up letter
+   by letter (fold.js wraps the letters, like the site's other Argent
+   headings); the smaller ink headings (level 3) turn orange as a whole */
+:is(.fold, .fold-head, [data-fold]) > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
+:is(.fold, .fold-head, [data-fold]) > h3 .pixel-toggle:is(:hover, :focus-visible) { color: var(--accent); }
+:is(.fold, .fold-head, [data-fold]) > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }
+:is(.fold, .fold-head, [data-fold]) > h3 .pixel-toggle::before { width: 9px; height: 9px; }   /* (smaller headings: the plus at its usual size) */
+
 /* pills: small mono capitals on a color, all one shape. The color says
    what kind: .chip lime (Suggested, Started), .tag orange (chosen items,
    qualifiers; may hold a remove ×), and the docs table pills .proto,

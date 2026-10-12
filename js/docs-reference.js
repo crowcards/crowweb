@@ -39,11 +39,12 @@
       </tr>
     `).join(""),
 
-    // Covenants, federation subscription lists: label, category, description, link
-    "linked": (data) => data.items.map(it => `
+    // Covenants, federation subscription lists: label, category (only when the
+    // table has a column for it: covenants have none), description, link
+    "linked": (data, el) => data.items.map(it => `
       <tr>
         <td class="ref-name">${esc(it.label)}</td>
-        <td><span class="model">${esc(it.category || "")}</span></td>
+        ${el.tHead.rows[0].cells.length > 2 ? `<td><span class="model">${esc(it.category || "")}</span></td>` : ""}
         <td>
           ${esc(it.description || "")}
           ${it.url ? `<div class="ref-sub"><a class="inline" href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.url)}</a></div>` : ""}
@@ -153,8 +154,8 @@
 
     // Protocol generics (platforms.json): each generic "(any)" row, its
     // protocol, the named rows of it in the dataset, and other common software
-    // (its otherSoftware); the community type names (data-labels) tell
-    // apart generics of the same name
+    // (its otherSoftware); the formats' names (data-labels) tell apart
+    // generics of the same name
     "protocolGenerics": (data, el, labelOf) => {
       const generics = data.items.filter(p => p.isGeneric);
       const twins = (p) => generics.filter(q => q.platform === p.platform).length > 1;

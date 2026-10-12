@@ -54,6 +54,26 @@ html {
   padding-top: 0.5em;   /* like h2: a little room above it when a sidebar link jumps here */
 }
 
+/* the reference's groups: subsections as small mono capitals */
+.docs-body h4 {
+  margin: 1.6em 0 0.4em;
+  padding-top: 0.5em;   /* (room above it when a sidebar link jumps here) */
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--caps-spacing);
+  text-transform: uppercase;
+}
+
+/* ── sections that fold (js/docs-page.js, data-fold): a closed one is
+   hidden "until found", so the browser's find still reaches it (the site's
+   [hidden] rule would hide it from that too) ── */
+.doc-fold-body[hidden="until-found"] { display: block !important; }
+.fold-all { display: flex; gap: 1.25rem; }   /* Open all / Close all */
+
+/* a small gray note under a table */
+.ref-note { margin-top: 0.5rem; color: var(--gray); font-size: var(--fs-xs); }
+
 /* ── platform tables ─────────────────────────────────────── */
 .platform-section { margin-bottom: 3rem; }
 

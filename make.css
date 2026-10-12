@@ -619,18 +619,11 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .link-button-danger { color: var(--error); text-decoration-color: var(--error); }
 .link-button-danger:is(:hover, :focus-visible) { background: var(--error); color: var(--lime); }
 
-/* collapsible sections (js/controls/fold.js): the heading is the toggle,
-   keeping the heading's own font and orange, with the pixel plus before it */
+/* collapsible sections (js/controls/fold.js): the heading is the toggle
+   (its look: styles.css, shared with the docs' sections) */
 :is(.fold, .fold-head) > :is(h2, h3) { margin: 0.9em 0 0.25em; }
-:is(.fold, .fold-head) > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
-/* hovering a fold's heading: section heads light up letter by letter
-   (fold.js wraps the letters, like the site's other Argent headings); the
-   smaller ink headings (level 3) turn orange as a whole */
-:is(.fold, .fold-head) > h3 .pixel-toggle:is(:hover, :focus-visible) { color: var(--accent); }
-:is(.fold, .fold-head) > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }   /* the plus grows with the heading */
 /* groups inside a section (level 3): smaller, sans, closer together */
 :is(.fold-3, .fold-3 > .fold-head) > h3 { margin: 0.4em 0 0; font-family: var(--sans); font-size: var(--fs-m); font-weight: 700; }
-:is(.fold-3, .fold-3 > .fold-head) > h3 .pixel-toggle::before { width: 9px; height: 9px; }
 .fold-3 > .fold-body { padding: 0.25rem 0 0.75rem calc(9px + 0.35em); }
 .fold-body { padding-top: 0.25rem; }
 /* a heading with small actions beside it (fold.js actions) */
