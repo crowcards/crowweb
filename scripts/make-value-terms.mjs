@@ -7,7 +7,7 @@
 // a benchmark community that wouldn't choose the value). Then measures both
 // lists on the benchmark communities' descriptions.
 //
-//   node scripts/make-value-terms.mjs     → data/value_terms_proposed.json (reviewed in bench.html → Value groups)
+//   node scripts/make-value-terms.mjs     → data/value_terms_proposed.json (reviewed in bench.html → Value word lists)
 //
 // Nothing is changed in value_groups.json: a reviewed list is taken in with
 // node scripts/review.mjs terms <value>.
@@ -120,7 +120,7 @@ for (const it of items) {
 
 const out = {
   generatedAt: new Date().toISOString().slice(0, 10),
-  note: "Proposed by scripts/make-value-terms.mjs, for review in bench.html → Value groups. For each value: current (its word list in value_groups.json), kept (current terms the script also found), new (the value's own name as one term, and everyday phrases drafted by Claude in data/value_phrases_drafted.json), fromDefinition (for reference only, not proposed: distinctive two-word phrases from the first sentence of its description by TF-IDF; mining CommunityRule's text gave mostly fragments), questionable (current single words common across many values' texts, likely to match too often), misfires (terms that match a benchmark community that wouldn't choose the value). benchmark: for each benchmark community, the core values its description finds by words alone, with the current lists and with the proposed ones (current minus questionable, plus new), and any values found that it wouldn't choose. Nothing here is used until accepted terms are merged into value_groups.json.",
+  note: "Proposed by scripts/make-value-terms.mjs, for review in bench.html → Value word lists. For each value: current (its word list in value_groups.json), kept (current terms the script also found), new (the value's own name as one term, and everyday phrases drafted by Claude in data/value_phrases_drafted.json), fromDefinition (for reference only, not proposed: distinctive two-word phrases from the first sentence of its description by TF-IDF; mining CommunityRule's text gave mostly fragments), questionable (current single words common across many values' texts, likely to match too often), misfires (terms that match a benchmark community that wouldn't choose the value). benchmark: for each benchmark community, the core values its description finds by words alone, with the current lists and with the proposed ones (current minus questionable, plus new), and any values found that it wouldn't choose. Nothing here is used until accepted terms are merged into value_groups.json.",
   items,
   benchmark,
 };

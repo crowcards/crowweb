@@ -54,7 +54,7 @@ import { scoredItems, COUNT_PROPOSED } from "./view-modes.js";
 // (while drafts are in review, proposed ones count too: COUNT_PROPOSED)
 const counts = (it) => it.status === "accepted" || (COUNT_PROPOSED && it.status === "proposed");
 
-/** The weights and cut-offs (the workbench, bench.html, tries others). */
+/** The weights and cut-offs, changed only by hand (RECOMMENDATIONS.md, "What we learned"). */
 export const TUNING = {
   values: { weights: { type: 1, description: 1.5, scales: 1, format: 0.5 }, max: 5, typeAlone: 1 },   // typeAlone: a type signal this strong is Suggested on its own
   decision: { weights: { type: 1, values: 1, scales: 1.25, size: 0.4, format: 0.5 } },

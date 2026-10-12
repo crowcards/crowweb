@@ -1,0 +1,24 @@
+{
+ "note": "The workbench's Log tab (bench.html): what was worked on and approved for the recommendations, one line each, newest first. Edited by hand (or by Claude): add a line when something is finished or approved. The full story is in RECOMMENDATIONS.md. Workbench only; delete before launch.",
+ "entries": [
+  { "date": "2026-10-11", "text": "300 review cases added (set A 200 with values, set B 100 without), drafted by web Claude and checked against our lists.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-11", "text": "Workbench streamlined: a Log, one Fit tab (community type, format, size), Review cases with ratings; the Tuning tab and its script removed.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-11", "text": "Instructions written for web Claude to draft 300 review cases (200 with values, 100 without), blind to our lists.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-11", "text": "Citizen science approved: the community type and its 28 marks.", "by": "Sohyeon" },
+  { "date": "2026-10-11", "text": "American spelling throughout, datasheets included (the community type id is now neighborhood).", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-10", "text": "Citizen science moved from format to community type, with drafted marks; iNaturalist and Zooniverse are peer production.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-10", "text": "Interesting marks that clashed with an example settled: three dropped, three kept on purpose.", "by": "Sohyeon" },
+  { "date": "2026-10-10", "text": "More like this / Try something new redone on the same scores: 3 + 3, interesting marks first, reasons on hover, no random pick.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-10", "text": "Format × approach table drafted and accepted (peer production +2 for open access; citizen science's hierarchical mark dropped).", "by": "Sohyeon" },
+  { "date": "2026-10-10", "text": "Held-out fixes: three examples corrected, one community-type mark lowered, two value links dropped.", "by": "Sohyeon" },
+  { "date": "2026-10-10", "text": "Chip rules: a chip needs evidence specific to the community; a strong community-type mark can suggest a value alone.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-10", "text": "10 held-out communities drafted by web Claude, for checking only (never tuned on). Searching the weights overfitted: hand-set numbers kept.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-10", "text": "Community types and their fit tables approved, type by type (reviewed from 9 October).", "by": "Sohyeon" },
+  { "date": "2026-10-10", "text": "Rename: the kind of online space became Format; the kind of group became Community type.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-09", "text": "Value groups, word lists and the 18 rewritten descriptions approved (all 69 values).", "by": "Sohyeon" },
+  { "date": "2026-10-09", "text": "Value links approved (318, at a high level), after pruning passes.", "by": "Sohyeon" },
+  { "date": "2026-10-09", "text": "Size fit re-scored with a written rule.", "by": "Sohyeon + Claude" },
+  { "date": "2026-10-09", "text": "Governance scale positions approved (143), after an outside review changed 47; definitions made precise.", "by": "Sohyeon" },
+  { "date": "2026-10-09", "text": "Rebuild started: the Community type field, 18 benchmark communities as the answer key, one way of scoring, the workbench.", "by": "Sohyeon + Claude" }
+ ]
+}

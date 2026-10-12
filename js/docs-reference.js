@@ -90,20 +90,6 @@
       </tr>
     `).join(""),
 
-    // Values' groups and cues (value_groups.json, with data-labels="/data/values.json"),
-    // in group order: each value's cues (a trailing * = any ending) and its
-    // description: ours where CommunityRule's is a placeholder (marked), else theirs
-    // (a value with two groups is listed under its main one, with both named)
-    "valueCues": (data, el, labelOf, [values]) => data.groups.flatMap(g => data.items.filter(it => it.groups[0] === g.id).map(it => `
-      <tr>
-        <td class="ref-name">${esc(it.label || labelOf(it.id))}</td>
-        <td><span class="model">${esc(it.groups.map(id => data.groups.find(x => x.id === id)?.label || id).join(" · "))}</span></td>
-        <td class="mono">${it.cues.map(esc).join(" · ")}</td>
-        <td>${it.description ? `<span class="badge var">rewritten</span> ${esc(reword(data, it.description))}` : esc(reword(data, values.items.find(v => v.id === it.id)?.description || ""))}</td>
-        <td><span class="badge ${it.status === "accepted" ? "yes" : "var"}">${esc(it.status)}</span></td>
-      </tr>
-    `)).join(""),
-
     // Value links (value_recommendations_*.json): value → option, with its
     // strength (−2 to +2); data-status keeps only that status (e.g. proposed)
     "valueLinks": (data, el, labelOf) => data.items.filter(it => !el.dataset.status || it.status === el.dataset.status).map(it => `

@@ -17,6 +17,7 @@
       "DESIGN.md",
       "TODO.md",
       "RECOMMENDATIONS.md",
+      "ratings/**",
       "**/*.log",
       "**/*:Zone.Identifier",
       "emulator-data/**",
