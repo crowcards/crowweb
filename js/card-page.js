@@ -15,7 +15,7 @@
 // this page in a new tab and hands it the card, by message, as it would be
 // published; nothing is fetched or stored.
 
-import { el, button } from "./dom.js";
+import { el, button, infoTip } from "./dom.js";
 import { getPublicCard, forkCard, reportCard, errorKind } from "./api.js";
 import { pixelButton } from "./site.js";
 import { renderChoices } from "./controls/choices.js";
@@ -119,6 +119,7 @@ function draw(pub, data, defaults, { preview = false } = {}) {
         : el("p", {},
           el("b", { className: "mono-u", textContent: `v${pub.version}` }),
           ` · published ${date(pub.publishedAt)}`,
+          mode ? el("span", {}, ` · ${mode.label} view `, infoTip(mode.description)) : null,   // (the view's name is said here, not on the card)
           pub.version !== latest ? el("span", {}, " · an earlier version (", el("a", { className: "inline", href: versionLink(latest), textContent: "see the latest" }), ")") : null),
       credit ? el("p", { textContent: `Shared by ${credit}` }) : null,
       forkedFrom,

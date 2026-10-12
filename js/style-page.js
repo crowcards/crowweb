@@ -7,7 +7,7 @@ import { loadExportData } from "./export.js";
 import { MODES, publicView } from "./view-modes.js";
 import { renderCard } from "./card-view.js";
 import { loadModuleDefaults } from "./modules.js";
-import { el, chip, richText, button } from "./dom.js";
+import { el, chip, richText, button, infoTip, pixelIcon } from "./dom.js";
 import { reveal } from "./reveal.js";
 import { pointTo } from "./scroll.js";
 import { editInPlace } from "./controls/inline-edit.js";
@@ -197,8 +197,12 @@ function renderScales(scaleData) {
       options: ["Decisions stay with the moderators", "Outcomes are shared", "Outcomes and reasons are shared", "Mostly open", "Decisions are public"].map((d, i) => ({ id: String(i + 1), label: String(i + 1), description: `${i + 1}: ${d}` })) }).element),
     group("Yes / No / It varies", "choices.js scaleField + YES_NO_VARIES, layout buttons (Infrastructure)", scaleField({ legend: "Open source", options: YES_NO_VARIES, layout: "buttons" }).element),
     group("Yes / No", "choices.js scaleField + YES_NO, layout buttons (Infrastructure, Federation)", scaleField({ legend: "Do you share your block list?", options: YES_NO, layout: "buttons" }).element),
-    group("Costs table", "choices.js choiceTable (infrastructure.js costs): a row per question, the answers as even columns of buttons; Not sure clears a row", choiceTable({ legend: "Costs", legendHidden: true,
-      rows: [{ id: "hosting", label: "Hosting & servers" }, { id: "domain", label: "Domain" }], options: ["Yes", "Often", "Sometimes", "Rare", "No"].map((l) => ({ id: l, label: l })), values: { hosting: "Often" } }).element),
+    group("Costs table", "choices.js choiceTable (infrastructure.js costs): a row per question, the answers as even columns of buttons; Not sure clears a row; a row's guide under its name", (() => {
+      const t = choiceTable({ legend: "Costs", legendHidden: true,
+        rows: [{ id: "hosting", label: "Hosting & servers" }, { id: "domain", label: "Domain" }], options: ["Yes", "No"].map((l) => ({ id: l, label: l })), values: { hosting: "Yes" } });
+      t.row("hosting").guide("Usually: often");
+      return t.element;
+    })()),
   );
 }
 
@@ -285,9 +289,12 @@ function renderNotes() {
       el("div", { className: "ft-row" }, chip("Suggested"), chip("See also", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Holacracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
         pill("badge yes", "Yes"), pill("badge no", "No"), pill("badge var", "Varies"),
         pill("cv yes", "Yes"), pill("cv often", "Often"), pill("cv some", "Sometimes"), pill("cv rare", "Rare"), pill("cv no", "No"), pill("sw oss", "Open source"), pill("sw", "Proprietary"))),
-    group("Pixel icons", "make.css .icon-* (drawn with box-shadow pixels; currentColor)",
-      el("div", { className: "ft-row" }, ...[["icon-yes", "yes"], ["icon-no", "no"], ["icon-note", "note"], ["icon-sub", "nested ↳"], ["icon-meet", "when there's a problem"], ["icon-list", "lists"], ["icon-announce", "channels"], ["icon-out", "opens a new tab"]]
-        .map(([cls, label]) => el("span", { className: "ft-icon" }, el("span", { className: cls }), el("span", { className: "field-hint", textContent: ` ${label}` }))))),
+    group("Pixel icons", "dom.js pixelIcon (img/icons.svg, 16×16, currentColor; the card: joining tiers, scales, places); make.css .icon-out (box-shadow pixels)",
+      el("div", { className: "ft-row" }, ...["join-open", "join-tiered", "join-restricted", "join-closed", "scale-participatory", "scale-transparent", "scale-hierarchical", "pin"]
+        .map((name) => el("span", { className: "ft-icon" }, pixelIcon(name), el("span", { className: "field-hint", textContent: ` ${name}` }))),
+        el("span", { className: "ft-icon" }, el("span", { className: "icon-out" }), el("span", { className: "field-hint", textContent: " opens a new tab" })))),
+    group("Note badge", "dom.js infoTip(…, { note: true }): the pixel asterisk (.note-mark), its note in the shared bubble on hover, focus or a tap (the card's notes)",
+      el("p", {}, "Joining ", infoTip([el("span", { className: "card-tip-line" }, el("b", { className: "mono-u", textContent: "Joining" }), "Moderators can invite people straight in.")], undefined, { note: true }))),
     group("Summary block", "make.css .summary (lime two-step pixel outline on the tint): Basics, Rules, Federation's rules, the card", el("div", { className: "summary" }, el("p", { className: "mono-u summary-label", textContent: "Summary" }), el("p", { textContent: "A summary of answers, in a compact box." }))),
     group("Dotted summary block", "make.css .summary.summary-dotted (gray dotted outline): what's been chosen in a pick list", el("div", { className: "summary summary-dotted" }, el("p", { className: "mono-u summary-label", textContent: "What you use" }), (() => { const t = tagList({ ariaLabel: "Chosen" }); t.render(opts("Lazy consensus", "Sociocracy")); return t.element; })())),
     group("Pixel divider", "styles.css hr.pixel-divider (before a closing note, between custom rules and the summary)", el("hr", { className: "pixel-divider" })),
@@ -338,10 +345,16 @@ function renderPopup() {
 async function renderViewModes() {
   const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
   const card = {
-    modules: ["infrastructure", "membership", "rules", "processes", "federation"],
-    basics: { name: "Garden Club", link: "https://garden.example", type: "hobby", format: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"], targetScales: { participatory: 6, transparent: 5, hierarchical: 2 }, values: ["trust", "inclusivity"] },
+    modules: ["infrastructure", "membership", "rules", "processes", "federation", "cm_style1"],
+    customModules: [{ id: "cm_style1", name: "Seed library", description: "How our shared seed library works.", fields: [
+      { id: "f_s1", label: "Who can borrow seeds?", type: "text", value: "Any member, up to five packets a season." },
+      { id: "f_s2", label: "When is it open?", type: "radio", value: "Work days", options: ["Always", "Work days"] },
+      { id: "f_s3", label: "What we keep", type: "checkbox", value: ["Vegetables", "Herbs"], options: ["Vegetables", "Herbs", "Flowers"] },
+      { id: "f_s4", label: "How organized is it?", type: "scale", value: 4, min: 1, max: 5, low: "Loose", high: "Strict" }] }],
+    basics: { name: "Garden Club", link: "https://garden.example", type: "hobby", format: "discussion_forum", size: "medium", keywords: ["gardening", "seeds"],
+      description: { purpose: "A forum for gardeners, allotment holders and small growers in the valley: seed swaps, harvest photos, planting calendars and monthly work days at the shared plot behind the library", culture: "Warm and patient. We help each other, newcomers are always welcome, and nobody minds a question that's been asked before; we'd rather you asked than lost a crop" }, targetScales: { participatory: 6, transparent: 5, hierarchical: 2 }, values: ["trust", "inclusivity"] },
     infrastructure: { platform: { platform: "activitypub_client_mastodon", software: "Mastodon", type: "self_hosted_text_primary", structuralModel: "Federation", usesProtocol: "yes", protocol: "ActivityPub", openSource: "yes", selfHosted: "yes" },
-      costs: { hostingServers: "often", domain: "rare", adminModLabor: "yes", inPersonEvents: "no" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
+      costs: { hostingServers: "yes", domain: "yes", adminModLabor: "yes", inPersonEvents: "no" }, tools: [{ tool: "loomio", category: "deliberation_decision_making", usedFor: "big decisions" }], locations: { servers: ["DE"], members: ["WORLDWIDE"], adminTeam: ["US"] } },
     membership: { joining: { tiers: ["open", "tiered_probationary"], ways: [{ id: "mentorship", note: "A buddy for the first month" }], closedNote: null },
       structure: [{ id: "lazy_consensus", note: "For day-to-day changes" }, { id: "consensus_decision_making", note: null }], generalNote: "Dues are optional, and anyone who can't pay is always welcome; we'd rather have more gardeners than more money in the tin." },
     rules: { communityRulesLink: "https://garden.example/rules", covenants: [], adaptedFrom: [], selected: [{ id: "civility_be_respectful", qualifier: null }, { id: "cw_sexual_content", qualifier: "required" }], ruleEdits: {}, customRules: [{ id: "c1", text: "Water the shared plot", typeId: null }, { id: "c2", text: "No mocking newcomers' questions", typeId: "civility" }] },

@@ -262,6 +262,12 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   pointer-events: none;
 }
 .choice:is(.choice-button, .choice-range):is(:hover, :has(> input:focus-visible)) > .choice-tip { display: block; }
+/* anything else with a bubble (the card's icons, tool tags, protocol, a scale's target): shown on hover or keyboard focus */
+.tip-host { position: relative; cursor: help; }
+.tip-host:is(:hover, :focus-visible) > .choice-tip { display: block; }
+/* …and it shows it's there: black text turns orange; a gray tag or a lime tile turns orange */
+.tip-host:is(:hover, :focus-visible) { color: var(--accent); }
+:is(.tag, .card-tile).tip-host:is(:hover, :focus-visible) { background: var(--accent); color: var(--ink-on-color); }
 
 /* picked items as tags (js/controls/picklist.js): click the name to
    annotate it; lime while hovered. A tag with a note or step gets a small
@@ -413,20 +419,16 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .summary-label,
 .rule-original,
 .editor-card :is(.mono, .mono-u) { color: var(--gray); font-size: var(--fs-xs); }
-/* …and small gray mono text: the save status and the sidebar's notes, the
-   card's scale scores, costs' answer letters and step numbers */
+/* …and small gray mono text: the save status and the sidebar's notes */
 .save-status,
-.editor-forget-note,
-.card-scale-score,
-.card-costs thead th,
-.card-step-n { color: var(--gray); font-family: var(--mono); font-size: var(--fs-xs); }
+.editor-forget-note { color: var(--gray); font-family: var(--mono); font-size: var(--fs-xs); }
 
 /* rows of things side by side that wrap onto more lines when there isn't
    room (one rule for all of them; each sets its own gap) */
 .alike-row, .setup-next, #setup-finish, .button-row,
-.card-group, .card-flow, .card-inline, .card-approach, .card-row { display: flex; flex-wrap: wrap; align-items: center; }
+.card-group { display: flex; flex-wrap: wrap; align-items: center; }
 /* …and rows that stay on one line */
-.field-label, .card-places > li, .card-step, .card-head { display: flex; align-items: center; }
+.field-label { display: flex; align-items: center; }
 
 /* choices in a row: 1–5 scales, yes / no, costs (what 1 and 5 mean go below) */
 .scale { display: flex; flex-wrap: wrap; gap: 0.25rem clamp(0.75rem, 2vw, 1.25rem); }
@@ -484,20 +486,21 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 :is(.row, .summary)::before { content: ""; position: absolute; inset: 0; z-index: -1; }
 .row::before { background: var(--tint); }
 /* a summary: a thin (2px) lime outline on the tint, with bigger corners —
-   two 2px steps each, so they show on a large box without a heavy line */
+   two 2px steps each, so they show on a large box without a heavy line
+   (--summary-line and --summary-fill change them, e.g. the card's modules) */
 .summary::before {
   --s: 2px;   /* one pixel */
-  border: var(--s) solid var(--lime);
+  border: var(--s) solid var(--summary-line, var(--lime));
   background:   /* the two corner steps' inner pixels, then the tint */
-    linear-gradient(var(--lime) 0 0) left calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) left var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) right calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) right var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) left calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) left var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) right calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
-    linear-gradient(var(--lime) 0 0) right var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
-    var(--tint);
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) left calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) left var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) right calc(var(--s) * 2) top var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) right var(--s) top calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) left calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) left var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) right calc(var(--s) * 2) bottom var(--s) / var(--s) var(--s) no-repeat,
+    linear-gradient(var(--summary-line, var(--lime)) 0 0) right var(--s) bottom calc(var(--s) * 2) / var(--s) var(--s) no-repeat,
+    var(--summary-fill, var(--tint));
   background-origin: border-box;
   clip-path: polygon(
     0 calc(var(--s) * 3), var(--s) calc(var(--s) * 3), var(--s) calc(var(--s) * 2), calc(var(--s) * 2) calc(var(--s) * 2),
@@ -668,6 +671,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .choice-table tbody td { padding: 0.45rem 0.25rem; text-align: center; vertical-align: middle; white-space: nowrap; }
 .choice-table tbody tr + tr :is(th, td) { border-top: var(--rule); }
 .choice-table .choice-button > label { padding-inline: 0.8rem; }
+.choice-table td.choice-guide { padding-right: 0.5rem; text-align: right; }   /* a row's guide (choiceTable row.guide), just before its answers */
 .choice-table .choice-button-none:has(> input:checked) > label { background: var(--tint-strong); color: var(--ink); }   /* "Not sure" = no answer: muted, not orange */
 @container (width < 34rem) {   /* (about the width the buttons need) */
   .choice-table thead { display: table-header-group; }
@@ -677,6 +681,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
   .choice-table thead th > span { position: absolute; left: 50%; bottom: 0.4rem; transform: rotate(-60deg); transform-origin: left bottom; }
   .choice-table { width: calc(100% - 1.75rem); }   /* (room on the right for the last heading's tilt) */
   .choice-table tbody td { padding-inline: 0.35rem; }
+  .choice-table td.choice-guide { width: 6.5rem; white-space: normal; line-height: 1.3; }   /* (a row's guide wraps, leaving room for its name) */
   /* the answers as the shared pixel radio buttons; their words are said by the headings (and each radio's own label) */
   .make .choice-table .choice-button-input { position: static; width: var(--tick); height: var(--tick); opacity: 1; vertical-align: middle; }
   .choice-table .choice-button > :is(label, .choice-tip) { display: none !important; }
@@ -722,7 +727,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .info-tip:is(:hover, :focus-visible, [aria-expanded="true"])::before { --box-line: var(--accent); }
 .info-tip:is(:hover, :focus-visible, [aria-expanded="true"]) > .choice-tip,
 .tag-add:is(:hover, :focus-visible) > .choice-tip { display: block; }
-:is(.info-tip, .tag-add) > .choice-tip { font-family: var(--sans); font-style: normal; font-weight: normal; text-transform: none; letter-spacing: normal; text-align: left; white-space: normal; }   /* (not the "i"'s pixel italic, nor a tag's type) */
+:is(.info-tip, .tag-add, .tip-host, .note-tip) > .choice-tip { font-family: var(--sans); font-style: normal; font-weight: normal; text-transform: none; letter-spacing: normal; text-align: left; white-space: normal; }   /* (not the "i"'s pixel italic, nor a tag's type) */
 
 .summary-list .tags { margin: 0; }
 /* the Rules summary: ticked rules grouped by kind, each with its qualifier
@@ -972,121 +977,136 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .fork-lists ul { margin: 0.25rem 0 0; }
 .fork-lists li + li { margin-top: 0.1rem; }
 
-/* ── the card (js/card-view.js): one summary box, sections under dotted
-   pixel lines; the view's name in the top-right corner ── */
-.card-view { position: relative; padding: 1.5rem 1.5rem 1.25rem; font-size: 0.8rem; }   /* one small size for everything but the headings: between --fs-xs (its labels) and --fs-s */
-.card-mode { position: absolute; top: 0.9rem; right: 1.1rem; margin: 0; color: var(--gray); font-size: var(--fs-xs); }
-/* tags have no margins of their own in the card: their container spaces them (this
-   rule comes before those spacings, and is no stronger, so they win) */
-.card-view :where(.tags) { margin: 0; }
-.card-top > * + * { margin-top: 0.6rem; }
-.card-title { padding-right: 6rem; }
+/* ── the card (js/card-view.js): one summary box. The top (name, kinds,
+   places), the description, tags and values, then each module in a light
+   outline (a summary box in the line color); notes on pixel asterisk badges ── */
+.card-view { padding: 1.5rem 1.5rem 1.25rem; font-size: 0.8rem; }   /* one small size for everything but the headings: between --fs-xs (its labels) and --fs-s */
+/* tags, lists and lines have no margins of their own in the card: their container
+   spaces them (this rule comes before those spacings, and is no stronger, so they win) */
+.card-view :where(.tags, dl, p, ul) { margin: 0; }
+.card-view > * + * { margin-top: 1rem; }
+
+/* the top: the name and TYPE • FORMAT • SIZE on the left, the places on the right */
+.card-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.75rem 2rem; }
 .card-title a { color: inherit; font: inherit; text-transform: none; letter-spacing: normal; text-decoration: none; background: none; }
-.card-title a:is(:hover, :focus-visible) { color: var(--lime); }
-.card-title > :is(h1, h2, h3) { margin: 0; }
-/* a small group side by side (pills, tags, an icon and its label) */
-.card-group { gap: 0.4rem; }
-/* tags under a small label: a little room between them */
-.card-view .summary-label + .tags { margin-top: 0.3rem; }
-.card-view .summary-list dd { font-size: inherit; }
-.card-line { margin: 0.35rem 0 0; }
-.card-section { margin-top: 1.25rem; padding-top: 1rem; background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px) top / 100% 2px no-repeat; }
-.card-section > h3 { margin: 0 0 0.5rem; font-size: var(--fs-l); }
-.card-section > * + * { margin-top: 0.6rem; }
-.card-section > div:has(> .card-head) { margin-top: 1rem; }   /* a headed group: a little more room above it */
+.card-title a:is(:hover, :focus-visible) { color: var(--accent); }   /* (black → orange, like the card's other hovers) */
+.card-title > :is(h1, h2, h3) { margin: 0; color: var(--ink); font-style: normal; }   /* (upright and black, like the modules' headings) */
+.card-kinds { margin: 0.5rem 0 0; }
+/* a pixel dot between things on one line (the kinds, the platform's flags) */
+.card-sep { display: inline-block; width: 6px; height: 6px; margin: 0 0.6rem; background: currentColor; vertical-align: 0.15em; }
+.card-places { display: flex; gap: 0.5rem; align-items: flex-start; }
+.card-places > .px-icon { width: 24px; height: 24px; margin-top: calc((1lh - 1em) / 2); }   /* (the pin, 1.5×, its top level with the first place's letters) */
+.card-places li { width: fit-content; }
+.card-places li + li { margin-top: 0.15rem; }
+.card-places .choice-tip { left: auto; right: 0; }   /* (at the right edge: the bubble opens leftward) */
 
-/* pixel pills (type, size, how people join, an approach): dark, small mono capitals */
-.card-pill { --px: 2px; display: inline-block; padding: 0.2em 0.6em; background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--caps-spacing); text-transform: uppercase; }
-/* soft tags: gray (keywords, places, lists); .tag-add (the "More like this" pills) builds on them */
-.tag:is(.tag-soft, .tag-add) { background: var(--line); color: var(--ink); }
-.card-places { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; margin: 0.35rem 0 0; }
-.card-places > li { gap: 0.4rem; }
-.tag-role { color: var(--gray); font-size: var(--fs-xs); }
-
-/* a pixel ✓ (orange) or ✗ (gray) after a yes / no answer: strokes two dots thick, to read easily */
-.card-yesno { white-space: nowrap; }
-:is(.icon-yes, .icon-no, .icon-announce, .icon-sub, .icon-note, .icon-meet, .icon-list) { --dot: 2px; position: relative; display: inline-block; width: 18px; height: 14px; vertical-align: -2px; }
-.icon-sub { width: 12px; height: 10px; margin-right: 0.35rem; color: var(--gray); vertical-align: 0; }
-:is(.icon-yes, .icon-no, .icon-announce, .icon-sub, .icon-note, .icon-meet, .icon-list)::after { content: ""; position: absolute; left: 0; top: 0; width: var(--dot); height: var(--dot); }
-.icon-yes { color: var(--accent); }
-.icon-no { color: var(--gray); }
-.icon-yes::after { box-shadow: calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 8) calc(var(--dot) * 0), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 7) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 5); }
-.icon-no::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 6) calc(var(--dot) * 0), calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 1), calc(var(--dot) * 2) calc(var(--dot) * 1), calc(var(--dot) * 5) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 1) calc(var(--dot) * 5), calc(var(--dot) * 2) calc(var(--dot) * 5), calc(var(--dot) * 5) calc(var(--dot) * 5), calc(var(--dot) * 6) calc(var(--dot) * 5), calc(var(--dot) * 0) calc(var(--dot) * 6), calc(var(--dot) * 1) calc(var(--dot) * 6), calc(var(--dot) * 6) calc(var(--dot) * 6), calc(var(--dot) * 7) calc(var(--dot) * 6); }
-/* a pixel note (before every note), two arrows meeting (the response ladder: when there's a problem) and list (shared lists) */
-:is(.icon-note, .icon-meet, .icon-list) { width: 12px; height: 14px; margin-right: 0.35rem; color: var(--gray); vertical-align: -2px; }
-.icon-note::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 0), calc(var(--dot) * 3) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 1), calc(var(--dot) * 3) calc(var(--dot) * 1), calc(var(--dot) * 4) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 0) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 0) calc(var(--dot) * 5), calc(var(--dot) * 2) calc(var(--dot) * 5), calc(var(--dot) * 3) calc(var(--dot) * 5), calc(var(--dot) * 5) calc(var(--dot) * 5), calc(var(--dot) * 0) calc(var(--dot) * 6), calc(var(--dot) * 1) calc(var(--dot) * 6), calc(var(--dot) * 2) calc(var(--dot) * 6), calc(var(--dot) * 3) calc(var(--dot) * 6), calc(var(--dot) * 4) calc(var(--dot) * 6), calc(var(--dot) * 5) calc(var(--dot) * 6); }
-.icon-meet::after { box-shadow: calc(var(--dot) * 1) calc(var(--dot) * 0), calc(var(--dot) * 7) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 7) calc(var(--dot) * 2), calc(var(--dot) * 8) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 6) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 4), calc(var(--dot) * 7) calc(var(--dot) * 4); }
-.icon-meet { width: 18px; height: 10px; color: var(--accent); vertical-align: 0; }
-.icon-list::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 2) calc(var(--dot) * 0), calc(var(--dot) * 3) calc(var(--dot) * 0), calc(var(--dot) * 4) calc(var(--dot) * 0), calc(var(--dot) * 5) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 4), calc(var(--dot) * 2) calc(var(--dot) * 4), calc(var(--dot) * 3) calc(var(--dot) * 4), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4); }
-.icon-list { color: var(--accent); }
-/* a pixel ↳ (a process nested under an approach) */
-.icon-sub::after { box-shadow: calc(var(--dot) * 0) calc(var(--dot) * 0), calc(var(--dot) * 0) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 4); }
-/* a pixel megaphone (communication channels) */
-.icon-announce { color: var(--accent); }
-.icon-announce::after { box-shadow: calc(var(--dot) * 6) calc(var(--dot) * 0), calc(var(--dot) * 4) calc(var(--dot) * 1), calc(var(--dot) * 5) calc(var(--dot) * 1), calc(var(--dot) * 6) calc(var(--dot) * 1), calc(var(--dot) * 0) calc(var(--dot) * 2), calc(var(--dot) * 1) calc(var(--dot) * 2), calc(var(--dot) * 2) calc(var(--dot) * 2), calc(var(--dot) * 3) calc(var(--dot) * 2), calc(var(--dot) * 4) calc(var(--dot) * 2), calc(var(--dot) * 5) calc(var(--dot) * 2), calc(var(--dot) * 6) calc(var(--dot) * 2), calc(var(--dot) * 0) calc(var(--dot) * 3), calc(var(--dot) * 1) calc(var(--dot) * 3), calc(var(--dot) * 2) calc(var(--dot) * 3), calc(var(--dot) * 3) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 3), calc(var(--dot) * 5) calc(var(--dot) * 3), calc(var(--dot) * 6) calc(var(--dot) * 3), calc(var(--dot) * 4) calc(var(--dot) * 4), calc(var(--dot) * 5) calc(var(--dot) * 4), calc(var(--dot) * 6) calc(var(--dot) * 4), calc(var(--dot) * 1) calc(var(--dot) * 5), calc(var(--dot) * 6) calc(var(--dot) * 5), calc(var(--dot) * 1) calc(var(--dot) * 6); }
-
-/* the scales: a bar of pixel squares per scale, filled to the card's score; the target (Full) with a dotted border, its key on hover */
-.card-scales { display: grid; grid-template-columns: max-content max-content max-content; align-items: center; gap: 0.3rem 0.75rem; }
-.card-scale { display: contents; }
-.card-scale-name { font-size: var(--fs-xs); }
-.card-scale-bar { display: flex; gap: 3px; }
-.card-scale-bar > i { position: relative; width: 12px; height: 12px; background: var(--line); }
-.card-scale-bar > i.on { background: var(--accent); }
-.card-scale-bar > i.target { outline: 2px dotted var(--ink); outline-offset: -2px; cursor: help; }
-.card-scale-bar > i.target:is(:hover, :focus-visible) > .choice-tip { display: block; }   /* "where they'd like to be", in the shared bubble */
-
-/* two columns in a section (Infrastructure: the platform, and the costs), stacked when narrow */
-.card-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem 2rem; align-items: start; }
-.card-columns > div > * + * { margin-top: 0.4rem; }
-/* costs: a row per category, a column per answer (Y O S R N), a pixel dot in its column */
-.card-costs { border-collapse: collapse; margin-top: 0.2rem; }
-.card-costs th, .card-costs td { padding: 0.1rem 0.3rem; line-height: 1.3; }
-.card-costs tbody th { padding-left: 0; font-size: var(--fs-xs); text-align: left; }   /* (mono-u, from the cell) */
-.card-costs thead th { position: relative; cursor: help; }
-.card-costs thead th.card-costs-title { padding-left: 0; text-align: left; cursor: auto; }
-.card-costs thead th:is(:hover, :focus-visible) > .choice-tip { display: block; }
-.card-costs td { text-align: center; }
-.card-costs tbody tr + tr > * { border-top: var(--rule); }
-.card-dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); vertical-align: middle; }
-
-/* steps left to right (conflict, the response ladder): a column of tags per step, a pixel arrow between */
-.card-flow { gap: 0.4rem 0; }
-.card-flow > .tags { flex-direction: column; align-items: flex-start; }
-.flow-arrow { position: relative; width: 1.75rem; height: 1rem; }
-/* …or numbered (conflict): a line per step, its approaches side by side */
-.card-steps { margin: 0; padding: 0; list-style: none; }
-.card-steps .card-note { margin-left: 1.75rem; }   /* (a step's notes, under its approaches) */
-.card-step { gap: 0.5rem; }
-.card-steps > li + li { margin-top: 0.3rem; }
-.card-step-n { min-width: 1.25rem; }
-
-/* notes: a line under what they're about; long ones cut short, with a pixel "…" to read them whole */
-.card-note { margin: 0.25rem 0 0; }
-.card-note > .summary-label { margin-right: 0.15rem; }
-/* a heading with what it's about on the same line (Federation: when there's a problem, and the ladder) */
-.card-inline { gap: 0.4rem 1rem; }
-.card-inline > .card-head { margin: 0; }
-/* a group's small heading (an icon before it, optionally) */
-.card-head { gap: 0.5rem; margin-bottom: 0.35rem; }
-/* (an icon in a flex row: the row's gap spaces it) */
-:is(.card-head, .card-group) > [class^="icon-"] { margin-right: 0; }
-/* the general notes, together, in a small note box (beside what they're about): a label column, the notes beside */
-.card-notes-box { align-self: stretch; margin: 0; padding-block: 0.6rem; font-size: inherit; background-color: var(--tint-strong); }   /* (the stronger tint: it sits on the card's own) */
-.card-notes-box > .card-head { margin-bottom: 0.4rem; }
-.card-notes { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.3rem 1rem; align-items: baseline; }
-.card-notes > .card-note { margin: 0; }
-/* an approach, with its note beside it */
-.card-approach { gap: 0.25rem 0.75rem; }
-.card-approach > .card-note { margin: 0; }
+/* the description: a tinted box; a long one cut to a few lines, the pixel "…" to read it whole */
+.card-description { --px: 4px; position: relative; padding: 0.75rem 1rem; background: var(--tint-strong); font-size: var(--fs-s); }
+.card-description.is-cut > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.card-description > .card-more { margin-top: 0.4rem; }
 .card-more { --px: 2px; border: 0; display: inline-flex; gap: 2px; align-items: center; padding: 4px 5px; background: var(--line); vertical-align: middle; cursor: pointer; }
 .card-more > span { width: 3px; height: 3px; background: var(--ink); }
 .card-more:is(:hover, :focus-visible), .card-more[aria-expanded="true"] { background: var(--lime); }
-.card-structure > li { margin-top: 0.4rem; }
-.card-structure .card-note { margin-left: 1rem; }
-/* a row of separate things (Federation: the approach, the block list, the lists followed), well apart */
-.card-row { gap: 0.6rem 1.75rem; }
-.card-channels { margin-top: 1.25rem; }
-.card-rows { margin: 0; }
+
+/* label / answer rows: tags and values at the top; a module's facts (model, costs, other tools) */
+.card-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.45rem 1.25rem; align-items: baseline; }
+.card-facts > dd { margin: 0; }
+
+/* modules: a light outline each (the summary box, in the line color); two side by side (Infrastructure, Membership), stacked when narrow */
+.card-module { --summary-line: var(--line); container-type: inline-size; }   /* (its groups side by side or stacked by its own width) */
+.card-module > * + * { margin-top: 0.75rem; }
+.card-module-head { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.75rem; color: var(--ink); font-family: var(--display); font-style: normal; font-weight: 400; font-size: var(--fs-l); line-height: 1.2; }
+.card-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; align-items: stretch; }
+.card-module > .card-pair { align-items: start; gap: 1.25rem 2rem; }   /* (inside a module: groups, not boxes) */
+.card-stack > * + * { margin-top: 0.75rem; }   /* (a column of parts, beside a group) */
+/* groups in a module, apart: a faint dotted line between them (above, when stacked; between, when side by side) */
+.card-module {
+  --dots-across: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px) top / 100% 2px no-repeat;
+  --dots-down: repeating-linear-gradient(180deg, var(--line) 0 2px, transparent 2px 6px) left / 2px 100% no-repeat;
+}
+.card-module > :is(.card-group-box, .card-pair) + :is(.card-group-box, .card-pair),
+.card-module > .card-pair > * + * { padding-top: 1rem; background: var(--dots-across); }
+@container (width >= 38rem) {   /* (side by side: about two 18rem columns) */
+  .card-module > .card-pair > * + * { padding-top: 0; padding-left: 2rem; background: var(--dots-down); }   /* (the line in the middle of the gap) */
+}
+/* a group inside a module (Joining, Structure, Decision making, Conflict, Communications): a small heading, with its badge */
+.card-sub { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.5rem; font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--caps-spacing); }
+
+/* a note badge (dom.js infoTip({ note })): the editor's pixel asterisk; its note in the shared bubble */
+.note-tip { position: relative; display: inline-flex; }
+.note-tip > .note-mark { position: relative; inset: auto; }
+.card-view .tag.has-note { margin-right: 0; }   /* (on the card the badge sits inside the tag, on its text's line) */
+.note-tip:has(> .note-mark:is(:hover, :focus-visible, [aria-expanded="true"])) { z-index: 7; }
+.note-tip:has(> .note-mark:is(:hover, :focus-visible, [aria-expanded="true"])) > .choice-tip { display: block; }
+.card-pair > :last-child .note-tip > .choice-tip { left: auto; right: 0; }   /* (on the right: the bubble opens leftward) */
+.card-tip-line { display: block; }
+.card-tip-line + .card-tip-line { margin-top: 0.4rem; }
+.card-tip-line > b { display: block; color: var(--lime); font-size: 0.9em; }
+
+/* pixel pills (the platform, a joining tier, the federation approach): dark, small mono capitals */
+.card-pill { --px: 2px; display: inline-block; padding: 0.2em 0.6em; background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: var(--fs-xs); font-weight: 600; letter-spacing: var(--caps-spacing); text-transform: uppercase; }
+/* soft tags: gray (keywords, tools, lists); .tag-add (the "More like this" pills) builds on them */
+.tag:is(.tag-soft, .tag-add) { background: var(--line); color: var(--ink); }
+.card-group { gap: 0.4rem; }
+
+/* yes / no on one line (protocol, open source, self-hosted; the block list, bridges): bold for yes, struck through for no */
+.card-flag { font-weight: 700; white-space: nowrap; }
+.card-flag:is(.is-no, .is-varies) { color: var(--gray); font-weight: 400; }
+.card-flag.is-no { text-decoration: line-through; }
+
+/* Membership: the ways of joining in two columns; the pixel icons, and the tiles they sit on (tiers, scales) */
+.px-icon { width: 16px; height: 16px; fill: currentColor; shape-rendering: crispEdges; }
+/* a pixel icon on a lime tile (a joining tier; a scale, bigger) */
+.card-tile { display: grid; place-items: center; width: 56px; height: 56px; background: var(--lime); color: var(--ink-on-color); }   /* (the scales; the tiers, beside a heading, are smaller) */
+.card-tile > .px-icon { width: 48px; height: 48px; }   /* (3× the 16-pixel grid: crisp) */
+/* a module's heading with something on its right (Membership: its tiers, as tiles) */
+.card-module-top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 0.5rem 1rem; }   /* (top-aligned: the heading sits where the other modules' do) */
+.card-module-top > .card-module-head { margin: 0; }
+.card-module-top .plain-list { display: flex; gap: 0.4rem; }
+.card-module-top .choice-tip { left: auto; right: 0; }   /* (at the right edge: the bubble opens leftward) */
+.card-module-top .card-tile { width: 40px; height: 40px; }   /* (smaller beside a heading: the tiers) */
+.card-module-top .card-tile > .px-icon { width: 32px; height: 32px; }   /* (2×: crisp) */
+.card-ways .tags { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr)); justify-items: start; }
+
+/* the scales: a lime tile with its pixel icon (its name, aim and score in a bubble), and a
+   column of squares filled to the score (the target, in Full, with a dotted border, its key on hover) */
+.card-scales { display: flex; flex-wrap: wrap; gap: 1rem 1.25rem; }
+.card-scale { display: flex; align-items: flex-end; gap: 6px; }
+.card-scale-bar { display: grid; gap: 2px; }
+.card-scale-bar > i { position: relative; width: 10px; height: 6px; background: var(--line); }   /* (seven, as tall as the tile) */
+.card-scale-bar > i.on { background: var(--accent); }
+.card-scale-bar > i.target { outline: 2px dotted var(--ink); outline-offset: -1px; }   /* (its key, "where they'd like to be", in a bubble: .tip-host) */
+.card-scale-bar > i.target:is(:hover, :focus-visible) { outline-color: var(--accent); }
+/* …or across (a custom module's scale answer): square cells, the ends' words either side */
+.card-scale-bar.is-across { grid-auto-flow: column; }
+.card-scale-bar.is-across > i { width: 10px; height: 10px; }
+.card-scale-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.6rem; }
+
+/* decision making: each approach, and beside it (after a short line) the areas whose notes say how it's used */
+.card-decisions { display: grid; gap: 0.5rem; }
+.card-decisions > li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; }
+.card-used { display: inline-flex; align-items: center; gap: 0.5rem; }
+.card-used-line { width: 1rem; height: 2px; background: var(--gray); }
+.card-used-areas { display: grid; color: var(--gray); font-size: 0.6rem; line-height: 1.25; }
+
+/* steps (conflict: one under another; the response ladder: left to right), a pixel arrow between; a step's approaches side by side */
+.card-steps { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+.card-steps > .flow-arrow { rotate: 90deg; margin-left: 0.4rem; }
+.card-steps > .flow-arrow::after { --dot: 3px; }   /* (a bigger arrow: it stands alone between the steps) */
+.card-steps-across { flex-direction: row; flex-wrap: wrap; align-items: center; }
+.card-steps-across > .flow-arrow { rotate: none; }
+.flow-arrow { position: relative; width: 1.75rem; height: 1rem; }
+/* the pixel star (a primary step), at the text's size; and its key, on Processes' heading */
+.px-star { width: 9px; height: 9px; }
+.card-primary { display: inline-flex; align-items: center; gap: 0.35rem; }
+.card-key { display: inline-flex; align-items: center; gap: 0.35rem; }
+
+/* Rules and custom modules: groups in columns, each label over its list */
+.card-columns-flow { columns: 2 16rem; column-gap: 2rem; }
+.card-flow-group { break-inside: avoid; margin-bottom: 0.75rem; }
+.card-flow-group > :is(ul, p) { margin: 0.25rem 0 0; }
+.card-intro { color: var(--gray); font-size: var(--fs-s); }   /* (a custom module's description, under its heading) */
+.card-flow-group > ul:not(.tags) > li + li { margin-top: 0.15rem; }   /* (a list of rules; tags keep their own row) */
 /* a custom rule, under its type: a hollow bullet (an outlined pixel square), unlike the listed rules' filled ones */
-.card-rows li.custom::before { top: calc(0.5lh - 3.5px); width: 7px; height: 7px; background: none; box-shadow: inset 0 0 0 2px var(--accent); }
-@media (width < 40rem) { .card-rows { grid-template-columns: 1fr; gap: 0; } .card-rows dd { margin-bottom: 0.5rem; } }   /* label above its value */
+.card-flow-group li.custom::before { top: calc(0.5lh - 3.5px); width: 7px; height: 7px; background: none; box-shadow: inset 0 0 0 2px var(--accent); }
+.card-rules { --summary-fill: var(--tint-strong); }   /* the rules on the stronger tint, as in the sketch */

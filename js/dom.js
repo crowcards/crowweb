@@ -14,17 +14,32 @@ export function el(tag, props = {}, ...children) {
  * A small pixel "i" that shows a hint in a bubble (make.css .info-tip; the
  * bubble is the shared .choice-tip): on hover or keyboard focus, and on a tap
  * (it stays until tapped again, for touch screens). The bubble's id can be
- * given, so a field can point to it (aria-describedby).
+ * given, so a field can point to it (aria-describedby). note: the pixel
+ * asterisk badge instead (.note-mark, as on the editor's tags), its bubble
+ * beside it (the badge's stepped corners would clip one inside it), for a
+ * note on the card; the content can then be nodes.
  */
-export function infoTip(text, id = uid("tip")) {
-  const bubble = el("span", { className: "choice-tip", id, role: "tooltip", textContent: text });
-  const b = el("button", { type: "button", className: "info-tip" }, el("span", { className: "info-tip-i", textContent: "i" }), bubble);
-  b.setAttribute("aria-label", "More about this");
+export function infoTip(text, id = uid("tip"), { note = false } = {}) {
+  const bubble = el("span", { className: "choice-tip", id, role: "tooltip" }, ...[].concat(text));
+  const b = el("button", { type: "button", className: note ? "note-mark" : "info-tip" }, ...(note ? [] : [el("span", { className: "info-tip-i", textContent: "i" }), bubble]));
+  b.setAttribute("aria-label", note ? "Note" : "More about this");
   b.setAttribute("aria-describedby", id);
   b.setAttribute("aria-expanded", "false");
   b.addEventListener("click", () => b.setAttribute("aria-expanded", String(b.getAttribute("aria-expanded") !== "true")));
   b.addEventListener("blur", () => b.setAttribute("aria-expanded", "false"));
-  return b;
+  return note ? el("span", { className: "note-tip" }, b, bubble) : b;
+}
+
+/** A pixel icon from the sprite (img/icons.svg), in the text color: decorative, unless it has a label. */
+export function pixelIcon(name, { className = "px-icon", label = null } = {}) {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(NS, "svg");
+  const use = document.createElementNS(NS, "use");
+  use.setAttribute("href", `/img/icons.svg#${name}`);
+  svg.setAttribute("class", className);
+  if (label) { svg.setAttribute("role", "img"); svg.setAttribute("aria-label", label); } else svg.setAttribute("aria-hidden", "true");
+  svg.append(use);
+  return svg;
 }
 
 /** A button that runs onClick: button("Done", "button button-small", () => …). */

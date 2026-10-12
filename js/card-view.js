@@ -1,133 +1,152 @@
-// A card drawn as a card: one summary box, sections divided by dotted pixel
-// lines, with pills, tags, pixel badges, scale bars, a costs table and step
-// flows. Used for the published card page, its preview, and Export's "Your
-// Card in full", so the editor shows what readers see.
+// A card drawn as a card: one summary box. At the top, the name, what kind
+// of community it is and where it is; the description; tags and values.
+// Then each module in its own light outline: Infrastructure and Membership
+// side by side (Membership: its tiers as pixel tiles, Joining, and Structure
+// with the scales as pixel tiles), Processes (decision-making and conflict
+// side by side, communications), Rules, Federation and custom modules. Notes hide behind a pixel asterisk badge (the editor's), shown on
+// hover, focus or a tap. Used for the published card page, its preview, and
+// Export's "Your Card in full", so the editor shows what readers see.
 //
 //   const box = renderCard(view, data, defaults, { heading: "h1" });
 //
 // view: a public copy (view-modes.js publicView): { mode, card, rulesCount,
 // scales }; data: Export's reference data (loadExportData); defaults: the
 // module defaults (for module names and order). What the view leaves out
-// isn't mentioned; empty answers are left out; a section with nothing filled
-// in says so. Long notes are cut short, with a "…" button to read them whole.
+// isn't mentioned; empty answers are left out; a module with nothing filled
+// in says so. (The view's name is said above the card, by the page.)
 
-import { el, button } from "./dom.js";
-import { MODES } from "./view-modes.js";
+import { el, button, infoTip, pixelIcon } from "./dom.js";
 import { cardOutline, labelIn, labels } from "./export.js";
 import { moduleEntries } from "./modules.js";
-import { toolLine } from "./sections/infrastructure.js";
+import { toolName } from "./sections/infrastructure.js";
 import { channelLine, WORK_AREAS } from "./sections/processes.js";
 import { DESCRIPTION } from "./sections/basics.js";
+import { answerText, scaleRange } from "./sections/custom.js";
 import { structureIds } from "./structure.js";
 
-const NOTE_MAX = 80;    // characters of a note shown before "…"
+const NOTE_MAX = 300;          // characters of a note shown in its bubble (the rest: the raw data download)
+const DESCRIPTION_LONG = 260;  // a description longer than this is cut to a few lines, with "…" to read it whole
+const TIER_ICONS = { open: "join-open", tiered_probationary: "join-tiered", restricted_approvals: "join-restricted", closed: "join-closed" };
+/** The pixel star for a primary step (and its key, on Processes' heading). */
+const STAR = () => pixelIcon("star", { className: "px-icon px-star", label: "primary" });
+// the headings' levels under the card's name (set by renderCard: the name's level + 1, + 2)
+let H = { module: "h3", group: "h4" };
 
 // ── small pieces ────────────────────────────────────────────
 const has = (v) => (Array.isArray(v) ? v.length > 0 : v != null && String(v).trim() !== "");
-/** A pixel pill (type, size, how people join, an approach). */
+/** A dark pixel pill (the platform, a joining tier, the federation approach). */
 const pill = (text) => el("span", { className: "card-pill", textContent: text });
-/** Tags in a row: orange (chosen things), or soft (gray: keywords, places). */
-const tags = (items, { soft = false } = {}) => el("ul", { className: "tags plain-list" },
-  ...items.map((t) => el("li", { className: `tag${soft ? " tag-soft" : ""}` }, ...[].concat(t))));
-/** A yes / no / varies answer as a pixel ✓ / ✗ (or "varies"), after its label. */
-const yesNo = (label, v) => (v ? el("span", { className: "card-yesno" }, small(label), " ",
-  v === "varies" ? el("span", { className: "mono-u summary-label", textContent: "varies" })
-    : el("span", { className: v === "yes" ? "icon-yes" : "icon-no", role: "img", ariaLabel: v === "yes" ? "yes" : "no" })) : null);
-/** A small mono label, e.g. "CHANGE". */
+/** A small mono label, e.g. "COSTS". */
 const small = (text) => el("span", { className: "mono-u summary-label", textContent: text });
-/** One line (or none): its parts, those given. */
-const line = (...parts) => (parts.some((p) => p != null && p !== "") ? el("p", { className: "card-line" }, ...parts.filter((p) => p != null && p !== "")) : null);
 
 /**
- * A note, cut at NOTE_MAX characters with a pixel "…" button to read it
- * whole (and to fold it again). label: an optional small label before it;
- * nested: under an approach, as "↳ CHANGE · note".
+ * The pixel asterisk badge for notes ([[label, text]], those given): each
+ * note in the bubble, under its label, cut at NOTE_MAX characters. None: nothing.
  */
-function note(text, label, { nested = false } = {}) {
-  if (!has(text)) return null;
-  const full = String(text).trim();
-  const body = el("span", { textContent: full });
-  const p = el("p", { className: "card-note" },
-    nested ? el("span", { className: "icon-sub", ariaHidden: "true" }) : null,   // ↳: under the approach above
-    label ? small(label) : null, label ? (nested ? " · " : " ") : null,
-    el("span", { className: "icon-note", role: "img", ariaLabel: "Note:" }), body);
-  if (full.length <= NOTE_MAX) return p;
-  const short = `${full.slice(0, NOTE_MAX).replace(/\s+\S*$/, "")}…`;
-  body.textContent = short;
-  const more = button("", "card-more", () => {
-    const open = more.getAttribute("aria-expanded") !== "true";
-    body.textContent = open ? full : short;
-    more.setAttribute("aria-expanded", String(open));
-    more.setAttribute("aria-label", open ? "Show less" : "Read the whole note");
-  });
-  more.append(el("span"), el("span"), el("span"));   // three pixel dots
-  more.setAttribute("aria-expanded", "false");
-  more.setAttribute("aria-label", "Read the whole note");
-  p.append(" ", more);
-  return p;
+function noteMark(notes) {
+  const shown = notes.filter(([, text]) => has(text));
+  if (!shown.length) return null;
+  const cut = (t) => { const s = String(t).trim(); return s.length <= NOTE_MAX ? s : `${s.slice(0, NOTE_MAX).replace(/\s+\S*$/, "")}… (the rest is in the raw data)`; };
+  return infoTip(shown.map(([label, text]) => el("span", { className: "card-tip-line" }, label ? el("b", { className: "mono-u", textContent: label }) : null, cut(text))), undefined, { note: true });
+}
+/** Something with more to say in the shared bubble, on hover or keyboard focus (.tip-host). */
+function withTip(node, text) {
+  if (!has(text)) return node;
+  node.classList.add("tip-host");
+  node.tabIndex = 0;
+  node.append(el("span", { className: "choice-tip", role: "tooltip", textContent: text }));
+  return node;
+}
+/** A tag (orange; soft: gray), with a note badge on its corner if it has notes, and a bubble if it has a tip. */
+function tag(label, notes = [], { soft = false, tip = null } = {}) {
+  const mark = noteMark(notes);
+  return withTip(el("li", { className: `tag${soft ? " tag-soft" : ""}${mark ? " has-note" : ""}` }, label, mark), tip);
+}
+/** Tags in a row: plain labels, or [label, notes, tip] (notes on a badge, a tip in a bubble). */
+const tags = (items, opts = {}) => el("ul", { className: "tags plain-list" }, ...items.map((t) => (Array.isArray(t) ? tag(t[0], t[1], { ...opts, tip: t[2] }) : tag(t, [], opts))));
+/**
+ * A module: a light outline, its heading (and a badge for its general notes; `aside`, on the
+ * heading's right), then its parts (or "Not filled in yet").
+ */
+function moduleBox(title, parts, { notes = [], className = "", aside = null } = {}) {
+  const filled = parts.flat().filter(Boolean);
+  const head = el(H.module, { className: "card-module-head" }, title, noteMark(notes));
+  return el("section", { className: `summary card-module ${className}`.trim() },
+    aside ? el("div", { className: "card-module-top" }, head, aside) : head,
+    ...(filled.length || aside ? filled : [el("p", { className: "field-hint", textContent: "Not filled in yet." })]));
+}
+/** A pixel icon on a lime tile; its name (and more) in a bubble. */
+const tile = (icon, label, tip) => withTip(el("span", { className: "card-tile", role: "img", ariaLabel: label }, pixelIcon(icon)), tip);
+/** A group inside a module (Decision making, Conflict, …): a small heading, with a badge for its notes. */
+const group = (title, notes, ...parts) => el("div", { className: "card-group-box" }, el(H.group, { className: "card-sub mono-u" }, title, noteMark(notes)), ...parts.flat().filter(Boolean));
+/** Label / answer rows (Infrastructure's model, costs, other tools): [[label, value]], the empty ones left out. */
+function facts(rows) {
+  const shown = rows.filter(([, v]) => has(v));
+  return shown.length ? el("dl", { className: "card-facts" }, ...shown.flatMap(([label, v]) => [el("dt", { className: "mono-u summary-label", textContent: label }), el("dd", {}, v)])) : null;
 }
 
 /**
- * Steps ([{ id, note, stage, primary? }]): left to right, a column per step
- * with arrows between, notes under; or (numbered) a numbered list, a line
- * per step with its approaches side by side, and their notes under the step.
+ * Steps ([{ id, note, stage, primary? }]): the stages one under another,
+ * a pixel arrow between, the approaches of a stage side by side (a pixel star: primary),
+ * each with its note on a badge. across: left to right instead.
  */
-function flow(steps = [], options, { numbered = false } = {}) {
-  if (!steps.length) return [];
-  const stages = [...new Set(steps.map((s) => s.stage))].sort((a, b) => a - b);
-  const label = (s) => `${labelIn(options, s.id)}${s.primary ? " ★" : ""}`;
-  const inStage = (stage) => tags(steps.filter((s) => s.stage === stage).map(label));
+function steps(list = [], options, { across = false } = {}) {
+  if (!list.length) return [];
+  const stages = [...new Set(list.map((s) => s.stage))].sort((a, b) => a - b);
   return [
-    numbered
-      ? el("ol", { className: "plain-list card-steps" }, ...stages.map((stage, i) => el("li", {},
-        el("div", { className: "card-step" }, el("span", { className: "card-step-n", textContent: `${i + 1}.` }), inStage(stage)),
-        ...steps.filter((s) => s.stage === stage && s.note).map((s) => note(s.note, labelIn(options, s.id), { nested: true })))))
-      : el("div", { className: "card-flow" }, ...stages.flatMap((stage, i) => [
-        i ? el("span", { className: "flow-arrow", ariaHidden: "true" }) : null,
-        inStage(stage),
-      ].filter(Boolean))),
-    ...(numbered ? [] : steps.filter((s) => s.note).map((s) => note(s.note, labelIn(options, s.id)))),
-    steps.some((s) => s.primary) ? el("p", { className: "card-note", textContent: "★ primary" }) : null,
+    el("div", { className: `card-steps${across ? " card-steps-across" : ""}` }, ...stages.flatMap((stage, i) => [
+      i ? el("span", { className: "flow-arrow", ariaHidden: "true" }) : null,
+      tags(list.filter((s) => s.stage === stage).map((s) => [s.primary ? el("span", { className: "card-primary" }, labelIn(options, s.id), STAR()) : labelIn(options, s.id), [[null, s.note]]])),
+    ].filter(Boolean))),
   ];
 }
 
-/** A pixel bar for a scale: its score filled in, the community's target (if shown) outlined. */
-function scaleBar(sc, score, target, range) {
-  const cells = Array.from({ length: range.max - range.min + 1 }, (_, i) => {
-    const n = range.min + i;
+/** A scale as a lime tile with its pixel icon (its name, aim and score in a bubble) and a column of squares filled to the score (the target, if shown, outlined). */
+function scaleTile(sc, score, target, range) {
+  const cells = Array.from({ length: range.max - range.min + 1 }, (_, i) => range.max - i).map((n) => {
     const cell = el("i", { className: `${score != null && n <= score ? "on" : ""}${n === target ? " target" : ""}`.trim() });
-    if (n === target) {   // its key, on hover or focus
-      cell.tabIndex = 0;
-      cell.append(el("span", { className: "choice-tip", role: "tooltip", textContent: `Where they’d like to be: ${target}` }));
-    }
-    return cell;
+    return n === target ? withTip(cell, `Where they’d like to be: ${target}`) : cell;   // its key, on hover or focus
   });
   return el("div", { className: "card-scale" },
-    el("span", { className: "mono-u card-scale-name", textContent: sc.label }),
+    tile(`scale-${sc.id}`, sc.label, `${sc.label} · ${[target != null ? `aim: ${target}` : null, `scored: ${score ?? "not scored"}`].filter(Boolean).join(", ")}`),
     el("span", { className: "card-scale-bar", role: "img",
-      ariaLabel: `${sc.label}: ${score ?? "not scored"} of ${range.max}${target != null ? `; they’d like ${target}` : ""}` }, ...cells),
-    el("span", { className: "card-scale-score", textContent: score != null ? `${score}/${range.max}` : "–" }));
+      ariaLabel: `${sc.label}: ${score ?? "not scored"} of ${range.max}${target != null ? `; they’d like ${target}` : ""}` }, ...cells));
 }
 
-/** A group's small heading (an icon before it, optionally). */
-const head = (title, icon) => el("div", { className: "card-head" }, icon ? el("span", { className: icon, ariaHidden: "true" }) : null, small(title));
-
-/** General notes gathered in a small note box: [[label, text]], a label column and the notes beside it; none, no box. */
-function notesBox(items) {
-  const shown = items.filter(([, text]) => has(text));
-  return shown.length ? el("aside", { className: "callout card-notes-box" }, head("Notes"), el("div", { className: "card-notes" },
-    ...shown.flatMap(([label, text]) => [small(label), note(text)]))) : null;
+/** Rows of an outline section (Rules) as groups in columns, without the empty or unshared ones. */
+function outlineGroups(rows) {
+  const shown = rows.filter(([, v]) => has(v) && v !== "N/A" && v !== "Not shared");
+  return shown.length ? [el("div", { className: "card-columns-flow" }, ...shown.map(([label, value]) => el("div", { className: "card-flow-group" },
+    small(label),
+    Array.isArray(value)
+      ? el("ul", {}, ...value.map((v) => (v.custom ? el("li", { className: "custom", textContent: v.text, title: "A custom rule" }) : el("li", { textContent: v }))))
+      : el("p", { textContent: String(value) }))))] : [];
 }
 
-/** A section: a small heading, then its parts (or "Not filled in yet"). */
-function section(title, parts) {
-  const filled = parts.flat().filter(Boolean);
-  return el("section", { className: "card-section" },
-    el("h3", { textContent: title }),
-    ...(filled.length ? filled : [el("p", { className: "field-hint", textContent: "Not filled in yet." })]));
+/**
+ * A custom module: its description as a short gray line under the heading, then each answered
+ * question as a group in columns: text and a radio choice as written, checkboxes as tags, and a
+ * scale as a row of squares filled to the answer, its two ends' words either side.
+ */
+function customModule(m) {
+  const answered = (m.fields || []).filter((f) => f.label && has(answerText(f)));
+  const answer = (f) => {
+    if (f.type === "checkbox") return tags(f.value);
+    if (f.type !== "scale") return el("p", { textContent: answerText(f) });
+    const { min, max } = scaleRange(f);
+    const cells = Array.from({ length: max - min + 1 }, (_, i) => el("i", { className: min + i <= f.value ? "on" : "" }));
+    return el("p", { className: "card-scale-row" },
+      f.low ? small(f.low) : null,
+      el("span", { className: "card-scale-bar is-across", role: "img", ariaLabel: `${answerText(f)}${f.low || f.high ? ` (${min} = ${f.low || "…"}, ${max} = ${f.high || "…"})` : ""}` }, ...cells),
+      f.high ? small(f.high) : null);
+  };
+  return [
+    has(m.description) ? el("p", { className: "card-intro", textContent: m.description }) : null,
+    answered.length ? el("div", { className: "card-columns-flow" }, ...answered.map((f) => el("div", { className: "card-flow-group" }, small(f.label), answer(f)))) : null,
+  ];
 }
 
-// ── the sections ────────────────────────────────────────────
+// ── the parts ───────────────────────────────────────────────
 /** Whether a card's software says more than its platform: typed in, unlike the listed platform's (or for a typed platform). */
 function ownSoftware(p, x) {
   if (!p.software?.trim() || ["proprietary", "none"].includes(p.software.trim().toLowerCase())) return false;
@@ -135,98 +154,106 @@ function ownSoftware(p, x) {
   return !listed || p.software.trim().toLowerCase() !== String(listed.software || "").toLowerCase();
 }
 
-function infrastructure(inf, d) {
-  const x = d.infrastructure;
-  const p = inf.platform || {};
-  // costs: a row per answered category, a column per answer (Y O S R N), a pixel dot in its
-  // column; each letter's word shows in the shared bubble on hover or focus
-  const answered = x.costCategories.filter((c) => inf.costs?.[c.id]);
-  const costs = answered.length ? el("table", { className: "card-costs" },
-    el("thead", {}, el("tr", {}, el("th", { scope: "col", className: "mono-u card-costs-title", textContent: "Costs" }), ...x.costValues.map((v) => {
-      const th = el("th", { scope: "col", tabIndex: 0 }, el("span", { ariaHidden: "true", textContent: v.label[0] }),
-        el("span", { className: "choice-tip", role: "tooltip", textContent: v.label }));
-      th.setAttribute("aria-label", v.label);
-      return th;
-    }))),
-    el("tbody", {}, ...answered.map((c) => el("tr", {},
-      el("th", { scope: "row", className: "mono-u", textContent: c.label }),
-      ...x.costValues.map((v) => el("td", {}, inf.costs[c.id] === v.id ? el("span", { className: "card-dot", role: "img", ariaLabel: v.label }) : null)))))) : null;
-  // locations: each place once, with the roles it has
+/** Each place once, its roles (servers, members, admins) in a bubble. */
+function places(inf, x) {
   const roles = new Map();
   for (const [key, role] of [["servers", "servers"], ["members", "members"], ["adminTeam", "admins"]]) {
     for (const code of inf.locations?.[key] || []) roles.set(code, [...(roles.get(code) || []), role]);
   }
-  // two columns: the platform and how it's run on the left, the costs on the right
-  const left = [
-    p.platform ? el("div", {}, pill(labelIn(x.platforms, p.platform))) : null,
-    p.type ? line(labelIn(x.platformTypes, p.type)) : null,
-    // the software only when it adds something: the listed platform's name already includes its
-    // software (e.g. "ActivityPub client (Mastodon)"), so only software typed in differently, or for a typed platform
-    ownSoftware(p, x) ? el("div", {}, pill(p.software)) : null,
-    roles.size ? el("ul", { className: "plain-list card-places" }, ...[...roles].map(([code, r]) => el("li", {},
-      el("span", { className: "tag tag-soft", textContent: labelIn(x.places, code) }),
-      el("span", { className: "tag-role", textContent: r.join(", ") })))) : null,
-    line(yesNo("Open protocol", p.usesProtocol)),
-    p.usesProtocol === "yes" && p.protocol ? el("p", { className: "card-note" }, el("span", { className: "icon-sub", ariaHidden: "true" }), p.protocol) : null,
-    line(yesNo("Open source", p.openSource)),
-    line(yesNo("Self-hosted", p.selfHosted)),
-    p.structuralModel ? line(small("Structural model"), " ", p.structuralModel) : null,
-  ].filter(Boolean);
+  return roles.size ? el("div", { className: "card-places" }, pixelIcon("pin", { label: "Where" }),
+    el("ul", { className: "plain-list mono-u" }, ...[...roles].map(([code, r]) => withTip(el("li", { textContent: labelIn(x.places, code) }),
+      `${r.join(", ").replace(/^./, (c) => c.toUpperCase())}`)))) : null;
+}
+
+/** Protocol-based (which protocol, in a bubble), open source, self-hosted on one line: bold for yes, struck through for no, marked if it varies. */
+function platformFlags(p) {
+  const flag = (label, v, tip) => (v ? withTip(el("span", { className: `card-flag is-${v}` }, label,
+    v === "varies" ? " (varies)" : null,
+    el("span", { className: "visually-hidden", textContent: v === "yes" ? ": yes" : v === "no" ? ": no" : "" })), tip) : null);
+  const shown = [flag("Protocol-based", p.usesProtocol, p.usesProtocol === "yes" ? p.protocol : null), flag("Open source", p.openSource), flag("Self-hosted", p.selfHosted)].filter(Boolean);
+  return shown.length ? el("p", { className: "card-flags mono-u" }, ...shown.flatMap((f, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), f] : [f]))) : null;
+}
+
+function infrastructure(inf, d) {
+  const x = d.infrastructure;
+  const p = inf.platform || {};
+  const answered = x.costCategories.filter((c) => inf.costs?.[c.id]);
+  const paid = answered.filter((c) => inf.costs[c.id] === "yes").map((c) => c.label);
+  const tools = (inf.tools || []).filter((t) => t.tool);
   return [
-    left.length || costs ? el("div", { className: "card-columns" },
-      left.length ? el("div", {}, ...left) : null,
-      costs ? el("div", {}, costs) : null) : null,
-    has(inf.tools?.filter((t) => t.tool)) ? el("div", {}, small("Other tools"), tags(inf.tools.filter((t) => t.tool).map((t) => toolLine(t, x)), { soft: true })) : null,
-    // Foggy: only the kinds of tools
-    has(inf.toolCategories) ? el("div", {}, small("Other tools"), tags(labels(x.toolCategories, inf.toolCategories), { soft: true })) : null,
+    p.platform || ownSoftware(p, x) ? el("div", { className: "card-group" },
+      p.platform ? pill(labelIn(x.platforms, p.platform)) : null,
+      // the software only when it adds something: the listed platform's name already includes its
+      // software (e.g. "ActivityPub client (Mastodon)"), so only software typed in differently, or for a typed platform
+      ownSoftware(p, x) ? pill(p.software) : null) : null,
+    platformFlags(p),
+    facts([
+      ["Type", p.type ? labelIn(x.platformTypes, p.type) : null],
+      ["Model", p.structuralModel],
+      ["Costs", paid.length ? paid.join(", ") : answered.length ? "None" : null],
+      // each tool by its name; its kind and what it's used for in a bubble
+      ["Other tools", has(tools) ? tags(tools.map((t) => [toolName(t.tool, x), [], [labelIn(x.toolCategories, t.category), t.usedFor].filter(has).join(" · ")]), { soft: true }) : null],
+      // Foggy: only the kinds of tools
+      ["Other tools", has(inf.toolCategories) ? tags(labels(x.toolCategories, inf.toolCategories), { soft: true }) : null],
+    ]),
   ];
 }
 
-function membershipAndProcesses(card, d, scaleBars) {
+/** How people join: its tiers as lime tiles (each one's name and what it means in a bubble), for Membership's heading. */
+function joiningTiers(j, d) {
+  const tiers = d.membership.tiers.filter((t) => j.tiers?.includes(t.id));
+  return tiers.length ? el("ul", { className: "plain-list" }, ...tiers.map((t) => el("li", {}, tile(TIER_ICONS[t.id] || "join-open", t.label, `${t.label}: ${t.description}`)))) : null;
+}
+/**
+ * Membership: JOINING (the ways of joining, in two columns, each with its note on a badge; the
+ * note on joining and about being closed on the heading's), then STRUCTURE (the scales; the
+ * note on how membership is organized on the heading's). Its tiers go on the module's heading.
+ */
+function membership(m, d, scaleTiles) {
+  const j = m.joining || {};
+  const joinNotes = [["Joining", j.note], ["About being closed", j.closedNote]];
+  const orgNotes = [[null, m.generalNote]];
+  return [
+    has(j.ways) || joinNotes.some(([, t]) => has(t)) ? group("Joining", joinNotes,
+      has(j.ways) ? el("div", { className: "card-ways" }, tags(j.ways.map((w) => [labelIn(d.membership.options, w.id), [[null, w.note]]]))) : null) : null,
+    scaleTiles || has(m.generalNote) ? group("Structure", orgNotes, scaleTiles) : null,
+  ];
+}
+
+function processes(card, d, scaleTiles) {   // (scaleTiles: only when Membership is off)
   const m = card.membership || {};
   const pr = card.processes || {};
-  const j = m.joining || {};
   const xm = d.membership;
   const xp = d.processes;
-  // the structure, each approach with any notes on how it's used (Membership's, and each Processes tab's)
-  // the Processes tabs, in the card's order (Maintenance, Moderation, Change)
-  const TABS = ["maintenance", "moderation", "institutionalChange"].map((part) => [part, WORK_AREAS.find((w) => w.part === part).label]);
+  const on = new Set(card.modules || []);
+  // the Processes tabs, in the card's order (Change, Maintenance, Moderation)
+  const TABS = WORK_AREAS.map((w) => [w.part, w.label]);
   const structure = structureIds(card.membership);
+  // decision making: each approach (its Membership note on its badge), and beside it the
+  // tabs that say how it's used, all their notes on one badge
+  const decisions = structure.length ? group("Decision making",
+    TABS.map(([part, label]) => [label, pr[part]?.generalNote]),
+    el("ul", { className: "plain-list card-decisions" }, ...structure.map((id) => {
+      const used = TABS.filter(([part]) => has(pr[part]?.approachNotes?.[id]));
+      return el("li", {},
+        tags([[labelIn(xm.approaches, id), [[null, m.structure?.find((s) => s.id === id)?.note]]]]),
+        used.length ? el("span", { className: "card-used" }, el("span", { className: "card-used-line", ariaHidden: "true" }),
+          el("span", { className: "card-used-areas mono-u" }, ...used.map(([, label]) => el("span", { textContent: label }))),
+          noteMark(used.map(([part, label]) => [label, pr[part].approachNotes[id]]))) : null);
+    }))) : null;
+  const conflict = on.has("processes") && has(pr.conflictManagement?.approaches)
+    ? group("Conflict", [[null, pr.conflictManagement.generalNote]], steps(pr.conflictManagement.approaches, xp.conflictApproaches)) : null;
+  // communications: Misty only says whether any channel is specified; Full, which
   const comms = pr.communications;
-  const channelList = !comms ? [] : "channelsSpecified" in comms
-    ? (comms.channelsSpecified ? [line("At least one channel specified")] : [])
+  const channelList = !comms ? null : "channelsSpecified" in comms
+    ? (comms.channelsSpecified ? el("p", { textContent: "At least one channel specified" }) : null)
     : (has(comms.channels) || has(comms.customChannels?.filter((c) => c.name))
-      ? [tags([...labels(xp.channels, comms.channels), ...(comms.customChannels || []).filter((c) => c.name).map(channelLine)])]
-      : []);
-  const channels = channelList.length
-    ? [el("div", { className: "card-channels" },
-      head("Communications", "icon-announce"),
-      ...channelList)]
-    : [];
-  // how people join, then the ways (and any notes on them): one column
-  const joining = [
-    has(j.tiers) || has(j.ways) ? el("div", { className: "card-group" },
-      ...(j.tiers || []).map((t) => pill(labelIn(xm.tiers, t))),
-      has(j.ways) ? tags(j.ways.map((w) => labelIn(xm.options, w.id))) : null) : null,
-    ...(j.ways || []).filter((w) => w.note).map((w) => note(w.note, labelIn(xm.options, w.id))),
-    note(j.closedNote, "Closed"),
-  ];
-  // two columns: how decisions are made and conflict, and beside them the general notes
-  const left = [
-    // each approach with its Membership note beside it, and how each tab uses it under it
-    structure.length ? el("div", {}, head("How decisions are made"), el("ul", { className: "plain-list card-structure" },
-      ...structure.map((id) => el("li", {},
-        el("div", { className: "card-approach" }, tags([labelIn(xm.approaches, id)]), note(m.structure?.find((s) => s.id === id)?.note)),
-        ...TABS.map(([part, label]) => note(pr[part]?.approachNotes?.[id], label, { nested: true })))))) : null,
-    has(pr.conflictManagement?.approaches) ? el("div", {}, head("Conflict"), ...flow(pr.conflictManagement.approaches, xp.conflictApproaches, { numbered: true })) : null,
-  ].filter(Boolean);
-  // the general notes, together, in a small box to the right (none: no box)
-  const notes = notesBox([["Membership", m.generalNote], ...TABS.map(([part, label]) => [label, pr[part]?.generalNote]), ["Conflict", pr.conflictManagement?.generalNote]]);
+      ? tags([...labels(xp.channels, comms.channels), ...(comms.customChannels || []).filter((c) => c.name).map(channelLine)], { soft: true })
+      : null);
   return [
-    scaleBars,
-    ...joining,
-    left.length || notes ? el("div", { className: "card-columns" }, el("div", {}, ...left), notes) : null,
-    ...channels,
+    scaleTiles,
+    decisions || conflict ? el("div", { className: "card-pair" }, decisions, conflict) : null,
+    channelList ? group("Communications", [], channelList) : null,
   ];
 }
 
@@ -235,59 +262,58 @@ function federation(card, d) {
   const x = d.federation;
   const subs = f.subscriptions || {};
   // the block list: public (a link to it, if given) or not
-  const blocklist = subs.sharesBlocklist ? el("span", { className: "card-yesno" }, small("Block list"), " ",
+  const blocklist = subs.sharesBlocklist ? el("span", { className: "card-flag is-yes" }, "Block list ",
     subs.sharesBlocklist === "yes"
       ? (subs.blocklistLink ? el("a", { className: "inline", href: subs.blocklistLink, target: "_blank", rel: "noopener nofollow", textContent: "public" }) : "public")
       : "not public") : null;
-  return [
-    // the approach, the block list, whether they bridge, and the shared lists followed, in a row
-    f.approach || blocklist || f.bridging?.bridges || has(subs.subscribedLists) ? el("div", { className: "card-row" },
-      f.approach ? pill(labelIn(x.approaches, f.approach)) : null,
-      blocklist,
-      yesNo("Bridges", f.bridging?.bridges),
-      has(subs.subscribedLists) ? el("span", { className: "card-group" },
-        el("span", { className: "icon-list", ariaHidden: "true" }), small("Lists"), tags(labels(x.lists, subs.subscribedLists), { soft: true })) : null) : null,
-    note(f.allowlistPolicy, "Allowlist"),
-    // when there's a problem: the heading and the ladder on one line (its notes under)
-    has(f.responseLadder) ? (() => {
-      const [ladder, ...rest] = flow(f.responseLadder, x.ladder);
-      return el("div", {}, el("div", { className: "card-inline" }, head("When there’s a problem", "icon-meet"), ladder), ...rest);
-    })() : null,
-    has(subs.decisionTools) ? el("div", {}, small("Tools"), tags(labels(x.tools, subs.decisionTools), { soft: true })) : null,
-    note(f.rulesNote, "Rules"),
-    has(f.bridging?.protocols) ? el("div", {}, small("Bridged to"), tags(f.bridging.protocols, { soft: true })) : null,
-  ];
+  const bridges = f.bridging?.bridges ? el("span", { className: `card-flag is-${f.bridging.bridges}` }, "Bridges",
+    el("span", { className: "visually-hidden", textContent: f.bridging.bridges === "yes" ? ": yes" : ": no" })) : null;
+  // two columns: the approach, the block list and bridges, and the lists, tools and protocols;
+  // beside them, when there's a problem (the response ladder, left to right)
+  const overview = [
+    f.approach ? el("div", { className: "card-group" }, pill(labelIn(x.approaches, f.approach))) : null,
+    blocklist || bridges ? el("p", { className: "card-flags mono-u" }, ...[blocklist, bridges].filter(Boolean).flatMap((v, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), v] : [v]))) : null,
+    facts([
+      ["Lists", has(subs.subscribedLists) ? tags(labels(x.lists, subs.subscribedLists), { soft: true }) : null],
+      ["Tools", has(subs.decisionTools) ? tags(labels(x.tools, subs.decisionTools), { soft: true }) : null],
+      ["Bridged to", has(f.bridging?.protocols) ? tags(f.bridging.protocols, { soft: true }) : null],
+    ]),
+  ].filter(Boolean);
+  const ladder = has(f.responseLadder) ? group("When there’s a problem", [], steps(f.responseLadder, x.ladder, { across: true })) : null;
+  return overview.length && ladder ? [el("div", { className: "card-pair" }, el("div", { className: "card-stack" }, ...overview), ladder)] : [...overview, ladder];
 }
 
-/** Rules counted by type (Foggy): a row per type, "3 of 11 · +1 custom". */
-const ruleCounts = (types) => (types.length ? [el("dl", { className: "summary-list card-rows" }, ...types.flatMap((t) => [
-  el("dt", { className: "mono-u summary-label", textContent: t.label }),
-  el("dd", {}, [t.of ? `${t.chosen} of ${t.of}` : null, t.custom ? `+${t.custom} custom` : null].filter(Boolean).join(" · ")),
-]))] : []);
+/** Rules counted by type (Foggy): a group per type, "3 of 11 · +1 custom". */
+const ruleCounts = (types) => outlineGroups(types.map((t) => [t.label, [t.of ? `${t.chosen} of ${t.of}` : null, t.custom ? `+${t.custom} custom` : null].filter(Boolean).join(" · ")]));
 
-/** The description's parts (DESCRIPTION's order), as one paragraph; none, nothing. */
+/** The description's parts (DESCRIPTION's order), as one paragraph in a tinted box; a long one cut to a few lines, with "…" to read it whole. */
 function description(parts = {}) {
   const texts = DESCRIPTION.map((q) => parts?.[q.id]?.trim()).filter(Boolean)
     .map((t) => (/[.!?…)"”]$/.test(t) ? t : `${t}.`));   // each part ends as a sentence
-  return texts.length ? el("p", { className: "card-description", textContent: texts.join(" ") }) : null;
-}
-
-/** Rows of an outline section (Rules, custom modules) as a compact list, without the empty or unshared ones. */
-function outlineRows(rows) {
-  const shown = rows.filter(([, v]) => has(v) && v !== "N/A" && v !== "Not shared");
-  return shown.length ? [el("dl", { className: "summary-list card-rows" }, ...shown.flatMap(([label, value]) => [
-    el("dt", { className: "mono-u summary-label", textContent: label }),
-    el("dd", {}, Array.isArray(value)
-      ? el("ul", {}, ...value.map((v) => (v.custom ? el("li", { className: "custom", textContent: v.text, title: "A custom rule" }) : el("li", { textContent: v }))))
-      : String(value)),
-  ]))] : [];
+  if (!texts.length) return null;
+  const text = texts.join(" ");
+  const box = el("div", { className: "card-description" }, el("p", { textContent: text }));
+  if (text.length <= DESCRIPTION_LONG) return box;
+  box.classList.add("is-cut");
+  const more = button("", "card-more", () => {
+    const open = more.getAttribute("aria-expanded") !== "true";
+    box.classList.toggle("is-cut", !open);
+    more.setAttribute("aria-expanded", String(open));
+    more.setAttribute("aria-label", open ? "Show less" : "Read the whole description");
+  });
+  more.append(el("span"), el("span"), el("span"));   // three pixel dots
+  more.setAttribute("aria-expanded", "false");
+  more.setAttribute("aria-label", "Read the whole description");
+  box.append(more);
+  return box;
 }
 
 // ── the card ────────────────────────────────────────────────
 export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
+  const level = Number(heading.slice(1));
+  H = { module: `h${Math.min(level + 1, 6)}`, group: `h${Math.min(level + 2, 6)}` };
   const card = view.card;
   const b = card.basics || {};
-  const mode = MODES.find((m) => m.id === view.mode);
   const targets = b.targetScales || {};
   const sc = data.scales;
   const scales = sc.scales.filter((s) => view.scales?.[s.id] || targets[s.id] != null);
@@ -296,31 +322,42 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
   const rowsOf = (title) => outline.sections.find((s) => s.title === title)?.rows || [];
   const on = new Set(card.modules || []);
 
-  const top = el("div", { className: "card-top" },
-    // the name, linking to the community (when there's a link)
-    el("div", { className: "card-title" }, el(heading, {},
-      b.link ? el("a", { href: b.link, target: "_blank", rel: "noopener nofollow", textContent: b.name || "A community" }) : b.name || "A community")),
-    b.type || b.format || b.size ? el("div", { className: "card-group" },
-      b.type && b.type !== "other" ? pill(labelIn(data.basics.communityTypes, b.type)) : null,
-      b.format ? pill(labelIn(data.basics.formats, b.format)) : null,
-      b.size ? pill(labelIn(data.basics.sizes, b.size)) : null) : null,
-    // the community in its own words: the parts the view shows, as one paragraph
-    description(b.description),
-    has(b.keywords) ? tags(b.keywords, { soft: true }) : null,
-    has(b.values) ? tags(labels(data.basics.values, b.values)) : null);
-  // the scales (what the card's choices add up to; in Full, where they'd like to be), in Membership & Processes
-  const scaleBars = scales.length ? el("div", { className: "card-scales" }, ...scales.map((s) => scaleBar(s, view.scales?.[s.id]?.score ?? null, targets[s.id] ?? null, sc.range))) : null;
+  // the top, the same on every card: the name (a link to the community, when there's one) and
+  // TYPE • FORMAT • SIZE, with where it is on the right
+  const kinds = [b.type && b.type !== "other" ? labelIn(data.basics.communityTypes, b.type) : null,
+    b.format ? labelIn(data.basics.formats, b.format) : null, b.size ? labelIn(data.basics.sizes, b.size) : null].filter(Boolean);
+  const top = el("header", { className: "card-top" },
+    el("div", { className: "card-title" },
+      el(heading, {}, b.link ? el("a", { href: b.link, target: "_blank", rel: "noopener nofollow", textContent: b.name || "A community" }) : b.name || "A community"),
+      kinds.length ? el("p", { className: "card-kinds mono-u" }, ...kinds.flatMap((k, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), k] : [k]))) : null),
+    on.has("infrastructure") ? places(card.infrastructure || {}, data.infrastructure) : null);
+  const tagRows = facts([
+    ["Tags", has(b.keywords) ? tags(b.keywords, { soft: true }) : null],
+    ["Values", has(b.values) ? tags(labels(data.basics.values, b.values)) : null],
+  ]);
+  // the scales (what the card's choices add up to; in Full, where they'd like to be): in Membership's
+  // Structure, or (Membership off) in Processes
+  const scaleTiles = scales.length ? el("div", { className: "card-scales" }, ...scales.map((s) => scaleTile(s, view.scales?.[s.id]?.score ?? null, targets[s.id] ?? null, sc.range))) : null;
 
-  const sections = [];
-  if (on.has("infrastructure")) sections.push(section("Infrastructure", infrastructure(card.infrastructure || {}, data)));
+  const m = card.membership || {};
+  const j = m.joining || {};
+  const pair = [];
+  if (on.has("infrastructure")) pair.push(moduleBox("Infrastructure", infrastructure(card.infrastructure || {}, data)));
+  if (on.has("membership")) pair.push(moduleBox("Membership", membership(m, data, scaleTiles), { aside: joiningTiers(j, data) }));
+  const modules = [];
+  if (pair.length) modules.push(el("div", { className: "card-pair" }, ...pair));
+  const tilesHere = on.has("membership") ? null : scaleTiles;
+  // the key to the primary step's star, in the box's top-right corner
+  const primary = on.has("processes") && card.processes?.conflictManagement?.approaches?.some((s) => s.primary)
+    ? el("p", { className: "card-key summary-label" }, STAR(), " primary") : null;
+  if (on.has("processes") || tilesHere || structureIds(card.membership).length) modules.push(moduleBox("Processes", processes(card, data, tilesHere), { aside: primary }));
   // Rules: Foggy counts them by type ("3 of 11 · +1 custom"); fuller views show them (Export's rows)
-  if (on.has("rules")) sections.push(section("Rules", view.rulesByType ? ruleCounts(view.rulesByType) : outlineRows(rowsOf("Rules"))));
-  if (on.has("membership") || on.has("processes") || scaleBars) sections.push(section("Membership & Processes", membershipAndProcesses(card, data, scaleBars)));
-  if (on.has("federation") && card.federation) sections.push(section("Federation", federation(card, data)));
-  for (const m of moduleEntries(defaults, card).filter((e) => e.custom)) sections.push(section(m.label, outlineRows(rowsOf(m.label))));
+  if (on.has("rules")) modules.push(moduleBox("Rules", view.rulesByType ? ruleCounts(view.rulesByType) : outlineGroups(rowsOf("Rules")), { className: "card-rules" }));
+  if (on.has("federation") && card.federation) {
+    const f = card.federation;
+    modules.push(moduleBox("Federation", federation(card, data), { notes: [["Allowlist", f.allowlistPolicy], ["How rules shape who we federate with", f.rulesNote]] }));
+  }
+  for (const e of moduleEntries(defaults, card).filter((x) => x.custom)) modules.push(moduleBox(e.label, customModule((card.customModules || []).find((c) => c.id === e.id) || {})));
 
-  return el("article", { className: "summary card-view" },
-    mode ? el("p", { className: "card-mode mono-u", textContent: `${mode.label} view` }) : null,
-    top,
-    ...sections);
+  return el("article", { className: "summary card-view" }, top, description(b.description), tagRows, ...modules);
 }
