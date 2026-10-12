@@ -138,7 +138,7 @@ export function renderPublish(container, ctx) {
   previewButton.append(el("span", { className: "icon-out", ariaHidden: "true" }));   // (a pixel arrow: it opens a new tab)
   previewButton.setAttribute("aria-label", "Preview what readers see (opens a new tab)");
   modeHint.append("How much of your card the published page shows. You can ", previewButton, " and read specs in the ",
-    el("a", { href: "/docs.html#publishing", target: "_blank", rel: "noopener", textContent: "docs" }), ".");
+    el("a", { href: "https://docs.crowcards.org/#publishing", target: "_blank", rel: "noopener", textContent: "docs" }), ".");
 
   const listed = renderChoices({
     type: "radio",

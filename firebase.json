@@ -10,6 +10,7 @@
       "**/.*",
       "**/node_modules/**",
       "functions/**",
+      "docs-site/**",
       "firestore.rules",
       "firestore.indexes.json",
       "README.md",
@@ -22,6 +23,10 @@
       "**/*:Zone.Identifier",
       "emulator-data/**",
       "*.local.md"
+    ],
+    "redirects": [
+      { "source": "/docs.html", "destination": "https://docs.crowcards.org/", "type": 301 },
+      { "source": "/platforms.html", "destination": "https://docs.crowcards.org/platforms", "type": 301 }
     ],
     "rewrites": [
       {

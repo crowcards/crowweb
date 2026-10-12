@@ -23,6 +23,7 @@ import { channelLine, WORK_AREAS } from "./sections/processes.js";
 import { DESCRIPTION } from "./sections/basics.js";
 import { answerText, scaleRange } from "./sections/custom.js";
 import { structureIds } from "./structure.js";
+import { shows } from "./view-modes.js";
 
 const NOTE_MAX = 300;          // characters of a note shown in its bubble (the rest: the raw data download)
 const DESCRIPTION_LONG = 260;  // a description longer than this is cut to a few lines, with "…" to read it whole
@@ -66,10 +67,13 @@ function tag(label, notes = [], { soft = false, tip = null } = {}) {
 const tags = (items, opts = {}) => el("ul", { className: "tags plain-list" }, ...items.map((t) => (Array.isArray(t) ? tag(t[0], t[1], { ...opts, tip: t[2] }) : tag(t, [], opts))));
 /**
  * A module: a light outline, its heading (and a badge for its general notes; `aside`, on the
- * heading's right), then its parts (or "Not filled in yet").
+ * heading's right), then its parts (or "Not filled in yet"). shared: false when the view shares
+ * none of the module's parts: then, with nothing to show, it's left out (a card never says
+ * what its view leaves out).
  */
-function moduleBox(title, parts, { notes = [], className = "", aside = null } = {}) {
+function moduleBox(title, parts, { notes = [], className = "", aside = null, shared = true } = {}) {
   const filled = parts.flat().filter(Boolean);
+  if (!shared && !filled.length && !aside) return null;
   const head = el(H.module, { className: "card-module-head" }, title, noteMark(notes));
   return el("section", { className: `summary card-module ${className}`.trim() },
     aside ? el("div", { className: "card-module-top" }, head, aside) : head,
@@ -350,7 +354,9 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
   // the key to the primary step's star, in the box's top-right corner
   const primary = on.has("processes") && card.processes?.conflictManagement?.approaches?.some((s) => s.primary)
     ? el("p", { className: "card-key summary-label" }, STAR(), " primary") : null;
-  if (on.has("processes") || tilesHere || structureIds(card.membership).length) modules.push(moduleBox("Processes", processes(card, data, tilesHere), { aside: primary }));
+  // (Processes' parts are shared from Misty: in Minimal and Foggy, it's left out unless it has the scales)
+  const processesShared = !view.mode || ["structure", "conflictSteps", "channels"].some((f) => shows(f, view.mode));
+  if (on.has("processes") || tilesHere || structureIds(card.membership).length) modules.push(moduleBox("Processes", processes(card, data, tilesHere), { aside: primary, shared: processesShared }));
   // Rules: Foggy counts them by type ("3 of 11 · +1 custom"); fuller views show them (Export's rows)
   if (on.has("rules")) modules.push(moduleBox("Rules", view.rulesByType ? ruleCounts(view.rulesByType) : outlineGroups(rowsOf("Rules")), { className: "card-rules" }));
   if (on.has("federation") && card.federation) {
@@ -359,5 +365,5 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
   }
   for (const e of moduleEntries(defaults, card).filter((x) => x.custom)) modules.push(moduleBox(e.label, customModule((card.customModules || []).find((c) => c.id === e.id) || {})));
 
-  return el("article", { className: "summary card-view" }, top, description(b.description), tagRows, ...modules);
+  return el("article", { className: "summary card-view" }, top, description(b.description), tagRows, ...modules.filter(Boolean));
 }

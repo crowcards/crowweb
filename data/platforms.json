@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-12",
   "note": "communityType is an id from community_types.json. platformTypes lists cost types from cost_rules.json: one entry is pre-filled; several are recommended, and the person picks one. structuralModels: what each structural model means (the docs' Structural models table). A generic row's otherSoftware: common software that implements its protocol but isn't a row of its own.",
   "structuralModels": [
     {
@@ -609,19 +609,19 @@
       "format": "social_network_media"
     },
     {
-      "id": "at_protocol_client_rsky_blacksky",
+      "id": "at_protocol_client_blacksky",
       "platformTypes": [
         "protocol_client_pds_based"
       ],
       "platform": "AT Protocol client",
-      "software": "Rsky (Blacksky)",
+      "software": "Blacksky",
       "protocol": "AT Protocol",
       "openSource": true,
       "selfHostable": false,
       "structuralModel": "Federation / Relay",
       "license": "MIT",
       "osiRationale": "Source published on GitHub (blacksky-app/blacksky) under MIT License, an OSI-approved permissive license.",
-      "notes": "AT Protocol labeling/moderation service and client; governs a normative filter within the AT Protocol ecosystem",
+      "notes": "Blacksky's AT Protocol app and community, run on Rsky, its own AT Protocol stack (community safety, data routing, self-governance); its labeler governs a normative filter within the AT Protocol ecosystem. To confirm with the Blacksky team (asked 2026-10-12): whether any of Rsky can be self-hosted, where Rsky's source is and its license (the license and source below are from before the rename), and how it relates to their Acorn app.",
       "isGeneric": false,
       "format": "social_network_media"
     },

@@ -16,8 +16,8 @@
 <body class="docs">
 
   <header class="site-header">
-    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
-    <a class="header-crow sprite" href="index.html" aria-label="Home">
+    <a class="site-title" href="{{app}}/" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="{{app}}/" aria-label="Home">
       <img src="img/crow-sprite-a.png" alt="" />
       <img src="img/crow-sprite-e.png" alt="" />
       <img src="img/crow-sprite-d.png" alt="" />
@@ -25,10 +25,11 @@
     </a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
     <nav id="nav" class="site-nav" aria-label="Main">
-      <a href="index.html">Home</a>
-      <a href="make.html">Make</a>
-      <a href="library.html">Library</a>
-      <a href="about.html">About</a>
+      <a href="{{app}}/">Home</a>
+      <a href="{{app}}/make.html">Make</a>
+      <a href="{{app}}/library.html">Library</a>
+      <a href="{{app}}/about.html">About</a>
+      <a href="/" aria-current="page">Docs</a>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
       <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
@@ -52,7 +53,7 @@
     <li><a href="#using-the-editor">Using the editor</a></li>
     <li><a href="#publishing">Publishing</a></li>
     <li><a href="#coming-soon">Coming soon</a></li>
-    <li><a href="platforms.html">Choosing a platform ↗</a></li>
+    <li><a href="/platforms">Choosing a platform ↗</a></li>
     <li><a href="#reference">Reference</a>
       <ul class="sub">
         <li><a href="#communities">Communities</a>
@@ -116,12 +117,12 @@
 
   <h1>Documentation</h1>
   <p class="lede lede-small">
-    Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. Choosing where to build your community's online space? See <a class="inline" href="platforms.html">Choosing a platform</a>.
+    Notes on how to make a CROW Card, what we mean by terms and categories, definitions for potential values, and so on. Choosing where to build your community's online space? See <a class="inline" href="/platforms">Choosing a platform</a>.
   </p>
 
   <section id="getting-started" data-fold="open">
     <h2>Getting started</h2>
-    <p>The MAKE feature assumes you've already set up (or at least selected) a system for your community to sit within. If you haven't, have a look at <a class="inline" href="platforms.html">Choosing a platform</a>: an overview of some common systems communities use, alongside what we think is useful to know (because it can shape how much autonomy or power your community has!): whether the software is open source, whether you can host an instance of it yourself, what structural model it follows, and what costs you should expect.</p>
+    <p>The MAKE feature assumes you've already set up (or at least selected) a system for your community to sit within. If you haven't, have a look at <a class="inline" href="/platforms">Choosing a platform</a>: an overview of some common systems communities use, alongside what we think is useful to know (because it can shape how much autonomy or power your community has!): whether the software is open source, whether you can host an instance of it yourself, what structural model it follows, and what costs you should expect.</p>
 
     <p>By <b>community</b>, we take a pretty broad view: a group that engages in and enforces some kind of collective decision-making, has a shared (digital) space, has boundaries for membership, and some kind of shared purpose. However, this also excludes some informal or cultural communities we often colloquially refer to, e.g., a distinct subset of users on Bluesky. This is not to say those groups can't use the CROW Card Maker! We presume that there just wouldn't be a clear place to post the Card itself, nor clear mechanisms to enforce the values and practices that are stated on it.</p>
 
@@ -132,7 +133,7 @@
       <p>Some emergent systems also create some interesting new cases of online community: labeling services like Blacksky (built on AT Protocol) govern a <em>normative filter</em>, deciding whose content is visible to people who opt in, which is a real form of collective decision-making (but not for a shared venue in the traditional sense).</p>
     </div>
 
-    <p>Getting started is simple. You can create a new Card by going to <a href="make.html" target="_blank">MAKE</a> and entering some <b>basic</b> information about your community:</p>
+    <p>Getting started is simple. You can create a new Card by going to <a href="{{app}}/make.html" target="_blank">MAKE</a> and entering some <b>basic</b> information about your community:</p>
     <ul>
       <li><span class="mono">name</span></li>
       <li><span class="mono">community type</span> - the kind of group, e.g. a workplace, a neighborhood, a support group. This shapes what's suggested to you.</li>
@@ -192,7 +193,7 @@
     <h3 id="finding">Who can find it</h3>
     <ul>
       <li><b>Unlisted:</b> only people you give the link to can open it.</li>
-      <li><b>Listed:</b> it will also appear in the <a href="library.html">Library</a>, for anyone to find. The Library is coming soon: until then, listed Cards can also only be opened by link.</li>
+      <li><b>Listed:</b> it will also appear in the <a href="{{app}}/library.html">Library</a>, for anyone to find. The Library is coming soon: until then, listed Cards can also only be opened by link.</li>
     </ul>
     <h3 id="contact">Contact and credit</h3>
     <p>Publishing needs a contact email. Only the CROW team sees it, to contact you about your Card; it's never shown publicly. Your name and organization are optional, and shown on the published Card only if you select them.</p>
@@ -218,7 +219,7 @@
     <h2>Coming soon</h2>
     <p>We are actively working on improving the experience of using the CROW Card Maker. This includes:</p>
     <ul>
-      <li>Browsing published Cards in the <a href="library.html">Library</a>.</li>
+      <li>Browsing published Cards in the <a href="{{app}}/library.html">Library</a>.</li>
       <li>A visual summary card to download and share.</li>
       <li>Automating the filling in of fields so that folks don't need to type so much! For example, if you enter your link, ideally our app should check out the link and try to fill in as many later fields as possible (e.g., community name, size), or read your existing rules and fill in the Rules module.</li>
       <li>Recommendations that learn from published Cards.</li>
@@ -237,7 +238,7 @@
 
     <section id="communities" data-fold="open">
       <h3>Communities</h3>
-      <p>Three answers in Basics describe what a community is: what kind of group it is (its <b>community type</b>), the kind of online space it uses (its <b>format</b>), and how big it is (its <b>size</b>). The community type shapes which values and approaches are suggested; the format suggests which modules to fill in, and groups the platforms in <a class="inline" href="platforms.html">Choosing a platform</a>; the size also counts towards suggested approaches.</p>
+      <p>Three answers in Basics describe what a community is: what kind of group it is (its <b>community type</b>), the kind of online space it uses (its <b>format</b>), and how big it is (its <b>size</b>). The community type shapes which values and approaches are suggested; the format suggests which modules to fill in, and groups the platforms in <a class="inline" href="/platforms">Choosing a platform</a>; the size also counts towards suggested approaches.</p>
 
       <h4 id="ref-community-types">Community types</h4>
       <table class="table" data-source="/data/community_types.json" data-render="simple">
@@ -275,7 +276,7 @@
 
     <section id="platforms" data-fold="open">
       <h3>Platforms</h3>
-      <p>Infrastructure starts with the platform a community runs on. We've collected some of the most common ones, by format, in <a class="inline" href="platforms.html">Choosing a platform</a>; picking a listed one in the editor fills in its details and the usual costs. Let us know if a platform should be included.</p>
+      <p>Infrastructure starts with the platform a community runs on. We've collected some of the most common ones, by format, in <a class="inline" href="/platforms">Choosing a platform</a>; picking a listed one in the editor fills in its details and the usual costs. Let us know if a platform should be included.</p>
 
       <h4 id="ref-platform-columns">What we label</h4>
       <p>For each platform (<code>data/platforms.json</code>):</p>
@@ -476,6 +477,5 @@
 </footer>
 
 <script type="module" src="js/docs-page.js"></script>
-<script src="js/docs-reference.js"></script>
 </body>
 </html>

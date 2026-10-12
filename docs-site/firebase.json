@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "site": "crowcards-docs",
+    "public": "dist",
+    "cleanUrls": true,
+    "predeploy": [
+      "node \"$PROJECT_DIR/build.mjs\""
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
+    ]
+  }
+}

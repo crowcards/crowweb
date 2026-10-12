@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "updatedAt": "2026-10-08",
+  "updatedAt": "2026-10-12",
   "categories": [
     {
       "id": "hostingServers",
@@ -147,7 +147,7 @@
       "id": "protocol_client_pds_based",
       "label": "Protocol Client, PDS-Based",
       "description": "Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.",
-      "examples": "Bluesky, Rsky (Blacksky), generic AT Protocol client",
+      "examples": "Bluesky, Blacksky, generic AT Protocol client",
       "costs": {
         "hostingServers": "sometimes",
         "mediaStorage": "sometimes",

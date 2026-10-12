@@ -16,8 +16,8 @@
 <body class="docs">
 
   <header class="site-header">
-    <a class="site-title" href="index.html" data-letters>Community Rules for an Open Web</a>
-    <a class="header-crow sprite" href="index.html" aria-label="Home">
+    <a class="site-title" href="{{app}}/" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="{{app}}/" aria-label="Home">
       <img src="img/crow-sprite-a.png" alt="" />
       <img src="img/crow-sprite-e.png" alt="" />
       <img src="img/crow-sprite-d.png" alt="" />
@@ -25,10 +25,11 @@
     </a>
     <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
     <nav id="nav" class="site-nav" aria-label="Main">
-      <a href="index.html">Home</a>
-      <a href="make.html">Make</a>
-      <a href="library.html">Library</a>
-      <a href="about.html">About</a>
+      <a href="{{app}}/">Home</a>
+      <a href="{{app}}/make.html">Make</a>
+      <a href="{{app}}/library.html">Library</a>
+      <a href="{{app}}/about.html">About</a>
+      <a href="/" aria-current="page">Docs</a>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
       <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
@@ -59,7 +60,7 @@
       </ul>
     </li>
     <li><a href="#comparing">Comparing them</a></li>
-    <li><a href="docs.html">Documentation ↗</a></li>
+    <li><a href="/">Documentation ↗</a></li>
   </ul>
   </div>
 </nav>
@@ -84,12 +85,12 @@
       <li><b>Self-hostable.</b> Can you host your own instance of it (e.g., on your own server)?</li>
       <li><b>Model.</b> What structural model describes how its infrastructure is organized?</li>
     </ul>
-    <p>Each of these is defined in the <a class="inline" href="docs.html#platforms">documentation's Reference → Platforms</a>, along with the costs to expect for each kind of platform. Let us know if you believe a platform should be included here.</p>
+    <p>Each of these is defined in the <a class="inline" href="/#platforms">documentation's Reference → Platforms</a>, along with the costs to expect for each kind of platform. Let us know if you believe a platform should be included here.</p>
   </section>
 
   <section id="by-format">
     <h2>Platforms by format</h2>
-    <p>Grouped by <a class="inline" href="docs.html#ref-formats">format</a>, the kind of online space. A row marked <em>(any)</em> stands for any software that speaks that protocol; the rows under it are examples.</p>
+    <p>Grouped by <a class="inline" href="/#ref-formats">format</a>, the kind of online space. A row marked <em>(any)</em> stands for any software that speaks that protocol; the rows under it are examples.</p>
     <div class="platform-section" id="chat-group">
       <div class="section-label mono-u">Chat group</div>
       <table class="table" data-source="/data/platforms.json" data-render="platforms" data-format="chat_group">
@@ -138,11 +139,11 @@
     <h2>Comparing them</h2>
     <ul>
       <li><b>Hosted for you, or self-hosted?</b> A platform someone else runs (a company, or an institution) means no servers to look after, but also less control: its operator sets the terms. Self-hosting gives you control, and the work and costs that come with it: hosting, a domain, backups, updates.</li>
-      <li><b>Open protocol?</b> Platforms built on an open protocol (ActivityPub, AT Protocol, Matrix, Nostr, email) let your members reach people elsewhere, and let you move without losing your connections. See <a class="inline" href="docs.html#ref-protocols">protocol generics</a> and <a class="inline" href="docs.html#federation">federation</a>.</li>
-      <li><b>Open source?</b> Open source software can be inspected, adapted and run by anyone, so a community isn't tied to one company. See <a class="inline" href="docs.html#ref-osi">open source</a>.</li>
-      <li><b>What will it cost?</b> The main drivers are whether you host it and whether it carries heavy media; moderation and admin work follows your size and culture whatever you choose. See <a class="inline" href="docs.html#ref-costs">expected costs</a>.</li>
+      <li><b>Open protocol?</b> Platforms built on an open protocol (ActivityPub, AT Protocol, Matrix, Nostr, email) let your members reach people elsewhere, and let you move without losing your connections. See <a class="inline" href="/#ref-protocols">protocol generics</a> and <a class="inline" href="/#federation">federation</a>.</li>
+      <li><b>Open source?</b> Open source software can be inspected, adapted and run by anyone, so a community isn't tied to one company. See <a class="inline" href="/#ref-osi">open source</a>.</li>
+      <li><b>What will it cost?</b> The main drivers are whether you host it and whether it carries heavy media; moderation and admin work follows your size and culture whatever you choose. See <a class="inline" href="/#ref-costs">expected costs</a>.</li>
     </ul>
-    <p>Once you've chosen, <a class="inline" href="make.html">make your community's Card</a>: picking a listed platform fills in its details and the usual costs.</p>
+    <p>Once you've chosen, <a class="inline" href="{{app}}/make.html">make your community's Card</a>: picking a listed platform fills in its details and the usual costs.</p>
   </section>
 
 </main>
@@ -153,6 +154,5 @@
 </footer>
 
 <script type="module" src="js/docs-page.js"></script>
-<script src="js/docs-reference.js"></script>
 </body>
 </html>

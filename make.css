@@ -1014,6 +1014,9 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 /* modules: a light outline each (the summary box, in the line color); two side by side (Infrastructure, Membership), stacked when narrow */
 .card-module { --summary-line: var(--line); container-type: inline-size; }   /* (its groups side by side or stacked by its own width) */
+/* each module is its own layer (its outline isolates it; its width query contains it), so its bubbles
+   can't rise above the modules after it: the one being pointed at or used comes to the front */
+.card-module:is(:hover, :focus-within) { z-index: 1; }
 .card-module > * + * { margin-top: 0.75rem; }
 .card-module-head { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.75rem; color: var(--ink); font-family: var(--display); font-style: normal; font-weight: 400; font-size: var(--fs-l); line-height: 1.2; }
 .card-pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; align-items: stretch; }
