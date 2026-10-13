@@ -12,7 +12,7 @@ Related documents:
 
 When a community fills in a card, the editor suggests **values** (from CommunityRule's list of 69) and **approaches**: ways of joining, decision-making, and conflict management. It marks options in a list with a chip ("Suggested", or a quieter "See also"), each with its reasons, and offers a few ideas to add ("More like this / Try something new").
 
-Three rules have guided everything:
+Three rules:
 1. **It only suggests.** It never selects anything for people.
 2. **Every suggestion says why**, including anything that counts against it.
 3. **Everything comes from datasheets the team can read, review and fix.** No hidden model, no learning from users (yet).
@@ -75,16 +75,16 @@ The weights and cut-offs are `TUNING` in `js/recommend.js`; the whole calculatio
 
 ### The first version (Phase 3–4, early October 2026)
 
-Values suggested approaches through value links (`value_recommendations_*`), plus closeness on the scales and fit with the size. Values were suggested from the description (each value's word list) and the scales. "More like this" offered the options closest on the scales, and "Try something new" the most opposite, plus one at random.
+Values suggested approaches through value links (`value_recommendations_*`), plus closeness on the scales and fit with the size. Values were suggested from the description (each value's word list, which we extracted) and the scales (participatory, transparent, hierarchical). "More like this" offered the options closest on the scales, and "Try something new" the most opposite, plus one at random.
 
-**What was wrong with it:** it knew nothing about *what kind of group* a community is, so a family chat and a worker co-op with similar scales got similar suggestions. Most of the weight sat on the scales and the values, whose datasheets were first drafts. The word lists rarely matched how communities actually describe themselves. And there was no way to tell whether a change made things better or worse.
+**What was wrong with it:** it knew nothing about *what kind of group* a community is, so a family chat and a worker co-op with similar scales got similar suggestions. Most of the weight sat on the scales and the values, whose datasheets were first drafts. The word lists were short/limited in what they contained and rarely matched how communities actually describe themselves. And there was no way to tell whether a change made things better or worse.
 
 ### The rebuild (9 October 2026)
 
 We started over from how to make a recommendation, deciding these together:
 1. **Ask what kind of group it is.** A new required field, first called "Setting", now **Community type** (21 types, plus Other). It's public from the Misty view mode, and a fork copies it.
-2. **Write the answer key first.** 18 benchmark communities, one per community type (except identity / cultural and DAO / web3, which have none yet), each with its description, scales, and what it would choose: core values, and good, acceptable and to-avoid approaches. Everything after was measured against them.
-3. **Draft fit tables for each community type**, with "generally not a fit" (used sparingly) and "interesting" (unusual but workable: later the material for "Try something new"). Options that are a poor fit almost everywhere went into `option_flags.json` instead of being repeated for every type.
+2. **Write an answer key first.** 18 benchmark communities, one per community type (except identity / cultural and DAO / web3, which have none yet), each with its description, scales, and what it would choose: core values, and good, acceptable and to-avoid approaches. Everything after was measured against them.
+3. **Draft fit tables (of the choices) for each community type**, with "generally not a fit" (used sparingly) and "interesting" (unusual but workable: later the material for "Try something new"). Options that are a poor fit almost everywhere went into `option_flags.json` instead of being repeated for every type.
 4. **One way of scoring for everything:** every kind of evidence becomes a number from −1 to +1, averaged with weights. Evidence that doesn't apply is skipped, not counted as zero. There are two tiers (Suggested and See also), each with a score threshold and a minimum amount of evidence.
 5. **Review all the other datasheets:**
    - **The scales** got precise definitions, and an outside review (web Claude) led to 47 positions being changed.
@@ -96,30 +96,29 @@ We started over from how to make a recommendation, deciding these together:
 
 The baseline after the rebuild was 30 of 78 core values and 51 of 110 good approaches Suggested on the benchmarks, with no to-avoid chips.
 
-### The rename (9–10 October 2026)
+### A rename (9–10 October 2026)
 
 What used to be called "community type" was really the kind of online space, so it became **Format** (6 formats: chat group, forum, mailing list, social network, peer production, team). The new kind-of-group field took the name **Community type**. The datasheets, editor, docs, export, published card, server and scripts were all updated. On 10 October, **citizen science** moved from format to community type: it's a kind of group (often run by scientists or an institution, but also by communities), whose usual format is peer production.
 
 ### Tuning (10 October 2026)
 
-To check we weren't fooling ourselves, web Claude drafted **10 held-out communities** without seeing our datasheets: a flat workplace, a strict hobby forum, an open-source project just forked, a classroom on a wiki, and so on. The rule: **never tune on them, only check against them.**
+To check we weren't fooling ourselves, web Claude drafted **10 held-out communities** without seeing our datasheets: a flat workplace, a strict hobby forum, an open-source project just forked, a classroom on a wiki, and so on. The rule: **never tune on them, only check against them.** We saw that:
 
-What happened:
 1. **Searching the weights and cut-offs overfitted.** The best numbers for the 18 benchmarks made the held-out results worse every time. We kept the hand-set numbers.
 2. **The held-out set exposed two problems with the rules:**
-   - **22 to-avoid options got a chip.** Two general pieces of evidence, closeness on the scales and fit with the size, added up to a chip for options the community type said nothing about (Holacracy for a radio club, an elected board for a creator's Discord). Fix: a chip now needs evidence about this community in particular.
-   - **Values marked "very common for groups like yours" got no chip at all**, because they had only that one piece of evidence. Fix: a strong community-type mark can make a value Suggested on its own.
+   - **22 to-avoid options got a chip.** Two general pieces of evidence, closeness on the scales and fit with the size, added up to a chip for options the community type said nothing about (Holacracy for a radio club, an elected board for a creator's Discord). A chip should need evidence about this community in particular.
+   - **Values marked "very common for groups like yours" got no chip at all**, because they had only that one piece of evidence. We decided a strong community-type mark can make a value Suggested on its own (worth more points).
 3. **Each remaining wrong chip was traced to one datasheet entry, and a person decided** whether the entry or the example was wrong:
    - three examples corrected
    - one community-type mark removed
    - two value links dropped, because they described how an approach works, not who it suits
    - a missing dimension found: research × "application review" is right for a lab, wrong for citizen science. That led to the **format × approach** table.
-4. **"More like this / Try something new" was redone** to use the same scores, so it never offers something the recommendations wouldn't back. Reasons now show on hover, and the random pick is gone.
+4. **"More like this / Try something new" was redone** to use the same scores, so it never offers something the recommendations wouldn't back. Reasons now show on hover, and the random pick offering in try something new is gone.
 5. **Interesting marks that clashed with an example** were settled one by one: three dropped, three kept on purpose. An unusual option is supposed to be unusual: one example's "avoid" isn't enough to drop it.
 
 ---
 
-## 3. Where it stands, and how it's measured
+## 3. Currently
 
 **How it's measured.** Each example community's answers go through the editor's own scoring (`js/bench.js`), and its chips are compared with what it would choose. In order of importance:
 1. no option the community would clearly reject gets a chip
