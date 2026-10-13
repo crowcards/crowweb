@@ -67,7 +67,7 @@ All to do later.
 | Shared editing and recovering a lost key (several stewards per community) | | |
 | Comparing cards, e.g. two communities' policies before they federate | | |
 | Showing a community's card on its platform (e.g. Bonfire, as an extension) | | |
-| Culturally aware translation | | | 
+| Culturally aware translation - possibly using our local LLM, see below | | | 
 
 
 ## Improvement tasks
@@ -80,7 +80,6 @@ All to do later.
 | Pixel flags | for the countries presented on a card instead of their names, region + globe pixels as well. Needs to be reviewed beacuse it could be politically sensitive. | | |
 | Compact visual summary card | To download and share (image and / or PDF): Export's disabled third download; also on the public card page. this should be parsimonious, simple, automatically generated + consistent abstractions (think CC license) | | |
 | Recommendations that learn from published cards | Once we have a library going and a solid recommendation algo / LLM flow, we should consider adding in learning from published cards (opt-in) | | |
-| Add Acorn as a platform | Needed for the beta. A `platforms.json` row (`format`, `platformTypes` (its cost type), `platform`, `software`, `protocol`, `openSource`, `selfHostable`, `structuralModel`, `license`, `osiRationale`, `notes`), any `cost_overrides.json` entries (with `reasons`), and for pre-filling: how to tell a link is an Acorn community, which public data gives its name, description, size, joining, rules and block lists, and 2–3 example links. Ask for sources, and for what couldn't be verified. | Sohyeon | To do |
 | Developing starting templates for users | From CommunityRule's governance templates (`_all_templates.json`, not yet used), or our own archetypes. | | Later |
 
 ## In-Progress / Notes
