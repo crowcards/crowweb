@@ -248,7 +248,6 @@ Watch for contradictions between datasheets: the same idea can be counted twice,
 
 ### D. Open questions and smaller tasks
 
-- **Identity / cultural:** work out its table with the Blacksky folks.
 - **Strong "against" marks can vanish.** Because the community type is compared with the usual, an "against" that most types share says nothing for any of them. The current rules stop this from causing wrong chips, but it should be revisited if a case turns up.
 - **Maybe later:** word lists for approaches ("we vote on everything" → majority rule); a chosen decision-making approach as evidence for conflict management; our own starting templates, perhaps from the benchmark communities; recommendations that learn from published cards (opt-in, once the Library exists).
 - **Before launch:** turn off `COUNT_PROPOSED`, and delete the workbench and its scripts (or keep the examples and scripts for the team).
