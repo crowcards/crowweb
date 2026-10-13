@@ -74,8 +74,9 @@ All to do later.
 
 | Task | What | Who | Notes |
 |---|---|---|---|
-| Set up a local LLM on GCP, along with a team policy | The team's own small open model on a VM in `cos-princeton-hci-crow`, called only through a Cloud Function (checking the card's key, rate-limited), so what communities write never goes to a third party. It only suggests; people choose. We should also consider ways the local LLM can be used for this beyond improving the recommendations. | | TODO |
+| Set up a local LLM on GCP, along with a team policy | The team's own small open model on a VM in `cos-princeton-hci-crow`, called only through a Cloud Function (checking the card's key, rate-limited), so what communities write never goes to a third party. It only suggests; people choose. We should also consider ways the local LLM can be used for this beyond improving the recommendations. | | TODO | 
 | New recommendation flow using the LLM | Should be cost/power efficient, good + interesting outputs, improve the overall experience and make the app more adaptable to different platforms. See Local Model Notes below. | | |
+| Review IFTAS Community Library and see what should be integrated + linked | IFTAS has already done the hard work of defining and laying out a lot of what moderation work deals with. We should leverage / integrate to make our tool more useful + grounded in actual issues people must handle | | | 
 | JSON-LD | Recommended by our community partners, make our data schema compatible with JSON-LD. Research into existing protocols, standards, lexicons, etc. See what bodies / groups we should connect with. | | |
 | Pixel flags | for the countries presented on a card instead of their names, region + globe pixels as well. Needs to be reviewed beacuse it could be politically sensitive. | | |
 | Compact visual summary card | To download and share (image and / or PDF): Export's disabled third download; also on the public card page. this should be parsimonious, simple, automatically generated + consistent abstractions (think CC license) | | |
@@ -89,6 +90,8 @@ All to do later.
 We want to set up a local model that can power our app. A few considerations in selection:
 * Small but big enough - we want to keep costs miminal
 * Open-source
+
+I think a small Qwen model or the Musibi model would be strong candidates: http://musubilabs.ai/blog/introducing-policylm-1-7b (this post also has some other possible options that Musubi's model is benchmarked against). The first step is to review the open models available / that are useful for governance-related tasks and to propose a plan to the team. 
 
 There are a few things we want it to do:
 * **Suggest values from a description (with the model).** The model reads the description and suggests values, in place of the word matching (which stays as the fallback). Its suggestions use the same chips and reasons; they don't mean other values are absent. 
