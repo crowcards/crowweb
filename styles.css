@@ -453,7 +453,7 @@ a:focus-visible,
    corners' clip-path would cut it off) */
 .button:focus-visible { box-shadow: inset 0 0 0 2px var(--ink-on-color); }
 
-.button:disabled {
+.button:is(:disabled, [aria-disabled="true"]) {   /* (aria-disabled: grayed, but still focusable, so its reason can be read) */
   background: var(--line);
   color: var(--gray);
   cursor: not-allowed;

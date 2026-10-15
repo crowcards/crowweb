@@ -1,13 +1,16 @@
 // A published card (card.html, at /c/crd_…): the card as its view mode
 // shows it, read through the server (getPublicCard), never from the
-// database directly. ?v=2 shows an earlier version. Above the card: its
-// version, credit and link; then the card itself (card-view.js renderCard,
-// as Export shows it); the Markdown download is Export's own outline.
+// database directly. ?v=2 shows an earlier version. Above the card, one
+// line: its version, date, view (with what it shares in an "i") and credit;
+// then the card itself (card-view.js renderCard, as Export shows it); under
+// it, the versions, what it was forked from, and small pixel buttons: Share
+// link, Fork, and the JSON and Markdown downloads (the Markdown is Export's
+// own outline); grayed where they don't apply (Fork in Minimal, downloads below Full).
 //
 // A pixel flag in the corner, under the back-to-top arrow, reports the card
 // to the CROW team (reportCard); not on a preview.
 //
-// "Fork this card" (Foggy, Misty and Full): a pop-up says what the new card
+// "Fork" (Foggy, Misty and Full): a pop-up says what the new card
 // gets, then the server makes it from this public copy (forkCard), and the
 // editor opens at "Save your key".
 //
@@ -95,38 +98,45 @@ function draw(pub, data, defaults, { preview = false } = {}) {
       ` · ${date(v.publishedAt)}${v.note ? ` · ${v.note}` : ""}`))));
 
   const link = `${location.origin}/c/${pub.id}`;
-  const copy = button("Copy link", "link-button", () => navigator.clipboard?.writeText(link).then(() => { copy.textContent = "Copied"; }));
   const credit = pub.credit ? [pub.credit.name, pub.credit.organization].filter(Boolean).join(", ") : null;
   // where this card was forked from, if it was
   const from = pub.forkedFrom;
-  const forkedFrom = from ? el("p", {}, "Forked from ",
+  const forkedFrom = from ? el("p", { className: "card-page-note" }, "Forked from ",
     el("a", { className: "inline", href: `/c/${from.cardId}${from.version ? `?v=${from.version}` : ""}`, textContent: from.name || "another card" }),
     from.version ? ` · v${from.version}` : "",
     from.mode ? ` · ${MODES.find((m) => m.id === from.mode)?.label || from.mode} view` : "") : null;
-  const fork = !preview && mode?.forkable ? button("Fork this card", "button button-small", () => askFork(pub, mode)) : null;
 
+  // the actions, as small pixel buttons (the editor sidebar's size): share, fork and the downloads. One that doesn't apply to
+  // this card (a view that can't be forked; downloads below Full) stays, grayed, saying why on hover
   const outline = viewOutline(pub, data, defaults);
-  const downloads = pub.mode === "full" && !preview
-    ? el("p", { className: "button-row" },
-      button("Raw data (JSON)", "button button-small", () => download(`${fileName(card)}.json`, `${JSON.stringify(card, null, 2)}\n`, "application/json")),
-      button("Documentation (Markdown)", "button button-small", () => download(`${fileName(card)}.md`, toMarkdown(outline, card), "text/markdown")))
-    : null;
+  const action = (label, onClick, unavailable = null) => {
+    const b = button(label, "button button-small", () => { if (!unavailable) onClick(); });
+    if (unavailable) { b.setAttribute("aria-disabled", "true"); b.title = unavailable; }
+    return b;
+  };
+  const share = action("Share link", () => navigator.clipboard?.writeText(link).then(() => { share.textContent = "Copied"; setTimeout(() => { share.textContent = "Share link"; }, 2000); }));
+  const full = pub.mode === "full";
+  const actions = preview ? null : el("p", { className: "button-row card-page-actions" },
+    share,
+    action("Fork", () => askFork(pub, mode), mode?.forkable ? null : `The ${mode?.label || pub.mode} view can’t be forked.`),
+    action("Get JSON data", () => download(`${fileName(card)}.json`, `${JSON.stringify(card, null, 2)}\n`, "application/json"), full ? null : "Downloads come with the Full view only."),
+    action("Get Markdown file", () => download(`${fileName(card)}.md`, toMarkdown(outline, card), "text/markdown"), full ? null : "Downloads come with the Full view only."));
 
+  // above the card, one small line: which version, when, in which view (and who shared it);
+  // under it, the history (versions, and what it was forked from), then the actions
   main.replaceChildren(...[
-    el("div", { className: "callout card-meta" },
-      preview
-        ? el("p", {}, el("b", { className: "mono-u", textContent: "Preview" }), ` · not published · ${mode?.label || pub.mode} view. This is how your card would look to readers. Close this tab to go back to the editor.`)
-        : el("p", {},
-          el("b", { className: "mono-u", textContent: `v${pub.version}` }),
-          ` · published ${date(pub.publishedAt)}`,
-          mode ? el("span", {}, ` · ${mode.label} view `, infoTip(mode.description)) : null,   // (the view's name is said here, not on the card)
-          pub.version !== latest ? el("span", {}, " · an earlier version (", el("a", { className: "inline", href: versionLink(latest), textContent: "see the latest" }), ")") : null),
-      credit ? el("p", { textContent: `Shared by ${credit}` }) : null,
-      forkedFrom,
-      preview ? null : versions,
-      preview ? null : el("p", { className: "button-row" }, copy, fork)),
-    downloads,
+    preview
+      ? el("p", { className: "card-page-meta" }, el("b", { className: "mono-u", textContent: "Preview" }), ` · not published · ${mode?.label || pub.mode} view. This is how your card would look to readers. Close this tab to go back to the editor.`)
+      : el("p", { className: "card-page-meta" },
+        el("b", { className: "mono-u", textContent: `v${pub.version}` }),
+        ` · published ${date(pub.publishedAt)}`,
+        mode ? el("span", {}, ` · ${mode.label} view `, infoTip(mode.description)) : null,   // (the view's name is said here, not on the card)
+        credit ? ` · shared by ${credit}` : null,
+        pub.version !== latest ? el("span", {}, " · an earlier version (", el("a", { className: "inline", href: versionLink(latest), textContent: "see the latest" }), ")") : null),
     renderCard(pub, data, defaults, { heading: "h1" }),
+    preview ? null : versions,
+    forkedFrom,
+    actions,
   ].filter(Boolean));
 }
 

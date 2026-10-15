@@ -813,8 +813,8 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .editor-forget,
 .editor-reset,
 .editor-export { margin: 0 0 0.9rem; }
-/* the sidebar's (and the narrow-screen bar's) Save / Forget / Reset: smaller than other small buttons */
-:is(.editor-nav-panel, .editor-bar) .button-small { --px: 2px; font-size: var(--fs-m); padding: 0.2em 0.85em 0.25em; }
+/* the sidebar's (and the narrow-screen bar's) Save / Forget / Reset, and a card page's Share link / Fork / downloads: smaller than other small buttons */
+:is(.editor-nav-panel, .editor-bar, .card-page-actions) .button-small { --px: 2px; font-size: var(--fs-m); padding: 0.2em 0.85em 0.25em; }
 .editor-docs { margin: 0; }
 
 /* the status under Save, and "on this device" under Forget */
@@ -970,6 +970,14 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .popup-close:hover span,
 .popup-close:focus-visible span { color: var(--accent); }
 
+/* the published card's page (card-page.js): one small line above the card (version, date, view);
+   under it, the versions, what it was forked from, and the actions as small text buttons */
+.info-body.card-page { padding-top: 1.75rem; }   /* (the card close under the header: less room than the other pages' 4rem) */
+.card-page-meta { margin: 0 0 0.75rem; font-size: var(--fs-s); }
+.card-page > .card-view { margin-bottom: 1rem; }
+.card-page :is(.card-versions, .card-page-note) { margin: 0.5rem 0 0; font-size: var(--fs-s); }
+.card-page-actions { gap: 0.5rem; margin: 1rem 0 0; }
+
 /* the fork pop-up (card-page.js): what's copied and what isn't, side by side, small */
 .fork-lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 0.5rem 1.5rem; margin-bottom: 1.25rem; font-size: var(--fs-s); }
 .fork-lists ul { margin: 0.25rem 0 0; }
@@ -1007,7 +1015,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 
 /* the description: a tinted box; a long one cut to a few lines, the pixel "…" to read it whole */
 .card-description { --px: 4px; position: relative; padding: 0.75rem 1rem; background: var(--tint-strong); font-size: var(--fs-s); }
-.card-description.is-cut > p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.card-description.is-cut > p { max-height: 3lh; overflow: hidden; }   /* (cut to three lines, no "…": the pixel "…" button says there's more) */
 .card-description > .card-more { margin-top: 0.4rem; }
 .card-more { --px: 2px; border: 0; display: inline-flex; gap: 2px; align-items: center; padding: 4px 5px; background: var(--line); vertical-align: middle; cursor: pointer; }
 .card-more > span { width: 3px; height: 3px; background: var(--ink); }
