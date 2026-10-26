@@ -78,8 +78,7 @@
       "weighted_voting",
       "algorithm_driven_decisions",
       "random_choice",
-      "supermajority_rule",
-      "holacracy"
+      "supermajority_rule"
      ]
     },
     "conflict": {
@@ -681,7 +680,6 @@
       "weighted_voting",
       "quadratic_voting",
       "proof_of_work",
-      "holacracy",
       "lottery_sortition",
       "algorithm_driven_decisions"
      ]
@@ -781,7 +779,6 @@
       "quadratic_voting",
       "algorithm_driven_decisions",
       "random_choice",
-      "holacracy",
       "continuous_voting"
      ]
     },
@@ -880,7 +877,6 @@
       "elected_board_of_directors",
       "investor_filled_board_seats",
       "sociocracy",
-      "holacracy",
       "supermajority_rule",
       "quadratic_voting"
      ]

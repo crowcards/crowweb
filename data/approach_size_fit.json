@@ -198,17 +198,6 @@
       "status": "accepted"
     },
     {
-      "id": "decision_approaches:holacracy",
-      "list": "decision_approaches",
-      "option": "holacracy",
-      "small": -1,
-      "medium": 1,
-      "large": 2,
-      "very_large": 1,
-      "why": "Heavy structure for a small group; built for growing organizations.",
-      "status": "accepted"
-    },
-    {
       "id": "decision_approaches:collaborative_platforms",
       "list": "decision_approaches",
       "option": "collaborative_platforms",

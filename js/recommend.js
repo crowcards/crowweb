@@ -29,7 +29,7 @@
 // "Tuning"). A signal is *specific* when it knows this community: its type,
 // its format, the values it selected, its description. The scales and the size are
 // general: they add to the score and explain it, but never earn a chip alone
-// (together they had put Holacracy forward to a radio club).
+// (together they had put a corporate approach forward to a radio club).
 //   Approaches — Suggested: score ≥ TUNING.suggested, at least 2 signals for
 //     it, one of them specific. See also: score ≥ TUNING.seeAlso and a
 //     specific signal for it.

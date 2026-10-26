@@ -25,8 +25,8 @@ export const renderers = {
 
   // Values: label, description, signals (what inconsistency looks like);
   // with data-labels="/data/value_groups.json", the team's description where
-  // CommunityRule's is a placeholder
-  "values": (data, el, labelOf, [ours] = []) => data.items.map(it => `
+  // CommunityRule's is a placeholder; values we hide (hidden: true) left out
+  "values": (data, el, labelOf, [ours] = []) => data.items.filter(it => !ours?.items.find(x => x.id === it.id)?.hidden).map(it => `
     <tr>
       <td class="ref-name">${esc(ours?.items.find(x => x.id === it.id)?.label || it.label)}</td>
       <td>

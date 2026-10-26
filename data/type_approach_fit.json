@@ -87,15 +87,6 @@
     {
       "type": "personal",
       "list": "decision_approaches",
-      "option": "holacracy",
-      "fit": -2,
-      "flag": "gate",
-      "why": "Structures for running a group, and there's no group to run.",
-      "status": "accepted"
-    },
-    {
-      "type": "personal",
-      "list": "decision_approaches",
       "option": "consensus_seeking_with_delegates",
       "fit": -2,
       "flag": "gate",
@@ -1135,15 +1126,6 @@
       "fit": 1,
       "flag": null,
       "why": "Common in teams and leadership groups.",
-      "status": "accepted"
-    },
-    {
-      "type": "workplace",
-      "list": "decision_approaches",
-      "option": "holacracy",
-      "fit": 1,
-      "flag": "interesting",
-      "why": "Some studios and companies run without bosses, by roles and circles.",
       "status": "accepted"
     },
     {

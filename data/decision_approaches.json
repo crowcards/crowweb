@@ -84,11 +84,6 @@
       "description": "Members can change their votes over time, with decisions finalized when a threshold is reached."
     },
     {
-      "id": "holacracy",
-      "label": "Holacracy",
-      "description": "Decision-making authority is distributed across self-organizing teams."
-    },
-    {
       "id": "collaborative_platforms",
       "label": "Collaborative Platforms",
       "description": "Structured discussions on tools like Loomio or Polis are used to make group decisions."

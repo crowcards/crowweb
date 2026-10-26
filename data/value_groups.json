@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "updatedAt": "2026-10-08",
-  "note": "The CROW team's additions to values.json (CommunityRule's list, which may be refreshed from its API, so nothing of ours lives there). all: the All tab's name and description, under the tabs when it's open; groups: the tabs on the values list (short: the tab's name; label and description: under the tabs when it's open). items, by value id: its groups (1 or 2, the main one first: a value shows under each of its tabs); label, only to correct CommunityRule's name (e.g. Holocracy → Holacracy); cues, words and phrases a community that holds the value might use in its description, matched to suggest it (whole words; a trailing * matches any ending, \"organiz*\": organize, organizing; a cue of two or more words counts double); description, only where CommunityRule's is a placeholder (used instead of it); status: whether this entry is reviewed (proposed / accepted). rewordings: [from, to] pairs applied to every value description wherever it's shown (CommunityRule's wording, softened: \"This may mean…\", \"There may be a tension with…\"). js/data.js loadValues() merges the two files. A value missing here still shows (under All); an entry for a value no longer in values.json is ignored.",
+  "note": "The CROW team's additions to values.json (CommunityRule's list, which may be refreshed from its API, so nothing of ours lives there). all: the All tab's name and description, under the tabs when it's open; groups: the tabs on the values list (short: the tab's name; label and description: under the tabs when it's open). items, by value id: its groups (1 or 2, the main one first: a value shows under each of its tabs); label, only to correct CommunityRule's name (e.g. Holocracy → Holacracy); cues, words and phrases a community that holds the value might use in its description, matched to suggest it (whole words; a trailing * matches any ending, \"organiz*\": organize, organizing; a cue of two or more words counts double); description, only where CommunityRule's is a placeholder (used instead of it); status: whether this entry is reviewed (proposed / accepted). hidden: true leaves the value out of the site (the editor, suggestions, docs), e.g. Holacracy, a trademarked corporate system. rewordings: [from, to] pairs applied to every value description wherever it's shown (CommunityRule's wording, softened: \"This may mean…\", \"There may be a tension with…\"). js/data.js loadValues() merges the two files. A value missing here still shows (under All); an entry for a value no longer in values.json is ignored.",
   "all": {
     "label": "All values",
     "description": "A variety of values that help explain what your community cares about and how it works."
@@ -740,7 +740,8 @@
         "self-organising"
       ],
       "status": "accepted",
-      "label": "Holacracy"
+      "label": "Holacracy",
+      "hidden": true
     },
     {
       "id": "honesty",

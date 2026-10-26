@@ -232,7 +232,7 @@ function renderRowsAndPicks(approaches, conflicts) {
       items: [{ id: conflicts[0].id, stage: 1, primary: true, note: "Most issues" }, { id: conflicts[1].id, stage: 2 }, { id: conflicts[2].id, stage: 2 }, { id: conflicts[3].id, stage: 3 }] }).element),
     (() => {
       const strip = alikeStrip({ labelOf: (id) => id, onAdd: () => {} });
-      strip.show("Sociocracy", { like: ["Holacracy", "Lazy Consensus", "Modified Consensus"], fresh: ["Autocratic Decision-Making", "Executive Committees", "Do-ocracy"] });
+      strip.show("Sociocracy", { like: ["Consensus Decision-Making", "Lazy Consensus", "Modified Consensus"], fresh: ["Autocratic Decision-Making", "Executive Committees", "Do-ocracy"] });
       const full = alikeStrip({ labelOf: (id) => id, onAdd: () => {} });
       full.show("Trust", { like: [], fresh: ["Openness", "Care", "Mutual Aid"] }, { full: "You have 5 values. Unselect one to add another." });
       return group("“More like this / Try something new”", "controls/alike.js alikeStrip (under the chosen tags of pick lists and values; with nothing scored, only random picks; at the cap, grayed)", strip.element, full.element);
@@ -286,7 +286,7 @@ function renderNotes() {
         el("li", {}, el("span", { className: "pixel-minus" }), "Do-ocracy (from Moderation)")),
       el("p", { className: "button-row" }, el("button", { type: "button", className: "button button-small", textContent: "Add Federation" }), el("button", { type: "button", className: "link-button", textContent: "Dismiss" })))),
     group("Every pill-like thing", "make.css .chip (lime), .tag (orange), .tag-soft (gray), .tag-add (the strip's +), .card-pill (dark, the card), .choice-flag; docs.css .proto, .badge.*, .cv.*, .sw",
-      el("div", { className: "ft-row" }, chip("Suggested"), chip("See also", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Holacracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
+      el("div", { className: "ft-row" }, chip("Suggested"), chip("See also", { quiet: true }), chip("Started"), pill("tag", "Not allowed"), pill("tag tag-soft", "gardening"), pill("tag tag-add", "+ Sociocracy"), pill("card-pill", "Discussion forum"), pill("proto", "ActivityPub"),
         pill("badge yes", "Yes"), pill("badge no", "No"), pill("badge var", "Varies"),
         pill("cv yes", "Yes"), pill("cv often", "Often"), pill("cv some", "Sometimes"), pill("cv rare", "Rare"), pill("cv no", "No"), pill("sw oss", "Open source"), pill("sw", "Proprietary"))),
     group("Pixel icons", "dom.js pixelIcon (img/icons.svg, 16×16, currentColor; the card: joining tiers, scales, places); make.css .icon-out (box-shadow pixels)",

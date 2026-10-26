@@ -252,14 +252,6 @@
       "status": "accepted"
     },
     {
-      "id": "decentralization__holacracy",
-      "value": "decentralization",
-      "recommends": "holacracy",
-      "strength": 1,
-      "why": "Decision-making authority distributed across self-organizing teams with no central body required.",
-      "status": "accepted"
-    },
-    {
       "id": "decentralization__sociocracy",
       "value": "decentralization",
       "recommends": "sociocracy",
@@ -425,14 +417,6 @@
       "recommends": "lazy_consensus",
       "strength": 1,
       "why": "Assumed approved within a timeframe — inherently async, no need for synchronous presence.",
-      "status": "accepted"
-    },
-    {
-      "id": "holocracy__holacracy",
-      "value": "holocracy",
-      "recommends": "holacracy",
-      "strength": 2,
-      "why": "Decision-making authority distributed across self-organizing teams — roles and circles replace managers, directly enacting the value.",
       "status": "accepted"
     },
     {

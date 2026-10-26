@@ -66,7 +66,6 @@
             "lottery_sortition",
             "consensus_decision_making",
             "sociocracy",
-            "holacracy",
             "executive_committees",
             "investor_filled_board_seats",
             "deliberative_polling"
@@ -612,7 +611,6 @@
           "also": [
             "lazy_consensus",
             "executive_committees",
-            "holacracy",
             "sociocracy"
           ],
           "avoid": [
@@ -640,7 +638,7 @@
           ]
         }
       },
-      "notes": "Holacracy and sociocracy are 'also' (interesting for a workplace), not avoid: some studios run that way.",
+      "notes": "Sociocracy is 'also' (interesting for a workplace), not avoid: some studios run that way.",
       "status": "accepted",
       "format": "team",
       "type": "workplace"
