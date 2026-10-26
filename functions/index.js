@@ -250,7 +250,8 @@ function makeEmptyCard(cardId) {
 // { reason: "rate-limit" } so the site can say so.
 //
 // Addresses are never stored: each count is a document named by a one-way
-// hash of a private salt, the address, the action and the hour, in
+// hash of a private salt, the address (IPv6: its network's /64 block), the
+// action and the hour, in
 // rateLimits/, with an expireAt a day later (a TTL policy on rateLimits /
 // expireAt, set in the console, deletes them). The salt is made once and
 // kept in config/rateLimits (the security rules deny all browser access).
@@ -279,10 +280,26 @@ function callerAddress(request) {
   return forwarded.at(-1) || request.rawRequest?.ip || "unknown";
 }
 
+/**
+ * What a limit counts by: an IPv4 address as it is (one address is roughly one
+ * place: a home, an office); an IPv6 address by its network's block, the
+ * first half (the "/64"), since every home or phone network gets a block of
+ * billions and a device can switch addresses within it at will.
+ */
+function limitGroup(address) {
+  const v4 = address.match(/^(?:::ffff:)?(\d{1,3}(?:\.\d{1,3}){3})$/i);   // (IPv4, or IPv4 written as IPv6)
+  if (v4 || !address.includes(":")) return v4 ? v4[1] : address;
+  const [head, tail = ""] = address.toLowerCase().split("%")[0].split("::");
+  const front = head ? head.split(":") : [];
+  const back = tail ? tail.split(":") : [];
+  const groups = address.includes("::") ? [...front, ...Array(8 - front.length - back.length).fill("0"), ...back] : front;
+  return `${groups.slice(0, 4).map((g) => g.replace(/^0+(?=.)/, "")).join(":")}::/64`;
+}
+
 /** Count this call against the caller's hourly limit for `action`; refuse it if the limit is reached. */
 async function checkLimit(request, action) {
   const hour = new Date().toISOString().slice(0, 13);   // e.g. "2026-10-26T14"
-  const id = crypto.createHash("sha256").update(`${await limitSalt()}|${callerAddress(request)}|${action}|${hour}`).digest("hex").slice(0, 40);
+  const id = crypto.createHash("sha256").update(`${await limitSalt()}|${limitGroup(callerAddress(request))}|${action}|${hour}`).digest("hex").slice(0, 40);
   const ref = db.collection("rateLimits").doc(id);
   const allowed = await db.runTransaction(async (t) => {
     const doc = await t.get(ref);
