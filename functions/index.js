@@ -24,7 +24,8 @@ const db = getFirestore();
 db.settings({ ignoreUndefinedProperties: true });   // (a view can leave a part undefined: it's just not written)
 
 // A ceiling on how many copies of each function can run at once, so a flood
-// of requests can't run up costs (with the limits below, and App Check, before launch).
+// of requests can't run up costs (with the hourly limits and the daily ceiling
+// below; App Check is for later: TODO.md).
 setGlobalOptions({ maxInstances: 10 });
 
 // Firestore refuses documents over 1 MiB; refuse a little earlier, with our
