@@ -47,23 +47,24 @@ The beta runs on crowcards.org, on its own Firebase project (`crowcards`); stagi
 
 | What it covers | Status | Note |
 |---|---|---|
-| Limits on how often cards can be made, forked or reported | Done | 2026-10-26: 20 new cards / 20 forks / 5 reports per address per hour, IPv6 counted by network block. |
 | Move docs to docs.crowcards.org | Done | A separate Firebase site (`crowcards-docs`) built from `docs-site/`; the app redirects its old docs addresses there. Stays the one docs site (no staging copy). |
+| Basic security tasks (limits, App Check, security headers, etc.) | In progress | Done 2026-10-26: hourly limits, a daily ceiling (100 new cards), headers (content policy report-only), budget alert, browser key. Next: enforce the content policy. App Check after beta (Improvement tasks). See `SECURITY.local.md`. |
+| A privacy page (`/privacy`): what's stored (contact email, credit, reports, cards and their versions), who sees it, how long it's kept, how to ask for a card or email to be deleted; what we don't collect; Adobe Fonts as the one third party | Done | Deployed 2026-10-26; linked in every footer (app and docs) and beside the contact email on Publish. Not a study; deletion on request within 90 days. |
+| Reports: a weekly email to crowcards@princeton.edu listing the week's new reports (a scheduled function; needs a way to send email) | To do | Postmark, links only (confirming with Andrés). Meanwhile Sohyeon checks Firestore → `reports` weekly. |
+| For Bonfire, Mastodon and Acorn (Blacksky): a community's link fills in what it can (name, type, size, keywords, description, rules, platform and costs), with a note at the top of each module on what was filled in and what's left. Needs Acorn in the datasheets. | In progress | Mastodon done 2026-10-12 (`js/fill-from-link.js`, `js/fill-from-link/mastodon.js`). Bonfire: ask Ivan and Mayel what a server shares publicly. Acorn: waiting on the Blacksky team. Released as each is ready; not needed for the beta. |
+| An accessibility review | To do | A new student, with Claude Code, this week. Instructions: `ACCESSIBILITY.local.md` (ask Sohyeon). |
+| The reviewed `laws.json` (Prishaa's datasheet replaces the placeholder) | To do | CSV expected this week. |
+| Suggestions use accepted entries only (`COUNT_PROPOSED = false` in `js/view-modes.js`; it also covers previews and published cards' scales) | Done | 2026-10-26. |
+
+
+Production site launch: 
+| What it covers | Status | Note |
+|---|---|---|
 | A production Firebase project for crowcards.org (`crowcards`: its own database, functions, budget alert), deployed from `main`; staging stays on the current project, from `beta` | To do | Last, once everything else is finished on staging. Sohyeon: the console steps. Claude: `.firebaserc` aliases (`-P staging` / `-P production`), two hosting targets (production leaves out the workbench, `ratings/` and the team-only datasheets), `js/api.js` choosing the project by address, a guard that refuses a production deploy except from a clean, pushed `main`; README.md and DESIGN.md. Later: a GitHub Action deploying `main`. |
 | Switch crowcards.org from GitHub Pages to Firebase (the production project) | To do | Last, once production is checked on its Firebase address: the DNS change is the only step that touches the live site. |
 | Docs site's links pointing at https://crowcards.org (`docs-site/site.json` `appUrl`), deployed from `main` | To do | At launch. |
-| Restrict the Firebase browser keys to our own sites (Google Cloud console → APIs & Services → Credentials), on both projects | In progress | Our addresses only (crowcards.org, staging, docs, the Firebase defaults, localhost for the emulator); later only the APIs they use, once the console shows which. Sohyeon, in the console. |
-| Security headers for the site (in `firebase.json`) | In progress | Deployed 2026-10-26 (app and docs): HSTS, nosniff, referrer policy, no framing, a permissions policy, and a content security policy in report-only mode (staging clean so far); to enforce after a few days without report-only messages (dropping reCAPTCHA's addresses, unused). |
 | Backups of the production database (Firestore point-in-time recovery, and daily backups) | To do | Console. |
-| A daily ceiling on new cards across everyone (a backstop if someone scripts cards through many addresses, without App Check) | To do | The number from staging's use; raised by hand if a big workshop needs it. |
 | Cards survive schema changes: from the beta on, every change to a card's shape bumps `schemaVersion` and comes with a conversion the server applies to older cards | To do | The rule is in `DESIGN.md` ("The card schema"). The editor's side is "Update your card" (Phase 6). |
-| A privacy page (`/privacy`): what's stored (contact email, credit, reports, cards and their versions), who sees it, how long it's kept, how to ask for a card or email to be deleted; what we don't collect; Adobe Fonts as the one third party | To do | Decided 2026-10-26: the beta isn't a study (no IRB); contact crowcards@princeton.edu. Say that research data will come later only from hosted, recorded workshops, an opt-in feature, and cards contributed to the Library, each asked for first. Linked in the footer and beside the contact email on Publish. |
-| Reports: a weekly email to crowcards@princeton.edu listing the week's new reports (a scheduled function; needs a way to send email) | To do | Decided 2026-10-26. Until it works, someone checks Firebase console → Firestore → `reports` weekly. |
-| An email for each new report, as it comes (instead of weekly) | Later | If the weekly email proves too slow. |
-| An accessibility review | To do | A new student, with Claude Code, on staging: first an automated pass (axe) over every page in both themes and at phone width; then by hand: keyboard only, a screen reader (VoiceOver or NVDA) on set-up, a module, Publish and the card page, zoom to 200%, phone width, reduced motion. Fixes proposed, then built. |
-| The reviewed `laws.json` (Prishaa's datasheet replaces the placeholder) | To do | The CSV expected around the end of October. |
-| Suggestions use accepted entries only (`COUNT_PROPOSED = false` in `js/view-modes.js`; it also covers previews and published cards' scales) | To do | Every entry the suggestions use is accepted (2026-10-26), so this changes nothing people see. |
-| For Bonfire, Mastodon and Acorn (Blacksky): a community's link fills in what it can (name, type, size, keywords, description, rules, platform and costs), with a note at the top of each module on what was filled in and what's left. Needs Acorn in the datasheets. | In progress | Mastodon done 2026-10-12 (`js/fill-from-link.js`, `js/fill-from-link/mastodon.js`). Bonfire: ask Ivan and Mayel what a server shares publicly. Acorn: waiting on the Blacksky team. Released as each is ready; not needed for the beta. |
 | The workbench and recommendations work stay on staging only | To do | Done by the production hosting target (above): the files stay in git on every branch, so merges stay simple; production never serves them. |
 
 
