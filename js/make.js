@@ -62,6 +62,7 @@ const MESSAGES = {
   "bad-key": "This secret doesn’t match this card. Check that the whole secret is there, with nothing extra.",
   offline: "Couldn’t reach the server. Check your connection and try again.",
   conflict: "This card was changed somewhere else. Reload the page to get the latest version, then try again.",
+  "rate-limited": "Too many new cards have been started from your network in the last hour. Please try again later.",
   other: "Something went wrong. Please try again in a moment.",
 };
 

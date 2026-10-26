@@ -24,7 +24,7 @@ const db = getFirestore();
 db.settings({ ignoreUndefinedProperties: true });   // (a view can leave a part undefined: it's just not written)
 
 // A ceiling on how many copies of each function can run at once, so a flood
-// of requests can't run up costs (App Check, before launch, does the rest).
+// of requests can't run up costs (with the limits below, and App Check, before launch).
 setGlobalOptions({ maxInstances: 10 });
 
 // Firestore refuses documents over 1 MiB; refuse a little earlier, with our
@@ -242,13 +242,68 @@ function makeEmptyCard(cardId) {
   };
 }
 
+// ─── limits ──────────────────────────────────────────────
+// How often one network address may create things, per hour: new cards,
+// forks and reports (editing, publishing and reading need a card's key, or
+// are read-only, so they aren't limited). Workshops are small, usually one
+// community at a time. Over the limit: "resource-exhausted", with details
+// { reason: "rate-limit" } so the site can say so.
+//
+// Addresses are never stored: each count is a document named by a one-way
+// hash of a private salt, the address, the action and the hour, in
+// rateLimits/, with an expireAt a day later (a TTL policy on rateLimits /
+// expireAt, set in the console, deletes them). The salt is made once and
+// kept in config/rateLimits (the security rules deny all browser access).
+const LIMITS = { createCard: 20, forkCard: 20, reportCard: 5 };
+
+let salt = null;
+function limitSalt() {
+  salt ??= db.runTransaction(async (t) => {
+    const ref = db.collection("config").doc("rateLimits");
+    const doc = await t.get(ref);
+    if (doc.exists) return doc.data().salt;
+    const made = crypto.randomBytes(32).toString("hex");
+    t.set(ref, { salt: made });
+    return made;
+  });
+  return salt;
+}
+
+/**
+ * The caller's network address. Google's front end adds the address it saw
+ * as the last entry of X-Forwarded-For (anything before it could be made up
+ * by the caller), so that's the one to trust.
+ */
+function callerAddress(request) {
+  const forwarded = String(request.rawRequest?.headers?.["x-forwarded-for"] || "").split(",").map((a) => a.trim()).filter(Boolean);
+  return forwarded.at(-1) || request.rawRequest?.ip || "unknown";
+}
+
+/** Count this call against the caller's hourly limit for `action`; refuse it if the limit is reached. */
+async function checkLimit(request, action) {
+  const hour = new Date().toISOString().slice(0, 13);   // e.g. "2026-10-26T14"
+  const id = crypto.createHash("sha256").update(`${await limitSalt()}|${callerAddress(request)}|${action}|${hour}`).digest("hex").slice(0, 40);
+  const ref = db.collection("rateLimits").doc(id);
+  const allowed = await db.runTransaction(async (t) => {
+    const doc = await t.get(ref);
+    const count = doc.exists ? doc.data().count : 0;
+    if (count >= LIMITS[action]) return false;
+    t.set(ref, { count: count + 1, expireAt: new Date(Date.now() + 24 * 60 * 60 * 1000) });
+    return true;
+  });
+  if (!allowed) throw new HttpsError("resource-exhausted", "Too many from this network in the last hour; try again later", { reason: "rate-limit" });
+}
+
 // ─── createCard ──────────────────────────────────────────
 
 /**
  * Create a brand-new empty card.
  * Returns { cardId, secret } — the secret is shown ONCE to the user.
  */
-exports.createCard = onCall({ cors: true }, async () => saveNewCard((cardId) => makeEmptyCard(cardId)));
+exports.createCard = onCall({ cors: true }, async (request) => {
+  await checkLimit(request, "createCard");
+  return saveNewCard((cardId) => makeEmptyCard(cardId));
+});
 
 /**
  * Store a new card, made by make(cardId), with a new key. Returns
@@ -617,6 +672,7 @@ function overlay(empty, shown) {
  * Returns { cardId, secret }, like createCard.
  */
 exports.forkCard = onCall({ cors: true }, async (request) => {
+  await checkLimit(request, "forkCard");
   const { cardId, version } = request.data || {};
   if (!cardId || typeof cardId !== "string" || !/^crd_[A-Za-z0-9]{1,40}$/.test(cardId)) {
     throw new HttpsError("not-found", "This card isn't available");
@@ -675,6 +731,7 @@ exports.reportCard = onCall({ cors: true }, async (request) => {
   if (!cardId || typeof cardId !== "string" || !/^crd_[A-Za-z0-9]{1,40}$/.test(cardId)) throw new HttpsError("not-found", "This card isn't available");
   const pub = await db.collection("public").doc(cardId).get();
   if (!pub.exists) throw new HttpsError("not-found", "This card isn't available");
+  await checkLimit(request, "reportCard");   // (after the checks above: a mistyped form doesn't use up a report)
 
   const open = await db.collection("reports").where("cardId", "==", cardId).where("status", "==", "new").count().get();
   if (open.data().count >= MAX_OPEN_REPORTS) throw new HttpsError("resource-exhausted", "This card has already been reported; the CROW team will look at it");

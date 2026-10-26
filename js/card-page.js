@@ -161,7 +161,10 @@ function askFork(pub, mode) {
       location.href = "/make";
     } catch (err) {
       console.error(err);
-      error.textContent = errorKind(err) === "offline" ? "Can’t reach the server. Check your connection and try again." : "Something went wrong. Please try again.";
+      error.textContent = {
+        offline: "Can’t reach the server. Check your connection and try again.",
+        "rate-limited": "Too many cards have been forked from your network in the last hour. Please try again later.",
+      }[errorKind(err)] || "Something went wrong. Please try again.";
       error.hidden = false;
       start.disabled = false;
       start.textContent = "Fork this card";
@@ -213,6 +216,7 @@ function askReport(pub) {
       console.error(err);
       error.textContent = {
         "too-big": "This card has already been reported, and the CROW team will look at it.",
+        "rate-limited": "Too many reports have been sent from your network in the last hour. Please try again later.",
         invalid: err.message,
         offline: "Can’t reach the server. Check your connection and try again.",
       }[errorKind(err)] || "Something went wrong. Please try again.";

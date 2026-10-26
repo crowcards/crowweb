@@ -91,6 +91,7 @@ export const getPublicCard = (cardId, version) => _getPublicCard({ cardId, ...(v
  *   "conflict" — the card changed elsewhere since it was loaded (stop, ask)
  *   "stale"    — this page's code is older than the deployed code (reload)
  *   "too-big"  — the card would be too big to save (stop, say so)
+ *   "rate-limited" — too many new cards, forks or reports from this network this hour (say so; try later)
  *   "invalid"  — the server refused what was sent (stop: retrying can't help)
  *   "offline"  — network trouble (worth retrying)
  *   "other"    — anything else
@@ -101,7 +102,7 @@ export function errorKind(err) {
   if (code === "permission-denied") return "bad-key";
   if (code === "failed-precondition") return "conflict";
   if (code === "stale") return "stale";
-  if (code === "resource-exhausted") return "too-big";
+  if (code === "resource-exhausted") return err?.details?.reason === "rate-limit" ? "rate-limited" : "too-big";
   if (code === "invalid-argument") return "invalid";
   if (code === "unavailable" || code === "deadline-exceeded") return "offline";
   if (code === "internal" && !navigator.onLine) return "offline";   // how the SDK reports a dropped connection
