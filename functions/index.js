@@ -311,6 +311,29 @@ async function checkLimit(request, action) {
   if (!allowed) throw new HttpsError("resource-exhausted", "Too many from this network in the last hour; try again later", { reason: "rate-limit" });
 }
 
+// A ceiling on new cards (made or forked) per day across everyone: the
+// backstop if someone scripts cards through many addresses. The number is
+// config/limits newCardsPerDay (the team can raise it in the Firebase console,
+// e.g. before a big workshop; read on every call, so no deploy), else
+// NEW_CARDS_PER_DAY. Checked after the hourly limit, so calls refused there
+// don't use up the day. Counted in rateLimits/day-<date> (UTC), deleted by the
+// same TTL policy. Refused with { reason: "daily-limit" }.
+const NEW_CARDS_PER_DAY = 100;
+
+async function checkDailyCeiling() {
+  const day = new Date().toISOString().slice(0, 10);   // e.g. "2026-10-26"
+  const ref = db.collection("rateLimits").doc(`day-${day}`);
+  const allowed = await db.runTransaction(async (t) => {
+    const [doc, config] = await Promise.all([t.get(ref), t.get(db.collection("config").doc("limits"))]);
+    const ceiling = config.data()?.newCardsPerDay ?? NEW_CARDS_PER_DAY;
+    const count = doc.exists ? doc.data().count : 0;
+    if (count >= ceiling) return false;
+    t.set(ref, { count: count + 1, expireAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) });
+    return true;
+  });
+  if (!allowed) throw new HttpsError("resource-exhausted", "The day's limit on new cards is reached; try again tomorrow", { reason: "daily-limit" });
+}
+
 // ─── createCard ──────────────────────────────────────────
 
 /**
@@ -319,6 +342,7 @@ async function checkLimit(request, action) {
  */
 exports.createCard = onCall({ cors: true }, async (request) => {
   await checkLimit(request, "createCard");
+  await checkDailyCeiling();
   return saveNewCard((cardId) => makeEmptyCard(cardId));
 });
 
@@ -708,6 +732,7 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
     throw new HttpsError("failed-precondition", "This card can't be forked in its view");
   }
 
+  await checkDailyCeiling();   // (only once the fork can be made: a fork of a missing card doesn't use up the day)
   const shown = pub.card || {};
   return saveNewCard((newId) => {
     const empty = makeEmptyCard(newId);

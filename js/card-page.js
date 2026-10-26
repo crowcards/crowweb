@@ -164,6 +164,7 @@ function askFork(pub, mode) {
       error.textContent = {
         offline: "Can’t reach the server. Check your connection and try again.",
         "rate-limited": "Too many cards have been forked from your network in the last hour. Please try again later.",
+        busy: "CROW Cards has had an unusually busy day, so new cards are paused until tomorrow. Please try again then, or write to crowcards@princeton.edu.",
       }[errorKind(err)] || "Something went wrong. Please try again.";
       error.hidden = false;
       start.disabled = false;

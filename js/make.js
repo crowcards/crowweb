@@ -63,6 +63,7 @@ const MESSAGES = {
   offline: "Couldn’t reach the server. Check your connection and try again.",
   conflict: "This card was changed somewhere else. Reload the page to get the latest version, then try again.",
   "rate-limited": "Too many new cards have been started from your network in the last hour. Please try again later.",
+  busy: "CROW Cards has had an unusually busy day, so new cards are paused until tomorrow. Please try again then, or write to crowcards@princeton.edu.",
   other: "Something went wrong. Please try again in a moment.",
 };
 

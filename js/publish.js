@@ -181,6 +181,7 @@ export function renderPublish(container, ctx) {
     box.element.classList.add("field-after");
     field.element.append(box.element);
   }
+  email.element.append(el("p", { className: "field-hint field-after" }, "What we keep, and how to have it deleted: ", el("a", { className: "inline", href: "/privacy", target: "_blank", textContent: "Privacy" })));
 
   // a changelog comment: optional, so its box opens only when asked for
   const note = textField({ label: "Changelog comment", hint: "A short note readers see with this version, e.g. “Added our conflict steps”.", multiline: true });

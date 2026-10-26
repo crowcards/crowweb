@@ -21,10 +21,11 @@
 // answers, dismissed suggestions, …) and attribution (credit appears only
 // if the contributor opts in). Switched-off modules are left out.
 
-// While the team reviews the drafts (bench.html), proposed scores (and
+// When true (while the team reviews drafts in bench.html), proposed scores (and
 // value links and size fits, in js/recommend.js) count too: in suggestions,
-// previews and published cards, so they can be tried out. Before launch: false.
-export const COUNT_PROPOSED = true;
+// previews and published cards, so they can be tried out. Off since
+// 2026-10-26: every entry the suggestions use is accepted.
+export const COUNT_PROPOSED = false;
 
 export const MODES = [
   { id: "minimal", label: "Minimal", forkable: false,
