@@ -519,6 +519,17 @@ a:focus-visible,
   border-bottom: var(--rule);
 }
 
+/* the staging site's bar, above the header (js/site.js); it scrolls away */
+.staging-bar {
+  margin: 0;
+  padding: 0.45rem var(--gutter);
+  background: var(--lime);
+  color: var(--ink-on-color);
+  font-size: var(--fs-xs);
+  text-align: center;
+}
+.staging-bar a { color: inherit; font-size: inherit; }   /* (links are otherwise a size smaller: the bar is already small) */
+
 /* see-through backing, drawn on a pseudo-element: blurring on the header
    itself would stop the narrow-screen menu inside it from blurring the page */
 .site-header::before {

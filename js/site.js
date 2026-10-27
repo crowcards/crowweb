@@ -1,8 +1,19 @@
-// Shared behavior for every page: letter-by-letter title hover and the
-// narrow-screen menu.
+// Shared behavior for every page: letter-by-letter title hover, the
+// narrow-screen menu, and on the staging site a bar saying so.
 
 import { wrapLetters } from "./letters.js";
-import { narrowWidth } from "./dom.js";
+import { el, narrowWidth } from "./dom.js";
+
+// The staging site (staging.crowcards.org, the project's default site and its
+// preview channels: the addresses the server counts as staging, STAGING_ORIGIN
+// in functions/index.js) says so above the header, so nobody makes a card
+// there meaning to keep it.
+const STAGING_HOST = /^(staging\.crowcards\.org|cos-princeton-hci-crow(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
+if (STAGING_HOST.test(location.hostname)) {
+  document.body.prepend(el("p", { className: "staging-bar mono-u no-print" },
+    "This is the test site for CROW Cards. Nothing here is stored long-term; make your Card at ",
+    el("a", { href: "https://crowcards.org", textContent: "crowcards.org" })));
+}
 
 // Wrap each letter of [data-letters] elements (and page headers) in a span
 // so CSS can light them up one at a time (js/letters.js).

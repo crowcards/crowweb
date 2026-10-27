@@ -1,0 +1,5 @@
+# The staging site: search engines, please don't list it (people should make
+# their cards at crowcards.org). The live site leaves this file out
+# (firebase.json), so it has no robots.txt.
+User-agent: *
+Disallow: /

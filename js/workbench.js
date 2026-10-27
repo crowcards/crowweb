@@ -4,7 +4,7 @@
 // word lists (tables mostly drawn by js/docs-reference.js); review cases,
 // rated by people (kept in this browser, handed in as files); and "Try it"
 // (every result from js/recommend.js and the datasheets, as the editor uses
-// them; only the inputs are the page's own). Delete before launch.
+// them; only the inputs are the page's own). Staging only: the live site leaves it out.
 
 import { el, chip, richText } from "./dom.js";
 import { loadData, loadValues } from "./data.js";
