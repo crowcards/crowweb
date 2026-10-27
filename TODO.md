@@ -43,7 +43,7 @@ The phases and major pieces of work, in order. We launch without the Library (Ph
 | Revamp card design | Done | Built 2026-10-12 from Sohyeon's sketch: the name, TYPE • FORMAT • SIZE and the places at the top; the description in a tinted box; each module in a light outline, Infrastructure and Membership side by side (the joining tiers as lime tiles, then Joining, then Structure with the three scales); Processes with Decision making and Conflict side by side; notes behind the editor's asterisk badge, with hover bubbles elsewhere; pixel icons in `img/icons.svg`; the view mode said above the card. `scripts/seed-test-cards.mjs` makes "Variety" cards to check it on different platforms. |
 
 ### Beta release-ready
-The beta runs on crowcards.org, on its own Firebase project (`crowcards`); staging (staging.crowcards.org, project `cos-princeton-hci-crow`, shown as "CROW Cards staging") keeps the team's test cards, the workbench and recommendations work. Code and datasheets go live through git (`beta` → pull request → `main` → production); cards never move between the two. Beta cards must survive every later change. **Order:** finish everything on staging first; the production project comes last, just before launch. There is one docs site (docs.crowcards.org, `crowcards-docs` in the staging project): it has no server side, so it stays where it is, deployed from `main` once a release is live (preview links for review).
+The beta runs on crowcards.org, in the current Firebase project (`cos-princeton-hci-crow`, "CROW Cards"), on its own hosting site (`crowcards`). Princeton accounts can't create projects, so **until Princeton IT creates a separate staging project**, staging (staging.crowcards.org, the project's default site) shares the live site's functions and database: its cards are marked as staging, have their own daily ceiling and never appear publicly. Code and datasheets go live through git (`beta` → pull request → `main` → release); cards never move. When the staging project exists, staging moves there and production stays put. Beta cards must survive every later change. There is one docs site (docs.crowcards.org, `crowcards-docs`), deployed from `main` once a release is live (preview links for review).
 
 | What it covers | Status | Note |
 |---|---|---|
@@ -60,12 +60,12 @@ The beta runs on crowcards.org, on its own Firebase project (`crowcards`); stagi
 Production site launch: 
 | What it covers | Status | Note |
 |---|---|---|
-| A production Firebase project for crowcards.org (`crowcards`: its own database, functions, budget alert), deployed from `main`; staging stays on the current project, from `beta` | To do | Last, once everything else is finished on staging. Sohyeon: the console steps. Claude: `.firebaserc` aliases (`-P staging` / `-P production`), two hosting targets (production leaves out the workbench, `ratings/` and the team-only datasheets), `js/api.js` choosing the project by address, a guard that refuses a production deploy except from a clean, pushed `main`; README.md and DESIGN.md. Later: a GitHub Action deploying `main`. |
-| Switch crowcards.org from GitHub Pages to Firebase (the production project) | To do | Last, once production is checked on its Firebase address: the DNS change is the only step that touches the live site. |
+| The live site in the current project (until staging has its own): a `crowcards` hosting site for crowcards.org, deployed from `main`; staging's cards marked and kept out of public lists | In progress | 2026-10-27, Claude: two hosting targets (`staging`, `live`; the live one leaves out the workbench and team-only datasheets), staging marks (`env`) with their own daily ceiling (50), a deploy guard (functions, database rules and the live site from a clean, pushed `main` only); README.md and DESIGN.md. Sohyeon: rename the project "CROW Cards", create the `crowcards` site, keep deploy access small. Steps: `LAUNCH.local.md`. Later: a GitHub Action deploying `main`. |
+| Switch crowcards.org from GitHub Pages to Firebase (the `crowcards` site) | To do | Last, once the live site is checked on crowcards.web.app: the DNS change is the only step that touches the live site. Freeze GitHub Pages on `pages-old` before the first merge into `main`. |
 | Docs site's links pointing at https://crowcards.org (`docs-site/site.json` `appUrl`), deployed from `main` | To do | At launch. |
-| Backups of the production database (Firestore point-in-time recovery, and daily backups) | To do | Console. |
+| Backups of the database (Firestore point-in-time recovery, and daily backups) | To do | Console. |
 | Cards survive schema changes: from the beta on, every change to a card's shape bumps `schemaVersion` and comes with a conversion the server applies to older cards | To do | The rule is in `DESIGN.md` ("The card schema"). The editor's side is "Update your card" (Phase 6). |
-| The workbench and recommendations work stay on staging only | To do | Done by the production hosting target (above): the files stay in git on every branch, so merges stay simple; production never serves them. |
+| The workbench and recommendations work stay on staging only | Done | 2026-10-27: the live hosting target leaves them out; the files stay in git on every branch, so merges stay simple. |
 
 
 ### Phase 6. The library and collaboration
@@ -84,6 +84,7 @@ All to do later.
 
 | Task | What | Who | Notes |
 |---|---|---|---|
+| Staging gets its own project | Princeton IT creates a Google Cloud project for staging (requested 2026-10-27). Then: staging.crowcards.org and the workbench move there; functions deployed there from `beta`, so server changes can be tried on staging; teammates can get deploy access to staging only; the `env: "staging"` cards are deleted from the live project and the staging marks taken out. | | Steps: `LAUNCH.local.md`. |
 | Set up a local LLM on GCP, along with a team policy | The team's own small open model on a VM in `cos-princeton-hci-crow`, called only through a Cloud Function (checking the card's key, rate-limited), so what communities write never goes to a third party. It only suggests; people choose. We should also consider ways the local LLM can be used for this beyond improving the recommendations. | | TODO | 
 | New recommendation flow using the LLM | Should be cost/power efficient, good + interesting outputs, improve the overall experience and make the app more adaptable to different platforms. See Local Model Notes below. | | |
 | Review IFTAS Community Library and see what should be integrated + linked | IFTAS has already done the hard work of defining and laying out a lot of what moderation work deals with. We should leverage / integrate to make our tool more useful + grounded in actual issues people must handle | | | 

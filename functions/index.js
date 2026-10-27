@@ -9,6 +9,9 @@
 //   public/{id}                 the published card, as its view mode shows it (getPublicCard)
 //   public/{id}/versions/{n}    each version, as the same view mode shows it
 //   reports/{auto id}           a report about a published card (reportCard), for the CROW team
+//
+// Cards, their public copies and reports carry env: "live" or "staging"
+// (see "staging" below); anything without it is from before launch: staging.
 
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { setGlobalOptions } = require("firebase-functions/v2");
@@ -318,15 +321,19 @@ async function checkLimit(request, action) {
 // e.g. before a big workshop; read on every call, so no deploy), else
 // NEW_CARDS_PER_DAY. Checked after the hourly limit, so calls refused there
 // don't use up the day. Counted in rateLimits/day-<date> (UTC), deleted by the
-// same TTL policy. Refused with { reason: "daily-limit" }.
+// same TTL policy. Refused with { reason: "daily-limit" }. Staging has its
+// own, smaller ceiling (stagingCardsPerDay, rateLimits/staging-day-<date>),
+// so testing never uses up the public's.
 const NEW_CARDS_PER_DAY = 100;
+const STAGING_CARDS_PER_DAY = 50;
 
-async function checkDailyCeiling() {
+async function checkDailyCeiling(env) {
   const day = new Date().toISOString().slice(0, 10);   // e.g. "2026-10-26"
-  const ref = db.collection("rateLimits").doc(`day-${day}`);
+  const staging = env === "staging";
+  const ref = db.collection("rateLimits").doc(`${staging ? "staging-" : ""}day-${day}`);
   const allowed = await db.runTransaction(async (t) => {
     const [doc, config] = await Promise.all([t.get(ref), t.get(db.collection("config").doc("limits"))]);
-    const ceiling = config.data()?.newCardsPerDay ?? NEW_CARDS_PER_DAY;
+    const ceiling = staging ? config.data()?.stagingCardsPerDay ?? STAGING_CARDS_PER_DAY : config.data()?.newCardsPerDay ?? NEW_CARDS_PER_DAY;
     const count = doc.exists ? doc.data().count : 0;
     if (count >= ceiling) return false;
     t.set(ref, { count: count + 1, expireAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) });
@@ -334,6 +341,21 @@ async function checkDailyCeiling() {
   });
   if (!allowed) throw new HttpsError("resource-exhausted", "The day's limit on new cards is reached; try again tomorrow", { reason: "daily-limit" });
 }
+
+// ─── staging ─────────────────────────────────────────────
+// Until staging has its own project (TODO.md), the staging site
+// (staging.crowcards.org, the project's default hosting site, and its preview
+// channels) shares these functions and this database with the live site.
+// Cards made from it are marked env: "staging", everything else "live": the
+// browser says which page is calling (the Origin header, which a page's code
+// can't change). A script can claim to be staging, but that only gets it
+// staging cards: hourly-limited as usual, under staging's own small ceiling,
+// and never listed. Pages on the live site never show staging cards in public
+// lists (the Library), and reports say which kind of card they're about.
+const STAGING_ORIGIN = /^https:\/\/(staging\.crowcards\.org|cos-princeton-hci-crow(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
+
+/** "staging" for a call from the staging site, else "live". */
+const envOf = (request) => (STAGING_ORIGIN.test(request.rawRequest?.headers?.origin || "") ? "staging" : "live");
 
 // ─── createCard ──────────────────────────────────────────
 
@@ -343,21 +365,22 @@ async function checkDailyCeiling() {
  */
 exports.createCard = onCall({ cors: true }, async (request) => {
   await checkLimit(request, "createCard");
-  await checkDailyCeiling();
-  return saveNewCard((cardId) => makeEmptyCard(cardId));
+  const env = envOf(request);
+  await checkDailyCeiling(env);
+  return saveNewCard((cardId) => makeEmptyCard(cardId), env);
 });
 
 /**
- * Store a new card, made by make(cardId), with a new key. Returns
- * { cardId, secret }: the only time the secret is ever sent.
+ * Store a new card, made by make(cardId), with a new key, marked live or
+ * staging (env). Returns { cardId, secret }: the only time the secret is ever sent.
  */
-async function saveNewCard(make) {
+async function saveNewCard(make, env) {
   const cardId = "crd_" + randomAlnum(12);       // e.g. "crd_aB7xK9mPq2Zt"
   const secret = randomId(32);                    // ~43 chars
 
   // Write the card and the key hash in one atomic batch.
   const batch = db.batch();
-  batch.set(db.collection("cards").doc(cardId), make(cardId));
+  batch.set(db.collection("cards").doc(cardId), { ...make(cardId), env });
   batch.set(db.collection("cardKeys").doc(hashSecret(secret)), {
     cardId,
     createdAt: FieldValue.serverTimestamp(),
@@ -421,7 +444,7 @@ exports.getCard = onCall({ cors: true }, async (request) => {
  * The parts of a card the editor may write. Each update sends whole parts,
  * and each part sent replaces what was stored (so unticking a rule, or
  * removing a key from any nested object, really removes it). Everything else
- * (id, schemaVersion, createdAt, updatedAt, forkedFrom, and publishing,
+ * (id, schemaVersion, createdAt, updatedAt, forkedFrom, env, and publishing,
  * which the publishing functions write) can't be written this way.
  */
 const EDITABLE_PARTS = [
@@ -531,6 +554,7 @@ async function writePublic(tx, cardRef, card, versions) {
   const latest = versions.find((v) => v.version === version);
   tx.set(publicRef, {
     id: card.id,
+    env: card.env,   // (none on cards from before launch: staging)
     listed,
     version,
     publishedAt,
@@ -733,7 +757,8 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
     throw new HttpsError("failed-precondition", "This card can't be forked in its view");
   }
 
-  await checkDailyCeiling();   // (only once the fork can be made: a fork of a missing card doesn't use up the day)
+  const env = envOf(request);   // (the site it's made on, whatever the source's)
+  await checkDailyCeiling(env);   // (only once the fork can be made: a fork of a missing card doesn't use up the day)
   const shown = pub.card || {};
   return saveNewCard((newId) => {
     const empty = makeEmptyCard(newId);
@@ -749,7 +774,7 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
     card.editor = { ...card.editor, forkModules: shown.modules || [] };
     card.forkedFrom = { cardId, version: pub.version, name: shown.basics?.name || null, mode: pub.mode };
     return card;
-  });
+  }, env);
 });
 
 // ─── reportCard ──────────────────────────────────────────
@@ -759,8 +784,8 @@ const MAX_OPEN_REPORTS = 20;   // per card: more are refused until the team has 
 /**
  * Report a published card to the CROW team: no key needed; a reason, or at
  * least a note on what's wrong. Saves
- * reports/{id}: { cardId, version, mode, reason, details, email, createdAt,
- * status: "new" }, read in the Firebase console (see "For the CROW team" in
+ * reports/{id}: { cardId, env, version, mode, reason, details, email, createdAt,
+ * status: "new" } (env: the card's, so the team can skip staging cards' reports), read in the Firebase console (see "For the CROW team" in
  * DESIGN.md). The email is optional, for following up; never shown publicly.
  */
 exports.reportCard = onCall({ cors: true }, async (request) => {
@@ -781,6 +806,7 @@ exports.reportCard = onCall({ cors: true }, async (request) => {
 
   await db.collection("reports").add({
     cardId,
+    env: pub.data().env === "live" ? "live" : "staging",
     version: Number.isInteger(version) ? version : pub.data().version,
     mode: pub.data().mode,
     reason: reason || null,

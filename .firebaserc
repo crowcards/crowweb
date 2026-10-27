@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "cos-princeton-hci-crow"
+  },
+  "targets": {
+    "cos-princeton-hci-crow": {
+      "hosting": {
+        "staging": [
+          "cos-princeton-hci-crow"
+        ],
+        "live": [
+          "crowcards"
+        ]
+      }
+    }
   }
 }

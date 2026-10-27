@@ -1,84 +1,214 @@
 {
-  "hosting": {
-    "public": ".",
-    "predeploy": [
-      "node \"$PROJECT_DIR/scripts/stamp-version.mjs\""
-    ],
-    "ignore": [
-      "scripts/**",
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**",
-      "functions/**",
-      "docs-site/**",
-      "firestore.rules",
-      "firestore.indexes.json",
-      "README.md",
-      "CLAUDE.md",
-      "DESIGN.md",
-      "TODO.md",
-      "RECOMMENDATIONS.md",
-      "ratings/**",
-      "**/*.log",
-      "**/*:Zone.Identifier",
-      "emulator-data/**",
-      "*.local.md"
-    ],
-    "cleanUrls": true,
-    "redirects": [
-      { "source": "/docs.html", "destination": "https://docs.crowcards.org/", "type": 301 },
-      { "source": "/docs", "destination": "https://docs.crowcards.org/", "type": 301 },
-      { "source": "/platforms.html", "destination": "https://docs.crowcards.org/platforms", "type": 301 },
-      { "source": "/platforms", "destination": "https://docs.crowcards.org/platforms", "type": 301 }
-    ],
-    "rewrites": [
-      {
-        "source": "/c/**",
-        "destination": "/card.html"
-      }
-    ],
-    "headers": [
-      {
-        "source": "**/*.@(html|js|css|json)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "no-cache"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
-          {
-            "key": "Strict-Transport-Security",
-            "value": "max-age=31536000; includeSubDomains"
-          },
-          {
-            "key": "X-Content-Type-Options",
-            "value": "nosniff"
-          },
-          {
-            "key": "Referrer-Policy",
-            "value": "strict-origin-when-cross-origin"
-          },
-          {
-            "key": "X-Frame-Options",
-            "value": "DENY"
-          },
-          {
-            "key": "Permissions-Policy",
-            "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
-          },
-          {
-            "key": "Content-Security-Policy",
-            "value": "default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net; font-src 'self' data: https://use.typekit.net; img-src 'self' data: https://use.typekit.net https://p.typekit.net; connect-src 'self' https: http://127.0.0.1:5001 http://localhost:5001; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
-          }
-        ]
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "target": "staging",
+      "public": ".",
+      "predeploy": [
+        "node \"$PROJECT_DIR/scripts/deploy-guard.mjs\" staging",
+        "node \"$PROJECT_DIR/scripts/stamp-version.mjs\""
+      ],
+      "ignore": [
+        "scripts/**",
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**",
+        "docs-site/**",
+        "firestore.rules",
+        "firestore.indexes.json",
+        "README.md",
+        "CLAUDE.md",
+        "DESIGN.md",
+        "TODO.md",
+        "RECOMMENDATIONS.md",
+        "ratings/**",
+        "**/*.log",
+        "**/*:Zone.Identifier",
+        "emulator-data/**",
+        "*.local.md"
+      ],
+      "cleanUrls": true,
+      "redirects": [
+        {
+          "source": "/docs.html",
+          "destination": "https://docs.crowcards.org/",
+          "type": 301
+        },
+        {
+          "source": "/docs",
+          "destination": "https://docs.crowcards.org/",
+          "type": 301
+        },
+        {
+          "source": "/platforms.html",
+          "destination": "https://docs.crowcards.org/platforms",
+          "type": 301
+        },
+        {
+          "source": "/platforms",
+          "destination": "https://docs.crowcards.org/platforms",
+          "type": 301
+        }
+      ],
+      "rewrites": [
+        {
+          "source": "/c/**",
+          "destination": "/card.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(html|js|css|json)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "strict-origin-when-cross-origin"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Permissions-Policy",
+              "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+            },
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net; font-src 'self' data: https://use.typekit.net; img-src 'self' data: https://use.typekit.net https://p.typekit.net; connect-src 'self' https: http://127.0.0.1:5001 http://localhost:5001; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target": "live",
+      "public": ".",
+      "predeploy": [
+        "node \"$PROJECT_DIR/scripts/deploy-guard.mjs\" live",
+        "node \"$PROJECT_DIR/scripts/stamp-version.mjs\""
+      ],
+      "ignore": [
+        "scripts/**",
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**",
+        "docs-site/**",
+        "firestore.rules",
+        "firestore.indexes.json",
+        "README.md",
+        "CLAUDE.md",
+        "DESIGN.md",
+        "TODO.md",
+        "RECOMMENDATIONS.md",
+        "ratings/**",
+        "**/*.log",
+        "**/*:Zone.Identifier",
+        "emulator-data/**",
+        "*.local.md",
+        "bench.html",
+        "js/workbench.js",
+        "js/bench.js",
+        "js/docs-reference.js",
+        "data/benchmark_communities.json",
+        "data/benchmark_heldout.json",
+        "data/review_cases.json",
+        "data/value_terms_proposed.json",
+        "data/value_phrases_drafted.json",
+        "data/workbench_log.json"
+      ],
+      "cleanUrls": true,
+      "redirects": [
+        {
+          "source": "/docs.html",
+          "destination": "https://docs.crowcards.org/",
+          "type": 301
+        },
+        {
+          "source": "/docs",
+          "destination": "https://docs.crowcards.org/",
+          "type": 301
+        },
+        {
+          "source": "/platforms.html",
+          "destination": "https://docs.crowcards.org/platforms",
+          "type": 301
+        },
+        {
+          "source": "/platforms",
+          "destination": "https://docs.crowcards.org/platforms",
+          "type": 301
+        }
+      ],
+      "rewrites": [
+        {
+          "source": "/c/**",
+          "destination": "/card.html"
+        }
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(html|js|css|json)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubDomains"
+            },
+            {
+              "key": "X-Content-Type-Options",
+              "value": "nosniff"
+            },
+            {
+              "key": "Referrer-Policy",
+              "value": "strict-origin-when-cross-origin"
+            },
+            {
+              "key": "X-Frame-Options",
+              "value": "DENY"
+            },
+            {
+              "key": "Permissions-Policy",
+              "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+            },
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net; font-src 'self' data: https://use.typekit.net; img-src 'self' data: https://use.typekit.net https://p.typekit.net; connect-src 'self' https: http://127.0.0.1:5001 http://localhost:5001; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "firestore": {
+    "predeploy": [
+      "node \"$PROJECT_DIR/scripts/deploy-guard.mjs\" firestore"
+    ],
     "database": "(default)",
     "location": "nam7",
     "rules": "firestore.rules",
@@ -90,6 +220,7 @@
       "codebase": "default",
       "disallowLegacyRuntimeConfig": true,
       "predeploy": [
+        "node \"$PROJECT_DIR/scripts/deploy-guard.mjs\" functions",
         "node \"$PROJECT_DIR/scripts/copy-shared.mjs\""
       ],
       "ignore": [

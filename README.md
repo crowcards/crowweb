@@ -42,26 +42,31 @@ cd functions && npm install && cd ..
 firebase use cos-princeton-hci-crow
 firebase emulators:start
 ```
-The site is at http://localhost:5000 (the editor is `/make`; it uses the local server and database automatically: `js/api.js` switches to the emulator on localhost), and the emulator dashboard at http://localhost:4000 (where you can see the emulated backend, e.g. the cards in the database). Nothing done locally touches the live site or staging. Stop with Ctrl+C. Pages update on reload as you edit; you can do a hard reload with `Ctrl/Cmd + Shift + R`.
+The site is at http://localhost:5000 (staging's version; the live site's, without the workbench, is at http://localhost:5005; the editor is `/make`; it uses the local server and database automatically: `js/api.js` switches to the emulator on localhost), and the emulator dashboard at http://localhost:4000 (where you can see the emulated backend, e.g. the cards in the database). Nothing done locally touches the live site or staging. Stop with Ctrl+C. Pages update on reload as you edit; you can do a hard reload with `Ctrl/Cmd + Shift + R`.
 
 The local database starts empty each time. To keep your test cards between runs, start with `firebase emulators:start --import=emulator-data --export-on-exit` (`emulator-data/` is yours alone: it isn't committed).
 
 ### Deploying
-- **Staging (staging.crowcards.org) is the Firebase site:** `firebase deploy --only functions,hosting` deploys the server and the site there (team members with deploy access only). The deploy stamp (`version.json`) is made automatically: after any deploy, editor tabs that were already open are asked to reload, so old code can't save over new data.
+- **One project, two sites, for now.** The live site (crowcards.org) and staging (staging.crowcards.org) are two hosting sites in the same Firebase project, and **share its server (the functions) and its database.** Cards made on staging are marked as staging cards, so they never mix into public lists. Until staging gets its own project:
+  - **Staging:** `firebase deploy --only hosting:staging`, from an up-to-date `beta`. It deploys the site only.
+  - **A release** (Sohyeon): merge `beta` into `main` with a pull request, then from `main`: `firebase deploy --only functions,firestore,hosting:live`.
+  - **The server goes out only with a release,** so test server changes on the emulator. Staging's editor talks to the live server: an editor change that needs a server change works on staging only once that server change is released.
+  - A guard (`scripts/deploy-guard.mjs`) runs before every deploy and stops anything but the staging site unless you're on `main`, with nothing uncommitted, matching GitHub. It's there for mistakes; deploy access stays with as few people as possible.
+  - The deploy stamp (`version.json`) is made automatically: after any deploy, editor tabs that were already open are asked to reload, so old code can't save over new data.
 - **The docs (docs.crowcards.org)** are a separate Firebase site, built from `docs-site/`: `cd docs-site && firebase deploy --only hosting` publishes them (the build runs first: it fills the tables in from the datasheets). To share a version before publishing, `cd docs-site && firebase hosting:channel:deploy review` gives a temporary link (7 days; add `--expires 30d` for longer); run it again to update the same link. Deploy the docs from the branch whose datasheets should be shown. `node docs-site/build.mjs` builds them locally into `docs-site/dist/`.
 - **crowcards.org** is currently served by GitHub Pages from this repo for now (hence the `CNAME` file); at launch it switches to Firebase. That is why you should NOT be committing to the main branch yet.
 - **The workflow:**
   1. Work on your own branch, and test on the emulator.
   2. Commit and push your branch, then open a pull request into `beta`; get it reviewed, and merge it.
-  3. Deploy to staging from an up-to-date `beta` (`git checkout beta && git pull`, then deploy).
+  3. Deploy to staging from an up-to-date `beta` (`git checkout beta && git pull`, then `firebase deploy --only hosting:staging`).
 
-  Why: deploying from your own branch replaces staging for everyone, and staging's database holds the team's test cards. If you need to try something on staging first, check with the team.
+  Why: deploying from your own branch replaces staging for everyone. If you need to try something on staging first, check with the team.
 
 ### Developing / building
 
 - **This web app has been built with the help of Claude Code.** To avoid creating a massively annoying codebase, we follow a few golden rules:
     - We build in small chunks, each validated before the next; if you ask Claude to propose a plan for a chunk, have it explain what and why. You should flag ambiguities and push back on unclear design decisions: propose first, build on agreement. This is true for creating new functionality and also building datasheets. Make sure you always have a good sense of what was edited and why.
-    - You run the emulators, check functionality and visual outputs, deploy (`firebase deploy --only functions,hosting`) and commit yourself. Do not have the AI tool commit to our repo. 
+    - You run the emulators, check functionality and visual outputs, deploy (see Deploying above) and commit yourself. Do not have the AI tool commit to our repo. 
     - We never create redundant or near-duplicate CSS/JS. Reuse and extend the shared pieces (see "Where things live" in `DESIGN.md`) instead. Styles are summarized in `style.html`. After each major phase, it is good to ask Claude to review the current codebase for this.
     - After each major phase, we have Claude update `DESIGN.md` (how things work) and `TODO.md` (the plan). We also edit these ourselves because sometimes the way Claude documents is extremely annoying.
     - Always disclose use of AI tools. You are ultimately responsible for the commits made. 
