@@ -22,7 +22,7 @@ import { suggestField, storedValue } from "../controls/suggest.js";
 import { asideOf } from "../set-aside.js";
 import { foldSection, sectionMaker } from "../controls/fold.js";
 import { showPopup, closePopup } from "../popup.js";
-import { LAWS_NOTE, lawsPageUrl } from "../laws.js";
+import { lawsNote, lawsPageUrl } from "../laws.js";
 import { reveal, showIf } from "../reveal.js";
 
 export async function loadInfrastructureData() {
@@ -467,7 +467,7 @@ export function renderInfrastructure(container, infrastructure = {}, data, { onI
   // opens the laws page in a new tab
   const lawsLink = el("a", { className: "button button-small", target: "_blank", rel: "noopener", textContent: "See laws for your locations" });
   const lawsEmpty = el("p", { className: "field-hint", textContent: "Add a location above to see the laws for it." });
-  const laws = { element: el("div", { className: "callout" }, el("p", { textContent: LAWS_NOTE }), el("p", {}, lawsLink), lawsEmpty) };
+  const laws = { element: el("div", { className: "callout" }, el("p", {}, ...lawsNote()), el("p", {}, lawsLink), lawsEmpty) };
   function refreshLaws() {
     const codes = [...new Set([servers, users, admins].flatMap((f) => f.value()))];
     lawsLink.href = lawsPageUrl(codes);

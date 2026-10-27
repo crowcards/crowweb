@@ -48,12 +48,12 @@ The beta runs on crowcards.org, on its own Firebase project (`crowcards`); stagi
 | What it covers | Status | Note |
 |---|---|---|
 | Move docs to docs.crowcards.org | Done | A separate Firebase site (`crowcards-docs`) built from `docs-site/`; the app redirects its old docs addresses there. Stays the one docs site (no staging copy). |
-| Basic security tasks (limits, App Check, security headers, etc.) | In progress | Done 2026-10-26: hourly limits, a daily ceiling (100 new cards), headers (content policy report-only), budget alert, browser key. Next: enforce the content policy. App Check after beta (Improvement tasks). See `SECURITY.local.md`. |
+| Basic security tasks (limits, App Check, security headers, etc.) | Done | 2026-10-26: hourly limits, a daily ceiling (100 new cards), headers (content policy enforced after two clean days), budget alert, browser key. The production project gets its own (Production site launch). App Check after beta (Improvement tasks). See `SECURITY.local.md`. |
 | A privacy page (`/privacy`): what's stored (contact email, credit, reports, cards and their versions), who sees it, how long it's kept, how to ask for a card or email to be deleted; what we don't collect; Adobe Fonts as the one third party | Done | Deployed 2026-10-26; linked in every footer (app and docs) and beside the contact email on Publish. Not a study; deletion on request within 90 days. |
 | Reports: a weekly email to crowcards@princeton.edu listing the week's new reports (a scheduled function; needs a way to send email) | To do | Postmark, links only (confirming with Andrés). Meanwhile Sohyeon checks Firestore → `reports` weekly. |
 | For Bonfire, Mastodon and Acorn (Blacksky): a community's link fills in what it can (name, type, size, keywords, description, rules, platform and costs), with a note at the top of each module on what was filled in and what's left. Needs Acorn in the datasheets. | In progress | Mastodon done 2026-10-12 (`js/fill-from-link.js`, `js/fill-from-link/mastodon.js`). Bonfire: ask Ivan and Mayel what a server shares publicly. Acorn: waiting on the Blacksky team. Released as each is ready; not needed for the beta. |
-| An accessibility review | To do | A new student, with Claude Code, this week. Instructions: `ACCESSIBILITY.local.md` (ask Sohyeon). |
-| The reviewed `laws.json` (Prishaa's datasheet replaces the placeholder) | To do | CSV expected this week. |
+| An accessibility review | To do | Not blocking the beta: a new student, with Claude Code, from next week; fixes released as they're ready. Instructions: `ACCESSIBILITY.local.md` (ask Sohyeon). |
+| The reviewed `laws.json` (Prishaa's datasheet replaces the placeholder, edited lightly by Sohyeon; might benefit from a third review) | Done | 2026-10-26: 86 laws from Prishaa's sheet (October 2026). The laws page: the not-legal-advice note always at the top, with the update month; each law's title, summary (expandable), key dates, and status / relevance where they matter. |
 | Suggestions use accepted entries only (`COUNT_PROPOSED = false` in `js/view-modes.js`; it also covers previews and published cards' scales) | Done | 2026-10-26. |
 
 
@@ -142,7 +142,7 @@ Every datasheet in `/data/` drives what people see; each needs a careful read fo
 - **Recommendations:** `governance_scales.json` (scores, levels, trade-offs, where values point), `value_recommendations_decision.json`, `value_recommendations_membership.json`, `value_recommendations_conflict.json`, `approach_size_fit.json`.
 - **Rules:** `rule_schema.json` (categories, types, rules, qualifiers), `covenants.json`.
 - **Infrastructure and federation:** `tools.json`, `federation_subscription_lists.json`, `countries.json`.
-- **Laws:** `laws.json` (a placeholder until Prishaa's reviewed datasheet replaces it).
+- **Laws:** `laws.json` (from Prishaa's datasheet, October 2026).
 
 
 | Task | Status | Who | Notes |

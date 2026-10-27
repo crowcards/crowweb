@@ -15,7 +15,7 @@
 // isn't mentioned; empty answers are left out; a module with nothing filled
 // in says so. (The view's name is said above the card, by the page.)
 
-import { el, button, infoTip, pixelIcon } from "./dom.js";
+import { el, button, infoTip, pixelIcon, cutWithMore } from "./dom.js";
 import { cardOutline, labelIn, labels } from "./export.js";
 import { moduleEntries } from "./modules.js";
 import { toolName } from "./sections/infrastructure.js";
@@ -297,19 +297,7 @@ function description(parts = {}) {
   if (!texts.length) return null;
   const text = texts.join(" ");
   const box = el("div", { className: "card-description" }, el("p", { textContent: text }));
-  if (text.length <= DESCRIPTION_LONG) return box;
-  box.classList.add("is-cut");
-  const more = button("", "card-more", () => {
-    const open = more.getAttribute("aria-expanded") !== "true";
-    box.classList.toggle("is-cut", !open);
-    more.setAttribute("aria-expanded", String(open));
-    more.setAttribute("aria-label", open ? "Show less" : "Read the whole description");
-  });
-  more.append(el("span"), el("span"), el("span"));   // three pixel dots
-  more.setAttribute("aria-expanded", "false");
-  more.setAttribute("aria-label", "Read the whole description");
-  box.append(more);
-  return box;
+  return text.length <= DESCRIPTION_LONG ? box : cutWithMore(box, "Read the whole description");
 }
 
 // ── the card ────────────────────────────────────────────────

@@ -284,9 +284,10 @@ a,
 /* pills: small mono capitals on a color, all one shape. The color says
    what kind: .chip lime (Suggested, Started), .tag orange (chosen items,
    qualifiers; may hold a remove ×), and the docs table pills .proto,
-   .badge, .cv on tints (docs.css) */
+   .badge, .cv on tints (docs.css), and a law's categories .law-cat (below) */
 .chip,
 .tag,
+.law-cat,
 .proto,
 .badge,
 .cv {
@@ -486,7 +487,7 @@ a:focus-visible,
 /* stepped pixel corners, shared by buttons, callouts, pop-ups, tabs, rows (on
    their background layer), the flag dot and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
 /* (pseudo-elements can't go inside :is(), so the layers are listed after it) */
-:is(.button, .callout, .popup, .tab, .note-mark, .card-pill, .card-more, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
+:is(.button, .callout, .popup, .tab, .note-mark, .card-pill, .more-dots, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
 .row::before,
 .flag-dot::before,
 .info-tip::before {
@@ -1156,6 +1157,23 @@ body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4
 
 ::view-transition-group(root) { animation-duration: 0.2s; }
 
+/* ---- cut text: three lines, then the pixel "…" button for the rest
+   (dom.js cutWithMore: a card's description, a law's summary) ---------- */
+.is-cut > p { max-height: 3lh; overflow: hidden; }   /* (no "…" in the text: the button says there's more) */
+.more-dots { --px: 2px; border: 0; display: inline-flex; gap: 2px; align-items: center; margin-top: 0.4rem; padding: 4px 5px; background: var(--line); vertical-align: middle; cursor: pointer; }
+.more-dots > span { width: 3px; height: 3px; background: var(--ink); }
+.more-dots:is(:hover, :focus-visible), .more-dots[aria-expanded="true"] { background: var(--lime); }
+
+/* ---- laws (laws.html): each law, its categories as pills under the title */
+.law { margin-bottom: 1.75rem; font-size: var(--fs-s); }
+.law h3 { margin-bottom: 0.15rem; font-size: var(--fs-l); }   /* (titles are long: the docs' h3 size) */
+.law .law-cats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+.law-cat { color: var(--ink); }   /* a soft tint each, so they're told apart at a glance */
+.law-cat-copyright_ip  { background: var(--tint-strong); }
+.law-cat-online_safety { background: color-mix(in srgb, var(--lime) 30%, var(--bg)); }
+.law-cat-data_privacy  { background: color-mix(in srgb, var(--gray) 16%, var(--bg)); }
+.law p { margin-bottom: 0.35rem; }
+
 /* ---- print / save as PDF ---------------------------------------------
    Pages that can be saved as a PDF (the laws page) print as plain text on
    white: no header, side art or buttons, always the light colors. Mark
@@ -1174,18 +1192,7 @@ body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4
   .info-body { width: auto; max-width: none; padding: 0; }
   .info .site-footer { justify-self: stretch; width: auto; max-width: none; margin: 2rem 0 0; padding-inline: 0; }
   h1, h2, h3 { break-after: avoid; }
-  tr, .callout { break-inside: avoid; }
-  /* links' addresses, written out, so they still work on paper */
-  .print-urls td a[href^="http"]::after {
-    content: attr(href);
-    display: inline-block;   /* on its own line, and not underlined with the link */
-    width: 100%;
-    margin-top: 0.2em;
-    color: var(--gray);
-    font-family: var(--mono);
-    font-size: 0.7em;
-    font-weight: 400;
-    text-transform: none;
-    word-break: break-all;
-  }
+  tr, .callout, .law { break-inside: avoid; }
+  .is-cut > p { max-height: none; }
+  .more-dots { display: none; }
 }

@@ -42,6 +42,26 @@ export function pixelIcon(name, { className = "px-icon", label = null } = {}) {
   return svg;
 }
 
+/**
+ * Cut a box's text to three lines (.is-cut, styles.css), with the pixel "…"
+ * button (.more-dots) after it to show the rest; label says what it shows,
+ * e.g. "Read the whole description". Printed, the text is whole.
+ */
+export function cutWithMore(box, label) {
+  box.classList.add("is-cut");
+  const more = button("", "more-dots", () => {
+    const open = more.getAttribute("aria-expanded") !== "true";
+    box.classList.toggle("is-cut", !open);
+    more.setAttribute("aria-expanded", String(open));
+    more.setAttribute("aria-label", open ? "Show less" : label);
+  });
+  more.append(el("span"), el("span"), el("span"));   // three pixel dots
+  more.setAttribute("aria-expanded", "false");
+  more.setAttribute("aria-label", label);
+  box.append(more);
+  return box;
+}
+
 /** A button that runs onClick: button("Done", "button button-small", () => …). */
 export function button(label, className, onClick) {
   const b = el("button", { type: "button", className, textContent: label });

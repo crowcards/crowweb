@@ -1,62 +1,1328 @@
 {
-  "version": "0.0.1",
-  "updatedAt": "2026-10-04",
-  "note": "PLACEHOLDER for building the editor's laws page — a few landmark laws only, not reviewed. Being replaced by a reviewed datasheet. appliesTo uses codes from countries.json (countries and regions); categories are copyright_ip, online_safety, data_privacy.",
+  "version": "1.0.0",
+  "updatedAt": "2026-10",
+  "note": "Prominent laws a community may want to know about, from Prishaa's datasheet (October 2026); the laws page shows updatedAt as when the list was last updated. appliesTo uses codes from countries.json (countries and regions); categories are copyright_ip, online_safety, data_privacy (short: each law's pills on the laws page). legalStatus is shown when it isn't plain \"In force\", relevance when it says more than \"Relevant\". The sheet's working notes aren't published.",
   "categories": [
-    { "id": "copyright_ip", "label": "Copyright & intellectual property" },
-    { "id": "online_safety", "label": "Online safety & content moderation" },
-    { "id": "data_privacy", "label": "Data privacy & security" }
+    {
+      "id": "copyright_ip",
+      "label": "Copyright & intellectual property",
+      "short": "Copyright & IP"
+    },
+    {
+      "id": "online_safety",
+      "label": "Online safety & content moderation",
+      "short": "Online safety"
+    },
+    {
+      "id": "data_privacy",
+      "label": "Data privacy & security",
+      "short": "Data privacy"
+    }
   ],
   "items": [
     {
-      "id": "eu_gdpr",
-      "name": "General Data Protection Regulation (GDPR)",
-      "jurisdiction": "EU",
-      "appliesTo": ["EU"],
-      "categories": ["data_privacy"],
-      "summary": "Placeholder summary: rules for collecting and handling personal data of people in the EU.",
-      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
-      "status": "placeholder"
+      "id": "us_section_230",
+      "name": "Section 230 of the Communications Decency Act (47 U.S.C. § 230)",
+      "jurisdiction": "United States",
+      "appliesTo": [
+        "US"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Shields online platforms from legal liability for content their users post. Matters to anyone hosting member posts, comments, or uploads. Since 2018, an amendment (FOSTA-SESTA) removes that shield for platforms that intentionally assist, facilitate, or host sex-trafficking content.",
+      "keyDates": "Enacted 1996; amended April 11, 2018 by the Allow States and Victims to Fight Online Sex Trafficking Act (FOSTA-SESTA)",
+      "legalStatus": "In force (amended 2018)",
+      "relevance": "Relevant"
     },
     {
-      "id": "eu_dsa",
-      "name": "Digital Services Act (DSA)",
-      "jurisdiction": "EU",
-      "appliesTo": ["EU"],
-      "categories": ["online_safety"],
-      "summary": "Placeholder summary: obligations for online services around illegal content, reporting and transparency.",
-      "url": "https://eur-lex.europa.eu/eli/reg/2022/2065/oj",
-      "status": "placeholder"
+      "id": "us_coppa",
+      "name": "Children's Online Privacy Protection Act of 1998 (COPPA)",
+      "jurisdiction": "United States",
+      "appliesTo": [
+        "US"
+      ],
+      "categories": [
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "Federal child online safety law restricting how websites collect data from children under 13. Platforms need verifiable parental consent before they can track, profile, or target kids. Updated FTC rules took effect in 2025, with compliance required by April 22, 2026.",
+      "keyDates": "1998",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "us_ccpa",
+      "name": "California Consumer Privacy Act (CCPA), as amended by the California Privacy Rights Act (CPRA)",
+      "jurisdiction": "California, US",
+      "appliesTo": [
+        "US"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "California's privacy law, the most prominent in the US. It gives California residents the right to know, delete, and opt out of the sale or sharing of their personal data. It only applies to for-profit businesses above certain thresholds, such as about $26.6 million in annual revenue or handling the data of 100,000+ California residents or households.",
+      "keyDates": "Signed 2018; in force January 1, 2020; CPRA amendments in force January 1, 2023",
+      "legalStatus": "In force",
+      "relevance": "Relevant if your community is a business above the thresholds"
     },
     {
       "id": "us_dmca",
       "name": "Digital Millennium Copyright Act (DMCA)",
-      "jurisdiction": "US",
-      "appliesTo": ["US"],
-      "categories": ["copyright_ip"],
-      "summary": "Placeholder summary: notice-and-takedown process for copyright claims against hosted content.",
-      "url": "https://www.copyright.gov/dmca/",
-      "status": "placeholder"
+      "jurisdiction": "United States",
+      "appliesTo": [
+        "US"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Updates copyright rules for the internet and digital media. Services that host user content get a 'safe harbor' from copyright liability if they promptly remove material when they receive a valid takedown notice.",
+      "keyDates": "Signed October 28, 1998",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
     },
     {
-      "id": "us_coppa",
-      "name": "Children's Online Privacy Protection Act (COPPA)",
-      "jurisdiction": "US",
-      "appliesTo": ["US"],
-      "categories": ["data_privacy", "online_safety"],
-      "summary": "Placeholder summary: rules for services that collect personal information from children under 13.",
-      "url": "https://www.ftc.gov/legal-library/browse/rules/childrens-online-privacy-protection-rule-coppa",
-      "status": "placeholder"
+      "id": "ca_pipeda",
+      "name": "Personal Information Protection and Electronic Documents Act (PIPEDA)",
+      "jurisdiction": "Canada",
+      "appliesTo": [
+        "CA"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Canada's privacy law for organizations that handle personal data in the course of commercial activity. It matters most if your community sells memberships or runs as a business.",
+      "keyDates": "Became law 2000; took effect 2001 for federally regulated industries (banks, airlines, telecoms); full effect across the whole private sector 2004",
+      "legalStatus": "In force",
+      "relevance": "Relevant if your community is commercial"
+    },
+    {
+      "id": "ca_copyright_act",
+      "name": "Copyright Act (as amended by the Copyright Modernization Act, 2012)",
+      "jurisdiction": "Canada",
+      "appliesTo": [
+        "CA"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Canada's copyright law, updated for the internet in 2012. Hosts must forward infringement notices to the user involved ('notice-and-notice'), and there's an exception for non-commercial user-generated content.",
+      "keyDates": "Enacted 1921; in effect 1924; modernized 2012 (notice-and-notice in force January 2, 2015)",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "mx_lfpdppp",
+      "name": "Federal Law on the Protection of Personal Data Held by Private Parties (LFPDPPP)",
+      "jurisdiction": "Mexico",
+      "appliesTo": [
+        "MX"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Governs how companies use personal data and information.",
+      "keyDates": "Original framework 2010; new law published March 20, 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "mx_copyright",
+      "name": "Federal Copyright Law (Ley Federal del Derecho de Autor)",
+      "jurisdiction": "Mexico",
+      "appliesTo": [
+        "MX"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Splits protection into moral rights, which last forever and protect attribution and integrity, and economic rights, which cover commercial use, reproduction, and distribution.",
+      "keyDates": "Enacted 1996; took effect 1997",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "eu_gdpr",
+      "name": "General Data Protection Regulation (GDPR), Regulation (EU) 2016/679",
+      "jurisdiction": "EU",
+      "appliesTo": [
+        "EU",
+        "NO",
+        "IS",
+        "LI"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Privacy and security rules for personal data, with fines reaching tens of millions of euros. It follows where users are, not where servers are: offering goods or services, even free ones, to people in the EU means following it.",
+      "keyDates": "Entered into force 2016; compliance required May 25, 2018 (EU); in force in the EEA (Norway, Iceland, Liechtenstein) July 20, 2018",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "eu_eprivacy",
+      "name": "ePrivacy Directive (Directive 2002/58/EC), the 'cookie law'",
+      "jurisdiction": "EU",
+      "appliesTo": [
+        "EU",
+        "NO",
+        "IS",
+        "LI"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Requires consent before storing or reading cookies and similar trackers on people's devices, except those strictly needed for the service. This is why community websites need a cookie banner for analytics or advertising trackers. Each EU country applies it through its own national law, so details vary.",
+      "keyDates": "2002; cookie-consent rule added 2009",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run a website"
+    },
+    {
+      "id": "eu_dsa",
+      "name": "Digital Services Act (DSA), Regulation (EU) 2022/2065",
+      "jurisdiction": "EU",
+      "appliesTo": [
+        "EU"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "New rules for online intermediaries to improve user safety and platform accountability. Even small hosting services and forums need a way for people to report illegal content, and must explain moderation decisions to the affected user.",
+      "keyDates": "Adopted 2022; very large platforms from August 2023; all intermediaries from February 17, 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "eu_copyright_directive",
+      "name": "Directive (EU) 2019/790 on Copyright in the Digital Single Market (DSM Directive)",
+      "jurisdiction": "EU",
+      "appliesTo": [
+        "EU",
+        "LI"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Modernizes EU copyright for the internet. Its Article 17 makes content-sharing platforms responsible for copyrighted uploads unless they make best efforts to license or block them; newer, smaller services get lighter rules. Each EU country applies it through its own national law.",
+      "keyDates": "2019",
+      "legalStatus": "In force in EU; NOT FINAL in Norway and Iceland (not yet incorporated)",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "eu_ai_act",
+      "name": "Artificial Intelligence Act (AI Act), Regulation (EU) 2024/1689",
+      "jurisdiction": "EU",
+      "appliesTo": [
+        "EU"
+      ],
+      "categories": [
+        "copyright_ip",
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "PHASING IN: not all rules apply yet. A broad AI law that restricts biometric surveillance, regulates AI that manipulates behavior, and covers deepfakes and transparency in AI-generated content; chatbots must tell people they're talking to an AI. Makers of general-purpose AI (like LLMs) must publish summaries of their copyrighted training data.",
+      "keyDates": "Entered into force August 1, 2024; bans from February 2, 2025; general-purpose AI rules from August 2, 2025; most other rules from August 2, 2026 (the EU has proposed delays to some)",
+      "legalStatus": "NOT FULLY IN FORCE: obligations phasing in 2025–2027",
+      "relevance": "LOW unless you use AI features (e.g. a chatbot)"
+    },
+    {
+      "id": "no_copyright_act",
+      "name": "Copyright Act of 15 June 2018 No. 40 (Åndsverkloven)",
+      "jurisdiction": "Norway",
+      "appliesTo": [
+        "NO"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Norway's copyright law.",
+      "keyDates": "2018",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "is_copyright_act",
+      "name": "Copyright Act No. 73/1972 (Höfundalög)",
+      "jurisdiction": "Iceland",
+      "appliesTo": [
+        "IS"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Iceland's copyright law, amended in 2023 and 2024 to fit current standards.",
+      "keyDates": "1972; amended 2023 and 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ch_fadp",
+      "name": "Federal Act on Data Protection (FADP), revised",
+      "jurisdiction": "Switzerland",
+      "appliesTo": [
+        "CH"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Applies to processing personal data that has actual or potential consequences for people in Switzerland, including processing that happens outside Switzerland.",
+      "keyDates": "Revised act in force September 1, 2023",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ch_copa",
+      "name": "Federal Act on Copyright and Related Rights (Copyright Act, CopA)",
+      "jurisdiction": "Switzerland",
+      "appliesTo": [
+        "CH"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Switzerland's copyright law.",
+      "keyDates": "Enacted October 9, 1992; in force July 1, 1993",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "gb_uk_gdpr",
+      "name": "UK General Data Protection Regulation (UK GDPR)",
+      "jurisdiction": "United Kingdom",
+      "appliesTo": [
+        "GB"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "The UK's version of the GDPR, kept after Brexit, which sets the rules for handling personal data of people in the UK. It works alongside the Data Protection Act 2018, which fills in UK-specific details and exemptions. Both were updated by the Data (Use and Access) Act 2025.",
+      "keyDates": "Applies from January 1, 2021 (end of the Brexit transition); companion Data Protection Act 2018 in force May 25, 2018",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "gb_pecr",
+      "name": "Privacy and Electronic Communications Regulations 2003 (PECR)",
+      "jurisdiction": "United Kingdom",
+      "appliesTo": [
+        "GB"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "The UK's version of the EU cookie law: websites need consent before setting cookies or trackers that aren't strictly necessary. It also covers marketing emails and texts, which generally need the recipient's prior consent. The Data (Use and Access) Act 2025 is relaxing consent for some low-risk cookies, such as basic analytics, and raising the maximum fines to UK GDPR levels.",
+      "keyDates": "In force December 11, 2003; cookie-consent rule updated 2011; amended by the Data (Use and Access) Act 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run a website or send marketing emails"
     },
     {
       "id": "gb_osa",
       "name": "Online Safety Act 2023",
-      "jurisdiction": "GB",
-      "appliesTo": ["GB"],
-      "categories": ["online_safety"],
-      "summary": "Placeholder summary: duties for user-to-user services around illegal and harmful content.",
-      "url": "https://www.legislation.gov.uk/ukpga/2023/50",
-      "status": "placeholder"
+      "jurisdiction": "United Kingdom",
+      "appliesTo": [
+        "GB"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Protects children and adults online by putting new duties on social media companies and search services, making them more responsible for users' safety. It applies to small services too, including forums and community sites where users can post.",
+      "keyDates": "Royal Assent October 26, 2023; illegal-content duties from March 2025; child-safety duties from July 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform (covers small forums too)"
+    },
+    {
+      "id": "gb_cdpa",
+      "name": "Copyright, Designs and Patents Act 1988",
+      "jurisdiction": "United Kingdom",
+      "appliesTo": [
+        "GB"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "The UK's landmark copyright law.",
+      "keyDates": "Came into effect August 1, 1989",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "br_lgpd",
+      "name": "Lei Geral de Proteção de Dados (LGPD), General Law for the Protection of Privacy (Lei 13.709/2018)",
+      "jurisdiction": "Brazil",
+      "appliesTo": [
+        "BR"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Applies to anyone, including the government, that processes personal data of people in Brazil, even if they are based outside Brazil.",
+      "keyDates": "Enacted August 2018; in effect September 2020; penalties enforced from August 2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "br_marco_civil",
+      "name": "Marco Civil da Internet (Brazilian Civil Rights Framework for the Internet), Lei 12.965/2014",
+      "jurisdiction": "Brazil",
+      "appliesTo": [
+        "BR"
+      ],
+      "categories": [
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "Brazil's foundational internet law, setting out users' rights and when platforms are liable for user content. It originally made platforms liable only if they ignored a court order to remove content; in 2025 Brazil's Supreme Federal Court expanded this, so platforms can now be liable after an ordinary notice for many kinds of illegal content. Non-consensual intimate images must come down after notice from the victim.",
+      "keyDates": "Enacted April 23, 2014; in force June 2014; Article 19 partly struck down by the Supreme Federal Court, June 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "br_eca_digital",
+      "name": "Estatuto Digital da Criança e do Adolescente (ECA Digital), Lei 15.211/2025",
+      "jurisdiction": "Brazil",
+      "appliesTo": [
+        "BR"
+      ],
+      "categories": [
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "Introduces a proactive duty of care: platforms must build safety and privacy into their code by design.",
+      "keyDates": "Legally binding March 17, 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "br_copyright",
+      "name": "Lei 9.610/1998 (Brazilian Copyright Act)",
+      "jurisdiction": "Brazil",
+      "appliesTo": [
+        "BR"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Brazil's copyright law.",
+      "keyDates": "February 19, 1998",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ar_pdpa",
+      "name": "Personal Data Protection Act (Ley 25.326)",
+      "jurisdiction": "Argentina",
+      "appliesTo": [
+        "AR"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Sets the legal bases for processing personal data, including consent and contracts with data subjects; legitimate interests and public interest are not recognized. Businesses outside Argentina don't have to comply.",
+      "keyDates": "Enacted 2000",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ar_copyright",
+      "name": "Ley 11.723 (Régimen Legal de la Propiedad Intelectual)",
+      "jurisdiction": "Argentina",
+      "appliesTo": [
+        "AR"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Argentina's copyright law.",
+      "keyDates": "1933",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "cl_lppd",
+      "name": "Law 21.719 on the Protection of Personal Data (LPPD)",
+      "jurisdiction": "Chile",
+      "appliesTo": [
+        "CL"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "NOT IN FORCE until December 1, 2026. Chile's new data protection law, similar to the EU's GDPR, updating its framework for the online world.",
+      "keyDates": "Passed by Congress August 2024; published December 2024; in force December 1, 2026",
+      "legalStatus": "NOT IN FORCE: passed; takes effect December 1, 2026",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "cl_copyright",
+      "name": "Intellectual Property Law No. 17,336",
+      "jurisdiction": "Chile",
+      "appliesTo": [
+        "CL"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Chile's copyright law. Protection lasts for the author's life plus 70 years after their death.",
+      "keyDates": "October 2, 1970",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "co_law_1581",
+      "name": "Statutory Law 1581 of 2012 (personal data protection)",
+      "jurisdiction": "Colombia",
+      "appliesTo": [
+        "CO"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Covers the protection of personal data by the public and private sectors.",
+      "keyDates": "2012",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "co_copyright",
+      "name": "Law 23 of 1982 on Copyright",
+      "jurisdiction": "Colombia",
+      "appliesTo": [
+        "CO"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Colombia's copyright law, modified over time to keep up with developments.",
+      "keyDates": "1982; modified since",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "au_privacy_act",
+      "name": "Privacy Act 1988",
+      "jurisdiction": "Australia",
+      "appliesTo": [
+        "AU"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Australia's privacy law, updated by the Privacy and Other Legislation Amendment Act 2024. Many small businesses with annual turnover of A$3 million or less are exempt.",
+      "keyDates": "1988; amended 2024; further updates not passed as of 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant unless covered by the small-business exemption"
+    },
+    {
+      "id": "au_osa",
+      "name": "Online Safety Act 2021 (incl. Online Safety Amendment (Social Media Minimum Age) Act 2024)",
+      "jurisdiction": "Australia",
+      "appliesTo": [
+        "AU"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Australia's online safety law, run by the eSafety Commissioner. Since December 10, 2025, age-restricted social media platforms must take reasonable steps to stop under-16s from having accounts. The duty falls on platforms, not on children or parents.",
+      "keyDates": "2021; minimum-age amendment 2024, in effect December 10, 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "au_copyright",
+      "name": "Copyright Act 1968",
+      "jurisdiction": "Australia",
+      "appliesTo": [
+        "AU"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "An original work is legally protected the moment it's fixed in tangible form (written down, recorded, filmed, or drawn).",
+      "keyDates": "1968",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "nz_privacy_act",
+      "name": "Privacy Act 2020",
+      "jurisdiction": "New Zealand",
+      "appliesTo": [
+        "NZ"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "New Zealand's privacy law. From May 1, 2026, a new rule (IPP3A) requires telling people when you collect their personal data from someone other than them.",
+      "keyDates": "2020; updates May 1, 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "nz_hdca",
+      "name": "Harmful Digital Communications Act 2015 (HDCA)",
+      "jurisdiction": "New Zealand",
+      "appliesTo": [
+        "NZ"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Sets out clear rules that digital communications can't break. Online content hosts get a safe harbor if they follow its complaint process.",
+      "keyDates": "2015",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "nz_copyright",
+      "name": "Copyright Act 1994",
+      "jurisdiction": "New Zealand",
+      "appliesTo": [
+        "NZ"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Gives original works automatic protection.",
+      "keyDates": "1994",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "jp_appi",
+      "name": "Act on the Protection of Personal Information (APPI), Act No. 57 of 2003",
+      "jurisdiction": "Japan",
+      "appliesTo": [
+        "JP"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Japan's privacy law. It also affects businesses outside Japan that have Japanese customers.",
+      "keyDates": "Enacted 2003; fully in force 2005; major amendments 2015 (in force 2017) and 2020 (in force 2022)",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "jp_pla",
+      "name": "Information Distribution Platform Act (formerly the Provider Liability Limitation Act)",
+      "jurisdiction": "Japan",
+      "appliesTo": [
+        "JP"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Platforms are immune from liability unless they ignore structured removal requests; it relies on clear statutory criteria rather than government website blocking or rigid age bans. A 2024 amendment renamed it and requires large platforms to respond quickly to removal requests and publish their removal criteria.",
+      "keyDates": "2001; amended and renamed 2024 (in force April 1, 2025)",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "jp_copyright",
+      "name": "Copyright Act (Act No. 48 of 1970)",
+      "jurisdiction": "Japan",
+      "appliesTo": [
+        "JP"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Japan's copyright law.",
+      "keyDates": "1970; reform 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "kr_pipa",
+      "name": "Personal Information Protection Act",
+      "jurisdiction": "South Korea",
+      "appliesTo": [
+        "KR"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "One of the strictest privacy laws in the world, with detailed consent requirements and fines of up to 3% of total revenue.",
+      "keyDates": "September 30, 2011",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "kr_network_act",
+      "name": "Act on Promotion of Information and Communications Network Utilization and Information Protection (Network Act)",
+      "jurisdiction": "South Korea",
+      "appliesTo": [
+        "KR"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Strict content moderation rules and heavy penalties targeting online fake news and misinformation. It forces apps like TikTok to add misinformation filters.",
+      "keyDates": "Original act 2001; amendments in 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "kr_copyright",
+      "name": "Copyright Act (South Korea)",
+      "jurisdiction": "South Korea",
+      "appliesTo": [
+        "KR"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "South Korea's copyright law.",
+      "keyDates": "1957; amended 2009",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "cn_pipl",
+      "name": "Personal Information Protection Law of the People's Republic of China (PIPL)",
+      "jurisdiction": "China",
+      "appliesTo": [
+        "CN"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "China's privacy law, similar to the GDPR.",
+      "keyDates": "November 1, 2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "cn_csl",
+      "name": "Cybersecurity Law of the People's Republic of China",
+      "jurisdiction": "China",
+      "appliesTo": [
+        "CN"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Sets security duties for 'network operators', including verifying users' real identities and keeping logs. It matters if you run a platform serving users in China.",
+      "keyDates": "Adopted November 7, 2016; in force June 1, 2017",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "cn_minors",
+      "name": "Law of the People's Republic of China on the Protection of Minors",
+      "jurisdiction": "China",
+      "appliesTo": [
+        "CN"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Provides more safety for children under 18. The 2020 revision added a chapter on online protection.",
+      "keyDates": "Passed 1991; revised 2020, in force June 1, 2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "cn_copyright",
+      "name": "Copyright Law of the People's Republic of China",
+      "jurisdiction": "China",
+      "appliesTo": [
+        "CN"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "China's copyright law.",
+      "keyDates": "Adopted 1990; in force June 1, 1991; latest revision in force June 1, 2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "in_dpdpa",
+      "name": "Digital Personal Data Protection Act (DPDPA)",
+      "jurisdiction": "India",
+      "appliesTo": [
+        "IN"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "PHASING IN: most duties don't apply until 2027. India's personal data protection law.",
+      "keyDates": "Passed August 2023; rules notified November 2025; main duties phase in over 18 months",
+      "legalStatus": "NOT FULLY IN FORCE: rules notified November 2025; most duties apply from about May 2027",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "in_it_act",
+      "name": "Information Technology Act, 2000",
+      "jurisdiction": "India",
+      "appliesTo": [
+        "IN"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "India's main internet law. Section 79 shields intermediaries from liability for user content if they follow the very strict IT Rules 2021. Those rules require intermediaries to publish user rules, appoint a grievance officer, and act on complaints within set deadlines.",
+      "keyDates": "2000; amended 2008; IT Rules 2021, amended 2022 and 2023",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "in_copyright",
+      "name": "Copyright Act, 1957",
+      "jurisdiction": "India",
+      "appliesTo": [
+        "IN"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "India's copyright law, updated in 2012 for the digital environment.",
+      "keyDates": "1957; updated 2012",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "sg_pdpa",
+      "name": "Personal Data Protection Act 2012 (No. 26 of 2012)",
+      "jurisdiction": "Singapore",
+      "appliesTo": [
+        "SG"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Singapore's privacy law. It also applies to people outside Singapore.",
+      "keyDates": "October 15, 2012; amended 2020",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "sg_osraa",
+      "name": "Online Safety (Relief and Accountability) Act 2025",
+      "jurisdiction": "Singapore",
+      "appliesTo": [
+        "SG"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Creates an Online Safety Commission that victims of online harms such as harassment, doxxing, and intimate image abuse can turn to, and which can order content removed. Group and page administrators can be directed to act under it, and it can also affect people outside Singapore.",
+      "keyDates": "Passed November 2025; Online Safety Commission began operations June 29, 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant (covers group and page admins)"
+    },
+    {
+      "id": "sg_copyright",
+      "name": "Copyright Act 2021",
+      "jurisdiction": "Singapore",
+      "appliesTo": [
+        "SG"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Protects literary, dramatic, musical, and artistic works as soon as they are expressed in tangible form.",
+      "keyDates": "2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "id_pdp",
+      "name": "Law No. 27 of 2022 on Personal Data Protection (PDP Law)",
+      "jurisdiction": "Indonesia",
+      "appliesTo": [
+        "ID"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Indonesia's privacy law, closely modeled on the GDPR. It also affects people outside Indonesia.",
+      "keyDates": "Passed October 2022; full compliance from October 17, 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "id_ite",
+      "name": "Law No. 11 of 2008 on Electronic Information and Transactions (ITE Law)",
+      "jurisdiction": "Indonesia",
+      "appliesTo": [
+        "ID"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Indonesia's internet law, criticized for vague definitions (such as for online defamation) that make people overly cautious about what they post. Indonesia is among the strictest regulators: in 2022 it briefly blocked Yahoo and PayPal for not registering under its platform registration rules.",
+      "keyDates": "2008; amended 2016 and 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "id_copyright",
+      "name": "Law No. 28 of 2014 on Copyright",
+      "jurisdiction": "Indonesia",
+      "appliesTo": [
+        "ID"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Indonesia's copyright law.",
+      "keyDates": "2014",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ph_dpa",
+      "name": "Data Privacy Act of 2012 (Republic Act No. 10173)",
+      "jurisdiction": "Philippines",
+      "appliesTo": [
+        "PH"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "The Philippines' privacy law. It also applies to people outside the Philippines.",
+      "keyDates": "2012",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ph_anti_osaec",
+      "name": "Anti-Online Sexual Abuse or Exploitation of Children (OSAEC) and Anti-Child Sexual Abuse or Exploitation Materials (CSAEM) Act (Republic Act No. 11930)",
+      "jurisdiction": "Philippines",
+      "appliesTo": [
+        "PH"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Fights online sexual abuse and exploitation of children. Internet intermediaries and platforms have duties to block, report, and remove such material.",
+      "keyDates": "2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "ph_ip_code",
+      "name": "Intellectual Property Code of the Philippines (Republic Act No. 8293)",
+      "jurisdiction": "Philippines",
+      "appliesTo": [
+        "PH"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "The Philippines' intellectual property law, which covers copyright.",
+      "keyDates": "Enacted 1997; in effect January 1, 1998; amended 2013 (RA 10372)",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "th_pdpa",
+      "name": "Personal Data Protection Act B.E. 2562 (2019) (PDPA)",
+      "jurisdiction": "Thailand",
+      "appliesTo": [
+        "TH"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Thailand's privacy law. Enforcement is getting stricter.",
+      "keyDates": "Enacted May 28, 2019; fully in force June 1, 2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "th_copyright",
+      "name": "Copyright Act B.E. 2537 (1994)",
+      "jurisdiction": "Thailand",
+      "appliesTo": [
+        "TH"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Thailand's copyright law.",
+      "keyDates": "1994",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "vn_pdpl",
+      "name": "Law on Personal Data Protection (Law No. 91/2025/QH15)",
+      "jurisdiction": "Vietnam",
+      "appliesTo": [
+        "VN"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Vietnam's privacy law. It also applies to people outside Vietnam.",
+      "keyDates": "Passed June 2025; in force January 1, 2026",
+      "legalStatus": "Enacted 2025",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "vn_cybersecurity",
+      "name": "Cybersecurity Law",
+      "jurisdiction": "Vietnam",
+      "appliesTo": [
+        "VN"
+      ],
+      "categories": [
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "Vietnam's comprehensive cybersecurity law, enforced by the Ministry of Public Security. Service providers must verify users, remove unlawful content, store user data in Vietnam, and cooperate with authorities within set deadlines, including providing IP address information on request. It also bans using AI for impersonation, such as deepfake video, voice, or images, and adds safeguards for children and vulnerable people online.",
+      "keyDates": "2025; effective July 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "vn_ip_law",
+      "name": "Law on Intellectual Property (Law No. 50/2005/QH11)",
+      "jurisdiction": "Vietnam",
+      "appliesTo": [
+        "VN"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Vietnam has no separate copyright law; copyright falls under this law.",
+      "keyDates": "2005; amended 2009, 2019, 2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "my_pdpa",
+      "name": "Personal Data Protection Act 2010 (Act 709)",
+      "jurisdiction": "Malaysia",
+      "appliesTo": [
+        "MY"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Malaysia's privacy law, with a major 2024 amendment covering things like biometric data. It only covers personal data used in commercial transactions, and generally not organizations outside Malaysia unless they use equipment there or receive data from a Malaysian business.",
+      "keyDates": "2010; amended 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant if your community is commercial"
+    },
+    {
+      "id": "my_osa",
+      "name": "Online Safety Act 2025",
+      "jurisdiction": "Malaysia",
+      "appliesTo": [
+        "MY"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Focused less on content censorship and more on system design and processes.",
+      "keyDates": "In force January 1, 2026",
+      "legalStatus": "In force",
+      "relevance": "LOW: duties fall on licensed (large) platforms"
+    },
+    {
+      "id": "my_copyright",
+      "name": "Copyright Act 1987 (Act 332)",
+      "jurisdiction": "Malaysia",
+      "appliesTo": [
+        "MY"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Copyright protection is automatic, with no registration system.",
+      "keyDates": "1987",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ae_pdpl",
+      "name": "Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data (PDPL)",
+      "jurisdiction": "United Arab Emirates",
+      "appliesTo": [
+        "AE"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "The UAE's privacy law, similar to the GDPR. It also applies to people outside the UAE. Its executive regulations are still pending, which limits enforcement.",
+      "keyDates": "Issued September 2021; in force January 2, 2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ae_child_digital_safety",
+      "name": "Federal Decree-Law No. 26 of 2025 on Child Digital Safety",
+      "jurisdiction": "United Arab Emirates",
+      "appliesTo": [
+        "AE"
+      ],
+      "categories": [
+        "online_safety",
+        "data_privacy"
+      ],
+      "summary": "PHASING IN: in force since January 1, 2026, but platforms have until January 1, 2027 to comply, and key details are still being set by the Cabinet. It covers any digital platform operating in or targeting users in the UAE, including websites, forums, and messaging apps, and requires child-safe default settings, age restrictions and verification, parental controls, and easy ways to report harmful content. Platforms can't collect or share personal data of children under 13 without explicit, documented parental consent.",
+      "keyDates": "In effect January 1, 2026; compliance deadline January 1, 2027",
+      "legalStatus": "NOT FULLY IN FORCE: in effect January 1, 2026; compliance due January 1, 2027 (Cabinet may extend); platform classification and penalties pending Cabinet decisions",
+      "relevance": "Relevant if you run your own platform"
+    },
+    {
+      "id": "ae_copyright",
+      "name": "Federal Law No. 38 of 2021 concerning Copyright & Neighbouring Rights",
+      "jurisdiction": "United Arab Emirates",
+      "appliesTo": [
+        "AE"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "The UAE's copyright law.",
+      "keyDates": "2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "sa_pdpl",
+      "name": "Personal Data Protection Law (Royal Decree No. M/19 of 1443H)",
+      "jurisdiction": "Saudi Arabia",
+      "appliesTo": [
+        "SA"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Saudi Arabia's privacy law.",
+      "keyDates": "Issued 2021; amended 2023; in force September 14, 2023; enforced from September 14, 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "sa_copyright",
+      "name": "Copyright Law (Royal Decree No. M/169)",
+      "jurisdiction": "Saudi Arabia",
+      "appliesTo": [
+        "SA"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "A new copyright law designed around digital and AI updates, replacing the 2003 law.",
+      "keyDates": "Enforced August 12, 2026",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "il_privacy",
+      "name": "Protection of Privacy Law, 5741-1981",
+      "jurisdiction": "Israel",
+      "appliesTo": [
+        "IL"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Israel's privacy law. A major amendment that took effect in 2025 expanded enforcement powers and fines.",
+      "keyDates": "1981; Amendment No. 13 in force August 14, 2025",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "il_copyright",
+      "name": "Copyright Act, 5768-2007",
+      "jurisdiction": "Israel",
+      "appliesTo": [
+        "IL"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Israel's copyright law.",
+      "keyDates": "2007",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "tr_kvkk",
+      "name": "Law on the Protection of Personal Data No. 6698 (KVKK)",
+      "jurisdiction": "Turkey",
+      "appliesTo": [
+        "TR"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Turkey's privacy law, modeled on the EU law that came before the GDPR and updated with more recent laws.",
+      "keyDates": "April 7, 2016; amended 2024",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "tr_internet_law",
+      "name": "Law No. 5651 on Regulating Internet Publications and Combating Crimes Committed Through Such Publications (Internet Law)",
+      "jurisdiction": "Turkey",
+      "appliesTo": [
+        "TR"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Turkey's internet law, which lets authorities order content removed. Social networks with over 1 million daily accesses from Turkey must appoint a local representative accountable to Turkish authorities.",
+      "keyDates": "2007; amended 2020 and 2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant if you run your own platform (representative rule only for very large ones)"
+    },
+    {
+      "id": "tr_copyright",
+      "name": "Law No. 5846 on Intellectual and Artistic Works",
+      "jurisdiction": "Turkey",
+      "appliesTo": [
+        "TR"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Turkey's copyright law, amended several times.",
+      "keyDates": "Enacted December 1951; in force 1952; amended several times",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ng_ndpa",
+      "name": "Nigeria Data Protection Act 2023 (NDPA)",
+      "jurisdiction": "Nigeria",
+      "appliesTo": [
+        "NG"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Provides a legal framework for protecting personal information. Applies to companies processing data from Nigeria.",
+      "keyDates": "2023",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ng_copyright",
+      "name": "Copyright Act 2022",
+      "jurisdiction": "Nigeria",
+      "appliesTo": [
+        "NG"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Nigeria's copyright law, which replaced the 2004 act. It includes a takedown process for online service providers.",
+      "keyDates": "Signed March 17, 2023",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ke_data_protection",
+      "name": "Data Protection Act, 2019",
+      "jurisdiction": "Kenya",
+      "appliesTo": [
+        "KE"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Kenya's data protection law. It also affects people outside Kenya who process Kenyans' data.",
+      "keyDates": "November 2019",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "ke_copyright",
+      "name": "Copyright Act, 2001 (Cap. 130)",
+      "jurisdiction": "Kenya",
+      "appliesTo": [
+        "KE"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Kenya's copyright law. A 2019 amendment added takedown duties for internet service providers.",
+      "keyDates": "2001; amended 2019 and 2022",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "za_popia",
+      "name": "The Protection of Personal Information Act 4 of 2013",
+      "jurisdiction": "South Africa",
+      "appliesTo": [
+        "ZA"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "South Africa's privacy law. It only applies to companies processing data with equipment in South Africa.",
+      "keyDates": "2013; fully in force July 1, 2021",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "za_copyright",
+      "name": "Copyright Act 98 of 1978",
+      "jurisdiction": "South Africa",
+      "appliesTo": [
+        "ZA"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "South Africa's copyright law.",
+      "keyDates": "1978",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "eg_pdpl",
+      "name": "Personal Data Protection Law No. 151 of 2020 (PDPL)",
+      "jurisdiction": "Egypt",
+      "appliesTo": [
+        "EG"
+      ],
+      "categories": [
+        "data_privacy"
+      ],
+      "summary": "Egypt's privacy law, updated to cover people outside Egypt too.",
+      "keyDates": "2020; update (date not in notes)",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
+    },
+    {
+      "id": "eg_press_media",
+      "name": "Law No. 180 of 2018 Regulating the Press, Media and the Supreme Council for Media Regulation",
+      "jurisdiction": "Egypt",
+      "appliesTo": [
+        "EG"
+      ],
+      "categories": [
+        "online_safety"
+      ],
+      "summary": "Websites and social media accounts with over 5,000 followers must get licenses costing E£50,000, which can include a community's own account. Digital platforms face E£500,000 fees and minimum capital of E£100,000 to E£50 million depending on classification.",
+      "keyDates": "2018",
+      "legalStatus": "In force",
+      "relevance": "Relevant if a community account has over 5,000 followers"
+    },
+    {
+      "id": "eg_copyright",
+      "name": "Law No. 82 of 2002 on the Protection of Intellectual Property Rights",
+      "jurisdiction": "Egypt",
+      "appliesTo": [
+        "EG"
+      ],
+      "categories": [
+        "copyright_ip"
+      ],
+      "summary": "Egypt's copyright law.",
+      "keyDates": "2002; amended 2020 (per your notes)",
+      "legalStatus": "In force",
+      "relevance": "Relevant"
     }
   ]
 }
