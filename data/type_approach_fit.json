@@ -1,0 +1,4706 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "How well each approach suits each community type (community_types.json). Renamed 2026-10-09 from setting_approach_fit.json. How well each approach (list: decision_approaches, membership_options, conflict_management) suits each community type (community_types.json). Marks from −2 (strongly against) to +2 (strongly for); a blank means no opinion. flag \"gate\": generally not a fit for this community type (no chip; the reason is shown). flag \"interesting\": rare for this community type but viable (not penalised; its reason says so). status: proposed until reviewed. Identity / cultural and DAO / web3 are blank for now. Review changes: \"change\" is \"added\" or \"changed\" (with \"was\": the mark before) since the first draft; \"removed\" lists marks taken out. Approving a setting (scripts/review.mjs) clears them.",
+  "items": [
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "One person runs it; that's the point of a personal space.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Works when a few friends share the space.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Group processes, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": -1,
+      "flag": null,
+      "why": "Group processes, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "executive_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "consensus_seeking_with_delegates",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Structures for running a group, and there's no group to run.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "People join because the owner invites them.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -1,
+      "flag": null,
+      "why": "More checking than a personal space needs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "hybrid_approval_process",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal admission, for a space one person runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "The owner decides, usually by blocking or removing someone.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Talking it through, when it's someone the owner knows.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "supermajority_vote",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Group bodies, for a space with no group.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "Families mostly go along with a plan, or talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "negotiated_decisions",
+      "fit": 2,
+      "flag": null,
+      "why": "Families mostly go along with a plan, or talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "For bigger family decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "For bigger family decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": -1,
+      "flag": null,
+      "why": "Rarely how families decide together.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Rarely how families decide together.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal bodies and voting systems, for a family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal bodies and voting systems, for a family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "executive_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal bodies and voting systems, for a family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal bodies and voting systems, for a family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal bodies and voting systems, for a family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "Relatives are added by someone in the family.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Family members aren't screened in.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Someone helps talk it through; repairing relationships matters most.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Someone helps talk it through; repairing relationships matters most.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Gentle, relationship-first ways to resolve things.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": null,
+      "why": "Gentle, relationship-first ways to resolve things.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "consensus_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Gentle, relationship-first ways to resolve things.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for family disagreements.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for family disagreements.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "binding_arbitration",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for family disagreements.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for family disagreements.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "Go along with a plan, or pick what most people are happy with.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 2,
+      "flag": null,
+      "why": "Go along with a plan, or pick what most people are happy with.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Simple, fair ways to choose; even picking at random works.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": null,
+      "why": "Simple, fair ways to choose; even picking at random works.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "random_choice",
+      "fit": 1,
+      "flag": null,
+      "why": "Simple, fair ways to choose; even picking at random works.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "ranked_choice_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Simple, fair ways to choose; even picking at random works.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "One person in charge sits oddly among friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal structures, for a casual group of friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "executive_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal structures, for a casual group of friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal structures, for a casual group of friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "New people come in through someone who knows them.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 2,
+      "flag": null,
+      "why": "New people come in through someone who knows them.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Screening, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Screening, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Screening, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Screening, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A friend helps the others talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 2,
+      "flag": null,
+      "why": "A friend helps the others talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Talking it through with help.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "binding_arbitration",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 2,
+      "flag": null,
+      "why": "Votes at meetings, and small groups that look into things.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Votes at meetings, and small groups that look into things.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "Residents' associations and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Residents' associations and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Residents' associations and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "One person deciding for the neighborhood rarely goes down well.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Foreign to a neighborhood group.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": 2,
+      "flag": null,
+      "why": "Checking that someone lives in the area.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming neighbors, with the house rules up front.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming neighbors, with the house rules up front.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcoming neighbors, with the house rules up front.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Neighbors belong because they live there.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Neighbors belong because they live there.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A neutral neighbor helps people sort things out.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A neutral neighbor helps people sort things out.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Ways to keep living side by side.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": null,
+      "why": "Ways to keep living side by side.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": -1,
+      "flag": null,
+      "why": "Heavier than neighborhood disputes usually need.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Heavier than neighborhood disputes usually need.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": 2,
+      "flag": null,
+      "why": "Proven in public decision-making, e.g. citizens' assemblies chosen by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "ranked_choice_voting",
+      "fit": 2,
+      "flag": null,
+      "why": "Proven in public decision-making, e.g. citizens' assemblies chosen by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 2,
+      "flag": null,
+      "why": "Proven in public decision-making, e.g. citizens' assemblies chosen by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Standard public voting and advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Standard public voting and advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Standard public voting and advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Tried in some participatory budgets to weigh how strongly people care.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -2,
+      "flag": null,
+      "why": "Against the point of a civic space.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Breaks one resident, one voice.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Breaks one resident, one voice.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "random_choice",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some places experiment with chance as part of democracy (beyond choosing representatives by lot).",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Open to every resident, checking that they are one.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": 2,
+      "flag": null,
+      "why": "Open to every resident, checking that they are one.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Explaining how the process works.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": -1,
+      "flag": null,
+      "why": "Shouldn't depend on who you know or what you can do.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -1,
+      "flag": null,
+      "why": "Shouldn't depend on who you know or what you can do.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Public participation can't be gated like this.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Public participation can't be gated like this.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Public participation can't be gated like this.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 2,
+      "flag": null,
+      "why": "A standing, accountable body, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A standing, accountable body, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "non_binding_arbitration",
+      "fit": 1,
+      "flag": null,
+      "why": "Independent help that keeps decisions with the public.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Independent help that keeps decisions with the public.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": -1,
+      "flag": null,
+      "why": "Unaccountable, or too private, for a public process.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": -1,
+      "flag": null,
+      "why": "Unaccountable, or too private, for a public process.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Juries drawn by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Most workplaces have managers who decide or delegate, with advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Most workplaces have managers who decide or delegate, with advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Most workplaces have managers who decide or delegate, with advice.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in teams and leadership groups.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "executive_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in teams and leadership groups.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some studios and companies run without bosses, by roles and circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some studios and companies run without bosses, by roles and circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "investor_filled_board_seats",
+      "fit": -1,
+      "flag": null,
+      "why": "A company's board, rather than how a team decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Rarely how work decisions are made.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Rarely how work decisions are made.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "random_choice",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Rarely how work decisions are made.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Rarely how work decisions are made.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 2,
+      "flag": null,
+      "why": "People join by being hired or invited in.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "People join by being hired or invited in.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "trial_period_provisional_membership",
+      "fit": 1,
+      "flag": null,
+      "why": "Probation and interviews are common in hiring.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": 1,
+      "flag": null,
+      "why": "Probation and interviews are common in hiring.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": 1,
+      "flag": null,
+      "why": "Probation and interviews are common in hiring.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": -2,
+      "flag": "gate",
+      "why": "A workplace space is for its staff.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "A workplace space is for its staff.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "A manager decides, or HR mediates.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A manager decides, or HR mediates.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Common for disagreements between colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Common for disagreements between colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some workplaces use restorative approaches to repair trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "supermajority_vote",
+      "fit": -1,
+      "flag": null,
+      "why": "Voting on a conflict between colleagues is unusual.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Rarely how workplace conflicts are handled.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 2,
+      "flag": null,
+      "why": "Professional associations usually elect a board, with committees.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Professional associations usually elect a board, with committees.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Member votes and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Member votes and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Member votes and everyday decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "One person running a whole field's network rarely lasts.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how professional networks are run.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Open to people in the field, agreeing to a code of conduct.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 2,
+      "flag": null,
+      "why": "Open to people in the field, agreeing to a code of conduct.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Some networks check that people work in the field.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 1,
+      "flag": null,
+      "why": "Some networks check that people work in the field.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Closed networks tend to keep newcomers out of the field.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how people join a professional network.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 2,
+      "flag": null,
+      "why": "A code-of-conduct committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A code-of-conduct committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Colleagues helping colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Colleagues helping colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "The teacher decides most things.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Class votes and student roles for smaller choices.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": null,
+      "why": "Class votes and student roles for smaller choices.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Class votes and student roles for smaller choices.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Class votes and student roles for smaller choices.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": -1,
+      "flag": null,
+      "why": "Student councils exist, but rarely run a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a class is run.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a class is run.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "Students are enrolled and added by the teacher.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Students are enrolled, not admitted by the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Students are enrolled, not admitted by the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Students are enrolled, not admitted by the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Students are enrolled, not admitted by the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Students are enrolled, not admitted by the group.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Schools often use restorative practices, and the teacher decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "Schools often use restorative practices, and the teacher decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Peer mediation and class circles are common in schools.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": null,
+      "why": "Peer mediation and class circles are common in schools.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "binding_arbitration",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 2,
+      "flag": null,
+      "why": "General meetings vote, or seek consensus with a fallback.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "modified_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "General meetings vote, or seek consensus with a fallback.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in unions and campaigns.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "ranked_choice_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in unions and campaigns.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in unions and campaigns.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "Common in unions and campaigns.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -2,
+      "flag": null,
+      "why": "Against how most movements want to organize.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Hands power to money or machines, against a movement's purpose.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Hands power to money or machines, against a movement's purpose.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 2,
+      "flag": null,
+      "why": "Members commit to shared principles, often vouched for.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 2,
+      "flag": null,
+      "why": "Members commit to shared principles, often vouched for.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": 1,
+      "flag": null,
+      "why": "Checking members belong, e.g. that they're tenants of the building.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Onboarding new members into how the group works.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 1,
+      "flag": null,
+      "why": "Many movements welcome anyone who shares the cause.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": 1,
+      "flag": null,
+      "why": "Dues, as in unions.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Membership in a movement isn't earned by skill or luck.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Membership in a movement isn't earned by skill or luck.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Repairing harm without outside authority.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Repairing harm without outside authority.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Ways to keep members together.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Ways to keep members together.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": null,
+      "why": "Ways to keep members together.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": -1,
+      "flag": null,
+      "why": "Top-down or legalistic, for a movement.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": -1,
+      "flag": null,
+      "why": "Top-down or legalistic, for a movement.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Top-down or legalistic, for a movement.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "Mods get on with it; bigger questions go to a small group.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Mods get on with it; bigger questions go to a small group.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Members' votes and trusted organizers.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Members' votes and trusted organizers.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Members' votes and trusted organizers.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how interest communities are run.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how interest communities are run.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone interested is welcome.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Reading the rules first; some spaces approve sign-ups.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": null,
+      "why": "Reading the rules first; some spaces approve sign-ups.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 1,
+      "flag": null,
+      "why": "Reading the rules first; some spaces approve sign-ups.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -1,
+      "flag": null,
+      "why": "Clubs charge dues; most online interest spaces don't.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Nobody should need to prove themselves to share a hobby.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Nobody should need to prove themselves to share a hobby.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A mod or member helps sort it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A mod or member helps sort it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 1,
+      "flag": null,
+      "why": "Moderators decide, or people talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Moderators decide, or people talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": null,
+      "why": "Moderators decide, or people talk it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Too heavy for a hobby space.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "Whoever does the work decides, unless someone objects.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 2,
+      "flag": null,
+      "why": "Whoever does the work decides, unless someone objects.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Steering committees, foundations' boards, and the benevolent-dictator model.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "Steering committees, foundations' boards, and the benevolent-dictator model.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "consensus_seeking_with_delegates",
+      "fit": 1,
+      "flag": null,
+      "why": "Steering committees, foundations' boards, and the benevolent-dictator model.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Steering committees, foundations' boards, and the benevolent-dictator model.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "investor_filled_board_seats",
+      "fit": -1,
+      "flag": null,
+      "why": "Company-controlled projects exist, but sit uneasily with open governance.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how projects decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "random_choice",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how projects decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone can contribute; roles come with contributions.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone can contribute; roles come with contributions.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "skill_based_contribution",
+      "fit": 1,
+      "flag": null,
+      "why": "Commit rights by track record; mentoring newcomers.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Commit rights by track record; mentoring newcomers.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Closes off a project that should be open.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -1,
+      "flag": null,
+      "why": "Closes off a project that should be open.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Against the point of an open project.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 2,
+      "flag": null,
+      "why": "A code-of-conduct committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A code-of-conduct committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Maintainers and contributors working it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Maintainers and contributors working it out.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": -1,
+      "flag": null,
+      "why": "Top-down, unless one person leads the project.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Clergy or leaders decide, with councils advising.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Clergy or leaders decide, with councils advising.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "Elected councils and congregational votes.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Elected councils and congregational votes.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a faith community decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a faith community decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Everyone is welcome.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcome classes, mentors, and formal membership.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcome classes, mentors, and formal membership.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": null,
+      "why": "Welcome classes, mentors, and formal membership.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -1,
+      "flag": null,
+      "why": "Rarely asked of people joining.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Belonging isn't bought or earned by skill.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Belonging isn't bought or earned by skill.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Belonging isn't bought or earned by skill.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Reconciliation, often with a leader's help.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Reconciliation, often with a leader's help.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 1,
+      "flag": null,
+      "why": "Leaders decide, or members help each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Leaders decide, or members help each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": null,
+      "why": "Leaders decide, or members help each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Formal bodies exist in some traditions, but rarely for everyday conflicts.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "The lead decides funding and direction; day to day runs itself.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "The lead decides funding and direction; day to day runs itself.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Larger collaborations use committees and votes.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Larger collaborations use committees and votes.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Larger collaborations use committees and votes.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how research groups decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how research groups decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how research groups decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 2,
+      "flag": null,
+      "why": "People join by being hired, admitted or invited.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 2,
+      "flag": null,
+      "why": "People join by being hired, admitted or invited.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Newcomers learn from someone more experienced.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": -1,
+      "flag": null,
+      "why": "Rare for a lab.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how people join a research group.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "The lead decides, or someone mediates (e.g. on authorship).",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "The lead decides, or someone mediates (e.g. on authorship).",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Colleagues helping colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "Colleagues helping colleagues.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Universities have formal processes, but rarely within a group.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Admins and moderators decide, often with members' input.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "Admins and moderators decide, often with members' input.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "Some servers elect their teams, or vote on rules.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Some servers elect their teams, or vote on rules.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Some servers elect their teams, or vote on rules.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "investor_filled_board_seats",
+      "fit": -1,
+      "flag": null,
+      "why": "Investor control sits oddly with a community server.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a social space is run.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "random_choice",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how a social space is run.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Open sign-ups, or sign-ups approved by moderators.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 2,
+      "flag": null,
+      "why": "Open sign-ups, or sign-ups approved by moderators.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": null,
+      "why": "Agreeing to the rules when signing up.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Agreeing to the rules when signing up.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": -1,
+      "flag": null,
+      "why": "More than most public servers ask.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -1,
+      "flag": null,
+      "why": "More than most public servers ask.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -1,
+      "flag": null,
+      "why": "More than most public servers ask.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 2,
+      "flag": null,
+      "why": "A moderation team handles reports; admins have the final say.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "A moderation team handles reports; admins have the final say.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "For conflicts between members.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": null,
+      "why": "For conflicts between members.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": -1,
+      "flag": null,
+      "why": "Hard to staff in a large public space.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Peer groups decide together and share the facilitating.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 2,
+      "flag": null,
+      "why": "Peer groups decide together and share the facilitating.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Light ways to decide together.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "modified_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Light ways to decide together.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -2,
+      "flag": null,
+      "why": "Peer support works between equals.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not for a support group.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 2,
+      "flag": null,
+      "why": "Coming in through someone, and agreeing to confidentiality.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 2,
+      "flag": null,
+      "why": "Coming in through someone, and agreeing to confidentiality.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 2,
+      "flag": null,
+      "why": "Coming in through someone, and agreeing to confidentiality.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 1,
+      "flag": null,
+      "why": "Some groups are by referral, to keep them safe.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "referral_system_with_screening",
+      "fit": 1,
+      "flag": null,
+      "why": "Some groups are by referral, to keep them safe.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": -1,
+      "flag": null,
+      "why": "Can feel exposing when someone is looking for support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -1,
+      "flag": null,
+      "why": "Can feel exposing when someone is looking for support.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Support shouldn't be bought or earned.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "skill_based_evaluation",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Support shouldn't be bought or earned.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 2,
+      "flag": null,
+      "why": "Repair within the circle.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Repair within the circle.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Repair within the circle.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "With a facilitator's help.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "binding_arbitration",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a support group.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a support group.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Formal judging, for a support group.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 2,
+      "flag": null,
+      "why": "Members decide together, often in circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Members decide together, often in circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "modified_consensus",
+      "fit": 2,
+      "flag": null,
+      "why": "Members decide together, often in circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "One member, one vote; larger co-ops elect a board.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": null,
+      "why": "One member, one vote; larger co-ops elect a board.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "One member, one vote; larger co-ops elect a board.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 1,
+      "flag": null,
+      "why": "One member, one vote; larger co-ops elect a board.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Against one member, one vote.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": -1,
+      "flag": null,
+      "why": "Against one member, one vote.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -2,
+      "flag": "gate",
+      "why": "A co-op is owned by its members, not investors or one boss.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "trial_period_provisional_membership",
+      "fit": 2,
+      "flag": null,
+      "why": "A trial period, then the members vote someone in.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": 2,
+      "flag": null,
+      "why": "A trial period, then the members vote someone in.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": 1,
+      "flag": null,
+      "why": "Members interview together; new members sign up to the principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": null,
+      "why": "Members interview together; new members sign up to the principles.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": -1,
+      "flag": null,
+      "why": "Co-op membership is usually earned, not open, private or bought outright.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Co-op membership is usually earned, not open, private or bought outright.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -1,
+      "flag": null,
+      "why": "Co-op membership is usually earned, not open, private or bought outright.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 2,
+      "flag": null,
+      "why": "Members repair things among themselves.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Members repair things among themselves.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 2,
+      "flag": null,
+      "why": "Members repair things among themselves.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "With outside help when needed.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "facilitated_negotiation",
+      "fit": 1,
+      "flag": null,
+      "why": "With outside help when needed.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": -2,
+      "flag": null,
+      "why": "No boss to decide, in a co-op.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": -1,
+      "flag": null,
+      "why": "Legalistic, for members of one co-op.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Legalistic, for members of one co-op.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "elected_board_of_directors",
+      "fit": 2,
+      "flag": null,
+      "why": "An elected committee, and votes at the annual meeting.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "majority_rule",
+      "fit": 2,
+      "flag": null,
+      "why": "An elected committee, and votes at the annual meeting.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Sub-committees; bigger changes need two-thirds.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "supermajority_rule",
+      "fit": 1,
+      "flag": null,
+      "why": "Sub-committees; bigger changes need two-thirds.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Rare in member-run clubs.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -1,
+      "flag": null,
+      "why": "Rare in member-run clubs.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how clubs are run.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": 2,
+      "flag": null,
+      "why": "Membership dues and a form are normal for clubs.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": 2,
+      "flag": null,
+      "why": "Membership dues and a form are normal for clubs.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "trial_period_provisional_membership",
+      "fit": 1,
+      "flag": null,
+      "why": "Taster sessions, and agreeing to the club's rules.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": null,
+      "why": "Taster sessions, and agreeing to the club's rules.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Most clubs welcome anyone who joins and pays.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -1,
+      "flag": null,
+      "why": "Most clubs welcome anyone who joins and pays.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 2,
+      "flag": null,
+      "why": "A disciplinary committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "A disciplinary committee, and mediation.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Formal hearings in larger clubs; the committee decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 1,
+      "flag": null,
+      "why": "Formal hearings in larger clubs; the committee decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": -1,
+      "flag": null,
+      "why": "Too legal for most clubs.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "The creator decides, with mods advising.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 2,
+      "flag": null,
+      "why": "The creator decides, with mods advising.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Mods run things; polls for the community.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Mods run things; polls for the community.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": -2,
+      "flag": null,
+      "why": "Hard to fit to a space centered on one creator.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": -2,
+      "flag": null,
+      "why": "Hard to fit to a space centered on one creator.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how creator communities are run.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone can join; read the rules first.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone can join; read the rules first.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": 1,
+      "flag": null,
+      "why": "Subscriber or patron tiers are normal.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": 1,
+      "flag": null,
+      "why": "Subscriber or patron tiers are normal.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": -1,
+      "flag": null,
+      "why": "Rare in creator spaces.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how people join a creator's community.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Not how people join a creator's community.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "Mods and the creator decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 2,
+      "flag": null,
+      "why": "Mods and the creator decide.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Members helping each other.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": -1,
+      "flag": null,
+      "why": "Rare at this scale and shape.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Too formal for a creator's community.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": 1,
+      "flag": null,
+      "why": "Hearing everyone out before a big family decision.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "interest_based_bargaining",
+      "fit": 1,
+      "flag": null,
+      "why": "Finding an outcome neighbors can all live with.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "consensus_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Finding an outcome neighbors can all live with.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "collaborative_platforms",
+      "fit": 2,
+      "flag": null,
+      "why": "Civic tech tools for proposals, comments and votes are common in public participation.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "interest_based_bargaining",
+      "fit": 1,
+      "flag": null,
+      "why": "Working out what each side needs, common in public disputes.",
+      "status": "accepted"
+    },
+    {
+      "type": "workplace",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some workplaces have a standing staff body for disputes.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "consensus_seeking_with_delegates",
+      "fit": 1,
+      "flag": null,
+      "why": "Members from many organizations, represented by delegates.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": null,
+      "why": "Working groups run by whoever volunteers.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some classrooms let students decide together, e.g. class meetings or student-run circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some classrooms let students decide together, e.g. class meetings or student-run circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Students weighing a question together before deciding.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Peer juries and youth courts let students hear each other's cases.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Student-run councils, and resolving conflicts together as a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "classroom",
+      "list": "conflict_management",
+      "option": "consensus_building",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Student-run councils, and resolving conflicts together as a class.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": null,
+      "why": "Taking turns organizing.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": null,
+      "why": "Working groups and rotating committees, e.g. for events or outreach.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Working groups and rotating committees, e.g. for events or outreach.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "membership_options",
+      "option": "collective_interviews",
+      "fit": 1,
+      "flag": null,
+      "why": "Lab members often meet candidates together.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some general-purpose spaces run flatter, member-led governance.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some general-purpose spaces run flatter, member-led governance.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some general-purpose spaces run flatter, member-led governance.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 1,
+      "flag": null,
+      "why": "A facilitator or coordinator often decides.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "conflict_workshops",
+      "fit": 1,
+      "flag": null,
+      "why": "Building members' skills for conflict, and resolving it together.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "consensus_building",
+      "fit": 1,
+      "flag": null,
+      "why": "Building members' skills for conflict, and resolving it together.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 2,
+      "flag": null,
+      "why": "Coming in through a member, and agreeing to the community's norms.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 2,
+      "flag": null,
+      "why": "Coming in through a member, and agreeing to the community's norms.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 1,
+      "flag": null,
+      "why": "Many welcome anyone who shares the identity or culture.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: moderators and organizers decide, often with an advisory group (e.g. respected members or elders).",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "consensus_seeking_with_delegates",
+      "fit": 1,
+      "flag": null,
+      "why": "Representatives of different parts of the community deciding together.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": null,
+      "why": "Repairing harm, often drawing on the community's own traditions.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": null,
+      "why": "Repairing harm, often drawing on the community's own traditions.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: a moderation team, or someone to help talk it through.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: a moderation team, or someone to help talk it through.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "peer_mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Like most online communities: a moderation team, or someone to help talk it through.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "Token holders delegate their votes to representatives.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "weighted_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Token-weighted, quadratic and ongoing on-chain voting.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Token-weighted, quadratic and ongoing on-chain voting.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "continuous_voting",
+      "fit": 1,
+      "flag": null,
+      "why": "Token-weighted, quadratic and ongoing on-chain voting.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "consensus_seeking_with_delegates",
+      "fit": 1,
+      "flag": null,
+      "why": "Core contributors and delegates working toward agreement.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "autocratic_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Against the decentralised ideal, though founders often hold sway.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": -1,
+      "flag": null,
+      "why": "Against the decentralised ideal, though founders often hold sway.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "investor_filled_board_seats",
+      "fit": -1,
+      "flag": null,
+      "why": "Investors sit outside the token-based structure.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Permissionless: anyone can take part, and contributing earns standing.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 2,
+      "flag": null,
+      "why": "Permissionless: anyone can take part, and contributing earns standing.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": 1,
+      "flag": null,
+      "why": "Holding or buying a token can be the way in.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": 1,
+      "flag": null,
+      "why": "Checks against fake accounts (sybil resistance).",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Against a permissionless network.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "binding_arbitration",
+      "fit": 1,
+      "flag": null,
+      "why": "Arbitration, including on-chain arbitration services.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "ad_hoc_arbitration",
+      "fit": 1,
+      "flag": null,
+      "why": "Arbitration, including on-chain arbitration services.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "binding_contracts",
+      "fit": 1,
+      "flag": null,
+      "why": "Smart contracts settle some disputes automatically.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "conflict_resolution_council",
+      "fit": 1,
+      "flag": null,
+      "why": "Community councils and mediators for disputes between people.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "mediation",
+      "fit": 1,
+      "flag": null,
+      "why": "Community councils and mediators for disputes between people.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": -1,
+      "flag": null,
+      "why": "No manager to decide, in a decentralised network.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Handing moderation of your own space to trusted friends.",
+      "status": "accepted"
+    },
+    {
+      "type": "personal",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some personal spaces open their doors to anyone who follows along.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Taking turns organizing holidays and family events.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "decision_approaches",
+      "option": "approval_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Picking a holiday spot by everyone marking what they'd be happy with.",
+      "status": "accepted"
+    },
+    {
+      "type": "family",
+      "list": "membership_options",
+      "option": "membership_agreement_or_pledge",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some families write a family charter or agreement.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Friends trying quadratic voting to plan a trip, where you can show how much you care.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Everyone agrees before someone new joins.",
+      "status": "accepted"
+    },
+    {
+      "type": "friends",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Taking turns being the one who settles disputes.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Neighborhood assemblies with members chosen by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Neighbors weighing a question together before deciding.",
+      "status": "accepted"
+    },
+    {
+      "type": "neighborhood",
+      "list": "conflict_management",
+      "option": "circle_processes",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Community circles for disputes between neighbors.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "continuous_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Ongoing votes that change as residents' needs change.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Residents doing it themselves, e.g. tactical urbanism.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Restorative justice, as in some community courts.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing a board by lot from the membership.",
+      "status": "accepted"
+    },
+    {
+      "type": "professional",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Vouching for each other, instead of credentials.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing delegates by lot, to share the load and prevent cliques.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "decision_approaches",
+      "option": "continuous_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Ongoing votes as a campaign changes.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Membership earned by showing up and doing the work.",
+      "status": "accepted"
+    },
+    {
+      "type": "movement",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Members take turns hearing disputes.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Communities trying quadratic votes for events or features.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Roles earned by contributing, e.g. guides or events.",
+      "status": "accepted"
+    },
+    {
+      "type": "hobby",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Members take turns reviewing reports.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Quadratic voting or funding to set priorities.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some projects organize in circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Restorative approaches to code-of-conduct breaches.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some traditions decide by consensus, e.g. Quaker meetings.",
+      "status": "accepted"
+    },
+    {
+      "type": "faith",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing by lot has a long history in some traditions.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Whoever runs the experiment decides how.",
+      "status": "accepted"
+    },
+    {
+      "type": "research",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some labs organize as circles, without a single PI deciding.",
+      "status": "accepted"
+    },
+    {
+      "type": "general_social",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Members vote new members in.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Some support spaces are drop-in, open to anyone who needs them.",
+      "status": "accepted"
+    },
+    {
+      "type": "support",
+      "list": "conflict_management",
+      "option": "conflict_workshops",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Learning to handle conflict together, as part of healing.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing committees by lot.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Weighing how strongly members care, not just how many agree.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Membership earned by contributing, as in some platform co-ops.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Members take turns hearing disputes.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Clubs running as circles instead of a committee.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "decision_approaches",
+      "option": "rotational_leadership",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Rotating the chair each season.",
+      "status": "accepted"
+    },
+    {
+      "type": "club",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Restorative approaches instead of disciplinary hearings.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "decision_approaches",
+      "option": "quadratic_voting",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Fans weighing in on what gets made next.",
+      "status": "accepted"
+    },
+    {
+      "type": "creator_audience",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Roles earned by contributing, e.g. fan artists or editors.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Councils chosen by lot, to share power across the community.",
+      "status": "accepted"
+    },
+    {
+      "type": "identity_cultural",
+      "list": "decision_approaches",
+      "option": "sociocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Organizing in circles.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Random selection of committees, against rule by the biggest token holders.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "deliberative_polling",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Deliberating before an on-chain vote.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "membership_options",
+      "option": "peer_sponsorship",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Vouching for each other as a way to show you're a real person.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "conflict_management",
+      "option": "restorative_practices",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Restorative approaches, in a pseudonymous network.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "algorithm_driven_decisions",
+      "fit": 2,
+      "flag": null,
+      "why": "Rules written into code that run automatically: technical guarantees instead of trust.",
+      "status": "accepted"
+    },
+    {
+      "type": "civic",
+      "list": "membership_options",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Recruiting citizens' panels by lottery.",
+      "status": "accepted"
+    },
+    {
+      "type": "cooperative",
+      "list": "membership_options",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Housing co-ops sometimes allocate places by lottery.",
+      "status": "accepted"
+    },
+    {
+      "type": "dao_web3",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": 1,
+      "flag": null,
+      "why": "Contribution- or stake-weighted decisions.",
+      "status": "accepted"
+    },
+    {
+      "type": "open_source",
+      "list": "decision_approaches",
+      "option": "proof_of_work",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Say weighted by contributions, e.g. commits.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "flag": null,
+      "why": "Anyone can contribute observations; that openness is the point.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "orientation_required",
+      "fit": 1,
+      "flag": null,
+      "why": "Contributors usually learn the protocol first, so their data is usable.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "mentorship",
+      "fit": 1,
+      "flag": null,
+      "why": "Experienced volunteers often help newcomers, e.g. on the forum or as validators.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": 1,
+      "flag": null,
+      "why": "Experienced volunteers often take on more, e.g. as moderators or validators.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "application_review",
+      "fit": -2,
+      "flag": null,
+      "why": "Volunteers aren't screened one by one: the protocol, not the person, is checked, and screening would shrink the crowd the project depends on.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": -1,
+      "flag": null,
+      "why": "Invitation-only joining defeats the purpose of crowdsourced data.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "consensus_or_vote_based_approval",
+      "fit": -1,
+      "flag": null,
+      "why": "Members don't vote on each new volunteer.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "membership_options",
+      "option": "pay_to_join",
+      "fit": -2,
+      "flag": "gate",
+      "why": "Paying to contribute would shut out the volunteers the project depends on.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "decision_approaches",
+      "option": "hierarchical_decision_making",
+      "fit": 1,
+      "flag": null,
+      "why": "When scientists or an institution run it, the team sets the protocol and decides how the data is used.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "decision_approaches",
+      "option": "delegated_decision_making",
+      "fit": 2,
+      "flag": null,
+      "why": "The project team usually hands day-to-day calls to moderators and coordinators.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "decision_approaches",
+      "option": "advisory_committees",
+      "fit": 1,
+      "flag": null,
+      "why": "Larger projects often have a volunteer or community advisory group.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "decision_approaches",
+      "option": "consensus_decision_making",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Community-run projects, e.g. a collective monitoring its own air or water, often decide together.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "In community-run projects, whoever organizes a count often decides how it runs.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "conflict_management",
+      "option": "managerial_decision",
+      "fit": 2,
+      "flag": null,
+      "why": "Moderators or the project team usually settle disputes; that is the norm here.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "conflict_management",
+      "option": "internal_tribunal",
+      "fit": -1,
+      "flag": null,
+      "why": "Too formal for a volunteer data project.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "conflict_management",
+      "option": "judicial_committees",
+      "fit": -1,
+      "flag": null,
+      "why": "Too formal for a volunteer data project.",
+      "status": "accepted"
+    },
+    {
+      "type": "citizen_science",
+      "list": "conflict_management",
+      "option": "consensus_building",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Community-run projects often work disagreements out together.",
+      "status": "accepted"
+    }
+  ],
+  "removed": [
+    {
+      "type": "identity_cultural",
+      "list": "membership_options",
+      "option": "identity_verification",
+      "fit": 1,
+      "flag": null,
+      "why": "Some check membership, often by self-identification; formal checks can feel exposing.",
+      "status": "accepted",
+      "removedOn": "2026-10-10",
+      "reason": "Lowered to no mark after the held-out check: checking who belongs can feel exposing in an identity community (TODO.md, \"Tuning\")."
+    },
+    {
+      "type": "identity_cultural",
+      "list": "conflict_management",
+      "option": "rotational_judging",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Members take turns hearing disputes.",
+      "status": "accepted",
+      "removedOn": "2026-10-10",
+      "reason": "Dropped after clashing with a held-out example in Try something new (TODO.md, \"Tuning\"): Generic reason, nothing particular to identity communities; the table is a starting point (revisit with the Blacksky folks)."
+    },
+    {
+      "type": "hobby",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing moderators by lot from volunteers.",
+      "status": "accepted",
+      "removedOn": "2026-10-10",
+      "reason": "Dropped after clashing with a held-out example in Try something new (TODO.md, \"Tuning\"): Hard to find a real case: the weakest interesting mark."
+    },
+    {
+      "type": "support",
+      "list": "decision_approaches",
+      "option": "lottery_sortition",
+      "fit": 1,
+      "flag": "interesting",
+      "why": "Choosing facilitators by lot.",
+      "status": "accepted",
+      "removedOn": "2026-10-10",
+      "reason": "Dropped after clashing with a held-out example in Try something new (TODO.md, \"Tuning\"): Peer support groups rotate facilitators rather than draw lots; rotational leadership covers that."
+    }
+  ]
+}

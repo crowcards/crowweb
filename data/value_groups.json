@@ -1,0 +1,1359 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-08",
+  "note": "The CROW team's additions to values.json (CommunityRule's list, which may be refreshed from its API, so nothing of ours lives there). all: the All tab's name and description, under the tabs when it's open; groups: the tabs on the values list (short: the tab's name; label and description: under the tabs when it's open). items, by value id: its groups (1 or 2, the main one first: a value shows under each of its tabs); label, only to correct CommunityRule's name (e.g. Holocracy → Holacracy); cues, words and phrases a community that holds the value might use in its description, matched to suggest it (whole words; a trailing * matches any ending, \"organiz*\": organize, organizing; a cue of two or more words counts double); description, only where CommunityRule's is a placeholder (used instead of it); status: whether this entry is reviewed (proposed / accepted). hidden: true leaves the value out of the site (the editor, suggestions, docs), e.g. Holacracy, a trademarked corporate system. rewordings: [from, to] pairs applied to every value description wherever it's shown (CommunityRule's wording, softened: \"This may mean…\", \"There may be a tension with…\"). js/data.js loadValues() merges the two files. A value missing here still shows (under All); an entry for a value no longer in values.json is ignored.",
+  "all": {
+    "label": "All values",
+    "description": "A variety of values that help explain what your community cares about and how it works."
+  },
+  "rewordings": [
+    [
+      "To us, this means",
+      "This may mean"
+    ],
+    [
+      "We acknowledge a tension with",
+      "There may be a tension with"
+    ]
+  ],
+  "groups": [
+    {
+      "id": "goals",
+      "label": "Goals & causes",
+      "short": "Goals",
+      "description": "What the community works toward, or stands for in the wider world."
+    },
+    {
+      "id": "organizing",
+      "label": "How we organize",
+      "short": "Organizing",
+      "description": "How the community is structured, and how power and decisions are shared."
+    },
+    {
+      "id": "relationships",
+      "label": "How we treat each other",
+      "short": "Culture",
+      "description": "The culture between members: how people treat and look out for each other."
+    },
+    {
+      "id": "justice",
+      "label": "Justice & inclusion",
+      "short": "Justice",
+      "description": "Fairness, access and belonging, especially for people who are often left out."
+    },
+    {
+      "id": "practices",
+      "label": "Practices",
+      "short": "Practices",
+      "description": "Things the community does, and makes time for."
+    },
+    {
+      "id": "shared",
+      "label": "Widely shared",
+      "short": "Common",
+      "description": "Values most good-faith communities hold. Choose them if they're central to who you are."
+    }
+  ],
+  "items": [
+    {
+      "id": "accessibility",
+      "groups": [
+        "justice",
+        "practices"
+      ],
+      "cues": [
+        "accessib*",
+        "disabilit*",
+        "disabled",
+        "plain language",
+        "caption*",
+        "alt text",
+        "alt-text",
+        "screen reader*",
+        "wheelchair*",
+        "neurodivergent",
+        "accessibility",
+        "accessible to everyone",
+        "image descriptions",
+        "easy to read",
+        "disabled members"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "accountability",
+      "groups": [
+        "relationships",
+        "organizing"
+      ],
+      "cues": [
+        "accountab*",
+        "take responsibility",
+        "own our mistakes",
+        "own up",
+        "retrospective*",
+        "answer to",
+        "responsib*",
+        "accountability",
+        "hold each other accountable",
+        "answer for",
+        "take responsibility for"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "adaptability",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "adapt*",
+        "change course",
+        "pivot*",
+        "evolv*",
+        "iterat*",
+        "respond to change",
+        "adaptability",
+        "adapt as we grow",
+        "try and adjust",
+        "open to change"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "agency",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "agency",
+        "self-direct*",
+        "choose their own",
+        "on their own terms",
+        "their own projects",
+        "own choices",
+        "your own choices",
+        "decide for themselves",
+        "set your own pace",
+        "in control of"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "altruism",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "altruis*",
+        "for free",
+        "free of charge",
+        "pay what you can",
+        "give back",
+        "selfless*",
+        "charit*",
+        "altruism",
+        "help others",
+        "without expecting anything",
+        "for the common good"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression",
+      "groups": [
+        "shared",
+        "justice"
+      ],
+      "cues": [
+        "anti-oppress*",
+        "anti oppression",
+        "oppress*",
+        "racis*",
+        "anti-racis*",
+        "sexis*",
+        "bigot*",
+        "discriminat*",
+        "anti-oppression",
+        "no racism",
+        "no bigotry",
+        "zero tolerance for hate",
+        "anti-racist",
+        "fight oppression"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "autonomy",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "autonom*",
+        "no strings attached",
+        "self-govern*",
+        "self-determin*",
+        "not beholden",
+        "independent of",
+        "autonomy",
+        "govern ourselves",
+        "on our own terms",
+        "nobody tells us"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "capacity_building",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "capacity building",
+        "build skills",
+        "building skills",
+        "skill-shar*",
+        "skill shar*",
+        "train*",
+        "upskill*",
+        "learn new skills",
+        "train new organisers",
+        "grow leaders"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "collaborat*",
+        "work together",
+        "working together",
+        "co-creat*",
+        "build together",
+        "teamwork",
+        "make things together",
+        "team up"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "common_ownership",
+      "groups": [
+        "organizing",
+        "goals"
+      ],
+      "cues": [
+        "common ownership",
+        "collectively owned",
+        "member-owned",
+        "owned by its members",
+        "owned by our members",
+        "shared ownership",
+        "co-op",
+        "cooperative",
+        "commons",
+        "belongs to all of us"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "community_care",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "community care",
+        "wellbeing",
+        "well-being",
+        "mental health",
+        "check-in*",
+        "take care of each other",
+        "care for each other",
+        "burnout",
+        "rest",
+        "look after each other",
+        "check in on"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "conflict_resolution",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "conflict resolution",
+        "resolve conflict*",
+        "resolving conflict*",
+        "mediat*",
+        "disagree*",
+        "grievance*",
+        "work through disagreements",
+        "talk it out",
+        "sort out disputes"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "consent",
+      "groups": [
+        "relationships",
+        "organizing"
+      ],
+      "cues": [
+        "consent*",
+        "opt-in",
+        "opt in",
+        "permission",
+        "ask first",
+        "boundar*",
+        "ask before",
+        "respect boundaries",
+        "nothing without permission"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "consensus",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "consensus",
+        "everyone agrees",
+        "everyone can live with",
+        "no objections",
+        "agree together",
+        "all voices",
+        "decide together",
+        "find agreement"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "constructive_feedback",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "feedback",
+        "critique*",
+        "constructive criticism",
+        "code review*",
+        "review each other*",
+        "constructive feedback",
+        "kind feedback",
+        "honest feedback",
+        "help each other improve"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "cooperation",
+      "groups": [
+        "relationships",
+        "organizing"
+      ],
+      "cues": [
+        "cooperat*",
+        "partner*",
+        "work with other",
+        "alliance*",
+        "coalition*",
+        "sister communit*",
+        "partner with",
+        "work with other groups",
+        "sister communities"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "copyleft",
+      "groups": [
+        "goals"
+      ],
+      "cues": [
+        "copyleft",
+        "gpl",
+        "agpl",
+        "share-alike",
+        "share alike",
+        "cc by-sa",
+        "free software",
+        "keep it free"
+      ],
+      "description": "We license our work so that anything built from it stays free and open for everyone. This may mean we release work under share-alike licenses (e.g., GPL, AGPL, CC BY-SA) and ask that changes are shared back. There may be a tension with goals like adoption (Share-alike terms put off some users and companies).",
+      "status": "accepted"
+    },
+    {
+      "id": "decentralization",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "decentrali*",
+        "distributed",
+        "no central*",
+        "power at the edges",
+        "peer-to-peer",
+        "p2p",
+        "decentralization",
+        "decentralised",
+        "no single owner"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "direct_action",
+      "groups": [
+        "goals"
+      ],
+      "cues": [
+        "direct action",
+        "take action",
+        "activis*",
+        "protest*",
+        "strike*",
+        "picket*",
+        "on the ground",
+        "show up",
+        "do it ourselves"
+      ],
+      "description": "We take steps to solve problems ourselves instead of waiting for authorities to act. This may mean we organize, show up, and act together when something needs doing. There may be a tension with goals like caution and legitimacy (Acting now vs going through official channels).",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity",
+      "groups": [
+        "justice"
+      ],
+      "cues": [
+        "divers*",
+        "all backgrounds",
+        "different backgrounds",
+        "representation",
+        "many perspectives",
+        "multicultural",
+        "diversity",
+        "diverse",
+        "different voices"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "documentation",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "document*",
+        "wiki",
+        "handbook",
+        "write down",
+        "written down",
+        "how-to*",
+        "guides",
+        "documentation",
+        "write it down",
+        "documented"
+      ],
+      "description": "We record our processes clearly so that others can learn from and repeat our work. This may mean decisions, guides, and how-tos are written down where members can find them. There may be a tension with goals like speed (Writing it down takes time).",
+      "status": "accepted"
+    },
+    {
+      "id": "education",
+      "groups": [
+        "goals",
+        "practices"
+      ],
+      "cues": [
+        "educat*",
+        "teach*",
+        "workshop*",
+        "course*",
+        "curricul*",
+        "student*",
+        "school*",
+        "learn together",
+        "classes"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "empathy",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "empath*",
+        "compassion*",
+        "listen to",
+        "listening",
+        "understanding",
+        "lived experience",
+        "empathy",
+        "listen to each other",
+        "put ourselves in"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "empowerment",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "empower*",
+        "trust people to",
+        "ownership of their",
+        "delegat*",
+        "give people the power",
+        "empowerment",
+        "people closest to"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "equity",
+      "groups": [
+        "justice"
+      ],
+      "cues": [
+        "equit*",
+        "sliding scale",
+        "scholarship*",
+        "based on need",
+        "level the playing field",
+        "redistribut*",
+        "equity",
+        "fair outcomes"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "experimentation",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "experiment*",
+        "try new things",
+        "trying new things",
+        "prototyp*",
+        "tinker*",
+        "playful",
+        "experimentation",
+        "it's ok to fail",
+        "try it and see"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "fairness",
+      "groups": [
+        "shared",
+        "justice"
+      ],
+      "cues": [
+        "fair",
+        "fairly",
+        "fairness",
+        "impartial*",
+        "same rules",
+        "even-handed",
+        "consistent*",
+        "fair to everyone",
+        "same rules for everyone",
+        "treated fairly",
+        "everyone gets a turn"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "fair_remuneration",
+      "groups": [
+        "justice",
+        "organizing"
+      ],
+      "cues": [
+        "fair pay",
+        "living wage",
+        "paid",
+        "wage*",
+        "salar*",
+        "compensat*",
+        "remunerat*",
+        "stipend*",
+        "fair remuneration",
+        "paid fairly",
+        "pay our contributors"
+      ],
+      "description": "People are paid fairly for the work they do for the community. This may mean paid roles get a living wage, and unpaid work is recognized and kept within reason. There may be a tension with goals like low costs and a volunteer spirit (Paying people vs keeping costs down).",
+      "status": "accepted"
+    },
+    {
+      "id": "flexibility",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "flexib*",
+        "asynchronous",
+        "async",
+        "at their own pace",
+        "own schedule",
+        "remote",
+        "time zones",
+        "flexibility",
+        "at your own pace",
+        "flexible",
+        "whenever you can"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "forkability",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "fork*",
+        "take the project",
+        "copy and adapt",
+        "free to leave",
+        "leave with their",
+        "forkability",
+        "take it elsewhere"
+      ],
+      "description": "Anyone can take the work in a new direction if they disagree with where it's going. This may mean our code, content, and data can be copied and adapted, and leaving to start anew is respected. There may be a tension with goals like unity (Easy exits can split the community).",
+      "status": "accepted"
+    },
+    {
+      "id": "freedom",
+      "groups": [
+        "goals",
+        "organizing"
+      ],
+      "cues": [
+        "freedom",
+        "free speech",
+        "freedom of expression",
+        "express themselves",
+        "uncensor*",
+        "censorship",
+        "express yourself",
+        "free to",
+        "no censorship"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "freedom_of_information",
+      "groups": [
+        "goals"
+      ],
+      "cues": [
+        "freedom of information",
+        "open access",
+        "open data",
+        "paywall*",
+        "public knowledge",
+        "information should be free",
+        "archiv*",
+        "free to read",
+        "no paywalls"
+      ],
+      "description": "Information is a public good that should be freely available. This may mean we keep our knowledge, research, and records open, not behind paywalls or logins. There may be a tension with goals like privacy and income (Open by default vs protecting people and funding).",
+      "status": "accepted"
+    },
+    {
+      "id": "generosity",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "generos*",
+        "generous",
+        "give freely",
+        "share what we have",
+        "donat*",
+        "gift*",
+        "generosity"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "harm_reduction",
+      "groups": [
+        "practices",
+        "justice"
+      ],
+      "cues": [
+        "harm reduction",
+        "reduce harm",
+        "reducing harm",
+        "safer use",
+        "drug*",
+        "sex work*",
+        "meet people where they are",
+        "without judgment"
+      ],
+      "description": "We focus on lowering the harm of risky situations rather than demanding they never happen. This may mean we meet people where they are, without judgment, and offer practical ways to stay safer. There may be a tension with goals like strict rules (Pragmatism vs zero tolerance).",
+      "status": "accepted"
+    },
+    {
+      "id": "holism",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "holistic*",
+        "whole person",
+        "whole system",
+        "bigger picture",
+        "interconnect*",
+        "holism",
+        "the whole person",
+        "whole picture",
+        "mind and body",
+        "everything is connected"
+      ],
+      "description": "We consider the whole person and the whole system, not just isolated parts. This may mean we account for members' lives outside the community, and for how one change affects everything else. There may be a tension with goals like focus and speed (Seeing everything vs getting one thing done).",
+      "status": "accepted"
+    },
+    {
+      "id": "holocracy",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "holacracy",
+        "holocracy",
+        "sociocra*",
+        "circles",
+        "roles",
+        "role-based",
+        "circles and roles",
+        "roles instead of",
+        "self-organising"
+      ],
+      "status": "accepted",
+      "label": "Holacracy",
+      "hidden": true
+    },
+    {
+      "id": "honesty",
+      "groups": [
+        "shared",
+        "relationships"
+      ],
+      "cues": [
+        "honest*",
+        "truth*",
+        "candid*",
+        "straight talk",
+        "admit when",
+        "forthright",
+        "honesty",
+        "tell the truth",
+        "no spin"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "horizontal*",
+        "no bosses",
+        "no leaders",
+        "leaderless",
+        "flat structure",
+        "as equals",
+        "non-hierarchical",
+        "anarch*",
+        "horizontalism",
+        "flat"
+      ],
+      "description": "We organize as equals, without bosses or top-down management. This may mean no one has permanent authority over others, and roles rotate or are shared. There may be a tension with goals like speed and clarity (Everyone leading vs someone deciding).",
+      "status": "accepted"
+    },
+    {
+      "id": "humility",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "humil*",
+        "humble",
+        "modest*",
+        "don't have all the answers",
+        "open to being wrong",
+        "learn from others",
+        "humility"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion",
+      "groups": [
+        "justice",
+        "relationships"
+      ],
+      "cues": [
+        "inclus*",
+        "welcom*",
+        "everyone is welcome",
+        "all are welcome",
+        "belonging",
+        "safe space",
+        "safer space",
+        "inclusion"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity",
+      "groups": [
+        "justice",
+        "relationships"
+      ],
+      "cues": [
+        "inclusiv*",
+        "newcomer*",
+        "beginner*",
+        "no jargon",
+        "translat*",
+        "multilingual",
+        "new members",
+        "inclusivity",
+        "beginners welcome",
+        "all languages"
+      ],
+      "description": "We make it easy for anyone to take part, whatever their background, language, or experience. This may mean we avoid jargon, welcome newcomers, and translate where we can. There may be a tension with goals like depth and focus (Open to everyone vs built for experts).",
+      "status": "accepted"
+    },
+    {
+      "id": "independence",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "independen*",
+        "self-funded",
+        "member-funded",
+        "funded by members",
+        "no ads",
+        "ad-free",
+        "no investors",
+        "crowdfund*",
+        "independence",
+        "independent"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "innovation",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "innovat*",
+        "new ideas",
+        "creativ*",
+        "inventive",
+        "cutting edge",
+        "build new",
+        "experiment",
+        "build something new"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "integrity",
+      "groups": [
+        "shared",
+        "relationships"
+      ],
+      "cues": [
+        "integrity",
+        "ethic*",
+        "principled",
+        "walk the talk",
+        "live our values",
+        "stand by",
+        "stand by our values",
+        "ethical"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "interdependence",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "interdepend*",
+        "ecosystem",
+        "rely on each other",
+        "depend on each other",
+        "web of",
+        "interdependence",
+        "connected"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "interoperability",
+      "groups": [
+        "goals",
+        "practices"
+      ],
+      "cues": [
+        "interoperab*",
+        "open standards",
+        "open protocol*",
+        "activitypub",
+        "at protocol",
+        "atproto",
+        "compatib*",
+        "portab*",
+        "walled garden*",
+        "interoperability",
+        "fediverse",
+        "connect with other",
+        "portable"
+      ],
+      "description": "Our tools and systems work with other open systems rather than locking people in. This may mean we use open standards and protocols, and members can take their data and connections elsewhere. There may be a tension with goals like control and polish (Open standards vs a seamless, closed product).",
+      "status": "accepted"
+    },
+    {
+      "id": "intersectionality",
+      "groups": [
+        "justice"
+      ],
+      "cues": [
+        "intersectional*",
+        "overlapping",
+        "queer",
+        "trans",
+        "bipoc",
+        "people of colo*",
+        "feminis*",
+        "lgbtq*",
+        "intersectionality",
+        "people of colour"
+      ],
+      "description": "We consider how different forms of discrimination overlap and compound for people. This may mean we pay attention to how race, gender, class, disability, and sexuality combine, and center those most affected. There may be a tension with goals like simplicity (Many perspectives vs one clear message).",
+      "status": "accepted"
+    },
+    {
+      "id": "justice",
+      "groups": [
+        "justice"
+      ],
+      "cues": [
+        "justice",
+        "restorative",
+        "transformative justice",
+        "repair harm",
+        "social justice",
+        "climate justice",
+        "make things right",
+        "fair system"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "knowledge_sharing",
+      "groups": [
+        "practices",
+        "goals"
+      ],
+      "cues": [
+        "knowledge sharing",
+        "share knowledge",
+        "sharing knowledge",
+        "share what we learn",
+        "open knowledge",
+        "tutorial*",
+        "help each other learn",
+        "share what we know",
+        "tips"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "labor_rights",
+      "groups": [
+        "goals"
+      ],
+      "cues": [
+        "labor rights",
+        "labour rights",
+        "workers' rights",
+        "workers rights",
+        "union*",
+        "working conditions",
+        "labor",
+        "labour",
+        "organise at work"
+      ],
+      "description": "We uphold the right of all workers to organize and to advocate for their conditions. This may mean we support unions and collective bargaining, and members can talk openly about pay and conditions. There may be a tension with goals like flexibility and cost (Worker protections vs doing more with less).",
+      "status": "accepted"
+    },
+    {
+      "id": "leadership",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "leadership",
+        "step up",
+        "initiative",
+        "take the lead",
+        "take charge",
+        "take initiative",
+        "lead"
+      ],
+      "description": "We encourage everyone to step up and take initiative when needed. This may mean anyone can propose and lead work, and we support people as they grow into responsibility. There may be a tension with goals like equality (Leaders emerging vs everyone the same).",
+      "status": "accepted"
+    },
+    {
+      "id": "learning",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "learn*",
+        "book club*",
+        "reading group*",
+        "study group*",
+        "curious",
+        "curiosity",
+        "mistakes",
+        "questions welcome",
+        "grow"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "liberty",
+      "groups": [
+        "organizing",
+        "goals"
+      ],
+      "cues": [
+        "liberty",
+        "libertar*",
+        "individual freedom",
+        "anti-authoritarian",
+        "no gatekeep*",
+        "free to choose"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "localism",
+      "groups": [
+        "goals"
+      ],
+      "cues": [
+        "local*",
+        "neighbo*",
+        "our city",
+        "our town",
+        "region*",
+        "nearby",
+        "in person",
+        "localism",
+        "our neighbourhood"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "maintenance",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "mainten*",
+        "maintain*",
+        "upkeep",
+        "keep running",
+        "sysadmin*",
+        "behind the scenes",
+        "unglamorous",
+        "maintenance",
+        "keep it running"
+      ],
+      "description": "We value the unglamorous work of sustaining and fixing what we have already built. This may mean we make time for upkeep, moderation, and admin work, and credit the people who do it. There may be a tension with goals like innovation (Fixing the old vs building the new).",
+      "status": "accepted"
+    },
+    {
+      "id": "mentorship",
+      "groups": [
+        "practices"
+      ],
+      "cues": [
+        "mentor*",
+        "onboard*",
+        "buddy",
+        "buddies",
+        "help newcomers",
+        "guide newcomers",
+        "show the ropes",
+        "mentorship",
+        "show newcomers",
+        "guide new members"
+      ],
+      "description": "Experienced members actively guide and support newcomers. This may mean we pair newcomers with someone who shows them around, and asking for help is always welcome. There may be a tension with goals like speed (Teaching takes time away from doing).",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "merit*",
+        "earned",
+        "do-ocracy",
+        "doocracy",
+        "based on contribution*",
+        "those who do the work",
+        "meritocracy",
+        "track record"
+      ],
+      "description": "Influence is earned through contribution and skill rather than status or wealth. This may mean those who do the work have a say in it, and roles go to people who have shown they can fill them. There may be a tension with goals like equity (Rewarding contribution can favor those with more time and resources).",
+      "status": "accepted"
+    },
+    {
+      "id": "mutual_aid",
+      "groups": [
+        "relationships",
+        "goals"
+      ],
+      "cues": [
+        "mutual aid",
+        "help each other",
+        "help one another",
+        "solidarity not charity",
+        "share resources",
+        "sharing resources",
+        "look out for each other",
+        "look out for one another"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "non_violence",
+      "groups": [
+        "shared",
+        "relationships"
+      ],
+      "cues": [
+        "nonviolen*",
+        "non-violen*",
+        "non violence",
+        "peaceful*",
+        "de-escalat*",
+        "pacifis*",
+        "non-violence",
+        "non-violent",
+        "no threats"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "open_source",
+      "groups": [
+        "goals",
+        "practices"
+      ],
+      "cues": [
+        "open source",
+        "open-source",
+        "foss",
+        "floss",
+        "free and open",
+        "source code",
+        "github",
+        "gitlab",
+        "codeberg",
+        "free software",
+        "contributions welcome"
+      ],
+      "description": "We make our work freely available for others to use, study, and change. This may mean we publish our source code (and other work) under open licenses and welcome contributions. There may be a tension with goals like income and control (Giving it away vs earning from it).",
+      "status": "accepted"
+    },
+    {
+      "id": "openness",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "openness",
+        "open to the public",
+        "open to all",
+        "anyone can join",
+        "open meetings",
+        "public meetings",
+        "open to everyone",
+        "in the open"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "participation",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "particip*",
+        "have a say",
+        "everyone has a voice",
+        "vote*",
+        "voting",
+        "democra*",
+        "get involved",
+        "participation",
+        "everyone has a say",
+        "have your say"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "reliability",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "reliab*",
+        "dependab*",
+        "follow through",
+        "count on",
+        "uptime",
+        "stable",
+        "stability",
+        "keep our promises",
+        "reliability",
+        "reliable"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "resilience",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "resilien*",
+        "bus factor",
+        "redundan*",
+        "sustainab*",
+        "long-term",
+        "long term",
+        "backup*",
+        "resilience",
+        "keep going",
+        "bounce back",
+        "no single point"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity",
+      "groups": [
+        "relationships",
+        "goals"
+      ],
+      "cues": [
+        "solidarity",
+        "stand with",
+        "stand together",
+        "each other's back*",
+        "collective defen*",
+        "united",
+        "have each other's back"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "stewardship",
+      "groups": [
+        "practices",
+        "relationships"
+      ],
+      "cues": [
+        "steward*",
+        "care for",
+        "tend*",
+        "future generations",
+        "future members",
+        "custodian*",
+        "stewardship",
+        "look after",
+        "for future",
+        "take care of the space"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "transparency",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "transparen*",
+        "open books",
+        "meeting notes",
+        "minutes",
+        "public budget*",
+        "decision log*",
+        "open finances",
+        "visible to",
+        "transparency",
+        "transparent",
+        "in public",
+        "explain our decisions"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "trust",
+      "groups": [
+        "relationships"
+      ],
+      "cues": [
+        "trust*",
+        "good faith",
+        "assume good intent",
+        "charitabl*"
+      ],
+      "status": "accepted"
+    },
+    {
+      "id": "voluntarism",
+      "groups": [
+        "organizing"
+      ],
+      "cues": [
+        "volunteer*",
+        "voluntar*",
+        "unpaid",
+        "freely chosen",
+        "no pressure",
+        "step back",
+        "in their free time",
+        "voluntarism",
+        "in our free time"
+      ],
+      "status": "accepted"
+    }
+  ]
+}

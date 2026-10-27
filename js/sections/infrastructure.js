@@ -1,0 +1,521 @@
+// The Infrastructure module: the platform the community runs on, what it
+// costs, other tools it uses, and where its servers, members and admins are.
+//
+//   const data = await loadInfrastructureData();
+//   const form = renderInfrastructure(container, card.infrastructure, data, { onInput, onCommit, stateKey });
+//   form.collect()   → the infrastructure object to save
+//
+// Picking a platform from the list fills in the platform fields from
+// platforms.json (and says so in a pop-up); everything stays editable.
+// Each cost is answered yes or no. Setting the platform type fills in the
+// costs that are usually yes or no for it (cost_rules.json, plus that
+// platform's exceptions in cost_overrides.json) if none are answered yet, or
+// suggests the changes if some are; under every cost, what's usual shows as a
+// guide ("Usually: often").
+
+import { loadData, loadProtocolItems } from "../data.js";
+import { el, button } from "../dom.js";
+import { textField, selectField } from "../controls/fields.js";
+import { renderChoices, scaleField, choiceTable, YES_NO, YES_NO_VARIES } from "../controls/choices.js";
+import { renderRows } from "../controls/rows.js";
+import { suggestField, storedValue } from "../controls/suggest.js";
+import { asideOf } from "../set-aside.js";
+import { foldSection, sectionMaker } from "../controls/fold.js";
+import { showPopup, closePopup } from "../popup.js";
+import { lawsNote, lawsPageUrl } from "../laws.js";
+import { reveal, showIf } from "../reveal.js";
+
+export async function loadInfrastructureData() {
+  const [platforms, formats, costRules, costOverrides, enums, tools, countries, protocols] = await Promise.all([
+    loadData("platforms"),
+    loadData("formats"),
+    loadData("cost_rules"),
+    loadData("cost_overrides"),
+    loadData("enums"),
+    loadData("tools"),
+    loadData("countries"),
+    loadProtocolItems(),
+  ]);
+  const formatLabel = Object.fromEntries(formats.items.map((t) => [t.id, t.label]));
+  return {
+    platformRecords: Object.fromEntries(platforms.items.map((p) => [p.id, p])),
+    // e.g. "Matrix client (Synapse)", with the community type as a note
+    platforms: platforms.items.map((p) => ({
+      id: p.id,
+      label: p.isGeneric ? `${p.platform} (any)`
+        : p.software && !["Proprietary", p.platform].includes(p.software) ? `${p.platform} (${p.software})` : p.platform,
+      aliases: [p.software, p.protocol].filter((a) => a && a !== "None" && a !== "Proprietary"),
+      note: formatLabel[p.format],
+    })),
+    platformTypes: Object.values(costRules.types).map((t) => ({ id: t.id, label: t.label, description: t.description })),
+    structuralModels: [...new Set(platforms.items.map((p) => p.structuralModel))].sort().map((m) => ({ id: m, label: m })),
+    costCategories: costRules.categories,
+    typeCosts: Object.fromEntries(costRules.types.map((t) => [t.id, t.costs])),
+    costOverrides: costOverrides.items,
+    costValues: enums.costValues,   // the answers: yes / no
+    costGuides: enums.costGuides,   // what's usual (cost_rules.json's words): yes / often / sometimes / rare / no
+    tools: tools.items,
+    toolCategories: tools.categories,
+    places: [
+      ...countries.countries,
+      ...countries.regions.map((r) => ({ ...r, note: "region" })),
+    ],
+    protocols,
+  };
+}
+
+// platforms.json says true / false / "varies"; cards store "yes" / "no" / "varies"
+
+// the usual costs that can be filled in as answers: those that are always yes or no
+// (often / sometimes / rare stay a guide)
+const DEFINITE = ["yes", "no"];
+export const definite = (costs = {}) => Object.fromEntries(Object.entries(costs).filter(([, v]) => DEFINITE.includes(v)));
+const toChoice = (v) => (v === true ? "yes" : v === false ? "no" : v === "varies" ? "varies" : null);
+const namedProtocol = (r) => (r.protocol && r.protocol !== "None" ? r.protocol : null);
+
+/**
+ * A listed platform's details, as a card stores them (infrastructure.platform,
+ * without the platform itself), for platform type `typeId`. Used by the form
+ * when a platform is picked, and by filling in from a link (js/fill-from-link.js).
+ */
+export function platformFromRecord(r, typeId) {
+  return {
+    type: typeId ?? null,
+    software: r.software,
+    usesProtocol: namedProtocol(r) ? "yes" : "no",
+    protocol: namedProtocol(r),
+    openSource: toChoice(r.openSource),
+    selfHosted: toChoice(r.selfHostable),
+    structuralModel: r.structuralModel,
+  };
+}
+
+/** The usual costs for a platform type, with a listed platform's own exceptions on top. */
+export function usualCosts(data, typeId, record) {
+  const own = record && data.costOverrides.find((o) => o.platform === record.platform && o.software === record.software && o.typeId === typeId);
+  return { ...(data.typeCosts[typeId] || {}), ...own?.overrides };
+}
+
+/** A tool's name: a listed tool's label, or what was typed (also used by the card). */
+export const toolName = (tool, data) => data.tools.find((x) => x.id === tool)?.label ?? tool;
+/** A tool in one line: "Loomio · Deliberation & decision-making — votes" (also used by Export). */
+export function toolLine(t, data) {
+  const category = data.toolCategories.find((c) => c.id === t.category)?.label;
+  return `${[toolName(t.tool, data), category].filter(Boolean).join(" · ")}${t.usedFor ? ` — ${t.usedFor}` : ""}`;
+}
+
+export function renderInfrastructure(container, infrastructure = {}, data, { onInput = () => {}, onCommit = () => {}, stateKey = "infrastructure", getPart = () => ({}), setPart = () => {}, setAside = asideOf() } = {}) {
+  const hooks = { onInput, onCommit };
+  const platform = infrastructure.platform || {};
+  const costs = infrastructure.costs || {};
+  const locations = infrastructure.locations || {};
+
+  // ── platform ──────────────────────────────────────────────
+  const which = suggestField({
+    label: "Platform",
+    hint: "Start typing, e.g. Bonfire, custom wiki, Matrix chat. If yours isn’t listed, just type its name.",
+    items: data.platforms,
+    allowCustom: true,
+    value: platform.platform,
+    onChange: (v) => platformChanged(v),
+    onCommit,
+  });
+  const typeHint = (id) => data.platformTypes.find((t) => t.id === id)?.description || "Who runs it, and what it mostly carries. This shapes the likely costs.";
+  const type = selectField({
+    label: "Platform type",
+    options: data.platformTypes,
+    value: platform.type,
+    placeholder: "Choose a type…",
+    hint: typeHint(platform.type),
+    onChange: (id) => {
+      type.setHint(typeHint(id));
+      onCommit();
+      // chosen by hand: the costs follow, for the listed platform if there is one
+      if (id) afterTypeSet(id, data.platformRecords[which.value().id]);
+    },
+  });
+  const software = textField({ label: "Software", hint: "e.g. Bonfire, Zooniverse, Reddit.", value: platform.software, ...hooks });
+  const yesNo = (legend, value, { options = YES_NO_VARIES, onChange = onCommit } = {}) =>
+    scaleField({ legend, options, value, layout: "buttons", onChange });
+
+  // protocol: yes / no first; which protocol is only asked after "Yes"
+  const showProtocol = (c) => showIf(protocol.element, c === "yes");
+  const usesProtocol = yesNo("Uses an open protocol", platform.usesProtocol, {
+    options: YES_NO,
+    onChange: (c) => { showProtocol(c); onCommit(); },
+  });
+  const protocol = suggestField({ label: "Which protocol", hint: "Pick from the list, or type it.", items: data.protocols, allowCustom: true, value: platform.protocol ?? setAside.get("platform.protocol"), onCommit });   // (set aside while the answer was No)
+  showProtocol(usesProtocol.value());
+  const openSource = yesNo("Open source", platform.openSource);
+  const selfHosted = yesNo("Self-hosted", platform.selfHosted);
+  const model = selectField({
+    label: "Structural model",
+    hint: "Centralized: one operator. Federation: many servers talking to each other. Relay: clients share relays.",
+    options: data.structuralModels,
+    value: platform.structuralModel,
+    onChange: onCommit,
+  });
+
+  // ── platform first: the details appear once there's a platform ──
+  // (cards that already have details answered show them straight away)
+  const detailsLead = el("p");
+  const details = {
+    element: el("div", { className: "platform-details" }, el("div", { className: "callout callout-small" }, detailsLead),
+      ...[type, software, usesProtocol, protocol, openSource, selfHosted, model].map((f) => f.element)),
+  };
+  function showDetails(lead) {
+    detailsLead.textContent = lead;
+    if (details.element.hidden) reveal(details.element);
+  }
+  const answered = ["type", "software", "usesProtocol", "protocol", "openSource", "selfHosted", "structuralModel"]
+    .some((k) => platform[k] != null && platform[k] !== "");
+  details.element.hidden = !platform.platform && !answered;
+  detailsLead.textContent = data.platformRecords[platform.platform]
+    ? "From our platform data. Edit anything that’s different."
+    : platform.platform ? `Tell us a bit more about ${platform.platform}:` : "About your platform:";
+
+  // ── pre-filling from the platform list ────────────────────
+  // the fields a listed platform fills in: how each is read, shown and set
+  const typeLabel = (id) => data.platformTypes.find((t) => t.id === id)?.label;
+  const yesNoLabel = (c) => YES_NO_VARIES.find((o) => o.id === c)?.label;
+  const setType = (id) => { type.set(id); type.setHint(typeHint(id)); };
+  // (key: the detail in platformFromRecord's answer)
+  const filled = [
+    { key: "type", label: "Platform type", get: () => type.value(), show: typeLabel, set: setType },
+    { key: "software", label: "Software", get: () => software.value(), set: software.set },
+    { key: "usesProtocol", label: "Uses an open protocol", get: () => usesProtocol.value(), show: yesNoLabel,
+      set: (c) => { usesProtocol.set(c); showProtocol(c); } },
+    // listed only when there is (or was) a protocol to name
+    { key: "protocol", label: "Protocol", get: () => (usesProtocol.value() === "yes" ? protocol.stored() : null), set: protocol.set, optional: true },
+    { key: "openSource", label: "Open source", get: () => openSource.value(), show: yesNoLabel, set: openSource.set },
+    { key: "selfHosted", label: "Self-hosted", get: () => selfHosted.value(), show: yesNoLabel, set: selfHosted.set },
+    { key: "structuralModel", label: "Structural model", get: () => model.value(), set: model.set },
+  ];
+  const shown = (f, v) => (v == null ? "—" : (f.show ? f.show(v) : v));
+
+  let lastPlatform = platform.platform || null;
+  function platformChanged(v) {
+    const now = storedValue(v);
+    const before = lastPlatform;
+    lastPlatform = now;
+    if (!now || now === before) return;
+    showDetails(v.id ? `Filled in from our platform data for ${v.text}. Edit anything that’s different.` : `Tell us a bit more about ${v.text}:`);
+    platformSection.enableFold();   // once there's a platform, the section can be folded
+    if (v.id) prefill(data.platformRecords[v.id], v.text, Boolean(before));
+    else if (before) {
+      showPopup({
+        title: "Please review the platform details",
+        message: `“${v.text}” isn’t in our platform list, so nothing was filled in. The fields under Platform may still describe the platform you had before; please check them.`,
+      });
+    }
+  }
+
+  /**
+   * Fill the platform fields from a listed platform, and say what happened.
+   * A platform that could be one of several types asks which first, so the
+   * details shown afterwards are complete.
+   */
+  async function prefill(record, name, changing) {
+    const chosenType = record.platformTypes.length > 1 ? await askType(record, name) : record.platformTypes[0];
+    const details = platformFromRecord(record, chosenType);
+    const rows = filled.map((f) => ({ f, before: f.get(), after: details[f.key] }));
+    for (const r of rows) r.f.set(r.after);
+    const costs = chosenType ? costsForType(chosenType, record) : {};
+    onCommit();
+
+    // changing platforms: list only what changed, with what it was before
+    const listed = rows.filter((r) => (changing ? r.before !== r.after : true) && !(r.f.optional && r.after == null && r.before == null));
+    const items = listed.map((r) => el("li", {},
+      el("b", { textContent: `${r.f.label}: ` }),
+      shown(r.f, r.after),
+      changing && r.before != null ? el("span", { className: "field-hint", textContent: ` (was ${shown(r.f, r.before)})` }) : null,
+    ));
+
+    // the first platform needs no pop-up: the callout above the details says
+    // they were filled in. Changing it later explains what changed.
+    if (!changing) {
+      if (costs.diff?.length) suggestCosts(chosenType, costs.diff);
+      return;
+    }
+    const ok = button("Got it", "button button-small", () => closePopup());
+    await showPopup({
+      title: "Platform changed: please double-check",
+      body: el("div", {},
+        el("p", {
+          textContent: listed.length ? `You chose ${name}, so these platform details were updated. Please check them:` : `You chose ${name}. The platform details stayed the same.`,
+        }),
+        items.length ? el("ul", {}, ...items) : null,
+        chosenType ? null : el("p", { className: "field-hint", textContent: "Choose a platform type under Platform when you’re ready." }),
+        costs.filled ? el("p", { textContent: `The costs under Costs were filled in too, from what’s usual for ${name}. Costs that are only sometimes paid are left for you to answer.` }) : null,
+        el("p", { className: "button-row" }, ok),
+      ),
+    });
+    if (costs.diff?.length) suggestCosts(chosenType, costs.diff);
+  }
+
+  /** A pop-up asking which of a platform's possible types fits. Resolves with the id, or null for "decide later". */
+  function askType(record, name) {
+    return new Promise((resolve) => {
+      let chosen = null;
+      const buttons = record.platformTypes.map((id) => {
+        const t = data.platformTypes.find((x) => x.id === id);
+        const b = button(t.label, "button button-small", () => { chosen = id; closePopup(); });
+        return el("div", { className: "choice" }, el("div", {}, b, el("p", { className: "field-hint", textContent: t.description })));
+      });
+      const later = button("Decide later", "link-button", () => closePopup());
+      showPopup({
+        title: "Which platform type?",
+        body: el("div", {},
+          el("p", { textContent: `${name} can be run in different ways. Which fits your community? We’ll fill in the rest of the details after.` }),
+          ...buttons,
+          el("p", { className: "button-row" }, later),
+        ),
+      }).then(() => resolve(chosen));
+    });
+  }
+
+  // ── costs: a table, a row per category and a column per answer ──
+  // what each answer means is said once, above the rows, not in every row
+  const costsHint = {
+    element: el("div", { className: "field-hint" },
+      el("p", { textContent: "Which of these your community pays for, in money or time. Once you’ve chosen a platform type, each cost says what’s usual for it, as a guide:" }),
+      el("ul", { className: "cost-values" }, ...data.costGuides.filter((v) => !DEFINITE.includes(v.id)).map((v) => el("li", {}, el("b", { textContent: v.label }), `: ${v.description.replace(/\.$/, "").toLowerCase()}`))),   // one guide word per line
+    ),
+  };
+  const costAnswers = data.costValues.map(({ id, label, description }) => ({ id, label, description }));   // (descriptions show on hover)
+  const costTable = choiceTable({
+    legend: "Costs",
+    legendHidden: true,   // (the section's heading says it)
+    rows: data.costCategories,
+    options: costAnswers,
+    values: costs,
+    onChange: () => { renderCostsNote(); onCommit(); },
+  });
+  const costRows = data.costCategories.map((cat) => ({ id: cat.id, choices: costTable.row(cat.id) }));
+
+  const costLabel = (id) => [...data.costValues, ...data.costGuides].find((v) => v.id === id)?.label ?? "not answered";
+  const categoryLabel = (id) => data.costCategories.find((c) => c.id === id).label;
+
+  // the note above the costs: what they were pre-filled from, and what's
+  // been changed since
+  // (kept in the editor-only part of the card: it's for this note, not for anyone reading the card)
+  let costsBaseline = getPart("editor").costsPrefill || null;
+  const costsNote = { element: el("div") };
+  function renderCostsNote() {
+    if (!costsBaseline) return costsNote.element.replaceChildren();
+    const type = typeLabel(costsBaseline.typeId);
+    const filled = definite(costsBaseline.costs);
+    const changed = costRows.filter((r) => (filled[r.id] ?? null) !== r.choices.value())
+      .map((r) => ({ id: r.id, from: filled[r.id] ?? null, to: r.choices.value() }));
+    costsNote.element.replaceChildren(el("div", { className: "callout callout-small" },
+      el("p", {}, costsBaseline.platformName
+        ? `Pre-filled from your platform, ${costsBaseline.platformName}, which we categorize as ${type}.`
+        : `Pre-filled from the usual costs for ${type} platforms.`,
+        " Costs that are only sometimes paid are left for you to answer."),
+      el("p", {}, changed.length ? `You’ve changed ${changed.length} since:` : "You haven’t changed any yet."),
+      // one change per line: what it was pre-filled as → what it is now
+      changed.length ? el("ul", { className: "change-list plain-list" }, ...changed.map((d) =>
+        el("li", {}, el("b", { textContent: categoryLabel(d.id) }), `: ${costLabel(d.from)} → ${costLabel(d.to)}`))) : null,
+    ));
+  }
+  /** Under each cost, what's usual for the platform type the costs were filled from. */
+  function renderGuides() {
+    for (const r of costRows) r.choices.guide(costsBaseline?.costs[r.id] ? `Usually: ${costLabel(costsBaseline.costs[r.id]).toLowerCase()}` : null);
+  }
+  renderCostsNote();
+  renderGuides();
+
+  // ── costs that follow the platform type ───────────────────
+  const currentCosts = () => Object.fromEntries(costRows.map((r) => [r.id, r.choices.value()]));
+
+  /**
+   * After the platform type is set: with no costs answered yet, fill in the
+   * ones that are usually yes or no ({ filled: true }); otherwise return
+   * those that differ ({ diff }). The rest are left to answer, with the guide.
+   */
+  function costsForType(typeId, record) {
+    const usual = usualCosts(data, typeId, record);
+    const sure = definite(usual);
+    const now = currentCosts();
+    // remember what the costs are measured against, for the note above them and the guides
+    costsBaseline = { platformName: record ? which.value().text : null, typeId, costs: usual };
+    setPart("editor", { ...getPart("editor"), costsPrefill: costsBaseline });
+    renderGuides();
+    if (Object.values(now).every((v) => v == null)) {
+      for (const r of costRows) r.choices.set(sure[r.id] ?? null);
+      renderCostsNote();
+      return { filled: true };
+    }
+    renderCostsNote();
+    return { diff: costRows.filter((r) => sure[r.id] && sure[r.id] !== now[r.id]).map((r) => ({ id: r.id, from: now[r.id], to: sure[r.id] })) };
+  }
+
+  /** The type was chosen by hand: fill or suggest the costs, saying which. */
+  function afterTypeSet(typeId, record) {
+    const costs = costsForType(typeId, record);
+    if (costs.filled) {
+      onCommit();
+      showPopup({ title: "Costs filled in", message: `We filled in the costs that are usual for ${typeLabel(typeId)} platforms. Costs that are only sometimes paid are left for you to answer, with what’s usual as a guide. You can change any of them under Costs.` });
+    } else if (costs.diff.length) suggestCosts(typeId, costs.diff);
+  }
+
+  /** A pop-up suggesting cost changes, each ticked; the person keeps the ones they want. */
+  function suggestCosts(typeId, diff) {
+    const pick = renderChoices({
+      legend: "Suggested changes",
+      legendHidden: true,
+      options: diff.map((d) => ({ id: d.id, label: categoryLabel(d.id), description: `${costLabel(d.from)} → ${costLabel(d.to)}` })),
+      selected: diff.map((d) => d.id),
+    });
+    const apply = el("button", { type: "button", className: "button button-small", textContent: "Apply selected changes" });
+    const keep = el("button", { type: "button", className: "link-button", textContent: "Keep my costs" });
+    apply.addEventListener("click", () => {
+      const chosen = pick.value();
+      for (const d of diff) if (chosen.includes(d.id)) costRows.find((r) => r.id === d.id).choices.set(d.to);
+      renderCostsNote();
+      onCommit();
+      closePopup();
+    });
+    keep.addEventListener("click", () => closePopup());
+    return showPopup({
+      title: "Suggested cost changes",
+      body: el("div", {},
+        el("p", { textContent: `${typeLabel(typeId)} platforms usually have different costs from the ones you’ve answered. Unselect any you want to keep as they are:` }),
+        pick.element,
+        el("p", { className: "button-row" }, apply, keep),
+      ),
+    });
+  }
+
+  // ── other tools ───────────────────────────────────────────
+  // each tool: its category first, then the tool (suggested from that
+  // category, or typed), then what it's used for
+  const categoryOf = (id) => data.toolCategories.find((c) => c.id === id);
+  const toolOf = (id) => data.tools.find((x) => x.id === id);
+  const toolsIn = (category) => (category ? data.tools.filter((x) => x.categories.includes(category)) : data.tools);
+  const tools = renderRows({
+    legend: "Other tools",
+    hint: "Tools beyond the main platform, e.g. for voting, decisions, or trust & safety.",
+    items: infrastructure.tools || [],
+    addLabel: "Add a tool",
+    emptyText: "No other tools yet.",
+    newItem: () => ({ tool: null, category: null, usedFor: "" }),
+    itemName: (t) => (t.tool ? `“${toolName(t.tool, data)}”` : "this tool"),
+    summarize: (t) => (t.tool ? toolLine(t, data) : ""),
+    renderRow: (t, rowHooks) => {
+      const category = selectField({
+        label: "Category",
+        options: data.toolCategories,
+        value: t.category,
+        placeholder: "Choose a category…",
+        onChange: (id) => {
+          name.setItems(toolsIn(id));
+          category.setHint(categoryOf(id)?.description || "");
+          rowHooks.onCommit();
+        },
+      });
+      category.setHint(categoryOf(t.category)?.description || "");
+      const name = suggestField({
+        label: "Tool",
+        hint: "Pick from the list, or type its name if it isn’t there.",
+        items: toolsIn(t.category),
+        allowCustom: true,
+        browse: true,
+        value: t.tool || null,
+        onChange: (v) => {
+          // a tool picked before its category: fill in the tool's category
+          const tool = v.id && toolOf(v.id);
+          if (tool && !category.value()) {
+            category.set(tool.categories[0]);
+            category.setHint(categoryOf(tool.categories[0])?.description || "");
+            name.setItems(toolsIn(tool.categories[0]));
+          }
+        },
+        onCommit: rowHooks.onCommit,
+      });
+      const usedFor = textField({ label: "What you use it for", value: t.usedFor, ...rowHooks });
+      return {
+        element: el("div", {}, category.element, name.element, usedFor.element),
+        collect: () => ({
+          tool: name.stored(),   // the listed tool's id, or the typed name
+          category: category.value(),
+          usedFor: usedFor.value() || "",
+        }),
+        focus: () => category.focus(),
+      };
+    },
+    ...hooks,
+  });
+
+  // ── locations ─────────────────────────────────────────────
+  // a row per place: its name (and hint) beside the field on wide screens (.field-rows)
+  const places = (label, hint, values) => suggestField({
+    label,
+    hint,
+    items: data.places,
+    multiple: true,
+    values: values || [],
+    placeholder: "Start typing a country or region…",
+    hintTip: true,   // (the hint behind an "i" beside the label, so the label lines up with the field)
+    onCommit: () => { refreshLaws(); onCommit(); },
+  });
+  const servers = places("Servers", "Where the community’s data is hosted.", locations.servers);
+  const users = places("Members", "Roughly; pick a region or “Worldwide” if that’s simpler.", locations.members);
+  const admins = places("Admin team", "Where the people running the community are based.", locations.adminTeam);
+
+  // laws to know about, for all of those places: a note, and a link that
+  // opens the laws page in a new tab
+  const lawsLink = el("a", { className: "button button-small", target: "_blank", rel: "noopener", textContent: "See laws for your locations" });
+  const lawsEmpty = el("p", { className: "field-hint", textContent: "Add a location above to see the laws for it." });
+  const laws = { element: el("div", { className: "callout" }, el("p", {}, ...lawsNote()), el("p", {}, lawsLink), lawsEmpty) };
+  function refreshLaws() {
+    const codes = [...new Set([servers, users, admins].flatMap((f) => f.value()))];
+    lawsLink.href = lawsPageUrl(codes);
+    lawsLink.parentElement.hidden = !codes.length;
+    lawsEmpty.hidden = codes.length > 0;
+  }
+  refreshLaws();
+
+  const section = sectionMaker(stateKey);   // each section folds; closed at first, then as the person left it
+  // Platform is a plain, open section until a platform is filled in
+  const platformSection = foldSection({
+    title: "Platform",
+    key: `${stateKey}:platform`,
+    foldable: Boolean(platform.platform),
+    children: [el("div", { className: "fields" }, which.element, details.element)],
+  });
+  container.replaceChildren(
+    platformSection,
+    section("costs", "Costs", costsNote, costsHint, costTable),
+    section("tools", "Other tools", tools),
+    section("locations", "Locations", el("p", { className: "field-hint", textContent: "Where things are. You may choose more than one in each, if that applies." }),
+      el("div", { className: "field-rows" }, servers.element, users.element, admins.element), laws),
+  );
+
+  return {
+    collect: () => ({
+      ...infrastructure,
+      platform: {
+        ...platform,
+        platform: which.stored(),
+        type: type.value(),
+        software: software.value(),
+        usesProtocol: usesProtocol.value(),
+        protocol: usesProtocol.value() === "yes" ? protocol.stored() : null,
+        openSource: openSource.value(),
+        selfHosted: selfHosted.value(),
+        structuralModel: model.value(),
+      },
+      costs: { ...costs, ...currentCosts() },
+      tools: tools.value(),
+      locations: {
+        servers: servers.value(),
+        members: users.value(),
+        adminTeam: admins.value(),
+      },
+    }),
+    // set aside: the protocol's name while "Uses an open protocol" isn't Yes
+    setAside: () => ({ "platform.protocol": usesProtocol.value() === "yes" ? null : protocol.stored() }),
+    focusFirst: () => which.focus(),
+  };
+}

@@ -1,139 +1,1198 @@
 /* ---- theme ---------------------------------------------------------- */
 :root {
+  /* color */
   --bg:     #F3EADF;   /* flat beige */
   --ink:    #141414;   /* black */
   --gray:   #6B6660;   /* the one gray */
-  --white:  #FFFFFF;
-  --accent: #DC8940;   /* highlight */
+  --accent: #FF8F00;   /* highlight */
+  --lime:   #BFFF00;   /* second accent: neon lime. Low contrast on beige: fine for
+                          brief flashes and highlights, not for text people read */
+  --line:   #D8CFC4;   /* light gray: scrollbar, dividers */
+  --ink-on-color: #141414;   /* text on orange / lime: stays dark in both modes */
+  --rule-w: 1px;
+  --rule:   var(--rule-w) solid var(--line);
+  --glass:  color-mix(in srgb, var(--bg) 85%, transparent);   /* see-through beige: header, menu */
+  --veil:   color-mix(in srgb, var(--bg) 60%, transparent);   /* more see-through: the About-layout sheet, behind pop-ups */
+  --tint:        color-mix(in srgb, var(--accent) 8%, var(--bg));    /* faint orange wash: callouts, highlighted rows */
+  --tint-strong: color-mix(in srgb, var(--accent) 14%, var(--bg));   /* stronger: code, chips, the card key */
 
-  --sprite: 240px;      /* crow size */
-  --cycle:  0.7s;      /* full 4-frame loop */
+  --error: #D10068;   /* something went wrong; remove / danger (dark pink: 4.5:1 on beige; brighter in dark mode) */
 
-  --sans: "helvetica-lt-pro", Helvetica, Arial, sans-serif;
+  /* type */
+  --sans:    "helvetica-lt-pro", Helvetica, Arial, sans-serif;
   --display: "argent-pixel-cf", Georgia, serif;
-  --mono: "source-code-pro", ui-monospace, Menlo, monospace;
+  --mono:    "source-code-pro", ui-monospace, Menlo, monospace;
+
+  /* sizes: four steps for running text, then display sizes (clamp: grows
+     with the window between a smallest and largest size) */
+  --fs-xs:   0.72rem;                          /* chips, pills, labels, sidebar links, table heads, status */
+  --fs-s:    0.9rem;                           /* hints, descriptions, tables, inputs, header links */
+  --fs-m:    1rem;                             /* choice names, footers, docs text, card name */
+  --fs-body: 1.2rem;                           /* body text (20px) */
+  --fs-l:    clamp(1.25rem, 1.9vw, 1.5rem);    /* site title, small lede, docs h3, small buttons */
+  --fs-lede: clamp(1.75rem, 2.5vw, 2.25rem);   /* big Argent text, h3 */
+  --fs-h:    clamp(2.25rem, 3.4vw, 3rem);      /* page + section heads */
+  --fs-art:  clamp(2.25rem, 9vw, 4.5rem);      /* the big title art (home on phones, coming soon) */
+  --caps-spacing: 0.04em;                      /* letter-spacing for mono capitals */
+
+  /* the one breakpoint: below this width the header, sidebars and panels
+     switch to their narrow-screen layout. CSS can't use a variable inside
+     a media query, so every "@media (width < 64rem)" must use this same
+     number; the scripts read it from here (see js/site.js, js/make.js). */
+  --narrow: 64rem;
+
+  /* header */
+  --gutter: clamp(1.25rem, 3vw, 2.5rem);
+  --header-pad:   1.25rem;   /* top */
+  --header-pad-b: 0.5rem;    /* bottom */
+  --header-h: calc(var(--fs-l) * 1.2 + var(--header-pad) + var(--header-pad-b) + var(--rule-w));
+  --sprite-cycle: 0.99s;   /* full 4-frame crow loop */
+
+  /* info layout */
+  --side-w:   40%;                        /* left panel width        */
+  --body-pad: clamp(2rem, 5vw, 5rem);     /* text inset from divider */
+  --measure:  46rem;                      /* max text line length    */
+
+  /* sidebar layout (docs, make) */
+  --sidebar-w: 260px;
+
+  /* left-panel artwork: big pixel crow + HOME's staggered title.
+     Everything is measured in panel units (u): 1u = 1% of the panel's width,
+     so the crow and title scale together and keep the same composition at
+     every screen size. Plain numbers, no units. */
+  --crow-size:  150;    /* crow width                        */
+  --crow-top:   21;     /* crow's distance from panel top    */
+  --crow-left:  32;     /* crow's distance from panel left   */
+  --title-size: 20;   /* HOME title font size              */
+  --title-top:  0;      /* HOME title's distance from top    */
+  --title-em:   6.6;    /* width of the longest title line ("Community"),
+                           in em — keeps the title inside the panel */
+}
+
+/* ---- night mode: set by js/theme.js, switched by the header toggle.
+   Only the colors change; everything built on them follows. On screen
+   only: a printed page always uses the light colors. ----------------- */
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg:   #0E0E0E;   /* near-black */
+    --ink:  #E6E2DC;   /* very light warm gray */
+    --gray: #9A948C;   /* lighter, to stay readable on black */
+    --line: #3D3934;   /* dark gray dividers and scrollbar */
+    --error: #FF1F8F; /* neon pink, readable on black (5.8:1) */
+  }
+
+  /* black pixel art would vanish on black: flip it to light gray (0.85
+     rather than a full invert, so black becomes light gray, not white; the
+     hue-rotate brings orange back toward orange). The big crow's canvas is
+     recolored by crow.js instead; this only covers its fallback image. */
+  [data-theme="dark"] :is(.pixel-crow img, .sprite img, .logos a[href*="princeton"] img) {
+    filter: invert(0.85) hue-rotate(180deg);
+  }
 }
 
 /* ---- base ----------------------------------------------------------- */
 * { box-sizing: border-box; }
+fieldset { min-width: 0; }   /* (by default a fieldset grows to fit what's in it, e.g. a wide table, past the screen) */
+
+html {
+  scrollbar-color: var(--line) transparent;
+  scrollbar-gutter: stable;   /* keep the scrollbar's space even on short pages, so layouts line up across pages */
+}
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line); }
 
 body {
   margin: 0;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: 44px 20px 28px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 32px;
-
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 16px;
-  line-height: 1.55;
+  font-size: var(--fs-body);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- title ---------------------------------------------------------- */
-header { padding-top: 50px; }
+::selection { background: var(--accent); color: var(--lime); }
 
-h1 {
-  margin: 0;
-  max-width: 16ch;
+/* the hidden attribute always wins, even over layouts that set display */
+[hidden] { display: none !important; }
+
+img { max-width: 100%; }
+
+/* ---- text ----------------------------------------------------------- */
+h1, h2,
+.card-title > h3 {   /* (a card's name looks the same whatever its level: an h3 in Export) */
+  margin: 1.5em 0 0.5em;
+  color: var(--accent);
   font-family: var(--display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(2rem, 7vw, 4rem);
+  font-size: var(--fs-h);
   line-height: 1.1;
 }
 
-/* each letter lights up on hover */
-h1 span {
-  transition: color 0.1s ease-out;
+h1:first-child { margin-top: 0; }
+
+h3 {
+  margin: 1.5em 0 0.5em;
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: var(--fs-lede);
+  line-height: 1.2;
 }
 
-h1 span:hover {
-  color: var(--accent);
-}
+p, ul, ol { margin: 0 0 1em; }
 
-/* ---- crow + coming soon --------------------------------------------- */
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-}
-
-.crow {
-  position: relative;
-  width: var(--sprite);
-  height: var(--sprite);
-}
-
-.crow img {
+/* bullets are a small orange pixel square, flush with the text edge above;
+   the item text hangs indented after it */
+ul { padding-left: 0; list-style: none; }
+ul li { position: relative; padding-left: 1em; }
+ul li::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  image-rendering: pixelated;   /* keep the pixel grid crisp */
-  opacity: 0;
-  animation: crow-cycle var(--cycle) infinite;
-}
-
-/* each frame owns one quarter of the loop */
-.crow img:nth-child(1) { animation-delay: 0s; }
-.crow img:nth-child(2) { animation-delay: calc(var(--cycle) * -0.75); }
-.crow img:nth-child(3) { animation-delay: calc(var(--cycle) * -0.5); }
-.crow img:nth-child(4) { animation-delay: calc(var(--cycle) * -0.25); }
-
-@keyframes crow-cycle {
-  0%,      25% { opacity: 1; }
-  25.01%, 100% { opacity: 0; }
-}
-
-.coming {
-  margin: 0;
-  padding: 5px 12px;
+  left: 0;
+  top: calc(0.5lh - 0.175em);   /* centered on the first line */
+  width: 0.35em;
+  height: 0.35em;
   background: var(--accent);
-  color: var(--ink);
+}
+
+/* a dividing line of pixels (hr.pixel-divider), e.g. before a module's
+   closing note */
+.pixel-divider {
+  height: 2px;
+  margin: 2.5rem 0 2rem;
+  border: 0;
+  background: repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 6px);
+}
+
+/* a list without the pixel bullets: tags, suggestions, change lists,
+   summaries (class .plain-list), and the sidebar */
+.plain-list > li { padding-left: 0; }
+.plain-list > li::before,
+.sidebar li::before { display: none; }
+
+.lede {
+  font-family: var(--display);
+  font-size: var(--fs-lede);
+  line-height: 1.3;
+}
+
+/* a smaller, italic lede: the intro line under a docs or editor heading */
+.lede-small {
+  font-style: italic;
+  font-size: var(--fs-l);
+  line-height: 1.4;
+  margin-bottom: 1.5em;
+}
+
+/* mono text. Mono runs large next to Helvetica, so it's set at 0.8em of the
+   surrounding text: links, buttons that look like links, the two classes
+   below, and code in the docs all share this */
+a,
+.link-button,
+.mono,
+.mono-u,
+.docs-body code {
   font-family: var(--mono);
+  font-size: 0.8em;
+}
+
+/* buttons that look like a link or an icon, not a button: no padding,
+   border or background of their own (each adds its own look) */
+:is(.link-button, .pixel-toggle, .theme-toggle, .menu-toggle, .icon-button, .tag-remove, .tag-open, .row-remove, .row-move, .popup-close, .sidebar-toggle, .info-tip) {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* mono capitals: links, link-style buttons, and labels that aren't links
+   (.mono-u, the "see also" line, table column heads) */
+a,
+.link-button,
+.mono-u,
+.see-also,
+.tab,
+.table th,
+.sidebar-toggle,
+.place-pill {
   font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.28em;
-  text-indent: 0.28em;   /* balance the trailing letter-space */
+  text-transform: uppercase;
+  letter-spacing: var(--caps-spacing);
+}
+
+/* the 3x3-pixel plus sign: a bullet (.pixel-plus) and the open/close toggle
+   (.pixel-toggle, below) */
+.pixel-plus,
+.pixel-toggle::before {
+  clip-path: polygon(33.3% 0, 66.7% 0, 66.7% 33.3%, 100% 33.3%, 100% 66.7%, 66.7% 66.7%,
+                     66.7% 100%, 33.3% 100%, 33.3% 66.7%, 0 66.7%, 0 33.3%, 33.3% 33.3%);
+}
+
+/* the plus as a bullet or marker, and its minus (just the middle bar) */
+.pixel-plus,
+.pixel-minus {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  margin-right: 0.5em;
+  background: var(--accent);
+}
+.pixel-minus { clip-path: inset(33.3% 0); }
+
+/* a toggle that shows more: a gray plus that turns into an orange minus
+   when open (aria-expanded="true"). Docs sidebar folds, value details. */
+.pixel-toggle {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--gray);
+}
+.pixel-toggle:hover,
+.pixel-toggle:focus-visible,
+.pixel-toggle[aria-expanded="true"] { color: var(--accent); }
+.pixel-toggle::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: currentColor;
+}
+.pixel-toggle[aria-expanded="true"]::before { clip-path: inset(33.3% 0); }   /* just the middle bar: a minus */
+
+/* with text beside its plus */
+.pixel-toggle.with-label {
+  display: inline-flex;
+  gap: 0.5rem;
+  width: auto;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+
+/* …as a heading's toggle (the editor's folds, js/controls/fold.js; the docs'
+   sections, data-fold in js/docs-page.js): the heading keeps its own font and
+   color, the pixel plus grows with it. Hovered, section heads light up letter
+   by letter (fold.js wraps the letters, like the site's other Argent
+   headings); the smaller ink headings (level 3) turn orange as a whole */
+:is(.fold, .fold-head, [data-fold]) > :is(h2, h3) .pixel-toggle { color: inherit; gap: 0.35em; align-items: center; }
+:is(.fold, .fold-head, [data-fold]) > h3 .pixel-toggle:is(:hover, :focus-visible) { color: var(--accent); }
+:is(.fold, .fold-head, [data-fold]) > :is(h2, h3) .pixel-toggle::before { flex: none; width: 0.3em; height: 0.3em; }
+:is(.fold, .fold-head, [data-fold]) > h3 .pixel-toggle::before { width: 9px; height: 9px; }   /* (smaller headings: the plus at its usual size) */
+
+/* pills: small mono capitals on a color, all one shape. The color says
+   what kind: .chip lime (Suggested, Started), .tag orange (chosen items,
+   qualifiers; may hold a remove ×), and the docs table pills .proto,
+   .badge, .cv on tints (docs.css), and a law's categories .law-cat (below) */
+.chip,
+.tag,
+.law-cat,
+.proto,
+.badge,
+.cv {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15em 0.45em;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: var(--caps-spacing);
+}
+
+/* pixel icons drawn from one dot (the span) and its box-shadow copies: the
+   menu's three dots, and the X; each sets --dot (one dot's size) and its color */
+:is(.menu-toggle, .popup-close, .row-remove, .tag-remove) span {
+  width: var(--dot);
+  height: var(--dot);
+  background: currentColor;
+}
+/* the 5x5-pixel X (close, or an open menu): a center dot plus two dots out
+   along each diagonal */
+:is(.menu-toggle[aria-expanded="true"], .popup-close, .row-remove, .tag-remove) span {
+  box-shadow:
+    calc(var(--dot) * -2) calc(var(--dot) * -2) currentColor, calc(var(--dot) * -1) calc(var(--dot) * -1) currentColor,
+    calc(var(--dot) *  2) calc(var(--dot) * -2) currentColor, calc(var(--dot) *  1) calc(var(--dot) * -1) currentColor,
+    calc(var(--dot) * -2) calc(var(--dot) *  2) currentColor, calc(var(--dot) * -1) calc(var(--dot) *  1) currentColor,
+    calc(var(--dot) *  2) calc(var(--dot) *  2) currentColor, calc(var(--dot) *  1) calc(var(--dot) *  1) currentColor;
+}
+
+/* for screen readers only */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---- links ---------------------------------------------------------- */
-a {
-  color: var(--ink);
+/* links, and <button class="link-button"> for actions that should look
+   like one: mono capitals (above) with a thick orange underline */
+a,
+.link-button {
+  color: inherit;
   text-decoration: underline;
   text-decoration-color: var(--accent);
   text-decoration-thickness: 2px;
   text-underline-offset: 4px;
-  }
+  text-decoration-skip-ink: none;   /* solid line, no gaps around g, y, p */
+}
+
+.link-button:is(:hover, :focus-visible) .pixel-plus { background: currentColor; }
+/* tabs (js/controls/tabs.js): a row of tinted pixel-cornered tabs on an
+   orange line, the panel open underneath. The open tab is orange, like
+   the current page in the header. */
+.tab-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 2px solid var(--accent);
+}
+.tab {
+  --px: 2px;          /* corner steps on top (shared rule below)… */
+  --px-bottom: 0px;   /* …and square at the bottom, where the tab meets its line */
+  padding: 0.6rem 1rem;
+  border: 0;
+  background: var(--tint);
+  color: var(--gray);
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  cursor: pointer;
+}
+.tab:hover,
+.tab:focus-visible { background: var(--lime); color: var(--ink-on-color); }
+.tab[aria-selected="true"] { background: var(--accent); color: var(--lime); }
+.tab-panel { padding-top: 1.25rem; }
+/* one line that scrolls sideways (tabRow({ scroll: true }), e.g. the values' groups) */
+.tab-list-scroll { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+.tab-list-scroll .tab { flex: none; white-space: nowrap; }
 
 a:hover,
-a:focus-visible {
+a:focus-visible,
+.link-button:hover,
+.link-button:focus-visible {
   background: var(--accent);
-  color: var(--ink);              /* 6.75:1 — white on orange fails */
+  color: var(--lime);   /* 6.75:1 — white on orange fails */
   text-decoration-color: transparent;
 }
 
-/* ---- footer --------------------------------------------------------- */
-footer {
-  max-width: 86ch;
-  color: var(--gray);
-  font-size: 0.8125rem;
+/* links that sit inside running text: <a class="inline"> keeps the
+   surrounding font, so it just flows with the sentence */
+.inline {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-footer a { color: var(--gray); }
+/* small pixel icon links after a name (website, Mastodon, Bluesky, …) */
+.icon-links {
+  display: inline-flex;
+  gap: 0.3em;
+  margin-left: 0.4em;
+  vertical-align: -0.1em;
+}
+
+.icon-links a {
+  display: inline-flex;
+  padding: 0.15em;
+  text-decoration: none;
+}
+
+.icon-links svg {
+  width: 0.9em;
+  height: 0.9em;
+  fill: currentColor;
+  shape-rendering: crispEdges;
+}
+
+/* letters light up one at a time; site.js wraps each letter in span.letter */
+.letter { transition: color 0.1s ease-out; }
+.letter:hover { color: var(--accent); }
+.letter.hover-lime:hover { color: var(--lime); }   /* site.js picks orange or lime at random on each hover */
+
+/* orange page headers light up lime instead */
+:is(h1, h2):not(.stagger) .letter:hover { color: var(--lime); }
+
+/* letters in [data-flicker] titles now and then flash an accent (site.js) */
+.letter.flash      { color: var(--accent); transition: none; }
+.letter.flash-lime { color: var(--lime); transition: none; }
+
+/* ---- buttons -------------------------------------------------------- */
+/* orange block with stepped pixel corners; works on <a> and <button> */
+.button {
+  --px: 4px;   /* size of each corner step */
+  display: inline-block;
+  padding: 0.4em 1.2em 0.45em;
+  border: 0;
+  background: var(--accent);
+  color: var(--ink-on-color);
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-lede);
+  line-height: 1.1;
+  text-transform: none;
+  letter-spacing: normal;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--lime);
+  color: var(--accent);
+}
+
+/* keyboard focus: a dark ring just inside the edge (outside, the pixel
+   corners' clip-path would cut it off) */
+.button:focus-visible { box-shadow: inset 0 0 0 2px var(--ink-on-color); }
+
+.button:is(:disabled, [aria-disabled="true"]) {   /* (aria-disabled: grayed, but still focusable, so its reason can be read) */
+  background: var(--line);
+  color: var(--gray);
+  cursor: not-allowed;
+}
+
+/* a smaller version, e.g. for sidebars and pop-ups */
+.button-small {
+  --px: 3px;
+  font-size: var(--fs-l);
+  padding: 0.3em 1em 0.35em;
+}
+
+/* ---- callout -------------------------------------------------------- */
+/* a tinted block for notes and warnings, with a left edge drawn as a
+   dotted column of orange pixels */
+.callout {
+  --px: 4px;   /* size of one pixel: corner steps and edge dots */
+  padding: 0.9rem 1.1rem 0.9rem calc(1.1rem + var(--px) * 2);
+  margin: 1.5em 0;
+  font-size: var(--fs-s);
+  background:
+    repeating-linear-gradient(to bottom,
+      var(--accent) 0 var(--px), transparent var(--px) calc(var(--px) * 2))
+      left / var(--px) 100% no-repeat,
+    var(--tint);
+}
+
+.callout > :last-child { margin-bottom: 0; }
+
+/* stepped pixel corners, shared by buttons, callouts, pop-ups, tabs, rows (on
+   their background layer), the flag dot and the editor's fields, tick boxes and lists; --px (set on each) is the size of one step */
+/* (pseudo-elements can't go inside :is(), so the layers are listed after it) */
+:is(.button, .callout, .popup, .tab, .note-mark, .card-pill, .more-dots, .choice-button > label, .make :is(input[type="text"], input[type="url"], input[type="email"], input[type="search"], textarea, input[type="checkbox"], input[type="radio"], .suggest-list, .scroll-list, .place-pill)),
+.row::before,
+.flag-dot::before,
+.info-tip::before {
+  --pxb: var(--px-bottom, var(--px));   /* bottom steps: the same, unless set (tabs: square bottom) */
+  clip-path: polygon(
+    0 calc(var(--px) * 2), var(--px) calc(var(--px) * 2), var(--px) var(--px),
+    calc(var(--px) * 2) var(--px), calc(var(--px) * 2) 0,
+    calc(100% - var(--px) * 2) 0, calc(100% - var(--px) * 2) var(--px),
+    calc(100% - var(--px)) var(--px), calc(100% - var(--px)) calc(var(--px) * 2),
+    100% calc(var(--px) * 2),
+    100% calc(100% - var(--pxb) * 2), calc(100% - var(--pxb)) calc(100% - var(--pxb) * 2),
+    calc(100% - var(--pxb)) calc(100% - var(--pxb)), calc(100% - var(--pxb) * 2) calc(100% - var(--pxb)),
+    calc(100% - var(--pxb) * 2) 100%,
+    calc(var(--pxb) * 2) 100%, calc(var(--pxb) * 2) calc(100% - var(--pxb)),
+    var(--pxb) calc(100% - var(--pxb)), var(--pxb) calc(100% - var(--pxb) * 2),
+    0 calc(100% - var(--pxb) * 2));
+}
+
+/* ---- header --------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-h);
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  padding: var(--header-pad) var(--gutter) var(--header-pad-b);
+  border-bottom: var(--rule);
+}
+
+/* see-through backing, drawn on a pseudo-element: blurring on the header
+   itself would stop the narrow-screen menu inside it from blurring the page */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--glass);
+  backdrop-filter: blur(4px);
+}
+
+.site-title {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--fs-l);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-transform: none;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+/* exception to the green link hover: the title stays put, and only the
+   letter under the pointer lights up */
+.site-title:hover,
+.site-title:focus-visible {
+  background: none;
+  color: inherit;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.site-nav a { font-size: var(--fs-s); }
+.site-header-bare .theme-toggle { margin-left: auto; }   /* a header without the menu (coming-soon.html): the toggle still sits right */
+
+.site-nav a[aria-current="page"] {
+  background: var(--accent);
+  color: var(--ink-on-color);
+  text-decoration-color: transparent;
+}
+
+/* light / dark toggle: shows the moon in light mode, the sun in dark */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  align-self: baseline;   /* icon sits on the nav links' baseline */
+  color: var(--ink);
+}
+
+.theme-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+  shape-rendering: crispEdges;
+}
+
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle .sun,
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+[data-theme="dark"] .theme-toggle .sun { display: block; }
+
+/* narrow-screen pieces */
+.header-crow,
+.menu-toggle { display: none; }
+
+.header-crow:hover,
+.header-crow:focus-visible { background: none; }
+
+/* three pixel dots: the span is the middle dot, shadows are the outer two.
+   Three dots when closed, an X when open. */
+.menu-toggle {
+  place-items: center;
+  width: 2.75rem;
+  aspect-ratio: 1;
+  margin-left: auto;
+}
+
+.menu-toggle span {
+  --dot: 6px;
+  color: var(--ink);
+  box-shadow: -10px 0 currentColor, 10px 0 currentColor;
+}
+
+.menu-toggle:hover span { color: var(--accent); }
+
+/* open: the pixel X (shape shared with the pop-up's close button, above) */
+.menu-toggle[aria-expanded="true"] span { color: var(--accent); }
+
+/* ---- footer --------------------------------------------------------- */
+/* a thin line above small gray text */
+.site-footer {
+  margin-top: 6rem;
+  padding: 1.25rem 0 2rem;
+  border-top: var(--rule);
+  color: var(--gray);
+  font-size: var(--fs-m);
+}
+
+.site-footer p { margin: 0; }
+
+/* ---- info layout: still left panel, scrolling right side ----------- */
+.info {
+  display: grid;
+  grid-template-columns: var(--side-w) 1fr;
+  grid-template-rows: 1fr auto;   /* footer sits at the bottom on short pages */
+  grid-template-areas:
+    "side body"
+    "side foot";
+  min-height: calc(100dvh - var(--header-h));
+}
+
+/* the right side is a sheet of see-through beige laid over the left panel,
+   so artwork that overhangs the divider (the crow's tail) shows faintly
+   through it */
+.info::before {
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / -1;
+  z-index: 1;
+  background: var(--veil);
+  backdrop-filter: blur(3px);
+}
+
+.info-body,
+.info .site-footer { z-index: 2; }
+
+/* the page scrolls; the left panel holds still under the header */
+.info-side {
+  grid-area: side;
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: var(--gutter);
+  border-right: var(--rule);
+}
+
+.side-art {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  container-type: size;   /* lets artwork measure the panel (cqi / cqh units) */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  /* 1u = 1% of panel width — or smaller, if the title's longest line
+     wouldn't fit across the panel, or the screen is too short for the
+     crow to fit its full height */
+  --u: min(
+    1cqi,
+    100cqi / (var(--title-size) * var(--title-em)),
+    100cqh / (var(--crow-top) + var(--crow-size))
+  );
+}
+
+.pixel-crow {
+  position: relative;
+  flex: none;
+  width: calc(var(--crow-size) * var(--u));   /* may overhang the divider */
+  aspect-ratio: 1;
+  margin: calc(var(--crow-top) * var(--u)) 0 0 calc(var(--crow-left) * var(--u));
+}
+
+.pixel-crow img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* crow.js redraws the crow pixel by pixel on a canvas for the scatter effect.
+   The canvas overhangs the crow so pixels can fly past its edges; the img
+   stays underneath as the fallback. */
+.pixel-crow canvas {
+  position: absolute;
+  inset: -25%;
+  width: 150%;
+  height: 150%;
+  pointer-events: none;
+}
+
+.pixel-crow.is-live img { visibility: hidden; }
+
+.info-body {
+  grid-area: body;
+  min-width: 0;   /* (a grid item grows to fit what's in it by default, e.g. a row that scrolls sideways) */
+  max-width: calc(var(--measure) + var(--body-pad) * 2);
+  padding: 4rem var(--body-pad) 0;
+}
+
+.info .site-footer {
+  grid-area: foot;
+  max-width: var(--measure);
+  margin-inline: var(--body-pad);
+}
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.logos a { text-decoration: none; }
+.logos a:hover,
+.logos a:focus-visible { background: none; opacity: 0.7; }
+.logos img { display: block; height: 2.5rem; width: auto; }
+
+/* ---- sidebar layout: a sticky list of links on the left, content on the
+   right (docs: sections of the page; make: the card's modules) -------- */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  min-height: calc(100dvh - var(--header-h));
+}
+
+.sidebar {
+  position: sticky;
+  top: var(--header-h);
+  align-self: start;
+  height: calc(100dvh - var(--header-h));
+  overflow-y: auto;
+  padding: 2rem 2rem 2rem var(--gutter);
+  border-right: var(--rule);
+}
+
+.sidebar ul { margin: 0 0 1.5rem; }
+.sidebar li { padding: 0; }
+
+/* the sidebar's list links (not other links in it, like Docs) hug their
+   text, so the current one gets a snug orange highlight like the header's
+   current page; the negative margin keeps the text lined up with everything
+   else in the sidebar */
+.sidebar li > a {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0.1rem 0 0.1rem -0.35rem;
+  padding: 0.15rem 0.35rem;
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  text-decoration: none;
+  color: var(--gray);
+  transition: color 0.1s, background-color 0.1s;
+}
+
+.sidebar li > a:hover,
+.sidebar li > a:focus-visible {
+  color: var(--ink);
+  background: none;
+}
+
+.sidebar li > a.active {   /* the current section or module, set by the page script */
+  background: var(--accent);
+  color: var(--ink-on-color);
+  font-weight: 600;
+}
+
+.sidebar .sub { padding-left: 0.75rem; margin-top: 0.1rem; }
+.sidebar .sub .sub { margin-bottom: 0; }   /* third level: no gap before the next item */
+.sidebar .sub a { font-size: var(--fs-xs); }
+
+/* foldable third-level lists (the page script adds .foldable and the button) */
+.sidebar .foldable { position: relative; }
+.sidebar .foldable:not(.is-open) > .sub { display: none; }
+
+/* the fold toggle: a .pixel-toggle, a little smaller, at the item's right */
+.nav-fold {
+  position: absolute;
+  top: 0.25rem;
+  right: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* the column beside the sidebar (min-width: 0, so something wide in it, like
+   a table, can't stretch it past the screen) */
+.sidebar-main {
+  min-width: 0;
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  padding: 3rem var(--gutter) 6rem;
+}
+
+/* narrow screens: the sidebar becomes a slim bar just under the site header
+   (it stays there while scrolling): a button showing where you are, with a
+   pixel ▾, that drops the sidebar's contents down as a panel (js/sidebar.js).
+   The editor's bar adds its own pieces (make.css). */
+.sidebar-bar { display: none; }
+
+@media (width < 64rem) {   /* = --narrow */
+  .sidebar-layout { grid-template-columns: 1fr; }
+  .sidebar-main { padding-top: 2rem; }
+
+  .sidebar {
+    z-index: 5;
+    min-width: 0;   /* (its bar can't stretch the page: long text in it is cut short instead) */
+    height: auto;
+    overflow: visible;
+    padding: 0.4rem var(--gutter);
+    border-right: none;
+    border-bottom: var(--rule);
+    background: var(--glass);
+    backdrop-filter: blur(4px);
+  }
+
+  .sidebar-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1rem;
+  }
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: var(--fs-xs);   /* the bar's one text size */
+    text-align: left;
+  }
+  .sidebar-toggle:is(:hover, :focus-visible) { color: var(--accent); }
+  .sidebar-toggle[aria-expanded="true"] .pixel-caret { rotate: 180deg; }
+
+  .sidebar.is-open { background: var(--bg); }   /* open: solid, so the list reads clearly over the page */
+  /* the panel: hidden until opened; scrolls if it's longer than the screen */
+  .sidebar:not(.is-open) .sidebar-panel { display: none; }
+  .sidebar-panel {
+    max-height: calc(100dvh - var(--header-h) - 4rem);
+    overflow-y: auto;
+    margin-top: 0.4rem;
+    padding: 0.35rem 0 0.1rem;
+    border-top: var(--rule);
+  }
+  .sidebar-panel > ul { margin-bottom: 0; }   /* (the panel's own padding is enough below) */
+}
+
+/* the ▾: three rows of 3px pixels (5, 3, 1 wide) in a 15x9 box, so it
+   centers with the text */
+.pixel-caret {
+  flex: none;
+  width: 15px;
+  height: 9px;
+  background:
+    linear-gradient(currentColor 0 0) center 0 / 15px 3px no-repeat,
+    linear-gradient(currentColor 0 0) center 3px / 9px 3px no-repeat,
+    linear-gradient(currentColor 0 0) center 6px / 3px 3px no-repeat;
+}
+
+/* ---- tables ----------------------------------------------------------- */
+/* full-width data tables: mono capital column heads (shared rule near the
+   top) over thin row lines */
+.table { width: 100%; border-collapse: collapse; font-size: var(--fs-s); margin-bottom: 1rem; }
+/* narrow screens: a table wider than the screen scrolls sideways in its own
+   box, instead of pushing the page wider */
+@media (width < 64rem) {   /* = --narrow */
+  .table { display: block; overflow-x: auto; }
+}
+
+.table th {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--gray);
+  padding: 0.4rem 0.6rem;
+  border-bottom: 2px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.45rem 0.6rem;
+  border-bottom: var(--rule);
+  vertical-align: top;
+}
+
+.table tr:last-child td { border-bottom: none; }
+
+/* ---- home ----------------------------------------------------------- */
+/* the title lives in the left panel here; hidden (not removed) so the nav
+   sits in exactly the same spot as on every other page */
+.home .site-title { visibility: hidden; }
+
+/* the site title, staggered: each line is indented (padding-left) and
+   dropped a little below its natural spot (translate), in em so the
+   stagger scales with the title */
+.stagger {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+.stagger > span { display: block; white-space: nowrap; }
+.stagger .smaller { font-size: 0.75em; }   /* "for an": 75% of the title size */
+
+/* wide screens: five lines pinned to the top of the left panel. Taken out
+   of the flow so the crow sits exactly where it does on ABOUT, and drawn on
+   top of the crow. Sized in panel units (see :root), so it scales together
+   with the crow. */
+.side-art .stagger {
+  position: absolute;
+  top: calc(var(--title-top) * var(--u));
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-size: calc(var(--title-size) * var(--u));
+
+  /* subtle pixel glow: a hard-edged, stepped beige outline so the letters
+     stay readable where they cross the crow */
+  --g: 0.04em;
+  text-shadow:
+    var(--g) 0 var(--bg), calc(var(--g) * -1) 0 var(--bg),
+    0 var(--g) var(--bg), 0 calc(var(--g) * -1) var(--bg),
+    var(--g) var(--g) var(--bg), calc(var(--g) * -1) var(--g) var(--bg),
+    var(--g) calc(var(--g) * -1) var(--bg), calc(var(--g) * -1) calc(var(--g) * -1) var(--bg),
+    calc(var(--g) * 2) 0 var(--bg), calc(var(--g) * -2) 0 var(--bg),
+    0 calc(var(--g) * 2) var(--bg), 0 calc(var(--g) * -2) var(--bg);
+}
+
+.side-art .stagger > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community */
+.side-art .stagger > span:nth-child(2) { padding-left: 1.5em; translate: 0 0.08em; }    /* Rules */
+.side-art .stagger > span:nth-child(3) { padding-left: 1.25em;   translate: 0 0.19em; }    /* for an */
+.side-art .stagger > span:nth-child(4) { padding-left: 0;     translate: 0 0.29em; }    /* Open */
+.side-art .stagger > span:nth-child(5) { padding-left: 1.8em; translate: 0 0.48em; }    /* Web */
+
+/* narrow screens: the left panel is hidden, so a three-line copy sits atop
+   the text */
+.home-title { display: none; }
+.home-title > span:nth-child(1) { padding-left: 0.6em; translate: 0 -0.12em; }   /* Community Rules */
+.home-title .rules { display: inline-block; translate: 0 0.5em; }                /* Rules, relative to Community */
+.home-title > span:nth-child(2) { padding-left: 1em;   translate: 0 0.19em; }     /* for an */
+.home-title > span:nth-child(3) { padding-left: 2.2em; translate: 0 0.29em; }     /* Open Web */
+
+
+/* "+ See our workshop calls and our CHI'26 paper" */
+.see-also {   /* mono capitals: see the shared rule near the top */
+  margin: 2rem 0 2.5rem;
+  font-family: var(--mono);
+  font-size: var(--fs-m);
+}
+
+.see-also a { font-size: 1em; }
+
+/* ---- animated crow sprite (4 stacked frames) ------------------------ */
+.sprite {
+  position: relative;
+  width: var(--sprite, 3rem);
+  aspect-ratio: 1;
+}
+
+.sprite img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  opacity: 0;
+  animation: sprite-cycle var(--sprite-cycle) infinite;
+}
+
+/* each frame owns one quarter of the loop */
+/* --sprite-clock (set by theme.js) starts the loop where the wall clock says
+   it should be, so the crow doesn't jump back to frame 1 on each new page */
+.sprite img:nth-child(1) { animation-delay: var(--sprite-clock, 0s); }
+.sprite img:nth-child(2) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.75); }
+.sprite img:nth-child(3) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.5); }
+.sprite img:nth-child(4) { animation-delay: calc(var(--sprite-clock, 0s) + var(--sprite-cycle) * -0.25); }
+
+@keyframes sprite-cycle {
+  0%,      25% { opacity: 1; }
+  25.01%, 100% { opacity: 0; }
+}
+
+/* back to the top (site.js): a 7x7 pixel arrow in the bottom-right
+   corner, orange (lime on hover); now and then a pixel flashes lime or pink */
+/* corner buttons drawn in pixels (site.js pixelButton): the back-to-top
+   arrow and, on a published card, the report flag under it */
+.corner-button {
+  --px: 4px;
+  position: fixed;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 15;
+  display: grid;
+  grid-template: repeat(7, var(--px)) / repeat(7, var(--px));
+  padding: 0.6rem;
+  border: 0;
+  background: var(--glass);
+  color: var(--accent);
+  cursor: pointer;
+}
+.corner-button span { background: currentColor; }
+.corner-button:is(:hover, :focus-visible) { color: var(--lime); background: var(--accent); }
+/* (on a published card, the report flag; the arrow sits above it) */
+body:has(.report-button) .to-top { bottom: calc(0.75rem + 7 * 4px + 1.2rem + 0.4rem); }   /* (the flag's height, and a gap) */
+.to-top .flash-lime { background: var(--lime); }
+.to-top .flash-pink { background: var(--error); }   /* the site's pink */
+
+/* the loading cover (make.html): the page's color, the crow flapping in the
+   middle, and "Loading" in Argent under it; the header stays visible */
+.page-loading {
+  --sprite: 7rem;
+  position: fixed;
+  inset: var(--header-h) 0 0 0;
+  z-index: 20;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  background: var(--bg);
+}
+.page-loading p {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--fs-lede);
+}
+
+/* ---- narrow screens ------------------------------------------------- */
+@media (width < 64rem) {   /* = --narrow */
+  :root {
+    --header-pad: 0.5rem;   /* half the wide-screen top padding, to make room for the crow */
+    --header-pad-b: 0px;
+    --header-crow: 4rem;   /* size of the crow in the header */
+    --header-h: calc(var(--header-crow) + var(--header-pad) + var(--rule-w));
+  }
+
+  .site-nav a { font-size: var(--fs-body); }   /* the drop-down menu keeps its bigger links */
+
+  .theme-toggle svg { width: 1.25rem; height: 1.25rem; }
+
+  /* the crow stands on the header line, like a bird on a wire */
+  .site-header { align-items: flex-end; }
+
+  .site-title { display: none; }
+
+  .header-crow {
+    --sprite: var(--header-crow);
+    display: block;
+    translate: 0 5.5%;   /* feet sit ~5.5% above the sprite's bottom edge */
+  }
+
+  .menu-toggle { display: grid; align-self: center; order: 2; margin-left: 0; }
+  .theme-toggle {   /* sits just left of the dots, with a bigger tap area */
+    order: 1;
+    align-self: center;
+    width: 2.75rem;
+    aspect-ratio: 1;
+    margin-left: auto;
+  }
+
+  /* the menu drops down under the header when the dots are clicked */
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + var(--rule-w));   /* just below the header line, so the crow keeps its wire */
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.75rem;
+    padding: 1rem var(--gutter) 1.25rem;
+    background: var(--glass);
+    backdrop-filter: blur(4px);   /* keeps the links readable over page text */
+    border-bottom: var(--rule);
+  }
+
+  .site-header.is-open .site-nav { display: flex; }
+
+  /* one column: text, footer, then the logos */
+  :root { --body-pad: var(--gutter); }
+
+  .info::before { display: none; }
+
+  .info {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto;
+    grid-template-areas: "body" "foot" "side";
+  }
+
+  .info-side {
+    position: static;
+    height: auto;
+    padding: 0 var(--body-pad) 2rem;
+    border-right: 0;
+  }
+
+  .side-art { display: none; }
+  .home-title {
+    display: block;
+    margin-bottom: 1em;
+    font-size: var(--fs-art);   /* big and dramatic; "Community Rules" still fits one line */
+  }
+
+  .info-body { padding-top: 2.5rem; }
+
+  /* on tablet widths the screen is wider than a comfortable line of text:
+     center the column instead of leaving a gap on the right */
+  .info-body,
+  .info-side {
+    justify-self: center;
+    width: 100%;
+    max-width: calc(var(--measure) + var(--body-pad) * 2);
+  }
+
+  .info .site-footer {
+    justify-self: center;
+    width: calc(100% - var(--body-pad) * 2);
+  }
+}
 
 /* ---- motion --------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
-  .crow img { animation: none; }
-  .crow img:first-child { opacity: 1; }
+  .sprite img { animation: none; }
+  .sprite img:first-child { opacity: 1; }
+}
+
+/* ---- page transitions ----------------------------------------------- */
+/* moving between pages cross-fades instead of flashing blank. Nothing is
+   given a view-transition-name on purpose: the header and left panel are
+   identical from page to page, so the fade leaves them still, whereas a
+   named element is lifted above the page (losing the glass blur and the
+   see-through sheet over the crow's tail) and pops back at the end */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+::view-transition-group(root) { animation-duration: 0.2s; }
+
+/* ---- cut text: three lines, then the pixel "…" button for the rest
+   (dom.js cutWithMore: a card's description, a law's summary) ---------- */
+.is-cut > p { max-height: 3lh; overflow: hidden; }   /* (no "…" in the text: the button says there's more) */
+.more-dots { --px: 2px; border: 0; display: inline-flex; gap: 2px; align-items: center; margin-top: 0.4rem; padding: 4px 5px; background: var(--line); vertical-align: middle; cursor: pointer; }
+.more-dots > span { width: 3px; height: 3px; background: var(--ink); }
+.more-dots:is(:hover, :focus-visible), .more-dots[aria-expanded="true"] { background: var(--lime); }
+
+/* ---- laws (laws.html): each law, its categories as pills under the title */
+.law { margin-bottom: 1.75rem; font-size: var(--fs-s); }
+.law h3 { margin-bottom: 0.15rem; font-size: var(--fs-l); }   /* (titles are long: the docs' h3 size) */
+.law .law-cats { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.5rem; }
+.law-cat { color: var(--ink); }   /* a soft tint each, so they're told apart at a glance */
+.law-cat-copyright_ip  { background: var(--tint-strong); }
+.law-cat-online_safety { background: color-mix(in srgb, var(--lime) 30%, var(--bg)); }
+.law-cat-data_privacy  { background: color-mix(in srgb, var(--gray) 16%, var(--bg)); }
+.law p { margin-bottom: 0.35rem; }
+
+/* ---- print / save as PDF ---------------------------------------------
+   Pages that can be saved as a PDF (the laws page) print as plain text on
+   white: no header, side art or buttons, always the light colors. Mark
+   anything screen-only with .no-print, print-only with .print-only. */
+.print-only { display: none; }
+
+@media print {
+  :root { --bg: #FFFFFF; }   /* (the rest of the light colors as they are: night mode is screen-only) */
+  body { font-size: 11pt; }
+  .site-header,
+  .info-side,
+  .info::before,
+  .no-print { display: none !important; }
+  .print-only { display: block; }
+  .info { display: block; min-height: 0; }
+  .info-body { width: auto; max-width: none; padding: 0; }
+  .info .site-footer { justify-self: stretch; width: auto; max-width: none; margin: 2rem 0 0; padding-inline: 0; }
+  h1, h2, h3 { break-after: avoid; }
+  tr, .callout, .law { break-inside: avoid; }
+  .is-cut > p { max-height: none; }
+  .more-dots { display: none; }
 }

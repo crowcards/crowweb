@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "note": "Known covenants and community guidelines. Communities can also enter custom values.",
+  "items": [
+    {
+      "id": "contributor_covenant",
+      "label": "Contributor Covenant",
+      "description": "Widely-used code of conduct for open source projects.",
+      "url": "https://www.contributor-covenant.org/"
+    },
+    {
+      "id": "mastodon_server_covenant",
+      "label": "Mastodon Server Covenant",
+      "description": "Baseline moderation and operational standards for Mastodon instances.",
+      "url": "https://joinmastodon.org/covenant"
+    },
+    {
+      "id": "bonfire_community_guidelines",
+      "label": "Bonfire Community Guidelines",
+      "description": "Guidelines for communities running on Bonfire Networks.",
+      "url": "https://bonfirenetworks.org/"
+    },
+    {
+      "id": "discord_community_guidelines",
+      "label": "Discord Community Guidelines",
+      "description": "Discord's platform-wide community standards.",
+      "url": "https://discord.com/guidelines"
+    },
+    {
+      "id": "bluesky_community_guidelines",
+      "label": "Bluesky Community Guidelines",
+      "description": "Bluesky's platform-wide community standards.",
+      "url": "https://bsky.social/about/support/community-guidelines"
+    }
+  ]
+}

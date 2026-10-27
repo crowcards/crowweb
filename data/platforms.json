@@ -1,0 +1,788 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-12",
+  "note": "communityType is an id from community_types.json. platformTypes lists cost types from cost_rules.json: one entry is pre-filled; several are recommended, and the person picks one. structuralModels: what each structural model means (the docs' Structural models table). A generic row's otherSoftware: common software that implements its protocol but isn't a row of its own.",
+  "structuralModels": [
+    {
+      "id": "Centralized",
+      "description": "A single operator controls all data and infrastructure. The platform is one server (or cluster) owned and operated by one entity."
+    },
+    {
+      "id": "Federation",
+      "description": "Multiple independently-operated servers interoperate via a shared open protocol. Each server is autonomous; users on different servers can still interact."
+    },
+    {
+      "id": "Relay",
+      "description": "Messages are broadcast through relay nodes. Clients choose which relays to connect to and read from. There is no canonical server — the network is the relays."
+    },
+    {
+      "id": "Federation / Relay",
+      "description": "Uses elements of both models. AT Protocol uses PDS-to-PDS federation for data storage, plus a relay layer (the firehose) for real-time distribution."
+    },
+    {
+      "id": "Centralized / Federation",
+      "description": "A proprietary or institutionally-controlled platform built on top of a federation protocol. The platform itself is not self-hostable, but it interoperates with the broader protocol ecosystem."
+    }
+  ],
+  "items": [
+    {
+      "id": "discord",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Discord",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "telegram",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Telegram",
+      "software": "Proprietary",
+      "protocol": "Custom (MTProto)",
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Client apps open source (GPLv3); server is proprietary and not self-hostable. Server is the operative component for OSI purposes.",
+      "notes": "Client apps open source (GPLv3); server proprietary",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "wechat",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "WeChat",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Tencent-owned",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "signal_chat_signal",
+      "platformTypes": [
+        "centralized_messaging"
+      ],
+      "platform": "Signal Chat",
+      "software": "Signal",
+      "protocol": "Signal Protocol",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": "AGPLv3",
+      "osiRationale": "Signal Android, iOS, Desktop, and server published on GitHub under AGPLv3, an OSI-approved copyleft license. Server not practically self-hostable to interoperate with the main network.",
+      "notes": "Community = group chats; Signal controls central infrastructure",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "chat_group__matrix_client_generic",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Matrix client",
+      "software": null,
+      "protocol": "Matrix",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Federation",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific client and server software chosen. Most major Matrix clients and servers are open source.",
+      "notes": "Generic row for any Matrix client + server combination. Self-hostable if operating own homeserver.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Conduit",
+        "Cinny",
+        "FluffyChat"
+      ],
+      "format": "chat_group"
+    },
+    {
+      "id": "matrix_client_synapse",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Matrix client",
+      "software": "Synapse",
+      "protocol": "Matrix",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "Apache 2.0",
+      "osiRationale": "Source published on GitHub (matrix-org/synapse) under Apache 2.0, an OSI-approved permissive license.",
+      "notes": "Reference Matrix homeserver implementation",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "matrix_client_dendrite",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Matrix client",
+      "software": "Dendrite",
+      "protocol": "Matrix",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "Apache 2.0",
+      "osiRationale": "Source published on GitHub (matrix-org/dendrite) under Apache 2.0, an OSI-approved permissive license.",
+      "notes": "Second-generation Matrix homeserver; lighter weight than Synapse",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "matrix_client_element",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Matrix client",
+      "software": "Element",
+      "protocol": "Matrix",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "Apache 2.0",
+      "osiRationale": "Source published on GitHub (element-hq/element-web) under Apache 2.0, an OSI-approved permissive license.",
+      "notes": "Most widely used Matrix client",
+      "isGeneric": false,
+      "format": "chat_group"
+    },
+    {
+      "id": "zooniverse_panoptes",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
+      "platform": "Zooniverse",
+      "software": "Panoptes",
+      "protocol": null,
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": "Apache 2.0",
+      "osiRationale": "Panoptes source published on GitHub (zooniverse/Panoptes) under Apache 2.0, an OSI-approved permissive license.",
+      "notes": "Hosted by Adler Planetarium / Oxford",
+      "isGeneric": false,
+      "format": "peer_production"
+    },
+    {
+      "id": "inaturalist",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
+      "platform": "iNaturalist",
+      "software": "iNaturalist",
+      "protocol": null,
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": "MIT",
+      "osiRationale": "Source published on GitHub (inaturalist/inaturalist) under MIT License, an OSI-approved permissive license.",
+      "notes": "Hosted by California Academy of Sciences; Projects feature enables sub-community governance",
+      "isGeneric": false,
+      "format": "peer_production"
+    },
+    {
+      "id": "reddit",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Reddit",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Subreddits have limited self-governance within Reddit's rules",
+      "isGeneric": false,
+      "format": "discussion_forum"
+    },
+    {
+      "id": "discussion_forum__activitypub_client_generic",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": null,
+      "protocol": "ActivityPub",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Federation",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
+      "notes": "Generic row for ActivityPub-based discussion forum software.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Kbin",
+        "Mbin"
+      ],
+      "format": "discussion_forum"
+    },
+    {
+      "id": "activitypub_client_lemmy",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Lemmy",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (LemmyNet/lemmy) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": "Reddit-like federated link aggregator",
+      "isGeneric": false,
+      "format": "discussion_forum"
+    },
+    {
+      "id": "discourse",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Discourse",
+      "software": "Discourse",
+      "protocol": null,
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Centralized",
+      "license": "GPLv2",
+      "osiRationale": "Source published on GitHub (discourse/discourse) under GPLv2, an OSI-approved copyleft license.",
+      "notes": "Each instance is independently operated and centralized",
+      "isGeneric": false,
+      "format": "discussion_forum"
+    },
+    {
+      "id": "front_porch_forum",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Front Porch Forum",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Local community newsletter/forum; Vermont-based; subscription fee for some municipalities",
+      "isGeneric": false,
+      "format": "listserv_email"
+    },
+    {
+      "id": "google_groups",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Google Groups",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. Google-operated proprietary service.",
+      "notes": "Email list + web forum hybrid",
+      "isGeneric": false,
+      "format": "listserv_email"
+    },
+    {
+      "id": "mailman_based_lists_gnu_mailman",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Mailman-based lists",
+      "software": "GNU Mailman",
+      "protocol": "SMTP / Email",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "GPLv3",
+      "osiRationale": "Source published at gitlab.com/mailman/mailman under GPLv3, an OSI-approved copyleft license. Email itself is inherently federated.",
+      "notes": "Community = the listserv itself; each list server independently hosted",
+      "isGeneric": false,
+      "format": "listserv_email"
+    },
+    {
+      "id": "facebook",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Facebook",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Meta-owned",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "linkedin",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "LinkedIn",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Microsoft-owned",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "nextdoor",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Nextdoor",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. No OSI-compatible license.",
+      "notes": "Neighborhood social network",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "social_network_media__activitypub_client_generic",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": null,
+      "protocol": "ActivityPub",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Federation",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
+      "notes": "Generic row for any ActivityPub-based social platform.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Calckey",
+        "Hometown",
+        "Catodon"
+      ],
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_mastodon",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Mastodon",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (mastodon/mastodon) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_bonfire",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Bonfire",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (bonfire-networks/bonfire-app) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": "Modular federated app framework",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_pleroma",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Pleroma",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on git.pleroma.social under AGPLv3, an OSI-approved copyleft license.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_akkoma",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Akkoma",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on akkoma.dev under AGPLv3, an OSI-approved copyleft license. Fork of Pleroma.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_misskey",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Misskey",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (misskey-dev/misskey) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_peertube",
+      "platformTypes": [
+        "self_hosted_media_heavy"
+      ],
+      "platform": "ActivityPub client",
+      "software": "PeerTube",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (Chocobozzz/PeerTube) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": "Federated video hosting",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_pixelfed",
+      "platformTypes": [
+        "self_hosted_media_heavy"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Pixelfed",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (pixelfed/pixelfed) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": "Instagram-like federated platform",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "activitypub_client_friendica",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "ActivityPub client",
+      "software": "Friendica",
+      "protocol": "ActivityPub",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (friendica/friendica) under AGPLv3, an OSI-approved copyleft license. Also supports Diaspora Protocol and OStatus.",
+      "notes": null,
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "social_network_media__diaspora_protocol_client_generic",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Diaspora Protocol client",
+      "software": null,
+      "protocol": "Diaspora Protocol",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Federation",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific software chosen. Specify software to determine OSI compliance.",
+      "notes": "Generic row for any Diaspora Protocol client. Pre-dates ActivityPub; some software interoperates with both.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Friendica (also supports this protocol)"
+      ],
+      "format": "social_network_media"
+    },
+    {
+      "id": "diaspora_protocol_client_diaspora",
+      "platformTypes": [
+        "self_hosted_text_primary"
+      ],
+      "platform": "Diaspora Protocol client",
+      "software": "Diaspora*",
+      "protocol": "Diaspora Protocol",
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Federation",
+      "license": "AGPLv3",
+      "osiRationale": "Source published on GitHub (diaspora/diaspora) under AGPLv3, an OSI-approved copyleft license.",
+      "notes": "Original federated social network using the Diaspora Protocol",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "social_network_media__at_protocol_client_generic",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
+      "platform": "AT Protocol client",
+      "software": null,
+      "protocol": "AT Protocol",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Federation / Relay",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific client chosen. Many AT Protocol clients are open source (e.g. Bluesky app: MIT). Specify client to determine OSI compliance.",
+      "notes": "Generic row for any AT Protocol client. Self-hostable if operating own PDS.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Skeets",
+        "Graysky",
+        "Sky.app"
+      ],
+      "format": "social_network_media"
+    },
+    {
+      "id": "at_protocol_client_bluesky",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
+      "platform": "AT Protocol client",
+      "software": "Bluesky",
+      "protocol": "AT Protocol",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Federation / Relay",
+      "license": "MIT",
+      "osiRationale": "Source published on GitHub (bluesky-social/social-app, bluesky-social/atproto) under MIT License, an OSI-approved permissive license.",
+      "notes": "Bluesky Social PBC operates bsky.social; PDS self-hosting possible but most users are on the main instance",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "at_protocol_client_blacksky",
+      "platformTypes": [
+        "protocol_client_pds_based"
+      ],
+      "platform": "AT Protocol client",
+      "software": "Blacksky",
+      "protocol": "AT Protocol",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Federation / Relay",
+      "license": "MIT",
+      "osiRationale": "Source published on GitHub (blacksky-app/blacksky) under MIT License, an OSI-approved permissive license.",
+      "notes": "Blacksky's AT Protocol app and community, run on Rsky, its own AT Protocol stack (community safety, data routing, self-governance); its labeler governs a normative filter within the AT Protocol ecosystem. To confirm with the Blacksky team (asked 2026-10-12): whether any of Rsky can be self-hosted, where Rsky's source is and its license (the license and source below are from before the rename), and how it relates to their Acorn app.",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "roundabout",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Roundabout",
+      "software": "Roundabout",
+      "protocol": "AT Protocol",
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized / Federation",
+      "license": null,
+      "osiRationale": "Source code not published under an OSI-compatible license. Built on AT Protocol but Roundabout itself is proprietary.",
+      "notes": "Developed by New_Public; proprietary platform intentionally built on AT Protocol",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "social_network_media__nostr_client_generic",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
+      "platform": "Nostr client",
+      "software": null,
+      "protocol": "Nostr",
+      "openSource": "varies",
+      "selfHostable": "varies",
+      "structuralModel": "Relay",
+      "license": "Varies by client",
+      "osiRationale": "OSS status depends on specific client chosen. Most major Nostr clients are open source. Specify client to determine OSI compliance.",
+      "notes": "Generic row for any Nostr client. Costs depend on whether you operate your own relay.",
+      "isGeneric": true,
+      "otherSoftware": [
+        "Snort",
+        "Iris",
+        "Coracle"
+      ],
+      "format": "social_network_media"
+    },
+    {
+      "id": "nostr_client_damus",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
+      "platform": "Nostr client",
+      "software": "Damus",
+      "protocol": "Nostr",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Relay",
+      "license": "GPLv3",
+      "osiRationale": "Source published on GitHub (damus-io/damus) under GPLv3, an OSI-approved copyleft license.",
+      "notes": "iOS client",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "nostr_client_amethyst",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
+      "platform": "Nostr client",
+      "software": "Amethyst",
+      "protocol": "Nostr",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Relay",
+      "license": "MIT",
+      "osiRationale": "Source published on GitHub (vitorpamplona/amethyst) under MIT License, an OSI-approved permissive license.",
+      "notes": "Android client",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "nostr_client_primal",
+      "platformTypes": [
+        "protocol_client_relay_based"
+      ],
+      "platform": "Nostr client",
+      "software": "Primal",
+      "protocol": "Nostr",
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Relay",
+      "license": "MIT",
+      "osiRationale": "Source published on GitHub (PrimalHQ/primal-web-app) under MIT License, an OSI-approved permissive license.",
+      "notes": "Web/mobile client + caching relay layer",
+      "isGeneric": false,
+      "format": "social_network_media"
+    },
+    {
+      "id": "wikipedia_mediawiki",
+      "platformTypes": [
+        "hosted_oss_institutional"
+      ],
+      "platform": "Wikipedia",
+      "software": "MediaWiki",
+      "protocol": null,
+      "openSource": true,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": "GPLv2+",
+      "osiRationale": "MediaWiki source published on gerrit.wikimedia.org and GitHub (wikimedia/mediawiki) under GPLv2+, an OSI-approved copyleft license. Wikipedia itself hosted by the Wikimedia Foundation.",
+      "notes": "Elaborate community governance (talk pages, RfCs, ArbCom, policies)",
+      "isGeneric": false,
+      "format": "peer_production"
+    },
+    {
+      "id": "fandom_mediawiki_proprietary_fork",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Fandom",
+      "software": "MediaWiki (proprietary fork)",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Fandom operates a proprietary fork of MediaWiki. Modifications not published under an OSI-compatible license.",
+      "notes": "Community governs content but Fandom Inc. governs the platform",
+      "isGeneric": false,
+      "format": "peer_production"
+    },
+    {
+      "id": "custom_wiki_mediawiki",
+      "platformTypes": [
+        "self_hosted_text_primary",
+        "self_hosted_media_heavy"
+      ],
+      "platform": "Custom wiki",
+      "software": "MediaWiki",
+      "protocol": null,
+      "openSource": true,
+      "selfHostable": true,
+      "structuralModel": "Centralized",
+      "license": "GPLv2+",
+      "osiRationale": "MediaWiki licensed under GPLv2+, an OSI-approved copyleft license. A self-hosted MediaWiki instance is fully open source.",
+      "notes": "Typically MediaWiki or similar OSS wiki software; each instance independently operated",
+      "isGeneric": false,
+      "format": "peer_production"
+    },
+    {
+      "id": "slack",
+      "platformTypes": [
+        "corporate_proprietary"
+      ],
+      "platform": "Slack",
+      "software": "Proprietary",
+      "protocol": null,
+      "openSource": false,
+      "selfHostable": false,
+      "structuralModel": "Centralized",
+      "license": null,
+      "osiRationale": "Source code not published. Proprietary SaaS platform.",
+      "notes": "Salesforce-owned; free tier viable for small communities",
+      "isGeneric": false,
+      "format": "team"
+    }
+  ]
+}

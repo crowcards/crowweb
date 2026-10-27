@@ -1,0 +1,102 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-01",
+  "source": "CommunityRule (metagov.org)",
+  "items": [
+    {
+      "id": "open_access",
+      "label": "Open Access",
+      "description": "Maximum inclusion. Anyone can join immediately by simply showing up."
+    },
+    {
+      "id": "orientation_required",
+      "label": "Orientation Required",
+      "description": "Newcomers must attend a training or orientation session."
+    },
+    {
+      "id": "invitation_only",
+      "label": "Invitation Only",
+      "description": "New members can only join if they are 'vouched for' by existing members."
+    },
+    {
+      "id": "contribution_based",
+      "label": "Contribution Based",
+      "description": "Membership is reserved for people contributing their labor."
+    },
+    {
+      "id": "mentorship",
+      "label": "Mentorship",
+      "description": "New members are paired with 'Mentors' to guide them through a probationary period."
+    },
+    {
+      "id": "peer_sponsorship",
+      "label": "Peer Sponsorship",
+      "description": "New member must be vouched for by an existing member."
+    },
+    {
+      "id": "consensus_or_vote_based_approval",
+      "label": "Consensus or Vote-Based Approval",
+      "description": "Group votes on whether to admit a new member."
+    },
+    {
+      "id": "trial_period_provisional_membership",
+      "label": "Trial Period / Provisional Membership",
+      "description": "New members have a probationary period before full rights."
+    },
+    {
+      "id": "referral_system_with_screening",
+      "label": "Referral System with Screening",
+      "description": "Members refer new people, with structured screening."
+    },
+    {
+      "id": "membership_agreement_or_pledge",
+      "label": "Membership Agreement or Pledge",
+      "description": "New members must agree to specific values, responsibilities, or rules."
+    },
+    {
+      "id": "weighted_or_tiered_membership",
+      "label": "Weighted or Tiered Membership",
+      "description": "Different levels of membership with increasing rights over time."
+    },
+    {
+      "id": "hybrid_approval_process",
+      "label": "Hybrid Approval Process",
+      "description": "Combines multiple approval steps like voting, screening, and referrals."
+    },
+    {
+      "id": "skill_based_contribution",
+      "label": "Skill-Based Contribution",
+      "description": "Joining by submitting work, such as a pull request."
+    },
+    {
+      "id": "pay_to_join",
+      "label": "Pay-to-Join",
+      "description": "Requires financial contribution or dues."
+    },
+    {
+      "id": "application_review",
+      "label": "Application & Review",
+      "description": "Application reviewed by an onboarding team."
+    },
+    {
+      "id": "identity_verification",
+      "label": "Identity Verification",
+      "description": "Requires verification of identity, credentials, or background."
+    },
+    {
+      "id": "collective_interviews",
+      "label": "Collective Interviews",
+      "description": "Group collectively interviews new members for cultural fit."
+    },
+    {
+      "id": "skill_based_evaluation",
+      "label": "Skill-Based Evaluation",
+      "description": "Requires passing a skills assessment or portfolio review."
+    },
+    {
+      "id": "lottery_sortition",
+      "label": "Lottery / Sortition",
+      "description": "Members are selected randomly from a pool of eligible applicants."
+    }
+  ]
+}

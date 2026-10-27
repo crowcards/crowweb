@@ -1,0 +1,190 @@
+/* ============================================================
+   CROW Docs — loaded after styles.css on docs.html only.
+   The header, colors, fonts, links, sidebar layout and base tables all
+   come from styles.css; this file only adds docs-specific pieces.
+   ============================================================ */
+
+/* sidebar links glide to their section, and stop with the section's top
+   just clear of the sticky header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+@media (width < 64rem) {   /* = --narrow: …and of the sidebar's bar under it */
+  html { scroll-padding-top: calc(var(--header-h) + 2.75rem); }
+}
+
+/* docs read as reference text: a little smaller and airier than the
+   rest of the site (the column itself is .sidebar-main) */
+.docs-body {
+  font-size: var(--fs-m);
+  line-height: 1.6;
+}
+
+.docs-body li { margin-bottom: 0.3em; }
+.docs-body li > ul { margin: 0.3em 0 0; }   /* nested list: tucked under its parent item */
+.docs-body p:last-child { margin-bottom: 0; }
+
+.docs-body code {   /* mono at 0.8em: the shared mono rule (styles.css) */
+  background: var(--tint-strong);
+  padding: 0.1em 0.35em;
+}
+
+/* the footer runs the full width under both columns */
+.docs .site-footer {
+  margin-top: 0;
+  padding-inline: var(--gutter);
+}
+
+/* ── docs headings: smaller h2s with a rule above; sans h3s ── */
+.docs-body h2 {
+  font-size: var(--fs-l);
+  margin: 2.5em 0 0.5em;
+  padding-top: 0.5em;
+  border-top: var(--rule);
+}
+
+.docs-body h2:first-of-type { margin-top: 1.5em; }
+
+.docs-body h3 {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: var(--fs-m);
+  margin: 1.8em 0 0.4em;
+  padding-top: 0.5em;   /* like h2: a little room above it when a sidebar link jumps here */
+}
+
+/* the reference's groups: subsections as small mono capitals */
+.docs-body h4 {
+  margin: 1.6em 0 0.4em;
+  padding-top: 0.5em;   /* (room above it when a sidebar link jumps here) */
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: var(--caps-spacing);
+  text-transform: uppercase;
+}
+
+/* ── sections that fold (js/docs-page.js, data-fold): a closed one is
+   hidden "until found", so the browser's find still reaches it (the site's
+   [hidden] rule would hide it from that too) ── */
+.doc-fold-body[hidden="until-found"] { display: block !important; }
+.fold-all { display: flex; gap: 1.25rem; }   /* Open all / Close all */
+
+/* a small gray note under a table */
+.ref-note { margin-top: 0.5rem; color: var(--gray); font-size: var(--fs-xs); }
+
+/* ── platform tables ─────────────────────────────────────── */
+.platform-section { margin-bottom: 3rem; }
+
+/* "Chat group" etc.: a small gray label with a line running off to the
+   right (the capitals come from .mono-u on the element) */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0 0.6rem;
+  font-size: var(--fs-xs);
+  color: var(--gray);
+}
+.section-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.table tr.generic td {
+  background: var(--tint);
+  font-style: italic;
+  color: var(--gray);
+}
+
+.table tr.named td:first-child { padding-left: 1.4rem; }
+.table tr.named td:first-child::before { content: "↳ "; color: var(--line); font-size: 0.8em; }
+
+/* small mono names at the start of a table row: a platform or item (pills share their shape from styles.css) */
+.pname,
+.table td.ref-name {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: var(--fs-xs);
+}
+.table td.ref-name { white-space: nowrap; }
+
+.sw,
+.model   { color: var(--gray); font-size: var(--fs-xs); }
+.sw.oss  { color: var(--ink); }   /* open source stands out; proprietary stays gray */
+
+/* pills: protocol, yes/no/varies, cost values (shape: styles.css) */
+.proto,
+.badge,
+.cv { white-space: nowrap; }
+
+.proto,
+.badge.var,
+.cv.often  { background: var(--tint-strong); color: var(--accent); }
+.badge.yes,
+.cv.yes    { background: var(--tint-strong); color: var(--ink); }
+.badge.no,
+.cv.no,
+.cv.rare   { background: color-mix(in srgb, var(--gray) 12%, var(--bg)); color: var(--gray); }
+.cv.some   { background: var(--tint); color: var(--accent); }
+
+/* ── cost matrix: .table.matrix (centered cells, scrolls sideways) */
+.cost-wrap { overflow-x: auto; margin: 1em 0 1.5em; }
+
+.table.matrix {
+  width: auto;
+  min-width: 700px;
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+  margin-bottom: 0;   /* .cost-wrap spaces it */
+}
+
+.table.matrix :is(th, td) { text-align: center; vertical-align: middle; }
+.table :is(th, td).score { width: 1%; text-align: center; }   /* a narrow, centered column of scores (the workbench, bench.html) */
+.table.matrix :is(th, td):first-child { text-align: left; }
+.table.matrix th:first-child { min-width: 160px; }
+.table.matrix td:first-child { font-family: var(--mono); }
+
+.table.matrix tr.type-row td {
+  background: var(--tint);
+  font-family: var(--mono);
+  font-weight: 600;
+}
+
+/* ── reference tables (filled in by js/docs-reference.js) ── */
+
+/* a secondary line under a cell's main text (URLs, signals, etc.) */
+.table .ref-sub {
+  margin-top: 0.3rem;
+  font-size: var(--fs-xs);
+  color: var(--gray);
+}
+
+/* a nested list inside a table cell (used in rule schema) */
+.table ul.ref-rule-list {
+  margin: 0;
+  columns: 2;
+  column-gap: 1.5rem;
+}
+.table ul.ref-rule-list li {
+  break-inside: avoid;
+  margin-bottom: 0.2rem;
+}
+
+/* group header row (e.g. "Behavior" and "Content" in rule schema) */
+.table tr.group-row td {
+  background: var(--tint);
+  padding-block: 0.7rem;
+}
+
+/* placeholder states */
+.table :is(.ref-loading, .ref-error) { padding: 1rem 0.6rem; }
+.table .ref-loading { color: var(--gray); font-style: italic; }
+.table .ref-error   { color: var(--error); }
+
+/* ── narrow screens ──────────────────────────────────────── */
+@media (width < 64rem) {   /* = --narrow */
+  .table ul.ref-rule-list { columns: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

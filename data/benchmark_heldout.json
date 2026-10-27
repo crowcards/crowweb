@@ -1,0 +1,1007 @@
+{
+ "version": "0.1.0",
+ "updatedAt": "2026-10-10",
+ "note": "Held-out example communities, drafted by web Claude (2026-10-10) without our datasheets or word lists: the same shape as benchmark_communities.json. Never used for tuning: only to check, at the end, that settings tuned on the benchmarks hold up on communities nobody had in mind. A stopgap until the student task (real communities) replaces it. Workbench only; not shown to card makers.",
+ "communities": [
+  {
+   "id": "titas_table",
+   "name": "Tita's Table",
+   "type": "identity_cultural",
+   "format": "chat_group",
+   "size": "large",
+   "targetScales": {
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
+   },
+   "description": {
+    "purpose": "A Discord server for Filipinos who grew up abroad, and anyone still working out where they fit. Swap recipes, practice your Tagalog or Bisaya, vent about family, and find kababayan in your new city.",
+    "culture": "Like the kitchen at a family party: loud, a lot of teasing, and everyone gets fed. Ask the question you were too embarrassed to ask your titas; someone here has asked it too."
+   },
+   "keywords": [
+    "filipino diaspora",
+    "second gen",
+    "tagalog",
+    "food",
+    "discord"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "community_care",
+      "inclusivity",
+      "empathy",
+      "knowledge_sharing"
+     ],
+     "also": [
+      "diversity",
+      "mutual_aid",
+      "education",
+      "trust",
+      "solidarity"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "open_access",
+      "membership_agreement_or_pledge"
+     ],
+     "also": [
+      "orientation_required",
+      "trial_period_provisional_membership"
+     ],
+     "avoid": [
+      "pay_to_join",
+      "identity_verification",
+      "skill_based_evaluation",
+      "application_review",
+      "referral_system_with_screening",
+      "weighted_or_tiered_membership",
+      "lottery_sortition"
+     ]
+    },
+    "decision": {
+     "good": [
+      "delegated_decision_making",
+      "do_ocracy"
+     ],
+     "also": [
+      "majority_rule",
+      "lazy_consensus"
+     ],
+     "avoid": [
+      "investor_filled_board_seats",
+      "quadratic_voting",
+      "weighted_voting",
+      "algorithm_driven_decisions",
+      "random_choice",
+      "supermajority_rule"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "mediation",
+      "peer_mediation"
+     ],
+     "also": [
+      "managerial_decision",
+      "restorative_practices"
+     ],
+     "avoid": [
+      "binding_arbitration",
+      "judicial_committees",
+      "internal_tribunal",
+      "supermajority_vote",
+      "lottery_sortition",
+      "binding_contracts",
+      "rotational_judging"
+     ]
+    }
+   },
+   "notes": "Belonging is the point, so identity_verification is a red flag even in an identity community: nobody wants to prove they're Filipino enough. Mods run things day to day; members mostly shape events.",
+   "status": "proposed"
+  },
+  {
+   "id": "tidepool_dao",
+   "name": "Tidepool DAO",
+   "type": "dao_web3",
+   "format": "discussion_forum",
+   "size": "very_large",
+   "targetScales": {
+    "participatory": 5,
+    "transparent": 6,
+    "hierarchical": 3
+   },
+   "description": {
+    "purpose": "Tidepool funds open ocean-monitoring data: buoys, low-cost sensor kits and the people who maintain them. TIDE holders propose and debate grants on the forum and vote on-chain, and a five-signer multisig executes what passes.",
+    "culture": "Forum first, vote second. We'd rather argue a proposal into shape over two weeks than rush it, and anyone can turn up and ask where the money went."
+   },
+   "keywords": [
+    "dao",
+    "public goods",
+    "grants",
+    "ocean data",
+    "governance"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "transparency",
+      "decentralization",
+      "open_source",
+      "stewardship",
+      "accountability"
+     ],
+     "also": [
+      "freedom_of_information",
+      "documentation",
+      "interoperability",
+      "forkability",
+      "innovation"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "pay_to_join",
+      "open_access"
+     ],
+     "also": [
+      "contribution_based",
+      "weighted_or_tiered_membership",
+      "identity_verification"
+     ],
+     "avoid": [
+      "invitation_only",
+      "peer_sponsorship",
+      "collective_interviews",
+      "application_review",
+      "consensus_or_vote_based_approval",
+      "referral_system_with_screening"
+     ]
+    },
+    "decision": {
+     "good": [
+      "weighted_voting",
+      "consensus_seeking_with_delegates",
+      "delegated_decision_making"
+     ],
+     "also": [
+      "quadratic_voting",
+      "collaborative_platforms",
+      "approval_voting"
+     ],
+     "avoid": [
+      "autocratic_decision_making",
+      "hierarchical_decision_making",
+      "investor_filled_board_seats",
+      "executive_committees",
+      "consensus_decision_making",
+      "random_choice"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "binding_contracts",
+      "supermajority_vote"
+     ],
+     "also": [
+      "lottery_sortition",
+      "facilitated_negotiation",
+      "ad_hoc_arbitration"
+     ],
+     "avoid": [
+      "managerial_decision",
+      "circle_processes",
+      "conflict_workshops",
+      "internal_tribunal"
+     ]
+    }
+   },
+   "notes": "Token weighting is the deliberate, accepted mechanism, so weighted_voting is good even though it scores as hierarchical. The multisig and delegates make it more delegated than 'decentralized' suggests, but a board is clearly wrong. Identity verification moved from avoid to also (2026-10-10): checks against fake accounts (sybil resistance) are common in DAOs.",
+   "status": "proposed"
+  },
+  {
+   "id": "fireball_count",
+   "name": "Fireball Count",
+   "type": "citizen_science",
+   "format": "peer_production",
+   "size": "very_large",
+   "targetScales": {
+    "participatory": 2,
+    "transparent": 5,
+    "hierarchical": 5
+   },
+   "description": {
+    "purpose": "Fireball Count collects meteor sightings from volunteers around the world. Watch the sky for an hour during a shower, log what you saw in the app, and your counts feed the activity curves astronomers use to track how meteor streams change; bright fireballs seen from several places get triangulated so we can estimate where any fragments fell.",
+    "culture": "Clear skies, dark-adapted eyes, careful counts: an hour with zero meteors is still good data."
+   },
+   "keywords": [
+    "meteors",
+    "citizen science",
+    "astronomy",
+    "observing",
+    "fireballs"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "knowledge_sharing",
+      "reliability",
+      "accessibility",
+      "education"
+     ],
+     "also": [
+      "documentation",
+      "collaboration",
+      "honesty",
+      "learning",
+      "openness"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "open_access",
+      "orientation_required"
+     ],
+     "also": [
+      "mentorship"
+     ],
+     "avoid": [
+      "invitation_only",
+      "pay_to_join",
+      "collective_interviews",
+      "consensus_or_vote_based_approval",
+      "peer_sponsorship",
+      "application_review",
+      "lottery_sortition"
+     ]
+    },
+    "decision": {
+     "good": [
+      "hierarchical_decision_making",
+      "delegated_decision_making"
+     ],
+     "also": [
+      "advisory_committees"
+     ],
+     "avoid": [
+      "consensus_decision_making",
+      "majority_rule",
+      "supermajority_rule",
+      "quadratic_voting",
+      "weighted_voting",
+      "lottery_sortition",
+      "investor_filled_board_seats",
+      "continuous_voting"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "managerial_decision",
+      "mediation"
+     ],
+     "also": [
+      "non_binding_arbitration"
+     ],
+     "avoid": [
+      "circle_processes",
+      "supermajority_vote",
+      "internal_tribunal",
+      "lottery_sortition",
+      "rotational_judging",
+      "conflict_workshops"
+     ]
+    }
+   },
+   "notes": "Hard case: the description is all about the science and says nothing about who decides. Volunteers contribute data and a small science team sets the protocols, so voting suggestions would be wrong despite the huge membership. Moved 2026-10-10 from type research, format citizen science, when citizen science became a community type.",
+   "status": "proposed"
+  },
+  {
+   "id": "halftone_games",
+   "name": "Halftone Games",
+   "type": "workplace",
+   "format": "team",
+   "size": "small",
+   "targetScales": {
+    "participatory": 6,
+    "transparent": 7,
+    "hierarchical": 2
+   },
+   "description": {
+    "purpose": "We're an eleven-person studio making narrative games for PC and Switch. This workspace is where we plan sprints, review builds, argue about dialogue and handle the business side: budgets, hiring and publisher deals. The two founders still own the company but gave up the final say in 2023.",
+    "culture": "Nobody here has a manager: proposals go up in #decisions, people raise objections, we change it until nobody's blocked, and whoever's closest to the work owns it. Salaries are in the wiki."
+   },
+   "keywords": [
+    "gamedev",
+    "indie studio",
+    "flat structure",
+    "remote"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "consent",
+      "transparency",
+      "agency",
+      "collaboration",
+      "trust"
+     ],
+     "also": [
+      "fair_remuneration",
+      "horizontalism",
+      "documentation",
+      "constructive_feedback",
+      "autonomy"
+     ]
+    },
+    "joiningTiers": [
+     "restricted_approvals",
+     "tiered_probationary"
+    ],
+    "joining": {
+     "good": [
+      "collective_interviews",
+      "trial_period_provisional_membership",
+      "skill_based_evaluation"
+     ],
+     "also": [
+      "consensus_or_vote_based_approval",
+      "application_review"
+     ],
+     "avoid": [
+      "open_access",
+      "pay_to_join",
+      "lottery_sortition",
+      "weighted_or_tiered_membership"
+     ]
+    },
+    "decision": {
+     "good": [
+      "lazy_consensus",
+      "sociocracy",
+      "do_ocracy"
+     ],
+     "also": [
+      "consensus_decision_making",
+      "delegated_decision_making"
+     ],
+     "avoid": [
+      "autocratic_decision_making",
+      "hierarchical_decision_making",
+      "executive_committees",
+      "investor_filled_board_seats",
+      "weighted_voting",
+      "proof_of_work"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "peer_mediation",
+      "facilitated_negotiation"
+     ],
+     "also": [
+      "restorative_practices",
+      "mediation",
+      "interest_based_bargaining"
+     ],
+     "avoid": [
+      "managerial_decision",
+      "internal_tribunal",
+      "judicial_committees",
+      "conflict_resolution_council",
+      "supermajority_vote",
+      "lottery_sortition",
+      "binding_arbitration"
+     ]
+    }
+   },
+   "notes": "Hard case: a workplace that's flat on purpose, so a tool mustn't default to managerial or hierarchical options for 'workplace'. Founder ownership is why it's a workplace, not a cooperative.",
+   "status": "proposed"
+  },
+  {
+   "id": "the_escapement",
+   "name": "The Escapement",
+   "type": "hobby",
+   "format": "discussion_forum",
+   "size": "very_large",
+   "targetScales": {
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 6
+   },
+   "description": {
+    "purpose": "A forum for mechanical watch collectors and amateur watchmakers: movement teardowns, servicing help, identifying references, and a members' marketplace for buying and selling. Around 60,000 registered users, a few thousand active.",
+    "culture": "Read the rules before you post. Search before you ask, post sharp photos, no brand wars, and the sales corner is zero tolerance: one dodgy deal and you're gone."
+   },
+   "keywords": [
+    "watches",
+    "horology",
+    "watchmaking",
+    "collectors",
+    "marketplace"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "trust",
+      "reliability",
+      "knowledge_sharing",
+      "integrity",
+      "accountability"
+     ],
+     "also": [
+      "honesty",
+      "documentation",
+      "learning",
+      "mentorship"
+     ]
+    },
+    "joiningTiers": [
+     "open",
+     "tiered_probationary"
+    ],
+    "joining": {
+     "good": [
+      "open_access",
+      "trial_period_provisional_membership",
+      "identity_verification"
+     ],
+     "also": [
+      "membership_agreement_or_pledge",
+      "weighted_or_tiered_membership"
+     ],
+     "avoid": [
+      "collective_interviews",
+      "consensus_or_vote_based_approval",
+      "lottery_sortition",
+      "invitation_only",
+      "application_review"
+     ]
+    },
+    "decision": {
+     "good": [
+      "hierarchical_decision_making",
+      "delegated_decision_making"
+     ],
+     "also": [
+      "autocratic_decision_making",
+      "advisory_committees"
+     ],
+     "avoid": [
+      "consensus_decision_making",
+      "do_ocracy",
+      "lazy_consensus",
+      "quadratic_voting",
+      "lottery_sortition",
+      "deliberative_polling",
+      "sociocracy"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "managerial_decision",
+      "conflict_resolution_council"
+     ],
+     "also": [
+      "binding_contracts",
+      "mediation"
+     ],
+     "avoid": [
+      "circle_processes",
+      "consensus_building",
+      "supermajority_vote",
+      "conflict_workshops",
+      "lottery_sortition"
+     ]
+    }
+   },
+   "notes": "Hard case: a hobby forum that's strict by design, so suggestions shouldn't nudge it towards participatory or flat options. The marketplace is why sellers are verified and gated by tenure.",
+   "status": "proposed"
+  },
+  {
+   "id": "quillwright_fork",
+   "name": "Quillwright",
+   "type": "open_source",
+   "format": "peer_production",
+   "size": "medium",
+   "targetScales": {
+    "participatory": 5,
+    "transparent": 6,
+    "hierarchical": 3
+   },
+   "description": {
+    "purpose": "Quillwright is a community fork of a popular Markdown notes app, started last month after the original moved to a source-available license. About 150 of us are rebuilding CI, triaging the backlog and deciding what to keep of the plugin API.",
+    "culture": "Most of us came over together, a few with commit access from the old project. For now a temporary steering group of five makes the calls, and we've promised a governance doc and an election within six months."
+   },
+   "keywords": [
+    "fork",
+    "notes app",
+    "markdown",
+    "foss",
+    "new governance"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "open_source",
+      "copyleft",
+      "forkability",
+      "transparency",
+      "collaboration"
+     ],
+     "also": [
+      "documentation",
+      "independence",
+      "decentralization",
+      "maintenance"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "open_access",
+      "skill_based_contribution",
+      "contribution_based"
+     ],
+     "also": [
+      "mentorship"
+     ],
+     "avoid": [
+      "pay_to_join",
+      "invitation_only",
+      "identity_verification",
+      "collective_interviews",
+      "lottery_sortition",
+      "referral_system_with_screening",
+      "application_review"
+     ]
+    },
+    "decision": {
+     "good": [
+      "delegated_decision_making",
+      "lazy_consensus",
+      "do_ocracy"
+     ],
+     "also": [
+      "elected_board_of_directors",
+      "proof_of_work",
+      "executive_committees"
+     ],
+     "avoid": [
+      "autocratic_decision_making",
+      "investor_filled_board_seats",
+      "hierarchical_decision_making",
+      "random_choice",
+      "quadratic_voting",
+      "algorithm_driven_decisions"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "consensus_building",
+      "mediation"
+     ],
+     "also": [
+      "peer_mediation",
+      "conflict_resolution_council",
+      "judicial_committees"
+     ],
+     "avoid": [
+      "managerial_decision",
+      "binding_arbitration",
+      "lottery_sortition",
+      "internal_tribunal"
+     ]
+    }
+   },
+   "notes": "Hard case, in transition: today a small interim group decides, but members want something flatter and elected, so the targets describe where it's heading. Executive committees fit now but not long term, hence 'also'.",
+   "status": "proposed"
+  },
+  {
+   "id": "midnight_checks",
+   "name": "Midnight Checks",
+   "type": "support",
+   "format": "social_network_media",
+   "size": "large",
+   "targetScales": {
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
+   },
+   "description": {
+    "purpose": "A private group for parents and carers of kids with type 1 diabetes. Post your 3 a.m. lows, your school-nurse battles and your pump questions, and people who've been there will answer, usually within minutes.",
+    "culture": "We're not doctors and nobody here judges your numbers. Be kind, keep kids' faces and full names out of posts, and celebrate the small wins."
+   },
+   "keywords": [
+    "type 1 diabetes",
+    "t1d parents",
+    "support",
+    "carers"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "community_care",
+      "empathy",
+      "mutual_aid",
+      "trust",
+      "knowledge_sharing"
+     ],
+     "also": [
+      "inclusivity",
+      "generosity",
+      "education",
+      "accessibility",
+      "solidarity"
+     ]
+    },
+    "joiningTiers": [
+     "restricted_approvals"
+    ],
+    "joining": {
+     "good": [
+      "application_review",
+      "membership_agreement_or_pledge"
+     ],
+     "also": [
+      "orientation_required"
+     ],
+     "avoid": [
+      "open_access",
+      "pay_to_join",
+      "skill_based_evaluation",
+      "collective_interviews",
+      "lottery_sortition",
+      "weighted_or_tiered_membership",
+      "contribution_based"
+     ]
+    },
+    "decision": {
+     "good": [
+      "delegated_decision_making"
+     ],
+     "also": [
+      "majority_rule",
+      "lazy_consensus"
+     ],
+     "avoid": [
+      "investor_filled_board_seats",
+      "weighted_voting",
+      "quadratic_voting",
+      "proof_of_work",
+      "lottery_sortition",
+      "algorithm_driven_decisions"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "managerial_decision",
+      "mediation"
+     ],
+     "also": [
+      "peer_mediation",
+      "restorative_practices"
+     ],
+     "avoid": [
+      "supermajority_vote",
+      "internal_tribunal",
+      "judicial_committees",
+      "binding_arbitration",
+      "lottery_sortition",
+      "binding_contracts"
+     ]
+    }
+   },
+   "notes": "Privacy outweighs openness: members want removals and disputes handled quietly by admins, not in public. A large support group that's admin-run, unlike a small peer circle.",
+   "status": "proposed"
+  },
+  {
+   "id": "harrow_valley_ars",
+   "name": "Harrow Valley Amateur Radio Society",
+   "type": "club",
+   "format": "listserv_email",
+   "size": "medium",
+   "targetScales": {
+    "participatory": 5,
+    "transparent": 6,
+    "hierarchical": 4
+   },
+   "description": {
+    "purpose": "The local club for licensed radio amateurs and people working towards a license. We run the repeater, a Tuesday night net, Field Day every June and license classes twice a year; this list carries meeting notices, swap-and-sell posts and the odd argument about antennas.",
+    "culture": "Old hands and newcomers are on the same footing on the air. Dues keep the repeater running, and the minutes go out to the list after every meeting."
+   },
+   "keywords": [
+    "ham radio",
+    "amateur radio",
+    "repeater",
+    "field day",
+    "license classes"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "mentorship",
+      "education",
+      "reliability",
+      "stewardship",
+      "cooperation"
+     ],
+     "also": [
+      "accountability",
+      "knowledge_sharing",
+      "maintenance",
+      "generosity",
+      "transparency"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "pay_to_join"
+     ],
+     "also": [
+      "mentorship",
+      "weighted_or_tiered_membership"
+     ],
+     "avoid": [
+      "invitation_only",
+      "lottery_sortition",
+      "collective_interviews",
+      "referral_system_with_screening"
+     ]
+    },
+    "decision": {
+     "good": [
+      "elected_board_of_directors",
+      "majority_rule"
+     ],
+     "also": [
+      "delegated_decision_making",
+      "advisory_committees",
+      "supermajority_rule"
+     ],
+     "avoid": [
+      "autocratic_decision_making",
+      "investor_filled_board_seats",
+      "quadratic_voting",
+      "algorithm_driven_decisions",
+      "random_choice",
+      "continuous_voting"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "conflict_resolution_council",
+      "mediation"
+     ],
+     "also": [
+      "supermajority_vote",
+      "binding_contracts"
+     ],
+     "avoid": [
+      "managerial_decision",
+      "binding_arbitration",
+      "lottery_sortition",
+      "rotational_judging"
+     ]
+    }
+   },
+   "notes": "A conventional bylaws club, included as a baseline: elected officers and member votes are right, and a tool shouldn't over-reach towards consensus or novel voting schemes.",
+   "status": "proposed"
+  },
+  {
+   "id": "crumb_club",
+   "name": "Crumb Club",
+   "type": "creator_audience",
+   "format": "chat_group",
+   "size": "very_large",
+   "targetScales": {
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 5
+   },
+   "description": {
+    "purpose": "The members' Discord for Jun's baking channel: share your bakes, get help with a stubborn starter, and join the monthly bake-along. Patrons also get the recipe archive and live Q&As.",
+    "culture": "This started as forty regulars and a lot of flour jokes; since the croissant video went viral we're past 20,000 and still working out how to stay this cosy. Jun and a handful of volunteer mods keep it running."
+   },
+   "keywords": [
+    "sourdough",
+    "baking",
+    "bake-along",
+    "discord",
+    "patreon"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "community_care",
+      "learning",
+      "inclusivity",
+      "generosity",
+      "constructive_feedback"
+     ],
+     "also": [
+      "knowledge_sharing",
+      "mentorship",
+      "experimentation",
+      "fair_remuneration",
+      "trust"
+     ]
+    },
+    "joiningTiers": [
+     "open"
+    ],
+    "joining": {
+     "good": [
+      "open_access",
+      "pay_to_join",
+      "weighted_or_tiered_membership"
+     ],
+     "also": [
+      "membership_agreement_or_pledge",
+      "orientation_required"
+     ],
+     "avoid": [
+      "collective_interviews",
+      "consensus_or_vote_based_approval",
+      "application_review",
+      "peer_sponsorship",
+      "lottery_sortition",
+      "skill_based_evaluation"
+     ]
+    },
+    "decision": {
+     "good": [
+      "autocratic_decision_making",
+      "delegated_decision_making"
+     ],
+     "also": [
+      "advisory_committees",
+      "approval_voting"
+     ],
+     "avoid": [
+      "consensus_decision_making",
+      "elected_board_of_directors",
+      "investor_filled_board_seats",
+      "sociocracy",
+      "supermajority_rule",
+      "quadratic_voting"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "managerial_decision",
+      "mediation"
+     ],
+     "also": [
+      "peer_mediation",
+      "conflict_resolution_council"
+     ],
+     "avoid": [
+      "supermajority_vote",
+      "circle_processes",
+      "internal_tribunal",
+      "judicial_committees",
+      "lottery_sortition",
+      "consensus_building"
+     ]
+    }
+   },
+   "notes": "Hard case, growing fast: what worked for forty regulars is straining, so delegating to mods or a regulars' advisory group are fair suggestions. Member votes on governance aren't what it wants; Jun still decides.",
+   "status": "proposed"
+  },
+  {
+   "id": "hist214_open_textbook",
+   "name": "HIST 214 Open Textbook",
+   "type": "classroom",
+   "format": "peer_production",
+   "size": "medium",
+   "targetScales": {
+    "participatory": 4,
+    "transparent": 6,
+    "hierarchical": 6
+   },
+   "description": {
+    "purpose": "Each semester the 110 students in HIST 214 (The Atlantic World, 1500 to 1800) write and revise chapters of an open textbook that the next cohort inherits. You'll draft one section in a team, review two others, and argue about sources on the talk pages; Dr. Okafor and two TAs grade the work and approve what gets published.",
+    "culture": "Cite everything and be generous with other teams' drafts, because your section will be torn apart and rebuilt by students you'll never meet."
+   },
+   "keywords": [
+    "open textbook",
+    "history",
+    "wiki",
+    "student writing",
+    "peer review"
+   ],
+   "expected": {
+    "values": {
+     "core": [
+      "education",
+      "knowledge_sharing",
+      "collaboration",
+      "constructive_feedback",
+      "documentation"
+     ],
+     "also": [
+      "openness",
+      "learning",
+      "accountability",
+      "stewardship",
+      "freedom_of_information"
+     ]
+    },
+    "joiningTiers": [
+     "restricted_approvals"
+    ],
+    "joining": {
+     "good": [
+      "identity_verification",
+      "orientation_required"
+     ],
+     "also": [
+      "mentorship",
+      "invitation_only"
+     ],
+     "avoid": [
+      "open_access",
+      "collective_interviews",
+      "consensus_or_vote_based_approval",
+      "peer_sponsorship",
+      "referral_system_with_screening"
+     ]
+    },
+    "decision": {
+     "good": [
+      "hierarchical_decision_making",
+      "delegated_decision_making"
+     ],
+     "also": [
+      "lazy_consensus",
+      "collaborative_platforms"
+     ],
+     "avoid": [
+      "investor_filled_board_seats",
+      "elected_board_of_directors",
+      "quadratic_voting",
+      "weighted_voting",
+      "random_choice",
+      "supermajority_rule",
+      "consensus_decision_making"
+     ]
+    },
+    "conflict": {
+     "good": [
+      "managerial_decision",
+      "facilitated_negotiation"
+     ],
+     "also": [
+      "peer_mediation",
+      "consensus_building"
+     ],
+     "avoid": [
+      "binding_arbitration",
+      "internal_tribunal",
+      "supermajority_vote",
+      "lottery_sortition",
+      "judicial_committees",
+      "binding_contracts"
+     ]
+    }
+   },
+   "notes": "Hard case: the peer-production format could pull a tool towards open, flat options, but it's a graded course where the instructor has the final say. Talk-page consensus still fits within each team. Invitation only moved from avoid to also (2026-10-10): students are enrolled and added by the teacher.",
+   "status": "proposed"
+  }
+ ]
+}

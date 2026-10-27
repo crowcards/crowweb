@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-10",
+  "note": "The format of a community's online space (basics.format): chat group, forum, social network, team, … It suggests which modules a card covers (module_defaults.json byFormat). Renamed 2026-10-09 from community_types.json; the kind of group is now community_types.json. Six formats (citizen science moved to the community types, 2026-10-10).",
+  "items": [
+    {
+      "id": "chat_group",
+      "label": "Chat Group",
+      "description": "Real-time or near-real-time conversation among members, typically organized into channels or rooms."
+    },
+    {
+      "id": "discussion_forum",
+      "label": "Discussion Forum",
+      "description": "Asynchronous threaded discussion, often with voting or ranking of posts."
+    },
+    {
+      "id": "listserv_email",
+      "label": "Listserv / Email",
+      "description": "Email-based group communication; each list server independently hosted."
+    },
+    {
+      "id": "social_network_media",
+      "label": "Social Network / Media",
+      "description": "Profile-based social communication, often with public posts and follow relationships."
+    },
+    {
+      "id": "peer_production",
+      "label": "Peer Production",
+      "description": "Collaborative creation of shared artifacts (e.g., wikis, documentation, encyclopedias)."
+    },
+    {
+      "id": "team",
+      "label": "Team",
+      "description": "Communication platforms for coordinating a team or project, e.g. a team chat or shared workspace."
+    }
+  ]
+}

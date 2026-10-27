@@ -1,0 +1,146 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-12",
+  "note": "Enumerated values used across the schema. communitySize's minMembers: where each size starts, in members (active members, when counted from a server); costValues are a card's answers (yes / no); costGuides are the words cost_rules.json and cost_overrides.json use for what's usual, shown beside the answers as a guide.",
+  "communitySize": [
+    {
+      "id": "small",
+      "minMembers": 1,
+      "label": "Small",
+      "description": "Under ~50 members"
+    },
+    {
+      "id": "medium",
+      "minMembers": 50,
+      "label": "Medium",
+      "description": "~50 to a few hundred members"
+    },
+    {
+      "id": "large",
+      "minMembers": 500,
+      "label": "Large",
+      "description": "A few hundred to a few thousand members"
+    },
+    {
+      "id": "very_large",
+      "minMembers": 5000,
+      "label": "Very large",
+      "description": "Thousands or more members"
+    }
+  ],
+  "costValues": [
+    {
+      "id": "yes",
+      "label": "Yes",
+      "description": "Your community pays for this, in money or time."
+    },
+    {
+      "id": "no",
+      "label": "No",
+      "description": "Your community doesn't pay for this."
+    }
+  ],
+  "costGuides": [
+    {
+      "id": "yes",
+      "label": "Yes",
+      "description": "This cost reliably applies."
+    },
+    {
+      "id": "often",
+      "label": "Often",
+      "description": "Applies frequently but not universally; depends on community size or activity."
+    },
+    {
+      "id": "sometimes",
+      "label": "Sometimes",
+      "description": "Applies in some configurations or at some scale."
+    },
+    {
+      "id": "rare",
+      "label": "Rare",
+      "description": "Technically possible but uncommon in practice."
+    },
+    {
+      "id": "no",
+      "label": "No",
+      "description": "This cost does not apply."
+    }
+  ],
+  "federationApproach": [
+    {
+      "id": "open",
+      "label": "Open",
+      "description": "Default to federating with everyone; block specific bad actors as needed."
+    },
+    {
+      "id": "allowlist_first",
+      "label": "Allowlist first",
+      "description": "Default to not federating; explicitly allow a curated list of trusted servers."
+    },
+    {
+      "id": "denylist_first",
+      "label": "Denylist first",
+      "description": "Default to federating and blocking/denying access as needed."
+    }
+  ],
+  "federationResponseLadder": [
+    {
+      "id": "warn",
+      "label": "Warn",
+      "description": "Issue a warning to the other server's moderators."
+    },
+    {
+      "id": "mute",
+      "label": "Mute",
+      "description": "Hide the server's content from federated timelines without blocking."
+    },
+    {
+      "id": "deliberate",
+      "label": "Discuss",
+      "description": "Internal moderator discussion before deciding next action."
+    },
+    {
+      "id": "ghost",
+      "label": "Ghost",
+      "description": "Bonfire-specific: silently drop interactions without visible block."
+    },
+    {
+      "id": "block",
+      "label": "Block",
+      "description": "Fully defederate; no interaction permitted."
+    }
+  ],
+  "communicationChannels": [
+    {
+      "id": "announcementFeed",
+      "label": "Announcement feed",
+      "description": "A channel or account where moderators post updates for everyone, e.g. an announcements channel or pinned posts."
+    },
+    {
+      "id": "feedbackForm",
+      "label": "Feedback form",
+      "description": "A form or survey where members can raise concerns or suggestions, anonymously or not."
+    },
+    {
+      "id": "publicContactInfo",
+      "label": "Public contact info",
+      "description": "An email address or contact page anyone can use to reach the people running the community."
+    },
+    {
+      "id": "listserv",
+      "label": "Mailing list",
+      "description": "An email list for announcements or discussion among members."
+    },
+    {
+      "id": "groupChat",
+      "label": "Group chat",
+      "description": "A chat room or channel where members and moderators talk in real time."
+    },
+    {
+      "id": "dedicatedAdminAccount",
+      "label": "Dedicated admin account",
+      "description": "A shared account for the moderation team, so members can reach the team rather than one person."
+    }
+  ]
+}

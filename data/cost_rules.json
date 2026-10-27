@@ -1,0 +1,185 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-12",
+  "categories": [
+    {
+      "id": "hostingServers",
+      "label": "Hosting & servers"
+    },
+    {
+      "id": "mediaStorage",
+      "label": "Media storage & delivery"
+    },
+    {
+      "id": "domain",
+      "label": "Domain"
+    },
+    {
+      "id": "emailDelivery",
+      "label": "Email delivery"
+    },
+    {
+      "id": "paidSoftware",
+      "label": "Paid software"
+    },
+    {
+      "id": "managedHostingServices",
+      "label": "Managed hosting services"
+    },
+    {
+      "id": "backupsDisasterRecovery",
+      "label": "Backups & disaster recovery"
+    },
+    {
+      "id": "adminModLabor",
+      "label": "Admin + mod labor"
+    },
+    {
+      "id": "thirdPartyTrustSafetyTools",
+      "label": "Third-party, trust & safety tools"
+    },
+    {
+      "id": "legalCompliance",
+      "label": "Legal & compliance"
+    },
+    {
+      "id": "inPersonEvents",
+      "label": "In-person events"
+    }
+  ],
+  "types": [
+    {
+      "id": "corporate_proprietary",
+      "label": "Corporate / Proprietary",
+      "description": "Operated by a company. Community runner is a tenant — no infrastructure to manage, but also no ultimate control.",
+      "examples": "Facebook, LinkedIn, Reddit, Discord, Telegram, WeChat, Nextdoor, Slack, Fandom, Roundabout, Front Porch Forum, Google Groups",
+      "costs": {
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "rare",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "sometimes"
+      }
+    },
+    {
+      "id": "self_hosted_text_primary",
+      "label": "Self-Hosted, Text-Primary",
+      "description": "You run the software yourself. Primary content is text, links, or lightweight media. Full control; real infrastructure costs.",
+      "examples": "Mastodon, Pleroma, Akkoma, Misskey, Bonfire, Friendica, Lemmy, Discourse, Mailman, Matrix clients, Diaspora*, Custom wiki, generic ActivityPub / Matrix / Diaspora Protocol clients",
+      "costs": {
+        "hostingServers": "yes",
+        "mediaStorage": "sometimes",
+        "domain": "yes",
+        "emailDelivery": "sometimes",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "sometimes",
+        "inPersonEvents": "sometimes"
+      }
+    },
+    {
+      "id": "self_hosted_media_heavy",
+      "label": "Self-Hosted, Media-Heavy",
+      "description": "Self-hosted with significant video or image storage. Storage and delivery costs are a meaningful ongoing expense.",
+      "examples": "PeerTube, Pixelfed",
+      "costs": {
+        "hostingServers": "yes",
+        "mediaStorage": "yes",
+        "domain": "yes",
+        "emailDelivery": "sometimes",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "yes",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "sometimes",
+        "inPersonEvents": "sometimes"
+      }
+    },
+    {
+      "id": "hosted_oss_institutional",
+      "label": "Hosted OSS / Institutional",
+      "description": "Open source software, but hosted by an institution (a university, a nonprofit). You participate; you don't operate.",
+      "examples": "Zooniverse, iNaturalist, Wikipedia",
+      "costs": {
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "often",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "sometimes"
+      }
+    },
+    {
+      "id": "protocol_client_relay_based",
+      "label": "Protocol Client, Relay-Based",
+      "description": "Connects to the Nostr relay network. Infrastructure costs only arise if you run your own relay.",
+      "examples": "Damus, Amethyst, Primal, generic Nostr client",
+      "costs": {
+        "hostingServers": "sometimes",
+        "mediaStorage": "sometimes",
+        "domain": "sometimes",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
+      }
+    },
+    {
+      "id": "protocol_client_pds_based",
+      "label": "Protocol Client, PDS-Based",
+      "description": "Connects to the AT Protocol network. Infrastructure costs only if you run your own Personal Data Server.",
+      "examples": "Bluesky, Blacksky, generic AT Protocol client",
+      "costs": {
+        "hostingServers": "sometimes",
+        "mediaStorage": "sometimes",
+        "domain": "sometimes",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "sometimes",
+        "backupsDisasterRecovery": "sometimes",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "sometimes",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
+      }
+    },
+    {
+      "id": "centralized_messaging",
+      "label": "Centralized Messaging",
+      "description": "Open source software, centrally operated by the developer. Community = a group chat. No infrastructure costs.",
+      "examples": "Signal Chat",
+      "costs": {
+        "hostingServers": "no",
+        "mediaStorage": "no",
+        "domain": "no",
+        "emailDelivery": "no",
+        "paidSoftware": "no",
+        "managedHostingServices": "no",
+        "backupsDisasterRecovery": "no",
+        "adminModLabor": "sometimes",
+        "thirdPartyTrustSafetyTools": "no",
+        "legalCompliance": "rare",
+        "inPersonEvents": "rare"
+      }
+    }
+  ]
+}

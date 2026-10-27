@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Make — CROW</title>
+  <link rel="icon" href="img/crow-sprite-a.png" />
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+  <link rel="preconnect" href="https://p.typekit.net" crossorigin />
+  <link rel="stylesheet" href="https://use.typekit.net/unv1cvw.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="make.css" />
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/site.js"></script>
+  <script src="js/crow.js" defer></script>
+  <script type="module" src="js/make.js"></script>
+</head>
+<body class="make">
+
+  <header class="site-header">
+    <a class="site-title" href="/" data-letters>Community Rules for an Open Web</a>
+    <a class="header-crow sprite" href="/" aria-label="Home">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><span></span></button>
+    <nav id="nav" class="site-nav" aria-label="Main">
+      <a href="/">Home</a>
+      <a href="/make" aria-current="page">Make</a>
+      <a href="/library">Library</a>
+      <a href="/about">About</a>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false">
+      <svg class="moon" aria-hidden="true"><use href="img/icons.svg#moon"/></svg>
+      <svg class="sun" aria-hidden="true"><use href="img/icons.svg#sun"/></svg>
+    </button>
+  </header>
+
+  <!-- covers the page from the first moment until the right screen is ready
+     (make.js hides it): the flapping crow and "Loading" -->
+  <div class="page-loading" id="page-loading" role="status">
+    <div class="sprite" aria-hidden="true">
+      <img src="img/crow-sprite-a.png" alt="" />
+      <img src="img/crow-sprite-e.png" alt="" />
+      <img src="img/crow-sprite-d.png" alt="" />
+      <img src="img/crow-sprite-c.png" alt="" />
+    </div>
+    <p>Loading</p>
+  </div>
+
+  <div class="info" id="intro">
+    <aside class="info-side">
+      <div class="side-art">
+        <div class="pixel-crow" data-grid="75">
+          <img src="img/crow-sprite-a.png" alt="Pixel-art crow" />
+        </div>
+      </div>
+      <div class="logos">
+        <a href="https://hci.princeton.edu/" target="_blank"><img src="img/logos/princetonhci.png" alt="Princeton HCI" /></a>
+        <a href="https://bonfirenetworks.org/" target="_blank"><img src="img/logos/bonfire.png" alt="Bonfire Networks" /></a>
+      </div>
+    </aside>
+
+    <main class="info-body">
+
+      <!-- shown while a card loads (and if it can't) -->
+      <section data-screen="loading">
+        <p class="screen-loading" id="loading-text">Loading…</p>
+        <div id="loading-error" hidden>
+          <h1 tabindex="-1">Couldn’t open your card</h1>
+          <p class="form-error" role="alert"></p>
+          <p><button class="button" type="button" id="loading-retry">Try again</button></p>
+        </div>
+      </section>
+
+      <!-- ── start: new card or edit an existing one ─────────────── -->
+      <section data-screen="start" hidden>
+        <h1 tabindex="-1">Make a CROW Card</h1>
+        <p>A CROW Card describes how your community governs itself: its values, rules, and processes. Start a new card, or keep working on one you’ve already begun. You can read through the <a href="https://docs.crowcards.org/">Documentation</a> to learn more.</p>
+
+        <p><button class="button" type="button" id="start-new">Start a new card</button></p>
+        <p class="form-error" id="start-error" role="alert" hidden></p>
+
+        <h2>Edit an existing card</h2>
+        <p>Enter the card ID and secret you saved when you made the card.</p>
+        <form id="edit-form" class="key-form" novalidate>
+          <label for="edit-id" class="mono-u">Card ID</label>
+          <input id="edit-id" name="cardId" class="mono" type="text" placeholder="crd_…" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+
+          <label for="edit-secret" class="mono-u">Secret</label>
+          <input id="edit-secret" name="secret" class="mono" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" required />
+
+          <label class="check">
+            <input type="checkbox" name="remember" />
+            Remember this card on this device
+          </label>
+
+          <p class="form-error" id="edit-error" role="alert" hidden></p>
+          <p><button class="button" type="submit">Open card</button></p>
+        </form>
+      </section>
+
+      <!-- ── save your key: shown once, right after a card is made ── -->
+      <section data-screen="key" hidden>
+        <h1 tabindex="-1">Save your card key</h1>
+        <div class="callout">
+          <p><b class="mono-u">Only shown once.</b> These two lines are the only way to open and edit your card. We don’t keep a copy of the secret, so if you lose it, nobody (including us) can get the card back. Anyone who has both can edit the card, so keep them somewhere private, like a password manager.</p>
+        </div>
+
+        <dl class="key-list">
+          <div>
+            <dt class="mono-u">Card ID</dt>
+            <dd><code class="mono key-value" id="key-id"></code> <button class="link-button" type="button" data-copy="key-id">Copy</button></dd>
+          </div>
+          <div>
+            <dt class="mono-u">Secret</dt>
+            <dd><code class="mono key-value" id="key-secret"></code> <button class="link-button" type="button" data-copy="key-secret">Copy</button></dd>
+          </div>
+        </dl>
+
+        <p><button class="link-button" type="button" id="key-download">Download as a .txt file</button></p>
+
+        <label class="check">
+          <input type="checkbox" id="key-saved" />
+          I’ve saved my card ID and secret somewhere safe
+        </label>
+        <label class="check">
+          <input type="checkbox" id="key-remember" />
+          Also remember this card on this device
+        </label>
+
+        <p><button class="button" type="button" id="key-continue" disabled>Continue</button></p>
+      </section>
+
+      <!-- ── set up: Basics and modules, before the editor ─────── -->
+      <section data-screen="setup" hidden>
+        <h1 tabindex="-1">About your community</h1>
+        <p>Start with the basics. You can change all of this later in the editor.</p>
+        <label class="check">
+          <input type="checkbox" id="setup-show-all" />
+          Show all fields at once
+        </label>
+        <!-- the blocks, one after another: Basics' groups, then the modules (make.js showSetup) -->
+        <div id="setup-fork" hidden></div>   <!-- a fork: what it was given (make.js showSetup) -->
+        <div id="setup-basics"></div>
+
+        <div id="setup-modules-block">
+          <h2>What your card will cover</h2>
+          <p>Each module is a part of the card. These are the ones most cards include; add or remove any, now or later.</p>
+          <div id="setup-modules-hint" aria-live="polite"></div>
+          <div id="setup-modules"></div>
+        </div>
+
+        <p class="save-status" id="setup-status" role="status"></p>
+        <p class="form-error" id="setup-error" role="alert" hidden></p>
+        <div id="setup-finish">
+          <p><button class="button" type="button" id="setup-continue" aria-describedby="setup-missing">Continue to the editor</button></p>
+          <p class="field-hint" id="setup-missing"></p>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>CROW is a research project from <a href="https://hci.princeton.edu/" target="_blank">Princeton HCI</a>&ensp;•&ensp;<a href="/privacy">Privacy</a></p>
+    </footer>
+  </div>
+
+  <!-- ── editor: modules on the left, the current module on the right ── -->
+  <div class="sidebar-layout" id="editor" data-screen="editor" hidden>
+    <nav class="sidebar editor-nav" id="editor-nav" aria-label="Card modules">
+      <!-- narrow screens only: one slim bar (js/sidebar.js). The module's name
+           opens the module list (the panel below); + opens Save, Forget and Reset. -->
+      <div class="sidebar-bar editor-bar">
+        <button class="sidebar-toggle" type="button" id="editor-nav-toggle" aria-expanded="false" aria-controls="editor-nav-panel">
+          <span class="visually-hidden">Module: </span><span id="editor-bar-module">Basics</span><span class="flag-dot" id="editor-nav-flag" hidden><span class="visually-hidden"> (a module has a suggestion)</span></span><span class="pixel-caret" aria-hidden="true"></span>
+        </button>
+        <a href="https://docs.crowcards.org/" target="_blank" rel="noopener">Docs</a>
+        <!-- the save status, card name and +: kept together on one line -->
+        <div class="editor-bar-end">
+          <p class="editor-bar-card">
+            <span class="save-status" id="save-status-bar" aria-hidden="true"></span>
+            <span class="editor-bar-name" id="editor-bar-name"></span>
+          </p>
+          <div class="editor-bar-more">
+            <button class="pixel-toggle" type="button" id="editor-bar-more" aria-expanded="false" aria-controls="editor-bar-menu" aria-label="Save, forget or reset"></button>
+            <div class="editor-bar-menu" id="editor-bar-menu" hidden>
+              <p class="editor-bar-id"><span class="mono-u">Card ID</span> <span class="mono" id="editor-bar-id"></span></p>
+              <button class="button button-small" type="button" data-save-now>Save</button>
+              <button class="button button-small" type="button" data-forget aria-label="Forget this card on this device">Forget</button>
+              <button class="button button-small" type="button" data-reset>Reset</button>
+              <a class="button button-small" href="#export">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-panel editor-nav-panel" id="editor-nav-panel">
+        <div class="sprite editor-crow" aria-hidden="true">
+          <img src="img/crow-sprite-a.png" alt="" />
+          <img src="img/crow-sprite-e.png" alt="" />
+          <img src="img/crow-sprite-d.png" alt="" />
+          <img src="img/crow-sprite-c.png" alt="" />
+        </div>
+
+        <p class="editor-card">
+          <span class="mono-u">Your card</span>
+          <span class="editor-name" id="editor-name"></span>
+          <span class="mono" id="editor-id"></span>
+        </p>
+
+        <ul id="module-list" class="module-list"></ul>
+
+        <div class="editor-actions">
+          <button class="button button-small" type="button" data-save-now>Save</button>
+          <p class="save-status" id="save-status" role="status"></p>
+        </div>
+
+        <div class="editor-forget">
+          <button class="button button-small" type="button" data-forget aria-describedby="forget-note">Forget</button>
+          <p class="editor-forget-note" id="forget-note">on this device</p>
+        </div>
+
+        <div class="editor-reset">
+          <button class="button button-small" type="button" data-reset aria-describedby="reset-note">Reset</button>
+          <p class="editor-forget-note" id="reset-note">clear answers</p>
+        </div>
+
+        <div class="editor-export">
+          <a class="button button-small" href="#export" aria-describedby="export-note">Export</a>
+          <p class="editor-forget-note" id="export-note">publish or download</p>
+        </div>
+
+        <p class="editor-docs"><a href="https://docs.crowcards.org/" target="_blank" rel="noopener">Docs</a></p>
+      </div>
+    </nav>
+
+    <main class="sidebar-main">
+      <section id="module-panel">
+        <!-- the -tools slots: e.g. a custom module's pencil to edit its name -->
+        <div class="module-head"><h1 id="module-title" tabindex="-1"></h1><span class="module-head-tools" id="module-title-tools"></span></div>
+        <div class="module-head"><p class="lede lede-small" id="module-description"></p><span class="module-head-tools" id="module-description-tools"></span></div>
+        <div id="module-suggestions" aria-live="polite"></div>
+        <div id="module-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ── pop-up: one shared box, filled in by js/popup.js ─────── -->
+  <dialog class="popup" id="popup" aria-labelledby="popup-title">
+    <div class="popup-inner">
+      <button class="popup-close" type="button" aria-label="Close"><span></span></button>
+      <h2 class="popup-title" id="popup-title"></h2>
+      <div class="popup-body"></div>
+    </div>
+  </dialog>
+
+</body>
+</html>

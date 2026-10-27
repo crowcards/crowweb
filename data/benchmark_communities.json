@@ -1,0 +1,1636 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "Example communities for measuring suggestions (bench.html): each with the answers it would give (community type, format, size, target scales, description, keywords) and what it would choose. values.core: the values it would most likely pick; values.also: also reasonable. For joining, decision-making and conflict: good (should be Suggested), also (fine as See also, or interesting for this kind of group), avoid (should get no chip; most are 'generally not a fit'). joiningTiers: the tiers it would pick. status: proposed until reviewed. Community types are community_types.json ids; formats are formats.json ids. Not shown to card makers.",
+  "communities": [
+    {
+      "id": "single_user",
+      "name": "Ana's Corner",
+      "size": "small",
+      "targetScales": {
+        "participatory": 2,
+        "transparent": 5,
+        "hierarchical": 6
+      },
+      "description": {
+        "purpose": "My own single-user Mastodon server: my posts, my follows, and the few friends I give accounts to.",
+        "culture": "Quiet and personal; I decide what's here, and I block freely."
+      },
+      "keywords": [
+        "single-user",
+        "personal",
+        "fediverse"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "autonomy",
+            "independence",
+            "freedom",
+            "consent"
+          ],
+          "also": [
+            "interoperability",
+            "honesty",
+            "decentralization",
+            "resilience"
+          ]
+        },
+        "joiningTiers": [
+          "closed"
+        ],
+        "joining": {
+          "good": [
+            "invitation_only"
+          ],
+          "also": [],
+          "avoid": [
+            "pay_to_join",
+            "application_review",
+            "collective_interviews",
+            "consensus_or_vote_based_approval",
+            "lottery_sortition",
+            "identity_verification",
+            "weighted_or_tiered_membership"
+          ]
+        },
+        "decision": {
+          "good": [
+            "autocratic_decision_making"
+          ],
+          "also": [
+            "lazy_consensus"
+          ],
+          "avoid": [
+            "elected_board_of_directors",
+            "lottery_sortition",
+            "consensus_decision_making",
+            "sociocracy",
+            "executive_committees",
+            "investor_filled_board_seats",
+            "deliberative_polling"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "managerial_decision"
+          ],
+          "also": [
+            "mediation"
+          ],
+          "avoid": [
+            "judicial_committees",
+            "internal_tribunal",
+            "conflict_resolution_council",
+            "rotational_judging",
+            "lottery_sortition",
+            "supermajority_vote",
+            "circle_processes"
+          ]
+        }
+      },
+      "notes": "One person holds all the power, and that's normal here: autocratic is good, not a red flag. Federation still matters (which servers to block).",
+      "status": "accepted",
+      "format": "social_network_media",
+      "type": "personal"
+    },
+    {
+      "id": "tenants_union",
+      "name": "Riverbend Tenants' Union",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 6,
+        "transparent": 5,
+        "hierarchical": 2
+      },
+      "description": {
+        "purpose": "Renters in our building organizing together for repairs and fair rents, and backing each other when the landlord pushes back.",
+        "culture": "Everyone has a say, decisions are made together, and we look out for each other."
+      },
+      "keywords": [
+        "tenants",
+        "housing",
+        "organizing"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "solidarity",
+            "mutual_aid",
+            "participation",
+            "justice"
+          ],
+          "also": [
+            "direct_action",
+            "accountability",
+            "transparency",
+            "collaboration",
+            "equity"
+          ]
+        },
+        "joiningTiers": [
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "membership_agreement_or_pledge",
+            "peer_sponsorship"
+          ],
+          "also": [
+            "identity_verification",
+            "orientation_required",
+            "open_access",
+            "pay_to_join"
+          ],
+          "avoid": [
+            "lottery_sortition",
+            "skill_based_evaluation",
+            "weighted_or_tiered_membership"
+          ]
+        },
+        "decision": {
+          "good": [
+            "majority_rule",
+            "modified_consensus"
+          ],
+          "also": [
+            "consensus_decision_making",
+            "ranked_choice_voting",
+            "delegated_decision_making",
+            "elected_board_of_directors"
+          ],
+          "avoid": [
+            "autocratic_decision_making",
+            "investor_filled_board_seats",
+            "proof_of_work",
+            "weighted_voting"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "peer_mediation",
+            "restorative_practices"
+          ],
+          "also": [
+            "facilitated_negotiation",
+            "mediation",
+            "circle_processes"
+          ],
+          "avoid": [
+            "managerial_decision",
+            "binding_contracts",
+            "internal_tribunal"
+          ]
+        }
+      },
+      "notes": "Members are residents, so joining is limited to the building. Dues are common in tenant unions, so pay_to_join is 'also'.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "movement"
+    },
+    {
+      "id": "family_chat",
+      "name": "Hendricks Family Chat",
+      "size": "small",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 4,
+        "hierarchical": 3
+      },
+      "description": {
+        "purpose": "Our extended family's group chat: planning visits and holidays, sharing photos, and helping each other out.",
+        "culture": "Warm and easygoing; we look after each other and try not to let arguments linger."
+      },
+      "keywords": [
+        "family",
+        "holidays"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "trust",
+            "community_care",
+            "empathy",
+            "honesty"
+          ],
+          "also": [
+            "generosity",
+            "humility",
+            "consent",
+            "reliability"
+          ]
+        },
+        "joiningTiers": [
+          "closed"
+        ],
+        "joining": {
+          "good": [
+            "invitation_only"
+          ],
+          "also": [],
+          "avoid": [
+            "pay_to_join",
+            "identity_verification",
+            "application_review",
+            "skill_based_evaluation",
+            "lottery_sortition",
+            "collective_interviews",
+            "contribution_based"
+          ]
+        },
+        "decision": {
+          "good": [
+            "lazy_consensus",
+            "negotiated_decisions"
+          ],
+          "also": [
+            "consensus_decision_making",
+            "majority_rule"
+          ],
+          "avoid": [
+            "elected_board_of_directors",
+            "investor_filled_board_seats",
+            "quadratic_voting",
+            "executive_committees",
+            "proof_of_work",
+            "weighted_voting"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "mediation",
+            "restorative_practices"
+          ],
+          "also": [
+            "peer_mediation",
+            "circle_processes",
+            "consensus_building"
+          ],
+          "avoid": [
+            "judicial_committees",
+            "internal_tribunal",
+            "binding_arbitration",
+            "binding_contracts",
+            "lottery_sortition",
+            "rotational_judging"
+          ]
+        }
+      },
+      "notes": "Formal processes would feel absurd here; the 'avoid' lists are the gates this case should catch.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "family"
+    },
+    {
+      "id": "board_games",
+      "name": "Thursday Board Games Crew",
+      "size": "small",
+      "targetScales": {
+        "participatory": 6,
+        "transparent": 4,
+        "hierarchical": 2
+      },
+      "description": {
+        "purpose": "A group of friends who meet every Thursday to play board games, and pick what to play next.",
+        "culture": "Relaxed and fair: everyone gets a turn to choose, and new people are welcome if someone vouches for them."
+      },
+      "keywords": [
+        "board games",
+        "friends"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "collaboration",
+            "fairness",
+            "trust",
+            "inclusion"
+          ],
+          "also": [
+            "flexibility",
+            "voluntarism",
+            "generosity"
+          ]
+        },
+        "joiningTiers": [
+          "closed",
+          "tiered_probationary"
+        ],
+        "joining": {
+          "good": [
+            "invitation_only",
+            "peer_sponsorship"
+          ],
+          "also": [],
+          "avoid": [
+            "pay_to_join",
+            "identity_verification",
+            "application_review",
+            "skill_based_evaluation"
+          ]
+        },
+        "decision": {
+          "good": [
+            "lazy_consensus",
+            "approval_voting",
+            "majority_rule"
+          ],
+          "also": [
+            "rotational_leadership",
+            "random_choice",
+            "ranked_choice_voting"
+          ],
+          "avoid": [
+            "elected_board_of_directors",
+            "executive_committees",
+            "investor_filled_board_seats",
+            "hierarchical_decision_making"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "peer_mediation",
+            "facilitated_negotiation"
+          ],
+          "also": [
+            "mediation"
+          ],
+          "avoid": [
+            "internal_tribunal",
+            "judicial_committees",
+            "binding_arbitration",
+            "binding_contracts"
+          ]
+        }
+      },
+      "notes": "Random choice is fine here (picking a game), unlike in most settings.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "friends"
+    },
+    {
+      "id": "neighbors",
+      "name": "Maple Street Neighbors",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 6,
+        "hierarchical": 3
+      },
+      "description": {
+        "purpose": "A forum for people living on and around Maple Street: lost pets, street clean-ups, tool lending and local news.",
+        "culture": "Friendly and practical; neighbors help neighbors, and discussions stay civil."
+      },
+      "keywords": [
+        "neighborhood",
+        "local",
+        "tool library"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "localism",
+            "mutual_aid",
+            "community_care",
+            "inclusion"
+          ],
+          "also": [
+            "transparency",
+            "participation",
+            "generosity",
+            "trust"
+          ]
+        },
+        "joiningTiers": [
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "identity_verification",
+            "orientation_required"
+          ],
+          "also": [
+            "open_access",
+            "peer_sponsorship"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "skill_based_evaluation",
+            "lottery_sortition",
+            "contribution_based"
+          ]
+        },
+        "decision": {
+          "good": [
+            "majority_rule",
+            "advisory_committees"
+          ],
+          "also": [
+            "elected_board_of_directors",
+            "lazy_consensus",
+            "approval_voting"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "autocratic_decision_making",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "mediation",
+            "peer_mediation"
+          ],
+          "also": [
+            "facilitated_negotiation",
+            "restorative_practices"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "internal_tribunal"
+          ]
+        }
+      },
+      "notes": "Identity verification here means checking someone lives in the area.",
+      "status": "accepted",
+      "format": "discussion_forum",
+      "type": "neighborhood"
+    },
+    {
+      "id": "civic_budget",
+      "name": "Bayview Participatory Budget Forum",
+      "size": "large",
+      "targetScales": {
+        "participatory": 6,
+        "transparent": 7,
+        "hierarchical": 3
+      },
+      "description": {
+        "purpose": "Residents of Bayview proposing and choosing how a part of the city budget is spent, with city staff.",
+        "culture": "Open, fair and accountable: every resident's voice counts the same, and decisions are explained in public."
+      },
+      "keywords": [
+        "participatory budgeting",
+        "city",
+        "civic"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "transparency",
+            "participation",
+            "accountability",
+            "equity",
+            "fairness"
+          ],
+          "also": [
+            "inclusion",
+            "openness",
+            "justice"
+          ]
+        },
+        "joiningTiers": [
+          "open",
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "identity_verification"
+          ],
+          "also": [
+            "orientation_required"
+          ],
+          "avoid": [
+            "invitation_only",
+            "pay_to_join",
+            "peer_sponsorship",
+            "skill_based_evaluation",
+            "weighted_or_tiered_membership"
+          ]
+        },
+        "decision": {
+          "good": [
+            "deliberative_polling",
+            "ranked_choice_voting",
+            "lottery_sortition"
+          ],
+          "also": [
+            "majority_rule",
+            "approval_voting",
+            "advisory_committees",
+            "quadratic_voting",
+            "random_choice"
+          ],
+          "avoid": [
+            "autocratic_decision_making",
+            "investor_filled_board_seats",
+            "weighted_voting",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "conflict_resolution_council",
+            "mediation"
+          ],
+          "also": [
+            "non_binding_arbitration",
+            "facilitated_negotiation",
+            "lottery_sortition"
+          ],
+          "avoid": [
+            "managerial_decision",
+            "binding_contracts"
+          ]
+        }
+      },
+      "notes": "Weighted voting would break 'one resident, one voice'; sortition as citizens' panels is a strong fit.",
+      "status": "accepted",
+      "format": "discussion_forum",
+      "type": "civic"
+    },
+    {
+      "id": "design_studio",
+      "name": "Acme Design Studio",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 4,
+        "transparent": 5,
+        "hierarchical": 5
+      },
+      "description": {
+        "purpose": "The internal Slack for a 40-person design studio: project work, scheduling, and studio-wide decisions.",
+        "culture": "Professional and supportive: clear responsibilities, honest feedback, and room to raise concerns."
+      },
+      "keywords": [
+        "design",
+        "agency",
+        "studio"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "reliability",
+            "accountability",
+            "collaboration",
+            "constructive_feedback"
+          ],
+          "also": [
+            "transparency",
+            "fair_remuneration",
+            "learning",
+            "innovation"
+          ]
+        },
+        "joiningTiers": [
+          "closed"
+        ],
+        "joining": {
+          "good": [
+            "application_review",
+            "invitation_only"
+          ],
+          "also": [
+            "trial_period_provisional_membership",
+            "collective_interviews"
+          ],
+          "avoid": [
+            "open_access",
+            "lottery_sortition",
+            "pay_to_join",
+            "peer_sponsorship"
+          ]
+        },
+        "decision": {
+          "good": [
+            "hierarchical_decision_making",
+            "delegated_decision_making",
+            "advisory_committees"
+          ],
+          "also": [
+            "lazy_consensus",
+            "executive_committees",
+            "sociocracy"
+          ],
+          "avoid": [
+            "lottery_sortition",
+            "quadratic_voting",
+            "random_choice",
+            "investor_filled_board_seats",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "managerial_decision",
+            "mediation"
+          ],
+          "also": [
+            "facilitated_negotiation",
+            "peer_mediation",
+            "restorative_practices"
+          ],
+          "avoid": [
+            "lottery_sortition",
+            "rotational_judging",
+            "supermajority_vote"
+          ]
+        }
+      },
+      "notes": "Sociocracy is 'also' (interesting for a workplace), not avoid: some studios run that way.",
+      "status": "accepted",
+      "format": "team",
+      "type": "workplace"
+    },
+    {
+      "id": "worker_coop",
+      "name": "Open Pantry Worker Co-op",
+      "size": "small",
+      "targetScales": {
+        "participatory": 7,
+        "transparent": 6,
+        "hierarchical": 1
+      },
+      "description": {
+        "purpose": "A worker-owned grocery co-op of 12 members: running the shop, setting pay, and planning together.",
+        "culture": "Every member is an owner with an equal say; we share the work, the risks and the rewards."
+      },
+      "keywords": [
+        "co-op",
+        "grocery",
+        "worker-owned"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "common_ownership",
+            "participation",
+            "solidarity",
+            "fair_remuneration",
+            "transparency"
+          ],
+          "also": [
+            "consensus",
+            "equity",
+            "accountability",
+            "horizontalism"
+          ]
+        },
+        "joiningTiers": [
+          "tiered_probationary"
+        ],
+        "joining": {
+          "good": [
+            "trial_period_provisional_membership",
+            "consensus_or_vote_based_approval"
+          ],
+          "also": [
+            "collective_interviews",
+            "membership_agreement_or_pledge",
+            "lottery_sortition",
+            "pay_to_join"
+          ],
+          "avoid": [
+            "open_access",
+            "invitation_only"
+          ]
+        },
+        "decision": {
+          "good": [
+            "sociocracy",
+            "consensus_decision_making",
+            "modified_consensus"
+          ],
+          "also": [
+            "majority_rule",
+            "rotational_leadership",
+            "lazy_consensus"
+          ],
+          "avoid": [
+            "autocratic_decision_making",
+            "investor_filled_board_seats",
+            "hierarchical_decision_making",
+            "weighted_voting"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "restorative_practices",
+            "peer_mediation",
+            "circle_processes"
+          ],
+          "also": [
+            "mediation",
+            "facilitated_negotiation"
+          ],
+          "avoid": [
+            "managerial_decision",
+            "binding_contracts",
+            "internal_tribunal"
+          ]
+        }
+      },
+      "notes": "Buying in is common for co-ops but usually after a trial period; pay_to_join kept as avoid for 'just pay to get in'. Pay-to-join moved from avoid to also (2026-10-10): many co-ops ask new members to buy a member share.",
+      "status": "accepted",
+      "format": "team",
+      "type": "cooperative"
+    },
+    {
+      "id": "ux_network",
+      "name": "UX Researchers Network",
+      "size": "large",
+      "targetScales": {
+        "participatory": 4,
+        "transparent": 5,
+        "hierarchical": 4
+      },
+      "description": {
+        "purpose": "A mailing list and events for UX researchers across companies: job posts, methods, mentoring and meetups.",
+        "culture": "Generous and curious; we share what we learn and make room for people new to the field."
+      },
+      "keywords": [
+        "UX research",
+        "careers",
+        "mentoring"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "knowledge_sharing",
+            "learning",
+            "mentorship",
+            "inclusion"
+          ],
+          "also": [
+            "capacity_building",
+            "openness",
+            "constructive_feedback",
+            "diversity"
+          ]
+        },
+        "joiningTiers": [
+          "open"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "membership_agreement_or_pledge"
+          ],
+          "also": [
+            "orientation_required"
+          ],
+          "avoid": [
+            "invitation_only",
+            "lottery_sortition",
+            "collective_interviews",
+            "pay_to_join"
+          ]
+        },
+        "decision": {
+          "good": [
+            "elected_board_of_directors",
+            "advisory_committees"
+          ],
+          "also": [
+            "majority_rule",
+            "lazy_consensus",
+            "delegated_decision_making"
+          ],
+          "avoid": [
+            "autocratic_decision_making",
+            "investor_filled_board_seats",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "conflict_resolution_council",
+            "mediation"
+          ],
+          "also": [
+            "peer_mediation",
+            "facilitated_negotiation"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "A code-of-conduct committee is the usual pattern (conflict_resolution_council).",
+      "status": "accepted",
+      "format": "listserv_email",
+      "type": "professional"
+    },
+    {
+      "id": "classroom",
+      "name": "Ms. Ortiz's 10th Grade Biology",
+      "size": "small",
+      "targetScales": {
+        "participatory": 4,
+        "transparent": 5,
+        "hierarchical": 5
+      },
+      "description": {
+        "purpose": "Our class forum for questions, group projects and sharing lab results this school year.",
+        "culture": "Respectful and curious; it's fine not to know, and we help each other learn."
+      },
+      "keywords": [
+        "biology",
+        "class",
+        "school"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "learning",
+            "education",
+            "inclusion",
+            "constructive_feedback"
+          ],
+          "also": [
+            "accountability",
+            "collaboration",
+            "empathy"
+          ]
+        },
+        "joiningTiers": [
+          "closed"
+        ],
+        "joining": {
+          "good": [
+            "invitation_only"
+          ],
+          "also": [],
+          "avoid": [
+            "open_access",
+            "pay_to_join",
+            "application_review",
+            "identity_verification",
+            "collective_interviews",
+            "lottery_sortition"
+          ]
+        },
+        "decision": {
+          "good": [
+            "hierarchical_decision_making",
+            "approval_voting"
+          ],
+          "also": [
+            "rotational_leadership",
+            "majority_rule",
+            "advisory_committees"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "quadratic_voting",
+            "proof_of_work",
+            "elected_board_of_directors"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "restorative_practices",
+            "managerial_decision"
+          ],
+          "also": [
+            "peer_mediation",
+            "circle_processes"
+          ],
+          "avoid": [
+            "binding_arbitration",
+            "binding_contracts",
+            "internal_tribunal",
+            "judicial_committees"
+          ]
+        }
+      },
+      "notes": "The teacher decides most things; class votes on smaller choices. Restorative practices are common in schools.",
+      "status": "accepted",
+      "format": "discussion_forum",
+      "type": "classroom"
+    },
+    {
+      "id": "fedi_gardeners",
+      "name": "Fedi Gardeners",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 6,
+        "hierarchical": 3
+      },
+      "description": {
+        "purpose": "A Mastodon server for people who grow food and flowers: seed swaps, harvest photos and planting tips.",
+        "culture": "Warm and patient; beginners are welcome and we help each other."
+      },
+      "keywords": [
+        "gardening",
+        "seed swaps",
+        "fediverse"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "community_care",
+            "knowledge_sharing",
+            "inclusion",
+            "mutual_aid"
+          ],
+          "also": [
+            "trust",
+            "generosity",
+            "learning",
+            "transparency"
+          ]
+        },
+        "joiningTiers": [
+          "open",
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "orientation_required"
+          ],
+          "also": [
+            "membership_agreement_or_pledge",
+            "application_review"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "lottery_sortition",
+            "skill_based_evaluation",
+            "collective_interviews"
+          ]
+        },
+        "decision": {
+          "good": [
+            "lazy_consensus",
+            "advisory_committees"
+          ],
+          "also": [
+            "delegated_decision_making",
+            "majority_rule",
+            "approval_voting"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "proof_of_work",
+            "weighted_voting"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "mediation",
+            "peer_mediation"
+          ],
+          "also": [
+            "managerial_decision",
+            "facilitated_negotiation",
+            "restorative_practices"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "internal_tribunal",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "Like the Willow Commons test card.",
+      "status": "accepted",
+      "format": "social_network_media",
+      "type": "hobby"
+    },
+    {
+      "id": "general_server",
+      "name": "Hearth Social",
+      "size": "large",
+      "targetScales": {
+        "participatory": 4,
+        "transparent": 6,
+        "hierarchical": 4
+      },
+      "description": {
+        "purpose": "A general-purpose Mastodon server open to anyone, run by a small team of volunteer admins and moderators.",
+        "culture": "Safe and welcoming: no harassment or hate, clear rules applied consistently, and open about how moderation works."
+      },
+      "keywords": [
+        "fediverse",
+        "general",
+        "moderation"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "transparency",
+            "accountability",
+            "inclusion",
+            "anti_oppression",
+            "reliability"
+          ],
+          "also": [
+            "interoperability",
+            "fairness",
+            "trust",
+            "resilience",
+            "voluntarism"
+          ]
+        },
+        "joiningTiers": [
+          "open",
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "application_review"
+          ],
+          "also": [
+            "membership_agreement_or_pledge",
+            "orientation_required"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "lottery_sortition",
+            "collective_interviews",
+            "peer_sponsorship"
+          ]
+        },
+        "decision": {
+          "good": [
+            "delegated_decision_making",
+            "advisory_committees"
+          ],
+          "also": [
+            "elected_board_of_directors",
+            "lazy_consensus",
+            "majority_rule"
+          ],
+          "avoid": [
+            "proof_of_work",
+            "random_choice",
+            "investor_filled_board_seats"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "conflict_resolution_council",
+            "managerial_decision"
+          ],
+          "also": [
+            "mediation",
+            "restorative_practices"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "lottery_sortition",
+            "rotational_judging"
+          ]
+        }
+      },
+      "notes": "The typical beta community: admins decide day-to-day, a moderation team handles reports.",
+      "status": "accepted",
+      "format": "social_network_media",
+      "type": "general_social"
+    },
+    {
+      "id": "recovery_circle",
+      "name": "Tuesday Night Recovery Circle",
+      "size": "small",
+      "targetScales": {
+        "participatory": 6,
+        "transparent": 3,
+        "hierarchical": 2
+      },
+      "description": {
+        "purpose": "A private peer support group for people in recovery from alcohol use, meeting weekly online and chatting in between.",
+        "culture": "Confidential, non-judgmental and kind; what's shared here stays here."
+      },
+      "keywords": [
+        "recovery",
+        "peer support",
+        "sobriety"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "community_care",
+            "empathy",
+            "consent",
+            "trust",
+            "harm_reduction"
+          ],
+          "also": [
+            "humility",
+            "honesty",
+            "mutual_aid",
+            "solidarity"
+          ]
+        },
+        "joiningTiers": [
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "peer_sponsorship",
+            "membership_agreement_or_pledge",
+            "orientation_required"
+          ],
+          "also": [
+            "invitation_only",
+            "referral_system_with_screening"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "identity_verification",
+            "skill_based_evaluation",
+            "lottery_sortition",
+            "application_review"
+          ]
+        },
+        "decision": {
+          "good": [
+            "consensus_decision_making",
+            "rotational_leadership"
+          ],
+          "also": [
+            "lazy_consensus",
+            "modified_consensus"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "autocratic_decision_making",
+            "weighted_voting"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "circle_processes",
+            "restorative_practices",
+            "peer_mediation"
+          ],
+          "also": [
+            "mediation"
+          ],
+          "avoid": [
+            "binding_arbitration",
+            "judicial_committees",
+            "internal_tribunal",
+            "binding_contracts",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "Low transparency target on purpose: privacy matters more than openness here.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "support"
+    },
+    {
+      "id": "open_source",
+      "name": "Libre Mapper",
+      "size": "large",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 7,
+        "hierarchical": 3
+      },
+      "description": {
+        "purpose": "An open-source mapping library with contributors around the world: code, docs, releases and a yearly roadmap.",
+        "culture": "Welcoming to new contributors, decisions made in the open, and credit where it's due."
+      },
+      "keywords": [
+        "open source",
+        "maps",
+        "GIS"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "open_source",
+            "transparency",
+            "collaboration",
+            "documentation",
+            "knowledge_sharing"
+          ],
+          "also": [
+            "meritocracy",
+            "copyleft",
+            "mentorship",
+            "forkability",
+            "interoperability"
+          ]
+        },
+        "joiningTiers": [
+          "open",
+          "tiered_probationary"
+        ],
+        "joining": {
+          "good": [
+            "contribution_based",
+            "open_access"
+          ],
+          "also": [
+            "skill_based_contribution",
+            "mentorship"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "invitation_only",
+            "lottery_sortition",
+            "identity_verification"
+          ]
+        },
+        "decision": {
+          "good": [
+            "lazy_consensus",
+            "do_ocracy"
+          ],
+          "also": [
+            "advisory_committees",
+            "elected_board_of_directors",
+            "consensus_seeking_with_delegates",
+            "autocratic_decision_making"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "lottery_sortition",
+            "random_choice"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "conflict_resolution_council",
+            "mediation"
+          ],
+          "also": [
+            "peer_mediation",
+            "facilitated_negotiation"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "lottery_sortition",
+            "managerial_decision"
+          ]
+        }
+      },
+      "notes": "Autocratic is 'also' (the benevolent-dictator model is common in open source).",
+      "status": "accepted",
+      "format": "peer_production",
+      "type": "open_source"
+    },
+    {
+      "id": "parish",
+      "name": "St. Brigid's Parish Community",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 4,
+        "transparent": 4,
+        "hierarchical": 5
+      },
+      "description": {
+        "purpose": "The parish mailing list: services, volunteering, prayer requests and community events.",
+        "culture": "Caring and generous; everyone is welcome to help, and we look after members in hard times."
+      },
+      "keywords": [
+        "parish",
+        "volunteering",
+        "church"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "community_care",
+            "generosity",
+            "humility",
+            "integrity"
+          ],
+          "also": [
+            "trust",
+            "stewardship",
+            "inclusion",
+            "altruism"
+          ]
+        },
+        "joiningTiers": [
+          "open"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "orientation_required"
+          ],
+          "also": [
+            "mentorship"
+          ],
+          "avoid": [
+            "pay_to_join",
+            "skill_based_evaluation",
+            "lottery_sortition",
+            "collective_interviews",
+            "identity_verification"
+          ]
+        },
+        "decision": {
+          "good": [
+            "hierarchical_decision_making",
+            "advisory_committees"
+          ],
+          "also": [
+            "elected_board_of_directors",
+            "majority_rule"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "quadratic_voting",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "mediation",
+            "restorative_practices"
+          ],
+          "also": [
+            "managerial_decision",
+            "peer_mediation"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "internal_tribunal",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "The pastor and a parish council decide; hierarchical is a good fit here, not a red flag.",
+      "status": "accepted",
+      "format": "listserv_email",
+      "type": "faith"
+    },
+    {
+      "id": "rowing_club",
+      "name": "Riverside Rowing Club",
+      "size": "medium",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 6,
+        "hierarchical": 4
+      },
+      "description": {
+        "purpose": "The members' forum of a community rowing club: crew bookings, races, equipment and the annual meeting.",
+        "culture": "Friendly and fair; boats and coaching shared fairly, and committee decisions explained."
+      },
+      "keywords": [
+        "rowing",
+        "sports club",
+        "volunteers"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "fairness",
+            "accountability",
+            "participation",
+            "reliability"
+          ],
+          "also": [
+            "transparency",
+            "stewardship",
+            "inclusion"
+          ]
+        },
+        "joiningTiers": [
+          "restricted_approvals"
+        ],
+        "joining": {
+          "good": [
+            "pay_to_join",
+            "application_review"
+          ],
+          "also": [
+            "trial_period_provisional_membership",
+            "membership_agreement_or_pledge"
+          ],
+          "avoid": [
+            "lottery_sortition",
+            "invitation_only",
+            "collective_interviews"
+          ]
+        },
+        "decision": {
+          "good": [
+            "elected_board_of_directors",
+            "majority_rule"
+          ],
+          "also": [
+            "advisory_committees",
+            "supermajority_rule"
+          ],
+          "avoid": [
+            "autocratic_decision_making",
+            "investor_filled_board_seats",
+            "lottery_sortition",
+            "proof_of_work"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "conflict_resolution_council",
+            "mediation"
+          ],
+          "also": [
+            "judicial_committees",
+            "managerial_decision"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "Membership dues are normal here: pay_to_join is good for clubs, unlike most settings.",
+      "status": "accepted",
+      "format": "discussion_forum",
+      "type": "club"
+    },
+    {
+      "id": "art_stream",
+      "name": "Mira's Art Stream",
+      "size": "large",
+      "targetScales": {
+        "participatory": 3,
+        "transparent": 5,
+        "hierarchical": 6
+      },
+      "description": {
+        "purpose": "The Discord for viewers of Mira's weekly painting streams: art sharing, stream schedule and feedback threads.",
+        "culture": "Supportive and positive; critique is kind, and Mira and the mods keep things friendly."
+      },
+      "keywords": [
+        "art",
+        "streaming",
+        "Discord"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "inclusion",
+            "constructive_feedback",
+            "community_care",
+            "innovation"
+          ],
+          "also": [
+            "reliability",
+            "trust",
+            "generosity",
+            "learning"
+          ]
+        },
+        "joiningTiers": [
+          "open"
+        ],
+        "joining": {
+          "good": [
+            "open_access",
+            "orientation_required"
+          ],
+          "also": [
+            "weighted_or_tiered_membership",
+            "pay_to_join"
+          ],
+          "avoid": [
+            "collective_interviews",
+            "consensus_or_vote_based_approval",
+            "lottery_sortition",
+            "peer_sponsorship"
+          ]
+        },
+        "decision": {
+          "good": [
+            "autocratic_decision_making",
+            "advisory_committees"
+          ],
+          "also": [
+            "delegated_decision_making",
+            "approval_voting"
+          ],
+          "avoid": [
+            "consensus_decision_making",
+            "sociocracy",
+            "investor_filled_board_seats",
+            "lottery_sortition"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "managerial_decision",
+            "mediation"
+          ],
+          "also": [
+            "peer_mediation"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "judicial_committees",
+            "lottery_sortition",
+            "circle_processes"
+          ]
+        }
+      },
+      "notes": "The creator decides; paid tiers (subscribers) are normal. Consensus would be odd at this scale and shape.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "creator_audience"
+    },
+    {
+      "id": "research_lab",
+      "name": "Coastal Ecology Lab",
+      "size": "small",
+      "targetScales": {
+        "participatory": 5,
+        "transparent": 6,
+        "hierarchical": 4
+      },
+      "description": {
+        "purpose": "The lab's chat: field schedules, data, paper drafts and lab meetings, for students, postdocs and the PI.",
+        "culture": "Rigorous but kind; questions are welcome, credit is shared, and everyone's work is valued."
+      },
+      "keywords": [
+        "ecology",
+        "lab",
+        "research"
+      ],
+      "expected": {
+        "values": {
+          "core": [
+            "learning",
+            "mentorship",
+            "accountability",
+            "knowledge_sharing",
+            "honesty"
+          ],
+          "also": [
+            "collaboration",
+            "documentation",
+            "fairness",
+            "constructive_feedback"
+          ]
+        },
+        "joiningTiers": [
+          "closed"
+        ],
+        "joining": {
+          "good": [
+            "invitation_only",
+            "application_review"
+          ],
+          "also": [
+            "mentorship"
+          ],
+          "avoid": [
+            "open_access",
+            "pay_to_join",
+            "lottery_sortition"
+          ]
+        },
+        "decision": {
+          "good": [
+            "hierarchical_decision_making",
+            "lazy_consensus"
+          ],
+          "also": [
+            "advisory_committees",
+            "majority_rule",
+            "consensus_decision_making"
+          ],
+          "avoid": [
+            "investor_filled_board_seats",
+            "quadratic_voting",
+            "proof_of_work",
+            "lottery_sortition"
+          ]
+        },
+        "conflict": {
+          "good": [
+            "mediation",
+            "managerial_decision"
+          ],
+          "also": [
+            "peer_mediation",
+            "facilitated_negotiation"
+          ],
+          "avoid": [
+            "binding_contracts",
+            "internal_tribunal",
+            "lottery_sortition"
+          ]
+        }
+      },
+      "notes": "The PI decides on funding and authorship; day-to-day runs on lazy consensus.",
+      "status": "accepted",
+      "format": "chat_group",
+      "type": "research"
+    }
+  ]
+}

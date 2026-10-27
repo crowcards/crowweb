@@ -1,0 +1,631 @@
+{
+  "version": "2.0.0",
+  "updatedAt": "2026-10-10",
+  "note": "What a community's values suggest for how it admits members. Up to 3 recommendations per value (a small number of values have 4 where the links are all strong). All items need_review before use. strength: how strongly the value argues for (+1, +2) or against (−1, −2) the option; it adds to or takes from the option's score in suggestions (js/recommend.js). Only status \"accepted\" is used (proposed ones are previewed while in review).",
+  "items": [
+    {
+      "id": "accessibility__open_access",
+      "value": "accessibility",
+      "recommends": "open_access",
+      "strength": 2,
+      "why": "Maximum inclusion — anyone can join by simply showing up, removing barriers to participation.",
+      "status": "accepted"
+    },
+    {
+      "id": "accessibility__orientation_required",
+      "value": "accessibility",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "Ensuring newcomers have what they need to participate fully reduces barriers after joining.",
+      "status": "accepted"
+    },
+    {
+      "id": "accountability__membership_agreement_or_pledge",
+      "value": "accountability",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "New members must agree to specific values, responsibilities, and rules — creating an explicit named commitment from day one.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__open_access",
+      "value": "anti_oppression",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Removing gatekeeping addresses the structural barriers that reproduce exclusion.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__lottery_sortition",
+      "value": "anti_oppression",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection removes the social networks and bias from who gets to join.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__orientation_required",
+      "value": "anti_oppression",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "Sets out the community's norms on discrimination and power before people take part.",
+      "status": "accepted"
+    },
+    {
+      "id": "capacity_building__mentorship",
+      "value": "capacity_building",
+      "recommends": "mentorship",
+      "strength": 1,
+      "why": "New members paired with mentors is the most direct structural expression of building capacity at the point of joining.",
+      "status": "accepted"
+    },
+    {
+      "id": "capacity_building__orientation_required",
+      "value": "capacity_building",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "An orientation is the community's first investment in a new member's development.",
+      "status": "accepted"
+    },
+    {
+      "id": "capacity_building__trial_period_provisional_membership",
+      "value": "capacity_building",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "A probationary period gives new members supported time to grow into full participation.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__orientation_required",
+      "value": "collaboration",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "An orientation teaches new members how the group works together before they dive in.",
+      "status": "accepted"
+    },
+    {
+      "id": "collaboration__membership_agreement_or_pledge",
+      "value": "collaboration",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "A shared agreement creates the common expectations that make genuine collaboration possible.",
+      "status": "accepted"
+    },
+    {
+      "id": "common_ownership__consensus_or_vote_based_approval",
+      "value": "common_ownership",
+      "recommends": "consensus_or_vote_based_approval",
+      "strength": 1,
+      "why": "When assets are held collectively, who joins is a collective decision that affects all members.",
+      "status": "accepted"
+    },
+    {
+      "id": "consent__membership_agreement_or_pledge",
+      "value": "consent",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 2,
+      "why": "New members must agree to specific values and responsibilities — participation is informed and explicitly chosen.",
+      "status": "accepted"
+    },
+    {
+      "id": "cooperation__collective_interviews",
+      "value": "cooperation",
+      "recommends": "collective_interviews",
+      "strength": 1,
+      "why": "The group collectively interviews new members — cooperation in the admission process itself.",
+      "status": "accepted"
+    },
+    {
+      "id": "cooperation__consensus_or_vote_based_approval",
+      "value": "cooperation",
+      "recommends": "consensus_or_vote_based_approval",
+      "strength": 1,
+      "why": "The group works together to make an admission decision rather than delegating to any individual.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__open_access",
+      "value": "diversity",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Removing gatekeeping addresses the mechanisms that tend to reproduce homogeneous membership.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__lottery_sortition",
+      "value": "diversity",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection from eligible applicants removes social network bias from who gets in.",
+      "status": "accepted"
+    },
+    {
+      "id": "education__orientation_required",
+      "value": "education",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "An orientation treats joining as the beginning of a learning journey, not just an access event.",
+      "status": "accepted"
+    },
+    {
+      "id": "education__mentorship",
+      "value": "education",
+      "recommends": "mentorship",
+      "strength": 1,
+      "why": "Pairing new members with mentors embeds ongoing learning into how membership works.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__open_access",
+      "value": "equity",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Removing financial and social barriers to joining ensures membership is available regardless of who someone knows or what they can pay.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__pay_to_join",
+      "value": "equity",
+      "recommends": "pay_to_join",
+      "strength": -1,
+      "why": "A fee weighs most on those with least.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__lottery_sortition",
+      "value": "equity",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection gives all eligible applicants an equal chance regardless of social capital.",
+      "status": "accepted"
+    },
+    {
+      "id": "fairness__lottery_sortition",
+      "value": "fairness",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection gives all eligible applicants an equal chance — equal treatment by design.",
+      "status": "accepted"
+    },
+    {
+      "id": "flexibility__trial_period_provisional_membership",
+      "value": "flexibility",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "A probationary period lets people try out the community before fully committing, accommodating different paces of integration.",
+      "status": "accepted"
+    },
+    {
+      "id": "freedom__open_access",
+      "value": "freedom",
+      "recommends": "open_access",
+      "strength": 2,
+      "why": "Anyone can join by simply showing up — no authoritarian gatekeeping of who gets to participate.",
+      "status": "accepted"
+    },
+    {
+      "id": "harm_reduction__orientation_required",
+      "value": "harm_reduction",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "Sets out the community's safety norms and practices before people take part.",
+      "status": "accepted"
+    },
+    {
+      "id": "holism__mentorship",
+      "value": "holism",
+      "recommends": "mentorship",
+      "strength": 1,
+      "why": "Pairing new members with mentors supports holistic integration, attending to the whole person's development.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__open_access",
+      "value": "horizontalism",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Anyone can join — no hierarchy of gatekeepers between a person and membership.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__lottery_sortition",
+      "value": "horizontalism",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection prevents social hierarchies from determining who gets in.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__open_access",
+      "value": "inclusion",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Maximum inclusion — the most direct structural expression of proactively welcoming everyone.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__orientation_required",
+      "value": "inclusion",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "An orientation helps newcomers from all backgrounds feel genuinely welcomed and able to participate.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__lottery_sortition",
+      "value": "inclusion",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection gives all members an equal chance to join, not just the most connected.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__open_access",
+      "value": "inclusivity",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Removing barriers to joining is the most direct way to actively welcome historically marginalized members.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__orientation_required",
+      "value": "inclusivity",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "Helps newcomers, whatever their background, find their way in before taking part.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__lottery_sortition",
+      "value": "inclusivity",
+      "recommends": "lottery_sortition",
+      "strength": 1,
+      "why": "Random selection gives historically marginalized members an equal chance regardless of social networks.",
+      "status": "accepted"
+    },
+    {
+      "id": "integrity__membership_agreement_or_pledge",
+      "value": "integrity",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "A pledge makes values explicit — new members commit to aligning their actions with stated values from day one.",
+      "status": "accepted"
+    },
+    {
+      "id": "interdependence__mentorship",
+      "value": "interdependence",
+      "recommends": "mentorship",
+      "strength": 1,
+      "why": "New members paired with mentors builds a relationship of mutual support into the joining process.",
+      "status": "accepted"
+    },
+    {
+      "id": "learning__mentorship",
+      "value": "learning",
+      "recommends": "mentorship",
+      "strength": 2,
+      "why": "Mentorship pairs embed the expectation of mutual learning into membership from day one.",
+      "status": "accepted"
+    },
+    {
+      "id": "learning__orientation_required",
+      "value": "learning",
+      "recommends": "orientation_required",
+      "strength": 1,
+      "why": "Requiring orientation signals that learning about the community before acting in it is valued.",
+      "status": "accepted"
+    },
+    {
+      "id": "learning__trial_period_provisional_membership",
+      "value": "learning",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "A probationary period treats early membership as a learning phase for both the member and the community.",
+      "status": "accepted"
+    },
+    {
+      "id": "liberty__open_access",
+      "value": "liberty",
+      "recommends": "open_access",
+      "strength": 2,
+      "why": "Anyone can join by simply showing up — no authoritarian control over who may participate.",
+      "status": "accepted"
+    },
+    {
+      "id": "mentorship__mentorship",
+      "value": "mentorship",
+      "recommends": "mentorship",
+      "strength": 2,
+      "why": "Structured mentorship pairs make guiding newcomers a built-in part of how members join.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__skill_based_contribution",
+      "value": "meritocracy",
+      "recommends": "skill_based_contribution",
+      "strength": 1,
+      "why": "Joining by submitting work is the most direct expression of influence earned through contribution.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__skill_based_evaluation",
+      "value": "meritocracy",
+      "recommends": "skill_based_evaluation",
+      "strength": 2,
+      "why": "A skills assessment grounds membership in demonstrated ability rather than social connection.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__contribution_based",
+      "value": "meritocracy",
+      "recommends": "contribution_based",
+      "strength": 1,
+      "why": "Reserving membership for active contributors keeps standing tied to ongoing participation.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__weighted_or_tiered_membership",
+      "value": "meritocracy",
+      "recommends": "weighted_or_tiered_membership",
+      "strength": 1,
+      "why": "Different levels of membership with increasing rights over time ties influence to demonstrated contribution.",
+      "status": "accepted"
+    },
+    {
+      "id": "mutual_aid__peer_sponsorship",
+      "value": "mutual_aid",
+      "recommends": "peer_sponsorship",
+      "strength": 1,
+      "why": "An existing member stakes their standing on a newcomer — a reciprocal act of solidarity at the point of entry.",
+      "status": "accepted"
+    },
+    {
+      "id": "openness__open_access",
+      "value": "openness",
+      "recommends": "open_access",
+      "strength": 2,
+      "why": "Anyone can join by simply showing up — the membership expression of inviting participation from the outside world.",
+      "status": "accepted"
+    },
+    {
+      "id": "participation__contribution_based",
+      "value": "participation",
+      "recommends": "contribution_based",
+      "strength": 1,
+      "why": "Membership reserved for active contributors aligns who has standing with who is actually participating.",
+      "status": "accepted"
+    },
+    {
+      "id": "participation__membership_agreement_or_pledge",
+      "value": "participation",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "A pledge that names participation expectations creates shared accountability for showing up.",
+      "status": "accepted"
+    },
+    {
+      "id": "reliability__membership_agreement_or_pledge",
+      "value": "reliability",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "New members must agree to specific responsibilities — creates an explicit named commitment to follow through.",
+      "status": "accepted"
+    },
+    {
+      "id": "reliability__trial_period_provisional_membership",
+      "value": "reliability",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "A probationary period lets the community assess whether a new member follows through before granting full rights.",
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity__peer_sponsorship",
+      "value": "solidarity",
+      "recommends": "peer_sponsorship",
+      "strength": 1,
+      "why": "An existing member stakes their standing on a newcomer — solidarity enacted at the point of entry.",
+      "status": "accepted"
+    },
+    {
+      "id": "solidarity__membership_agreement_or_pledge",
+      "value": "solidarity",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "A shared pledge creates the explicit mutual commitment that solidarity depends on.",
+      "status": "accepted"
+    },
+    {
+      "id": "transparency__membership_agreement_or_pledge",
+      "value": "transparency",
+      "recommends": "membership_agreement_or_pledge",
+      "strength": 1,
+      "why": "Explicit terms make membership criteria legible and visible to all prospective members.",
+      "status": "accepted"
+    },
+    {
+      "id": "trust__peer_sponsorship",
+      "value": "trust",
+      "recommends": "peer_sponsorship",
+      "strength": 2,
+      "why": "An existing member vouches personally for a newcomer — entry grounded in an existing trust relationship.",
+      "status": "accepted"
+    },
+    {
+      "id": "trust__trial_period_provisional_membership",
+      "value": "trust",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "Trust develops gradually on both sides before full membership is granted.",
+      "status": "accepted"
+    },
+    {
+      "id": "voluntarism__open_access",
+      "value": "voluntarism",
+      "recommends": "open_access",
+      "strength": 1,
+      "why": "Anyone can join by simply showing up — freely chosen, no pressure or coercion.",
+      "status": "accepted"
+    },
+    {
+      "id": "voluntarism__trial_period_provisional_membership",
+      "value": "voluntarism",
+      "recommends": "trial_period_provisional_membership",
+      "strength": 1,
+      "why": "A trial period lets people test the fit before fully committing — voluntary on both sides.",
+      "status": "accepted"
+    },
+    {
+      "id": "accessibility__pay_to_join",
+      "value": "accessibility",
+      "recommends": "pay_to_join",
+      "strength": -2,
+      "why": "A fee keeps out those who can't pay.",
+      "status": "accepted"
+    },
+    {
+      "id": "accessibility__identity_verification",
+      "value": "accessibility",
+      "recommends": "identity_verification",
+      "strength": -1,
+      "why": "Not everyone can, or safely can, prove who they are.",
+      "status": "accepted"
+    },
+    {
+      "id": "accessibility__invitation_only",
+      "value": "accessibility",
+      "recommends": "invitation_only",
+      "strength": -1,
+      "why": "Only those who already know someone can join.",
+      "status": "accepted"
+    },
+    {
+      "id": "openness__invitation_only",
+      "value": "openness",
+      "recommends": "invitation_only",
+      "strength": -2,
+      "why": "The community is closed to anyone not invited.",
+      "status": "accepted"
+    },
+    {
+      "id": "openness__referral_system_with_screening",
+      "value": "openness",
+      "recommends": "referral_system_with_screening",
+      "strength": -1,
+      "why": "Joining depends on knowing someone inside.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__invitation_only",
+      "value": "inclusion",
+      "recommends": "invitation_only",
+      "strength": -1,
+      "why": "Only those already connected can join.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusion__pay_to_join",
+      "value": "inclusion",
+      "recommends": "pay_to_join",
+      "strength": -1,
+      "why": "A fee keeps some people out.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__invitation_only",
+      "value": "inclusivity",
+      "recommends": "invitation_only",
+      "strength": -1,
+      "why": "Only those already connected can join.",
+      "status": "accepted"
+    },
+    {
+      "id": "inclusivity__pay_to_join",
+      "value": "inclusivity",
+      "recommends": "pay_to_join",
+      "strength": -1,
+      "why": "A fee keeps some people out.",
+      "status": "accepted"
+    },
+    {
+      "id": "equity__weighted_or_tiered_membership",
+      "value": "equity",
+      "recommends": "weighted_or_tiered_membership",
+      "strength": -1,
+      "why": "Gives more rights to longer-standing members, which can favor those with more time to give.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__invitation_only",
+      "value": "diversity",
+      "recommends": "invitation_only",
+      "strength": -1,
+      "why": "Invitations tend to bring in people like those already there.",
+      "status": "accepted"
+    },
+    {
+      "id": "diversity__referral_system_with_screening",
+      "value": "diversity",
+      "recommends": "referral_system_with_screening",
+      "strength": -1,
+      "why": "Referrals tend to reproduce existing networks.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__identity_verification",
+      "value": "anti_oppression",
+      "recommends": "identity_verification",
+      "strength": -1,
+      "why": "Verification can exclude or expose marginalised people.",
+      "status": "accepted"
+    },
+    {
+      "id": "anti_oppression__pay_to_join",
+      "value": "anti_oppression",
+      "recommends": "pay_to_join",
+      "strength": -1,
+      "why": "A fee excludes those with less money.",
+      "status": "accepted"
+    },
+    {
+      "id": "horizontalism__weighted_or_tiered_membership",
+      "value": "horizontalism",
+      "recommends": "weighted_or_tiered_membership",
+      "strength": -2,
+      "why": "Tiers of members put some above others.",
+      "status": "accepted"
+    },
+    {
+      "id": "freedom__identity_verification",
+      "value": "freedom",
+      "recommends": "identity_verification",
+      "strength": -1,
+      "why": "People must give up anonymity to join.",
+      "status": "accepted"
+    },
+    {
+      "id": "liberty__identity_verification",
+      "value": "liberty",
+      "recommends": "identity_verification",
+      "strength": -1,
+      "why": "People must give up anonymity to join.",
+      "status": "accepted"
+    },
+    {
+      "id": "meritocracy__lottery_sortition",
+      "value": "meritocracy",
+      "recommends": "lottery_sortition",
+      "strength": -2,
+      "why": "Chance, not contribution, decides who joins.",
+      "status": "accepted"
+    },
+    {
+      "id": "justice__pay_to_join",
+      "value": "justice",
+      "recommends": "pay_to_join",
+      "strength": -1,
+      "why": "A fee can keep out those with less money.",
+      "status": "accepted"
+    }
+  ]
+}

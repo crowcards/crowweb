@@ -1,0 +1,127 @@
+{
+  "version": "0.1.0",
+  "updatedAt": "2026-10-10",
+  "note": "Only where the format (formats.json: the kind of online space) says something about an approach, whatever the community type (e.g. a team is a set group, not open to join, whatever kind of group it is). Marks from −2 (strongly against) to +2 (strongly for), each with a reason. Drafted 2026-10-10 after the held-out check (TODO.md, \"Tuning\"); reviewed by Sohyeon 2026-10-10 (peer production × open access raised to +2; citizen science × hierarchical decision-making dropped: it depends on who runs the project). The format signal for approaches (js/recommend.js), halved. Citizen science moved to the community types 2026-10-10, with its marks.",
+  "items": [
+    {
+      "format": "peer_production",
+      "list": "membership_options",
+      "option": "contribution_based",
+      "fit": 2,
+      "why": "People join by contributing: an edit, a patch, a translation.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "membership_options",
+      "option": "skill_based_contribution",
+      "fit": 1,
+      "why": "Contributions are often matched to skills (code, writing, design).",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "membership_options",
+      "option": "mentorship",
+      "fit": 1,
+      "why": "Newcomers are often onboarded by experienced contributors.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": 2,
+      "why": "Anyone can start contributing; that openness is how peer production works.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "decision_approaches",
+      "option": "do_ocracy",
+      "fit": 2,
+      "why": "Whoever does the work usually decides how it is done.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "why": "Proposals usually go ahead unless someone objects.",
+      "status": "accepted"
+    },
+    {
+      "format": "peer_production",
+      "list": "decision_approaches",
+      "option": "collaborative_platforms",
+      "fit": 1,
+      "why": "Decisions often happen on the shared tools themselves (talk pages, issues, pull requests).",
+      "status": "accepted"
+    },
+    {
+      "format": "team",
+      "list": "membership_options",
+      "option": "open_access",
+      "fit": -2,
+      "why": "A team is a set group: people are hired, assigned or invited, not let in freely.",
+      "status": "accepted"
+    },
+    {
+      "format": "team",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 1,
+      "why": "Team members are usually added by invitation.",
+      "status": "accepted"
+    },
+    {
+      "format": "team",
+      "list": "membership_options",
+      "option": "lottery_sortition",
+      "fit": -1,
+      "why": "Teams rarely choose members by lot.",
+      "status": "accepted"
+    },
+    {
+      "format": "listserv_email",
+      "list": "decision_approaches",
+      "option": "lazy_consensus",
+      "fit": 1,
+      "why": "Mailing lists often decide by lazy consensus: a proposal goes ahead if nobody objects in time.",
+      "status": "accepted"
+    },
+    {
+      "format": "listserv_email",
+      "list": "decision_approaches",
+      "option": "continuous_voting",
+      "fit": -1,
+      "why": "Email is a poor fit for votes that stay open and keep changing.",
+      "status": "accepted"
+    },
+    {
+      "format": "discussion_forum",
+      "list": "membership_options",
+      "option": "trial_period_provisional_membership",
+      "fit": 1,
+      "why": "Forums often give new members limited rights until they have taken part for a while (trust levels).",
+      "status": "accepted"
+    },
+    {
+      "format": "discussion_forum",
+      "list": "membership_options",
+      "option": "weighted_or_tiered_membership",
+      "fit": 1,
+      "why": "Forums often have levels of membership, with more rights as people take part.",
+      "status": "accepted"
+    },
+    {
+      "format": "chat_group",
+      "list": "membership_options",
+      "option": "invitation_only",
+      "fit": 1,
+      "why": "Chat groups are often joined through an invite link.",
+      "status": "accepted"
+    }
+  ]
+}
