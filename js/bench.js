@@ -2,7 +2,7 @@
 // each would choose (benchmark_communities.json, and the held-out set,
 // benchmark_heldout.json). Used by the workbench (bench.html), and loadable
 // in Node to measure without a browser (RECOMMENDATIONS.md, "The tools").
-// Team only: delete before launch, with the workbench.
+// Team only, with the workbench: staging only, the live site leaves it out.
 
 import { scoreList } from "./recommend.js";
 

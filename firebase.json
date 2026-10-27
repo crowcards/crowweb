@@ -132,7 +132,8 @@
         "data/review_cases.json",
         "data/value_terms_proposed.json",
         "data/value_phrases_drafted.json",
-        "data/workbench_log.json"
+        "data/workbench_log.json",
+        "robots.txt"
       ],
       "cleanUrls": true,
       "redirects": [

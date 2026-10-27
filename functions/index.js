@@ -779,7 +779,7 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
 
 // ─── reportCard ──────────────────────────────────────────
 
-const MAX_OPEN_REPORTS = 20;   // per card: more are refused until the team has looked (rate limits come before launch)
+const MAX_OPEN_REPORTS = 20;   // per card: more are refused until the team has looked
 
 /**
  * Report a published card to the CROW team: no key needed; a reason, or at
