@@ -10,11 +10,15 @@
 //   public/{id}/versions/{n}    each version, as the same view mode shows it
 //   reports/{auto id}           a report about a published card (reportCard), for the CROW team
 //
+// And on the 1st and 15th, the team's update email (teamUpdate).
+//
 // Cards, their public copies and reports carry env: "live" or "staging"
 // (see "staging" below); anything without it is from before launch: staging.
 
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { setGlobalOptions } = require("firebase-functions/v2");
+const { defineSecret } = require("firebase-functions/params");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
 const crypto = require("crypto");
@@ -816,4 +820,71 @@ exports.reportCard = onCall({ cors: true }, async (request) => {
     status: "new",
   });
   return { ok: true };
+});
+
+// ─── teamUpdate ──────────────────────────────────────────
+
+// Twice a month (the 1st and 15th, 9am Eastern), an email to the team about
+// the live site's half-month just ended: new cards, publishing, and reports
+// (each as links: never a reporter's email or what they wrote, which stay
+// here). Nothing is sent when nothing happened. Staging is never counted.
+// Sent through Postmark, with its token in Secret Manager
+// (firebase functions:secrets:set POSTMARK_TOKEN; never in a file or a log).
+const POSTMARK_TOKEN = defineSecret("POSTMARK_TOKEN");
+const TEAM_EMAIL = "crowcards@princeton.edu";
+const REPORT_IN_CONSOLE = "https://console.firebase.google.com/project/cos-princeton-hci-crow/firestore/databases/-default-/data/~2Freports~2F";
+
+/** The half-month just ended, by UTC days: on the 15th, the 1st–14th; on the 1st, the 15th to the end of last month. Times as ISO strings, like the stored ones. */
+function lastHalfMonth(now = new Date()) {
+  const [y, m] = [now.getUTCFullYear(), now.getUTCMonth()];
+  const second = now.getUTCDate() >= 15;
+  const start = new Date(Date.UTC(y, second ? m : m - 1, second ? 1 : 15));
+  const end = new Date(Date.UTC(y, m, second ? 15 : 1));
+  const day = (d) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  return { start: start.toISOString(), end: end.toISOString(), label: `${day(start)} – ${day(new Date(end - 1))}` };
+}
+
+/** The update for a period: { subject, text }, or null when nothing happened in it. */
+async function teamUpdateFor({ start, end, label }) {
+  const during = (t) => typeof t === "string" && t >= start && t < end;
+  // only the fields counted, so even thousands of cards are a small read
+  const cards = (await db.collection("cards").where("env", "==", "live")
+    .select("createdAt", "forkedFrom", "publishing.status", "publishing.hidden", "publishing.history").get()).docs.map((d) => d.data());
+  const made = cards.filter((c) => during(c.createdAt));
+  const published = cards.flatMap((c) => (c.publishing?.history || []).filter((h) => during(h.publishedAt)));
+  const firstTime = published.filter((h) => h.version === 1).length;
+  const publishedNow = cards.filter((c) => c.publishing?.status === "published" && !c.publishing.hidden).length;
+  const reports = (await db.collection("reports").where("createdAt", ">=", start).where("createdAt", "<", end).get())
+    .docs.filter((d) => d.data().env === "live");
+  if (!made.length && !published.length && !reports.length) return null;
+
+  const { REPORT_REASONS } = await loadShared();
+  const reason = (id) => REPORT_REASONS.find((r) => r.id === id)?.label || "a note (see the console)";
+  const text = [
+    `CROW Cards, ${label} (the live site)`,
+    "",
+    `New cards: ${made.length} (${made.filter((c) => c.forkedFrom).length} forks) · ${cards.length} in all`,
+    `Published: ${firstTime} for the first time, ${published.length - firstTime} new versions · ${publishedNow} published now`,
+    `Reports: ${reports.length}`,
+    ...reports.flatMap((d) => {
+      const r = d.data();
+      return [`  https://crowcards.org/c/${r.cardId}?v=${r.version} · ${reason(r.reason)}`, `  Review: ${REPORT_IN_CONSOLE}${d.id}`];
+    }),
+    "",
+    "From the CROW Cards server, on the 1st and 15th when something happened. Reports' details and reporters' emails are only in the Firebase console.",
+  ].join("\n");
+  const subject = `CROW Cards update: ${label}${reports.length ? ` (${reports.length} report${reports.length > 1 ? "s" : ""})` : ""}`;
+  return { subject, text };
+}
+
+exports.teamUpdate = onSchedule({ schedule: "0 9 1,15 * *", timeZone: "America/New_York", secrets: [POSTMARK_TOKEN] }, async () => {
+  const update = await teamUpdateFor(lastHalfMonth());
+  if (!update) return;
+  const res = await fetch("https://api.postmarkapp.com/email", {
+    method: "POST",
+    headers: { Accept: "application/json", "Content-Type": "application/json", "X-Postmark-Server-Token": POSTMARK_TOKEN.value() },
+    body: JSON.stringify({ From: "CROW Cards <server@crowcards.org>", To: TEAM_EMAIL, ReplyTo: TEAM_EMAIL, Subject: update.subject, TextBody: update.text, MessageStream: "outbound" }),
+  });
+  // Postmark's own message only (it never includes the token)
+  if (!res.ok) throw new Error(`Postmark didn't send the update: ${(await res.json().catch(() => ({}))).Message || res.status}`);
 });

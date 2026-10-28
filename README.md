@@ -63,6 +63,68 @@ The local database starts empty each time. To keep your test cards between runs,
 
   Why: deploying from your own branch replaces staging for everyone. If you need to try something on staging first, check with the team.
 
+### Releasing (Sohyeon, or whoever has deploy access)
+Step by step, from the repo folder. The guard stops a live deploy that isn't from an up-to-date `main`, so a mistake here stops rather than breaks.
+
+**A full update** (`beta` → `main` → crowcards.org):
+```
+# 1. on beta: commit and push what's ready
+git checkout beta
+git pull
+git status                       # check the list is what you expect
+git add <the files>
+git commit -m "What changed"
+git push
+
+# 2. try it on staging
+firebase deploy --only hosting:staging
+#    … and check staging.crowcards.org
+
+# 3. merge beta into main (a merge commit, as GitHub's "Create a merge commit")
+git log --oneline main..beta     # what's about to go in
+git checkout main
+git pull
+git merge --no-ff beta -m "Merge beta into main"
+git push
+
+# 4. release (only the parts that changed is fine, e.g. --only hosting:live)
+firebase deploy --only functions,firestore,hosting:live
+
+# 5. if the datasheets or the docs changed, the docs too
+cd docs-site && firebase deploy --only hosting && cd ..
+
+# 6. back to beta
+git checkout beta
+```
+- If `git merge` reports a conflict: `git merge --abort`, and ask before going on.
+- Instead of step 3, a pull request on GitHub works too (base `main` ← compare `beta`, **Create a merge commit**, never "Delete branch"); then `git checkout main && git pull` and carry on at step 4.
+- If the deploy asks to delete field overrides or indexes: answer **No**, and check `firestore.indexes.json` holds what the console has.
+- **A major release that needs the site down:** before step 3, `node scripts/maintenance.mjs live` (type yes); the release in step 4 brings the site back.
+- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema").
+
+**Clearing out staging's test cards** (until staging has its own project, they're in the live database, marked as staging):
+```
+node scripts/staging-cards.mjs             # lists them; deletes nothing
+node scripts/staging-cards.mjs --delete    # deletes them: each card, its key, versions, public copies and reports
+```
+Live cards are never touched. It talks to the real database as you, so it needs, once per computer, `gcloud` and a login:
+```
+# install gcloud. WSL / Linux (Ubuntu):
+sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates gnupg curl
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee /etc/apt/sources.list.d/google-cloud-sdk.list
+sudo apt-get update && sudo apt-get install -y google-cloud-cli
+#   macOS: brew install --cask google-cloud-sdk
+
+# log in (opens a browser, or prints a link to open; sign in with your Princeton account)
+gcloud auth application-default login
+gcloud auth application-default set-quota-project cos-princeton-hci-crow
+
+# the script uses firebase-admin from functions/
+cd functions && npm install && cd ..
+```
+The login is saved in your home folder (`~/.config/gcloud/`), outside the repo; treat it like a password. `gcloud auth application-default revoke` removes it.
+
 ### Developing / building
 
 - **This web app has been built with the help of Claude Code.** To avoid creating a massively annoying codebase, we follow a few golden rules:
