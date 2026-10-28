@@ -138,7 +138,9 @@ export function renderPublish(container, ctx) {
   previewButton.append(el("span", { className: "icon-out", ariaHidden: "true" }));   // (a pixel arrow: it opens a new tab)
   previewButton.setAttribute("aria-label", "Preview what readers see (opens a new tab)");
   modeHint.append("How much of your card the published page shows. You can ", previewButton, " and read specs in the ",
-    el("a", { href: "https://docs.crowcards.org/#publishing", target: "_blank", rel: "noopener", textContent: "docs" }), ".");
+    el("a", { href: "https://docs.crowcards.org/#publishing", target: "_blank", rel: "noopener", textContent: "docs" }),
+    ". You can read more about what information is kept, and how to get it deleted, on the ",
+    el("a", { href: "/privacy", target: "_blank", textContent: "Privacy" }), " page.");
 
   const listed = renderChoices({
     type: "radio",
@@ -181,7 +183,6 @@ export function renderPublish(container, ctx) {
     box.element.classList.add("field-after");
     field.element.append(box.element);
   }
-  email.element.append(el("p", { className: "field-hint field-after" }, "What we keep, and how to have it deleted: ", el("a", { className: "inline", href: "/privacy", target: "_blank", textContent: "Privacy" })));
 
   // a changelog comment: optional, so its box opens only when asked for
   const note = textField({ label: "Changelog comment", hint: "A short note readers see with this version, e.g. “Added our conflict steps”.", multiline: true });
