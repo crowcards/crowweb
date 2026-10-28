@@ -257,7 +257,7 @@ function makeEmptyCard(cardId) {
 // hash of a private salt, the address (IPv6: its network's /64 block), the
 // action and the hour, in
 // rateLimits/, with an expireAt a day later (a TTL policy on rateLimits /
-// expireAt, set in the console, deletes them). The salt is made once and
+// expireAt, in firestore.indexes.json, deletes them). The salt is made once and
 // kept in config/rateLimits (the security rules deny all browser access).
 const LIMITS = { createCard: 20, forkCard: 20, reportCard: 5 };
 

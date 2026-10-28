@@ -1,4 +1,4 @@
 {
-  "note": "Settings for the docs site's build (build.mjs). appUrl: where the docs' links to the app go (Make, Library, About; the header). The app is at staging until launch; switch to https://crowcards.org then.",
-  "appUrl": "https://staging.crowcards.org"
+  "note": "Settings for the docs site's build (build.mjs). appUrl: where the docs' links to the app go (Make, Library, About; the header). The live app, since launch (2026-10-28).",
+  "appUrl": "https://crowcards.org"
 }
