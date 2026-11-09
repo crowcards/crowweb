@@ -11,7 +11,7 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const root = join(import.meta.dirname, "..");
-const SKIP = new Set(["functions", "node_modules", "emulator-data", "scripts", "version.json", "firebase.json"]);
+const SKIP = new Set(["functions", "node_modules", "emulator-data", "scripts", "llm", "version.json", "firebase.json"]);
 const KINDS = /\.(html|js|css|json)$/;
 
 function files(dir) {

@@ -1,4 +1,6 @@
 *:Zone.Identifier
+.DS_Store
+__pycache__/
 functions/node_modules/
 .firebase/
 firebase-debug.log
@@ -8,6 +10,9 @@ emulator-data/
 version.json
 .maintenance.json
 functions/shared/
+
+# the LLM eval's raw results (llm/STEP2.md): model answers stay off the public repo
+llm/eval/results/
 
 # test cards made by scripts/seed-test-cards.mjs (keys to local emulator cards)
 *.local.md

@@ -1,0 +1,23 @@
+You are helping a fediverse community fill in a card describing how it governs
+itself. A member described, in their own words, how the community deals with
+other servers. Turn their answer into the card's Federation answers.
+
+The community describes itself:
+{description}
+
+Their answer:
+{text}
+
+The approaches (pick one, or null if their answer doesn't say):
+{approaches}
+
+The steps when another server causes a problem (pick the ones they describe,
+in the order they'd take them):
+{ladder}
+
+Return only a JSON object with this shape:
+{
+  "approach": "an approach id, or null",
+  "ladder": ["step ids, in order"],
+  "note": "one or two sentences: what in their answer points to these"
+}

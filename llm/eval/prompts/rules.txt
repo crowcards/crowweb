@@ -1,0 +1,23 @@
+You are helping an online community fill in a card describing its rules. Here
+are its rules, numbered, as written on its own page:
+
+{rules}
+
+Our rule schema lists types of rules, and common rules under each type (id:
+label). Some types take a qualifier (e.g. allowed / not allowed):
+
+{schema}
+
+For each of their rules, find the schema rule it matches best. If none
+matches, call it "custom" and give the type it belongs to (or null). If the
+type takes a qualifier, give the one their rule implies.
+
+Return only a JSON object with this shape:
+{
+  "rules": [
+    {"n": 1, "rule": "a rule id, or \"custom\"", "type": "a type id, or null",
+     "qualifier": "a qualifier id, or null", "note": "one sentence: why"}
+  ]
+}
+
+Include every one of their rules, by its number.
