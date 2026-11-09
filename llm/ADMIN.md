@@ -38,9 +38,10 @@ Turning on Compute Engine normally creates the network `default`, with its defau
   - **IAP-secured Tunnel User:** reach the VM through Google's tunnel.
   - **Compute OS Admin Login:** log into the VM (with `sudo`) with their Google account; the VM uses OS Login (STEP1.md, A.2), so removing this role ends their SSH access.
   - **Compute Network Viewer:** see (not change) the network and firewall rules, for the student's checks.
+  - **Browser:** find the project in the console, and see its structure (no data).
 - **Save.**
 
-Deliberately **not** Editor: Editor could deploy the website and the functions, and read Firestore, including contributors' emails.
+Deliberately **not** Editor, nor the basic Reader (or the legacy Viewer): Editor could deploy the website and the functions, and Editor and Reader can read data, including Firestore, where contributors' emails and reports are. Granted 2026-11-09: these five roles.
 
 **What these roles still allow.** They're project-wide, so the student could (by mistake, or deliberately) give a VM an external IP, take it off the nightly stop, turn OS Login off, or create another VM. The firewall still only lets SSH in from Google's tunnel. To keep an eye on it, **once a month while a student has access**: **VM instances** shows only `crow-llm-vm`, with no external IP; its **Metadata** still has `enable-oslogin` = `TRUE`; **Instance schedules** still lists it. (OIT can also enforce "no external IPs" and "require OS Login" for the whole project with organization policies, if you'd rather not rely on the check.)
 
@@ -64,6 +65,8 @@ A budget only warns: it never stops anything. The nightly stop (section 7) is wh
 - **GPUs (all regions)** (`GPUS_ALL_REGIONS`, global): needs at least **1**.
 - **NVIDIA L4 GPUs** (`NVIDIA_L4_GPUS`), region **us-central1**: needs at least **1**.
 
+**Found 2026-11-09:** GPUs (all regions) 12,000, and NVIDIA L4 GPUs in us-central1 32: already enough, no request needed.
+
 If either is 0: select it → **Edit quotas** → new value **1** → a short reason ("one L4 GPU VM for a research project's self-hosted language model; started only when in use") → **Submit**. Google answers by email, usually within a day or two. A larger request takes longer; 1 is enough.
 
 ## 5. The firewall
@@ -79,17 +82,23 @@ If either is 0: select it → **Edit quotas** → new value **1** → a short re
 - **Targets:** Specified target tags → `llm-vm`
 - **Source filter:** IPv4 ranges → `35.235.240.0/20` (the only addresses Google's tunnel connects from)
 - **Protocols and ports:** Specified → TCP → `22` (Ollama's port isn't opened: it's reached through SSH)
+- **Logs:** Off. Every connection comes from Google's tunnel range, so these logs can't show who connected.
 - **Create.**
 
 **Remove the "from anywhere" defaults.** If these exist, they let anyone on the internet try SSH (22) and remote desktop (3389) on any VM with a public address:
 - `default-allow-ssh` (source `0.0.0.0/0`, tcp:22)
 - `default-allow-rdp` (source `0.0.0.0/0`, tcp:3389)
 
-First check **Compute Engine → VM instances** is empty (nothing else relies on them), then select both → **Delete**.
+First check **Compute Engine → VM instances** is empty (nothing else relies on them). Then type `default-allow` in the **Filter** box, select `default-allow-ssh` and `default-allow-rdp`, **make sure `allow-iap-llm` is not selected**, and **Delete**.
 
 **Leave** `default-allow-internal` (traffic between our own machines, `10.128.0.0/9`) and `default-allow-icmp` (ping) for now. The team narrows `default-allow-internal` when the site's server is connected to the model.
 
 **Check:** the list has `allow-iap-llm`, and nothing allowing port 22 or 3389 from `0.0.0.0/0`.
+
+**The yellow banner** about `compute.organizations.listAssociations` is normal: we can't see Princeton's organization-level firewall policies, which sit above ours. If SSH through IAP ever fails unexpectedly (with our rule and roles in place), one of those policies may be blocking it: OIT is who to ask.
+
+**Turn on the tunnel's audit log** (records which Google account opened each SSH tunnel, and when): **IAM & Admin → Audit Logs** → **Cloud Identity-Aware Proxy API** → tick **Data Read** → **Save**. Low volume; needed for decision #7.
+
 
 ## 6. Cloud NAT
 
@@ -98,9 +107,16 @@ The VM never has a public address. Cloud NAT lets it reach *out* to the internet
 **Network services → Cloud NAT → Get started** (or **Create Cloud NAT gateway**):
 - **Gateway name:** `llm-nat`
 - **Network:** `default`; **Region:** `us-central1`
-- **Cloud Router:** Create new router → name `llm-router` → **Save**
-- **NAT mapping / IP addresses:** leave the defaults (automatic)
+- **NAT type:** Public
+- **Cloud Router:** Create new router → name `llm-router` → **Save** (the router is created right then, when you save its dialog, even before the gateway)
+- **Source endpoint type:** VM instances, GKE nodes, Serverless
+- **Source subnets:** primary and secondary ranges for all subnets
+- **NAT IP addresses:** automatic (the default)
+- **Network Service Tier:** Premium (downloads come in to the VM, so the tier hardly matters)
+- **Advanced configurations → Logging:** No logging
 - **Create.**
+
+This page may not offer **Equivalent code**; the matching commands are in `llm/setup-log.md`.
 
 It charges a small amount per hour for each running VM that uses it, plus per GB passing through: the first model downloads (about 11 GB) cost on the order of a dollar. Check the current prices under **Network services → Cloud NAT** pricing if needed. Nothing to change on the VM.
 
@@ -108,24 +124,27 @@ It charges a small amount per hour for each running VM that uses it, plus per GB
 
 An instance schedule stops the VM every night, so a VM left running costs a day at most.
 
-**Create the schedule:** **Compute Engine → VM instances → Instance schedules** (a tab at the top) → **Create schedule**:
+**Create the schedule:** **Compute Engine → VM instances → Instance schedules** (a tab at the top; the page may be titled "Instances schedules") → **Create schedule**:
 - **Name:** `stop-llm-nightly`
 - **Region:** `us-central1`
 - **Start time:** none (we start it by hand)
-- **Stop time:** 10:00 PM; **Time zone:** America/New_York; **Frequency:** daily
+- **Stop time:** 2:00 AM; **Time zone:** America/New_York (not a fixed EST zone: this one follows daylight saving); **Frequency:** daily
 - **Submit.**
 
 **Allow Google's service agent to stop VMs.** Schedules are carried out by Google's "Compute Engine Service Agent", which needs permission to stop our VMs, or the schedule silently does nothing.
 1. Find the project number: **Cloud overview → Dashboard** (or ⚙ Project settings in Firebase): a number like `123456789012`.
 2. **IAM & Admin → IAM → Grant access** → **New principals:** `service-PROJECT_NUMBER@compute-system.iam.gserviceaccount.com` (with the project number) → **Role:** Compute Instance Admin (v1) → **Save.**
+3. **Check it:** on the IAM page, select **Include Google-provided role grants** (top right); the Compute Engine Service Agent should be listed with Compute Instance Admin (v1).
 
 The student attaches `crow-llm-vm` to the schedule once it exists (STEP1.md, A.3). If their role doesn't allow it, the same tab → the schedule → **Add instances to schedule**.
 
-**Check after the first night:** the VM shows **Stopped** in the morning (or **Compute Engine → Instance schedules** → the schedule shows no errors).
+**Check after the first night:** the VM shows **Stopped** in the morning (after 2 AM) (or **Compute Engine → Instance schedules** → the schedule shows no errors).
 
 ## 8. Princeton's organization policies
 
-You may not be able to see these (they're set by OIT); you'll find out at section 1 or when the VM is created, from an error naming a "constraint". The ones that matter:
+**What we know (2026-11-09):** the `default` network existed, and Cloud NAT was created in us-central1 without errors, so neither the default-network nor the location policy blocks us; the policy list shows `skipDefaultNetworkCreation`, `gcp.resourceLocations` and `requireOsLogin` inactive. One active policy to know: `compute.managed.blockPreviewFeatures`, so leave any "Preview" option unselected when creating the VM. **Creating the GPU VM (STEP1.md, A.2) is the remaining test.**
+
+Policies are set by OIT; a blocked step shows an error naming a "constraint". The ones that matter:
 - **Skip default network creation** (`compute.skipDefaultNetworkCreation`): no `default` network (section 1).
 - **Resource location restriction** (`gcp.resourceLocations`): must allow `us-central1`.
 - **Require OS Login** (`compute.requireOsLogin`): fine; SSH then uses your Google account, which our setup already does.

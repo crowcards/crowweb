@@ -139,7 +139,7 @@ Google Cloud's command-line tool. You'll create things in the web console, which
 
 Sohyeon will configure your role in GCP. **Student B needs no Google Cloud access** (only GitHub, Slack and the workbench on staging); the Google Cloud roles below are Student A's.
 
-- **Google Cloud,** in `cos-princeton-hci-crow`: **Compute Instance Admin (v1)** (create, start, stop and SSH into VMs), **IAP-secured Tunnel User** (reach the VM through the tunnel), **Compute OS Admin Login** (log into the VM with your Google account, with `sudo`) and **Compute Network Viewer** (see the firewall rules, to check them). If a console page says you don't have permission, ask Sohyeon rather than working around it.
+- **Google Cloud,** in `cos-princeton-hci-crow`: **Compute Instance Admin (v1)** (create, start, stop and SSH into VMs), **IAP-secured Tunnel User** (reach the VM through the tunnel), **Compute OS Admin Login** (log into the VM with your Google account, with `sudo`), **Compute Network Viewer** (see the firewall rules, to check them) and **Browser** (find the project in the console). If a console page says you don't have permission, ask Sohyeon rather than working around it.
 - **GitHub:** write access to `crowcards/crowweb`, to push a branch and open a pull request.
 - **Slack:** `#crow-cards` for asking any questions + sharing updates.
 
@@ -151,9 +151,9 @@ STEP1.md starts by confirming these are done (the clicks for each are in `ADMIN.
 2. **The budget alert** raised to cover the VM (e.g. $50/month). An alert only warns: it never stops spending.
 3. **GPU quota:** the project allows at least one L4 GPU in `us-central1` (new projects often start at zero; requesting more takes a day or two).
 4. **Princeton's organization policies:** nothing blocks GPU VMs or the region.
-5. **The firewall:** a rule `allow-iap-llm` (ingress, from `35.235.240.0/20`, TCP 22 only, to VMs tagged `llm-vm`); and the default network's `default-allow-ssh` and `default-allow-rdp` rules, which allow SSH and remote desktop from anywhere, deleted (or narrowed to `35.235.240.0/20`).
+5. **The firewall and the tunnel's audit log:** a rule `allow-iap-llm` (ingress, from `35.235.240.0/20`, TCP 22 only, to VMs tagged `llm-vm`); and the default network's `default-allow-ssh` and `default-allow-rdp` rules, which allow SSH and remote desktop from anywhere, deleted (or narrowed to `35.235.240.0/20`); and the IAP audit log on, which records who opens each SSH connection to the VM, and when.
 6. **Cloud NAT:** a gateway `llm-nat` in `us-central1`, so the VM can download without a public address.
-7. **The nightly stop:** the Compute Engine service agent is allowed to stop VMs, so an instance schedule can stop ours every night (STEP1.md attaches it).
+7. **The nightly stop:** a schedule, `stop-llm-nightly`, that stops the VM every night at 2am Eastern (STEP1.md attaches it), and Google's service agent allowed to carry it out.
 
 ### Tools on your computer
 

@@ -13,7 +13,9 @@ Keep a log as you go, in `llm/setup-log.md`: what you did, when, and the values 
 
 ### A.1: Check the setup is done
 
-Before creating anything, ask Sohyeon to confirm the list in `README.md`, "What Sohyeon sets up before you create anything", is done: your roles, the budget alert, GPU quota, organization policies, the firewall (`allow-iap-llm` for SSH, and the default SSH and remote-desktop rules gone), Cloud NAT, and the nightly stop.
+Before creating anything, ask Sohyeon to confirm the list in `README.md`, "What Sohyeon sets up before you create anything", is done: your roles, the budget alert, GPU quota, organization policies, the firewall (`allow-iap-llm` for SSH, and the default SSH and remote-desktop rules gone), the tunnel's audit log, Cloud NAT, and the nightly stop.
+
+**Good to know:** the tunnel's audit log is on, so Google records which account opens each SSH connection to the VM, and when. That's normal for a shared server: it's how the team can see who accessed it.
 
 Then check the firewall yourself: console → **VPC network → Firewall**. You should see `allow-iap-llm` (from `35.235.240.0/20`, TCP 22, target tag `llm-vm`), and **no** rule allowing port 22 or 3389 from `0.0.0.0/0`. `default-allow-internal` (from `10.128.0.0/9`) may still be there: that's expected. If anything differs, stop and ask.
 
@@ -26,6 +28,7 @@ Console → **Compute Engine → VM instances → Create instance**.
 - **Region:** `us-central1`; **Zone:** `us-central1-a`
 - **Machine type:** the **GPUs** tab → GPU type **NVIDIA L4**, number **1** → machine type **`g2-standard-4`** (4 vCPUs, 16 GB memory). The L4 comes with this machine type.
 - **Provisioning model:** Standard (not Spot).
+- Leave any option marked **Preview** unselected: a Princeton policy blocks preview features, and creating the VM would fail.
 
 **OS and storage** → **Change**
 - **Operating system:** Ubuntu; **Version:** **Ubuntu 24.04 LTS** (x86/64): the plain one, not "Minimal" and not "Ubuntu Pro" (which has a license fee).
@@ -64,9 +67,9 @@ Click **Create**. It takes a minute or two.
 
 So a forgotten VM costs a day at most, not a month.
 
-Console → **Compute Engine → VM instances → Instance schedules** (a tab at the top) → the schedule Sohyeon made (e.g. `stop-llm-nightly`, every day at 10pm Eastern) → **Add instances to schedule** → `crow-llm-vm` → **Add**.
+Console → **Compute Engine → VM instances → Instance schedules** (a tab at the top) → the schedule Sohyeon made (`stop-llm-nightly`, every night at 2am Eastern) → **Add instances to schedule** → `crow-llm-vm` → **Add**.
 
-If there's no schedule yet, ask Sohyeon. The stop can come up to 15 minutes after 10pm, and it stops the VM whatever is running: if you work late, finish (or save your place) before then. Don't rely on it: still **stop the VM whenever you finish working** (A.9).
+If there's no schedule yet, ask Sohyeon. The stop can come up to 15 minutes after 2am, and it stops the VM whatever is running: if you work very late, finish (or save your place) before then. Don't rely on it: still **stop the VM whenever you finish working** (A.9).
 
 ### A.4: Connect, and install the GPU driver
 
