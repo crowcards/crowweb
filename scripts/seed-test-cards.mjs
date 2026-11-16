@@ -33,7 +33,7 @@ const rich = (name) => (card) => ({
   modules: ["infrastructure", "membership", "rules", "processes", "federation", "cm_tests1"],
   basics: { ...card.basics, name, link: "https://willow.example", type: "hobby", format: "social_network_media", size: "medium",
     description: { purpose: "A home on the fediverse for gardeners, allotment holders and small growers in the river valley: seed swaps, harvest photos, planting calendars and monthly work days", culture: "Warm and patient: we help each other, and newcomers are always welcome" },
-    keywords: ["gardening", "seed swaps", "local food"], targetScales: { participatory: 6, transparent: 6, hierarchical: 2 },
+    keywords: ["gardening", "seed swaps", "local food"], targetScales: { participatory: 4, transparent: 4, hierarchical: 2 },
     values: ["trust", "consensus", "transparency", "mutual_aid", "community_care"] },
   infrastructure: { ...card.infrastructure,
     platform: { type: "self_hosted_text_primary", platform: "activitypub_client_mastodon", software: "Mastodon", usesProtocol: "yes", protocol: "ActivityPub", openSource: "yes", selfHosted: "yes", structuralModel: "Federation" },
@@ -57,8 +57,9 @@ const rich = (name) => (card) => ({
   federation: { ...card.federation, approach: "denylist_first", allowlistPolicy: null,
     responseLadder: [{ id: "warn", note: "We message the other server's admins first.", stage: 1 }, { id: "mute", note: null, stage: 2 }, { id: "block", note: null, stage: 3 }],
     subscriptions: { subscribedLists: ["garden_fence", "iftas_dnif"], sharesBlocklist: "yes", blocklistLink: "https://willow.example/blocks", decisionTools: ["fediseer"] },
-    rulesNote: "We block servers that allow harassment or hate speech (our first rules).",
-    bridging: { bridges: "yes", protocols: ["AT Protocol"] } },
+    criteria: [{ id: "federate_by_default", note: null }, { id: "harassment", note: "Our first rule." }, { id: "hate", note: null }, { id: "lax_security", note: LONG }],
+    criteriaNote: "We decide in the moderators' channel, and tell members in the weekly post.",
+    bridging: { bridges: "yes", protocols: ["AT Protocol"], memberDefault: "opt_in" } },
   customModules: [{ id: "cm_tests1", name: "Seed library", description: "How our shared seed library works.", fields: [
     { id: "f_t1", label: "Who can borrow seeds?", type: "text", value: "Any member, up to five packets a season." },
     { id: "f_t2", label: "What we keep", type: "checkbox", value: ["Vegetables", "Herbs"], options: ["Vegetables", "Herbs", "Flowers"] },
@@ -118,7 +119,7 @@ await call("reportCard", { cardId: rep.cardId, version: 1, reason: null, details
 log(rep, "Published Foggy, with 2 reports (in the emulator's Firestore → reports)", "Report flag under the to-top arrow: a reason or a note required; then see the reports at localhost:4000 → Firestore → reports.");
 
 // 10: a draft without a contact email
-const draft = await make("Draft Without Email", (card) => ({ modules: ["membership"], basics: { ...card.basics, name: "Draft Without Email", type: "hobby", format: "discussion_forum", size: "small", targetScales: { participatory: 4, transparent: 4, hierarchical: 4 }, values: ["learning"] } }));
+const draft = await make("Draft Without Email", (card) => ({ modules: ["membership"], basics: { ...card.basics, name: "Draft Without Email", type: "hobby", format: "discussion_forum", size: "small", targetScales: { participatory: 3, transparent: 3, hierarchical: 3 }, values: ["learning"] } }));
 log(draft, "A draft: name and type, no contact email", "Export → Publish says what's missing (the email) and is refused; add an email and it publishes v1 (Minimal by default).");
 
 // 11–17: the card on different platforms and with different kinds of answers, all published Full
@@ -127,7 +128,7 @@ log(draft, "A draft: name and type, no contact email", "Export → Publish says 
 const VERY_LONG = "New members get a buddy for their first month: someone who answers questions, shows them where the tools and the meeting notes live, and checks in after the first two meetings. Buddies volunteer for a season at a time and get a short guide. If it isn't working out, either of you can ask the coordinators for a different buddy, no questions asked. We review the buddy guide every spring, and anyone can suggest changes.";
 const variety = (name, fill) => (card) => {
   const v = fill(card);
-  return { ...v, basics: { ...card.basics, name, targetScales: { participatory: 4, transparent: 4, hierarchical: 4 }, ...v.basics },
+  return { ...v, basics: { ...card.basics, name, targetScales: { participatory: 3, transparent: 3, hierarchical: 3 }, ...v.basics },
     attribution: { ...card.attribution, contributorEmail: "test@example.org" } };
 };
 const varieties = [
@@ -172,7 +173,7 @@ const varieties = [
       conflictManagement: { approaches: [{ id: "peer_mediation", note: null, stage: 1, primary: true }, { id: "circle_processes", note: "If mediation doesn't settle it.", stage: 2, primary: false }, { id: "restorative_practices", note: null, stage: 2, primary: false }, { id: "consensus_building", note: null, stage: 3, primary: false }], generalNote: "Anyone can ask for a mediator." },
       communications: { channels: ["groupChat", "listserv", "feedbackForm"], customChannels: [{ name: "Phone tree", description: "For members without smartphones" }] } },
     federation: { ...card.federation, approach: "allowlist_first", allowlistPolicy: "We federate with other mutual aid groups we've met.", responseLadder: [{ id: "warn", note: null, stage: 1 }, { id: "deliberate", note: "At the general meeting.", stage: 2 }, { id: "block", note: null, stage: 3 }],
-      subscriptions: { subscribedLists: [], sharesBlocklist: "no", blocklistLink: null, decisionTools: [] }, rulesNote: null, bridging: { bridges: "no", protocols: [] } },
+      subscriptions: { subscribedLists: [], sharesBlocklist: "no", blocklistLink: null, decisionTools: [] }, criteria: [{ id: "they_reach_out", note: null }, { id: "similar_rules_values", note: null }], criteriaNote: null, bridging: { bridges: "no", protocols: [], memberDefault: null } },
   })],
   ["Variety: Signal support circle", "Signal: protocol-based (Signal Protocol), open source, not self-hosted; closed (with its note); no costs answered; regions as places", (card) => ({
     modules: ["infrastructure", "membership"],

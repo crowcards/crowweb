@@ -102,6 +102,8 @@
           <ul class="sub">
             <li><a href="#ref-federation-approach">Approach</a></li>
             <li><a href="#ref-federation-ladder">Response ladder</a></li>
+            <li><a href="#ref-federation-criteria">(De)federation criteria</a></li>
+            <li><a href="#ref-federation-bridging">Bridging</a></li>
             <li><a href="#ref-federation-lists">Lists &amp; tools</a></li>
           </ul>
         </li>
@@ -142,7 +144,7 @@
       <li><span class="mono">size</span> and <span class="mono">link</span></li>
       <li>a short description: its <span class="mono">purpose</span> and its <span class="mono">culture</span></li>
       <li><span class="mono">keywords</span> - we recommend giving at least three</li>
-      <li>where you'd like your community to be on three scales (from 1 to 7): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span> (see <a class="inline" href="#ref-structure">the three scales</a>). Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
+      <li>where you'd like your community to be on three scales (from 1 to 5): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span> (see <a class="inline" href="#ref-structure">the three scales</a>). Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
       <li><span class="mono">values</span> - up to five; some are suggested, from your community type, format, description and keywords, and where you'd like to be</li>
     </ul>
     <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
@@ -415,7 +417,7 @@
 
     <section id="rules" data-fold="open">
       <h3>Rules</h3>
-      <p>A community's rules: a link to where they live, the covenants it endorses, and the rules it selects (each can be reworded, and communities can add their own). How rules shape who a community federates with is under <a class="inline" href="#federation">Federation</a>.</p>
+      <p>A community's rules: a link to where they live, the covenants it endorses, and the rules it selects (each can be reworded, and communities can add their own). Why a community federates with other servers, or limits or blocks them (its rules among the reasons), is under <a class="inline" href="#ref-federation-criteria">Federation</a>.</p>
       <h4 id="ref-covenants">Covenants &amp; guidelines</h4>
       <p>Known covenants and community guidelines a community might endorse or adhere to. Communities can also add their own.</p>
       <table class="table" data-source="/data/covenants.json" data-render="linked">
@@ -449,9 +451,9 @@
 
     <section id="federation" data-fold="open">
       <h3>Federation</h3>
-      <p>For communities on federated platforms (e.g. ActivityPub): who they federate with, what they do when there's a problem with another server, and the shared lists and tools they use. Also how their rules shape who they federate with.</p>
+      <p>For communities on federated platforms (e.g. ActivityPub): who they federate with, what they do when there's a problem with another server, the shared lists and tools they use, why they federate with a server or limit it, and whether they bridge to other networks.</p>
       <h4 id="ref-federation-approach">Approach</h4>
-      <p>The community's overall posture toward federating with other servers.</p>
+      <p>The community's overall posture toward federating with other servers: two choices. Choosing "Open, with a denylist" also selects "We federate by default" among the criteria below.</p>
       <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationApproach">
         <thead><tr><th>Approach</th><th>Description</th></tr></thead>
         <tbody></tbody>
@@ -460,6 +462,23 @@
       <p>The actions moderators take when there's a problem with another server, put in the order they escalate through them. Several on the same step happen in parallel.</p>
       <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="federationResponseLadder">
         <thead><tr><th>Action</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h4 id="ref-federation-criteria">(De)federation criteria</h4>
+      <p>Why a community federates with a server, and why it limits or defederates from one. Each can have a note on what it looks like for the community; there's also room to say anything else about how they decide.</p>
+      <table class="table" data-source="/data/federation_criteria.json" data-render="criteria" data-group="federate">
+        <thead><tr><th>Why we federate</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p>The reasons to limit or defederate follow the Rules module's categories (their members' behavior; what they host), then how a server is run.</p>
+      <table class="table" data-source="/data/federation_criteria.json" data-render="criteria" data-group="limit">
+        <thead><tr><th>Why we limit or defederate</th><th>About</th><th>Description</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <h4 id="ref-federation-bridging">Bridging</h4>
+      <p>Whether the community is also reachable from other networks (e.g. through a bridge between ActivityPub and AT Protocol), which ones, and whether members are bridged automatically:</p>
+      <table class="table" data-source="/data/enums.json" data-render="simple" data-enum-key="bridgingMemberDefault">
+        <thead><tr><th>Members bridged automatically?</th><th>Description</th></tr></thead>
         <tbody></tbody>
       </table>
       <h4 id="ref-federation-lists">Lists &amp; tools</h4>

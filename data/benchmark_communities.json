@@ -9,8 +9,8 @@
       "size": "small",
       "targetScales": {
         "participatory": 2,
-        "transparent": 5,
-        "hierarchical": 6
+        "transparent": 4,
+        "hierarchical": 4
       },
       "description": {
         "purpose": "My own single-user Mastodon server: my posts, my follows, and the few friends I give accounts to.",
@@ -99,8 +99,8 @@
       "name": "Riverbend Tenants' Union",
       "size": "medium",
       "targetScales": {
-        "participatory": 6,
-        "transparent": 5,
+        "participatory": 4,
+        "transparent": 4,
         "hierarchical": 2
       },
       "description": {
@@ -193,9 +193,9 @@
       "name": "Hendricks Family Chat",
       "size": "small",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 4,
-        "hierarchical": 3
+        "participatory": 4,
+        "transparent": 3,
+        "hierarchical": 2
       },
       "description": {
         "purpose": "Our extended family's group chat: planning visits and holidays, sharing photos, and helping each other out.",
@@ -286,8 +286,8 @@
       "name": "Thursday Board Games Crew",
       "size": "small",
       "targetScales": {
-        "participatory": 6,
-        "transparent": 4,
+        "participatory": 4,
+        "transparent": 3,
         "hierarchical": 2
       },
       "description": {
@@ -373,9 +373,9 @@
       "name": "Maple Street Neighbors",
       "size": "medium",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 6,
-        "hierarchical": 3
+        "participatory": 4,
+        "transparent": 4,
+        "hierarchical": 2
       },
       "description": {
         "purpose": "A forum for people living on and around Maple Street: lost pets, street clean-ups, tool lending and local news.",
@@ -461,9 +461,9 @@
       "name": "Bayview Participatory Budget Forum",
       "size": "large",
       "targetScales": {
-        "participatory": 6,
-        "transparent": 7,
-        "hierarchical": 3
+        "participatory": 4,
+        "transparent": 5,
+        "hierarchical": 2
       },
       "description": {
         "purpose": "Residents of Bayview proposing and choosing how a part of the city budget is spent, with city staff.",
@@ -555,9 +555,9 @@
       "name": "Acme Design Studio",
       "size": "medium",
       "targetScales": {
-        "participatory": 4,
-        "transparent": 5,
-        "hierarchical": 5
+        "participatory": 3,
+        "transparent": 4,
+        "hierarchical": 4
       },
       "description": {
         "purpose": "The internal Slack for a 40-person design studio: project work, scheduling, and studio-wide decisions.",
@@ -648,8 +648,8 @@
       "name": "Open Pantry Worker Co-op",
       "size": "small",
       "targetScales": {
-        "participatory": 7,
-        "transparent": 6,
+        "participatory": 5,
+        "transparent": 4,
         "hierarchical": 1
       },
       "description": {
@@ -741,9 +741,9 @@
       "name": "UX Researchers Network",
       "size": "large",
       "targetScales": {
-        "participatory": 4,
-        "transparent": 5,
-        "hierarchical": 4
+        "participatory": 3,
+        "transparent": 4,
+        "hierarchical": 3
       },
       "description": {
         "purpose": "A mailing list and events for UX researchers across companies: job posts, methods, mentoring and meetups.",
@@ -828,9 +828,9 @@
       "name": "Ms. Ortiz's 10th Grade Biology",
       "size": "small",
       "targetScales": {
-        "participatory": 4,
-        "transparent": 5,
-        "hierarchical": 5
+        "participatory": 3,
+        "transparent": 4,
+        "hierarchical": 4
       },
       "description": {
         "purpose": "Our class forum for questions, group projects and sharing lab results this school year.",
@@ -916,9 +916,9 @@
       "name": "Fedi Gardeners",
       "size": "medium",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 6,
-        "hierarchical": 3
+        "participatory": 4,
+        "transparent": 4,
+        "hierarchical": 2
       },
       "description": {
         "purpose": "A Mastodon server for people who grow food and flowers: seed swaps, harvest photos and planting tips.",
@@ -1007,9 +1007,9 @@
       "name": "Hearth Social",
       "size": "large",
       "targetScales": {
-        "participatory": 4,
-        "transparent": 6,
-        "hierarchical": 4
+        "participatory": 3,
+        "transparent": 4,
+        "hierarchical": 3
       },
       "description": {
         "purpose": "A general-purpose Mastodon server open to anyone, run by a small team of volunteer admins and moderators.",
@@ -1099,8 +1099,8 @@
       "name": "Tuesday Night Recovery Circle",
       "size": "small",
       "targetScales": {
-        "participatory": 6,
-        "transparent": 3,
+        "participatory": 4,
+        "transparent": 2,
         "hierarchical": 2
       },
       "description": {
@@ -1192,9 +1192,9 @@
       "name": "Libre Mapper",
       "size": "large",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 7,
-        "hierarchical": 3
+        "participatory": 4,
+        "transparent": 5,
+        "hierarchical": 2
       },
       "description": {
         "purpose": "An open-source mapping library with contributors around the world: code, docs, releases and a yearly roadmap.",
@@ -1285,9 +1285,9 @@
       "name": "St. Brigid's Parish Community",
       "size": "medium",
       "targetScales": {
-        "participatory": 4,
-        "transparent": 4,
-        "hierarchical": 5
+        "participatory": 3,
+        "transparent": 3,
+        "hierarchical": 4
       },
       "description": {
         "purpose": "The parish mailing list: services, volunteering, prayer requests and community events.",
@@ -1373,9 +1373,9 @@
       "name": "Riverside Rowing Club",
       "size": "medium",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 6,
-        "hierarchical": 4
+        "participatory": 4,
+        "transparent": 4,
+        "hierarchical": 3
       },
       "description": {
         "purpose": "The members' forum of a community rowing club: crew bookings, races, equipment and the annual meeting.",
@@ -1459,9 +1459,9 @@
       "name": "Mira's Art Stream",
       "size": "large",
       "targetScales": {
-        "participatory": 3,
-        "transparent": 5,
-        "hierarchical": 6
+        "participatory": 2,
+        "transparent": 4,
+        "hierarchical": 4
       },
       "description": {
         "purpose": "The Discord for viewers of Mira's weekly painting streams: art sharing, stream schedule and feedback threads.",
@@ -1548,9 +1548,9 @@
       "name": "Coastal Ecology Lab",
       "size": "small",
       "targetScales": {
-        "participatory": 5,
-        "transparent": 6,
-        "hierarchical": 4
+        "participatory": 4,
+        "transparent": 4,
+        "hierarchical": 3
       },
       "description": {
         "purpose": "The lab's chat: field schedules, data, paper drafts and lab meetings, for students, postdocs and the PI.",

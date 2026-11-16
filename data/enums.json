@@ -69,19 +69,14 @@
   ],
   "federationApproach": [
     {
-      "id": "open",
-      "label": "Open",
-      "description": "Default to federating with everyone; block specific bad actors as needed."
-    },
-    {
       "id": "allowlist_first",
       "label": "Allowlist first",
-      "description": "Default to not federating; explicitly allow a curated list of trusted servers."
+      "description": "Don't federate by default; connect only with servers on a list you choose."
     },
     {
       "id": "denylist_first",
-      "label": "Denylist first",
-      "description": "Default to federating and blocking/denying access as needed."
+      "label": "Open, with a denylist",
+      "description": "Federate with other servers by default, and block the ones that cause problems."
     }
   ],
   "federationResponseLadder": [
@@ -141,6 +136,26 @@
       "id": "dedicatedAdminAccount",
       "label": "Dedicated admin account",
       "description": "A shared account for the moderation team, so members can reach the team rather than one person."
+    }
+  ],
+  "bridgingMemberDefault": [
+    {
+      "id": "opt_out",
+      "label": "Yes, unless they opt out",
+      "short": "Members opt out",
+      "description": "Members' accounts are bridged automatically; anyone can turn it off."
+    },
+    {
+      "id": "opt_in",
+      "label": "No, only if they opt in",
+      "short": "Members opt in",
+      "description": "Members' accounts are bridged only if they choose to."
+    },
+    {
+      "id": "varies",
+      "label": "It varies",
+      "short": "Opt-in varies",
+      "description": "It depends, e.g. on the bridge or the kind of account."
     }
   ]
 }

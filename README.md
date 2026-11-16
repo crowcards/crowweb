@@ -100,7 +100,7 @@ git checkout beta
 - Instead of step 3, a pull request on GitHub works too (base `main` ← compare `beta`, **Create a merge commit**, never "Delete branch"); then `git checkout main && git pull` and carry on at step 4.
 - If the deploy asks to delete field overrides or indexes: answer **No**, and check `firestore.indexes.json` holds what the console has.
 - **A major release that needs the site down:** before step 3, `node scripts/maintenance.mjs live` (type yes); the release in step 4 brings the site back.
-- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema").
+- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema"), in a maintenance window: take the site down (`node scripts/maintenance.mjs live`); merge (step 3); deploy the functions (`firebase deploy --only functions`); convert the stored cards (`node scripts/migrate-cards.mjs` to list them, then `--apply`; it needs the `gcloud` login below); then `firebase deploy --only firestore,hosting:live`, which brings the site back. While staging shares the live project, deploy staging (step 2's command, from `beta`) straight after, so its editor matches the server.
 
 **Clearing out staging's test cards** (until staging has its own project, they're in the live database, marked as staging):
 ```

@@ -1,0 +1,210 @@
+{
+  "version": "0.2.0",
+  "updatedAt": "2026-11-16",
+  "note": "High-level reasons a community federates with other servers, or limits or defederates from them (Federation → (De)federation criteria; a card stores [{ id, note }] in federation.criteria). Two groups: why we federate, and why we limit or defederate. The second mirrors the rule schema's categories (rule_schema.json: behavior, content; each item's ruleType is the rule type it corresponds to), plus how a server is run (security, privacy, moderation). \"federate_by_default\" is selected automatically when the approach is \"Open, with a denylist\". Drafted 2026-11-16; status \"proposed\" until the team reviews it.",
+  "groups": [
+    {
+      "id": "federate",
+      "label": "Why we federate"
+    },
+    {
+      "id": "limit",
+      "label": "Why we limit or defederate"
+    }
+  ],
+  "sections": [
+    {
+      "id": "behavior",
+      "group": "limit",
+      "label": "Their members' behavior",
+      "hint": "as in your Behavior rules"
+    },
+    {
+      "id": "content",
+      "group": "limit",
+      "label": "What they host",
+      "hint": "as in your Content rules"
+    },
+    {
+      "id": "practices",
+      "group": "limit",
+      "label": "How their server is run"
+    }
+  ],
+  "items": [
+    {
+      "id": "federate_by_default",
+      "group": "federate",
+      "label": "We federate by default",
+      "description": "We connect with other servers unless there's a reason not to.",
+      "status": "proposed"
+    },
+    {
+      "id": "they_reach_out",
+      "group": "federate",
+      "label": "They reach out, and we agree",
+      "description": "Another community asks to federate with us, and we decide together.",
+      "status": "proposed"
+    },
+    {
+      "id": "similar_rules_values",
+      "group": "federate",
+      "label": "Similar rules and values",
+      "description": "Their rules and values are close to ours.",
+      "status": "proposed"
+    },
+    {
+      "id": "trusted_moderation",
+      "group": "federate",
+      "label": "Moderators we trust",
+      "description": "We know their moderation team, and they respond when there's a problem.",
+      "status": "proposed"
+    },
+    {
+      "id": "known_community",
+      "group": "federate",
+      "label": "A community we already know",
+      "description": "We already have ties with them: shared members, partners, events.",
+      "status": "proposed"
+    },
+    {
+      "id": "bad_faith",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "civility",
+      "label": "Bad-faith behavior",
+      "description": "Trolling, personal attacks or deliberate disruption from their members.",
+      "status": "proposed"
+    },
+    {
+      "id": "harassment",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "harassment",
+      "label": "Harassment",
+      "description": "Their members harass, bully or dogpile ours, and it isn't dealt with.",
+      "status": "proposed"
+    },
+    {
+      "id": "hate",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "discrimination",
+      "label": "Hate and discrimination",
+      "description": "Hate speech or discrimination from their members, left in place.",
+      "status": "proposed"
+    },
+    {
+      "id": "inauthentic_accounts",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "authenticity",
+      "label": "Impersonation or fake accounts",
+      "description": "Impersonation, sockpuppets or undisclosed bots.",
+      "status": "proposed"
+    },
+    {
+      "id": "spam_bots",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "spam",
+      "label": "Spam and platform misuse",
+      "description": "Spam, mass-following or mass-replying, or unsolicited advertising coming from them.",
+      "status": "proposed"
+    },
+    {
+      "id": "open_signups",
+      "group": "limit",
+      "section": "behavior",
+      "ruleType": "onboarding",
+      "label": "Sign-ups with no checks",
+      "description": "Anyone can make an account there, so abusive accounts appear faster than they're removed.",
+      "status": "proposed"
+    },
+    {
+      "id": "unlabeled_media",
+      "group": "limit",
+      "section": "content",
+      "ruleType": "cw",
+      "label": "Sensitive media without warnings",
+      "description": "Graphic, disturbing or sexual media posted without content warnings or labels.",
+      "status": "proposed"
+    },
+    {
+      "id": "ai_copyright",
+      "group": "limit",
+      "section": "content",
+      "ruleType": "ai",
+      "label": "AI-generated media or uncredited work",
+      "description": "AI-generated media, or others' work posted without credit, that our rules don't allow.",
+      "status": "proposed"
+    },
+    {
+      "id": "explicit_content",
+      "group": "limit",
+      "section": "content",
+      "ruleType": "nsfw",
+      "label": "Explicit content we don't allow",
+      "description": "Adult or explicit content beyond what our rules permit.",
+      "status": "proposed"
+    },
+    {
+      "id": "illegal_content",
+      "group": "limit",
+      "section": "content",
+      "ruleType": "illegal",
+      "label": "Illegal content",
+      "description": "Content that's illegal where we, or our members, are.",
+      "status": "proposed"
+    },
+    {
+      "id": "violence_extremism",
+      "group": "limit",
+      "section": "content",
+      "ruleType": "violence",
+      "label": "Violence, threats or extremism",
+      "description": "Violent threats, extremist propaganda or content encouraging self-harm.",
+      "status": "proposed"
+    },
+    {
+      "id": "rules_too_different",
+      "group": "limit",
+      "section": "practices",
+      "label": "Their rules differ too much from ours",
+      "description": "Overall, their rules allow what ours forbid, or leave out what matters to us.",
+      "status": "proposed"
+    },
+    {
+      "id": "unresponsive_moderation",
+      "group": "limit",
+      "section": "practices",
+      "label": "Moderation absent or unresponsive",
+      "description": "Reports go unanswered, or there's no one to contact.",
+      "status": "proposed"
+    },
+    {
+      "id": "lax_security",
+      "group": "limit",
+      "section": "practices",
+      "label": "Security practices too lax or unclear",
+      "description": "For example, outdated software, unprotected admin accounts, or no stated security practices.",
+      "status": "proposed"
+    },
+    {
+      "id": "privacy_practices",
+      "group": "limit",
+      "section": "practices",
+      "label": "Privacy practices we can't accept",
+      "description": "For example, they scrape or republish our members' posts, or share their data.",
+      "status": "proposed"
+    },
+    {
+      "id": "hosts_blocked_actors",
+      "group": "limit",
+      "section": "practices",
+      "label": "They host people we've blocked elsewhere",
+      "description": "For example, accounts that moved there to get around our blocks.",
+      "status": "proposed"
+    }
+  ]
+}

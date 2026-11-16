@@ -133,9 +133,11 @@ export function scaleDistance(item, targets = {}, scaleData) {
 const clamp = (x) => Math.max(-1, Math.min(1, x));
 
 /**
- * The scales signal for one item: 1 − gap ÷ 2, the gap averaged over the
+ * The scales signal for one item: 1 − gap ÷ unit, the gap averaged over the
  * targeted scales it has a position on, kept to ±1; with its coverage (scales
- * used ÷ targeted) and where it sits. null when none applies.
+ * used ÷ targeted) and where it sits. null when none applies. The unit is a
+ * third of the range (2 on the earlier 1–7 scales, 1⅓ on 1–5), so the same
+ * relative distance gives the same signal whatever the range.
  */
 export function scalesSignal(item, targets = {}, scaleData) {
   const targeted = scaleData.scales.filter((sc) => targets[sc.id] != null);
@@ -143,7 +145,7 @@ export function scalesSignal(item, targets = {}, scaleData) {
   if (!used.length) return null;
   const gap = used.reduce((acc, sc) => acc + Math.abs(item[sc.id] - targets[sc.id]), 0) / used.length;
   return {
-    value: clamp(1 - gap / 2),
+    value: clamp(1 - gap / ((scaleData.range.max - scaleData.range.min) / 3)),
     coverage: used.length / targeted.length,
     where: used.map((sc) => `${sc.label} ${item[sc.id]} (you: ${targets[sc.id]})`).join(", "),
   };

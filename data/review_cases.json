@@ -21,9 +21,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -45,9 +45,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "community_care"
@@ -73,8 +73,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -103,9 +103,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "solidarity",
@@ -135,9 +135,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "participation",
@@ -164,8 +164,8 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 1
    },
    "values": [
@@ -196,9 +196,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "mentorship",
@@ -226,9 +226,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "learning",
@@ -257,9 +257,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "localism",
@@ -287,9 +287,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -315,9 +315,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "values": [
     "open_source",
@@ -347,9 +347,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "humility",
@@ -377,9 +377,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "honesty",
@@ -407,9 +407,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -438,9 +438,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "openness",
@@ -468,9 +468,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "community_care",
@@ -499,8 +499,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 1
    },
    "values": [
@@ -529,9 +529,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "resilience"
@@ -558,9 +558,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "inclusivity",
@@ -589,9 +589,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "constructive_feedback",
@@ -619,8 +619,8 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 7,
+    "participatory": 5,
+    "transparent": 5,
     "hierarchical": 1
    },
    "values": [
@@ -646,9 +646,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "trust"
@@ -675,9 +675,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 6
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "accountability",
@@ -705,8 +705,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
+    "participatory": 4,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -736,9 +736,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "community_care",
@@ -765,9 +765,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "participation",
@@ -794,9 +794,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -824,9 +824,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing",
@@ -854,8 +854,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -884,9 +884,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "accessibility"
@@ -912,9 +912,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 2
    },
    "values": [
     "inclusivity",
@@ -941,9 +941,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "openness",
@@ -973,9 +973,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "community_care",
@@ -998,9 +998,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "collaboration"
@@ -1027,9 +1027,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "transparency",
@@ -1059,9 +1059,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "values": [
     "transparency",
@@ -1090,9 +1090,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "empathy",
@@ -1118,9 +1118,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "common_ownership",
@@ -1150,9 +1150,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "fairness",
@@ -1180,9 +1180,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "trust",
@@ -1212,9 +1212,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "community_care",
@@ -1242,9 +1242,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "decentralization",
@@ -1272,8 +1272,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 3,
-    "hierarchical": 7
+    "transparent": 2,
+    "hierarchical": 5
    },
    "values": [
     "honesty",
@@ -1296,9 +1296,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "fairness",
@@ -1326,9 +1326,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "trust"
@@ -1353,9 +1353,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "cooperation",
@@ -1383,9 +1383,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "participation",
@@ -1408,9 +1408,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -1438,9 +1438,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "labor_rights",
@@ -1468,9 +1468,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "learning",
@@ -1497,9 +1497,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "maintenance",
@@ -1529,8 +1529,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 6,
-    "hierarchical": 6
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -1559,9 +1559,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "freedom_of_information",
@@ -1589,9 +1589,9 @@
    "format": "listserv_email",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "humility"
@@ -1618,8 +1618,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 7,
+    "participatory": 5,
+    "transparent": 5,
     "hierarchical": 1
    },
    "values": [
@@ -1651,9 +1651,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -1682,9 +1682,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "inclusivity",
@@ -1709,9 +1709,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 3,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 2,
+    "hierarchical": 2
    },
    "values": [
     "honesty",
@@ -1739,9 +1739,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "common_ownership",
@@ -1770,9 +1770,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "leadership",
@@ -1801,9 +1801,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "education",
@@ -1831,9 +1831,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "community_care"
@@ -1860,9 +1860,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "common_ownership",
@@ -1892,9 +1892,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "constructive_feedback",
@@ -1921,9 +1921,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "mutual_aid",
@@ -1945,8 +1945,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 4,
+    "participatory": 4,
+    "transparent": 3,
     "hierarchical": 2
    },
    "values": [
@@ -1975,9 +1975,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "voluntarism",
@@ -2005,9 +2005,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "accountability",
@@ -2036,9 +2036,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "honesty",
@@ -2065,9 +2065,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing",
@@ -2093,9 +2093,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "education",
@@ -2122,8 +2122,8 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 7,
+    "participatory": 5,
+    "transparent": 5,
     "hierarchical": 1
    },
    "values": [
@@ -2154,9 +2154,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "harm_reduction",
@@ -2182,9 +2182,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing",
@@ -2212,9 +2212,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "diversity",
@@ -2244,9 +2244,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "collaboration",
@@ -2275,9 +2275,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "accessibility",
@@ -2300,9 +2300,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "freedom"
@@ -2329,9 +2329,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "accessibility",
@@ -2359,9 +2359,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "values": [
     "common_ownership",
@@ -2390,9 +2390,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "cooperation",
@@ -2419,9 +2419,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "mutual_aid"
@@ -2447,9 +2447,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "learning",
@@ -2476,9 +2476,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "transparency",
@@ -2509,8 +2509,8 @@
    "size": "medium",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    },
    "values": [
     "generosity",
@@ -2532,9 +2532,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "trust"
@@ -2560,9 +2560,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 2
    },
    "values": [
     "diversity",
@@ -2589,9 +2589,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "mutual_aid",
@@ -2622,9 +2622,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "fairness",
@@ -2648,9 +2648,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "reliability"
@@ -2676,9 +2676,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing",
@@ -2707,9 +2707,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -2739,9 +2739,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "direct_action",
@@ -2770,9 +2770,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -2799,9 +2799,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "open_source",
@@ -2829,8 +2829,8 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -2861,9 +2861,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "learning",
@@ -2888,9 +2888,9 @@
    "format": "peer_production",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "stewardship"
@@ -2917,9 +2917,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "diversity",
@@ -2947,9 +2947,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "community_care",
@@ -2978,8 +2978,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -3008,9 +3008,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "inclusivity"
@@ -3037,9 +3037,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "learning",
@@ -3067,9 +3067,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 5,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "participation",
@@ -3098,9 +3098,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "accountability",
@@ -3127,8 +3127,8 @@
    "size": "small",
    "targetScales": {
     "participatory": 2,
-    "transparent": 3,
-    "hierarchical": 7
+    "transparent": 2,
+    "hierarchical": 5
    },
    "values": [
     "learning"
@@ -3154,9 +3154,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "cooperation",
@@ -3182,9 +3182,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "fairness",
@@ -3213,9 +3213,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "voluntarism",
@@ -3243,9 +3243,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 7,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 5,
+    "hierarchical": 4
    },
    "values": [
     "transparency",
@@ -3272,9 +3272,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -3302,9 +3302,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "integrity",
@@ -3333,9 +3333,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "learning",
@@ -3362,9 +3362,9 @@
    "format": "listserv_email",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "labor_rights",
@@ -3391,8 +3391,8 @@
    "size": "medium",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    },
    "values": [
     "humility",
@@ -3421,9 +3421,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "values": [
     "openness",
@@ -3453,9 +3453,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "voluntarism",
@@ -3481,9 +3481,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing"
@@ -3510,9 +3510,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "honesty",
@@ -3540,9 +3540,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "freedom",
@@ -3570,9 +3570,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "empathy",
@@ -3598,9 +3598,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "common_ownership",
@@ -3628,9 +3628,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -3658,9 +3658,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "education",
@@ -3689,9 +3689,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "community_care",
@@ -3718,9 +3718,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "stewardship",
@@ -3747,8 +3747,8 @@
    "size": "medium",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    },
    "values": [
     "honesty",
@@ -3770,9 +3770,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "fairness",
@@ -3800,9 +3800,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "inclusivity",
@@ -3826,9 +3826,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "cooperation"
@@ -3854,9 +3854,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "participation",
@@ -3883,9 +3883,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "solidarity",
@@ -3915,9 +3915,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "mentorship",
@@ -3941,9 +3941,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "learning"
@@ -3968,9 +3968,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "accessibility",
@@ -3998,9 +3998,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "freedom",
@@ -4030,9 +4030,9 @@
    "format": "peer_production",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "open_source",
@@ -4058,8 +4058,8 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -4089,9 +4089,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "collaboration",
@@ -4119,9 +4119,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -4149,9 +4149,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "openness",
@@ -4178,9 +4178,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "empathy",
@@ -4207,9 +4207,9 @@
    "format": "listserv_email",
    "size": "very_large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "common_ownership",
@@ -4238,9 +4238,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "cooperation",
@@ -4270,9 +4270,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "mutual_aid",
@@ -4296,9 +4296,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "empathy"
@@ -4325,8 +4325,8 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 7,
+    "participatory": 5,
+    "transparent": 5,
     "hierarchical": 2
    },
    "values": [
@@ -4357,9 +4357,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -4382,9 +4382,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "empathy",
@@ -4406,9 +4406,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "freedom"
@@ -4433,9 +4433,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "honesty",
@@ -4463,9 +4463,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "participation",
@@ -4496,9 +4496,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -4524,9 +4524,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "mutual_aid",
@@ -4553,8 +4553,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -4585,9 +4585,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 5,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "solidarity",
@@ -4617,9 +4617,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "localism",
@@ -4645,9 +4645,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "open_source",
@@ -4674,9 +4674,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "humility",
@@ -4704,9 +4704,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "collaboration",
@@ -4735,9 +4735,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "voluntarism",
@@ -4764,9 +4764,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "openness"
@@ -4792,9 +4792,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "empathy",
@@ -4821,9 +4821,9 @@
    "format": "listserv_email",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 5,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "cooperation",
@@ -4854,9 +4854,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 3,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 2,
+    "hierarchical": 4
    },
    "values": [
     "inclusivity",
@@ -4883,9 +4883,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "anti_oppression",
@@ -4912,9 +4912,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "diversity",
@@ -4942,9 +4942,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "values": [
     "transparency",
@@ -4973,9 +4973,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "experimentation",
@@ -4999,9 +4999,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "community_care"
@@ -5022,9 +5022,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 2
    },
    "values": [
     "trust",
@@ -5051,9 +5051,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "mutual_aid",
@@ -5083,9 +5083,9 @@
    "format": "discussion_forum",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "participation",
@@ -5109,9 +5109,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -5138,9 +5138,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "knowledge_sharing",
@@ -5167,9 +5167,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "learning",
@@ -5197,8 +5197,8 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -5228,9 +5228,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "knowledge_sharing",
@@ -5257,9 +5257,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "openness",
@@ -5288,8 +5288,8 @@
    "size": "medium",
    "targetScales": {
     "participatory": 2,
-    "transparent": 3,
-    "hierarchical": 7
+    "transparent": 2,
+    "hierarchical": 5
    },
    "values": [
     "humility",
@@ -5316,9 +5316,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "consent",
@@ -5348,9 +5348,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "stewardship"
@@ -5377,9 +5377,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "diversity",
@@ -5405,9 +5405,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "agency",
@@ -5437,9 +5437,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "common_ownership",
@@ -5467,9 +5467,9 @@
    "format": "listserv_email",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "inclusivity"
@@ -5496,9 +5496,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "accessibility",
@@ -5528,8 +5528,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 5,
-    "hierarchical": 6
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "consent",
@@ -5557,9 +5557,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    },
    "values": [
     "localism",
@@ -5584,8 +5584,8 @@
    "size": "small",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    },
    "values": [
     "freedom"
@@ -5609,9 +5609,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "reliability",
@@ -5637,8 +5637,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
+    "participatory": 4,
+    "transparent": 4,
     "hierarchical": 2
    },
    "values": [
@@ -5668,9 +5668,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "values": [
     "common_ownership",
@@ -5699,9 +5699,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "values": [
     "accountability",
@@ -5729,9 +5729,9 @@
    "format": "team",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "innovation",
@@ -5759,9 +5759,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "mentorship",
@@ -5790,9 +5790,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "values": [
     "learning",
@@ -5817,9 +5817,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "values": [
     "localism",
@@ -5845,9 +5845,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 2
    },
    "values": [
     "fairness",
@@ -5875,9 +5875,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "values": [
     "consent",
@@ -5906,9 +5906,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "setupNotes": "could be faith"
   },
@@ -5927,9 +5927,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -5952,9 +5952,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -5977,9 +5977,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -6002,9 +6002,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "setupNotes": "left at defaults"
   },
@@ -6027,9 +6027,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -6052,9 +6052,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -6076,9 +6076,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6100,9 +6100,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -6123,9 +6123,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -6147,9 +6147,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -6170,9 +6170,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 6,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6194,9 +6194,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -6218,9 +6218,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -6242,9 +6242,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "setupNotes": "government portal with a form; format unclear"
   },
@@ -6263,9 +6263,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6288,9 +6288,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -6311,9 +6311,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -6336,9 +6336,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -6361,9 +6361,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 6,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6385,9 +6385,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "answered by founder for after the handover"
   },
@@ -6408,8 +6408,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
+    "participatory": 4,
+    "transparent": 4,
     "hierarchical": 2
    }
   },
@@ -6433,9 +6433,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6458,9 +6458,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "setupNotes": "could be movement"
   },
@@ -6484,9 +6484,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -6507,9 +6507,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "setupNotes": "left at defaults"
   },
@@ -6532,8 +6532,8 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 1
    }
   },
@@ -6557,9 +6557,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6581,9 +6581,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -6605,9 +6605,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "setupNotes": "becoming a cooperative"
   },
@@ -6631,8 +6631,8 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    },
    "setupNotes": "could be cooperative"
@@ -6657,9 +6657,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "setupNotes": "started as personal"
   },
@@ -6683,9 +6683,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -6706,9 +6706,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -6731,8 +6731,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 3,
-    "hierarchical": 6
+    "transparent": 2,
+    "hierarchical": 4
    }
   },
   {
@@ -6754,9 +6754,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    }
   },
   {
@@ -6780,8 +6780,8 @@
    "size": "small",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    }
   },
   {
@@ -6803,9 +6803,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 3
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 2
    }
   },
   {
@@ -6827,9 +6827,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -6852,9 +6852,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -6876,9 +6876,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -6900,9 +6900,9 @@
    "format": "peer_production",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6925,9 +6925,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -6950,8 +6950,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 7,
+    "participatory": 5,
+    "transparent": 5,
     "hierarchical": 1
    }
   },
@@ -6975,9 +6975,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -6998,9 +6998,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7023,9 +7023,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -7048,9 +7048,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -7073,9 +7073,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7096,9 +7096,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "setupNotes": "could be general_social"
   },
@@ -7122,9 +7122,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7147,9 +7147,9 @@
    "format": "discussion_forum",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    }
   },
   {
@@ -7171,9 +7171,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7191,9 +7191,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7215,9 +7215,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "setupNotes": "could be cooperative (stokvel)"
   },
@@ -7241,9 +7241,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7266,9 +7266,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    }
   },
   {
@@ -7289,9 +7289,9 @@
    "format": "team",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "setupNotes": "left near defaults"
   },
@@ -7315,9 +7315,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7341,8 +7341,8 @@
    "size": "small",
    "targetScales": {
     "participatory": 2,
-    "transparent": 6,
-    "hierarchical": 7
+    "transparent": 4,
+    "hierarchical": 5
    }
   },
   {
@@ -7365,9 +7365,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "also a volunteer cleanup group"
   },
@@ -7390,9 +7390,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7415,9 +7415,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -7440,9 +7440,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7464,9 +7464,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7488,9 +7488,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7512,9 +7512,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    }
   },
   {
@@ -7537,9 +7537,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7562,8 +7562,8 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 2
    }
   },
@@ -7584,9 +7584,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "setupNotes": "left at defaults"
   },
@@ -7610,9 +7610,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -7635,9 +7635,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7659,9 +7659,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "setupNotes": "really a friend group"
   },
@@ -7681,8 +7681,8 @@
    "size": "small",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 7
+    "transparent": 3,
+    "hierarchical": 5
    }
   },
   {
@@ -7704,9 +7704,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "setupNotes": "could be cooperative (shared property)"
   },
@@ -7730,9 +7730,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 7,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 3
    },
    "setupNotes": "could be club (alumni)"
   },
@@ -7756,9 +7756,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7780,9 +7780,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "setupNotes": "could be movement; website doesn't fit formats well"
   },
@@ -7806,8 +7806,8 @@
    "size": "medium",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 6
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7830,9 +7830,9 @@
    "format": "listserv_email",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    }
   },
   {
@@ -7854,9 +7854,9 @@
    "format": "social_network_media",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "could be cooperative"
   },
@@ -7879,9 +7879,9 @@
    "format": "social_network_media",
    "size": "very_large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -7904,9 +7904,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    }
   },
   {
@@ -7929,9 +7929,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 5,
+    "hierarchical": 2
    }
   },
   {
@@ -7954,9 +7954,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7974,9 +7974,9 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 5
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -7999,9 +7999,9 @@
    "format": "peer_production",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -8024,9 +8024,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 5,
-    "hierarchical": 6
+    "participatory": 2,
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -8048,9 +8048,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -8072,8 +8072,8 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 5,
+    "participatory": 5,
+    "transparent": 4,
     "hierarchical": 1
    }
   },
@@ -8097,9 +8097,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "could be club"
   },
@@ -8123,9 +8123,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 5,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    }
   },
   {
@@ -8148,8 +8148,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 6,
-    "hierarchical": 6
+    "transparent": 4,
+    "hierarchical": 4
    }
   },
   {
@@ -8171,9 +8171,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    }
   },
   {
@@ -8195,9 +8195,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "setupNotes": "started as personal; could be classroom"
   },
@@ -8216,9 +8216,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -8239,9 +8239,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   },
   {
@@ -8264,9 +8264,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "could be civic"
   },
@@ -8290,9 +8290,9 @@
    "format": "chat_group",
    "size": "medium",
    "targetScales": {
-    "participatory": 7,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 5,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "setupNotes": "could be cooperative or neighborhood"
   },
@@ -8311,9 +8311,9 @@
    "format": "chat_group",
    "size": "small",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    }
   }
  ]

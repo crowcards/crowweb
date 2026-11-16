@@ -78,12 +78,12 @@ function hashSecret(secret) {
   return crypto.createHash("sha256").update(secret).digest("hex");
 }
 
-/** The empty card shape — schema v0.1.0. */
+/** The empty card shape — schema v0.2.0 (SCHEMA_VERSION in js/view-modes.js, with upgradeCard for older cards). */
 function makeEmptyCard(cardId) {
   const now = new Date().toISOString();
   return {
     id: cardId,
-    schemaVersion: "0.1.0",
+    schemaVersion: "0.2.0",
     createdAt: now,
     updatedAt: now,
     forkedFrom: null,   // a fork: { cardId, version, name, mode } of the published card it started from (forkCard)
@@ -210,10 +210,12 @@ function makeEmptyCard(cardId) {
         blocklistLink: null,    // only while sharesBlocklist is "yes" (set aside otherwise)
         decisionTools: [],      // federation_subscription_lists.json tool / service ids, or typed names
       },
-      rulesNote: null,          // how the community's rules shape who it federates with
+      criteria: [],             // [{ id, note }]: federation_criteria.json ids (why they federate; why they limit or defederate)
+      criteriaNote: null,       // anything else about their criteria (until 0.2.0: rulesNote, how their rules shape who they federate with)
       bridging: {
         bridges: null,          // "yes" | "no" | null
         protocols: [],          // protocol names (from platforms.json, or typed); only while bridges is "yes"
+        memberDefault: null,    // enums.json bridgingMemberDefault id ("opt_out" | "opt_in" | "varies"); only while bridges is "yes"
       },
     },
 
@@ -439,7 +441,8 @@ exports.getCard = onCall({ cors: true }, async (request) => {
   const { cardId, secret } = request.data || {};
   const snap = await (await verifyKey(cardId, secret)).get();
   if (!snap.exists) throw new HttpsError("not-found", "No card has this ID");
-  return { card: snap.data() };
+  const { upgradeCard } = await loadShared();
+  return { card: upgradeCard(snap.data()) };   // (an older card in today's shape; saved so on its next save)
 });
 
 // ─── updateCard ──────────────────────────────────────────
@@ -510,11 +513,13 @@ exports.updateCard = onCall({ cors: true }, async (request) => {
   }
 
   const cardRef = await verifyKey(cardId, secret);
+  const { upgradeCard } = await loadShared();
 
   const { card, updatedAt } = await db.runTransaction(async (tx) => {
     const snap = await tx.get(cardRef);
     if (!snap.exists) throw new HttpsError("not-found", "No card has this ID");
-    const current = snap.data();
+    const stored = snap.data();
+    const current = upgradeCard(stored);   // (an older card is saved whole, in today's shape)
 
     if (ifUpdatedAt && current.updatedAt !== ifUpdatedAt) {
       throw new HttpsError(
@@ -529,8 +534,12 @@ exports.updateCard = onCall({ cors: true }, async (request) => {
     if (Buffer.byteLength(JSON.stringify(next)) > MAX_CARD_BYTES) {
       throw new HttpsError("resource-exhausted", "This card is too big to save");
     }
-    // mergeFields: replace exactly these top-level fields, leave the rest
-    tx.set(cardRef, { ...updates, updatedAt: now }, { mergeFields: [...Object.keys(updates), "updatedAt"] });
+    if (current !== stored) {
+      tx.set(cardRef, next);
+    } else {
+      // mergeFields: replace exactly these top-level fields, leave the rest
+      tx.set(cardRef, { ...updates, updatedAt: now }, { mergeFields: [...Object.keys(updates), "updatedAt"] });
+    }
     return { card: next, updatedAt: now };
   });
 
@@ -552,7 +561,8 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  */
 async function writePublic(tx, cardRef, card, versions) {
   const data = await loadShared();
-  const { publicView } = data;
+  const { publicView, upgradeCard } = data;
+  versions = versions.map((v) => ({ ...v, card: upgradeCard(v.card) }));   // (versions saved before the current schema)
   const { mode, listed, version, publishedAt } = card.publishing;
   const publicRef = db.collection("public").doc(card.id);
   const latest = versions.find((v) => v.version === version);
@@ -606,7 +616,8 @@ exports.publishCard = onCall({ cors: true }, async (request) => {
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(cardRef);
     if (!snap.exists) throw new HttpsError("not-found", "No card has this ID");
-    const card = snap.data();
+    const { upgradeCard } = await loadShared();
+    const card = upgradeCard(snap.data());   // (an older card: published in today's shape; the card itself is converted on its next save)
     const p = card.publishing || {};
     if (p.hidden) throw new HttpsError("permission-denied", "This card was taken down by the CROW team");
     const missing = [
@@ -653,7 +664,8 @@ exports.updatePublishing = onCall({ cors: true }, async (request) => {
   return db.runTransaction(async (tx) => {
     const snap = await tx.get(cardRef);
     if (!snap.exists) throw new HttpsError("not-found", "No card has this ID");
-    const card = snap.data();
+    const { upgradeCard } = await loadShared();
+    const card = upgradeCard(snap.data());   // (an older card: published in today's shape; the card itself is converted on its next save)
     const p = card.publishing || {};
     if (p.status !== "published") throw new HttpsError("failed-precondition", "This card isn't published");
     if (p.hidden) throw new HttpsError("permission-denied", "This card was taken down by the CROW team");
@@ -708,11 +720,12 @@ exports.getPublicCard = onCall({ cors: true }, async (request) => {
   const snap = await publicRef.get();
   if (!snap.exists) throw new HttpsError("not-found", "This card isn't available");
   const card = snap.data();
-  if (version == null || version === card.version) return card;
+  const { upgradePublic } = await loadShared();   // (a copy not yet rebuilt by the migration, in today's shape)
+  if (version == null || version === card.version) return upgradePublic(card);
   const v = await publicRef.collection("versions").doc(String(version)).get();
   if (!v.exists) throw new HttpsError("not-found", "This version isn't available");
   // a past version, with the card's current details (its versions, credit, …)
-  return { ...card, ...v.data() };
+  return upgradePublic({ ...card, ...v.data() });
 });
 
 // ─── forkCard ────────────────────────────────────────────
@@ -756,7 +769,8 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
     if (!v.exists) throw new HttpsError("not-found", "This version isn't available");
     pub = { ...pub, ...v.data() };
   }
-  const { MODES } = await loadShared();
+  const { MODES, upgradePublic } = await loadShared();
+  pub = upgradePublic(pub);   // (a copy not yet rebuilt by the migration, in today's shape)
   if (!MODES.find((m) => m.id === pub.mode)?.forkable) {
     throw new HttpsError("failed-precondition", "This card can't be forked in its view");
   }
