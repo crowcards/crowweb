@@ -1,7 +1,7 @@
 {
   "version": "0.2.0",
   "updatedAt": "2026-11-16",
-  "note": "High-level reasons a community federates with other servers, or limits or defederates from them (Federation → (De)federation criteria; a card stores [{ id, note }] in federation.criteria). Two groups: why we federate, and why we limit or defederate. The second mirrors the rule schema's categories (rule_schema.json: behavior, content; each item's ruleType is the rule type it corresponds to), plus how a server is run (security, privacy, moderation). \"federate_by_default\" is selected automatically when the approach is \"Open, with a denylist\". Drafted 2026-11-16; status \"proposed\" until the team reviews it.",
+  "note": "High-level reasons a community federates with other servers, or limits or defederates from them (Federation → (De)federation criteria; a card stores [{ id, note }] in federation.criteria). Two groups: why we federate, and why we limit or defederate. The second mirrors the rule schema's categories (rule_schema.json: behavior, content; each item's ruleType is the rule type it corresponds to), plus how a server is run (security, privacy, moderation). \"federate_by_default\" is selected automatically when the approach is \"Open, with a denylist\". Drafted 2026-11-16; accepted by Sohyeon 2026-11-16.",
   "groups": [
     {
       "id": "federate",
@@ -37,35 +37,35 @@
       "group": "federate",
       "label": "We federate by default",
       "description": "We connect with other servers unless there's a reason not to.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "they_reach_out",
       "group": "federate",
       "label": "They reach out, and we agree",
       "description": "Another community asks to federate with us, and we decide together.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "similar_rules_values",
       "group": "federate",
       "label": "Similar rules and values",
       "description": "Their rules and values are close to ours.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "trusted_moderation",
       "group": "federate",
       "label": "Moderators we trust",
       "description": "We know their moderation team, and they respond when there's a problem.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "known_community",
       "group": "federate",
       "label": "A community we already know",
       "description": "We already have ties with them: shared members, partners, events.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "bad_faith",
@@ -74,7 +74,7 @@
       "ruleType": "civility",
       "label": "Bad-faith behavior",
       "description": "Trolling, personal attacks or deliberate disruption from their members.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "harassment",
@@ -83,7 +83,7 @@
       "ruleType": "harassment",
       "label": "Harassment",
       "description": "Their members harass, bully or dogpile ours, and it isn't dealt with.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "hate",
@@ -92,7 +92,7 @@
       "ruleType": "discrimination",
       "label": "Hate and discrimination",
       "description": "Hate speech or discrimination from their members, left in place.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "inauthentic_accounts",
@@ -101,7 +101,7 @@
       "ruleType": "authenticity",
       "label": "Impersonation or fake accounts",
       "description": "Impersonation, sockpuppets or undisclosed bots.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "spam_bots",
@@ -110,7 +110,7 @@
       "ruleType": "spam",
       "label": "Spam and platform misuse",
       "description": "Spam, mass-following or mass-replying, or unsolicited advertising coming from them.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "open_signups",
@@ -119,7 +119,7 @@
       "ruleType": "onboarding",
       "label": "Sign-ups with no checks",
       "description": "Anyone can make an account there, so abusive accounts appear faster than they're removed.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "unlabeled_media",
@@ -128,7 +128,7 @@
       "ruleType": "cw",
       "label": "Sensitive media without warnings",
       "description": "Graphic, disturbing or sexual media posted without content warnings or labels.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "ai_copyright",
@@ -137,7 +137,7 @@
       "ruleType": "ai",
       "label": "AI-generated media or uncredited work",
       "description": "AI-generated media, or others' work posted without credit, that our rules don't allow.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "explicit_content",
@@ -146,7 +146,7 @@
       "ruleType": "nsfw",
       "label": "Explicit content we don't allow",
       "description": "Adult or explicit content beyond what our rules permit.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "illegal_content",
@@ -155,7 +155,7 @@
       "ruleType": "illegal",
       "label": "Illegal content",
       "description": "Content that's illegal where we, or our members, are.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "violence_extremism",
@@ -164,7 +164,7 @@
       "ruleType": "violence",
       "label": "Violence, threats or extremism",
       "description": "Violent threats, extremist propaganda or content encouraging self-harm.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "rules_too_different",
@@ -172,7 +172,7 @@
       "section": "practices",
       "label": "Their rules differ too much from ours",
       "description": "Overall, their rules allow what ours forbid, or leave out what matters to us.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "unresponsive_moderation",
@@ -180,7 +180,7 @@
       "section": "practices",
       "label": "Moderation absent or unresponsive",
       "description": "Reports go unanswered, or there's no one to contact.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "lax_security",
@@ -188,7 +188,7 @@
       "section": "practices",
       "label": "Security practices too lax or unclear",
       "description": "For example, outdated software, unprotected admin accounts, or no stated security practices.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "privacy_practices",
@@ -196,7 +196,7 @@
       "section": "practices",
       "label": "Privacy practices we can't accept",
       "description": "For example, they scrape or republish our members' posts, or share their data.",
-      "status": "proposed"
+      "status": "accepted"
     },
     {
       "id": "hosts_blocked_actors",
@@ -204,7 +204,7 @@
       "section": "practices",
       "label": "They host people we've blocked elsewhere",
       "description": "For example, accounts that moved there to get around our blocks.",
-      "status": "proposed"
+      "status": "accepted"
     }
   ]
 }
