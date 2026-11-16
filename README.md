@@ -47,6 +47,19 @@ The site is at http://localhost:5000 (staging's version; the live site's is at h
 The local database starts empty each time. To keep your test cards between runs, start with `firebase emulators:start --import=emulator-data --export-on-exit` (`emulator-data/` is yours alone: it isn't committed).
 
 ### Deploying
+
+**The workflow, in short:**
+
+| | Staging (staging.crowcards.org) | Live (crowcards.org) |
+|---|---|---|
+| **Project** | `cos-princeton-hci-crow-staging` (alias `staging`): its own server and database, test data only | `cos-princeton-hci-crow` (alias `live`, the default): real cards |
+| **From** | `beta`, any time | `main` only, after merging `beta` (the guard checks) |
+| **Who** | anyone with deploy access to staging | Sohyeon (or the backup) |
+| **Command** | `firebase deploy --project staging --only functions,firestore,hosting:staging` | `firebase deploy --only functions,firestore,hosting:live` |
+| **For** | trying everything, server changes included, before a release | releasing what's been tried on staging |
+
+So: work on a branch → test on the emulator → merge into `beta` → deploy to staging and check it there → when ready, merge `beta` into `main` and release to live (step by step under "Releasing" below). The docs site (docs.crowcards.org) is live-only, deployed from `main`.
+
 - **Two projects** (`.firebaserc`): **live** (`cos-princeton-hci-crow`, the default: crowcards.org, the real server and database) and **staging** (`cos-princeton-hci-crow-staging`: staging.crowcards.org, its own server and database, test data only).
   - **Staging:** `firebase deploy --project staging --only functions,firestore,hosting:staging`, from an up-to-date `beta`: the site, the server and the database rules, so server changes can be tried on staging before a release.
   - **A release** (Sohyeon): merge `beta` into `main` with a pull request, then from `main`: `firebase deploy --only functions,firestore,hosting:live`.
@@ -101,7 +114,7 @@ git checkout beta
 - **A major release that needs the site down:** before step 3, `node scripts/maintenance.mjs live` (type yes); the release in step 4 brings the site back.
 - **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema"), in a maintenance window: take the site down (`node scripts/maintenance.mjs live`); merge (step 3); deploy the functions (`firebase deploy --only functions`); convert the stored cards (`node scripts/migrate-cards.mjs` to list them, then `--apply`; it needs the `gcloud` login below); then `firebase deploy --only firestore,hosting:live`, which brings the site back. Try the same on staging first: the release (step 2's command), then `GCLOUD_PROJECT=cos-princeton-hci-crow-staging node scripts/migrate-cards.mjs` (and `--apply`).
 
-**Clearing out old staging cards from the live database** (made before staging had its own project, marked as staging; the staging project's own cards can simply be deleted in its console, or left):
+**Clearing out staging cards from the live database** (made before staging had its own project, marked as staging; cleared 2026-11-16, so normally there are none; the staging project's own cards can simply be deleted in its console, or left):
 ```
 node scripts/staging-cards.mjs             # lists them; deletes nothing
 node scripts/staging-cards.mjs --delete    # deletes them: each card, its key, versions, public copies and reports
