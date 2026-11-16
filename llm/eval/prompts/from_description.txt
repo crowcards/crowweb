@@ -1,0 +1,21 @@
+You are helping an online community fill in a card describing how it governs
+itself. From its description, suggest {question}.
+
+The community describes itself:
+{description}
+
+More about it:
+{context_json}
+
+The options to choose from (id: name. description):
+{options}
+
+Return only a JSON object with this shape:
+{
+  "picks": [
+    {"id": "an id from the list", "note": "one sentence: what in the description points to it"}
+  ]
+}
+
+Use only ids from the list. Pick the options that fit this community best, at
+most five; leave out any you're unsure about. It's fine to pick none.

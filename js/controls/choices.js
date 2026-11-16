@@ -56,6 +56,12 @@
 // the open group's name and description under them; the filter box (under
 // the tabs, right above the list) searches within the group.
 //
+// headings: { of: (opt) => heading id, items: [{ id, label, hint? }] } — small
+// headings in the list, each over its options (options already in heading
+// order), e.g. Federation's reasons to limit a server, by the Rules module's
+// categories; while filtering, a heading with no matching option hides, and
+// matches keep their order (not ranked) so they stay under their heading.
+//
 // badge: (opt) => ({ label, quiet?, notes: [text] }) | null — a small lime chip next (no label: no chip, the notes only, e.g. a "not a fit" reason)
 // to an option's name (e.g. "Suggested"), with its notes under the
 // description ("described") or in the pixel-plus details ("compact").
@@ -108,6 +114,7 @@ export function renderChoices({
   hintBelow = false,
   badge = () => null,
   groups = null,
+  headings = null,
   onChange = () => {},
 } = {}) {
   const group = uid("choice");
@@ -117,8 +124,20 @@ export function renderChoices({
   const subs = new Map();     // option id → { box, inputs } for follow-up choices
 
   const list = el("div", { className: `choices ${layout === "buttons" ? "choice-buttons " : ""}${listClass}`.trim() });
+  const headingRows = new Map();   // heading id → { row, ids: the options under it }
+  let lastHeading = null;
 
   for (const opt of options) {
+    // a heading over the first option of each (headings)
+    const h = headings?.of(opt);
+    if (headings && h !== lastHeading) {
+      const item = headings.items.find((x) => x.id === h);
+      const row = el("p", { className: "choice-heading mono-u" }, item?.label || h, item?.hint ? el("span", { className: "choice-heading-hint", textContent: ` (${item.hint})` }) : null);
+      headingRows.set(h, { row, ids: [] });
+      list.append(row);
+      lastHeading = h;
+    }
+    if (headings) headingRows.get(h).ids.push(opt.id);
     const id = uid("opt");
     const input = el("input", { type, id, name: group, value: opt.id, checked: isChosen(opt.id) });
     inputs.set(opt.id, input);
@@ -328,7 +347,7 @@ export function renderChoices({
   // containing it, then matches only in the description
   let query = "";
   let visible = () => true;
-  const rows = [...list.children];   // (in the given order, put back when the filter is cleared)
+  const rows = [...list.children].filter((row) => row.dataset.id);   // (the options, in the given order, put back when the filter is cleared)
   let sorted = false;
   const rank = (row) => {
     const name = row.dataset.label;
@@ -342,6 +361,9 @@ export function renderChoices({
       row.hidden = (shownGroup !== "all" && !groupOf.get(id).includes(shownGroup))   // (the group buttons, if any)
         || (query ? !row.dataset.search.includes(query) : !visible(id, inputs.get(id).checked));
     }
+    // a heading shows while any of its options does
+    for (const { row, ids } of headingRows.values()) row.hidden = ids.every((id) => rows.find((r) => r.dataset.id === id).hidden);
+    if (headings) return;   // (under headings, matches keep their order)
     if (query) list.append(...[...rows].sort((a, b) => rank(a) - rank(b)));
     else if (sorted) list.append(...rows);   // (only after a filter: moving rows can drop the focus)
     sorted = Boolean(query);

@@ -39,6 +39,9 @@ export async function loadExportData() {
 // ── little helpers ──────────────────────────────────────────
 export const labelIn = (list, id) => list?.find((x) => x.id === id)?.label ?? id;
 export const labels = (list, ids = []) => ids.map((id) => labelIn(list, id));
+/** A card's (de)federation criteria in one group ("federate" or "limit"), as [{ label, note }] (Export and the card). */
+export const criteriaIn = (f = {}, criteria, group) => (f.criteria || []).filter((c) => criteria[group].some((o) => o.id === c.id))
+  .map((c) => ({ label: labelIn(criteria[group], c.id), note: c.note }));
 const yesNo = (v) => (v ? labelIn(YES_NO_VARIES, v) : null);
 const withNote = (label, note) => (note ? `${label}: ${note}` : label);
 /** A step's name from where it falls (as the editor shows it). */
@@ -61,7 +64,7 @@ function countText(count, ruleSchema) {
     .filter(([id]) => count[id]).map(([id, label]) => `${count[id]} ${label}`);
   return `${count.total} ${count.total === 1 ? "rule" : "rules"}: ${kinds.join(", ")}`;
 }
-/** Target scales: "Participatory 5 / 7, …" (only the ones answered), or null. */
+/** Target scales: "Participatory 4 / 5, …" (only the ones answered), or null. */
 function targetsText(targets = {}, scaleData) {
   const on = scaleData.scales.filter((sc) => targets[sc.id] != null);
   return on.length ? on.map((sc) => `${sc.label} ${targets[sc.id]} / ${scaleData.range.max}`).join(", ") : null;
@@ -164,9 +167,12 @@ const SECTIONS = {
       ["Shares its block list", yesNo(subs.sharesBlocklist), "federationOverview"],
       ["Block list", subs.blocklistLink, "federationRest"],
       ["Tools for federation decisions", labels(x.tools, subs.decisionTools), "federationRest"],
-      ["How their rules shape who they federate with", f.rulesNote, "federationRest"],
+      ["Why they federate", criteriaIn(f, x.criteria, "federate").map((c) => withNote(c.label, c.note)), "federationRest"],
+      ["Why they limit or defederate", criteriaIn(f, x.criteria, "limit").map((c) => withNote(c.label, c.note)), "federationRest"],
+      ["About their criteria", f.criteriaNote, "federationRest"],
       ["Bridges to other networks", yesNo(f.bridging?.bridges), "federationOverview"],
       ["Bridged protocols", f.bridging?.protocols, "federationRest"],
+      ["Members bridged by default", f.bridging?.memberDefault && labelIn(x.memberDefaults, f.bridging.memberDefault), "federationRest"],
     ];
   },
 };

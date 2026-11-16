@@ -10,9 +10,9 @@
    "format": "chat_group",
    "size": "large",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 4,
-    "hierarchical": 4
+    "participatory": 3,
+    "transparent": 3,
+    "hierarchical": 3
    },
    "description": {
     "purpose": "A Discord server for Filipinos who grew up abroad, and anyone still working out where they fit. Swap recipes, practice your Tagalog or Bisaya, vent about family, and find kababayan in your new city.",
@@ -111,9 +111,9 @@
    "format": "discussion_forum",
    "size": "very_large",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "description": {
     "purpose": "Tidepool funds open ocean-monitoring data: buoys, low-cost sensor kits and the people who maintain them. TIDE holders propose and debate grants on the forum and vote on-chain, and a five-signer multisig executes what passes.",
@@ -214,8 +214,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 5,
-    "hierarchical": 5
+    "transparent": 4,
+    "hierarchical": 4
    },
    "description": {
     "purpose": "Fireball Count collects meteor sightings from volunteers around the world. Watch the sky for an hour during a shower, log what you saw in the app, and your counts feed the activity curves astronomers use to track how meteor streams change; bright fireballs seen from several places get triangulated so we can estimate where any fragments fell.",
@@ -312,8 +312,8 @@
    "format": "team",
    "size": "small",
    "targetScales": {
-    "participatory": 6,
-    "transparent": 7,
+    "participatory": 4,
+    "transparent": 5,
     "hierarchical": 2
    },
    "description": {
@@ -415,8 +415,8 @@
    "size": "very_large",
    "targetScales": {
     "participatory": 2,
-    "transparent": 4,
-    "hierarchical": 6
+    "transparent": 3,
+    "hierarchical": 4
    },
    "description": {
     "purpose": "A forum for mechanical watch collectors and amateur watchmakers: movement teardowns, servicing help, identifying references, and a members' marketplace for buying and selling. Around 60,000 registered users, a few thousand active.",
@@ -514,9 +514,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 3
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 2
    },
    "description": {
     "purpose": "Quillwright is a community fork of a popular Markdown notes app, started last month after the original moved to a source-available license. About 150 of us are rebuilding CI, triaging the backlog and deciding what to keep of the plugin API.",
@@ -615,9 +615,9 @@
    "format": "social_network_media",
    "size": "large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 3,
-    "hierarchical": 4
+    "participatory": 2,
+    "transparent": 2,
+    "hierarchical": 3
    },
    "description": {
     "purpose": "A private group for parents and carers of kids with type 1 diabetes. Post your 3 a.m. lows, your school-nurse battles and your pump questions, and people who've been there will answer, usually within minutes.",
@@ -713,9 +713,9 @@
    "format": "listserv_email",
    "size": "medium",
    "targetScales": {
-    "participatory": 5,
-    "transparent": 6,
-    "hierarchical": 4
+    "participatory": 4,
+    "transparent": 4,
+    "hierarchical": 3
    },
    "description": {
     "purpose": "The local club for licensed radio amateurs and people working towards a license. We run the repeater, a Tuesday night net, Field Day every June and license classes twice a year; this list carries meeting notices, swap-and-sell posts and the odd argument about antennas.",
@@ -809,9 +809,9 @@
    "format": "chat_group",
    "size": "very_large",
    "targetScales": {
-    "participatory": 3,
-    "transparent": 4,
-    "hierarchical": 5
+    "participatory": 2,
+    "transparent": 3,
+    "hierarchical": 4
    },
    "description": {
     "purpose": "The members' Discord for Jun's baking channel: share your bakes, get help with a stubborn starter, and join the monthly bake-along. Patrons also get the recipe archive and live Q&As.",
@@ -910,9 +910,9 @@
    "format": "peer_production",
    "size": "medium",
    "targetScales": {
-    "participatory": 4,
-    "transparent": 6,
-    "hierarchical": 6
+    "participatory": 3,
+    "transparent": 4,
+    "hierarchical": 4
    },
    "description": {
     "purpose": "Each semester the 110 students in HIST 214 (The Atlantic World, 1500 to 1800) write and revise chapters of an open textbook that the next cohort inherits. You'll draft one section in a team, review two others, and argue about sources on the talk pages; Dr. Okafor and two TAs grade the work and approve what gets published.",

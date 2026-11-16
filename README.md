@@ -19,7 +19,7 @@ CROW Cards (crowcards.org) is a tool for communities to describe how they govern
 - **The GCP project `cos-princeton-hci-crow`:** one Google Cloud Platform project, holding everything:
   - Firebase (hosting, the Firestore database, the server functions) and,
   - once it's set up, the VM for the team's language model (for the UX tasks in `DESIGN.md`).
-  - Team lead (Sohyeon) adds your Google account once (Firebase console → Project settings → Users and permissions, or the Google Cloud console's IAM page; it's the same list). "Viewer" to look around (database, logs); "Editor" or higher to deploy. Working on the VM may need a Compute Engine role on top (e.g. to SSH in), granted when the VM exists.
+  - Team lead (Sohyeon) adds your Google account once (Firebase console → Project settings → Users and permissions, or the Google Cloud console's IAM page; it's the same list). **Browser** to find the project in the console (no data); **Reader** (Google's new basic role, replacing the legacy "Viewer") only for those who need to look at the database or logs, since it can read everything in Firestore, including contributors' emails and reports. Deploying stays with Sohyeon and one backup. Work on the language model's VM has its own narrow roles (`llm/README.md`, `llm/ADMIN.md`).
 - **Fonts:** the site's fonts (Argent Pixel CF, Helvetica LT Pro) load from an Adobe Fonts kit tied to the site's domains; Sohyeon owns the kit. If they don't show on your local copy, ask Sohyeon to add the domain you're using (e.g. `localhost`) to the kit.
 - **Optional:** Claude Code, to work on the codebase with Claude from the terminal. It reads `CLAUDE.md` automatically when you start it in the repo, which loads `DESIGN.md` (the project's context and working rules). You should read `DESIGN.md` too: it contains the working style and our preferences for how we add + review code, so that we're not left with an ungodly and hard to debug codebase.
 
@@ -100,7 +100,7 @@ git checkout beta
 - Instead of step 3, a pull request on GitHub works too (base `main` ← compare `beta`, **Create a merge commit**, never "Delete branch"); then `git checkout main && git pull` and carry on at step 4.
 - If the deploy asks to delete field overrides or indexes: answer **No**, and check `firestore.indexes.json` holds what the console has.
 - **A major release that needs the site down:** before step 3, `node scripts/maintenance.mjs live` (type yes); the release in step 4 brings the site back.
-- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema").
+- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema"), in a maintenance window: take the site down (`node scripts/maintenance.mjs live`); merge (step 3); deploy the functions (`firebase deploy --only functions`); convert the stored cards (`node scripts/migrate-cards.mjs` to list them, then `--apply`; it needs the `gcloud` login below); then `firebase deploy --only firestore,hosting:live`, which brings the site back. While staging shares the live project, deploy staging (step 2's command, from `beta`) straight after, so its editor matches the server.
 
 **Clearing out staging's test cards** (until staging has its own project, they're in the live database, marked as staging):
 ```

@@ -29,6 +29,8 @@
 // from what was set aside (js/set-aside.js), and pick.remembered() lists
 // what's being kept, to set it aside.
 //
+// headings: small headings over groups of options (as in choices.js).
+//
 // detachChosen: the tags aren't placed above the list; pick.chosenElement
 // is put wherever the page wants it. noteHint changes the hint on each note.
 // layout ("compact" by default, or "described"), legendHidden, before /
@@ -76,6 +78,7 @@ export function pickList({
   badge,
   alike,
   layout = "compact",
+  headings = null,
   before = [],
   after = [],
   detachChosen = false,
@@ -281,6 +284,7 @@ export function pickList({
     filterable,
     filterLabel,
     badge,
+    headings,
     listClass: filterable ? "scroll-list" : "",
     before: [...before, ...(detachChosen ? [] : [chosenArea])],   // e.g. a callout, then the tags
     after,

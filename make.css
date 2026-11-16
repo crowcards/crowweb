@@ -419,9 +419,13 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .summary-label,
 .rule-original,
 .editor-card :is(.mono, .mono-u) { color: var(--gray); font-size: var(--fs-xs); }
-/* …and small gray mono text: the save status and the sidebar's notes */
+/* …and small gray mono text: the save status, the sidebar's notes, and a list's headings */
 .save-status,
-.editor-forget-note { color: var(--gray); font-family: var(--mono); font-size: var(--fs-xs); }
+.editor-forget-note,
+.choice-heading { color: var(--gray); font-family: var(--mono); font-size: var(--fs-xs); }
+/* a heading over a group of options (choices.js headings): the first sits at the top */
+.choice-heading { margin: 1rem 0 0.25rem; }
+.choice-heading:first-child { margin-top: 0; }
 
 /* rows of things side by side that wrap onto more lines when there isn't
    room (one rule for all of them; each sets its own gap) */
@@ -440,12 +444,12 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .choice-range { --first-line: var(--tick); position: relative; flex-direction: column; align-items: center; gap: 0.2rem; }
 .choice-range > label { font-size: var(--fs-s); cursor: pointer; }
 .choice-range:has(> .choice-tip) > label { text-decoration: underline dotted var(--gray); text-underline-offset: 3px; }
-/* (the bubble hangs from its number: the first three's open to the right,
-   the last three's to the left, the middle of seven's centered; narrower on
-   small screens, so none runs off the edge) */
+/* (the bubble hangs from its number: the first ones open to the right, the
+   last ones to the left, the middle one (of five or seven) centered;
+   narrower on small screens, so none runs off the edge) */
 .choice-range > .choice-tip { max-width: min(18rem, 60vw); }
 .choice-range:nth-last-child(-n + 3):not(:nth-child(-n + 3)) > .choice-tip { left: auto; right: 0; }
-.choice-range:nth-child(4):nth-last-child(4) > .choice-tip { left: 50%; transform: translateX(-50%); }
+.choice-range:is(:nth-child(3):nth-last-child(3), :nth-child(4):nth-last-child(4)) > .choice-tip { left: 50%; transform: translateX(-50%); }
 .target-scale { margin-bottom: 1.5rem; }
 
 /* a scale's trade-offs, in a note (callout) under it: small mono capitals,
@@ -1084,7 +1088,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .card-scales { display: flex; flex-wrap: wrap; gap: 1rem 1.25rem; }
 .card-scale { display: flex; align-items: flex-end; gap: 6px; }
 .card-scale-bar { display: grid; gap: 2px; }
-.card-scale-bar > i { position: relative; width: 10px; height: 6px; background: var(--line); }   /* (seven, as tall as the tile) */
+.card-scale-bar > i { position: relative; width: 10px; height: 9px; background: var(--line); }   /* (five, about as tall as the tile) */
 .card-scale-bar > i.on { background: var(--accent); }
 .card-scale-bar > i.target { outline: 2px dotted var(--ink); outline-offset: -1px; }   /* (its key, "where they'd like to be", in a bubble: .tip-host) */
 .card-scale-bar > i.target:is(:hover, :focus-visible) { outline-color: var(--accent); }

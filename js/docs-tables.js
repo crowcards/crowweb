@@ -23,6 +23,20 @@ export const renderers = {
     </tr>
   `).join(""),
 
+  // Federation's (de)federation criteria, one group (data-group: "federate" or
+  // "limit"): label, description, and for the second group the section it's
+  // in (their members' behavior, what they host, how their server is run)
+  "criteria": (data, el) => {
+    const sections = Object.fromEntries((data.sections || []).map((s) => [s.id, s.label]));
+    return data.items.filter((it) => it.group === el.dataset.group).map((it) => `
+    <tr>
+      <td class="ref-name">${esc(it.label)}</td>
+      ${it.section ? `<td>${esc(sections[it.section] || "")}</td>` : ""}
+      <td>${esc(it.description || "")}</td>
+    </tr>
+  `).join("");
+  },
+
   // Values: label, description, signals (what inconsistency looks like);
   // with data-labels="/data/value_groups.json", the team's description where
   // CommunityRule's is a placeholder; values we hide (hidden: true) left out
@@ -61,7 +75,7 @@ export const renderers = {
 
   // Governance scales (governance_scales.json): what each scale means, how it
   // applies to each kind of option ("applies"), and what each level means
-  // (the range, e.g. 1–7, comes from the file)
+  // (the range, e.g. 1–5, comes from the file)
   "scaleDefinitions": (data) => data.scales.map(sc => `
     <tr>
       <td class="ref-name">${esc(sc.label)}</td>

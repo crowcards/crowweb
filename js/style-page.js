@@ -192,7 +192,7 @@ function renderLists(approaches) {
 // ── scales & yes/no ──────────────────────────────────────────
 function renderScales(scaleData) {
   slot("scales").append(
-    group("Target scale, with its trade-offs", "basics.js targetScale (Basics and set-up): 1–7, each number's meaning in its bubble; the trade-offs in a note", targetScale(scaleData.scales[0], scaleData.range, 5).element),
+    group("Target scale, with its trade-offs", "basics.js targetScale (Basics and set-up): 1–5, each number's meaning in its bubble; the trade-offs in a note", targetScale(scaleData.scales[0], scaleData.range, 5).element),
     group("1–5 range", "choices.js scaleField with range: each number's meaning in its bubble (basics.js target scales)", scaleField({ legend: "Transparency", value: "3", range: true,
       options: ["Decisions stay with the moderators", "Outcomes are shared", "Outcomes and reasons are shared", "Mostly open", "Decisions are public"].map((d, i) => ({ id: String(i + 1), label: String(i + 1), description: `${i + 1}: ${d}` })) }).element),
     group("Yes / No / It varies", "choices.js scaleField + YES_NO_VARIES, layout buttons (Infrastructure)", scaleField({ legend: "Open source", options: YES_NO_VARIES, layout: "buttons" }).element),
@@ -361,7 +361,7 @@ async function renderViewModes() {
     processes: { moderation: { approachNotes: { lazy_consensus: "Two mods agree" }, generalNote: "Mods rotate each season." }, maintenance: { approachNotes: {}, generalNote: null }, institutionalChange: { approachNotes: {}, generalNote: "Yearly review" },
       conflictManagement: { approaches: [{ id: "peer_mediation", note: "First stop", stage: 1, primary: true }, { id: "circle_processes", note: null, stage: 2 }], generalNote: null }, communications: { channels: ["email"], customChannels: [] } },
     federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "warn", note: "For spam", stage: 1 }, { id: "mute", note: null, stage: 2 }, { id: "block", note: null, stage: 3 }],
-      subscriptions: { subscribedLists: [], sharesBlocklist: "yes", blocklistLink: "https://garden.example/blocks" }, rulesNote: "Servers that allow harassment (our first rule) are blocked.", bridging: { bridges: "yes", protocols: ["AT Protocol"] } },
+      subscriptions: { subscribedLists: [], sharesBlocklist: "yes", blocklistLink: "https://garden.example/blocks" }, criteria: [{ id: "federate_by_default", note: null }, { id: "harassment", note: "Our first rule" }, { id: "lax_security", note: null }], criteriaNote: "We decide together in the moderators' channel.", bridging: { bridges: "yes", protocols: ["AT Protocol"], memberDefault: "opt_in" } },
   };
   // the card as each mode shows it (card-view.js renderCard), one at a time
   const host = el("div");

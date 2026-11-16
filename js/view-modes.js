@@ -27,6 +27,58 @@
 // 2026-10-26: every entry the suggestions use is accepted.
 export const COUNT_PROPOSED = false;
 
+/**
+ * The card schema's current version (functions/index.js makeEmptyCard), and
+ * the conversion from earlier versions: the server applies it to any older
+ * card it reads (getCard, updateCard, publishing), and the one-time migration
+ * (scripts/migrate-cards.mjs) to every stored card, version and public copy.
+ * Returns a new card; a card already current comes back unchanged.
+ *
+ * 0.1.0 → 0.2.0 (2026-11-16): the scales go from 1–7 to 1–5 (target scales
+ * converted: 1→1, 2–3→2, 4→3, 5–6→4, 7→5); Federation's approaches are two
+ * ("open" becomes "denylist_first", "Open, with a denylist"); "Rules for
+ * federation" (rulesNote) becomes the (de)federation criteria (criteria, with
+ * the old note kept as criteriaNote; "federate_by_default" selected when the
+ * approach is open); bridging gains memberDefault (opt-in / opt-out).
+ */
+export const SCHEMA_VERSION = "0.2.0";
+const SCALE_7_TO_5 = { 1: 1, 2: 2, 3: 2, 4: 3, 5: 4, 6: 4, 7: 5 };
+export function upgradeCard(card) {
+  if (!card || card.schemaVersion === SCHEMA_VERSION) return card;
+  const next = structuredClone(card);
+  if (!next.schemaVersion || next.schemaVersion === "0.1.0") {
+    const t = next.basics?.targetScales;
+    if (t) for (const k of Object.keys(t)) if (t[k] != null) t[k] = SCALE_7_TO_5[t[k]] ?? t[k];
+    if (next.federation) {
+      const f = next.federation;
+      if (f.approach === "open") f.approach = "denylist_first";
+      const { rulesNote = null, ...rest } = f;
+      next.federation = {
+        ...rest,
+        criteria: f.criteria || (f.approach === "denylist_first" ? [{ id: "federate_by_default", note: null }] : []),
+        criteriaNote: f.criteriaNote ?? rulesNote,
+        bridging: { ...(f.bridging || {}), memberDefault: f.bridging?.memberDefault ?? null },
+      };
+    }
+    next.schemaVersion = "0.2.0";
+  }
+  return next;
+}
+
+/**
+ * A public copy ({ card, scales, … }, as getPublicCard returns it) in the
+ * current shape, for one read before the migration has rebuilt it: its card
+ * upgraded, and (from 0.1.0) its worked-out scale scores converted too.
+ */
+export function upgradePublic(copy) {
+  if (!copy?.card || copy.card.schemaVersion === SCHEMA_VERSION) return copy;
+  const from01 = !copy.card.schemaVersion || copy.card.schemaVersion === "0.1.0";
+  const scales = from01 && copy.scales
+    ? Object.fromEntries(Object.entries(copy.scales).map(([k, v]) => [k, v ? { ...v, score: SCALE_7_TO_5[v.score] ?? v.score } : v]))
+    : copy.scales;
+  return { ...copy, card: upgradeCard(copy.card), scales };
+}
+
 export const MODES = [
   { id: "minimal", label: "Minimal", forkable: false,
     description: "The basics: who you are, your platform, how people join, how many rules you have, and the three scales." },
@@ -76,7 +128,7 @@ export const FIELDS = {
   federationOverview: from("foggy"),    // the approach; whether a block list is shared, and whether they bridge (yes / no only)
   federationSteps: from("misty"),       // the response ladder
   federationNotes: ["full"],
-  federationRest: ["full"],             // allowlist policy, shared lists, the block list's link, tools, how rules shape federation, bridged protocols
+  federationRest: ["full"],             // allowlist policy, shared lists, the block list's link, tools, (de)federation criteria, bridged protocols and the members' bridging default
   customModules: ["full"],
   scales: ALL,
   downloads: ["full"],
@@ -114,7 +166,7 @@ export const FIELD_LABELS = {
   federationOverview: "Federation approach, block list and bridging (yes / no)",
   federationSteps: "Response ladder",
   federationNotes: "Notes on federation",
-  federationRest: "Shared lists, tools, how rules shape federation, bridged protocols",
+  federationRest: "Shared lists, tools, (de)federation criteria, bridged protocols and members’ bridging default",
   customModules: "Custom modules",
   scales: "Governance scales",
   downloads: "Downloads",
@@ -242,7 +294,10 @@ export function viewCard(card, mode) {
       subscriptions: rest ? f.subscriptions : { sharesBlocklist: f.subscriptions?.sharesBlocklist ?? null },
       bridging: rest ? f.bridging : { bridges: f.bridging?.bridges ?? null },
       ...(has("federationSteps") ? { responseLadder: withNotes(f.responseLadder, has("federationNotes")) } : {}),
-      ...(rest ? pick(f, ["allowlistPolicy", "rulesNote"]) : {}),
+      ...(rest ? {
+        ...pick(f, ["allowlistPolicy", "criteriaNote"]),
+        criteria: withNotes(f.criteria, has("federationNotes")),
+      } : {}),
     };
   }
 

@@ -6,8 +6,11 @@
 //
 // federation_subscription_lists.json holds shared lists (block- and
 // allowlists) and the tools and services that help with federation
-// decisions; each item's category says which. A note says how the
-// community's rules shape who it federates with.
+// decisions; each item's category says which. federation_criteria.json holds
+// the (de)federation criteria: why a community federates with a server, and
+// why it limits or defederates (mirroring the rule schema's categories, plus
+// how a server is run); "We federate by default" is selected by itself when
+// the approach is "Open, with a denylist".
 
 import { loadData, loadProtocolItems } from "../data.js";
 import { el } from "../dom.js";
@@ -24,13 +27,17 @@ const TOOL_CATEGORIES = ["tool", "service"];
 const categoryOf = (item) => item.categories?.[0] ?? item.category ?? item.kind ?? "blocklist";
 
 export async function loadFederationData() {
-  const [enums, lists, protocols] = await Promise.all([
+  const [enums, lists, protocols, criteria] = await Promise.all([
     loadData("enums"),
     loadData("federation_subscription_lists"),
     loadProtocolItems(),
+    loadData("federation_criteria"),
   ]);
+  const inGroup = (g) => criteria.items.filter((i) => i.group === g);
   return {
     approaches: enums.federationApproach,
+    memberDefaults: enums.bridgingMemberDefault,
+    criteria: { federate: inGroup("federate"), limit: inGroup("limit"), sections: criteria.sections || [] },
     ladder: enums.federationResponseLadder,
     lists: lists.items.filter((i) => !TOOL_CATEGORIES.includes(categoryOf(i))),
     tools: lists.items.filter((i) => TOOL_CATEGORIES.includes(categoryOf(i))),
@@ -43,6 +50,8 @@ export function renderFederation(container, federation = {}, data, { onInput = (
   const bridging = federation.bridging || {};
 
   // ── approach and response ladder ──────────────────────────
+  const OPEN = "denylist_first";
+  const BY_DEFAULT = "federate_by_default";
   // with an allowlist, say how servers get onto it
   const usesAllowlist = (a) => a === "allowlist_first";
   const approach = renderChoices({
@@ -54,6 +63,10 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     clearable: true,
     onChange: (a) => {
       showIf(allowlist.element, usesAllowlist(a));
+      // open by default: say so among the reasons to federate
+      if (a === OPEN && !whyFederate.value().some((p) => p.id === BY_DEFAULT)) {
+        whyFederate.select([...whyFederate.value().map((p) => p.id), BY_DEFAULT]);
+      }
       onCommit();
     },
   });
@@ -130,12 +143,34 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     onCommit,
   });
 
-  // ── how the community's rules shape who it federates with: one note ──
-  const rulesNote = textField({
-    label: "How your rules shape who you federate with",
-    hint: "Optional. E.g. which of your rules you look at when deciding whether to federate with, limit or block another server.",
+  // ── (de)federation criteria: why you federate, and why you limit or defederate ──
+  const criteriaPicks = federation.criteria || [];
+  const criteriaList = (legend, hint, options, group) => pickList({
+    legend,
+    hint,
+    options,
+    // the reasons to limit a server, under their headings (their members' behavior, what they host, how their server is run)
+    headings: group === "limit" ? { of: (o) => o.section, items: data.criteria.sections.map((s) => ({ id: s.id, label: s.label, hint: s.hint })) } : null,
+    items: criteriaPicks.filter((c) => options.some((o) => o.id === c.id)),
+    remembered: setAside.list("criteria:").filter((c) => options.some((o) => o.id === c.id)),
+    noteHint: "What this looks like for you (optional).",
+    // compact, as Processes' approaches: just the names, each with a pixel plus for its description;
+    // the long list (limit) with a filter box over it, the short one (federate) without
+    filterable: group === "limit",
+    chosenLegend: null,
+    emptyText: "None chosen yet.",
+    onInput,
+    onCommit,
+  });
+  const whyFederate = criteriaList("Why you federate with a server",
+    "Select what leads you to federate. Click one to add a note. (“We federate by default” is selected for you when your approach is “Open, with a denylist”.)", data.criteria.federate, "federate");
+  const whyLimit = criteriaList("Why you limit or defederate from a server",
+    "Select what leads you to limit or block an entire community rather than just one member from it. Click one to add a note.", data.criteria.limit, "limit");
+  const criteriaNote = textField({
+    label: "Anything else about your criteria",
+    hint: "Optional. E.g. how you decide, or which of your rules you look at.",
     multiline: true,
-    value: federation.rulesNote,
+    value: federation.criteriaNote,
     onInput,
     onCommit,
   });
@@ -149,8 +184,18 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     value: bridging.bridges,
     onChange: (v) => {
       showIf(protocols.element, v === "yes");
+      showIf(memberDefault.element, v === "yes");
       onCommit();
     },
+  });
+  // with a bridge: are members bridged without asking (opt-out), or only if they choose (opt-in)?
+  const memberDefault = scaleField({
+    legend: "Are your members bridged automatically?",
+    hint: "Whether each member's account is bridged unless they turn it off (opt-out), or only if they choose to (opt-in).",
+    options: data.memberDefaults,
+    layout: "buttons",
+    value: bridging.memberDefault ?? setAside.get("bridging.memberDefault"),
+    onChange: onCommit,
   });
   const protocols = suggestField({
     label: "Bridged protocols",
@@ -162,14 +207,15 @@ export function renderFederation(container, federation = {}, data, { onInput = (
     onCommit,
   });
   protocols.element.hidden = bridging.bridges !== "yes";
+  memberDefault.element.hidden = bridging.bridges !== "yes";
 
   const section = sectionMaker(stateKey);   // each section folds; closed at first, then as the person left it
   container.replaceChildren(
     el("p", { textContent: "This page is currently mostly designed for decentralized social media systems. Let us know if you have thoughts on how to expand it to other systems!" }),
     section("approach", "Approach & responses", approach, allowlist, ladder),
     section("lists", "Lists & tools", lists, shares, blocklistLink, tools),
-    section("rules", "Rules for federation", rulesNote.element),
-    section("bridging", "Bridging", bridged, protocols),
+    section("criteria", "(De)federation criteria", whyFederate, whyLimit, criteriaNote.element),
+    section("bridging", "Bridging", bridged, protocols, memberDefault),
   );
 
   return {
@@ -185,11 +231,13 @@ export function renderFederation(container, federation = {}, data, { onInput = (
         blocklistLink: shares.value() === "yes" ? blocklistLink.value() : null,
         decisionTools: tools.value(),
       },
-      rulesNote: rulesNote.value(),
+      criteria: [...whyFederate.value(), ...whyLimit.value()],
+      criteriaNote: criteriaNote.value(),
       bridging: {
         ...bridging,
         bridges: bridged.value(),
         protocols: bridged.value() === "yes" ? protocols.value() : [],
+        memberDefault: bridged.value() === "yes" ? memberDefault.value() : null,
       },
     }),
     // set aside: answers that only count with another answer (kept for switching back)
@@ -197,7 +245,9 @@ export function renderFederation(container, federation = {}, data, { onInput = (
       allowlistPolicy: usesAllowlist(approach.value()) ? null : allowlist.value(),
       ...picksAside("responseLadder:", ladder.remembered()),
       "subscriptions.blocklistLink": shares.value() === "yes" ? null : blocklistLink.value(),
+      ...picksAside("criteria:", [...whyFederate.remembered(), ...whyLimit.remembered()]),
       "bridging.protocols": bridged.value() === "yes" ? null : protocols.value(),
+      "bridging.memberDefault": bridged.value() === "yes" ? null : memberDefault.value(),
     }),
     focusFirst: () => {},
   };

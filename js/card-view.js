@@ -16,7 +16,7 @@
 // in says so. (The view's name is said above the card, by the page.)
 
 import { el, button, infoTip, pixelIcon, cutWithMore } from "./dom.js";
-import { cardOutline, labelIn, labels } from "./export.js";
+import { cardOutline, criteriaIn, labelIn, labels } from "./export.js";
 import { moduleEntries } from "./modules.js";
 import { toolName } from "./sections/infrastructure.js";
 import { channelLine, WORK_AREAS } from "./sections/processes.js";
@@ -272,15 +272,23 @@ function federation(card, d) {
       : "not public") : null;
   const bridges = f.bridging?.bridges ? el("span", { className: `card-flag is-${f.bridging.bridges}` }, "Bridges",
     el("span", { className: "visually-hidden", textContent: f.bridging.bridges === "yes" ? ": yes" : ": no" })) : null;
+  // whether members are bridged by default (opt-out) or only if they choose (opt-in)
+  const memberDefault = f.bridging?.bridges === "yes" && f.bridging?.memberDefault
+    ? el("span", { className: "card-flag" }, x.memberDefaults.find((o) => o.id === f.bridging.memberDefault)?.short || f.bridging.memberDefault)
+    : null;
+  // (de)federation criteria: why they federate, and why they limit or defederate (each with its note)
+  const criteria = (group) => criteriaIn(f, x.criteria, group).map((c) => [c.label, [[null, c.note]]]);
   // two columns: the approach, the block list and bridges, and the lists, tools and protocols;
   // beside them, when there's a problem (the response ladder, left to right)
   const overview = [
     f.approach ? el("div", { className: "card-group" }, pill(labelIn(x.approaches, f.approach))) : null,
-    blocklist || bridges ? el("p", { className: "card-flags mono-u" }, ...[blocklist, bridges].filter(Boolean).flatMap((v, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), v] : [v]))) : null,
+    blocklist || bridges ? el("p", { className: "card-flags mono-u" }, ...[blocklist, bridges, memberDefault].filter(Boolean).flatMap((v, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), v] : [v]))) : null,
     facts([
       ["Lists", has(subs.subscribedLists) ? tags(labels(x.lists, subs.subscribedLists), { soft: true }) : null],
       ["Tools", has(subs.decisionTools) ? tags(labels(x.tools, subs.decisionTools), { soft: true }) : null],
       ["Bridged to", has(f.bridging?.protocols) ? tags(f.bridging.protocols, { soft: true }) : null],
+      ["Why they federate", has(criteria("federate")) ? tags(criteria("federate"), { soft: true }) : null],
+      ["Why they limit or defederate", has(criteria("limit")) ? tags(criteria("limit"), { soft: true }) : null],
     ]),
   ].filter(Boolean);
   const ladder = has(f.responseLadder) ? group("When there’s a problem", [], steps(f.responseLadder, x.ladder, { across: true })) : null;
@@ -349,7 +357,7 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
   if (on.has("rules")) modules.push(moduleBox("Rules", view.rulesByType ? ruleCounts(view.rulesByType) : outlineGroups(rowsOf("Rules")), { className: "card-rules" }));
   if (on.has("federation") && card.federation) {
     const f = card.federation;
-    modules.push(moduleBox("Federation", federation(card, data), { notes: [["Allowlist", f.allowlistPolicy], ["How rules shape who we federate with", f.rulesNote]] }));
+    modules.push(moduleBox("Federation", federation(card, data), { notes: [["Allowlist", f.allowlistPolicy], ["Their criteria", f.criteriaNote]] }));
   }
   for (const e of moduleEntries(defaults, card).filter((x) => x.custom)) modules.push(moduleBox(e.label, customModule((card.customModules || []).find((c) => c.id === e.id) || {})));
 

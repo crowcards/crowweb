@@ -78,9 +78,9 @@ export function missingBasics(basics = {}, data) {
 }
 
 /**
- * One target scale: "Where would you like your community to be on …?", 1–7
+ * One target scale: "Where would you like your community to be on …?", 1–5
  * with what each number means in its bubble, and the trade-offs of each end
- * in a note under it. → { element, field } (field.value(): "1"…"7" or null).
+ * in a note under it. → { element, field } (field.value(): "1"…"5" or null).
  */
 export function targetScale(sc, range, value, onChange = () => {}) {
   const steps = sc.levels.map((text, i) => ({ id: String(range.min + i), label: String(range.min + i), description: `${range.min + i}: ${text}` }));
@@ -207,7 +207,7 @@ export function renderBasics(container, basics = {}, data, handlers = {}) {
     onCommit: () => { onCommit(); drawValues(); },   // (keywords suggest values, like the description)
   });
 
-  // ── target scales: where they'd like to be, 1–7 (aims; public only in Full) ──
+  // ── target scales: where they'd like to be, 1–5 (aims; public only in Full) ──
   const targetsNow = { ...basics.targetScales };
   const targets = data.scales.scales.map((sc) => ({ id: sc.id, ...targetScale(sc, data.scales.range, targetsNow[sc.id], (n) => {
     targetsNow[sc.id] = n;
