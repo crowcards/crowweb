@@ -852,7 +852,8 @@ exports.reportCard = onCall({ cors: true }, async (request) => {
 // here). Nothing is sent when nothing happened. Staging is never counted.
 // Sent through Postmark, with its token in Secret Manager
 // (firebase functions:secrets:set POSTMARK_TOKEN; never in a file or a log).
-const POSTMARK_TOKEN = defineSecret("POSTMARK_TOKEN");
+// (declared only in the live project: a declared secret must exist wherever the functions are deployed)
+const POSTMARK_TOKEN = IN_STAGING_PROJECT ? null : defineSecret("POSTMARK_TOKEN");
 const TEAM_EMAIL = "crowcards@princeton.edu";
 const REPORT_IN_CONSOLE = "https://console.firebase.google.com/project/cos-princeton-hci-crow/firestore/databases/-default-/data/~2Freports~2F";
 
