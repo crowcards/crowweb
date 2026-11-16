@@ -10,7 +10,11 @@
 //   public/{id}/versions/{n}    each version, as the same view mode shows it
 //   reports/{auto id}           a report about a published card (reportCard), for the CROW team
 //
-// And on the 1st and 15th, the team's update email (teamUpdate).
+// And on the 1st and 15th, the team's update email (teamUpdate; live only).
+//
+// The same code runs in two projects (.firebaserc): live
+// (cos-princeton-hci-crow) and staging (cos-princeton-hci-crow-staging, its
+// own database, test data only).
 //
 // Cards, their public copies and reports carry env: "live" or "staging"
 // (see "staging" below); anything without it is from before launch: staging.
@@ -349,9 +353,10 @@ async function checkDailyCeiling(env) {
 }
 
 // ─── staging ─────────────────────────────────────────────
-// Until staging has its own project (TODO.md), the staging site
-// (staging.crowcards.org, the project's default hosting site, and its preview
-// channels) shares these functions and this database with the live site.
+// Staging has its own project (since 2026-11): everything in it is "staging".
+// In the live project, calls from the old staging addresses (the project's
+// default hosting site and its preview channels, which served staging until
+// then) still count as staging, in case one is still open somewhere.
 // Cards made from it are marked env: "staging", everything else "live": the
 // browser says which page is calling (the Origin header, which a page's code
 // can't change). A script can claim to be staging, but that only gets it
@@ -360,8 +365,11 @@ async function checkDailyCeiling(env) {
 // lists (the Library), and reports say which kind of card they're about.
 const STAGING_ORIGIN = /^https:\/\/(staging\.crowcards\.org|cos-princeton-hci-crow(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
 
-/** "staging" for a call from the staging site, else "live". */
-const envOf = (request) => (STAGING_ORIGIN.test(request.rawRequest?.headers?.origin || "") ? "staging" : "live");
+const PROJECT_ID = process.env.GCLOUD_PROJECT || JSON.parse(process.env.FIREBASE_CONFIG || "{}").projectId;
+const IN_STAGING_PROJECT = PROJECT_ID === "cos-princeton-hci-crow-staging";
+
+/** "staging" in the staging project, or for a call from an old staging address; else "live". */
+const envOf = (request) => (IN_STAGING_PROJECT || STAGING_ORIGIN.test(request.rawRequest?.headers?.origin || "") ? "staging" : "live");
 
 // ─── createCard ──────────────────────────────────────────
 
@@ -891,7 +899,8 @@ async function teamUpdateFor({ start, end, label }) {
   return { subject, text };
 }
 
-exports.teamUpdate = onSchedule({ schedule: "0 9 1,15 * *", timeZone: "America/New_York", secrets: [POSTMARK_TOKEN] }, async () => {
+// (live only: staging has nothing to report, and no Postmark token)
+if (!IN_STAGING_PROJECT) exports.teamUpdate = onSchedule({ schedule: "0 9 1,15 * *", timeZone: "America/New_York", secrets: [POSTMARK_TOKEN] }, async () => {
   const update = await teamUpdateFor(lastHalfMonth());
   if (!update) return;
   const res = await fetch("https://api.postmarkapp.com/email", {

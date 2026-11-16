@@ -3,8 +3,11 @@
 // published cards — the browser never reads or writes Firestore directly
 // (the security rules deny it).
 //
-// Served from localhost (firebase emulators:start), it talks to the local
-// emulator instead, so test cards never touch the real database.
+// Two projects: on staging's addresses (staging.crowcards.org and the staging
+// project's own), the staging project's server and database (test data
+// only); everywhere else, the live one's. Served from localhost (firebase
+// emulators:start), it talks to the local emulator instead, so test cards
+// never touch a real database.
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
@@ -14,14 +17,22 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-functions.js";
 
 // Public project identifiers, not secrets: every Firebase web app ships them.
-const firebaseConfig = {
+const LIVE = {
   apiKey: "AIzaSyDrZhudhMJOmIpAkRfnRYnYQUyzjqlTYlg",
   authDomain: "cos-princeton-hci-crow.firebaseapp.com",
   projectId: "cos-princeton-hci-crow",
   appId: "1:1006402724320:web:0b9ee39ba86c13d7f64b85",
 };
+const STAGING = {
+  apiKey: "AIzaSyBRbHQSVt6zeFrZD_vSM8WjnNuawdFa3uY",
+  authDomain: "cos-princeton-hci-crow-staging.firebaseapp.com",
+  projectId: "cos-princeton-hci-crow-staging",
+  appId: "1:734048828313:web:685b17da732462986e7108",
+};
+// staging's addresses: its custom domain, and the staging project's own (and its preview channels)
+const STAGING_HOST = /^(staging\.crowcards\.org|cos-princeton-hci-crow-staging(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
 
-const functions = getFunctions(initializeApp(firebaseConfig));
+const functions = getFunctions(initializeApp(STAGING_HOST.test(location.hostname) ? STAGING : LIVE));
 
 const isLocal = ["localhost", "127.0.0.1"].includes(location.hostname);
 if (isLocal) connectFunctionsEmulator(functions, "127.0.0.1", 5001);

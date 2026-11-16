@@ -48,7 +48,7 @@ const { predeploy, ignore, ...rest } = entry;
 const hosting = { ...rest, public: ".firebase/maintenance", rewrites: [{ source: "**", destination: "/coming-soon.html" }] };
 writeFileSync(config, JSON.stringify({ hosting }, null, 2));
 try {
-  execFileSync("firebase", ["deploy", "--config", config, "--only", `hosting:${target}`], { cwd: root, stdio: "inherit" });
+  execFileSync("firebase", ["deploy", "--config", config, "--project", target, "--only", `hosting:${target}`], { cwd: root, stdio: "inherit" });
   console.log(`\n${site} now shows "Back soon". To bring it back, deploy it as usual.`);
 } finally {
   rmSync(config, { force: true });

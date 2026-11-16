@@ -4,11 +4,11 @@
 import { wrapLetters } from "./letters.js";
 import { el, narrowWidth } from "./dom.js";
 
-// The staging site (staging.crowcards.org, the project's default site and its
-// preview channels: the addresses the server counts as staging, STAGING_ORIGIN
-// in functions/index.js) says so above the header, so nobody makes a card
+// The staging site (staging.crowcards.org, the staging project's own addresses
+// and preview channels, and the live project's old default site, which served
+// staging until 2026-11) says so above the header, so nobody makes a card
 // there meaning to keep it.
-const STAGING_HOST = /^(staging\.crowcards\.org|cos-princeton-hci-crow(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
+const STAGING_HOST = /^(staging\.crowcards\.org|cos-princeton-hci-crow(-staging)?(--[a-z0-9-]+)?\.(web\.app|firebaseapp\.com))$/;
 if (STAGING_HOST.test(location.hostname)) {
   document.body.prepend(el("p", { className: "staging-bar mono-u no-print" },
     "This is the test site for CROW Cards. Nothing here is stored long-term; make your Card at ",

@@ -47,11 +47,10 @@ The site is at http://localhost:5000 (staging's version; the live site's is at h
 The local database starts empty each time. To keep your test cards between runs, start with `firebase emulators:start --import=emulator-data --export-on-exit` (`emulator-data/` is yours alone: it isn't committed).
 
 ### Deploying
-- **One project, two sites, for now.** The live site (crowcards.org) and staging (staging.crowcards.org) are two hosting sites in the same Firebase project, and **share its server (the functions) and its database.** Cards made on staging are marked as staging cards, so they never mix into public lists. Until staging gets its own project:
-  - **Staging:** `firebase deploy --only hosting:staging`, from an up-to-date `beta`. It deploys the site only.
+- **Two projects** (`.firebaserc`): **live** (`cos-princeton-hci-crow`, the default: crowcards.org, the real server and database) and **staging** (`cos-princeton-hci-crow-staging`: staging.crowcards.org, its own server and database, test data only).
+  - **Staging:** `firebase deploy --project staging --only functions,firestore,hosting:staging`, from an up-to-date `beta`: the site, the server and the database rules, so server changes can be tried on staging before a release.
   - **A release** (Sohyeon): merge `beta` into `main` with a pull request, then from `main`: `firebase deploy --only functions,firestore,hosting:live`.
-  - **The server goes out only with a release,** so test server changes on the emulator. Staging's editor talks to the live server: an editor change that needs a server change works on staging only once that server change is released.
-  - A guard (`scripts/deploy-guard.mjs`) runs before every deploy and stops anything but the staging site unless you're on `main`, with nothing uncommitted, matching GitHub. It's there for mistakes; deploy access stays with as few people as possible.
+  - A guard (`scripts/deploy-guard.mjs`) runs before every deploy: to the staging project, anything goes; to live, only from `main`, with nothing uncommitted, matching GitHub. A plain `firebase deploy` goes to live (the default), so staging always needs `--project staging`. It's there for mistakes; live deploy access stays with as few people as possible.
   - **Taking a site down for maintenance** (e.g. while a major release goes out): `node scripts/maintenance.mjs live` (try it first with `staging`) shows the "Back soon" page on every address but Privacy. It asks you to type yes. Bring the site back with a release, or Firebase console → Hosting → the site → release history → Rollback.
   - The deploy stamp (`version.json`) is made automatically: after any deploy, editor tabs that were already open are asked to reload, so old code can't save over new data.
 - **The docs (docs.crowcards.org)** are a separate Firebase site, built from `docs-site/`: `cd docs-site && firebase deploy --only hosting` publishes them (the build runs first: it fills the tables in from the datasheets). To share a version before publishing, `cd docs-site && firebase hosting:channel:deploy review` gives a temporary link (7 days; add `--expires 30d` for longer); run it again to update the same link. Deploy the docs from the branch whose datasheets should be shown. `node docs-site/build.mjs` builds them locally into `docs-site/dist/`.
@@ -59,7 +58,7 @@ The local database starts empty each time. To keep your test cards between runs,
 - **The workflow:**
   1. Work on your own branch, and test on the emulator.
   2. Commit and push your branch, then open a pull request into `beta`; get it reviewed, and merge it.
-  3. Deploy to staging from an up-to-date `beta` (`git checkout beta && git pull`, then `firebase deploy --only hosting:staging`).
+  3. Deploy to staging from an up-to-date `beta` (`git checkout beta && git pull`, then `firebase deploy --project staging --only functions,firestore,hosting:staging`).
 
   Why: deploying from your own branch replaces staging for everyone. If you need to try something on staging first, check with the team.
 
@@ -76,8 +75,8 @@ git add <the files>
 git commit -m "What changed"
 git push
 
-# 2. try it on staging
-firebase deploy --only hosting:staging
+# 2. try it on staging (its own project: the site, the server and the database rules)
+firebase deploy --project staging --only functions,firestore,hosting:staging
 #    … and check staging.crowcards.org
 
 # 3. merge beta into main (a merge commit, as GitHub's "Create a merge commit")
@@ -100,9 +99,9 @@ git checkout beta
 - Instead of step 3, a pull request on GitHub works too (base `main` ← compare `beta`, **Create a merge commit**, never "Delete branch"); then `git checkout main && git pull` and carry on at step 4.
 - If the deploy asks to delete field overrides or indexes: answer **No**, and check `firestore.indexes.json` holds what the console has.
 - **A major release that needs the site down:** before step 3, `node scripts/maintenance.mjs live` (type yes); the release in step 4 brings the site back.
-- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema"), in a maintenance window: take the site down (`node scripts/maintenance.mjs live`); merge (step 3); deploy the functions (`firebase deploy --only functions`); convert the stored cards (`node scripts/migrate-cards.mjs` to list them, then `--apply`; it needs the `gcloud` login below); then `firebase deploy --only firestore,hosting:live`, which brings the site back. While staging shares the live project, deploy staging (step 2's command, from `beta`) straight after, so its editor matches the server.
+- **Changes to a card's shape** go out with their conversion in the same release (`DESIGN.md`, "The card schema"), in a maintenance window: take the site down (`node scripts/maintenance.mjs live`); merge (step 3); deploy the functions (`firebase deploy --only functions`); convert the stored cards (`node scripts/migrate-cards.mjs` to list them, then `--apply`; it needs the `gcloud` login below); then `firebase deploy --only firestore,hosting:live`, which brings the site back. Try the same on staging first: the release (step 2's command), then `GCLOUD_PROJECT=cos-princeton-hci-crow-staging node scripts/migrate-cards.mjs` (and `--apply`).
 
-**Clearing out staging's test cards** (until staging has its own project, they're in the live database, marked as staging):
+**Clearing out old staging cards from the live database** (made before staging had its own project, marked as staging; the staging project's own cards can simply be deleted in its console, or left):
 ```
 node scripts/staging-cards.mjs             # lists them; deletes nothing
 node scripts/staging-cards.mjs --delete    # deletes them: each card, its key, versions, public copies and reports
