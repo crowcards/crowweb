@@ -1023,6 +1023,14 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* label / answer rows: tags and values at the top; a module's facts (model, costs, other tools) */
 .card-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.45rem 1.25rem; align-items: baseline; }
 .card-facts > dd { margin: 0; }
+/* …side by side on one line, wrapping (facts inline: Federation's lists, tools, bridges) */
+.card-facts.is-inline { display: flex; flex-wrap: wrap; gap: 0.45rem 1.25rem; }
+.card-fact { display: flex; align-items: baseline; gap: 0.5rem; }
+.card-fact > dd { margin: 0; }
+/* reasons as a short text line (Federation's criteria): dots between, a note badge after a reason */
+.card-reasons { margin: 0; }
+.card-reason { white-space: nowrap; }
+.card-dot { margin: 0 0.4em; color: var(--gray); }
 
 /* modules: a light outline each (the summary box, in the line color); two side by side (Infrastructure, Membership), stacked when narrow */
 .card-module { --summary-line: var(--line); container-type: inline-size; }   /* (its groups side by side or stacked by its own width) */

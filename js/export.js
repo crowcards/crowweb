@@ -39,9 +39,11 @@ export async function loadExportData() {
 // ── little helpers ──────────────────────────────────────────
 export const labelIn = (list, id) => list?.find((x) => x.id === id)?.label ?? id;
 export const labels = (list, ids = []) => ids.map((id) => labelIn(list, id));
-/** A card's (de)federation criteria in one group ("federate" or "limit"), as [{ label, note }] (Export and the card). */
-export const criteriaIn = (f = {}, criteria, group) => (f.criteria || []).filter((c) => criteria[group].some((o) => o.id === c.id))
-  .map((c) => ({ label: labelIn(criteria[group], c.id), note: c.note }));
+/** A card's (de)federation criteria in one group ("federate" or "limit"), in the list's order: [{ ...the option (label, short, section, description), note }] (Export and the card). */
+export const criteriaIn = (f = {}, criteria, group) => criteria[group].flatMap((o) => {
+  const pick = (f.criteria || []).find((c) => c.id === o.id);
+  return pick ? [{ ...o, note: pick.note }] : [];
+});
 const yesNo = (v) => (v ? labelIn(YES_NO_VARIES, v) : null);
 const withNote = (label, note) => (note ? `${label}: ${note}` : label);
 /** A step's name from where it falls (as the editor shows it). */
@@ -167,8 +169,10 @@ const SECTIONS = {
       ["Shares its block list", yesNo(subs.sharesBlocklist), "federationOverview"],
       ["Block list", subs.blocklistLink, "federationRest"],
       ["Tools for federation decisions", labels(x.tools, subs.decisionTools), "federationRest"],
-      ["Why they federate", criteriaIn(f, x.criteria, "federate").map((c) => withNote(c.label, c.note)), "federationRest"],
-      ["Why they limit or defederate", criteriaIn(f, x.criteria, "limit").map((c) => withNote(c.label, c.note)), "federationRest"],
+      ["Why we federate", criteriaIn(f, x.criteria, "federate").map((c) => withNote(c.label, c.note)), "federationRest"],
+      // the reasons to limit, by section (their members' behavior, what they host, how their server is run)
+      ...x.criteria.sections.map((s) => [`Why we limit/defederate: ${s.label.toLowerCase()}`,
+        criteriaIn(f, x.criteria, "limit").filter((c) => c.section === s.id).map((c) => withNote(c.label, c.note)), "federationRest"]),
       ["About their criteria", f.criteriaNote, "federationRest"],
       ["Bridges to other networks", yesNo(f.bridging?.bridges), "federationOverview"],
       ["Bridged protocols", f.bridging?.protocols, "federationRest"],

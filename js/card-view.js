@@ -83,10 +83,17 @@ function moduleBox(title, parts, { notes = [], className = "", aside = null, sha
 const tile = (icon, label, tip) => withTip(el("span", { className: "card-tile", role: "img", ariaLabel: label }, pixelIcon(icon)), tip);
 /** A group inside a module (Decision making, Conflict, …): a small heading, with a badge for its notes. */
 const group = (title, notes, ...parts) => el("div", { className: "card-group-box" }, el(H.group, { className: "card-sub mono-u" }, title, noteMark(notes)), ...parts.flat().filter(Boolean));
-/** Label / answer rows (Infrastructure's model, costs, other tools): [[label, value]], the empty ones left out. */
-function facts(rows) {
+/**
+ * Label / answer rows (Infrastructure's model, costs, other tools): [[label, value]], the empty ones left out.
+ * inline: the pairs side by side on one line, wrapping when there isn't room (Federation's lists, tools, bridges).
+ */
+function facts(rows, { inline = false } = {}) {
   const shown = rows.filter(([, v]) => has(v));
-  return shown.length ? el("dl", { className: "card-facts" }, ...shown.flatMap(([label, v]) => [el("dt", { className: "mono-u summary-label", textContent: label }), el("dd", {}, v)])) : null;
+  if (!shown.length) return null;
+  const pair = ([label, v]) => [el("dt", { className: "mono-u summary-label", textContent: label }), el("dd", {}, v)];
+  return inline
+    ? el("dl", { className: "card-facts is-inline" }, ...shown.map((row) => el("div", { className: "card-fact" }, ...pair(row))))
+    : el("dl", { className: "card-facts" }, ...shown.flatMap(pair));
 }
 
 /**
@@ -276,8 +283,23 @@ function federation(card, d) {
   const memberDefault = f.bridging?.bridges === "yes" && f.bridging?.memberDefault
     ? el("span", { className: "card-flag" }, x.memberDefaults.find((o) => o.id === f.bridging.memberDefault)?.short || f.bridging.memberDefault)
     : null;
-  // (de)federation criteria: why they federate, and why they limit or defederate (each with its note)
-  const criteria = (group) => criteriaIn(f, x.criteria, group).map((c) => [c.label, [[null, c.note]]]);
+  // (de)federation criteria, as short text lines: each reason's short name (its full name and
+  // description in a bubble, its note on a badge), separated by dots
+  const reasons = (list) => el("p", { className: "card-reasons" }, ...list.flatMap((c, i) => [
+    i ? el("span", { className: "card-dot", ariaHidden: "true", textContent: "·" }) : null,
+    el("span", { className: "card-reason" },
+      withTip(el("span", { textContent: c.short || c.label }), c.short && c.short !== c.label ? `${c.label}: ${c.description}` : c.description),
+      noteMark([[null, c.note]])),
+  ].filter(Boolean)));
+  const federate = criteriaIn(f, x.criteria, "federate");
+  const limit = criteriaIn(f, x.criteria, "limit");
+  // why they federate; why they limit or defederate, by the Rules module's categories and how their server is run
+  const why = federate.length || limit.length ? el("div", { className: "card-pair" },
+    federate.length ? group("Why we federate", [], reasons(federate)) : null,
+    limit.length ? group("Why we limit/defederate", [], facts(x.criteria.sections.map((s) => {
+      const here = limit.filter((c) => c.section === s.id);
+      return [s.short || s.label, here.length ? reasons(here) : null];
+    }))) : null) : null;
   // two columns: the approach, the block list and bridges, and the lists, tools and protocols;
   // beside them, when there's a problem (the response ladder, left to right)
   const overview = [
@@ -287,12 +309,11 @@ function federation(card, d) {
       ["Lists", has(subs.subscribedLists) ? tags(labels(x.lists, subs.subscribedLists), { soft: true }) : null],
       ["Tools", has(subs.decisionTools) ? tags(labels(x.tools, subs.decisionTools), { soft: true }) : null],
       ["Bridged to", has(f.bridging?.protocols) ? tags(f.bridging.protocols, { soft: true }) : null],
-      ["Why they federate", has(criteria("federate")) ? tags(criteria("federate"), { soft: true }) : null],
-      ["Why they limit or defederate", has(criteria("limit")) ? tags(criteria("limit"), { soft: true }) : null],
-    ]),
+    ], { inline: true }),
   ].filter(Boolean);
   const ladder = has(f.responseLadder) ? group("When there’s a problem", [], steps(f.responseLadder, x.ladder, { across: true })) : null;
-  return overview.length && ladder ? [el("div", { className: "card-pair" }, el("div", { className: "card-stack" }, ...overview), ladder)] : [...overview, ladder];
+  const top = overview.length && ladder ? [el("div", { className: "card-pair" }, el("div", { className: "card-stack" }, ...overview), ladder)] : [...overview, ladder];
+  return [...top, why];   // (the criteria below, past a faint dotted line, like the module's other groups)
 }
 
 /** Rules counted by type (Foggy): a group per type, "3 of 11 · +1 custom". */
