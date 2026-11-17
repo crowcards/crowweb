@@ -1023,6 +1023,18 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* label / answer rows: tags and values at the top; a module's facts (model, costs, other tools) */
 .card-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.45rem 1.25rem; align-items: baseline; }
 .card-facts > dd { margin: 0; }
+/* …side by side on one line, wrapping (facts inline: Federation's lists, tools, bridges) */
+.card-facts.is-inline { display: flex; flex-wrap: wrap; gap: 0.45rem 1.25rem; }
+.card-fact { display: flex; align-items: baseline; gap: 0.5rem; }
+.card-fact > dd { margin: 0; }
+/* reasons as a short line in mono capitals (Federation's criteria), the platform flags' squares
+   between (lines break at them), a note badge after a reason; a group's label over its line */
+.card-reasons { margin: 0; }
+/* a flag beside a pill (Federation's block list, beside the approach): a little further from it */
+.card-beside { margin-left: 0.6rem; }
+.card-reason { white-space: nowrap; }
+.card-reason-group > .summary-label { display: block; margin-bottom: 0.15rem; }
+.card-reason-group + .card-reason-group { margin-top: 0.6rem; }
 
 /* modules: a light outline each (the summary box, in the line color); two side by side (Infrastructure, Membership), stacked when narrow */
 .card-module { --summary-line: var(--line); container-type: inline-size; }   /* (its groups side by side or stacked by its own width) */

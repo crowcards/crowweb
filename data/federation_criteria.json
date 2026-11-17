@@ -1,7 +1,7 @@
 {
   "version": "0.2.0",
   "updatedAt": "2026-11-16",
-  "note": "High-level reasons a community federates with other servers, or limits or defederates from them (Federation → (De)federation criteria; a card stores [{ id, note }] in federation.criteria). Two groups: why we federate, and why we limit or defederate. The second mirrors the rule schema's categories (rule_schema.json: behavior, content; each item's ruleType is the rule type it corresponds to), plus how a server is run (security, privacy, moderation). \"federate_by_default\" is selected automatically when the approach is \"Open, with a denylist\". Drafted 2026-11-16; accepted by Sohyeon 2026-11-16.",
+  "note": "High-level reasons a community federates with other servers, or limits or defederates from them (Federation → (De)federation criteria; a card stores [{ id, note }] in federation.criteria). Each item's short is its name on the published card (the full label in its bubble). Two groups: why we federate, and why we limit or defederate. The second mirrors the rule schema's categories (rule_schema.json: behavior, content; each item's ruleType is the rule type it corresponds to), plus how a server is run (security, privacy, moderation). \"federate_by_default\" is selected automatically when the approach is \"Open, with a denylist\". Drafted 2026-11-16; accepted by Sohyeon 2026-11-16.",
   "groups": [
     {
       "id": "federate",
@@ -17,18 +17,21 @@
       "id": "behavior",
       "group": "limit",
       "label": "Their members' behavior",
+      "short": "Behavior",
       "hint": "as in your Behavior rules"
     },
     {
       "id": "content",
       "group": "limit",
       "label": "What they host",
+      "short": "Content",
       "hint": "as in your Content rules"
     },
     {
       "id": "practices",
       "group": "limit",
-      "label": "How their server is run"
+      "label": "How their server is run",
+      "short": "Server practices"
     }
   ],
   "items": [
@@ -36,6 +39,7 @@
       "id": "federate_by_default",
       "group": "federate",
       "label": "We federate by default",
+      "short": "By default",
       "description": "We connect with other servers unless there's a reason not to.",
       "status": "accepted"
     },
@@ -43,6 +47,7 @@
       "id": "they_reach_out",
       "group": "federate",
       "label": "They reach out, and we agree",
+      "short": "They reach out",
       "description": "Another community asks to federate with us, and we decide together.",
       "status": "accepted"
     },
@@ -50,6 +55,7 @@
       "id": "similar_rules_values",
       "group": "federate",
       "label": "Similar rules and values",
+      "short": "Similar values",
       "description": "Their rules and values are close to ours.",
       "status": "accepted"
     },
@@ -57,6 +63,7 @@
       "id": "trusted_moderation",
       "group": "federate",
       "label": "Moderators we trust",
+      "short": "Trusted moderators",
       "description": "We know their moderation team, and they respond when there's a problem.",
       "status": "accepted"
     },
@@ -64,6 +71,7 @@
       "id": "known_community",
       "group": "federate",
       "label": "A community we already know",
+      "short": "Known community",
       "description": "We already have ties with them: shared members, partners, events.",
       "status": "accepted"
     },
@@ -73,6 +81,7 @@
       "section": "behavior",
       "ruleType": "civility",
       "label": "Bad-faith behavior",
+      "short": "Bad faith",
       "description": "Trolling, personal attacks or deliberate disruption from their members.",
       "status": "accepted"
     },
@@ -82,6 +91,7 @@
       "section": "behavior",
       "ruleType": "harassment",
       "label": "Harassment",
+      "short": "Harassment",
       "description": "Their members harass, bully or dogpile ours, and it isn't dealt with.",
       "status": "accepted"
     },
@@ -91,6 +101,7 @@
       "section": "behavior",
       "ruleType": "discrimination",
       "label": "Hate and discrimination",
+      "short": "Hate",
       "description": "Hate speech or discrimination from their members, left in place.",
       "status": "accepted"
     },
@@ -100,6 +111,7 @@
       "section": "behavior",
       "ruleType": "authenticity",
       "label": "Impersonation or fake accounts",
+      "short": "Fake accounts",
       "description": "Impersonation, sockpuppets or undisclosed bots.",
       "status": "accepted"
     },
@@ -109,6 +121,7 @@
       "section": "behavior",
       "ruleType": "spam",
       "label": "Spam and platform misuse",
+      "short": "Spam",
       "description": "Spam, mass-following or mass-replying, or unsolicited advertising coming from them.",
       "status": "accepted"
     },
@@ -118,6 +131,7 @@
       "section": "behavior",
       "ruleType": "onboarding",
       "label": "Sign-ups with no checks",
+      "short": "Open sign-ups",
       "description": "Anyone can make an account there, so abusive accounts appear faster than they're removed.",
       "status": "accepted"
     },
@@ -127,6 +141,7 @@
       "section": "content",
       "ruleType": "cw",
       "label": "Sensitive media without warnings",
+      "short": "Unlabeled media",
       "description": "Graphic, disturbing or sexual media posted without content warnings or labels.",
       "status": "accepted"
     },
@@ -136,6 +151,7 @@
       "section": "content",
       "ruleType": "ai",
       "label": "AI-generated media or uncredited work",
+      "short": "AI or uncredited work",
       "description": "AI-generated media, or others' work posted without credit, that our rules don't allow.",
       "status": "accepted"
     },
@@ -145,6 +161,7 @@
       "section": "content",
       "ruleType": "nsfw",
       "label": "Explicit content we don't allow",
+      "short": "Explicit content",
       "description": "Adult or explicit content beyond what our rules permit.",
       "status": "accepted"
     },
@@ -154,6 +171,7 @@
       "section": "content",
       "ruleType": "illegal",
       "label": "Illegal content",
+      "short": "Illegal content",
       "description": "Content that's illegal where we, or our members, are.",
       "status": "accepted"
     },
@@ -163,6 +181,7 @@
       "section": "content",
       "ruleType": "violence",
       "label": "Violence, threats or extremism",
+      "short": "Violence",
       "description": "Violent threats, extremist propaganda or content encouraging self-harm.",
       "status": "accepted"
     },
@@ -171,6 +190,7 @@
       "group": "limit",
       "section": "practices",
       "label": "Their rules differ too much from ours",
+      "short": "Different rules",
       "description": "Overall, their rules allow what ours forbid, or leave out what matters to us.",
       "status": "accepted"
     },
@@ -179,6 +199,7 @@
       "group": "limit",
       "section": "practices",
       "label": "Moderation absent or unresponsive",
+      "short": "Absent moderation",
       "description": "Reports go unanswered, or there's no one to contact.",
       "status": "accepted"
     },
@@ -187,6 +208,7 @@
       "group": "limit",
       "section": "practices",
       "label": "Security practices too lax or unclear",
+      "short": "Lax security",
       "description": "For example, outdated software, unprotected admin accounts, or no stated security practices.",
       "status": "accepted"
     },
@@ -195,6 +217,7 @@
       "group": "limit",
       "section": "practices",
       "label": "Privacy practices we can't accept",
+      "short": "Privacy",
       "description": "For example, they scrape or republish our members' posts, or share their data.",
       "status": "accepted"
     },
@@ -203,6 +226,7 @@
       "group": "limit",
       "section": "practices",
       "label": "They host people we've blocked elsewhere",
+      "short": "Hosts blocked people",
       "description": "For example, accounts that moved there to get around our blocks.",
       "status": "accepted"
     }

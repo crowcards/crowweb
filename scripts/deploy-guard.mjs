@@ -31,6 +31,11 @@ if (shared(staging) !== shared(live)) stop("firebase.json's staging and live hos
 if (staging.ignore.some((i) => !live.ignore.includes(i))) stop("firebase.json's live hosting entry must ignore everything the staging one does.");
 
 if (![PROJECTS.live, PROJECTS.staging].includes(project)) stop(`unknown project ${project || "(none)"}: deploy with --project staging, or (from main) to live.`);
+// each site belongs to its own project. The live project also names a "staging"
+// site (its old default site, disabled) only so the emulator, which runs as the
+// live project, can serve both sites; deploying it is refused
+if (what === "staging" && project === PROJECTS.live) stop("the staging site is in the staging project: firebase deploy --project staging --only functions,firestore,hosting:staging");
+if (what === "live" && project === PROJECTS.staging) stop("the live site is in the live project, released from main: firebase deploy --only functions,firestore,hosting:live");
 if (project === PROJECTS.live) {
   const git = (cmd) => execSync(`git ${cmd}`, { cwd: root, encoding: "utf8" }).trim();
   const branch = git("branch --show-current");

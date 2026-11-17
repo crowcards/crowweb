@@ -9,6 +9,9 @@
       "hosting": {
         "live": [
           "crowcards"
+        ],
+        "staging": [
+          "cos-princeton-hci-crow"
         ]
       }
     },
