@@ -279,36 +279,41 @@ function federation(card, d) {
       : "not public") : null;
   const bridges = f.bridging?.bridges ? el("span", { className: `card-flag is-${f.bridging.bridges}` }, "Bridges",
     el("span", { className: "visually-hidden", textContent: f.bridging.bridges === "yes" ? ": yes" : ": no" })) : null;
-  // whether members are bridged by default (opt-out) or only if they choose (opt-in)
-  const memberDefault = f.bridging?.bridges === "yes" && f.bridging?.memberDefault
-    ? el("span", { className: "card-flag" }, x.memberDefaults.find((o) => o.id === f.bridging.memberDefault)?.short || f.bridging.memberDefault)
-    : null;
-  // (de)federation criteria, as short text lines: each reason's short name (its full name and
-  // description in a bubble, its note on a badge), separated by dots
-  const reasons = (list) => el("p", { className: "card-reasons" }, ...list.flatMap((c, i) => [
-    i ? el("span", { className: "card-dot", ariaHidden: "true", textContent: "·" }) : null,
+  // bridging, all on one line: BRIDGES (or not), the protocols bridged to, and whether
+  // members are bridged by default (opt-out) or only if they choose (opt-in)
+  const bridged = f.bridging?.bridges === "yes";
+  const bridging = bridges ? el("p", { className: "card-flags mono-u" }, ...[
+    bridges,
+    ...(bridged ? (f.bridging.protocols || []).map((name) => el("span", { textContent: name })) : []),
+    bridged && f.bridging.memberDefault ? el("span", {}, x.memberDefaults.find((o) => o.id === f.bridging.memberDefault)?.short || f.bridging.memberDefault) : null,
+  ].filter(Boolean).flatMap((v, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), v] : [v]))) : null;
+  // (de)federation criteria, as short lines in mono capitals, separated like the platform's flags:
+  // each reason's short name (its full name and description in a bubble, its note on a badge)
+  const reasons = (list) => el("p", { className: "card-reasons mono-u" }, ...list.flatMap((c, i) => [
+    i ? el("span", { className: "card-sep", ariaHidden: "true" }) : null,
     el("span", { className: "card-reason" },
       withTip(el("span", { textContent: c.short || c.label }), c.short && c.short !== c.label ? `${c.label}: ${c.description}` : c.description),
       noteMark([[null, c.note]])),
   ].filter(Boolean)));
   const federate = criteriaIn(f, x.criteria, "federate");
   const limit = criteriaIn(f, x.criteria, "limit");
-  // why they federate; why they limit or defederate, by the Rules module's categories and how their server is run
-  const why = federate.length || limit.length ? el("div", { className: "card-pair" },
-    federate.length ? group("Why we federate", [], reasons(federate)) : null,
-    limit.length ? group("Why we limit/defederate", [], facts(x.criteria.sections.map((s) => {
-      const here = limit.filter((c) => c.section === s.id);
-      return [s.short || s.label, here.length ? reasons(here) : null];
-    }))) : null) : null;
+  // one column of labeled rows: why we federate; why we limit or defederate, a group per section
+  // with picks (the Rules module's categories, then server practices), its label over its reasons
+  const limitGroups = x.criteria.sections.map((s) => [s, limit.filter((c) => c.section === s.id)]).filter(([, here]) => here.length)
+    .map(([s, here]) => el("div", { className: "card-reason-group" }, small(s.short || s.label), reasons(here)));
+  const why = federate.length || limit.length ? el("div", { className: "card-group-box" }, facts([
+    ["Why we federate", federate.length ? reasons(federate) : null],
+    ["Why we limit/defederate", limitGroups.length ? el("div", {}, ...limitGroups) : null],
+  ])) : null;
   // two columns: the approach, the block list and bridges, and the lists, tools and protocols;
   // beside them, when there's a problem (the response ladder, left to right)
   const overview = [
     f.approach ? el("div", { className: "card-group" }, pill(labelIn(x.approaches, f.approach))) : null,
-    blocklist || bridges ? el("p", { className: "card-flags mono-u" }, ...[blocklist, bridges, memberDefault].filter(Boolean).flatMap((v, i) => (i ? [el("span", { className: "card-sep", ariaHidden: "true" }), v] : [v]))) : null,
+    blocklist ? el("p", { className: "card-flags mono-u" }, blocklist) : null,
+    bridging,
     facts([
       ["Lists", has(subs.subscribedLists) ? tags(labels(x.lists, subs.subscribedLists), { soft: true }) : null],
       ["Tools", has(subs.decisionTools) ? tags(labels(x.tools, subs.decisionTools), { soft: true }) : null],
-      ["Bridged to", has(f.bridging?.protocols) ? tags(f.bridging.protocols, { soft: true }) : null],
     ], { inline: true }),
   ].filter(Boolean);
   const ladder = has(f.responseLadder) ? group("When there’s a problem", [], steps(f.responseLadder, x.ladder, { across: true })) : null;
