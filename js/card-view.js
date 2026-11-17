@@ -308,8 +308,10 @@ function federation(card, d) {
   // two columns: the approach, the block list and bridges, and the lists, tools and protocols;
   // beside them, when there's a problem (the response ladder, left to right)
   const overview = [
-    f.approach ? el("div", { className: "card-group" }, pill(labelIn(x.approaches, f.approach))) : null,
-    blocklist ? el("p", { className: "card-flags mono-u" }, blocklist) : null,
+    // the approach, and beside it whether the block list is public
+    f.approach || blocklist ? el("div", { className: "card-group" },
+      f.approach ? pill(labelIn(x.approaches, f.approach)) : null,
+      blocklist ? el("span", { className: "card-flags card-beside mono-u" }, blocklist) : null) : null,
     bridging,
     facts([
       ["Lists", has(subs.subscribedLists) ? tags(labels(x.lists, subs.subscribedLists), { soft: true }) : null],

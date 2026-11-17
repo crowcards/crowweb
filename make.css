@@ -1030,6 +1030,8 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 /* reasons as a short line in mono capitals (Federation's criteria), the platform flags' squares
    between (lines break at them), a note badge after a reason; a group's label over its line */
 .card-reasons { margin: 0; }
+/* a flag beside a pill (Federation's block list, beside the approach): a little further from it */
+.card-beside { margin-left: 0.6rem; }
 .card-reason { white-space: nowrap; }
 .card-reason-group > .summary-label { display: block; margin-bottom: 0.15rem; }
 .card-reason-group + .card-reason-group { margin-top: 0.6rem; }
