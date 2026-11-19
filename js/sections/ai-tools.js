@@ -59,7 +59,7 @@ export function renderAiTools(container, aiTools = {}, _data, { onInput = () => 
       }
       return {
         element: el("div", {}, ...groups.map((g) => el("div", { className: "fields" },
-          el("p", { className: "mono-u", textContent: g.label }),
+          el("p", { className: "mono-u ai-group", textContent: g.label }),
           ...g.fields.map((f) => f.element)))),
         collect: () => ({ id, ...Object.fromEntries(AI_TOOL_QUESTIONS.map((q) => [q.id, inputs[q.id].value()])) }),
         focus: () => inputs.name.focus(),
