@@ -64,7 +64,7 @@ Production site launch:
 | Switch crowcards.org from GitHub Pages to Firebase (the `crowcards` site) | Done | 2026-10-28: crowcards.org and www (redirecting) on Firebase, certificate issued; GitHub Pages unpublished. `pages-old` can be deleted. |
 | Docs site's links pointing at https://crowcards.org (`docs-site/site.json` `appUrl`), deployed from `main` | Done | 2026-10-28: `appUrl` changed; docs deployed from `main`. |
 | Backups of the database (Firestore point-in-time recovery, and daily backups) | Done | 2026-10-28, in the console: point-in-time recovery (7 days), daily backups kept 14 days. |
-| Cards survive schema changes: from the beta on, every change to a card's shape bumps `schemaVersion` and comes with a conversion the server applies to older cards | To do | The rule is in `DESIGN.md` ("The card schema"). The editor's side is "Update your card" (Phase 6). |
+| Cards survive schema changes: from the beta on, every change to a card's shape bumps `schemaVersion` and comes with a conversion the server applies to older cards | To do | The rule is in `DESIGN.md` ("The card schema"). The editor's side is "Update your card" (Phase 6). 0.3.0 (2026-11-19): AI Tools (`aiTools.tools`); older cards gain an empty list. |
 | The workbench and recommendations work stay on staging only | Done | 2026-10-27: the live hosting target leaves them out; the files stay in git on every branch, so merges stay simple. |
 
 

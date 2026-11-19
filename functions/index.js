@@ -82,12 +82,12 @@ function hashSecret(secret) {
   return crypto.createHash("sha256").update(secret).digest("hex");
 }
 
-/** The empty card shape — schema v0.2.0 (SCHEMA_VERSION in js/view-modes.js, with upgradeCard for older cards). */
+/** The empty card shape — schema v0.3.0 (SCHEMA_VERSION in js/view-modes.js, with upgradeCard for older cards). */
 function makeEmptyCard(cardId) {
   const now = new Date().toISOString();
   return {
     id: cardId,
-    schemaVersion: "0.2.0",
+    schemaVersion: "0.3.0",
     createdAt: now,
     updatedAt: now,
     forkedFrom: null,   // a fork: { cardId, version, name, mode } of the published card it started from (forkCard)
@@ -221,6 +221,12 @@ function makeEmptyCard(cardId) {
         protocols: [],          // protocol names (from platforms.json, or typed); only while bridges is "yes"
         memberDefault: null,    // enums.json bridgingMemberDefault id ("opt_out" | "opt_in" | "varies"); only while bridges is "yes"
       },
+    },
+
+    // One block per AI feature or tool (js/sections/ai-tools.js). Each answer
+    // is text or null. Off until the person selects the module.
+    aiTools: {
+      tools: [],                // [{ id ("ait_…"), name, purpose, reason, activation, role, peopleAffected, inputs, model, processing, outputs, oversight, memberChoices, responsibility }]
     },
 
     // [{ id, name, description, fields: [{ id, label, type: "text" | "checkbox" | "radio" | "scale", value, options?, low?, high? }] }]
@@ -470,6 +476,7 @@ const EDITABLE_PARTS = [
   "rules",
   "processes",
   "federation",
+  "aiTools",
   "customModules",
   "attribution",
   "editor",
@@ -789,7 +796,7 @@ exports.forkCard = onCall({ cors: true }, async (request) => {
   return saveNewCard((newId) => {
     const empty = makeEmptyCard(newId);
     const card = Object.fromEntries(Object.entries(empty).map(([part, v]) =>
-      [part, ["basics", "infrastructure", "membership", "rules", "processes", "federation", "customModules"].includes(part) ? overlay(v, shown[part]) : v]));
+      [part, ["basics", "infrastructure", "membership", "rules", "processes", "federation", "aiTools", "customModules"].includes(part) ? overlay(v, shown[part]) : v]));
     card.basics = { ...card.basics, name: null, link: null, description: makeEmptyCard(newId).basics.description };   // the source community's own
     // below Full, the view doesn't share where they'd like to be: start from
     // what the card's choices add up to (its scales, public in every view)

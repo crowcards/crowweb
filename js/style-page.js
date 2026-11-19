@@ -345,7 +345,7 @@ function renderPopup() {
 async function renderViewModes() {
   const [data, defaults] = await Promise.all([loadExportData(), loadModuleDefaults()]);
   const card = {
-    modules: ["infrastructure", "membership", "rules", "processes", "federation", "cm_style1"],
+    modules: ["infrastructure", "membership", "rules", "processes", "federation", "aiTools", "cm_style1"],
     customModules: [{ id: "cm_style1", name: "Seed library", description: "How our shared seed library works.", fields: [
       { id: "f_s1", label: "Who can borrow seeds?", type: "text", value: "Any member, up to five packets a season." },
       { id: "f_s2", label: "When is it open?", type: "radio", value: "Work days", options: ["Always", "Work days"] },
@@ -362,6 +362,7 @@ async function renderViewModes() {
       conflictManagement: { approaches: [{ id: "peer_mediation", note: "First stop", stage: 1, primary: true }, { id: "circle_processes", note: null, stage: 2 }], generalNote: null }, communications: { channels: ["email"], customChannels: [] } },
     federation: { approach: "denylist_first", allowlistPolicy: null, responseLadder: [{ id: "warn", note: "For spam", stage: 1 }, { id: "mute", note: null, stage: 2 }, { id: "block", note: null, stage: 3 }],
       subscriptions: { subscribedLists: [], sharesBlocklist: "yes", blocklistLink: "https://garden.example/blocks" }, criteria: [{ id: "federate_by_default", note: null }, { id: "harassment", note: "Our first rule" }, { id: "lax_security", note: null }], criteriaNote: "We decide together in the moderators' channel.", bridging: { bridges: "yes", protocols: ["AT Protocol"], memberDefault: "opt_in" } },
+    aiTools: { tools: [{ id: "ait_style", name: "Welcome helper", purpose: "Answers the first questions new members ask.", reason: "The same questions came up every week.", activation: "When someone posts in the welcome channel.", role: "A short reply, with a link to the rules. It doesn't warn or ban anyone.", peopleAffected: "New members, and anyone reading that channel.", inputs: "The welcome post, and the community’s public rules.", model: "A small model we run ourselves.", processing: "The post is sent to our server and not kept after the reply.", outputs: "A reply in the thread. A moderator can delete it.", oversight: "Moderators read the channel.", memberChoices: "Members can ask it not to reply to them.", responsibility: "The moderator on duty. Concerns go in the same channel." }] },
   };
   // the card as each mode shows it (card-view.js renderCard), one at a time
   const host = el("div");

@@ -21,6 +21,7 @@ import { renderProcesses, loadProcessesData } from "./sections/processes.js";
 import { renderFederation, loadFederationData } from "./sections/federation.js";
 import { renderInfrastructure, loadInfrastructureData } from "./sections/infrastructure.js";
 import { renderRules, loadRulesData } from "./sections/rules.js";
+import { renderAiTools } from "./sections/ai-tools.js";
 import { renderCustomModule, newCustomModule } from "./sections/custom.js";
 import { textField } from "./controls/fields.js";
 import { showPopup, closePopup, confirmPopup } from "./popup.js";
@@ -265,6 +266,7 @@ const SECTIONS = {
   federation: { load: loadFederationData, render: renderFederation },
   infrastructure: { load: loadInfrastructureData, render: renderInfrastructure },
   rules: { load: loadRulesData, render: renderRules },
+  aiTools: { load: async () => ({}), render: renderAiTools },
 };
 
 // One auto-saver per part of the card. Each sends only its own part.

@@ -1132,6 +1132,7 @@ fieldset.field { margin-inline: 0; padding: 0; border: 0; }
 .card-columns-flow { columns: 2 16rem; column-gap: 2rem; }
 .card-flow-group { break-inside: avoid; margin-bottom: 0.75rem; }
 .card-flow-group > :is(ul, p) { margin: 0.25rem 0 0; }
+.card-flow-group > p.card-answer { white-space: pre-wrap; }   /* (an AI tool's written answer keeps its line breaks) */
 .card-intro { color: var(--gray); font-size: var(--fs-s); }   /* (a custom module's description, under its heading) */
 .card-flow-group > ul:not(.tags) > li + li { margin-top: 0.15rem; }   /* (a list of rules; tags keep their own row) */
 /* a custom rule, under its type: a hollow bullet (an outlined pixel square), unlike the listed rules' filled ones */

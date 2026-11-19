@@ -45,7 +45,7 @@ const answerKey = (type, f) => (type === "scale" ? `scale:${scaleRange(f).id}` :
 
 /** A random id with this prefix, e.g. "cm_aB7xK9mP" (a module) or "f_…" (a field). */
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const randomId = (prefix) => `${prefix}_${Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => CHARS[b % CHARS.length]).join("")}`;
+export const randomId = (prefix) => `${prefix}_${Array.from(crypto.getRandomValues(new Uint8Array(8)), (b) => CHARS[b % CHARS.length]).join("")}`;
 
 /** A new custom module, ready to add to card.customModules. */
 export function newCustomModule({ name, description = null }) {

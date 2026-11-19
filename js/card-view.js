@@ -22,6 +22,7 @@ import { toolName } from "./sections/infrastructure.js";
 import { channelLine, WORK_AREAS } from "./sections/processes.js";
 import { DESCRIPTION } from "./sections/basics.js";
 import { answerText, scaleRange } from "./sections/custom.js";
+import { AI_TOOL_QUESTIONS } from "./sections/ai-tools.js";
 import { structureIds } from "./structure.js";
 import { shows } from "./view-modes.js";
 
@@ -323,6 +324,18 @@ function federation(card, d) {
   return [...top, why];   // (the criteria below, past a faint dotted line, like the module's other groups)
 }
 
+/** AI Tools (Full only): one group per tool, its name as the heading, each answered question in the columns. */
+function aiTools(part) {
+  return (part.tools || []).map((t) => {
+    const answered = AI_TOOL_QUESTIONS.filter((q) => q.id !== "name" && has(t[q.id]));
+    if (!has(t.name) && !answered.length) return null;
+    return group(t.name || "An AI tool", [], answered.length
+      ? el("div", { className: "card-columns-flow" }, ...answered.map((q) => el("div", { className: "card-flow-group" },
+        small(q.label), el("p", { className: "card-answer", textContent: t[q.id] }))))
+      : null);
+  });
+}
+
 /** Rules counted by type (Foggy): a group per type, "3 of 11 · +1 custom". */
 const ruleCounts = (types) => outlineGroups(types.map((t) => [t.label, [t.of ? `${t.chosen} of ${t.of}` : null, t.custom ? `+${t.custom} custom` : null].filter(Boolean).join(" · ")]));
 
@@ -387,6 +400,7 @@ export function renderCard(view, data, defaults, { heading = "h2" } = {}) {
     const f = card.federation;
     modules.push(moduleBox("Federation", federation(card, data), { notes: [["Allowlist", f.allowlistPolicy], ["Their criteria", f.criteriaNote]] }));
   }
+  if (on.has("aiTools")) modules.push(moduleBox("AI Tools", aiTools(card.aiTools || {})));
   for (const e of moduleEntries(defaults, card).filter((x) => x.custom)) modules.push(moduleBox(e.label, customModule((card.customModules || []).find((c) => c.id === e.id) || {})));
 
   return el("article", { className: "summary card-view" }, top, description(b.description), tagRows, ...modules.filter(Boolean));

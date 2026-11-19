@@ -40,8 +40,10 @@ export const COUNT_PROPOSED = false;
  * federation" (rulesNote) becomes the (de)federation criteria (criteria, with
  * the old note kept as criteriaNote; "federate_by_default" selected when the
  * approach is open); bridging gains memberDefault (opt-in / opt-out).
+ * 0.2.0 → 0.3.0 (2026-11-19): an AI Tools part (aiTools: { tools: [] }).
+ * Older cards gain an empty list; nothing already answered is rewritten.
  */
-export const SCHEMA_VERSION = "0.2.0";
+export const SCHEMA_VERSION = "0.3.0";
 const SCALE_7_TO_5 = { 1: 1, 2: 2, 3: 2, 4: 3, 5: 4, 6: 4, 7: 5 };
 export function upgradeCard(card) {
   if (!card || card.schemaVersion === SCHEMA_VERSION) return card;
@@ -61,6 +63,10 @@ export function upgradeCard(card) {
       };
     }
     next.schemaVersion = "0.2.0";
+  }
+  if (next.schemaVersion === "0.2.0") {
+    next.aiTools = next.aiTools?.tools ? next.aiTools : { tools: [] };
+    next.schemaVersion = "0.3.0";
   }
   return next;
 }
@@ -87,7 +93,7 @@ export const MODES = [
   { id: "misty", label: "Misty", forkable: true,
     description: "Most of your card, without the notes on how you use things: infrastructure, ways of joining, rules, decision-making, conflict steps and federation." },
   { id: "full", label: "Full", forkable: true,
-    description: "Everything, with your notes, your own modules, and downloads." },
+    description: "Everything, with your notes, your own modules, your AI tools, and downloads." },
 ];
 const MODE_IDS = MODES.map((m) => m.id);
 const from = (first) => MODE_IDS.slice(MODE_IDS.indexOf(first));   // this mode and every fuller one
@@ -130,6 +136,7 @@ export const FIELDS = {
   federationNotes: ["full"],
   federationRest: ["full"],             // allowlist policy, shared lists, the block list's link, tools, (de)federation criteria, bridged protocols and the members' bridging default
   customModules: ["full"],
+  aiTools: ["full"],                    // each AI tool's written answers
   scales: ALL,
   downloads: ["full"],
 };
@@ -168,6 +175,7 @@ export const FIELD_LABELS = {
   federationNotes: "Notes on federation",
   federationRest: "Shared lists, tools, (de)federation criteria, bridged protocols and members’ bridging default",
   customModules: "Custom modules",
+  aiTools: "AI tools",
   scales: "Governance scales",
   downloads: "Downloads",
 };
@@ -203,7 +211,7 @@ const FIELD_GROUPS = {
   joiningTiers: "how people join", joiningWays: "ways of joining", closedNote: "ways of joining", structure: "decision-making approaches",
   rules: "rules", conflictSteps: "conflict steps", channels: "channels",
   federationOverview: "the federation approach", federationSteps: "federation details", federationRest: "federation details",
-  customModules: "custom modules",
+  customModules: "custom modules", aiTools: "AI tools",
   joiningWaysNotes: "notes", joiningNote: "notes", structureNotes: "notes", membershipNote: "notes", processNotes: "notes", federationNotes: "notes",
 };
 
@@ -223,8 +231,8 @@ export function viewCard(card, mode) {
     createdAt: card.createdAt,
     updatedAt: card.updatedAt,
     forkedFrom: card.forkedFrom ?? null,   // what it was adapted from (shown as "Adapted from …"), in every mode
-    // custom modules are only shown in Full: below that, their ids go too
-    modules: (card.modules || []).filter((id) => !id.startsWith("cm_") || has("customModules")),
+    // custom modules and AI Tools are only shown in Full: below that, their ids go too
+    modules: (card.modules || []).filter((id) => (id.startsWith("cm_") ? has("customModules") : id === "aiTools" ? has("aiTools") : true)),
     basics: { ...card.basics },
   };
   if (!has("targetScales")) delete view.basics.targetScales;
@@ -302,6 +310,7 @@ export function viewCard(card, mode) {
   }
 
   if (has("customModules")) view.customModules = (card.customModules || []).filter((m) => on.has(m.id));
+  if (on.has("aiTools") && has("aiTools")) view.aiTools = { tools: card.aiTools?.tools || [] };
   return view;
 }
 

@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "updatedAt": "2026-10-02",
+  "updatedAt": "2026-11-19",
   "note": "Which modules a new card starts with. 'modules' lists the built-in modules in sidebar order (Basics is always on and not listed). A card's starting set is picked by the most specific thing known: the platform's structural model (from platforms.json) first, then the format, then 'default'. These are only suggestions: people can always add or remove modules.",
   "modules": [
     {
@@ -27,6 +27,11 @@
       "id": "federation",
       "label": "Federation",
       "description": "How the community connects with other servers: allow and block lists, responses, bridging."
+    },
+    {
+      "id": "aiTools",
+      "label": "AI Tools",
+      "description": "The AI tools and features this community uses: what each one is for, how it runs, what happens to the data, and what people can control."
     }
   ],
   "default": [

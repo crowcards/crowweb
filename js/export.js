@@ -21,6 +21,7 @@ import { loadMembershipData } from "./sections/membership.js";
 import { loadRulesData, cardRules } from "./sections/rules.js";
 import { loadProcessesData, channelLine } from "./sections/processes.js";
 import { loadFederationData } from "./sections/federation.js";
+import { AI_TOOL_QUESTIONS } from "./sections/ai-tools.js";
 import { answerText, scaleRange } from "./sections/custom.js";
 import { YES_NO_VARIES } from "./controls/choices.js";
 import { stepRole } from "./controls/picklist.js";
@@ -179,6 +180,10 @@ const SECTIONS = {
       ["Members bridged by default", f.bridging?.memberDefault && labelIn(x.memberDefaults, f.bridging.memberDefault), "federationRest"],
     ];
   },
+  aiTools: (part = {}) => (part.tools || []).flatMap((t) => {
+    const name = t.name?.trim() || "An AI tool";
+    return AI_TOOL_QUESTIONS.filter((q) => q.id !== "name").map((q) => [`${name}: ${q.label}`, t[q.id], "aiTools"]);
+  }),
 };
 const custom = (m) => [
   ["About this module", m.description],   // (what the community said the module is for)

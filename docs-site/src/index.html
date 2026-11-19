@@ -107,6 +107,7 @@
             <li><a href="#ref-federation-lists">Lists &amp; tools</a></li>
           </ul>
         </li>
+        <li><a href="#ai-tools">AI Tools</a></li>
       </ul>
     </li>
   </ul>
@@ -147,7 +148,7 @@
       <li>where you'd like your community to be on three scales (from 1 to 5): how <span class="mono">participatory</span>, <span class="mono">transparent</span> and <span class="mono">hierarchical</span> (see <a class="inline" href="#ref-structure">the three scales</a>). Each shows its trade-offs. These are only shown publicly if you share your full Card.</li>
       <li><span class="mono">values</span> - up to five; some are suggested, from your community type, format, description and keywords, and where you'd like to be</li>
     </ul>
-    <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, or your own), and fill them in at your own pace.</p>
+    <p>Then pick the modules your Card will cover (Infrastructure, Membership, Rules, Processes, Federation, AI Tools, or your own), and fill them in at your own pace. Select AI Tools if the community uses any.</p>
 
     <div class="callout">
       <p class="mono-u">Important!</p>
@@ -175,6 +176,7 @@
       <li><b>Steps.</b> Conflict management and Federation's response ladder are put in order by dragging: approaches on the same step happen in parallel. In conflict management you can also mark your preferred (primary) ways.</li>
       <li><b>Your community structure</b> (how decisions get made) is one list: you set it in Membership, and adjust it, with notes, for changing the rules, maintenance and moderation in Processes.</li>
       <li><b>Laws to know.</b> Under Infrastructure → Locations, you can open a page of landmark laws for where your servers, members and admins are, and save it as a PDF. It's an informational starting point, not legal advice.</li>
+      <li><b>AI tools.</b> With the AI Tools module on, each AI tool or feature gets its own block of questions (what it is and why, how it runs, what happens to the data, and what people can control). <b>Add another tool</b> for each one. A block folds to the tool's name, and removing it deletes it. Readers see these answers only in the Full view. See <a class="inline" href="#ai-tools">AI Tools</a>.</li>
       <li><b>Your own modules.</b> Add a module for anything the built-in ones don't cover, with fields for written answers, checkboxes, radio buttons, or a scale (1–5, 1–7 or 0–10).</li>
       <li><b>Publish.</b> On the Export page, publish your Card at a link to share, choosing how much it shows (Minimal, Foggy, Misty or Full). Each publish is a new version; your draft stays private until you publish changes. You can unpublish at any time.</li>
       <li><b>Export.</b> Download your Card as raw data (JSON) or as documentation (Markdown). Only Basics and the modules you use are included.</li>
@@ -486,6 +488,29 @@
       <table class="table" data-source="/data/federation_subscription_lists.json" data-render="linked">
         <thead><tr><th>Name</th><th>Category</th><th>Description</th></tr></thead>
         <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="ai-tools" data-fold="open">
+      <h3>AI Tools</h3>
+      <p>Optional, and off until someone selects it. One block per AI tool or feature the community uses: the same open questions each time, added with <b>Add another tool</b>. A block folds to the tool's name once it has one, and removing a block deletes it. The written answers are shown only in the Full view; a fork from Full copies them, and a fork from a lesser view does not.</p>
+      <table class="table">
+        <thead><tr><th>Group</th><th>Question</th><th>What it asks</th></tr></thead>
+        <tbody>
+          <tr><td rowspan="3">What you're using and why</td><td>AI tool or feature</td><td>The name of the tool or feature.</td></tr>
+          <tr><td>Purpose</td><td>What community need does it address?</td></tr>
+          <tr><td>Reason for using AI</td><td>Why was this approach chosen? What alternatives were considered?</td></tr>
+          <tr><td rowspan="3">How it operates</td><td>Activation</td><td>When does it run? Is it automatic?</td></tr>
+          <tr><td>Role</td><td>What does it produce? What is outside its scope?</td></tr>
+          <tr><td>People affected</td><td>Who uses it? Whose content or experience might be affected?</td></tr>
+          <tr><td rowspan="4">What happens to the data</td><td>Inputs</td><td>What data enters, and whose?</td></tr>
+          <tr><td>Model</td><td>Which model or provider? Where does it run?</td></tr>
+          <tr><td>Processing</td><td>Who receives the data? Is data retained?</td></tr>
+          <tr><td>Outputs</td><td>What is produced? Who receives it? What happens next?</td></tr>
+          <tr><td rowspan="3">What people can control</td><td>Human oversight</td><td>Who reviews outputs?</td></tr>
+          <tr><td>Member choices</td><td>Can members decline the feature, exclude their data, or avoid its outputs?</td></tr>
+          <tr><td>Responsibility</td><td>Who operates it? How can members raise concerns?</td></tr>
+        </tbody>
       </table>
     </section>
   </section>
