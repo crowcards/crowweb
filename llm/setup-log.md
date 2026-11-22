@@ -74,3 +74,106 @@ Checked 2026-11-09 by Sohyeon: `skipDefaultNetworkCreation`, `gcp.resourceLocati
 ---
 
 *(Student A's entries, from STEP1.md, go below.)*
+
+### Firewall check (STEP1.md A.1)
+
+Checked 2026-11-22 by Prishaa (VPC network → Firewall): `allow-iap-llm` present (TCP 22, from `35.235.240.0/20`, target tag `llm-vm`); no rule allows 22 or 3389 from `0.0.0.0/0`; `default-allow-internal` and `default-allow-icmp` present, as expected.
+
+### VM `crow-llm-vm` (STEP1.md A.2)
+
+Created 2026-11-16 by Prishaa, from Cloud Shell with the command below. The console's Create form was used to settle the settings, but its Security section could not show "No service account" until Sohyeon granted view access to service accounts (11-15), and the form reset between attempts, so the final create was run as a command.
+
+**Hardware differs from the plan.** `g2-standard-4` + NVIDIA L4 was stocked out (`ZONE_RESOURCE_POOL_EXHAUSTED`) in us-central1-a, -b and -c on 11-15 and 11-16, and `-f` has no G2 machines at all. With Sohyeon's OK (Slack, 11-16), created as **`n1-standard-4` (4 vCPU, 15 GB) with 1 × NVIDIA T4** (16 GB GPU memory; the L4 has 24 GB). The three models fit one at a time; answers are slower than they would be on an L4.
+
+| When | Config | Zone | Result |
+|---|---|---|---|
+| 11-15 ~23:30 | g2-standard-4 + L4 | us-central1-a | stockout (twice) |
+| 11-16 09:01 | g2-standard-4 + L4 | us-central1-a | stockout |
+| 11-16 09:02 | g2-standard-4 + L4 | us-central1-b | stockout |
+| 11-16 09:03 | g2-standard-4 + L4 | us-central1-c | stockout |
+| 11-16 11:18 | g2-standard-4 + L4 | us-central1-f | `g2-standard-4` does not exist in this zone |
+| 11-16 11:19 | n1-standard-4 + T4 | us-central1-a | **created** |
+
+Settings: zone `us-central1-a`; Standard provisioning; Ubuntu 24.04 LTS x86/64 (image `ubuntu-2404-noble-amd64-v20261105`); 50 GB SSD persistent disk; no backups or snapshots; no external IP; network tag `llm-vm`; OS Login on (`enable-oslogin=TRUE`); no service account; Secure Boot off, vTPM and integrity monitoring on; host maintenance Terminate; automatic restart on; labels `purpose=llm`, `project=crowcards`. Internal IP: see the console.
+
+Cost estimate (console, 2026-11-22, for the same config): $402.70/month running 24/7 before discounts, about $0.55/hour (n1-standard-4 $138.70, T4 $255.50, 50 GB SSD $8.50); $284.44/month with the sustained-use discount, which only applies if it runs most of the month. The planned L4 config was $524.49/month, $0.72/hour. Stopped, the disk alone is $8.50/month.
+
+```
+gcloud compute instances create crow-llm-vm \
+    --project=cos-princeton-hci-crow \
+    --zone=us-central1-a \
+    --machine-type=n1-standard-4 \
+    --network-interface=stack-type=IPV4_ONLY,subnet=default,no-address \
+    --metadata=enable-oslogin=TRUE \
+    --maintenance-policy=TERMINATE \
+    --provisioning-model=STANDARD \
+    --no-service-account \
+    --no-scopes \
+    --accelerator=count=1,type=nvidia-tesla-t4 \
+    --tags=llm-vm \
+    --create-disk=auto-delete=yes,boot=yes,device-name=crow-llm-vm,image=projects/ubuntu-os-cloud/global/images/ubuntu-2404-noble-amd64-v20261105,mode=rw,size=50,type=pd-ssd \
+    --no-shielded-secure-boot \
+    --shielded-vtpm \
+    --shielded-integrity-monitoring \
+    --labels=purpose=llm,project=crowcards \
+    --reservation-affinity=any
+```
+
+### Nightly stop attached (STEP1.md A.3)
+
+2026-11-16 by Prishaa, from Cloud Shell:
+
+```
+gcloud compute instances add-resource-policies crow-llm-vm \
+    --project=cos-princeton-hci-crow --zone=us-central1-a \
+    --resource-policies=stop-llm-nightly
+```
+
+### GPU driver (STEP1.md A.4)
+
+2026-11-16 and 2026-11-22 by Prishaa, over SSH (`gcloud compute ssh crow-llm-vm --zone=us-central1-a --tunnel-through-iap`).
+
+Ran Google's installer per A.4. Its "updating kernel" step upgraded the VM from Ubuntu 24.04's 6.8 kernel to `7.0.0-1017-gcp`, and the NVIDIA driver then failed to build against it (`nvidia-uvm/uvm_dmabuf_test.c: implicit declaration of function 'dma_buf_move_notify'`). Headers were installed; the installer's `list_driver_versions` offered nothing newer than the 620.70.06 that failed, so no driver supported this kernel yet.
+
+**Deviation:** pinned the VM to the 24.04 GA kernel, which the driver supports. Installed `linux-image-gcp-6.8` and `linux-headers-gcp-6.8` (6.8.0-1073.81), removed the 7.0 packages (`linux-gcp`, `linux-image-gcp`, `linux-headers-gcp`, `linux-image-7.0.0-1017-gcp`, `linux-headers-7.0.0-1017-gcp`, `linux-modules-7.0.0-1017-gcp`), rebooted. The driver module built cleanly for 6.8 and `nvidia-driver-open` configured without errors. The 6.8 kernel is Ubuntu's supported 24.04 kernel and keeps getting security updates through the `linux-gcp-6.8` packages.
+
+Result after reboot: kernel `6.8.0-1073-gcp`; `nvidia-smi` shows Tesla T4, 15360 MiB, **driver 620.70.06**, CUDA 13.5.
+
+```
+curl -L https://storage.googleapis.com/compute-gpu-installation-us/installer/latest/cuda_installer.pyz --output cuda_installer.pyz
+sudo python3 cuda_installer.pyz install_driver        # upgraded kernel to 7.0, rebooted, then failed to build the driver
+sudo apt-get install -y linux-image-gcp-6.8 linux-headers-gcp-6.8
+sudo apt-get remove -y linux-image-gcp linux-headers-gcp linux-image-7.0.0-1017-gcp linux-headers-7.0.0-1017-gcp linux-modules-7.0.0-1017-gcp
+sudo reboot
+nvidia-smi
+```
+
+### Ollama (STEP1.md A.5)
+
+2026-11-22 by Prishaa. Installed with Ollama's script; it detected the GPU and set up the systemd service. `ollama --version`: **0.40.17**; `systemctl status ollama`: `active (running)`, enabled. Listens on localhost only (default; unchanged).
+
+```
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+### Models (STEP1.md A.6, A.7)
+
+2026-11-22 by Prishaa. Pulled through Cloud NAT without issue. `ollama list`:
+
+| Model | Size |
+|---|---|
+| `qwen2.5:7b-instruct` | 4.7 GB |
+| `olmo-3:7b-instruct` | 4.5 GB |
+| `phi3.5:3.8b` | 2.2 GB |
+
+Each answered `ollama run <model> "Reply with exactly one word: Hello"` with "Hello" (phi3.5 added a sentence of commentary after it).
+
+```
+ollama pull qwen2.5:7b-instruct
+ollama pull olmo-3:7b-instruct
+ollama pull phi3.5:3.8b
+```
+
+### Gate 1 (STEP1.md A.8)
+
+2026-11-22: screenshots sent to Sohyeon (VM details with the internal IP blurred, `nvidia-smi`, `ollama list`); VM stopped; draft PR opened against `beta`.
