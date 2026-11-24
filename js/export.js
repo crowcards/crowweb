@@ -21,7 +21,7 @@ import { loadMembershipData } from "./sections/membership.js";
 import { loadRulesData, cardRules } from "./sections/rules.js";
 import { loadProcessesData, channelLine } from "./sections/processes.js";
 import { loadFederationData } from "./sections/federation.js";
-import { AI_TOOL_QUESTIONS } from "./sections/ai-tools.js";
+import { aiToolRows } from "./ai-tool-schema.js";
 import { answerText, scaleRange } from "./sections/custom.js";
 import { YES_NO_VARIES } from "./controls/choices.js";
 import { stepRole } from "./controls/picklist.js";
@@ -182,7 +182,7 @@ const SECTIONS = {
   },
   aiTools: (part = {}) => (part.tools || []).flatMap((t) => {
     const name = t.name?.trim() || "An AI tool";
-    return AI_TOOL_QUESTIONS.filter((q) => q.id !== "name").map((q) => [`${name}: ${q.label}`, t[q.id], "aiTools"]);
+    return aiToolRows(t).map((q) => [`${name}: ${q.label}`, q.value, "aiTools"]);
   }),
 };
 const custom = (m) => [

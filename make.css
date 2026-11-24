@@ -123,6 +123,9 @@
 .fields { margin: 1.5rem 0 2rem; }
 /* a group of questions inside one AI tool: the same mono capitals as the field labels, a little larger */
 .fields > .ai-group { font-size: 1em; }
+/* a follow-up under a choice: Other's text, or the company when the model is external */
+.field > .ai-follow { margin-top: 0.75rem; }
+.field > .ai-follow.field { margin-bottom: 0; }
 .field { margin-bottom: 1.5rem; }
 .field > :is(label, legend, p).mono-u { display: block; margin-bottom: 0.4rem; padding: 0; }
 /* gray hint text: field hints and option descriptions (one rule) */

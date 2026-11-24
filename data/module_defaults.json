@@ -31,7 +31,7 @@
     {
       "id": "aiTools",
       "label": "AI Tools",
-      "description": "The AI tools and features this community uses: what each one is for, how it runs, what happens to the data, and what people can control."
+      "description": "The AI tools and features this community uses: what each one is for, how it runs, and who is involved."
     }
   ],
   "default": [

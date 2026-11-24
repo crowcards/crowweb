@@ -223,10 +223,11 @@ function makeEmptyCard(cardId) {
       },
     },
 
-    // One block per AI feature or tool (js/sections/ai-tools.js). Each answer
-    // is text or null. Off until the person selects the module.
+    // One block per AI feature or tool (js/sections/ai-tools.js). Off until
+    // the person selects the module. A choice stores its option id, or
+    // "other" with the typed text in the matching *Other field.
     aiTools: {
-      tools: [],                // [{ id ("ait_…"), name, purpose, reason, activation, role, peopleAffected, inputs, model, processing, outputs, oversight, memberChoices, responsibility }]
+      tools: [],                // [{ id ("ait_…"), name, purpose, purposeOther, reason, inputs, modelVersion, modelLocation, modelLocationOther, modelProvider, modelProviderOther, processing, outputs, operation, operationOther, oversight, oversightOther, peopleAffected, memberChoices }]
     },
 
     // [{ id, name, description, fields: [{ id, label, type: "text" | "checkbox" | "radio" | "scale", value, options?, low?, high? }] }]

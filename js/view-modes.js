@@ -21,6 +21,8 @@
 // answers, dismissed suggestions, …) and attribution (credit appears only
 // if the contributor opts in). Switched-off modules are left out.
 
+import { isLegacyAiTool, upgradeAiTool } from "./ai-tool-schema.js";
+
 // When true (while the team reviews drafts in bench.html), proposed scores (and
 // value links and size fits, in js/recommend.js) count too: in suggestions,
 // previews and published cards, so they can be tried out. Off since
@@ -42,11 +44,21 @@ export const COUNT_PROPOSED = false;
  * approach is open); bridging gains memberDefault (opt-in / opt-out).
  * 0.2.0 → 0.3.0 (2026-11-19): an AI Tools part (aiTools: { tools: [] }).
  * Older cards gain an empty list; nothing already answered is rewritten.
+ * Still 0.3.0 (2026-11-24): an AI tool saved with the first questions
+ * (every answer text) is rewritten into the three-section shape. Purpose
+ * and human oversight become a choice (free text that isn't one of the
+ * options is kept as Other). The model answer becomes the model version.
+ * Member choices keep the old responsibility answer. Activation and Role
+ * are dropped. The schema version does not change. A card stamped 0.4.0
+ * (from a draft of this change) comes back to 0.3.0.
  */
 export const SCHEMA_VERSION = "0.3.0";
 const SCALE_7_TO_5 = { 1: 1, 2: 2, 3: 2, 4: 3, 5: 4, 6: 4, 7: 5 };
 export function upgradeCard(card) {
-  if (!card || card.schemaVersion === SCHEMA_VERSION) return card;
+  if (!card) return card;
+  const legacy = Array.isArray(card.aiTools?.tools) && card.aiTools.tools.some(isLegacyAiTool);
+  // already current, including a tool already in the three-section shape
+  if (card.schemaVersion === SCHEMA_VERSION && !legacy) return card;
   const next = structuredClone(card);
   if (!next.schemaVersion || next.schemaVersion === "0.1.0") {
     const t = next.basics?.targetScales;
@@ -68,6 +80,10 @@ export function upgradeCard(card) {
     next.aiTools = next.aiTools?.tools ? next.aiTools : { tools: [] };
     next.schemaVersion = "0.3.0";
   }
+  if (next.schemaVersion === "0.4.0") next.schemaVersion = "0.3.0";
+  if (Array.isArray(next.aiTools?.tools) && next.aiTools.tools.some(isLegacyAiTool)) {
+    next.aiTools = { ...next.aiTools, tools: next.aiTools.tools.map((t) => (isLegacyAiTool(t) ? upgradeAiTool(t) : t)) };
+  }
   return next;
 }
 
@@ -77,12 +93,14 @@ export function upgradeCard(card) {
  * upgraded, and (from 0.1.0) its worked-out scale scores converted too.
  */
 export function upgradePublic(copy) {
-  if (!copy?.card || copy.card.schemaVersion === SCHEMA_VERSION) return copy;
+  if (!copy?.card) return copy;
   const from01 = !copy.card.schemaVersion || copy.card.schemaVersion === "0.1.0";
+  const card = upgradeCard(copy.card);
+  if (card === copy.card) return copy;
   const scales = from01 && copy.scales
     ? Object.fromEntries(Object.entries(copy.scales).map(([k, v]) => [k, v ? { ...v, score: SCALE_7_TO_5[v.score] ?? v.score } : v]))
     : copy.scales;
-  return { ...copy, card: upgradeCard(copy.card), scales };
+  return { ...copy, card, scales };
 }
 
 export const MODES = [

@@ -22,7 +22,7 @@ import { toolName } from "./sections/infrastructure.js";
 import { channelLine, WORK_AREAS } from "./sections/processes.js";
 import { DESCRIPTION } from "./sections/basics.js";
 import { answerText, scaleRange } from "./sections/custom.js";
-import { AI_TOOL_QUESTIONS } from "./sections/ai-tools.js";
+import { aiToolRows } from "./ai-tool-schema.js";
 import { structureIds } from "./structure.js";
 import { shows } from "./view-modes.js";
 
@@ -324,14 +324,14 @@ function federation(card, d) {
   return [...top, why];   // (the criteria below, past a faint dotted line, like the module's other groups)
 }
 
-/** AI Tools (Full only): one group per tool, its name as the heading, each answered question in the columns. */
+/** AI Tools (Full only): one group per tool, its name as the heading, each answered question in the columns. A choice shows its label. */
 function aiTools(part) {
   return (part.tools || []).map((t) => {
-    const answered = AI_TOOL_QUESTIONS.filter((q) => q.id !== "name" && has(t[q.id]));
+    const answered = aiToolRows(t);
     if (!has(t.name) && !answered.length) return null;
     return group(t.name || "An AI tool", [], answered.length
       ? el("div", { className: "card-columns-flow" }, ...answered.map((q) => el("div", { className: "card-flow-group" },
-        small(q.label), el("p", { className: "card-answer", textContent: t[q.id] }))))
+        small(q.label), el("p", { className: "card-answer", textContent: q.value }))))
       : null);
   });
 }
